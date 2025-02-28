@@ -34,16 +34,15 @@
  * Functions:                                                                                  *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
-
 // ChunkDataView.cpp : implementation file
 //
 
-#include "stdafx.h"
-#include "ChunkView.h"
 #include "ChunkDataView.h"
-#include "ChunkViewDoc.h"
 #include "ChunkFileImage.h"
+#include "ChunkView.h"
+#include "ChunkViewDoc.h"
 #include "HexToString.h"
+#include "stdafx.h"
 #include <assert.h>
 
 #ifdef _DEBUG
@@ -52,16 +51,14 @@
 static char THIS_FILE[] = __FILE__;
 #endif
 
-
-
 /////////////////////////////////////////////////////////////////////////////
 // CChunkDataView
 
 IMPLEMENT_DYNCREATE(CChunkDataView, CListView)
 
-CChunkDataView::CChunkDataView() :
-	WordSize(WORD_SIZE_BYTE),
-	DisplayMode(DISPLAY_MODE_HEX)
+CChunkDataView::CChunkDataView()
+    : WordSize(WORD_SIZE_BYTE),
+      DisplayMode(DISPLAY_MODE_HEX)
 {
 }
 
@@ -69,11 +66,10 @@ CChunkDataView::~CChunkDataView()
 {
 }
 
-
 BEGIN_MESSAGE_MAP(CChunkDataView, CListView)
-	//{{AFX_MSG_MAP(CChunkDataView)
-		// NOTE - the ClassWizard will add and remove mapping macros here.
-	//}}AFX_MSG_MAP
+//{{AFX_MSG_MAP(CChunkDataView)
+// NOTE - the ClassWizard will add and remove mapping macros here.
+//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -81,8 +77,8 @@ END_MESSAGE_MAP()
 
 void CChunkDataView::OnDraw(CDC* pDC)
 {
-	CDocument* pDoc = GetDocument();
-	// TODO: add draw code here
+    CDocument* pDoc = GetDocument();
+    // TODO: add draw code here
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -91,189 +87,196 @@ void CChunkDataView::OnDraw(CDC* pDC)
 #ifdef _DEBUG
 void CChunkDataView::AssertValid() const
 {
-	CListView::AssertValid();
+    CListView::AssertValid();
 }
 
 void CChunkDataView::Dump(CDumpContext& dc) const
 {
-	CListView::Dump(dc);
+    CListView::Dump(dc);
 }
 #endif //_DEBUG
 
 /////////////////////////////////////////////////////////////////////////////
 // CChunkDataView message handlers
 
-void CChunkDataView::OnInitialUpdate() 
+void CChunkDataView::OnInitialUpdate()
 {
-	CListView::OnInitialUpdate();
-	
-	CListCtrl &list = GetListCtrl();
-	long flags = list.GetStyle();
-	flags |= LVS_REPORT;
-	SetWindowLong(list.GetSafeHwnd(), GWL_STYLE, flags);
+    CListView::OnInitialUpdate();
 
-	//list.SetFont ();
-	::SendMessage (list, WM_SETFONT, (WPARAM)GetStockObject (ANSI_FIXED_FONT), 0L);
+    CListCtrl& list = GetListCtrl();
+    long flags = list.GetStyle();
+    flags |= LVS_REPORT;
+    SetWindowLong(list.GetSafeHwnd(), GWL_STYLE, flags);
+
+    // list.SetFont ();
+    ::SendMessage(list, WM_SETFONT, (WPARAM)GetStockObject(ANSI_FIXED_FONT), 0L);
 }
 
-void CChunkDataView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint) 
+void CChunkDataView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint)
 {
-	if (this == pSender) return;
+    if (this == pSender) {
+        return;
+    }
 
-	// Get the document and currently selected chunk
-	CListCtrl &list = GetListCtrl();
-	CChunkViewDoc * doc= (CChunkViewDoc *)GetDocument();
-	const ChunkImageClass * chunk = doc->Get_Cur_Chunk();
+    // Get the document and currently selected chunk
+    CListCtrl& list = GetListCtrl();
+    CChunkViewDoc* doc = (CChunkViewDoc*)GetDocument();
+    const ChunkImageClass* chunk = doc->Get_Cur_Chunk();
 
-	// Reset the list
-	list.DeleteAllItems();	
+    // Reset the list
+    list.DeleteAllItems();
 
-	// Rebuild the list view
-	if (chunk != NULL) {
-		Display_Chunk(chunk);
-	}
+    // Rebuild the list view
+    if (chunk != NULL) {
+        Display_Chunk(chunk);
+    }
 }
 
-void CChunkDataView::Display_Chunk(const ChunkImageClass * chunk)
+void CChunkDataView::Display_Chunk(const ChunkImageClass* chunk)
 {
-	CListCtrl &list = GetListCtrl();
-	CChunkViewDoc * doc= (CChunkViewDoc *)GetDocument();
-	
-	if (chunk->Get_Data() == NULL) {
+    CListCtrl& list = GetListCtrl();
+    CChunkViewDoc* doc = (CChunkViewDoc*)GetDocument();
 
-		Display_Chunk_Sub_Chunks(chunk);
+    if (chunk->Get_Data() == NULL) {
 
-	} else {
-		
-		switch (DisplayMode) {
-			case DISPLAY_MODE_HEX:
-				Display_Chunk_Hex(chunk);
-				break;
+        Display_Chunk_Sub_Chunks(chunk);
+    }
+    else {
 
-			case DISPLAY_MODE_MICROCHUNKS:
-				Display_Chunk_Micro_Chunks(chunk);
-				break;
-		};
-	}
+        switch (DisplayMode) {
+        case DISPLAY_MODE_HEX:
+            Display_Chunk_Hex(chunk);
+            break;
+
+        case DISPLAY_MODE_MICROCHUNKS:
+            Display_Chunk_Micro_Chunks(chunk);
+            break;
+        };
+    }
 }
 
-void CChunkDataView::Display_Chunk_Sub_Chunks(const ChunkImageClass * chunk)
+void CChunkDataView::Display_Chunk_Sub_Chunks(const ChunkImageClass* chunk)
 {
-	char _buf[256];
-	Reset_Columns();
-	CListCtrl &list = GetListCtrl();
+    char _buf[256];
+    Reset_Columns();
+    CListCtrl& list = GetListCtrl();
 
-	static LV_COLUMN IDColumn = { LVCF_TEXT | LVCF_WIDTH | LVCF_FMT, LVCFMT_LEFT, 160, "Chunk ID", 0,0 };
-	static LV_COLUMN LengthColumn = { LVCF_TEXT | LVCF_WIDTH | LVCF_FMT, LVCFMT_LEFT, 160, "Chunk Length", 0,0 };
-	list.InsertColumn(0, &IDColumn);
-	list.InsertColumn(1, &LengthColumn);
+    static LV_COLUMN IDColumn
+        = { LVCF_TEXT | LVCF_WIDTH | LVCF_FMT, LVCFMT_LEFT, 160, "Chunk ID", 0, 0 };
+    static LV_COLUMN LengthColumn
+        = { LVCF_TEXT | LVCF_WIDTH | LVCF_FMT, LVCFMT_LEFT, 160, "Chunk Length", 0, 0 };
+    list.InsertColumn(0, &IDColumn);
+    list.InsertColumn(1, &LengthColumn);
 
-	for (int i=0; i<chunk->Get_Child_Count(); i++) {
-		const ChunkImageClass * child = chunk->Get_Child(i);
-		
-		sprintf(_buf,"0x%08X",child->Get_ID());
-		int list_item = list.InsertItem(i, _buf);
-		
-		sprintf(_buf,"0x%08X",child->Get_Length());
-		list.SetItemText(list_item, 1, _buf);
-	}
+    for (int i = 0; i < chunk->Get_Child_Count(); i++) {
+        const ChunkImageClass* child = chunk->Get_Child(i);
+
+        sprintf(_buf, "0x%08X", child->Get_ID());
+        int list_item = list.InsertItem(i, _buf);
+
+        sprintf(_buf, "0x%08X", child->Get_Length());
+        list.SetItemText(list_item, 1, _buf);
+    }
 }
 
-void CChunkDataView::Display_Chunk_Hex(const ChunkImageClass * chunk)
+void CChunkDataView::Display_Chunk_Hex(const ChunkImageClass* chunk)
 {
-	Reset_Columns();
-	CListCtrl &list = GetListCtrl();
+    Reset_Columns();
+    CListCtrl& list = GetListCtrl();
 
-	static LV_COLUMN HexColumn = { LVCF_TEXT | LVCF_WIDTH | LVCF_FMT, LVCFMT_LEFT, 750, "Hex Dump", 0,0 };
-	list.InsertColumn(0, &HexColumn);
+    static LV_COLUMN HexColumn
+        = { LVCF_TEXT | LVCF_WIDTH | LVCF_FMT, LVCFMT_LEFT, 750, "Hex Dump", 0, 0 };
+    list.InsertColumn(0, &HexColumn);
 
-	HexToStringClass * hexconverter = Create_Hex_Converter(chunk->Get_Data(),chunk->Get_Length());
-	assert(hexconverter != NULL);
-	
-	int rowcounter = 0;
-	while (!hexconverter->Is_Done()) {
-		list.InsertItem(rowcounter++,hexconverter->Get_Next_Line());
-	}
+    HexToStringClass* hexconverter = Create_Hex_Converter(chunk->Get_Data(), chunk->Get_Length());
+    assert(hexconverter != NULL);
 
-	Destroy_Hex_Converter(hexconverter);
+    int rowcounter = 0;
+    while (!hexconverter->Is_Done()) {
+        list.InsertItem(rowcounter++, hexconverter->Get_Next_Line());
+    }
+
+    Destroy_Hex_Converter(hexconverter);
 }
 
-void CChunkDataView::Display_Chunk_Micro_Chunks(const ChunkImageClass * chunk)
+void CChunkDataView::Display_Chunk_Micro_Chunks(const ChunkImageClass* chunk)
 {
-	Reset_Columns();
-	CListCtrl &list = GetListCtrl();
+    Reset_Columns();
+    CListCtrl& list = GetListCtrl();
 
-	static LV_COLUMN IDColumn = { LVCF_TEXT | LVCF_WIDTH | LVCF_FMT, LVCFMT_LEFT, 48, "ID", 0,0 };
-	static LV_COLUMN LengthColumn = { LVCF_TEXT | LVCF_WIDTH | LVCF_FMT, LVCFMT_LEFT, 48, "Size", 0,0 };
-	static LV_COLUMN DataColumn = { LVCF_TEXT | LVCF_WIDTH | LVCF_FMT, LVCFMT_LEFT, 750, "Micro Chunk Data", 0,0 };
-	list.InsertColumn(0, &IDColumn);
-	list.InsertColumn(1, &LengthColumn);
-	list.InsertColumn(2, &DataColumn);
+    static LV_COLUMN IDColumn = { LVCF_TEXT | LVCF_WIDTH | LVCF_FMT, LVCFMT_LEFT, 48, "ID", 0, 0 };
+    static LV_COLUMN LengthColumn
+        = { LVCF_TEXT | LVCF_WIDTH | LVCF_FMT, LVCFMT_LEFT, 48, "Size", 0, 0 };
+    static LV_COLUMN DataColumn
+        = { LVCF_TEXT | LVCF_WIDTH | LVCF_FMT, LVCFMT_LEFT, 750, "Micro Chunk Data", 0, 0 };
+    list.InsertColumn(0, &IDColumn);
+    list.InsertColumn(1, &LengthColumn);
+    list.InsertColumn(2, &DataColumn);
 
-	int rowcounter = 0;
-	const uint8 * workptr = chunk->Get_Data();
-	static char _buf[256];
+    int rowcounter = 0;
+    const uint8* workptr = chunk->Get_Data();
+    static char _buf[256];
 
-	while (workptr < chunk->Get_Data() + chunk->Get_Length()) {
-		
-		uint8 micro_id = *workptr++;
-		uint8 micro_size = *workptr++;
+    while (workptr < chunk->Get_Data() + chunk->Get_Length()) {
 
-		// Add a line for the id
-		CString tmp_string;
-		tmp_string.Format("%02x",micro_id);
-		int list_item = list.InsertItem(rowcounter++, tmp_string);
+        uint8 micro_id = *workptr++;
+        uint8 micro_size = *workptr++;
 
-		// Set the size (second column)
-		tmp_string.Format("%02x",micro_size);
-		list.SetItemText(list_item, 1, tmp_string);
+        // Add a line for the id
+        CString tmp_string;
+        tmp_string.Format("%02x", micro_id);
+        int list_item = list.InsertItem(rowcounter++, tmp_string);
 
-		// Set the first line of hex data
-		HexToStringClass * hexconverter = Create_Hex_Converter(workptr,micro_size);
-		tmp_string = hexconverter->Get_Next_Line();
-		list.SetItemText(list_item, 2, tmp_string);
-		
-		while (!hexconverter->Is_Done()) {
-			tmp_string = hexconverter->Get_Next_Line();
-			list_item = list.InsertItem(rowcounter++, "");
-			list.SetItemText(list_item, 2, tmp_string);
-		}
-		
-		workptr += micro_size;
-		Destroy_Hex_Converter(hexconverter);
-	}
+        // Set the size (second column)
+        tmp_string.Format("%02x", micro_size);
+        list.SetItemText(list_item, 1, tmp_string);
+
+        // Set the first line of hex data
+        HexToStringClass* hexconverter = Create_Hex_Converter(workptr, micro_size);
+        tmp_string = hexconverter->Get_Next_Line();
+        list.SetItemText(list_item, 2, tmp_string);
+
+        while (!hexconverter->Is_Done()) {
+            tmp_string = hexconverter->Get_Next_Line();
+            list_item = list.InsertItem(rowcounter++, "");
+            list.SetItemText(list_item, 2, tmp_string);
+        }
+
+        workptr += micro_size;
+        Destroy_Hex_Converter(hexconverter);
+    }
 }
 
 void CChunkDataView::Reset_Columns(void)
 {
-	CListCtrl &list = GetListCtrl();
+    CListCtrl& list = GetListCtrl();
 
-	BOOL hascolumns = TRUE;
-	while (hascolumns) {
-		hascolumns = list.DeleteColumn(0);
-	}
+    BOOL hascolumns = TRUE;
+    while (hascolumns) {
+        hascolumns = list.DeleteColumn(0);
+    }
 }
 
-HexToStringClass * CChunkDataView::Create_Hex_Converter(const uint8 * data,const uint32 size)
+HexToStringClass* CChunkDataView::Create_Hex_Converter(const uint8* data, const uint32 size)
 {
-	HexToStringClass * hexconv = NULL;
-	
-	switch(WordSize) {
-		case WORD_SIZE_LONG:
-			hexconv = new HexToStringLongClass(data,size);
-			break;
-		case WORD_SIZE_SHORT:
-			hexconv = new HexToStringShortClass(data,size);
-			break;
-		default:
-			hexconv = new HexToStringByteClass(data,size);
-			break;
-	}
-	return hexconv;
+    HexToStringClass* hexconv = NULL;
+
+    switch (WordSize) {
+    case WORD_SIZE_LONG:
+        hexconv = new HexToStringLongClass(data, size);
+        break;
+    case WORD_SIZE_SHORT:
+        hexconv = new HexToStringShortClass(data, size);
+        break;
+    default:
+        hexconv = new HexToStringByteClass(data, size);
+        break;
+    }
+    return hexconv;
 }
 
-void CChunkDataView::Destroy_Hex_Converter(HexToStringClass * hexconv)
+void CChunkDataView::Destroy_Hex_Converter(HexToStringClass* hexconv)
 {
-	assert(hexconv != NULL);
-	delete hexconv;
+    assert(hexconv != NULL);
+    delete hexconv;
 }

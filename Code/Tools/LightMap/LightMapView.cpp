@@ -16,35 +16,34 @@
 **	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-/*********************************************************************************************** 
- ***                            Confidential - Westwood Studios                              *** 
- *********************************************************************************************** 
- *                                                                                             * 
- *                 Project Name : LightMap                                                     * 
- *                                                                                             * 
- *                     $Archive:: /Commando/Code/Tool $* 
- *                                                                                             * 
- *                      $Author:: Ian_l               $* 
- *                                                                                             * 
- *                     $Modtime:: 7/17/01 3:17p       $* 
- *                                                                                             * 
- *                    $Revision:: 27                                                        $* 
- *                                                                                             * 
- *---------------------------------------------------------------------------------------------* 
- * Functions:                                                                                  * 
+/***********************************************************************************************
+ ***                            Confidential - Westwood Studios                              ***
+ ***********************************************************************************************
+ *                                                                                             *
+ *                 Project Name : LightMap                                                     *
+ *                                                                                             *
+ *                     $Archive:: /Commando/Code/Tool $*
+ *                                                                                             *
+ *                      $Author:: Ian_l               $*
+ *                                                                                             *
+ *                     $Modtime:: 7/17/01 3:17p       $*
+ *                                                                                             *
+ *                    $Revision:: 27                                                        $*
+ *                                                                                             *
+ *---------------------------------------------------------------------------------------------*
+ * Functions:                                                                                  *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
 // Includes.
-#include "StdAfx.h"
-#include "LightMap.h"
 #include "InsertSolveDialog.h"
+#include "LightMap.h"
 #include "LightMapDoc.h"
 #include "LightMapView.h"
 #include "OptionsDialog.h"
 #include "PackingDialog.h"
 #include "SelectionDialog.h"
+#include "StdAfx.h"
 #include "StringBuilder.h"
-
 
 // The following is maintained by MFC tools.
 #ifdef _DEBUG
@@ -56,43 +55,41 @@ static char THIS_FILE[] = __FILE__;
 IMPLEMENT_DYNCREATE(LightMapView, CListView)
 
 BEGIN_MESSAGE_MAP(LightMapView, CListView)
-	//{{AFX_MSG_MAP(LightMapView)
-	ON_WM_CREATE()
-	ON_COMMAND(ID_INSERT_SOLVE, OnInsertSolve)
-	ON_UPDATE_COMMAND_UI(ID_INSERT_SOLVE, OnUpdateInsertSolve)
-	ON_COMMAND(ID_TOOLS_OPTIONS, OnToolsOptions)
-	ON_COMMAND(ID_TOOLS_PACKING, OnToolsPacking)
-	ON_UPDATE_COMMAND_UI(ID_TOOLS_PACKING, OnUpdateToolsPacking)
-	ON_WM_LBUTTONDOWN()
-	//}}AFX_MSG_MAP
+//{{AFX_MSG_MAP(LightMapView)
+ON_WM_CREATE()
+ON_COMMAND(ID_INSERT_SOLVE, OnInsertSolve)
+ON_UPDATE_COMMAND_UI(ID_INSERT_SOLVE, OnUpdateInsertSolve)
+ON_COMMAND(ID_TOOLS_OPTIONS, OnToolsOptions)
+ON_COMMAND(ID_TOOLS_PACKING, OnToolsPacking)
+ON_UPDATE_COMMAND_UI(ID_TOOLS_PACKING, OnUpdateToolsPacking)
+ON_WM_LBUTTONDOWN()
+//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
-
 
 class MeshDialog : public CDialog
 {
-	public:
-		MeshDialog (UINT nIDTemplate, CWnd* pParentWnd, const char *meshname, const char *anomalies)
-			: CDialog (nIDTemplate, pParentWnd)
-		{
-			MeshName  = meshname;
-			Anomalies = anomalies;
-		}
+public:
+    MeshDialog(UINT nIDTemplate, CWnd* pParentWnd, const char* meshname, const char* anomalies)
+        : CDialog(nIDTemplate, pParentWnd)
+    {
+        MeshName = meshname;
+        Anomalies = anomalies;
+    }
 
-	protected:
-		virtual BOOL OnInitDialog();
+protected:
+    virtual BOOL OnInitDialog();
 
-	private:
-		const char *MeshName;
-		const char *Anomalies;
+private:
+    const char* MeshName;
+    const char* Anomalies;
 };
 
-
 // Static data.
-LightMapDoc *LightMapView::_Document = NULL;
-
+LightMapDoc* LightMapView::_Document = NULL;
 
 /***********************************************************************************************
- * LightMapView::LightMapView --																					  *
+ * LightMapView::LightMapView --
+ **
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -101,16 +98,16 @@ LightMapDoc *LightMapView::_Document = NULL;
  * WARNINGS:                                                                                   *
  *                                                                                             *
  * HISTORY:                                                                                    *
- *   6/1/99    IML : Created.                                                                  * 
+ *   6/1/99    IML : Created.                                                                  *
  *=============================================================================================*/
 LightMapView::LightMapView()
 {
-	MeshIndexTable = NULL;	
+    MeshIndexTable = NULL;
 }
 
-
 /***********************************************************************************************
- * LightMapView::~LightMapView --																				  *
+ * LightMapView::~LightMapView --
+ **
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -119,16 +116,18 @@ LightMapView::LightMapView()
  * WARNINGS:                                                                                   *
  *                                                                                             *
  * HISTORY:                                                                                    *
- *   6/1/99    IML : Created.                                                                  * 
+ *   6/1/99    IML : Created.                                                                  *
  *=============================================================================================*/
 LightMapView::~LightMapView()
 {
-	if (MeshIndexTable != NULL) delete [] MeshIndexTable;
+    if (MeshIndexTable != NULL) {
+        delete[] MeshIndexTable;
+    }
 }
 
-
 /***********************************************************************************************
- * LightMapView::OnInsertSolve --																				  *
+ * LightMapView::OnInsertSolve --
+ **
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -137,29 +136,32 @@ LightMapView::~LightMapView()
  * WARNINGS:                                                                                   *
  *                                                                                             *
  * HISTORY:                                                                                    *
- *   6/1/99    IML : Created.                                                                  * 
+ *   6/1/99    IML : Created.                                                                  *
  *=============================================================================================*/
 void LightMapView::OnInsertSolve()
 {
-	// NOTE: Specify initial path to be that of current open document.
-	InsertSolveDialog insertsolvedialog (GetDocument()->GetPathName());
+    // NOTE: Specify initial path to be that of current open document.
+    InsertSolveDialog insertsolvedialog(GetDocument()->GetPathName());
 
-	if (insertsolvedialog.DoModal() == IDOK) {
-		
-		char *inclusionstring;
-		
-		if (!insertsolvedialog.Apply_Selective()) {
-			inclusionstring = NULL;
-		} else {
-			inclusionstring = insertsolvedialog.Inclusion_String();
-		}
-		GetDocument()->Insert_Solve (insertsolvedialog.Directory_Name(), insertsolvedialog.Filename_List(), inclusionstring, insertsolvedialog.Invert_Selection(), insertsolvedialog.Blend_Noise());
-	}
+    if (insertsolvedialog.DoModal() == IDOK) {
+
+        char* inclusionstring;
+
+        if (!insertsolvedialog.Apply_Selective()) {
+            inclusionstring = NULL;
+        }
+        else {
+            inclusionstring = insertsolvedialog.Inclusion_String();
+        }
+        GetDocument()->Insert_Solve(
+            insertsolvedialog.Directory_Name(), insertsolvedialog.Filename_List(), inclusionstring,
+            insertsolvedialog.Invert_Selection(), insertsolvedialog.Blend_Noise());
+    }
 }
 
-
 /***********************************************************************************************
- * LightMapView::OnUpdateInsertSolve --																		  *
+ * LightMapView::OnUpdateInsertSolve --
+ **
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -168,16 +170,16 @@ void LightMapView::OnInsertSolve()
  * WARNINGS:                                                                                   *
  *                                                                                             *
  * HISTORY:                                                                                    *
- *   6/1/99    IML : Created.                                                                  * 
+ *   6/1/99    IML : Created.                                                                  *
  *=============================================================================================*/
-void LightMapView::OnUpdateInsertSolve (CCmdUI *cmdui) 
+void LightMapView::OnUpdateInsertSolve(CCmdUI* cmdui)
 {
-	cmdui->Enable (GetDocument()->Can_Insert_Solve());
+    cmdui->Enable(GetDocument()->Can_Insert_Solve());
 }
 
-
 /***********************************************************************************************
- * LightMapView::OnCreate --																						  *
+ * LightMapView::OnCreate --
+ **
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -186,38 +188,43 @@ void LightMapView::OnUpdateInsertSolve (CCmdUI *cmdui)
  * WARNINGS:                                                                                   *
  *                                                                                             *
  * HISTORY:                                                                                    *
- *   6/1/99    IML : Created.                                                                  * 
+ *   6/1/99    IML : Created.                                                                  *
  *=============================================================================================*/
-int LightMapView::OnCreate (LPCREATESTRUCT lpCreateStruct) 
+int LightMapView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 {
-  	static LV_COLUMN _meshname			= {LVCF_TEXT | LVCF_FMT, LVCFMT_LEFT, 0, "Mesh Name", 0, 0};
-	static LV_COLUMN _meshanomalies	= {LVCF_TEXT | LVCF_FMT, LVCFMT_LEFT, 0, "Mesh Anomalies", 0, 0};
-	static LV_COLUMN _solveanomalies	= {LVCF_TEXT | LVCF_FMT, LVCFMT_LEFT, 0, "Solve Anomalies", 0, 0};
-	static LV_COLUMN _vertexsolve	 	= {LVCF_TEXT | LVCF_FMT, LVCFMT_LEFT, 0, "Vertex Solve", 0, 0};
-	static LV_COLUMN _lightmapsolve	= {LVCF_TEXT | LVCF_FMT, LVCFMT_LEFT, 0, "Lightmap Solve", 0, 0};
+    static LV_COLUMN _meshname = { LVCF_TEXT | LVCF_FMT, LVCFMT_LEFT, 0, "Mesh Name", 0, 0 };
+    static LV_COLUMN _meshanomalies
+        = { LVCF_TEXT | LVCF_FMT, LVCFMT_LEFT, 0, "Mesh Anomalies", 0, 0 };
+    static LV_COLUMN _solveanomalies
+        = { LVCF_TEXT | LVCF_FMT, LVCFMT_LEFT, 0, "Solve Anomalies", 0, 0 };
+    static LV_COLUMN _vertexsolve = { LVCF_TEXT | LVCF_FMT, LVCFMT_LEFT, 0, "Vertex Solve", 0, 0 };
+    static LV_COLUMN _lightmapsolve
+        = { LVCF_TEXT | LVCF_FMT, LVCFMT_LEFT, 0, "Lightmap Solve", 0, 0 };
 
-	CListCtrl &list = GetListCtrl();
-	long		 flags = list.GetStyle();
+    CListCtrl& list = GetListCtrl();
+    long flags = list.GetStyle();
 
-	if (CListView::OnCreate(lpCreateStruct) == -1) return (-1);
+    if (CListView::OnCreate(lpCreateStruct) == -1) {
+        return (-1);
+    }
 
-	// Enable report style for the list view.
-	flags |= LVS_REPORT | LVS_NOSORTHEADER;
-	SetWindowLong (list.GetSafeHwnd(), GWL_STYLE, flags);
-	list.SetExtendedStyle (LVS_EX_ONECLICKACTIVATE | LVS_EX_UNDERLINEHOT | LVS_EX_GRIDLINES); 
-	
-	list.InsertColumn (0, &_meshname);
-	list.InsertColumn (1, &_meshanomalies);
-	list.InsertColumn (2, &_solveanomalies);
-	list.InsertColumn (3, &_vertexsolve);
-	list.InsertColumn (4, &_lightmapsolve);
+    // Enable report style for the list view.
+    flags |= LVS_REPORT | LVS_NOSORTHEADER;
+    SetWindowLong(list.GetSafeHwnd(), GWL_STYLE, flags);
+    list.SetExtendedStyle(LVS_EX_ONECLICKACTIVATE | LVS_EX_UNDERLINEHOT | LVS_EX_GRIDLINES);
 
-	return (0);
+    list.InsertColumn(0, &_meshname);
+    list.InsertColumn(1, &_meshanomalies);
+    list.InsertColumn(2, &_solveanomalies);
+    list.InsertColumn(3, &_vertexsolve);
+    list.InsertColumn(4, &_lightmapsolve);
+
+    return (0);
 }
 
-
 /***********************************************************************************************
- * LightMapView::OnUpdate --																						  *
+ * LightMapView::OnUpdate --
+ **
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -226,75 +233,84 @@ int LightMapView::OnCreate (LPCREATESTRUCT lpCreateStruct)
  * WARNINGS:                                                                                   *
  *                                                                                             *
  * HISTORY:                                                                                    *
- *   6/1/99    IML : Created.                                                                  * 
+ *   6/1/99    IML : Created.                                                                  *
  *=============================================================================================*/
-void LightMapView::OnUpdate (CView* pSender, LPARAM lHint, CObject* pHint)
+void LightMapView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint)
 {
-	static float	  _widthratio [] = {0.18f, 0.25f, 0.25f, 0.16f, 0.16f};
-	static LV_COLUMN _column		  = {LVCF_WIDTH, 0, 0, 0, 0, 0};
+    static float _widthratio[] = { 0.18f, 0.25f, 0.25f, 0.16f, 0.16f };
+    static LV_COLUMN _column = { LVCF_WIDTH, 0, 0, 0, 0, 0 };
 
-	unsigned			meshindex;
-	RECT				rect;
-	float				w;
-	CListCtrl	  &list = GetListCtrl();
-	LightMapDoc   *document;
-	LVITEM		   item;
-	StringBuilder  text (256);
+    unsigned meshindex;
+    RECT rect;
+    float w;
+    CListCtrl& list = GetListCtrl();
+    LightMapDoc* document;
+    LVITEM item;
+    StringBuilder text(256);
 
-	document	= GetDocument();
+    document = GetDocument();
 
-	// If there are meshes to display...
-	if (document->Mesh_Count() > 0) {
+    // If there are meshes to display...
+    if (document->Mesh_Count() > 0) {
 
-		// Create a mesh index table that will place the mesh indices in alphabetical order of mesh name.
-		if (MeshIndexTable != NULL) delete [] MeshIndexTable;
-		MeshIndexTable = new unsigned [document->Mesh_Count()];
-		ASSERT (MeshIndexTable != NULL);
-		for (meshindex = 0; meshindex < document->Mesh_Count(); meshindex++) {
-			MeshIndexTable [meshindex] = meshindex;
-		}
-		_Document = document;
-		qsort (MeshIndexTable, document->Mesh_Count(), sizeof (unsigned), Compare_Names);
-		_Document = NULL;
+        // Create a mesh index table that will place the mesh indices in alphabetical order of mesh
+        // name.
+        if (MeshIndexTable != NULL) {
+            delete[] MeshIndexTable;
+        }
+        MeshIndexTable = new unsigned[document->Mesh_Count()];
+        ASSERT(MeshIndexTable != NULL);
+        for (meshindex = 0; meshindex < document->Mesh_Count(); meshindex++) {
+            MeshIndexTable[meshindex] = meshindex;
+        }
+        _Document = document;
+        qsort(MeshIndexTable, document->Mesh_Count(), sizeof(unsigned), Compare_Names);
+        _Document = NULL;
 
-		list.DeleteAllItems();
+        list.DeleteAllItems();
 
-		item.mask	  = LVIF_TEXT;
-		item.iSubItem = 0;
-		for (meshindex = 0; meshindex < document->Mesh_Count(); meshindex++) {
+        item.mask = LVIF_TEXT;
+        item.iSubItem = 0;
+        for (meshindex = 0; meshindex < document->Mesh_Count(); meshindex++) {
 
-			unsigned remappedmeshindex;
+            unsigned remappedmeshindex;
 
-			item.iItem			= meshindex;
-			remappedmeshindex = MeshIndexTable [meshindex];
+            item.iItem = meshindex;
+            remappedmeshindex = MeshIndexTable[meshindex];
 
-			item.pszText  = (char*) document->Mesh_Name (remappedmeshindex);
+            item.pszText = (char*)document->Mesh_Name(remappedmeshindex);
 
-			list.InsertItem (&item);
-			list.SetItemText (meshindex, 1, document->Mesh_Anomalies_String (remappedmeshindex, false, text));
-			list.SetItemText (meshindex, 2, document->Solve_Anomalies_String (remappedmeshindex, false, text));
-			list.SetItemText (meshindex, 3, document->Vertex_Solve_Status_String (remappedmeshindex, text));
-			list.SetItemText (meshindex, 4, document->Lightmap_Solve_Status_String (remappedmeshindex, text));
-		}
-	}
+            list.InsertItem(&item);
+            list.SetItemText(meshindex, 1,
+                             document->Mesh_Anomalies_String(remappedmeshindex, false, text));
+            list.SetItemText(meshindex, 2,
+                             document->Solve_Anomalies_String(remappedmeshindex, false, text));
+            list.SetItemText(meshindex, 3,
+                             document->Vertex_Solve_Status_String(remappedmeshindex, text));
+            list.SetItemText(meshindex, 4,
+                             document->Lightmap_Solve_Status_String(remappedmeshindex, text));
+        }
+    }
 
-	// Set the column widths.
-	GetClientRect (&rect);
-	w = (float) rect.right;
-	for (unsigned c = 0; c < sizeof (_widthratio) / sizeof (float); c++) {
-		
-		float columnwidth;
+    // Set the column widths.
+    GetClientRect(&rect);
+    w = (float)rect.right;
+    for (unsigned c = 0; c < sizeof(_widthratio) / sizeof(float); c++) {
 
-		columnwidth = w * _widthratio [c];
-		_column.cx  = columnwidth;
-		if (columnwidth - _column.cx > 0.5f) _column.cx++;
-		list.SetColumn (c, &_column);
-	}
+        float columnwidth;
+
+        columnwidth = w * _widthratio[c];
+        _column.cx = columnwidth;
+        if (columnwidth - _column.cx > 0.5f) {
+            _column.cx++;
+        }
+        list.SetColumn(c, &_column);
+    }
 }
 
-
 /***********************************************************************************************
- * LightMapView::OnToolsOptions --																				  *
+ * LightMapView::OnToolsOptions --
+ **
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -303,18 +319,18 @@ void LightMapView::OnUpdate (CView* pSender, LPARAM lHint, CObject* pHint)
  * WARNINGS:                                                                                   *
  *                                                                                             *
  * HISTORY:                                                                                    *
- *   6/1/99    IML : Created.                                                                  * 
+ *   6/1/99    IML : Created.                                                                  *
  *=============================================================================================*/
-void LightMapView::OnToolsOptions() 
+void LightMapView::OnToolsOptions()
 {
-	OptionsDialog options;
+    OptionsDialog options;
 
-	options.DoModal();
+    options.DoModal();
 }
 
-
 /***********************************************************************************************
- * LightMapView::OnToolsPacking --																				  *
+ * LightMapView::OnToolsPacking --
+ **
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -323,18 +339,18 @@ void LightMapView::OnToolsOptions()
  * WARNINGS:                                                                                   *
  *                                                                                             *
  * HISTORY:                                                                                    *
- *   02/03/00    IML : Created.                                                                * 
+ *   02/03/00    IML : Created.                                                                *
  *=============================================================================================*/
-void LightMapView::OnToolsPacking() 
+void LightMapView::OnToolsPacking()
 {
-	PackingDialog packing;
+    PackingDialog packing;
 
-	packing.DoModal();
+    packing.DoModal();
 }
 
-
 /***********************************************************************************************
- * LightMapView::OnToolsPacking --																				  *
+ * LightMapView::OnToolsPacking --
+ **
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -343,16 +359,16 @@ void LightMapView::OnToolsPacking()
  * WARNINGS:                                                                                   *
  *                                                                                             *
  * HISTORY:                                                                                    *
- *   02/03/00    IML : Created.                                                                * 
+ *   02/03/00    IML : Created.                                                                *
  *=============================================================================================*/
-void LightMapView::OnUpdateToolsPacking (CCmdUI *cmdui) 
+void LightMapView::OnUpdateToolsPacking(CCmdUI* cmdui)
 {
-	cmdui->Enable (GetDocument()->Solve_Inserted());
+    cmdui->Enable(GetDocument()->Solve_Inserted());
 }
 
-
 /***********************************************************************************************
- * LightMapView::OnLButtonDown --																				  *
+ * LightMapView::OnLButtonDown --
+ **
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -361,38 +377,38 @@ void LightMapView::OnUpdateToolsPacking (CCmdUI *cmdui)
  * WARNINGS:                                                                                   *
  *                                                                                             *
  * HISTORY:                                                                                    *
- *   02/03/00    IML : Created.                                                                * 
+ *   02/03/00    IML : Created.                                                                *
  *=============================================================================================*/
-void LightMapView::OnLButtonDown (UINT flags, CPoint point)
+void LightMapView::OnLButtonDown(UINT flags, CPoint point)
 {
-	LVHITTESTINFO hittest;
+    LVHITTESTINFO hittest;
 
-	// Call default handler.
-	CListView::OnLButtonDown (flags, point);
+    // Call default handler.
+    CListView::OnLButtonDown(flags, point);
 
-	if (MeshIndexTable != NULL) {
+    if (MeshIndexTable != NULL) {
 
-		hittest.pt = point;
-		GetListCtrl().SubItemHitTest (&hittest);
-		if ((hittest.iItem >= 0) && (hittest.iSubItem == 0)) {
+        hittest.pt = point;
+        GetListCtrl().SubItemHitTest(&hittest);
+        if ((hittest.iItem >= 0) && (hittest.iSubItem == 0)) {
 
-			unsigned			meshindex = MeshIndexTable [hittest.iItem];
-			LightMapDoc	  *document = GetDocument();
-			StringBuilder  string (16384), substring (8192);
+            unsigned meshindex = MeshIndexTable[hittest.iItem];
+            LightMapDoc* document = GetDocument();
+            StringBuilder string(16384), substring(8192);
 
-			string.Copy (document->Mesh_Anomalies_String (meshindex, true, substring));
-			string.Concatenate (document->Solve_Anomalies_String (meshindex, true, substring));
+            string.Copy(document->Mesh_Anomalies_String(meshindex, true, substring));
+            string.Concatenate(document->Solve_Anomalies_String(meshindex, true, substring));
 
-			MeshDialog mesh (IDD_MESH_STATUS, this, document->Mesh_Name (meshindex), string.String());
+            MeshDialog mesh(IDD_MESH_STATUS, this, document->Mesh_Name(meshindex), string.String());
 
-			mesh.DoModal();
-		}
-	}
+            mesh.DoModal();
+        }
+    }
 }
 
-
 /***********************************************************************************************
- * LightMapView::CompareNames --																					  *
+ * LightMapView::CompareNames --
+ **
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -401,17 +417,18 @@ void LightMapView::OnLButtonDown (UINT flags, CPoint point)
  * WARNINGS:                                                                                   *
  *                                                                                             *
  * HISTORY:                                                                                    *
- *   02/03/00    IML : Created.                                                                * 
+ *   02/03/00    IML : Created.                                                                *
  *=============================================================================================*/
-int LightMapView::Compare_Names (const void *index0, const void *index1)
+int LightMapView::Compare_Names(const void* index0, const void* index1)
 {
-	ASSERT (_Document != NULL);
-	return (strcmp (_Document->Mesh_Name (*((unsigned*) index0)), _Document->Mesh_Name (*((unsigned*) index1))));
-}		
-
+    ASSERT(_Document != NULL);
+    return (strcmp(_Document->Mesh_Name(*((unsigned*)index0)),
+                   _Document->Mesh_Name(*((unsigned*)index1))));
+}
 
 /***********************************************************************************************
- * MeshDialog::OnInitDialog --																					  *
+ * MeshDialog::OnInitDialog --
+ **
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -420,46 +437,44 @@ int LightMapView::Compare_Names (const void *index0, const void *index1)
  * WARNINGS:                                                                                   *
  *                                                                                             *
  * HISTORY:                                                                                    *
- *   02/03/00    IML : Created.                                                                * 
+ *   02/03/00    IML : Created.                                                                *
  *=============================================================================================*/
 BOOL MeshDialog::OnInitDialog()
 {
-	StringBuilder string (256);
+    StringBuilder string(256);
 
-	// Allow the base class to process this message.
-	CDialog::OnInitDialog();
+    // Allow the base class to process this message.
+    CDialog::OnInitDialog();
 
-	string.Copy (MeshName);
-	string.Concatenate (" - Anomalies");
-	SetWindowText (string.String());
-	GetDlgItem (IDC_MESH_STATUS_TEXT)->SetWindowText (Anomalies);
-	return (TRUE);
+    string.Copy(MeshName);
+    string.Concatenate(" - Anomalies");
+    SetWindowText(string.String());
+    GetDlgItem(IDC_MESH_STATUS_TEXT)->SetWindowText(Anomalies);
+    return (TRUE);
 }
-
 
 // The following is maintained by MFC tools.
 BOOL LightMapView::PreCreateWindow(CREATESTRUCT& cs)
 {
-	// TODO: Modify the Window class or styles here by modifying
-	// the CREATESTRUCT cs
-	return CListView::PreCreateWindow(cs);
+    // TODO: Modify the Window class or styles here by modifying
+    // the CREATESTRUCT cs
+    return CListView::PreCreateWindow(cs);
 }
-
 
 #ifdef _DEBUG
 void LightMapView::AssertValid() const
 {
-	CListView::AssertValid();
+    CListView::AssertValid();
 }
 
 void LightMapView::Dump(CDumpContext& dc) const
 {
-	CListView::Dump(dc);
+    CListView::Dump(dc);
 }
 
 LightMapDoc* LightMapView::GetDocument() // non-debug version is inline
 {
-	ASSERT(m_pDocument->IsKindOf(RUNTIME_CLASS(LightMapDoc)));
-	return (LightMapDoc*)m_pDocument;
+    ASSERT(m_pDocument->IsKindOf(RUNTIME_CLASS(LightMapDoc)));
+    return (LightMapDoc*)m_pDocument;
 }
 #endif //_DEBUG

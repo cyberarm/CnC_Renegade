@@ -36,7 +36,6 @@
  * Functions:                                                                                  *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
-
 #ifndef GEOMETRYEXPORTCONTEXT_H
 #define GEOMETRYEXPORTCONTEXT_H
 
@@ -49,59 +48,46 @@ class INodeListClass;
 class Progress_Meter_Class;
 struct W3dExportOptionsStruct;
 
- 
 /**
 ** ExportContextClass
 ** This class encapsulates a bunch of datastructures needed during the geometry export
-** process. 
+** process.
 ** NOTE: The user must plug in a valid ProgressMeter before each export operation.
 */
 class GeometryExportContextClass
 {
 public:
-	GeometryExportContextClass(	char * model_name,
-											ChunkSaveClass & csave,
-											MaxWorldInfoClass & world_info,
-											W3dExportOptionsStruct & options,
-											HierarchySaveClass * htree,
-											INode * origin,
-											INodeListClass * origin_list,
-											TimeValue curtime
-										) :
-		CSave(csave),
-		WorldInfo(world_info),
-		Options(options),
-		CurTime(curtime),
-		HTree(htree),
-		OriginList(origin_list),
-		Origin(origin),
-		OriginTransform(1),
-		ProgressMeter(NULL)
-	{
-		ModelName = strdup(model_name);
-		OriginTransform = Origin->GetNodeTM(CurTime);
-	}
-	
-	~GeometryExportContextClass(void)
-	{
-		delete[] ModelName;
-	}
+    GeometryExportContextClass(char* model_name, ChunkSaveClass& csave,
+                               MaxWorldInfoClass& world_info, W3dExportOptionsStruct& options,
+                               HierarchySaveClass* htree, INode* origin,
+                               INodeListClass* origin_list, TimeValue curtime)
+        : CSave(csave),
+          WorldInfo(world_info),
+          Options(options),
+          CurTime(curtime),
+          HTree(htree),
+          OriginList(origin_list),
+          Origin(origin),
+          OriginTransform(1),
+          ProgressMeter(NULL)
+    {
+        ModelName = strdup(model_name);
+        OriginTransform = Origin->GetNodeTM(CurTime);
+    }
 
-	char *							ModelName;
-	ChunkSaveClass &				CSave;
-	MaxWorldInfoClass &			WorldInfo;
-	W3dExportOptionsStruct &	Options;
-	TimeValue						CurTime;
-	HierarchySaveClass *			HTree;
-	INodeListClass *				OriginList;
+    ~GeometryExportContextClass(void) { delete[] ModelName; }
 
-	INode *							Origin;
-	Matrix3							OriginTransform;
-	Progress_Meter_Class	*		ProgressMeter;
+    char* ModelName;
+    ChunkSaveClass& CSave;
+    MaxWorldInfoClass& WorldInfo;
+    W3dExportOptionsStruct& Options;
+    TimeValue CurTime;
+    HierarchySaveClass* HTree;
+    INodeListClass* OriginList;
 
+    INode* Origin;
+    Matrix3 OriginTransform;
+    Progress_Meter_Class* ProgressMeter;
 };
 
-
-
-#endif //GEOMETRYEXPORTCONTEXT_H
-
+#endif // GEOMETRYEXPORTCONTEXT_H

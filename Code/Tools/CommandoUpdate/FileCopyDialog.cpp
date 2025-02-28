@@ -19,9 +19,9 @@
 // FileCopyDialog.cpp : implementation file
 //
 
-#include "stdafx.h"
 #include "CommandoUpdate.h"
 #include "FileCopyDialog.h"
+#include "stdafx.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -32,30 +32,26 @@ static char THIS_FILE[] = __FILE__;
 /////////////////////////////////////////////////////////////////////////////
 // FileCopyDialogClass dialog
 
-
 FileCopyDialogClass::FileCopyDialogClass(CWnd* pParent /*=NULL*/)
-	: CDialog(FileCopyDialogClass::IDD, pParent)
+    : CDialog(FileCopyDialogClass::IDD, pParent)
 {
-	//{{AFX_DATA_INIT(FileCopyDialogClass)
-		// NOTE: the ClassWizard will add member initialization here
-	//}}AFX_DATA_INIT
+    //{{AFX_DATA_INIT(FileCopyDialogClass)
+    // NOTE: the ClassWizard will add member initialization here
+    //}}AFX_DATA_INIT
 }
-
 
 void FileCopyDialogClass::DoDataExchange(CDataExchange* pDX)
 {
-	CDialog::DoDataExchange(pDX);
-	//{{AFX_DATA_MAP(FileCopyDialogClass)
-	DDX_Control(pDX, IDC_ANIMATE_CTRL, m_AnimateCtrl);
-	//}}AFX_DATA_MAP
+    CDialog::DoDataExchange(pDX);
+    //{{AFX_DATA_MAP(FileCopyDialogClass)
+    DDX_Control(pDX, IDC_ANIMATE_CTRL, m_AnimateCtrl);
+    //}}AFX_DATA_MAP
 }
 
-
 BEGIN_MESSAGE_MAP(FileCopyDialogClass, CDialog)
-	//{{AFX_MSG_MAP(FileCopyDialogClass)
-	//}}AFX_MSG_MAP
+//{{AFX_MSG_MAP(FileCopyDialogClass)
+//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
-
 
 //////////////////////////////////////////////////////////////////////////////
 //
@@ -63,37 +59,30 @@ END_MESSAGE_MAP()
 //
 //////////////////////////////////////////////////////////////////////////////
 LRESULT
-FileCopyDialogClass::WindowProc
-(
-	UINT		message,
-	WPARAM	wParam,
-	LPARAM	lParam
-)
-{	
-	if (message == WM_USER + 101) {
-		EndDialog (TRUE);
-	}
-	
-	return CDialog::WindowProc(message, wParam, lParam);
-}
+FileCopyDialogClass::WindowProc(UINT message, WPARAM wParam, LPARAM lParam)
+{
+    if (message == WM_USER + 101) {
+        EndDialog(TRUE);
+    }
 
+    return CDialog::WindowProc(message, wParam, lParam);
+}
 
 //////////////////////////////////////////////////////////////////////////////
 //
 //	OnInitDialog
 //
 //////////////////////////////////////////////////////////////////////////////
-BOOL
-FileCopyDialogClass::OnInitDialog (void)
+BOOL FileCopyDialogClass::OnInitDialog(void)
 {
-	CDialog::OnInitDialog();
-	
-	CString app_title;
-	app_title.Format ("Application: %s", m_AppTitle);
-	SetDlgItemText (IDC_CURRENT_APP, app_title);
+    CDialog::OnInitDialog();
 
-	m_AnimateCtrl.Open (IDR_FILECOPY_AVI);	
+    CString app_title;
+    app_title.Format("Application: %s", m_AppTitle);
+    SetDlgItemText(IDC_CURRENT_APP, app_title);
 
-	return TRUE;  // return TRUE unless you set the focus to a control
-	              // EXCEPTION: OCX Property Pages should return FALSE
+    m_AnimateCtrl.Open(IDR_FILECOPY_AVI);
+
+    return TRUE; // return TRUE unless you set the focus to a control
+                 // EXCEPTION: OCX Property Pages should return FALSE
 }

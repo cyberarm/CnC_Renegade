@@ -27,10 +27,10 @@
 #endif // _MSC_VER > 1000
 
 #ifndef __AFXWIN_H__
-	#error include 'stdafx.h' before including this file for PCH
+#error include 'stdafx.h' before including this file for PCH
 #endif
 
-#include "resource.h"		// main symbols
+#include "resource.h" // main symbols
 
 /////////////////////////////////////////////////////////////////////////////
 // CVidinitApp:
@@ -40,25 +40,24 @@
 class CVidinitApp : public CWinApp
 {
 public:
-	CVidinitApp();
+    CVidinitApp();
 
-	bool WindowIsClosing;
-// Overrides
-	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CVidinitApp)
-	public:
-	virtual BOOL InitInstance();
-	//}}AFX_VIRTUAL
+    bool WindowIsClosing;
+    // Overrides
+    // ClassWizard generated virtual function overrides
+    //{{AFX_VIRTUAL(CVidinitApp)
+public:
+    virtual BOOL InitInstance();
+    //}}AFX_VIRTUAL
 
-// Implementation
+    // Implementation
 
-	//{{AFX_MSG(CVidinitApp)
-		// NOTE - the ClassWizard will add and remove member functions here.
-		//    DO NOT EDIT what you see in these blocks of generated code !
-	//}}AFX_MSG
-	DECLARE_MESSAGE_MAP()
+    //{{AFX_MSG(CVidinitApp)
+    // NOTE - the ClassWizard will add and remove member functions here.
+    //    DO NOT EDIT what you see in these blocks of generated code !
+    //}}AFX_MSG
+    DECLARE_MESSAGE_MAP()
 };
-
 
 /////////////////////////////////////////////////////////////////////////////
 

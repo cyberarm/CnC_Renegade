@@ -19,9 +19,9 @@
 // ParameterSheet.cpp : implementation file
 //
 
-#include "stdafx.h"
-#include "leveledit.h"
 #include "ParameterSheet.h"
+#include "leveledit.h"
+#include "stdafx.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -42,11 +42,10 @@ ParameterSheetClass::~ParameterSheetClass()
 {
 }
 
-
 BEGIN_MESSAGE_MAP(ParameterSheetClass, CScrollView)
-	//{{AFX_MSG_MAP(ParameterSheetClass)
-		// NOTE - the ClassWizard will add and remove mapping macros here.
-	//}}AFX_MSG_MAP
+//{{AFX_MSG_MAP(ParameterSheetClass)
+// NOTE - the ClassWizard will add and remove mapping macros here.
+//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -54,18 +53,18 @@ END_MESSAGE_MAP()
 
 void ParameterSheetClass::OnInitialUpdate()
 {
-	CScrollView::OnInitialUpdate();
+    CScrollView::OnInitialUpdate();
 
-	CSize sizeTotal;
-	// TODO: calculate the total size of this view
-	sizeTotal.cx = sizeTotal.cy = 100;
-	SetScrollSizes(MM_TEXT, sizeTotal);
+    CSize sizeTotal;
+    // TODO: calculate the total size of this view
+    sizeTotal.cx = sizeTotal.cy = 100;
+    SetScrollSizes(MM_TEXT, sizeTotal);
 }
 
 void ParameterSheetClass::OnDraw(CDC* pDC)
 {
-	CDocument* pDoc = GetDocument();
-	// TODO: add draw code here
+    CDocument* pDoc = GetDocument();
+    // TODO: add draw code here
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -74,12 +73,12 @@ void ParameterSheetClass::OnDraw(CDC* pDC)
 #ifdef _DEBUG
 void ParameterSheetClass::AssertValid() const
 {
-	CScrollView::AssertValid();
+    CScrollView::AssertValid();
 }
 
 void ParameterSheetClass::Dump(CDumpContext& dc) const
 {
-	CScrollView::Dump(dc);
+    CScrollView::Dump(dc);
 }
 #endif //_DEBUG
 

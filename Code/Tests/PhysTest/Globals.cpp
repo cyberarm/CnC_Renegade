@@ -16,8 +16,7 @@
 **	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include "assetmgr.h"
 #include "stdafx.h"
 
-#include "assetmgr.h"
-
-WW3DAssetManager	_TheAssetManager;
+WW3DAssetManager _TheAssetManager;

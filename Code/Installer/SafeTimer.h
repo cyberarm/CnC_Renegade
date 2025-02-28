@@ -16,32 +16,30 @@
 **	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-/*********************************************************************************************** 
- ***                            Confidential - Westwood Studios                              *** 
- *********************************************************************************************** 
- *                                                                                             * 
- *                 Project Name : Installer                                                    * 
- *                                                                                             * 
- *                     $Archive:: /Commando/Code/Installer/SafeTimer.h  $* 
- *                                                                                             * 
- *                      $Author:: Ian_l                   $* 
- *                                                                                             * 
- *                     $Modtime:: 11/05/01 7:41p                $* 
- *                                                                                             * 
- *                    $Revision:: 2                     $* 
- *                                                                                             * 
- *---------------------------------------------------------------------------------------------* 
- * Functions:                                                                                  * 
+/***********************************************************************************************
+ ***                            Confidential - Westwood Studios                              ***
+ ***********************************************************************************************
+ *                                                                                             *
+ *                 Project Name : Installer                                                    *
+ *                                                                                             *
+ *                     $Archive:: /Commando/Code/Installer/SafeTimer.h  $*
+ *                                                                                             *
+ *                      $Author:: Ian_l                   $*
+ *                                                                                             *
+ *                     $Modtime:: 11/05/01 7:41p                $*
+ *                                                                                             *
+ *                    $Revision:: 2                     $*
+ *                                                                                             *
+ *---------------------------------------------------------------------------------------------*
+ * Functions:                                                                                  *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
 #ifndef _SAFE_TIMER_H
 #define _SAFE_TIMER_H
 
-
 // Includes.
 #include "win.h"
 #include <mmsystem.h>
-
 
 // This timer increments at 1000Hz, is DWORD size and uses the OS timer timeGetTime().
 // Therefore it will wrap ~49 days after boot time. This class attempts to minimize
@@ -51,39 +49,38 @@
 
 class SafeTimerClass
 {
-	public:
-		long operator () (void) const;
-		operator long (void) const;
+public:
+    long operator()(void) const;
+    operator long(void) const;
 
-	private:
-		static DWORD _StartTime;
+private:
+    static DWORD _StartTime;
 };
 
-
-inline long SafeTimerClass::operator () (void) const
+inline long SafeTimerClass::operator()(void) const
 {
-	DWORD time = timeGetTime();
+    DWORD time = timeGetTime();
 
-	// Has the timer wrapped? 
-	if (time >= _StartTime) {
-		return (time - _StartTime);
-	} else {
-		return ((0xffffffff - _StartTime) + time);
-	}
+    // Has the timer wrapped?
+    if (time >= _StartTime) {
+        return (time - _StartTime);
+    }
+    else {
+        return ((0xffffffff - _StartTime) + time);
+    }
 }
 
-
-inline SafeTimerClass::operator long (void) const
+inline SafeTimerClass::operator long(void) const
 {
-	DWORD time = timeGetTime();
+    DWORD time = timeGetTime();
 
-	// Has the timer wrapped? 
-	if (time >= _StartTime) {
-		return (time - _StartTime);
-	} else {
-		return ((0xffffffff - _StartTime) + time);
-	}
+    // Has the timer wrapped?
+    if (time >= _StartTime) {
+        return (time - _StartTime);
+    }
+    else {
+        return ((0xffffffff - _StartTime) + time);
+    }
 }
-
 
 #endif // _SAFE_TIMER_H

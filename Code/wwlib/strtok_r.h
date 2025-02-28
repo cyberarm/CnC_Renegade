@@ -16,22 +16,22 @@
 **	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-/*************************************************************************** 
- ***    C O N F I D E N T I A L  ---  W E S T W O O D  S T U D I O S     *** 
- *************************************************************************** 
- *                                                                         * 
- *                 Project Name : G                                        * 
- *                                                                         * 
- *                     $Archive:: /G/wwlib/strtok_r.h                     $* 
- *                                                                         * 
- *                      $Author:: Neal_k2                                 $* 
- *                                                                         * 
- *                     $Modtime:: 4/13/00 1:33p                           $* 
- *                                                                         * 
- *                    $Revision:: 2                                       $* 
- *                                                                         * 
- *-------------------------------------------------------------------------* 
- * Functions:                                                              * 
+/***************************************************************************
+ ***    C O N F I D E N T I A L  ---  W E S T W O O D  S T U D I O S     ***
+ ***************************************************************************
+ *                                                                         *
+ *                 Project Name : G                                        *
+ *                                                                         *
+ *                     $Archive:: /G/wwlib/strtok_r.h                     $*
+ *                                                                         *
+ *                      $Author:: Neal_k2                                 $*
+ *                                                                         *
+ *                     $Modtime:: 4/13/00 1:33p                           $*
+ *                                                                         *
+ *                    $Revision:: 2                                       $*
+ *                                                                         *
+ *-------------------------------------------------------------------------*
+ * Functions:                                                              *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 #if _MSC_VER >= 1000
 #pragma once
@@ -45,7 +45,7 @@
 #define __STRTOK_R_H__
 
 #ifndef _UNIX
-char *strtok_r(char *strptr, const char *delimiters, char **lasts);
+char* strtok_r(char* strptr, const char* delimiters, char** lasts);
 #endif
 
 #endif

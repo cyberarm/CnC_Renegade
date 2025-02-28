@@ -1,0 +1,65 @@
+Checks: >-
+  *,
+  -*-avoid-c-arrays,
+  -altera-*,
+  -bugprone-easily-swappable-parameters,
+  -bugprone-exception-escape,
+  -cert-err58-cpp,
+  -cppcoreguidelines-avoid-c-arrays,
+  -cppcoreguidelines-avoid-const-or-ref-data-members,
+  -cppcoreguidelines-avoid-magic-numbers,
+  -cppcoreguidelines-init-variables,
+  -cppcoreguidelines-macro-usage,
+  -cppcoreguidelines-owning-memory,
+  -cppcoreguidelines-prefer-member-initializer,
+  -cppcoreguidelines-pro-bounds-array-to-pointer-decay,
+  -cppcoreguidelines-pro-bounds-constant-array-index,
+  -cppcoreguidelines-pro-bounds-pointer-arithmetic,
+  -cppcoreguidelines-pro-type-reinterpret-cast,
+  -cppcoreguidelines-pro-type-vararg,
+  -cppcoreguidelines-special-member-functions,
+  -fuchsia-*,
+  -google-*,
+  -hicpp-avoid-c-arrays,
+  -hicpp-braces-around-statements,
+  -hicpp-named-parameter,
+  -hicpp-no-array-decay,
+  -hicpp-signed-bitwise,
+  -hicpp-special-member-functions,
+  -hicpp-use-auto,
+  -hicpp-use-equals-default,
+  -hicpp-vararg,
+  -llvm-*,
+  -llvmlibc-*,
+  -misc-const-correctness,
+  -misc-no-recursion,
+  -misc-non-private-member-variables-in-classes,
+  -modernize-avoid-c-arrays,
+  -modernize-make-unique,
+  -modernize-return-braced-init-list,
+  -modernize-use-auto,
+  -modernize-use-default-member-init,
+  -modernize-use-equals-default,
+  -modernize-use-nodiscard,
+  -modernize-use-trailing-return-type,
+  -modernize-use-using,
+  -readability-braces-around-statements,
+  -readability-else-after-return,
+  -readability-identifier-length,
+  -readability-implicit-bool-conversion,
+  -readability-isolate-declaration,
+  -readability-magic-numbers,
+  -readability-make-member-function-const,
+  -readability-named-parameter,
+
+CheckOptions:
+  readability-identifier-naming.ClassCase: CamelCase
+  readability-identifier-naming.FunctionCase: lower_case
+  readability-identifier-naming.GlobalConstantCase: UPPER_CASE
+  readability-identifier-naming.MemberFunctionCase: lower_case
+  readability-identifier-naming.NamespaceCase: CamelCase
+  readability-identifier-naming.ParameterCase: lower_case
+  readability-identifier-naming.PrivateMemberCase: lower_case
+  readability-identifier-naming.PrivateMemberPrefix: m_
+  readability-identifier-naming.StructCase: CamelCase
+  readability-identifier-naming.VariableCase: lower_case

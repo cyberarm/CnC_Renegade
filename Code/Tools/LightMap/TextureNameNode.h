@@ -16,50 +16,54 @@
 **	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-/*********************************************************************************************** 
- ***                            Confidential - Westwood Studios                              *** 
- *********************************************************************************************** 
- *                                                                                             * 
- *                 Project Name : LightMap                                                     * 
- *                                                                                             * 
- *                     $Archive:: /Commando/Code/Tool $* 
- *                                                                                             * 
- *                      $Author:: Ian_l               $* 
- *                                                                                             * 
- *                     $Modtime:: 11/13/99 10:26p     $* 
- *                                                                                             * 
- *                    $Revision:: 2                                                         $* 
- *                                                                                             * 
- *---------------------------------------------------------------------------------------------* 
- * Functions:                                                                                  * 
+/***********************************************************************************************
+ ***                            Confidential - Westwood Studios                              ***
+ ***********************************************************************************************
+ *                                                                                             *
+ *                 Project Name : LightMap                                                     *
+ *                                                                                             *
+ *                     $Archive:: /Commando/Code/Tool $*
+ *                                                                                             *
+ *                      $Author:: Ian_l               $*
+ *                                                                                             *
+ *                     $Modtime:: 11/13/99 10:26p     $*
+ *                                                                                             *
+ *                    $Revision:: 2                                                         $*
+ *                                                                                             *
+ *---------------------------------------------------------------------------------------------*
+ * Functions:                                                                                  *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
 #ifndef _TEXTURENAMENODE_H
 #define _TEXTURENAMENODE_H
 
-
-class TextureNameNode 
+class TextureNameNode
 {
-	public:
-		TextureNameNode() {TextureName = NULL; Next = NULL;}
-		TextureNameNode (const char *texturename)
-		{
-			ASSERT (texturename != NULL);
-			TextureName = new char [strlen (texturename) + 1];
-			ASSERT (TextureName != NULL);
-			strcpy (TextureName, texturename);
-			Next = NULL;
-		}
-		
-		~TextureNameNode()
-		{
-			if (TextureName != NULL) delete [] TextureName;
-		}
+public:
+    TextureNameNode()
+    {
+        TextureName = NULL;
+        Next = NULL;
+    }
+    TextureNameNode(const char* texturename)
+    {
+        ASSERT(texturename != NULL);
+        TextureName = new char[strlen(texturename) + 1];
+        ASSERT(TextureName != NULL);
+        strcpy(TextureName, texturename);
+        Next = NULL;
+    }
 
-		// Public data.
-		char				 *TextureName;
-		TextureNameNode *Next;
+    ~TextureNameNode()
+    {
+        if (TextureName != NULL) {
+            delete[] TextureName;
+        }
+    }
+
+    // Public data.
+    char* TextureName;
+    TextureNameNode* Next;
 };
-
 
 #endif // _TEXTURENAMENODE_H

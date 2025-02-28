@@ -25,16 +25,14 @@
 // NodeInfoPageClass.h : header file
 //
 
-
 #ifndef __AFXEXT_H__
 #include <afxext.h>
 #endif
 
-#include "Resource.H"
 #include "DockableForm.H"
+#include "Resource.H"
 
 class NodeClass;
-
 
 //////////////////////////////////////////////////////////
 //
@@ -43,70 +41,68 @@ class NodeClass;
 //////////////////////////////////////////////////////////
 class NodeInfoPageClass : public DockableFormClass
 {
-	public:
-		NodeInfoPageClass (void);
-		NodeInfoPageClass (NodeClass *node);
-		virtual ~NodeInfoPageClass (void);
-	
-
-// Form Data
 public:
-	//{{AFX_DATA(NodeInfoPageClass)
-	enum { IDD = IDD_OBJECT_INFO };
-		// NOTE: the ClassWizard will add data members here
-	//}}AFX_DATA
+    NodeInfoPageClass(void);
+    NodeInfoPageClass(NodeClass* node);
+    virtual ~NodeInfoPageClass(void);
 
-// Attributes
+    // Form Data
 public:
+    //{{AFX_DATA(NodeInfoPageClass)
+    enum
+    {
+        IDD = IDD_OBJECT_INFO
+    };
+    // NOTE: the ClassWizard will add data members here
+    //}}AFX_DATA
 
-// Operations
+    // Attributes
 public:
+    // Operations
+public:
+    // Overrides
+    // ClassWizard generated virtual function overrides
+    //{{AFX_VIRTUAL(NodeInfoPageClass)
+protected:
+    virtual void DoDataExchange(CDataExchange* pDX); // DDX/DDV support
+    //}}AFX_VIRTUAL
 
-// Overrides
-	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(NodeInfoPageClass)
-	protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
-	//}}AFX_VIRTUAL
-
-// Implementation
-protected:	
+    // Implementation
+protected:
 #ifdef _DEBUG
-	virtual void AssertValid() const;
-	virtual void Dump(CDumpContext& dc) const;
+    virtual void AssertValid() const;
+    virtual void Dump(CDumpContext& dc) const;
 #endif
 
-	// Generated message map functions
-	//{{AFX_MSG(NodeInfoPageClass)	
-	//}}AFX_MSG
-	DECLARE_MESSAGE_MAP()
+    // Generated message map functions
+    //{{AFX_MSG(NodeInfoPageClass)
+    //}}AFX_MSG
+    DECLARE_MESSAGE_MAP()
 
-	public:
+public:
+    ///////////////////////////////////////////////////////
+    //	Public methods
+    ///////////////////////////////////////////////////////
+    void HandleInitDialog(void);
+    bool Apply_Changes(void);
 
-		///////////////////////////////////////////////////////
-		//	Public methods
-		///////////////////////////////////////////////////////
-		void				HandleInitDialog (void);
-		bool				Apply_Changes (void);
+    ///////////////////////////////////////////////////////
+    //	Inline accessors
+    ///////////////////////////////////////////////////////
+    void Set_Node(NodeClass* node) { m_pNode = node; }
+    NodeClass* Get_Node(void) { return m_pNode; }
 
-		///////////////////////////////////////////////////////
-		//	Inline accessors
-		///////////////////////////////////////////////////////
-		void				Set_Node (NodeClass *node) { m_pNode = node; }
-		NodeClass *		Get_Node (void)				{ return m_pNode; }
-
-
-	private:
-
-		///////////////////////////////////////////////////////
-		//	Private member data
-		///////////////////////////////////////////////////////
-		NodeClass *	m_pNode;
+private:
+    ///////////////////////////////////////////////////////
+    //	Private member data
+    ///////////////////////////////////////////////////////
+    NodeClass* m_pNode;
 };
 
 /////////////////////////////////////////////////////////////////////////////
 
 //{{AFX_INSERT_LOCATION}}
-// Microsoft Developer Studio will insert additional declarations immediately before the previous line.
+// Microsoft Developer Studio will insert additional declarations immediately before the previous
+// line.
 
 #endif // !defined(AFX_NodeInfoPageCLASS_H__E2623E76_740A_11D2_9FD0_00104B791122__INCLUDED_)

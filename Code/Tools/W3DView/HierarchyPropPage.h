@@ -30,45 +30,47 @@
 
 class CHierarchyPropPage : public CPropertyPage
 {
-	DECLARE_DYNCREATE(CHierarchyPropPage)
+    DECLARE_DYNCREATE(CHierarchyPropPage)
 
-// Construction
+    // Construction
 public:
-	CHierarchyPropPage (const CString &stringHierarchyName);
-	~CHierarchyPropPage ();
+    CHierarchyPropPage(const CString& stringHierarchyName);
+    ~CHierarchyPropPage();
 
-// Dialog Data
-	//{{AFX_DATA(CHierarchyPropPage)
-	enum { IDD = IDD_PROP_PAGE_HIERARCHY };
-	CListCtrl	m_subObjectListCtrl;
-	//}}AFX_DATA
+    // Dialog Data
+    //{{AFX_DATA(CHierarchyPropPage)
+    enum
+    {
+        IDD = IDD_PROP_PAGE_HIERARCHY
+    };
+    CListCtrl m_subObjectListCtrl;
+    //}}AFX_DATA
 
-
-// Overrides
-	// ClassWizard generate virtual function overrides
-	//{{AFX_VIRTUAL(CHierarchyPropPage)
-	protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
-	//}}AFX_VIRTUAL
-
-// Implementation
+    // Overrides
+    // ClassWizard generate virtual function overrides
+    //{{AFX_VIRTUAL(CHierarchyPropPage)
 protected:
-	// Generated message map functions
-	//{{AFX_MSG(CHierarchyPropPage)
-	virtual BOOL OnInitDialog();
-	afx_msg void OnDblclkSubObjectList(NMHDR* pNMHDR, LRESULT* pResult);
-	//}}AFX_MSG
-	DECLARE_MESSAGE_MAP()
+    virtual void DoDataExchange(CDataExchange* pDX); // DDX/DDV support
+    //}}AFX_VIRTUAL
 
-    private:
-        // Private constructor that shouldn't be called
-        CHierarchyPropPage () {};
+    // Implementation
+protected:
+    // Generated message map functions
+    //{{AFX_MSG(CHierarchyPropPage)
+    virtual BOOL OnInitDialog();
+    afx_msg void OnDblclkSubObjectList(NMHDR* pNMHDR, LRESULT* pResult);
+    //}}AFX_MSG
+    DECLARE_MESSAGE_MAP()
 
-        CString m_stringHierarchyName;
+private:
+    // Private constructor that shouldn't be called
+    CHierarchyPropPage() { };
 
+    CString m_stringHierarchyName;
 };
 
 //{{AFX_INSERT_LOCATION}}
-// Microsoft Developer Studio will insert additional declarations immediately before the previous line.
+// Microsoft Developer Studio will insert additional declarations immediately before the previous
+// line.
 
 #endif // !defined(AFX_HIERARCHYPROPPAGE_H__FB40246E_5DFB_11D2_9FC7_00104B791122__INCLUDED_)

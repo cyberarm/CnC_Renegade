@@ -19,9 +19,9 @@
 // RenderDeviceDialog.cpp : implementation file
 //
 
-#include "stdafx.h"
-#include "phystest.h"
 #include "RenderDeviceDialog.h"
+#include "phystest.h"
+#include "stdafx.h"
 #include "ww3d.h"
 
 #ifdef _DEBUG
@@ -33,66 +33,61 @@ static char THIS_FILE[] = __FILE__;
 /////////////////////////////////////////////////////////////////////////////
 // CRenderDeviceDialog dialog
 
-
 CRenderDeviceDialog::CRenderDeviceDialog(CWnd* pParent /*=NULL*/)
-	: CDialog(CRenderDeviceDialog::IDD, pParent)
+    : CDialog(CRenderDeviceDialog::IDD, pParent)
 {
-	//{{AFX_DATA_INIT(CRenderDeviceDialog)
-		// NOTE: the ClassWizard will add member initialization here
-	//}}AFX_DATA_INIT
+    //{{AFX_DATA_INIT(CRenderDeviceDialog)
+    // NOTE: the ClassWizard will add member initialization here
+    //}}AFX_DATA_INIT
 }
-
 
 void CRenderDeviceDialog::DoDataExchange(CDataExchange* pDX)
 {
-	CDialog::DoDataExchange(pDX);
-	//{{AFX_DATA_MAP(CRenderDeviceDialog)
-	DDX_Control(pDX, IDC_RENDER_DEVICE_COMBO, m_RenderDeviceCombo);
-	//}}AFX_DATA_MAP
+    CDialog::DoDataExchange(pDX);
+    //{{AFX_DATA_MAP(CRenderDeviceDialog)
+    DDX_Control(pDX, IDC_RENDER_DEVICE_COMBO, m_RenderDeviceCombo);
+    //}}AFX_DATA_MAP
 }
 
-
 BEGIN_MESSAGE_MAP(CRenderDeviceDialog, CDialog)
-	//{{AFX_MSG_MAP(CRenderDeviceDialog)
-	//}}AFX_MSG_MAP
+//{{AFX_MSG_MAP(CRenderDeviceDialog)
+//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
 // CRenderDeviceDialog message handlers
 
-BOOL CRenderDeviceDialog::OnInitDialog() 
+BOOL CRenderDeviceDialog::OnInitDialog()
 {
-	CDialog::OnInitDialog();
+    CDialog::OnInitDialog();
 
-	// plug all of the render device names into the combo box
-	for (int i=0; i<WW3D::Get_Render_Device_Count(); i++) {
-		const char * name = WW3D::Get_Render_Device_Name(i);
-		m_RenderDeviceCombo.AddString(name);
-	}
-	m_RenderDeviceCombo.SetCurSel(WW3D::Get_Render_Device());
+    // plug all of the render device names into the combo box
+    for (int i = 0; i < WW3D::Get_Render_Device_Count(); i++) {
+        const char* name = WW3D::Get_Render_Device_Name(i);
+        m_RenderDeviceCombo.AddString(name);
+    }
+    m_RenderDeviceCombo.SetCurSel(WW3D::Get_Render_Device());
 
-	return TRUE;
+    return TRUE;
 }
 
-void CRenderDeviceDialog::OnOK() 
+void CRenderDeviceDialog::OnOK()
 {
-	// get the index of the currently selected render device and set ww3d to use it
-	int device = m_RenderDeviceCombo.GetCurSel();
-	if (device != CB_ERR) {
+    // get the index of the currently selected render device and set ww3d to use it
+    int device = m_RenderDeviceCombo.GetCurSel();
+    if (device != CB_ERR) {
 
-		// keep trying to set a device until one works
-		WW3DErrorType err = WW3D_ERROR_GENERIC;
-		int count = 0;
-		while ((err != WW3D_ERROR_OK) && (count < WW3D::Get_Render_Device_Count())) {
-			err = WW3D::Set_Render_Device(device);
-			count++;
-			if (err != WW3D_ERROR_OK) {
-				device = (device + 1) % WW3D::Get_Render_Device_Count();
-			}
-		}
-		assert(err == WW3D_ERROR_OK);
-	
-	}
-	CDialog::OnOK();
+        // keep trying to set a device until one works
+        WW3DErrorType err = WW3D_ERROR_GENERIC;
+        int count = 0;
+        while ((err != WW3D_ERROR_OK) && (count < WW3D::Get_Render_Device_Count())) {
+            err = WW3D::Set_Render_Device(device);
+            count++;
+            if (err != WW3D_ERROR_OK) {
+                device = (device + 1) % WW3D::Get_Render_Device_Count();
+            }
+        }
+        assert(err == WW3D_ERROR_OK);
+    }
+    CDialog::OnOK();
 }
-

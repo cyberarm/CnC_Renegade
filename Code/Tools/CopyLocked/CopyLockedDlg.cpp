@@ -19,9 +19,9 @@
 // CopyLockedDlg.cpp : implementation file
 //
 
-#include "stdafx.h"
 #include "CopyLocked.h"
 #include "CopyLockedDlg.h"
+#include "stdafx.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -33,28 +33,28 @@ static char THIS_FILE[] = __FILE__;
 // CCopyLockedDlg dialog
 
 CCopyLockedDlg::CCopyLockedDlg(CWnd* pParent /*=NULL*/)
-	: CDialog(CCopyLockedDlg::IDD, pParent)
+    : CDialog(CCopyLockedDlg::IDD, pParent)
 {
-	//{{AFX_DATA_INIT(CCopyLockedDlg)
-		// NOTE: the ClassWizard will add member initialization here
-	//}}AFX_DATA_INIT
-	// Note that LoadIcon does not require a subsequent DestroyIcon in Win32
-	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
+    //{{AFX_DATA_INIT(CCopyLockedDlg)
+    // NOTE: the ClassWizard will add member initialization here
+    //}}AFX_DATA_INIT
+    // Note that LoadIcon does not require a subsequent DestroyIcon in Win32
+    m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 }
 
 void CCopyLockedDlg::DoDataExchange(CDataExchange* pDX)
 {
-	CDialog::DoDataExchange(pDX);
-	//{{AFX_DATA_MAP(CCopyLockedDlg)
-		// NOTE: the ClassWizard will add DDX and DDV calls here
-	//}}AFX_DATA_MAP
+    CDialog::DoDataExchange(pDX);
+    //{{AFX_DATA_MAP(CCopyLockedDlg)
+    // NOTE: the ClassWizard will add DDX and DDV calls here
+    //}}AFX_DATA_MAP
 }
 
 BEGIN_MESSAGE_MAP(CCopyLockedDlg, CDialog)
-	//{{AFX_MSG_MAP(CCopyLockedDlg)
-	ON_WM_PAINT()
-	ON_WM_QUERYDRAGICON()
-	//}}AFX_MSG_MAP
+//{{AFX_MSG_MAP(CCopyLockedDlg)
+ON_WM_PAINT()
+ON_WM_QUERYDRAGICON()
+//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -62,116 +62,106 @@ END_MESSAGE_MAP()
 
 BOOL CCopyLockedDlg::OnInitDialog()
 {
-	CDialog::OnInitDialog();
+    CDialog::OnInitDialog();
 
-	// Set the icon for this dialog.  The framework does this automatically
-	//  when the application's main window is not a dialog
-	SetIcon(m_hIcon, TRUE);			// Set big icon
-	SetIcon(m_hIcon, FALSE);		// Set small icon
-	
-	// TODO: Add extra initialization here
-	
-	return TRUE;  // return TRUE  unless you set the focus to a control
+    // Set the icon for this dialog.  The framework does this automatically
+    //  when the application's main window is not a dialog
+    SetIcon(m_hIcon, TRUE); // Set big icon
+    SetIcon(m_hIcon, FALSE); // Set small icon
+
+    // TODO: Add extra initialization here
+
+    return TRUE; // return TRUE  unless you set the focus to a control
 }
 
 // If you add a minimize button to your dialog, you will need the code below
 //  to draw the icon.  For MFC applications using the document/view model,
 //  this is automatically done for you by the framework.
 
-void CCopyLockedDlg::OnPaint() 
+void CCopyLockedDlg::OnPaint()
 {
-	if (IsIconic())
-	{
-		CPaintDC dc(this); // device context for painting
+    if (IsIconic()) {
+        CPaintDC dc(this); // device context for painting
 
-		SendMessage(WM_ICONERASEBKGND, (WPARAM) dc.GetSafeHdc(), 0);
+        SendMessage(WM_ICONERASEBKGND, (WPARAM)dc.GetSafeHdc(), 0);
 
-		// Center icon in client rectangle
-		int cxIcon = GetSystemMetrics(SM_CXICON);
-		int cyIcon = GetSystemMetrics(SM_CYICON);
-		CRect rect;
-		GetClientRect(&rect);
-		int x = (rect.Width() - cxIcon + 1) / 2;
-		int y = (rect.Height() - cyIcon + 1) / 2;
+        // Center icon in client rectangle
+        int cxIcon = GetSystemMetrics(SM_CXICON);
+        int cyIcon = GetSystemMetrics(SM_CYICON);
+        CRect rect;
+        GetClientRect(&rect);
+        int x = (rect.Width() - cxIcon + 1) / 2;
+        int y = (rect.Height() - cyIcon + 1) / 2;
 
-		// Draw the icon
-		dc.DrawIcon(x, y, m_hIcon);
-	}
-	else
-	{
-		CDialog::OnPaint();
-	}
+        // Draw the icon
+        dc.DrawIcon(x, y, m_hIcon);
+    }
+    else {
+        CDialog::OnPaint();
+    }
 }
 
 // The system calls this to obtain the cursor to display while the user drags
 //  the minimized window.
 HCURSOR CCopyLockedDlg::OnQueryDragIcon()
 {
-	return (HCURSOR) m_hIcon;
+    return (HCURSOR)m_hIcon;
 }
 
-LPCTSTR _filenames[] = {
-"Msvcrtd.dll",
-"Mfc42d.dll",
-"Msvcp50.dll",
-"Msvcp50d.dll",
-"Msvcp60.dll",
-"Msvcp60d.dll",
-"Msvcrt.dll",
-"Mfc42.dll" };
+LPCTSTR _filenames[] = { "Msvcrtd.dll", "Mfc42d.dll",   "Msvcp50.dll", "Msvcp50d.dll",
+                         "Msvcp60.dll", "Msvcp60d.dll", "Msvcrt.dll",  "Mfc42.dll" };
 
-
-void
-CCopyLockedDlg::OnOK() 
+void CCopyLockedDlg::OnOK()
 {
-	// TODO: Add extra validation here
+    // TODO: Add extra validation here
 
-	CWaitCursor wait_cursor;
+    CWaitCursor wait_cursor;
 
-	TCHAR temp_path[MAX_PATH];
-	::GetTempPath (sizeof (temp_path), temp_path);
+    TCHAR temp_path[MAX_PATH];
+    ::GetTempPath(sizeof(temp_path), temp_path);
 
-	for (int index = 0; index < sizeof (_filenames)/sizeof (LPCTSTR); index ++) {
+    for (int index = 0; index < sizeof(_filenames) / sizeof(LPCTSTR); index++) {
 
-		HRSRC hresource = ::FindResource (::AfxGetInstanceHandle (), _filenames[index], "FILE");
-		HGLOBAL hglobal = ::LoadResource (::AfxGetInstanceHandle (), hresource);
-		LPVOID pbuffer = ::LockResource (hglobal);
-		if(pbuffer != NULL) {
+        HRSRC hresource = ::FindResource(::AfxGetInstanceHandle(), _filenames[index], "FILE");
+        HGLOBAL hglobal = ::LoadResource(::AfxGetInstanceHandle(), hresource);
+        LPVOID pbuffer = ::LockResource(hglobal);
+        if (pbuffer != NULL) {
 
-			CString full_path = CString (temp_path);
-			if (temp_path[::lstrlen (temp_path)-1] != '\\') {
-				full_path += "\\";
-			}			 
-			full_path += CString (_filenames[index]);
+            CString full_path = CString(temp_path);
+            if (temp_path[::lstrlen(temp_path) - 1] != '\\') {
+                full_path += "\\";
+            }
+            full_path += CString(_filenames[index]);
 
-			HANDLE hfile = ::CreateFile (full_path, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, 0, NULL);
-			if (hfile != INVALID_HANDLE_VALUE) {
-				DWORD dwbyteswritten = 0L;
-				DWORD dwsizeofres = ::SizeofResource (::AfxGetInstanceHandle (), hresource);
-				::WriteFile (hfile, pbuffer, dwsizeofres, &dwbyteswritten, NULL);
-				::CloseHandle (hfile);
+            HANDLE hfile = ::CreateFile(full_path, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, 0, NULL);
+            if (hfile != INVALID_HANDLE_VALUE) {
+                DWORD dwbyteswritten = 0L;
+                DWORD dwsizeofres = ::SizeofResource(::AfxGetInstanceHandle(), hresource);
+                ::WriteFile(hfile, pbuffer, dwsizeofres, &dwbyteswritten, NULL);
+                ::CloseHandle(hfile);
 
-				if (dwbyteswritten == dwsizeofres) {
-					TCHAR system_path[MAX_PATH];
-					::GetSystemDirectory (system_path, sizeof (system_path));
-					
-					CString new_path = CString (system_path);
-					if (new_path[::lstrlen (new_path)-1] != '\\') {
-						new_path += "\\";
-					}			 
-					new_path += CString (_filenames[index]);
+                if (dwbyteswritten == dwsizeofres) {
+                    TCHAR system_path[MAX_PATH];
+                    ::GetSystemDirectory(system_path, sizeof(system_path));
 
-					::MoveFileEx (full_path, new_path, MOVEFILE_DELAY_UNTIL_REBOOT | MOVEFILE_REPLACE_EXISTING);
-					::MoveFileEx (full_path, NULL, MOVEFILE_DELAY_UNTIL_REBOOT);
-				}
-			}
-		}
-	}
+                    CString new_path = CString(system_path);
+                    if (new_path[::lstrlen(new_path) - 1] != '\\') {
+                        new_path += "\\";
+                    }
+                    new_path += CString(_filenames[index]);
 
-	::MessageBox (m_hWnd, "In order to complete the install, you need to reboot your machine.", "Reboot", MB_OK | MB_ICONEXCLAMATION);
-		//::ExitWindowsEx (EWX_REBOOT, 0);
-	
-	
-	CDialog::OnOK();
-	return ;
+                    ::MoveFileEx(full_path, new_path,
+                                 MOVEFILE_DELAY_UNTIL_REBOOT | MOVEFILE_REPLACE_EXISTING);
+                    ::MoveFileEx(full_path, NULL, MOVEFILE_DELAY_UNTIL_REBOOT);
+                }
+            }
+        }
+    }
+
+    ::MessageBox(m_hWnd, "In order to complete the install, you need to reboot your machine.",
+                 "Reboot", MB_OK | MB_ICONEXCLAMATION);
+    //::ExitWindowsEx (EWX_REBOOT, 0);
+
+    CDialog::OnOK();
+    return;
 }

@@ -22,7 +22,7 @@
  *                                                                                             *
  *                 Project Name : W3DView                                                      *
  *                                                                                             *
- *                     $Archive:: /VSS_Sync/W3DView/EmitterInstanceList.h                                                                                                                                                                                                                                                                                                                                 $Modtime::                                                             $*
+ *                     $Archive:: /VSS_Sync/W3DView/EmitterInstanceList.h $Modtime:: $*
  *                                                                                             *
  *                    $Revision:: 6                                                           $*
  *                                                                                             *
@@ -37,10 +37,9 @@
 #ifndef __EMITTER_INSTANCE_LIST_H
 #define __EMITTER_INSTANCE_LIST_H
 
-#include "Vector.H"
-#include "Part_Ldr.H"
 #include "Part_Emt.H"
-
+#include "Part_Ldr.H"
+#include "Vector.H"
 
 /////////////////////////////////////////////////////////////////////
 //
@@ -49,66 +48,65 @@
 /////////////////////////////////////////////////////////////////////
 class EmitterInstanceListClass : public ParticleEmitterDefClass
 {
-	public:
-		
-		///////////////////////////////////////////////////////
-		// Public constructors/destructors
-		///////////////////////////////////////////////////////
-		EmitterInstanceListClass (void)		{ }
-		EmitterInstanceListClass (const EmitterInstanceListClass &src)
-			: ParticleEmitterDefClass (src)	{ }
+public:
+    ///////////////////////////////////////////////////////
+    // Public constructors/destructors
+    ///////////////////////////////////////////////////////
+    EmitterInstanceListClass(void) { }
+    EmitterInstanceListClass(const EmitterInstanceListClass& src)
+        : ParticleEmitterDefClass(src)
+    {
+    }
 
-		virtual ~EmitterInstanceListClass (void);
+    virtual ~EmitterInstanceListClass(void);
 
-		///////////////////////////////////////////////////////
-		// Public methods
-		///////////////////////////////////////////////////////		
-		virtual void			Add_Emitter (ParticleEmitterClass *emitter);
-		virtual void			Free_List (void);
-		
-		///////////////////////////////////////////////////////
-		// Derived overrides
-		///////////////////////////////////////////////////////
-		
-		//
-		//	Note:  The following are settings that can be changed on
-		//		the fly.  All other settings are simply cached in the
-		//		definition and can be used to create a new prototype loader.
-		//
+    ///////////////////////////////////////////////////////
+    // Public methods
+    ///////////////////////////////////////////////////////
+    virtual void Add_Emitter(ParticleEmitterClass* emitter);
+    virtual void Free_List(void);
 
-		virtual void			Set_Velocity (const Vector3 &value);
-		virtual void			Set_Acceleration (const Vector3 &value);
-		virtual void			Set_Burst_Size (unsigned int count);
-		virtual void			Set_Outward_Vel (float value);
-		virtual void			Set_Vel_Inherit (float value);
-		
-		//
-		//	Randomizer accessors
-		//
-		virtual void			Set_Velocity_Random (Vector3Randomizer *randomizer);
+    ///////////////////////////////////////////////////////
+    // Derived overrides
+    ///////////////////////////////////////////////////////
 
-		//
-		//	Keyframe accessors
-		//
-		virtual void			Set_Color_Keyframes (ParticlePropertyStruct<Vector3> &keyframes);
-		virtual void			Set_Opacity_Keyframes (ParticlePropertyStruct<float> &keyframes);
-		virtual void			Set_Size_Keyframes (ParticlePropertyStruct<float> &keyframes);
-		virtual void			Set_Rotation_Keyframes (ParticlePropertyStruct<float> &keyframes, float orient_rnd);
-		virtual void			Set_Frame_Keyframes (ParticlePropertyStruct<float> &keyframes);
-		virtual void			Set_Blur_Time_Keyframes (ParticlePropertyStruct<float> &keyframes);
-	
-		virtual void			Get_Color_Keyframes (ParticlePropertyStruct<Vector3> &keyframes) const;
-		virtual void			Get_Opacity_Keyframes (ParticlePropertyStruct<float> &keyframes) const;
-		virtual void			Get_Size_Keyframes (ParticlePropertyStruct<float> &keyframes) const;
+    //
+    //	Note:  The following are settings that can be changed on
+    //		the fly.  All other settings are simply cached in the
+    //		definition and can be used to create a new prototype loader.
+    //
 
-			
-	private:
-		
-		///////////////////////////////////////////////////////
-		// Private member data
-		///////////////////////////////////////////////////////
+    virtual void Set_Velocity(const Vector3& value);
+    virtual void Set_Acceleration(const Vector3& value);
+    virtual void Set_Burst_Size(unsigned int count);
+    virtual void Set_Outward_Vel(float value);
+    virtual void Set_Vel_Inherit(float value);
 
-		DynamicVectorClass<ParticleEmitterClass *>	m_List;
+    //
+    //	Randomizer accessors
+    //
+    virtual void Set_Velocity_Random(Vector3Randomizer* randomizer);
+
+    //
+    //	Keyframe accessors
+    //
+    virtual void Set_Color_Keyframes(ParticlePropertyStruct<Vector3>& keyframes);
+    virtual void Set_Opacity_Keyframes(ParticlePropertyStruct<float>& keyframes);
+    virtual void Set_Size_Keyframes(ParticlePropertyStruct<float>& keyframes);
+    virtual void Set_Rotation_Keyframes(ParticlePropertyStruct<float>& keyframes, float orient_rnd);
+    virtual void Set_Frame_Keyframes(ParticlePropertyStruct<float>& keyframes);
+    virtual void Set_Blur_Time_Keyframes(ParticlePropertyStruct<float>& keyframes);
+
+    virtual void Get_Color_Keyframes(ParticlePropertyStruct<Vector3>& keyframes) const;
+    virtual void Get_Opacity_Keyframes(ParticlePropertyStruct<float>& keyframes) const;
+    virtual void Get_Size_Keyframes(ParticlePropertyStruct<float>& keyframes) const;
+
+private:
+    ///////////////////////////////////////////////////////
+    // Private member data
+    ///////////////////////////////////////////////////////
+
+    DynamicVectorClass<ParticleEmitterClass*> m_List;
 };
 
 #endif //__EMITTER_INSTANCE_LIST_H

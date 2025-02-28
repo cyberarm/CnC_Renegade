@@ -27,11 +27,9 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-
 #include "resource.h"
 #include "vector.h"
 #include "wwstring.h"
-
 
 //////////////////////////////////////////////////////////////////////////////////
 //
@@ -41,67 +39,65 @@
 class CMixViewerView : public CListView
 {
 protected: // create from serialization only
-	CMixViewerView();
-	DECLARE_DYNCREATE(CMixViewerView)
+    CMixViewerView();
+    DECLARE_DYNCREATE(CMixViewerView)
 
-// Attributes
+    // Attributes
 public:
-	CMixViewerDoc* GetDocument();
+    CMixViewerDoc* GetDocument();
 
-// Operations
+    // Operations
 public:
-
-// Overrides
-	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CMixViewerView)
-	public:
-	virtual void OnDraw(CDC* pDC);  // overridden to draw this view
-	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
-	protected:
-	virtual void OnInitialUpdate(); // called first time after construct
-	//}}AFX_VIRTUAL
-
-// Implementation
+    // Overrides
+    // ClassWizard generated virtual function overrides
+    //{{AFX_VIRTUAL(CMixViewerView)
 public:
-	virtual ~CMixViewerView();
+    virtual void OnDraw(CDC* pDC); // overridden to draw this view
+    virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
+
+protected:
+    virtual void OnInitialUpdate(); // called first time after construct
+    //}}AFX_VIRTUAL
+
+    // Implementation
+public:
+    virtual ~CMixViewerView();
 #ifdef _DEBUG
-	virtual void AssertValid() const;
-	virtual void Dump(CDumpContext& dc) const;
+    virtual void AssertValid() const;
+    virtual void Dump(CDumpContext& dc) const;
 #endif
 
 protected:
-
-// Generated message map functions
+    // Generated message map functions
 protected:
-	//{{AFX_MSG(CMixViewerView)
-	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
-	afx_msg void OnDeleteitem(NMHDR* pNMHDR, LRESULT* pResult);
-	afx_msg void OnWindowPosChanging(WINDOWPOS FAR* lpwndpos);
-	//}}AFX_MSG
-	DECLARE_MESSAGE_MAP()
+    //{{AFX_MSG(CMixViewerView)
+    afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
+    afx_msg void OnDeleteitem(NMHDR* pNMHDR, LRESULT* pResult);
+    afx_msg void OnWindowPosChanging(WINDOWPOS FAR* lpwndpos);
+    //}}AFX_MSG
+    DECLARE_MESSAGE_MAP()
 
 public:
-
-	///////////////////////////////////////////////////////////////////////
-	//	Public methods
-	///////////////////////////////////////////////////////////////////////
-	void				Reload (const char *filename);
-	void				Reset (void);
+    ///////////////////////////////////////////////////////////////////////
+    //	Public methods
+    ///////////////////////////////////////////////////////////////////////
+    void Reload(const char* filename);
+    void Reset(void);
 
 private:
+    ///////////////////////////////////////////////////////////////////////
+    //	Private member data
+    ///////////////////////////////////////////////////////////////////////
+    DynamicVectorClass<StringClass> FilenameList;
 
-	///////////////////////////////////////////////////////////////////////
-	//	Private member data
-	///////////////////////////////////////////////////////////////////////
-	DynamicVectorClass<StringClass>	FilenameList;
-
-	StringClass								CurrentFilename;
+    StringClass CurrentFilename;
 };
 
-
-#ifndef _DEBUG  // debug version in MixViewerView.cpp
+#ifndef _DEBUG // debug version in MixViewerView.cpp
 inline CMixViewerDoc* CMixViewerView::GetDocument()
-   { return (CMixViewerDoc*)m_pDocument; }
+{
+    return (CMixViewerDoc*)m_pDocument;
+}
 #endif
 
 /////////////////////////////////////////////////////////////////////////////

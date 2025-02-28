@@ -18,121 +18,119 @@
 
 #include "streamer.h"
 #ifdef _WIN32
-  #include <windows.h>
+#include <windows.h>
 #endif
 
-
-Streamer::Streamer() : streambuf()
+Streamer::Streamer()
+    : streambuf()
 {
-  int state=unbuffered();
-  unbuffered(0);  // 0 = buffered, 1 = unbuffered
+    int state = unbuffered();
+    unbuffered(0); // 0 = buffered, 1 = unbuffered
 }
- 
+
 Streamer::~Streamer()
 {
-  sync();
-  delete[](base());
+    sync();
+    delete[] (base());
 }
 
-int Streamer::setOutputDevice(OutputDevice *device)
+int Streamer::setOutputDevice(OutputDevice* device)
 {
-  Output_Device=device;
-  return(0);
+    Output_Device = device;
+    return (0);
 }
-
 
 // put n chars from string into buffer
-int Streamer::xsputn(const char* buf, int size) //implementation of sputn
+int Streamer::xsputn(const char* buf, int size) // implementation of sputn
 {
-  if (size<=0)  // Nothing to do
-    return(0);
-
-  const unsigned char *ptr=(const unsigned char *)buf;
-  for (int i=0; i<size; i++, ptr++)
-  {
-    if(*ptr=='\n')
-    {
-      if (overflow(*ptr)==EOF)
-        return(i);
+    if (size <= 0) { // Nothing to do
+        return (0);
     }
-    else if (sputc(*ptr)==EOF)
-      return(i);
-  }
-  return(size);
+
+    const unsigned char* ptr = (const unsigned char*)buf;
+    for (int i = 0; i < size; i++, ptr++) {
+        if (*ptr == '\n') {
+            if (overflow(*ptr) == EOF) {
+                return (i);
+            }
+        }
+        else if (sputc(*ptr) == EOF) {
+            return (i);
+        }
+    }
+    return (size);
 }
 
 // Flush the buffer and make more room if needed
 int Streamer::overflow(int c)
 {
-  if (c==EOF)
-    return(sync());
-  if ((pbase()==0) && (doallocate()==0))
-    return(EOF);
-  if((pptr() >= epptr()) && (sync()==EOF))
-    return(EOF);
-  else {
-    sputc(c);
-    if ((unbuffered() && c=='\n' || pptr() >= epptr())
-        && sync()==EOF) {
-      return(EOF);
+    if (c == EOF) {
+        return (sync());
     }
-    return(c);
-  }
+    if ((pbase() == 0) && (doallocate() == 0)) {
+        return (EOF);
+    }
+    if ((pptr() >= epptr()) && (sync() == EOF)) {
+        return (EOF);
+    }
+    else {
+        sputc(c);
+        if ((unbuffered() && c == '\n' || pptr() >= epptr()) && sync() == EOF) {
+            return (EOF);
+        }
+        return (c);
+    }
 }
 
 // This is a write only stream, this should never happen
 int Streamer::underflow(void)
 {
-  return(EOF);
+    return (EOF);
 }
 
 int Streamer::doallocate()
 {
-  if (base()==NULL)
-  {
-    char *buf=new char[(2*STREAMER_BUFSIZ)];   // deleted by destructor
-    memset(buf,0,2*STREAMER_BUFSIZ);
+    if (base() == NULL) {
+        char* buf = new char[(2 * STREAMER_BUFSIZ)]; // deleted by destructor
+        memset(buf, 0, 2 * STREAMER_BUFSIZ);
 
-    // Buffer
-    setb(
-       buf,         // base pointer
-       buf+STREAMER_BUFSIZ,  // ebuf pointer (end of buffer);
-       0);          // 0 = manual deletion of buff 
+        // Buffer
+        setb(buf, // base pointer
+             buf + STREAMER_BUFSIZ, // ebuf pointer (end of buffer);
+             0); // 0 = manual deletion of buff
 
-    // Get area
-    setg(
-        buf,   // eback 
-        buf,   // gptr
-        buf);  // egptr
+        // Get area
+        setg(buf, // eback
+             buf, // gptr
+             buf); // egptr
 
-    buf+=STREAMER_BUFSIZ;
-    // Put area
-    setp(buf,buf+STREAMER_BUFSIZ);
-    return(1);
-  }
-  else
-    return(0);
+        buf += STREAMER_BUFSIZ;
+        // Put area
+        setp(buf, buf + STREAMER_BUFSIZ);
+        return (1);
+    }
+    else {
+        return (0);
+    }
 }
-
 
 int Streamer::sync()
 {
-  if (pptr()<=pbase()) {
-    return(0);
-  }
+    if (pptr() <= pbase()) {
+        return (0);
+    }
 
-  int wlen=pptr()-pbase();
+    int wlen = pptr() - pbase();
 
-  if (Output_Device)
-  {
-    Output_Device->print(pbase(),wlen);
-  }
+    if (Output_Device) {
+        Output_Device->print(pbase(), wlen);
+    }
 
-  if (unbuffered()) {
-    setp(pbase(),pbase());
-  }
-  else {
-    setp(pbase(),pbase()+STREAMER_BUFSIZ);
-  }
-  return(0);
+    if (unbuffered()) {
+        setp(pbase(), pbase());
+    }
+    else {
+        setp(pbase(), pbase() + STREAMER_BUFSIZ);
+    }
+    return (0);
 }

@@ -22,7 +22,7 @@
  *                                                                                             *
  *                 Project Name : commando                                                    *
  *                                                                                             *
- *                     $Archive:: /Commando/Code/commando/dlgmpwollocalenag.h                              $*
+ *                     $Archive:: /Commando/Code/commando/dlgmpwollocalenag.h $*
  *                                                                                             *
  *                       Author:: Patrick Smith                                                *
  *                                                                                             *
@@ -41,9 +41,7 @@
 #ifndef __DLGMPWOLLOCALENAG_H
 #define __DLGMPWOLLOCALENAG_H
 
-
 #include "popupdialog.h"
-
 
 //////////////////////////////////////////////////////////////////////
 //
@@ -53,29 +51,26 @@
 class MPWolLocaleNagDialogClass : public PopupDialogClass
 {
 public:
+    ///////////////////////////////////////////////////////////////////
+    //	Public constructors/destructors
+    ///////////////////////////////////////////////////////////////////
+    MPWolLocaleNagDialogClass(void);
+    ~MPWolLocaleNagDialogClass(void);
 
-	///////////////////////////////////////////////////////////////////
-	//	Public constructors/destructors
-	///////////////////////////////////////////////////////////////////
-	MPWolLocaleNagDialogClass  (void);
-	~MPWolLocaleNagDialogClass (void);
+    //
+    //	Inherited
+    //
+    void On_Init_Dialog(void);
+    void On_Command(int ctrl_id, int mesage_id, DWORD param);
 
-	//
-	//	Inherited
-	//
-	void			On_Init_Dialog (void);
-	void			On_Command (int ctrl_id, int mesage_id, DWORD param);
-	
 private:
-	
-	///////////////////////////////////////////////////////////////////
-	//	Private methods
-	///////////////////////////////////////////////////////////////////
-	
-	///////////////////////////////////////////////////////////////////
-	//	Private member data
-	///////////////////////////////////////////////////////////////////
-};
+    ///////////////////////////////////////////////////////////////////
+    //	Private methods
+    ///////////////////////////////////////////////////////////////////
 
+    ///////////////////////////////////////////////////////////////////
+    //	Private member data
+    ///////////////////////////////////////////////////////////////////
+};
 
 #endif //__DLGMPWOLLOCALENAG_H

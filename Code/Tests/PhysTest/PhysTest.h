@@ -27,10 +27,10 @@
 #endif // _MSC_VER > 1000
 
 #ifndef __AFXWIN_H__
-	#error include 'stdafx.h' before including this file for PCH
+#error include 'stdafx.h' before including this file for PCH
 #endif
 
-#include "resource.h"       // main symbols
+#include "resource.h" // main symbols
 
 /////////////////////////////////////////////////////////////////////////////
 // CPhysTestApp:
@@ -40,23 +40,22 @@
 class CPhysTestApp : public CWinApp
 {
 public:
-	CPhysTestApp();
+    CPhysTestApp();
 
-// Overrides
-	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CPhysTestApp)
-	public:
-	virtual BOOL InitInstance();
-	virtual int ExitInstance();
-	//}}AFX_VIRTUAL
+    // Overrides
+    // ClassWizard generated virtual function overrides
+    //{{AFX_VIRTUAL(CPhysTestApp)
+public:
+    virtual BOOL InitInstance();
+    virtual int ExitInstance();
+    //}}AFX_VIRTUAL
 
-// Implementation
-	//{{AFX_MSG(CPhysTestApp)
-	afx_msg void OnAppAbout();
-	//}}AFX_MSG
-	DECLARE_MESSAGE_MAP()
+    // Implementation
+    //{{AFX_MSG(CPhysTestApp)
+    afx_msg void OnAppAbout();
+    //}}AFX_MSG
+    DECLARE_MESSAGE_MAP()
 };
-
 
 /////////////////////////////////////////////////////////////////////////////
 

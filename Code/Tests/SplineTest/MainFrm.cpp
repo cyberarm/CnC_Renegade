@@ -19,14 +19,12 @@
 // MainFrm.cpp : implementation of the CMainFrame class
 //
 
-#include "stdafx.h"
-#include "SplineTest.h"
-
 #include "MainFrm.h"
+#include "SplineTest.h"
 #include "SplineTestDoc.h"
 #include "SplineTestView.h"
 #include "curve.h"
-
+#include "stdafx.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -40,32 +38,31 @@ static char THIS_FILE[] = __FILE__;
 IMPLEMENT_DYNCREATE(CMainFrame, CFrameWnd)
 
 BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
-	//{{AFX_MSG_MAP(CMainFrame)
-	ON_WM_CREATE()
-	ON_COMMAND(ID_CURVE_CARDINAL, OnCurveCardinal)
-	ON_UPDATE_COMMAND_UI(ID_CURVE_CARDINAL, OnUpdateCurveCardinal)
-	ON_COMMAND(ID_CURVE_CATMULL_ROM, OnCurveCatmullRom)
-	ON_UPDATE_COMMAND_UI(ID_CURVE_CATMULL_ROM, OnUpdateCurveCatmullRom)
-	ON_COMMAND(ID_CURVE_LINEAR, OnCurveLinear)
-	ON_UPDATE_COMMAND_UI(ID_CURVE_LINEAR, OnUpdateCurveLinear)
-	ON_COMMAND(ID_CURVE_TCB, OnCurveTcb)
-	ON_UPDATE_COMMAND_UI(ID_CURVE_TCB, OnUpdateCurveTcb)
-	ON_COMMAND(ID_CURVE_RESET, OnCurveReset)
-	ON_COMMAND(ID_CURVE_DRAW_TANGENTS, OnCurveDrawTangents)
-	ON_UPDATE_COMMAND_UI(ID_CURVE_DRAW_TANGENTS, OnUpdateCurveDrawTangents)
-	ON_COMMAND(ID_CURVE_LOOP, OnCurveLoop)
-	ON_UPDATE_COMMAND_UI(ID_CURVE_LOOP, OnUpdateCurveLoop)
-	ON_COMMAND(IDM_VEHICLE_CURVE, OnVehicleCurve)
-	ON_UPDATE_COMMAND_UI(IDM_VEHICLE_CURVE, OnUpdateVehicleCurve)
-	//}}AFX_MSG_MAP
+//{{AFX_MSG_MAP(CMainFrame)
+ON_WM_CREATE()
+ON_COMMAND(ID_CURVE_CARDINAL, OnCurveCardinal)
+ON_UPDATE_COMMAND_UI(ID_CURVE_CARDINAL, OnUpdateCurveCardinal)
+ON_COMMAND(ID_CURVE_CATMULL_ROM, OnCurveCatmullRom)
+ON_UPDATE_COMMAND_UI(ID_CURVE_CATMULL_ROM, OnUpdateCurveCatmullRom)
+ON_COMMAND(ID_CURVE_LINEAR, OnCurveLinear)
+ON_UPDATE_COMMAND_UI(ID_CURVE_LINEAR, OnUpdateCurveLinear)
+ON_COMMAND(ID_CURVE_TCB, OnCurveTcb)
+ON_UPDATE_COMMAND_UI(ID_CURVE_TCB, OnUpdateCurveTcb)
+ON_COMMAND(ID_CURVE_RESET, OnCurveReset)
+ON_COMMAND(ID_CURVE_DRAW_TANGENTS, OnCurveDrawTangents)
+ON_UPDATE_COMMAND_UI(ID_CURVE_DRAW_TANGENTS, OnUpdateCurveDrawTangents)
+ON_COMMAND(ID_CURVE_LOOP, OnCurveLoop)
+ON_UPDATE_COMMAND_UI(ID_CURVE_LOOP, OnUpdateCurveLoop)
+ON_COMMAND(IDM_VEHICLE_CURVE, OnVehicleCurve)
+ON_UPDATE_COMMAND_UI(IDM_VEHICLE_CURVE, OnUpdateVehicleCurve)
+//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
-static UINT indicators[] =
-{
-	ID_SEPARATOR,           // status line indicator
-	ID_INDICATOR_CAPS,
-	ID_INDICATOR_NUM,
-	ID_INDICATOR_SCRL,
+static UINT indicators[] = {
+    ID_SEPARATOR, // status line indicator
+    ID_INDICATOR_CAPS,
+    ID_INDICATOR_NUM,
+    ID_INDICATOR_SCRL,
 };
 
 /////////////////////////////////////////////////////////////////////////////
@@ -73,8 +70,7 @@ static UINT indicators[] =
 
 CMainFrame::CMainFrame()
 {
-	// TODO: add member initialization code here
-	
+    // TODO: add member initialization code here
 }
 
 CMainFrame::~CMainFrame()
@@ -83,9 +79,10 @@ CMainFrame::~CMainFrame()
 
 int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 {
-	if (CFrameWnd::OnCreate(lpCreateStruct) == -1)
-		return -1;
-	
+    if (CFrameWnd::OnCreate(lpCreateStruct) == -1) {
+        return -1;
+    }
+
 #if 0
 	if (!m_wndToolBar.CreateEx(this, TBSTYLE_FLAT, WS_CHILD | WS_VISIBLE | CBRS_TOP
 		| CBRS_GRIPPER | CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_SIZE_DYNAMIC) ||
@@ -96,33 +93,32 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	}
 #endif
 
-	if (!m_wndStatusBar.Create(this) ||
-		!m_wndStatusBar.SetIndicators(indicators,
-		  sizeof(indicators)/sizeof(UINT)))
-	{
-		TRACE0("Failed to create status bar\n");
-		return -1;      // fail to create
-	}
+    if (!m_wndStatusBar.Create(this)
+        || !m_wndStatusBar.SetIndicators(indicators, sizeof(indicators) / sizeof(UINT))) {
+        TRACE0("Failed to create status bar\n");
+        return -1; // fail to create
+    }
 
-	// TODO: Delete these three lines if you don't want the toolbar to
-	//  be dockable
+    // TODO: Delete these three lines if you don't want the toolbar to
+    //  be dockable
 #if 0
 	m_wndToolBar.EnableDocking(CBRS_ALIGN_ANY);
 	EnableDocking(CBRS_ALIGN_ANY);
 	DockControlBar(&m_wndToolBar);
 #endif
 
-	return 0;
+    return 0;
 }
 
 BOOL CMainFrame::PreCreateWindow(CREATESTRUCT& cs)
 {
-	if( !CFrameWnd::PreCreateWindow(cs) )
-		return FALSE;
-	// TODO: Modify the Window class or styles here by modifying
-	//  the CREATESTRUCT cs
+    if (!CFrameWnd::PreCreateWindow(cs)) {
+        return FALSE;
+    }
+    // TODO: Modify the Window class or styles here by modifying
+    //  the CREATESTRUCT cs
 
-	return TRUE;
+    return TRUE;
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -131,142 +127,141 @@ BOOL CMainFrame::PreCreateWindow(CREATESTRUCT& cs)
 #ifdef _DEBUG
 void CMainFrame::AssertValid() const
 {
-	CFrameWnd::AssertValid();
+    CFrameWnd::AssertValid();
 }
 
 void CMainFrame::Dump(CDumpContext& dc) const
 {
-	CFrameWnd::Dump(dc);
+    CFrameWnd::Dump(dc);
 }
 #endif //_DEBUG
-
 
 /////////////////////////////////////////////////////////////////////////////
 // CMainFrame message handlers
 
-void CMainFrame::OnCurveCardinal() 
+void CMainFrame::OnCurveCardinal()
 {
-	CSplineTestDoc * doc = (CSplineTestDoc *)GetActiveDocument();
-	if (doc) {
-		doc->Set_Curve_Type(CSplineTestDoc::CARDINAL);
-	}
+    CSplineTestDoc* doc = (CSplineTestDoc*)GetActiveDocument();
+    if (doc) {
+        doc->Set_Curve_Type(CSplineTestDoc::CARDINAL);
+    }
 }
 
-void CMainFrame::OnUpdateCurveCardinal(CCmdUI* pCmdUI) 
+void CMainFrame::OnUpdateCurveCardinal(CCmdUI* pCmdUI)
 {
-	CSplineTestDoc * doc = (CSplineTestDoc *)GetActiveDocument();
-	if (doc != NULL) {
-		pCmdUI->SetCheck(doc->Get_Curve_Type() == CSplineTestDoc::CARDINAL);
-	}
+    CSplineTestDoc* doc = (CSplineTestDoc*)GetActiveDocument();
+    if (doc != NULL) {
+        pCmdUI->SetCheck(doc->Get_Curve_Type() == CSplineTestDoc::CARDINAL);
+    }
 }
 
-void CMainFrame::OnCurveCatmullRom() 
+void CMainFrame::OnCurveCatmullRom()
 {
-	CSplineTestDoc * doc = (CSplineTestDoc *)GetActiveDocument();
-	if (doc) {
-		doc->Set_Curve_Type(CSplineTestDoc::CATMULL_ROM);
-	}
+    CSplineTestDoc* doc = (CSplineTestDoc*)GetActiveDocument();
+    if (doc) {
+        doc->Set_Curve_Type(CSplineTestDoc::CATMULL_ROM);
+    }
 }
 
-void CMainFrame::OnUpdateCurveCatmullRom(CCmdUI* pCmdUI) 
+void CMainFrame::OnUpdateCurveCatmullRom(CCmdUI* pCmdUI)
 {
-	CSplineTestDoc * doc = (CSplineTestDoc *)GetActiveDocument();
-	if (doc != NULL) {
-		pCmdUI->SetCheck(doc->Get_Curve_Type() == CSplineTestDoc::CATMULL_ROM);
-	}
+    CSplineTestDoc* doc = (CSplineTestDoc*)GetActiveDocument();
+    if (doc != NULL) {
+        pCmdUI->SetCheck(doc->Get_Curve_Type() == CSplineTestDoc::CATMULL_ROM);
+    }
 }
 
-void CMainFrame::OnCurveLinear() 
+void CMainFrame::OnCurveLinear()
 {
-	CSplineTestDoc * doc = (CSplineTestDoc *)GetActiveDocument();
-	if (doc) {
-		doc->Set_Curve_Type(CSplineTestDoc::LINEAR);
-	}
+    CSplineTestDoc* doc = (CSplineTestDoc*)GetActiveDocument();
+    if (doc) {
+        doc->Set_Curve_Type(CSplineTestDoc::LINEAR);
+    }
 }
 
-void CMainFrame::OnUpdateCurveLinear(CCmdUI* pCmdUI) 
+void CMainFrame::OnUpdateCurveLinear(CCmdUI* pCmdUI)
 {
-	CSplineTestDoc * doc = (CSplineTestDoc *)GetActiveDocument();
-	if (doc != NULL) {
-		pCmdUI->SetCheck(doc->Get_Curve_Type() == CSplineTestDoc::LINEAR);
-	}
+    CSplineTestDoc* doc = (CSplineTestDoc*)GetActiveDocument();
+    if (doc != NULL) {
+        pCmdUI->SetCheck(doc->Get_Curve_Type() == CSplineTestDoc::LINEAR);
+    }
 }
 
-void CMainFrame::OnCurveTcb() 
+void CMainFrame::OnCurveTcb()
 {
-	CSplineTestDoc * doc = (CSplineTestDoc *)GetActiveDocument();
-	if (doc) {
-		doc->Set_Curve_Type(CSplineTestDoc::TCB);
-	}
+    CSplineTestDoc* doc = (CSplineTestDoc*)GetActiveDocument();
+    if (doc) {
+        doc->Set_Curve_Type(CSplineTestDoc::TCB);
+    }
 }
 
-void CMainFrame::OnUpdateCurveTcb(CCmdUI* pCmdUI) 
+void CMainFrame::OnUpdateCurveTcb(CCmdUI* pCmdUI)
 {
-	CSplineTestDoc * doc = (CSplineTestDoc *)GetActiveDocument();
-	if (doc != NULL) {
-		pCmdUI->SetCheck(doc->Get_Curve_Type() == CSplineTestDoc::TCB);
-	}
+    CSplineTestDoc* doc = (CSplineTestDoc*)GetActiveDocument();
+    if (doc != NULL) {
+        pCmdUI->SetCheck(doc->Get_Curve_Type() == CSplineTestDoc::TCB);
+    }
 }
 
-void CMainFrame::OnCurveReset() 
+void CMainFrame::OnCurveReset()
 {
-	CSplineTestDoc * doc = (CSplineTestDoc *)GetActiveDocument();
-	if (doc != NULL) {
-		doc->Reset_Curve();
-	}
+    CSplineTestDoc* doc = (CSplineTestDoc*)GetActiveDocument();
+    if (doc != NULL) {
+        doc->Reset_Curve();
+    }
 }
 
-void CMainFrame::OnCurveDrawTangents() 
+void CMainFrame::OnCurveDrawTangents()
 {
-	CSplineTestView * view = (CSplineTestView *)GetActiveView();
-	if (view) {
-		view->Enable_Draw_Tangents(!view->Is_Draw_Tangents_Enabled());
-	}
+    CSplineTestView* view = (CSplineTestView*)GetActiveView();
+    if (view) {
+        view->Enable_Draw_Tangents(!view->Is_Draw_Tangents_Enabled());
+    }
 }
 
-void CMainFrame::OnUpdateCurveDrawTangents(CCmdUI* pCmdUI) 
+void CMainFrame::OnUpdateCurveDrawTangents(CCmdUI* pCmdUI)
 {
-	CSplineTestView * view = (CSplineTestView *)GetActiveView();
-	if (view) {
-		pCmdUI->SetCheck(view->Is_Draw_Tangents_Enabled());
-	}
+    CSplineTestView* view = (CSplineTestView*)GetActiveView();
+    if (view) {
+        pCmdUI->SetCheck(view->Is_Draw_Tangents_Enabled());
+    }
 }
 
-void CMainFrame::OnCurveLoop() 
+void CMainFrame::OnCurveLoop()
 {
-	CSplineTestDoc * doc = (CSplineTestDoc *)GetActiveDocument();
-	if (doc != NULL) {
-		Curve3DClass * curve = doc->Get_Curve();
-		if (curve) {
-			curve->Set_Looping(!curve->Is_Looping());
-		}
-		doc->UpdateAllViews(NULL);
-	}
+    CSplineTestDoc* doc = (CSplineTestDoc*)GetActiveDocument();
+    if (doc != NULL) {
+        Curve3DClass* curve = doc->Get_Curve();
+        if (curve) {
+            curve->Set_Looping(!curve->Is_Looping());
+        }
+        doc->UpdateAllViews(NULL);
+    }
 }
 
-void CMainFrame::OnUpdateCurveLoop(CCmdUI* pCmdUI) 
+void CMainFrame::OnUpdateCurveLoop(CCmdUI* pCmdUI)
 {
-	CSplineTestDoc * doc = (CSplineTestDoc *)GetActiveDocument();
-	if (doc != NULL) {
-		Curve3DClass * curve = doc->Get_Curve();
-		if (curve) {
-			pCmdUI->SetCheck(curve->Is_Looping());
-		}
-	}
+    CSplineTestDoc* doc = (CSplineTestDoc*)GetActiveDocument();
+    if (doc != NULL) {
+        Curve3DClass* curve = doc->Get_Curve();
+        if (curve) {
+            pCmdUI->SetCheck(curve->Is_Looping());
+        }
+    }
 }
 
-void CMainFrame::OnVehicleCurve() 
+void CMainFrame::OnVehicleCurve()
 {
-	CSplineTestDoc * doc = (CSplineTestDoc *)GetActiveDocument();
-	if (doc) {
-		doc->Set_Curve_Type(CSplineTestDoc::VEHICLE	);
-	}	
+    CSplineTestDoc* doc = (CSplineTestDoc*)GetActiveDocument();
+    if (doc) {
+        doc->Set_Curve_Type(CSplineTestDoc::VEHICLE);
+    }
 }
 
-void CMainFrame::OnUpdateVehicleCurve(CCmdUI* pCmdUI) 
+void CMainFrame::OnUpdateVehicleCurve(CCmdUI* pCmdUI)
 {
-	CSplineTestDoc * doc = (CSplineTestDoc *)GetActiveDocument();
-	if (doc != NULL) {
-		pCmdUI->SetCheck(doc->Get_Curve_Type() == CSplineTestDoc::VEHICLE);
-	}
+    CSplineTestDoc* doc = (CSplineTestDoc*)GetActiveDocument();
+    if (doc != NULL) {
+        pCmdUI->SetCheck(doc->Get_Curve_Type() == CSplineTestDoc::VEHICLE);
+    }
 }

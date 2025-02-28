@@ -31,36 +31,39 @@
 
 class CCommandoUpdateDlg : public CDialog
 {
-// Construction
+    // Construction
 public:
-	CCommandoUpdateDlg(CWnd* pParent = NULL);	// standard constructor
+    CCommandoUpdateDlg(CWnd* pParent = NULL); // standard constructor
 
-// Dialog Data
-	//{{AFX_DATA(CCommandoUpdateDlg)
-	enum { IDD = IDD_COMMANDOUPDATE_DIALOG };
-		// NOTE: the ClassWizard will add data members here
-	//}}AFX_DATA
+    // Dialog Data
+    //{{AFX_DATA(CCommandoUpdateDlg)
+    enum
+    {
+        IDD = IDD_COMMANDOUPDATE_DIALOG
+    };
+    // NOTE: the ClassWizard will add data members here
+    //}}AFX_DATA
 
-	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CCommandoUpdateDlg)
-	protected:
-	virtual void DoDataExchange(CDataExchange* pDX);	// DDX/DDV support
-	virtual BOOL OnCommand(WPARAM wParam, LPARAM lParam);
-	//}}AFX_VIRTUAL
-
-// Implementation
+    // ClassWizard generated virtual function overrides
+    //{{AFX_VIRTUAL(CCommandoUpdateDlg)
 protected:
-	HICON m_hIcon;
+    virtual void DoDataExchange(CDataExchange* pDX); // DDX/DDV support
+    virtual BOOL OnCommand(WPARAM wParam, LPARAM lParam);
+    //}}AFX_VIRTUAL
 
-	// Generated message map functions
-	//{{AFX_MSG(CCommandoUpdateDlg)
-	virtual BOOL OnInitDialog();
-	afx_msg void OnPaint();
-	afx_msg HCURSOR OnQueryDragIcon();
-	virtual void OnOK();
-	afx_msg void OnDefaults();
-	//}}AFX_MSG
-	DECLARE_MESSAGE_MAP()
+    // Implementation
+protected:
+    HICON m_hIcon;
+
+    // Generated message map functions
+    //{{AFX_MSG(CCommandoUpdateDlg)
+    virtual BOOL OnInitDialog();
+    afx_msg void OnPaint();
+    afx_msg HCURSOR OnQueryDragIcon();
+    virtual void OnOK();
+    afx_msg void OnDefaults();
+    //}}AFX_MSG
+    DECLARE_MESSAGE_MAP()
 };
 
 //{{AFX_INSERT_LOCATION}}

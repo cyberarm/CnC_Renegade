@@ -34,15 +34,13 @@
  * Functions:                                                                                  *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
-
 // ChunkViewView.cpp : implementation of the CChunkViewView class
 //
 
-#include "stdafx.h"
 #include "ChunkView.h"
-
 #include "ChunkViewDoc.h"
 #include "ChunkViewView.h"
+#include "stdafx.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -56,10 +54,10 @@ static char THIS_FILE[] = __FILE__;
 IMPLEMENT_DYNCREATE(CChunkViewView, CView)
 
 BEGIN_MESSAGE_MAP(CChunkViewView, CView)
-	//{{AFX_MSG_MAP(CChunkViewView)
-		// NOTE - the ClassWizard will add and remove mapping macros here.
-		//    DO NOT EDIT what you see in these blocks of generated code!
-	//}}AFX_MSG_MAP
+//{{AFX_MSG_MAP(CChunkViewView)
+// NOTE - the ClassWizard will add and remove mapping macros here.
+//    DO NOT EDIT what you see in these blocks of generated code!
+//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -75,10 +73,10 @@ CChunkViewView::~CChunkViewView()
 
 BOOL CChunkViewView::PreCreateWindow(CREATESTRUCT& cs)
 {
-	// TODO: Modify the Window class or styles here by modifying
-	//  the CREATESTRUCT cs
+    // TODO: Modify the Window class or styles here by modifying
+    //  the CREATESTRUCT cs
 
-	return CView::PreCreateWindow(cs);
+    return CView::PreCreateWindow(cs);
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -86,9 +84,9 @@ BOOL CChunkViewView::PreCreateWindow(CREATESTRUCT& cs)
 
 void CChunkViewView::OnDraw(CDC* pDC)
 {
-	CChunkViewDoc* pDoc = GetDocument();
-	ASSERT_VALID(pDoc);
-	// TODO: add draw code for native data here
+    CChunkViewDoc* pDoc = GetDocument();
+    ASSERT_VALID(pDoc);
+    // TODO: add draw code for native data here
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -97,18 +95,18 @@ void CChunkViewView::OnDraw(CDC* pDC)
 #ifdef _DEBUG
 void CChunkViewView::AssertValid() const
 {
-	CView::AssertValid();
+    CView::AssertValid();
 }
 
 void CChunkViewView::Dump(CDumpContext& dc) const
 {
-	CView::Dump(dc);
+    CView::Dump(dc);
 }
 
 CChunkViewDoc* CChunkViewView::GetDocument() // non-debug version is inline
 {
-	ASSERT(m_pDocument->IsKindOf(RUNTIME_CLASS(CChunkViewDoc)));
-	return (CChunkViewDoc*)m_pDocument;
+    ASSERT(m_pDocument->IsKindOf(RUNTIME_CLASS(CChunkViewDoc)));
+    return (CChunkViewDoc*)m_pDocument;
 }
 #endif //_DEBUG
 

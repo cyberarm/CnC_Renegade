@@ -22,7 +22,7 @@
  *                                                                                             *
  *                 Project Name : commando                                                    *
  *                                                                                             *
- *                     $Archive:: /Commando/Code/Commando/singletoninstancekeeper.h                              $*
+ *                     $Archive:: /Commando/Code/Commando/singletoninstancekeeper.h $*
  *                                                                                             *
  *                       Author:: Patrick Smith                                                *
  *                                                                                             *
@@ -41,9 +41,7 @@
 #ifndef __SINGLETONINSTANCEKEEPER_H
 #define __SINGLETONINSTANCEKEEPER_H
 
-
 #include "win.h"
-
 
 //////////////////////////////////////////////////////////////////////
 //
@@ -53,48 +51,44 @@
 class SingletonInstanceKeeperClass
 {
 public:
+    ///////////////////////////////////////////////////////////////////
+    //	Public constructors/destructors
+    ///////////////////////////////////////////////////////////////////
+    SingletonInstanceKeeperClass(void);
+    ~SingletonInstanceKeeperClass(void);
 
-	///////////////////////////////////////////////////////////////////
-	//	Public constructors/destructors
-	///////////////////////////////////////////////////////////////////
-	SingletonInstanceKeeperClass  (void);
-	~SingletonInstanceKeeperClass (void);
+    ///////////////////////////////////////////////////////////////////
+    //	Public methods
+    ///////////////////////////////////////////////////////////////////
 
-	///////////////////////////////////////////////////////////////////
-	//	Public methods
-	///////////////////////////////////////////////////////////////////
+    //
+    //	Verification methods
+    //
+    bool Verify_Safe_To_Execute(void);
 
-	//
-	//	Verification methods
-	//
-	bool		Verify_Safe_To_Execute (void);
+    //
+    // Configuration methods.
+    //
+    static void Allow_Multiple_Instances(bool flag);
 
-	//
-	// Configuration methods.
-	//
-	static void Allow_Multiple_Instances(bool flag);
-
-	//
-	//	Static methods
-	//
-	static const char *	Get_GUID (void)	{ return APP_GUID; }
+    //
+    //	Static methods
+    //
+    static const char* Get_GUID(void) { return APP_GUID; }
 
 private:
+    ///////////////////////////////////////////////////////////////////
+    //	Private constants
+    ///////////////////////////////////////////////////////////////////
+    static const char* APP_GUID;
 
-	///////////////////////////////////////////////////////////////////
-	//	Private constants
-	///////////////////////////////////////////////////////////////////
-	static const char *	APP_GUID;
+    ///////////////////////////////////////////////////////////////////
+    //	Private member data
+    ///////////////////////////////////////////////////////////////////
+    HANDLE AppMutex;
+    HANDLE AutoPlayMutex;
 
-	///////////////////////////////////////////////////////////////////
-	//	Private member data
-	///////////////////////////////////////////////////////////////////
-	HANDLE	AppMutex;
-	HANDLE	AutoPlayMutex;
-
-	static bool AllowMultipleInstances;
-
+    static bool AllowMultipleInstances;
 };
-
 
 #endif //__SINGLETONINSTANCEKEEPER_H

@@ -17,21 +17,21 @@
 */
 
 /******************************************************************************
-*
-* FILE
-*
-* DESCRIPTION
-*
-* PROGRAMMER
-*     Denzil E. Long, Jr.
-*
-* VERSION INFO
-*     $Author: Denzil_l $
-*     $Revision: 2 $
-*     $Modtime: 3/29/00 1:17p $
-*     $Archive: /Commando/Code/Scripts/strtrim.h $
-*
-******************************************************************************/
+ *
+ * FILE
+ *
+ * DESCRIPTION
+ *
+ * PROGRAMMER
+ *     Denzil E. Long, Jr.
+ *
+ * VERSION INFO
+ *     $Author: Denzil_l $
+ *     $Revision: 2 $
+ *     $Modtime: 3/29/00 1:17p $
+ *     $Archive: /Commando/Code/Scripts/strtrim.h $
+ *
+ ******************************************************************************/
 
 #ifndef _STRTRIM_H_
 #define _STRTRIM_H_

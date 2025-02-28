@@ -22,7 +22,7 @@
  *                                                                                             *
  *                 Project Name : commando                                                    *
  *                                                                                             *
- *                     $Archive:: /Commando/Code/commando/dlgmpwolmotd.h                              $*
+ *                     $Archive:: /Commando/Code/commando/dlgmpwolmotd.h $*
  *                                                                                             *
  *                       Author:: Patrick Smith                                                *
  *                                                                                             *
@@ -41,9 +41,7 @@
 #ifndef __DLGMPWOLMOTD_H
 #define __DLGMPWOLMOTD_H
 
-
 #include "popupdialog.h"
-
 
 //////////////////////////////////////////////////////////////////////
 //
@@ -53,39 +51,36 @@
 class MPWolMOTDDialogClass : public PopupDialogClass
 {
 public:
+    ///////////////////////////////////////////////////////////////////
+    //	Public constructors/destructors
+    ///////////////////////////////////////////////////////////////////
+    MPWolMOTDDialogClass(void);
+    ~MPWolMOTDDialogClass(void);
 
-	///////////////////////////////////////////////////////////////////
-	//	Public constructors/destructors
-	///////////////////////////////////////////////////////////////////
-	MPWolMOTDDialogClass  (void);
-	~MPWolMOTDDialogClass (void);
+    ///////////////////////////////////////////////////////////////////
+    //	Public methods
+    ///////////////////////////////////////////////////////////////////
 
-	///////////////////////////////////////////////////////////////////
-	//	Public methods
-	///////////////////////////////////////////////////////////////////
+    //
+    //	Inherited
+    //
+    void On_Init_Dialog(void);
+    void On_Destroy(void);
 
-	//
-	//	Inherited
-	//
-	void			On_Init_Dialog (void);
-	void			On_Destroy (void);
+    //
+    //	Message support
+    //
+    void Set_Message(const WCHAR* message) { Message = message; }
 
-	//
-	//	Message support
-	//
-	void			Set_Message (const WCHAR *message)	{ Message = message; }
-	
 private:
+    ///////////////////////////////////////////////////////////////////
+    //	Private methods
+    ///////////////////////////////////////////////////////////////////
 
-	///////////////////////////////////////////////////////////////////
-	//	Private methods
-	///////////////////////////////////////////////////////////////////
-	
-	///////////////////////////////////////////////////////////////////
-	//	Private member data
-	///////////////////////////////////////////////////////////////////
-	WideStringClass		Message;
+    ///////////////////////////////////////////////////////////////////
+    //	Private member data
+    ///////////////////////////////////////////////////////////////////
+    WideStringClass Message;
 };
-
 
 #endif //__DLGMPWOLMOTD_H

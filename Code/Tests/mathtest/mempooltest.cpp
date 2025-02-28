@@ -37,60 +37,68 @@
 #include "mempool.h"
 #include <stdio.h>
 
-
-class B : public AutoPoolClass<B,5>
+class B : public AutoPoolClass<B, 5>
 {
 public:
-//	B(void) : AutoPoolClass<B,5>() { /*x = 2; y = 3;*/ }
-	int	x;
-	int	y;
+    //	B(void) : AutoPoolClass<B,5>() { /*x = 2; y = 3;*/ }
+    int x;
+    int y;
 };
 
 class D
 {
 public:
-	D(void);
-	~D(void);
+    D(void);
+    ~D(void);
 
-	char * ptr;
-	int x;
+    char* ptr;
+    int x;
 };
 
-D::D(void) 
-{ 
-	ptr = new char[500]; 
-	x = 7;
+D::D(void)
+{
+    ptr = new char[500];
+    x = 7;
 }
-D::~D(void) 
-{ 
-	delete[] ptr; 
-	x = 2; 
+D::~D(void)
+{
+    delete[] ptr;
+    x = 2;
 }
 
-DEFINE_AUTO_POOL(B,5);
-ObjectPoolClass<D,5> DAllocator;
-
-
+DEFINE_AUTO_POOL(B, 5);
+ObjectPoolClass<D, 5> DAllocator;
 
 void test_mempool(void)
 {
-	// allocate and delete a single 'B'
-	B * test0 = new B;
-	delete test0;
+    // allocate and delete a single 'B'
+    B* test0 = new B;
+    delete test0;
 
-	// allocate and delete a single 'D' make sure constructor
-	// and destructor are called.
-	D * test1 = DAllocator.Allocate_Object();
-	DAllocator.Free_Object(test1);
+    // allocate and delete a single 'D' make sure constructor
+    // and destructor are called.
+    D* test1 = DAllocator.Allocate_Object();
+    DAllocator.Free_Object(test1);
 
-#define	NUM_OBJECTS		6
-	B * Test[ NUM_OBJECTS ];
-	int i;
-	for ( i = 0; i < NUM_OBJECTS; i++ ) 		Test[i] = new B;
-	for ( i = 0; i < NUM_OBJECTS; i++ ) 		printf( "%d) %p\n", i, Test[i] );
-	for ( i = 0; i < NUM_OBJECTS; i++ )			delete Test[i];
-	for ( i = 0; i < NUM_OBJECTS; i++ ) 		Test[i] = new B;
-	for ( i = 0; i < NUM_OBJECTS; i++ ) 		printf( "%d) %p\n", i, Test[i] );
-	for ( i = 0; i < NUM_OBJECTS; i++ )			delete Test[i];
+#define NUM_OBJECTS 6
+    B* Test[NUM_OBJECTS];
+    int i;
+    for (i = 0; i < NUM_OBJECTS; i++) {
+        Test[i] = new B;
+    }
+    for (i = 0; i < NUM_OBJECTS; i++) {
+        printf("%d) %p\n", i, Test[i]);
+    }
+    for (i = 0; i < NUM_OBJECTS; i++) {
+        delete Test[i];
+    }
+    for (i = 0; i < NUM_OBJECTS; i++) {
+        Test[i] = new B;
+    }
+    for (i = 0; i < NUM_OBJECTS; i++) {
+        printf("%d) %p\n", i, Test[i]);
+    }
+    for (i = 0; i < NUM_OBJECTS; i++) {
+        delete Test[i];
+    }
 }
-

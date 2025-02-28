@@ -19,28 +19,26 @@
 // PhysTestDoc.cpp : implementation of the CPhysTestDoc class
 //
 
-#include "stdafx.h"
-#include "PhysTest.h"
-
-#include "PhysTestDoc.h"
-#include "MainFrm.h"
 #include "DataView.h"
-#include "ww3d.h"
-#include "ffactory.h"
-#include "pscene.h"
-#include "light.h"
-#include "rcfile.h"
-#include "assetmgr.h"
-#include "rendobj.h"
-#include "chunkio.h"
-#include "lev_file.h"
-#include "physlist.h"
-#include "saveload.h"
-#include "chunkio.h"
-#include "rawfile.h"
-#include "physstaticsavesystem.h"
-#include "physdynamicsavesystem.h"
+#include "MainFrm.h"
+#include "PhysTest.h"
+#include "PhysTestDoc.h"
 #include "PhysTestSaveSystem.h"
+#include "assetmgr.h"
+#include "chunkio.h"
+#include "ffactory.h"
+#include "lev_file.h"
+#include "light.h"
+#include "physdynamicsavesystem.h"
+#include "physlist.h"
+#include "physstaticsavesystem.h"
+#include "pscene.h"
+#include "rawfile.h"
+#include "rcfile.h"
+#include "rendobj.h"
+#include "saveload.h"
+#include "stdafx.h"
+#include "ww3d.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -51,12 +49,11 @@ static char THIS_FILE[] = __FILE__;
 /////////////////////////////////////////////////////////////////////////////
 // Chunk ID's used by PhysTestDoc
 
-enum 
+enum
 {
-	PHYSTESTDOC_CHUNK_MAINFRAME	= 0x03321990,
-	PHYSTESTDOC_CHUNK_SYSTEMS,
+    PHYSTESTDOC_CHUNK_MAINFRAME = 0x03321990,
+    PHYSTESTDOC_CHUNK_SYSTEMS,
 };
-
 
 /////////////////////////////////////////////////////////////////////////////
 // CPhysTestDoc
@@ -64,99 +61,96 @@ enum
 IMPLEMENT_DYNCREATE(CPhysTestDoc, CDocument)
 
 BEGIN_MESSAGE_MAP(CPhysTestDoc, CDocument)
-	//{{AFX_MSG_MAP(CPhysTestDoc)
-		// NOTE - the ClassWizard will add and remove mapping macros here.
-		//    DO NOT EDIT what you see in these blocks of generated code!
-	//}}AFX_MSG_MAP
+//{{AFX_MSG_MAP(CPhysTestDoc)
+// NOTE - the ClassWizard will add and remove mapping macros here.
+//    DO NOT EDIT what you see in these blocks of generated code!
+//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
 // CPhysTestDoc construction/destruction
 
-CPhysTestDoc::CPhysTestDoc() : 
-	Scene(NULL),
-	Light(NULL),
-	Origin(NULL)
+CPhysTestDoc::CPhysTestDoc()
+    : Scene(NULL),
+      Light(NULL),
+      Origin(NULL)
 {
 }
 
 CPhysTestDoc::~CPhysTestDoc()
 {
-	if (Scene) { 
-		Scene->Remove_All();
-	}
-	REF_PTR_RELEASE(Scene);
-	REF_PTR_RELEASE(Light);
-	REF_PTR_RELEASE(Origin);
+    if (Scene) {
+        Scene->Remove_All();
+    }
+    REF_PTR_RELEASE(Scene);
+    REF_PTR_RELEASE(Light);
+    REF_PTR_RELEASE(Origin);
 }
-
 
 void CPhysTestDoc::Init_Scene(void)
 {
-	if (Scene == NULL)
-	{
-		// Instantiate a new scene
-		Scene = NEW_REF(PhysicsSceneClass,());
-		Scene->Enable_Dynamic_Projectors(true);
+    if (Scene == NULL) {
+        // Instantiate a new scene
+        Scene = NEW_REF(PhysicsSceneClass, ());
+        Scene->Enable_Dynamic_Projectors(true);
 
-		// Were we successful in instantiating the scene object?
-		ASSERT(Scene);
-		if (Scene != NULL) {
+        // Were we successful in instantiating the scene object?
+        ASSERT(Scene);
+        if (Scene != NULL) {
 
-			// Set up some collision groups.
-			Scene->Enable_All_Collision_Detections(0);
+            // Set up some collision groups.
+            Scene->Enable_All_Collision_Detections(0);
 
-			// Set some default ambient lighting
-			Scene->Set_Ambient_Light(Vector3 (0.5F, 0.5F, 0.5F));
+            // Set some default ambient lighting
+            Scene->Set_Ambient_Light(Vector3(0.5F, 0.5F, 0.5F));
 
-			// Create a new scene light
-			if (Light == NULL) {
-				Light = NEW_REF(LightClass,(LightClass::DIRECTIONAL));
-				ASSERT(Light);
+            // Create a new scene light
+            if (Light == NULL) {
+                Light = NEW_REF(LightClass, (LightClass::DIRECTIONAL));
+                ASSERT(Light);
 
-				if (Light) {
+                if (Light) {
 
-					// Create some default light settings
-					Matrix3D transform(1);
-					transform.Look_At(Vector3(0,0,0),Vector3(10,10,10),0.0f);
-					Light->Set_Transform(transform);
+                    // Create some default light settings
+                    Matrix3D transform(1);
+                    transform.Look_At(Vector3(0, 0, 0), Vector3(10, 10, 10), 0.0f);
+                    Light->Set_Transform(transform);
 
-					Light->Set_Attenuation_Model(LightClass::ATTENUATION_NONE);
-					Light->Set_Flag (LightClass::NEAR_ATTENUATION, false);
-					Light->Set_Flag (LightClass::FAR_ATTENUATION, false);
-					Light->Set_Far_Attenuation_Range (1000000, 1000000);
-					
-					Light->Set_Intensity(1.0F);
-					Light->Set_Force_Visible(true);
-					Light->Set_Ambient(Vector3(0,0,0));
-					Light->Set_Diffuse(Vector3(1, 1, 1));
-					Light->Set_Specular(Vector3(1, 1, 1));
+                    Light->Set_Attenuation_Model(LightClass::ATTENUATION_NONE);
+                    Light->Set_Flag(LightClass::NEAR_ATTENUATION, false);
+                    Light->Set_Flag(LightClass::FAR_ATTENUATION, false);
+                    Light->Set_Far_Attenuation_Range(1000000, 1000000);
 
-					// Add this light to the scene
-					Light->Add(Scene);
-				}
-			}
+                    Light->Set_Intensity(1.0F);
+                    Light->Set_Force_Visible(true);
+                    Light->Set_Ambient(Vector3(0, 0, 0));
+                    Light->Set_Diffuse(Vector3(1, 1, 1));
+                    Light->Set_Specular(Vector3(1, 1, 1));
 
-			// Create an object at the Origin
-			if (Origin == NULL) {
-				ResourceFileClass mesh_file(NULL, "Axes.w3d");
-				WW3DAssetManager::Get_Instance()->Load_3D_Assets(mesh_file);
+                    // Add this light to the scene
+                    Light->Add(Scene);
+                }
+            }
 
-				Origin = WW3DAssetManager::Get_Instance()->Create_Render_Obj("Axes");
-				Origin->Set_Transform(Matrix3D(1));
-				Scene->Add_Render_Object(Origin);
-			}
-		}
-	}
+            // Create an object at the Origin
+            if (Origin == NULL) {
+                ResourceFileClass mesh_file(NULL, "Axes.w3d");
+                WW3DAssetManager::Get_Instance()->Load_3D_Assets(mesh_file);
+
+                Origin = WW3DAssetManager::Get_Instance()->Create_Render_Obj("Axes");
+                Origin->Set_Transform(Matrix3D(1));
+                Scene->Add_Render_Object(Origin);
+            }
+        }
+    }
 }
-
 
 /////////////////////////////////////////////////////////////////////////////
 // CPhysTestDoc serialization
 
 void CPhysTestDoc::Serialize(CArchive& ar)
 {
-	assert(0);
+    assert(0);
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -165,12 +159,12 @@ void CPhysTestDoc::Serialize(CArchive& ar)
 #ifdef _DEBUG
 void CPhysTestDoc::AssertValid() const
 {
-	CDocument::AssertValid();
+    CDocument::AssertValid();
 }
 
 void CPhysTestDoc::Dump(CDumpContext& dc) const
 {
-	CDocument::Dump(dc);
+    CDocument::Dump(dc);
 }
 #endif //_DEBUG
 
@@ -179,48 +173,48 @@ void CPhysTestDoc::Dump(CDumpContext& dc) const
 
 BOOL CPhysTestDoc::OnNewDocument()
 {
-	if (!CDocument::OnNewDocument())
-		return FALSE;
+    if (!CDocument::OnNewDocument()) {
+        return FALSE;
+    }
 
-	if (Scene) {
-		Scene->Remove_All();
-		
-		WWASSERT(Light);
-		if (Light) {
-			Scene->Add_Render_Object(Light);
-		}
+    if (Scene) {
+        Scene->Remove_All();
 
-		WWASSERT(Origin);
-		if (Origin) {
-			Scene->Add_Render_Object(Origin);
-		}
+        WWASSERT(Light);
+        if (Light) {
+            Scene->Add_Render_Object(Light);
+        }
 
-		// rebuild the list view
-		Get_Data_View()->Rebuild_Tree();
-	}
+        WWASSERT(Origin);
+        if (Origin) {
+            Scene->Add_Render_Object(Origin);
+        }
 
-	return TRUE;
+        // rebuild the list view
+        Get_Data_View()->Rebuild_Tree();
+    }
+
+    return TRUE;
 }
 
-BOOL CPhysTestDoc::OnOpenDocument(LPCTSTR lpszPathName) 
+BOOL CPhysTestDoc::OnOpenDocument(LPCTSTR lpszPathName)
 {
-	Load_PHY_File(lpszPathName); 
-	Get_Data_View()->Rebuild_Tree();
-	return TRUE;
+    Load_PHY_File(lpszPathName);
+    Get_Data_View()->Rebuild_Tree();
+    return TRUE;
 }
 
-BOOL CPhysTestDoc::OnSaveDocument(LPCTSTR lpszPathName) 
+BOOL CPhysTestDoc::OnSaveDocument(LPCTSTR lpszPathName)
 {
-	Save_PHY_File(lpszPathName); 
-	return TRUE;
+    Save_PHY_File(lpszPathName);
+    return TRUE;
 }
-
 
 ///////////////////////////////////////////////////////////////
 //
 //  Load_LEV_File
 //
-void CPhysTestDoc::Load_LEV_File(LPCTSTR lpszPathName) 
+void CPhysTestDoc::Load_LEV_File(LPCTSTR lpszPathName)
 {
 #if 0
 	WWASSERT(Scene);
@@ -278,19 +272,17 @@ void CPhysTestDoc::Load_LEV_File(LPCTSTR lpszPathName)
 #endif
 }
 
-
 ///////////////////////////////////////////////////////////////
 //
 //  Load_W3D_File
 //
-void CPhysTestDoc::Load_W3D_File(LPCTSTR lpszPathName) 
+void CPhysTestDoc::Load_W3D_File(LPCTSTR lpszPathName)
 {
-	WW3DAssetManager::Get_Instance()->Load_3D_Assets(lpszPathName);
+    WW3DAssetManager::Get_Instance()->Load_3D_Assets(lpszPathName);
 
-	// rebuild the list view
-	Get_Data_View()->Rebuild_Tree();
+    // rebuild the list view
+    Get_Data_View()->Rebuild_Tree();
 }
-
 
 ///////////////////////////////////////////////////////////////
 //
@@ -298,23 +290,22 @@ void CPhysTestDoc::Load_W3D_File(LPCTSTR lpszPathName)
 //
 void CPhysTestDoc::Load_PHY_File(LPCTSTR lpszPathName)
 {
-	RawFileClass file(lpszPathName);
-	WWASSERT(file);
-	file.Open(FileClass::READ);
-	ChunkLoadClass cload(&file);
+    RawFileClass file(lpszPathName);
+    WWASSERT(file);
+    file.Open(FileClass::READ);
+    ChunkLoadClass cload(&file);
 
-	while (cload.Open_Chunk()) {
-		switch(cload.Cur_Chunk_ID()) {
-			case PHYSTESTDOC_CHUNK_SYSTEMS:
-				SaveLoadSystemClass::Load( cload );
-				break;
-		};
-		cload.Close_Chunk();
-	}
+    while (cload.Open_Chunk()) {
+        switch (cload.Cur_Chunk_ID()) {
+        case PHYSTESTDOC_CHUNK_SYSTEMS:
+            SaveLoadSystemClass::Load(cload);
+            break;
+        };
+        cload.Close_Chunk();
+    }
 
-	file.Close();
+    file.Close();
 }
-
 
 ///////////////////////////////////////////////////////////////
 //
@@ -322,35 +313,35 @@ void CPhysTestDoc::Load_PHY_File(LPCTSTR lpszPathName)
 //
 void CPhysTestDoc::Save_PHY_File(LPCTSTR lpszPathName)
 {
-	RawFileClass file(lpszPathName);
-	WWASSERT(file);
-	file.Open(FileClass::WRITE);
-	ChunkSaveClass csave(&file);
+    RawFileClass file(lpszPathName);
+    WWASSERT(file);
+    file.Open(FileClass::WRITE);
+    ChunkSaveClass csave(&file);
 
-	csave.Begin_Chunk(PHYSTESTDOC_CHUNK_SYSTEMS);
-	SaveLoadSystemClass::Save( csave, _PhysTestSaveSystem );
-	SaveLoadSystemClass::Save( csave, _PhysStaticDataSaveSystem );
-	SaveLoadSystemClass::Save( csave, _PhysStaticObjectsSaveSystem );
-	SaveLoadSystemClass::Save( csave, _PhysDynamicSaveSystem );
-	csave.End_Chunk();
+    csave.Begin_Chunk(PHYSTESTDOC_CHUNK_SYSTEMS);
+    SaveLoadSystemClass::Save(csave, _PhysTestSaveSystem);
+    SaveLoadSystemClass::Save(csave, _PhysStaticDataSaveSystem);
+    SaveLoadSystemClass::Save(csave, _PhysStaticObjectsSaveSystem);
+    SaveLoadSystemClass::Save(csave, _PhysDynamicSaveSystem);
+    csave.End_Chunk();
 
-	file.Close();
+    file.Close();
 }
 
 ///////////////////////////////////////////////////////////////
 //
 //  Get_Data_View
 //
-CDataView * CPhysTestDoc::Get_Data_View(void)
+CDataView* CPhysTestDoc::Get_Data_View(void)
 {
-    CDataView * view = NULL;
+    CDataView* view = NULL;
 
     // Get a pointer to the main window
-    CMainFrame * mainwnd = (CMainFrame *)::AfxGetMainWnd();
-    
-	 if (mainwnd) {
+    CMainFrame* mainwnd = (CMainFrame*)::AfxGetMainWnd();
+
+    if (mainwnd) {
         // Get the pane from the main window
-        view = (CDataView *)mainwnd->Get_Pane(0,0);
+        view = (CDataView*)mainwnd->Get_Pane(0, 0);
     }
 
     // Return a pointer to the tree view
@@ -361,16 +352,16 @@ CDataView * CPhysTestDoc::Get_Data_View(void)
 //
 //  Get_Graphic_View
 //
-CGraphicView * CPhysTestDoc::Get_Graphic_View(void)
+CGraphicView* CPhysTestDoc::Get_Graphic_View(void)
 {
-    CGraphicView * view = NULL;
+    CGraphicView* view = NULL;
 
     // Get a pointer to the main window
-    CMainFrame * mainwnd = (CMainFrame *)::AfxGetMainWnd();
-    
-	 if (mainwnd) {
+    CMainFrame* mainwnd = (CMainFrame*)::AfxGetMainWnd();
+
+    if (mainwnd) {
         // Get the pane from the main window
-        view = (CGraphicView *)mainwnd->Get_Pane(0,1);
+        view = (CGraphicView*)mainwnd->Get_Pane(0, 1);
     }
 
     // Return a pointer to the graphic view
@@ -381,25 +372,28 @@ CGraphicView * CPhysTestDoc::Get_Graphic_View(void)
 //
 //  Add_Physics_Object - add a new object to be simulated
 //
-void CPhysTestDoc::Add_Physics_Object(PhysClass * obj)
+void CPhysTestDoc::Add_Physics_Object(PhysClass* obj)
 {
-	if (obj == NULL) return;
-	if (Scene == NULL) return;
+    if (obj == NULL) {
+        return;
+    }
+    if (Scene == NULL) {
+        return;
+    }
 
-	Scene->Add_Dynamic_Object(obj);
+    Scene->Add_Dynamic_Object(obj);
 
-	// rebuild the list view
-	Get_Data_View()->Rebuild_Tree();
+    // rebuild the list view
+    Get_Data_View()->Rebuild_Tree();
 }
 
 int CPhysTestDoc::Get_Physics_Object_Count(void)
 {
-	PhysListIterator it = Scene->Get_Dynamic_Object_Iterator();
+    PhysListIterator it = Scene->Get_Dynamic_Object_Iterator();
 
-	int count = 0;
-	for (it.First(); !it.Is_Done(); it.Next()) {
-		count++;
-	}
-	return count;
+    int count = 0;
+    for (it.First(); !it.Is_Done(); it.Next()) {
+        count++;
+    }
+    return count;
 }
-

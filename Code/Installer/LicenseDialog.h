@@ -16,22 +16,22 @@
 **	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-/*********************************************************************************************** 
- ***                            Confidential - Westwood Studios                              *** 
- *********************************************************************************************** 
- *                                                                                             * 
- *                 Project Name : Installer                                                    * 
- *                                                                                             * 
- *                     $Archive:: /Commando/Code/Installer/LicenseDialog. $* 
- *                                                                                             * 
- *                      $Author:: Ian_l                   $* 
- *                                                                                             * 
- *                     $Modtime:: 12/04/01 4:56p                $* 
- *                                                                                             * 
- *                    $Revision:: 3                     $* 
- *                                                                                             * 
- *---------------------------------------------------------------------------------------------* 
- * Functions:                                                                                  * 
+/***********************************************************************************************
+ ***                            Confidential - Westwood Studios                              ***
+ ***********************************************************************************************
+ *                                                                                             *
+ *                 Project Name : Installer                                                    *
+ *                                                                                             *
+ *                     $Archive:: /Commando/Code/Installer/LicenseDialog. $*
+ *                                                                                             *
+ *                      $Author:: Ian_l                   $*
+ *                                                                                             *
+ *                     $Modtime:: 12/04/01 4:56p                $*
+ *                                                                                             *
+ *                    $Revision:: 3                     $*
+ *                                                                                             *
+ *---------------------------------------------------------------------------------------------*
+ * Functions:                                                                                  *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 #ifndef _LICENSE_DIALOG_H
 #define _LICENSE_DIALOG_H
@@ -45,32 +45,35 @@
 // Classes.
 class LicenseDialogClass : public InstallMenuDialogClass
 {
-	public:
-		LicenseDialogClass() : InstallMenuDialogClass (IDD_DIALOG_LICENSE) {}
+public:
+    LicenseDialogClass()
+        : InstallMenuDialogClass(IDD_DIALOG_LICENSE)
+    {
+    }
 
-		// RTTI.
-		void *As_LicenseDialogClass()		{return (this);}
+    // RTTI.
+    void* As_LicenseDialogClass() { return (this); }
 
-		void On_Command (int ctrl_id, int message_id, DWORD param);
+    void On_Command(int ctrl_id, int message_id, DWORD param);
 
-	protected:
-		
-		void Load_License (const char *licensefilename);
-		void On_Init_Dialog (void);
+protected:
+    void Load_License(const char* licensefilename);
+    void On_Init_Dialog(void);
 };
-
 
 class NDADialogClass : public LicenseDialogClass
 {
-	public:
-		NDADialogClass() : LicenseDialogClass() {}
+public:
+    NDADialogClass()
+        : LicenseDialogClass()
+    {
+    }
 
-		// RTTI.
-		void *As_NDADialogClass()		{return (this);}
+    // RTTI.
+    void* As_NDADialogClass() { return (this); }
 
-	protected:
-		void On_Init_Dialog (void);
+protected:
+    void On_Init_Dialog(void);
 };
-
 
 #endif // _LICENSE_DIALOG_H

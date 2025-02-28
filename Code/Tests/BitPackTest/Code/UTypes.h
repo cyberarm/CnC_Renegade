@@ -17,23 +17,23 @@
 */
 
 /****************************************************************************
-*
-* FILE
-*     UTypes.h
-*
-* DESCRIPTION
-*     Generic user type definitions
-*
-* PROGRAMMER
-*     Denzil E. Long, Jr.
-*
-* VERSION INFO
-*     $Author: Denzil_l $
-*     $Revision: 1 $
-*     $Modtime: 12/02/99 4:31p $
-*     $Archive: /Commando/Code/Tests/BitPackTest/Code/UTypes.h $
-*
-****************************************************************************/
+ *
+ * FILE
+ *     UTypes.h
+ *
+ * DESCRIPTION
+ *     Generic user type definitions
+ *
+ * PROGRAMMER
+ *     Denzil E. Long, Jr.
+ *
+ * VERSION INFO
+ *     $Author: Denzil_l $
+ *     $Revision: 1 $
+ *     $Modtime: 12/02/99 4:31p $
+ *     $Archive: /Commando/Code/Tests/BitPackTest/Code/UTypes.h $
+ *
+ ****************************************************************************/
 
 #ifndef _UTYPES_H_
 #define _UTYPES_H_
@@ -77,15 +77,13 @@ typedef double Float64;
 //! Floating point value
 typedef Float32 Float;
 
-
 //! TriState
 typedef enum
-	{
-	OFF = false,
-	ON = true,
-	PENDING = -1
-	} TriState;
-
+{
+    OFF = false,
+    ON = true,
+    PENDING = -1
+} TriState;
 
 //! Empty pointer
 #ifndef NULL

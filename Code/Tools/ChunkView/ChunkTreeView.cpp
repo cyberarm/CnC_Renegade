@@ -34,14 +34,13 @@
  * Functions:                                                                                  *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
-
 // ChunkTreeView.cpp : implementation file
 //
 
-#include "stdafx.h"
-#include "ChunkView.h"
 #include "ChunkTreeView.h"
+#include "ChunkView.h"
 #include "ChunkViewDoc.h"
+#include "stdafx.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -62,11 +61,10 @@ CChunkTreeView::~CChunkTreeView()
 {
 }
 
-
 BEGIN_MESSAGE_MAP(CChunkTreeView, CTreeView)
-	//{{AFX_MSG_MAP(CChunkTreeView)
-	ON_NOTIFY_REFLECT(TVN_SELCHANGED, OnSelchanged)
-	//}}AFX_MSG_MAP
+//{{AFX_MSG_MAP(CChunkTreeView)
+ON_NOTIFY_REFLECT(TVN_SELCHANGED, OnSelchanged)
+//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -74,8 +72,8 @@ END_MESSAGE_MAP()
 
 void CChunkTreeView::OnDraw(CDC* pDC)
 {
-	CDocument* pDoc = GetDocument();
-	// TODO: add draw code here
+    CDocument* pDoc = GetDocument();
+    // TODO: add draw code here
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -84,62 +82,61 @@ void CChunkTreeView::OnDraw(CDC* pDC)
 #ifdef _DEBUG
 void CChunkTreeView::AssertValid() const
 {
-	CTreeView::AssertValid();
+    CTreeView::AssertValid();
 }
 
 void CChunkTreeView::Dump(CDumpContext& dc) const
 {
-	CTreeView::Dump(dc);
+    CTreeView::Dump(dc);
 }
 #endif //_DEBUG
-
 
 /////////////////////////////////////////////////////////////////////////////
 // CChunkTreeView message handlers
 
-void CChunkTreeView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint) 
+void CChunkTreeView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint)
 {
-	// Reset the entire tree view
-	CTreeCtrl &tree = GetTreeCtrl();
-	tree.DeleteAllItems();
-	
-	// Set the style attributes
-	long flags = tree.GetStyle();
-	flags |= TVS_HASLINES | TVS_LINESATROOT | TVS_HASBUTTONS | TVS_SHOWSELALWAYS | TVS_DISABLEDRAGDROP;
-	SetWindowLong(tree.GetSafeHwnd(), GWL_STYLE, flags);
+    // Reset the entire tree view
+    CTreeCtrl& tree = GetTreeCtrl();
+    tree.DeleteAllItems();
 
-	// Get the chunk tree
-	CChunkViewDoc * doc = (CChunkViewDoc *)GetDocument();
-	const ChunkImageClass * chunk = doc->Get_File_Image().Get_Root();
+    // Set the style attributes
+    long flags = tree.GetStyle();
+    flags |= TVS_HASLINES | TVS_LINESATROOT | TVS_HASBUTTONS | TVS_SHOWSELALWAYS
+        | TVS_DISABLEDRAGDROP;
+    SetWindowLong(tree.GetSafeHwnd(), GWL_STYLE, flags);
 
-	// Build the tree control to reflect the chunk tree
-	for (int i=0; i<chunk->Get_Sibling_Count(); i++) {
-		Insert_Chunk(chunk->Get_Sibling(i));
-	}
+    // Get the chunk tree
+    CChunkViewDoc* doc = (CChunkViewDoc*)GetDocument();
+    const ChunkImageClass* chunk = doc->Get_File_Image().Get_Root();
+
+    // Build the tree control to reflect the chunk tree
+    for (int i = 0; i < chunk->Get_Sibling_Count(); i++) {
+        Insert_Chunk(chunk->Get_Sibling(i));
+    }
 }
 
-void CChunkTreeView::Insert_Chunk(const ChunkImageClass * chunk, HTREEITEM Parent)
+void CChunkTreeView::Insert_Chunk(const ChunkImageClass* chunk, HTREEITEM Parent)
 {
-	char name[256];
-	sprintf(name,"Chunk ID: 0x%08X  Length: %d",chunk->Get_ID(),chunk->Get_Length());
+    char name[256];
+    sprintf(name, "Chunk ID: 0x%08X  Length: %d", chunk->Get_ID(), chunk->Get_Length());
 
-	CTreeCtrl &tree = GetTreeCtrl();
-	HTREEITEM tree_item = tree.InsertItem(name, Parent);
-	tree.SetItem(tree_item, TVIF_PARAM,0,0,0,0,0, (long) chunk);
+    CTreeCtrl& tree = GetTreeCtrl();
+    HTREEITEM tree_item = tree.InsertItem(name, Parent);
+    tree.SetItem(tree_item, TVIF_PARAM, 0, 0, 0, 0, 0, (long)chunk);
 
-	for (int i=0; i<chunk->Get_Child_Count(); i++) {
-		Insert_Chunk(chunk->Get_Child(i),tree_item);
-	}
+    for (int i = 0; i < chunk->Get_Child_Count(); i++) {
+        Insert_Chunk(chunk->Get_Child(i), tree_item);
+    }
 }
 
-
-void CChunkTreeView::OnSelchanged(NMHDR* pNMHDR, LRESULT* pResult) 
+void CChunkTreeView::OnSelchanged(NMHDR* pNMHDR, LRESULT* pResult)
 {
-	NM_TREEVIEW* pNMTreeView = (NM_TREEVIEW*)pNMHDR;
+    NM_TREEVIEW* pNMTreeView = (NM_TREEVIEW*)pNMHDR;
 
-	CChunkViewDoc * doc = (CChunkViewDoc *)GetDocument();
-	doc->Set_Cur_Chunk((ChunkImageClass *) pNMTreeView->itemNew.lParam);
+    CChunkViewDoc* doc = (CChunkViewDoc*)GetDocument();
+    doc->Set_Cur_Chunk((ChunkImageClass*)pNMTreeView->itemNew.lParam);
 
-	doc->UpdateAllViews(this);  // update all of the other views
-	*pResult = 0;
+    doc->UpdateAllViews(this); // update all of the other views
+    *pResult = 0;
 }

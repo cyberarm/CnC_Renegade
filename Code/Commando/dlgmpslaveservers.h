@@ -20,7 +20,8 @@
  ***              C O N F I D E N T I A L  ---  W E S T W O O D  S T U D I O S               ***
  ***********************************************************************************************
  *                                                                                             *
- *                 Project Name : Combat																		  *
+ *                 Project Name : Combat
+ **
  *                                                                                             *
  *                     $Archive:: /Commando/Code/Commando/dlgmpslaveservers.h                 $*
  *                                                                                             *
@@ -39,43 +40,36 @@
 #ifndef _DLGMPSLAVESERVER_H
 #define _DLGMPSLAVESERVER_H
 
-
+#include "dialogresource.h"
 #include "menudialog.h"
 #include "resource.h"
-#include "dialogresource.h"
 #include "slavemaster.h"
-
 
 class SlaveServerDialogClass : public MenuDialogClass
 {
-	public:
+public:
+    SlaveServerDialogClass(void);
 
-		SlaveServerDialogClass(void);
+    void On_Init_Dialog(void);
+    void On_Command(int ctrl_id, int mesage_id, DWORD param);
+    void On_Destroy(void);
+    void Load_Settings(int slavenum);
+    static void Set_Slave_Settings(StringClass* file_name);
+    static void Set_Slave_Button(int slavenum);
 
-		void On_Init_Dialog(void);
-		void On_Command(int ctrl_id, int mesage_id, DWORD param);
-		void On_Destroy(void);
-		void Load_Settings(int slavenum);
-		static void Set_Slave_Settings(StringClass *file_name);
-		static void Set_Slave_Button(int slavenum);
+private:
+    static unsigned long EnableIDs[MAX_SLAVES];
+    static unsigned long NickIDs[MAX_SLAVES];
+    static unsigned long PassIDs[MAX_SLAVES];
+    static unsigned long SerialIDs[MAX_SLAVES];
+    static unsigned long PortIDs[MAX_SLAVES];
+    static unsigned long SettingsButtons[MAX_SLAVES];
 
-	private:
+    static char ServerSettingsFileNames[MAX_SLAVES][MAX_PATH];
 
-		static unsigned long EnableIDs[MAX_SLAVES];
-		static unsigned long NickIDs[MAX_SLAVES];
-		static unsigned long PassIDs[MAX_SLAVES];
-		static unsigned long SerialIDs[MAX_SLAVES];
-		static unsigned long PortIDs[MAX_SLAVES];
-		static unsigned long SettingsButtons[MAX_SLAVES];
+    static int SlaveNumber;
 
-		static char ServerSettingsFileNames[MAX_SLAVES][MAX_PATH];
-
-		static int SlaveNumber;
-
-		static SlaveServerDialogClass *Instance;
-
-
+    static SlaveServerDialogClass* Instance;
 };
-
 
 #endif //_DLGMPSLAVESERVER_H

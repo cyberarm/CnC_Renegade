@@ -19,14 +19,12 @@
 // WWConfig.cpp : Defines the class behaviors for the application.
 //
 
-#include "stdafx.h"
 #include "WWConfig.h"
 #include "WWConfigDlg.h"
 #include "argv.h"
 #include "locale_api.h"
+#include "stdafx.h"
 #include "wwconfig_ids.h"
-
-
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -34,20 +32,19 @@
 static char THIS_FILE[] = __FILE__;
 #endif
 
-int GlobalExitValue=1;
+int GlobalExitValue = 1;
 void AutoConfigSettings();
 void CheckDriverVersion();
-
 
 /////////////////////////////////////////////////////////////////////////////
 // CWWConfigApp
 
 BEGIN_MESSAGE_MAP(CWWConfigApp, CWinApp)
-	//{{AFX_MSG_MAP(CWWConfigApp)
-		// NOTE - the ClassWizard will add and remove mapping macros here.
-		//    DO NOT EDIT what you see in these blocks of generated code!
-	//}}AFX_MSG
-	ON_COMMAND(ID_HELP, CWinApp::OnHelp)
+//{{AFX_MSG_MAP(CWWConfigApp)
+// NOTE - the ClassWizard will add and remove mapping macros here.
+//    DO NOT EDIT what you see in these blocks of generated code!
+//}}AFX_MSG
+ON_COMMAND(ID_HELP, CWinApp::OnHelp)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -55,8 +52,8 @@ END_MESSAGE_MAP()
 
 CWWConfigApp::CWWConfigApp()
 {
-	// TODO: add construction code here,
-	// Place all significant initialization in InitInstance
+    // TODO: add construction code here,
+    // Place all significant initialization in InitInstance
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -70,87 +67,90 @@ CWWConfigApp theApp;
 
 BOOL CWWConfigApp::InitInstance()
 {
-	AfxEnableControlContainer();
+    AfxEnableControlContainer();
 
-	//-------------------------------------------------------------------------
-	//	Standard initialization
-	//
-	//	If you are not using these features and wish to reduce the size
-	//	of your final executable, you should remove from the following
-	//	the specific initialization routines you do not need.
-	//-------------------------------------------------------------------------
+    //-------------------------------------------------------------------------
+    //	Standard initialization
+    //
+    //	If you are not using these features and wish to reduce the size
+    //	of your final executable, you should remove from the following
+    //	the specific initialization routines you do not need.
+    //-------------------------------------------------------------------------
 
 #ifdef _AFXDLL
-	Enable3dControls();			// Call this when using MFC in a shared DLL
+    Enable3dControls(); // Call this when using MFC in a shared DLL
 #else
-	Enable3dControlsStatic();	// Call this when linking to MFC statically
+    Enable3dControlsStatic(); // Call this when linking to MFC statically
 #endif
 
-	//-------------------------------------------------------------------------
-	// Get the Command line parameters.
-	//-------------------------------------------------------------------------
-	CString cmd(m_lpCmdLine);
+    //-------------------------------------------------------------------------
+    // Get the Command line parameters.
+    //-------------------------------------------------------------------------
+    CString cmd(m_lpCmdLine);
 
-	//=========================================================================
-	// Init the strings.
-	//=========================================================================
-	int language = -1;
+    //=========================================================================
+    // Init the strings.
+    //=========================================================================
+    int language = -1;
 
-	if( cmd.Find( "-French") !=-1 ) {
-		language = 	IDL_FRENCH;
-	} else if( cmd.Find( "-German") !=-1 ) {
-		language = 	IDL_GERMAN;
-	} else if( cmd.Find( "-Japanese") !=-1 ) {
-		language = 	IDL_JAPANESE;
-	} else if( cmd.Find( "-Korean") !=-1 ) {
-		language = 	IDL_KOREAN;
-	} else if( cmd.Find( "-Chinese") !=-1 ) {
-		language = 	IDL_CHINESE;
-	} else if( cmd.Find( "-English") !=-1 ) {
-		language = 	IDL_ENGLISH;
-	}
-	
-	Locale_Init( language, "WWConfig.loc" );
+    if (cmd.Find("-French") != -1) {
+        language = IDL_FRENCH;
+    }
+    else if (cmd.Find("-German") != -1) {
+        language = IDL_GERMAN;
+    }
+    else if (cmd.Find("-Japanese") != -1) {
+        language = IDL_JAPANESE;
+    }
+    else if (cmd.Find("-Korean") != -1) {
+        language = IDL_KOREAN;
+    }
+    else if (cmd.Find("-Chinese") != -1) {
+        language = IDL_CHINESE;
+    }
+    else if (cmd.Find("-English") != -1) {
+        language = IDL_ENGLISH;
+    }
 
-	//
-	//
-	//
-	if (cmd.Find("-autoconfig")!=-1) {
-		AutoConfigSettings();
-	}
-	else if (cmd.Find("-driverversion")!=-1) {
-		CheckDriverVersion();
-	}
-	else {
-		CWWConfigDlg dlg;
-		m_pMainWnd = &dlg;
-		int nResponse = dlg.DoModal();
-		if (nResponse == IDOK)
-		{
-			// TODO: Place code here to handle when the dialog is
-			//  dismissed with OK
-		}
-		else if (nResponse == IDCANCEL)
-		{
-			// TODO: Place code here to handle when the dialog is
-			//  dismissed with Cancel
-		}
-	}
+    Locale_Init(language, "WWConfig.loc");
 
-	//-------------------------------------------------------------------------
-	// Free the strings.
-	//-------------------------------------------------------------------------
-	Locale_Restore();
+    //
+    //
+    //
+    if (cmd.Find("-autoconfig") != -1) {
+        AutoConfigSettings();
+    }
+    else if (cmd.Find("-driverversion") != -1) {
+        CheckDriverVersion();
+    }
+    else {
+        CWWConfigDlg dlg;
+        m_pMainWnd = &dlg;
+        int nResponse = dlg.DoModal();
+        if (nResponse == IDOK) {
+            // TODO: Place code here to handle when the dialog is
+            //  dismissed with OK
+        }
+        else if (nResponse == IDCANCEL) {
+            // TODO: Place code here to handle when the dialog is
+            //  dismissed with Cancel
+        }
+    }
 
-	// Since the dialog has been closed, return FALSE so that we exit the
-	//  application, rather than start the application's message pump.
-	return FALSE;
+    //-------------------------------------------------------------------------
+    // Free the strings.
+    //-------------------------------------------------------------------------
+    Locale_Restore();
+
+    // Since the dialog has been closed, return FALSE so that we exit the
+    //  application, rather than start the application's message pump.
+    return FALSE;
 }
 
-int CWWConfigApp::ExitInstance() 
+int CWWConfigApp::ExitInstance()
 {
-	// TODO: Add your specialized code here and/or call the base class
-	
-	CWinApp::ExitInstance();
-	return GlobalExitValue;
+    // TODO: Add your specialized code here and/or call the base class
+
+    CWinApp::ExitInstance();
+    return GlobalExitValue;
 }

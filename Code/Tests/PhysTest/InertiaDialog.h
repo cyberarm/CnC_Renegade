@@ -32,40 +32,42 @@ class RigidBodyClass;
 
 class CInertiaDialog : public CDialog
 {
-// Construction
+    // Construction
 public:
-	CInertiaDialog(CWnd* pParent,RigidBodyClass * obj); 
+    CInertiaDialog(CWnd* pParent, RigidBodyClass* obj);
 
-// Dialog Data
-	//{{AFX_DATA(CInertiaDialog)
-	enum { IDD = IDD_INERTIA_DIALOG };
-	CSpinButtonCtrl	m_IBodyZSpin;
-	CSpinButtonCtrl	m_IBodyYSpin;
-	CSpinButtonCtrl	m_IBodyXSpin;
-	//}}AFX_DATA
+    // Dialog Data
+    //{{AFX_DATA(CInertiaDialog)
+    enum
+    {
+        IDD = IDD_INERTIA_DIALOG
+    };
+    CSpinButtonCtrl m_IBodyZSpin;
+    CSpinButtonCtrl m_IBodyYSpin;
+    CSpinButtonCtrl m_IBodyXSpin;
+    //}}AFX_DATA
 
-	RigidBodyClass *	Object;
+    RigidBodyClass* Object;
 
-// Overrides
-	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CInertiaDialog)
-	protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
-	virtual BOOL OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult);
-	//}}AFX_VIRTUAL
-
-// Implementation
+    // Overrides
+    // ClassWizard generated virtual function overrides
+    //{{AFX_VIRTUAL(CInertiaDialog)
 protected:
+    virtual void DoDataExchange(CDataExchange* pDX); // DDX/DDV support
+    virtual BOOL OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult);
+    //}}AFX_VIRTUAL
 
-	float GetDlgItemFloat(int controlid);
-	void SetDlgItemFloat(int controlid,float val);
+    // Implementation
+protected:
+    float GetDlgItemFloat(int controlid);
+    void SetDlgItemFloat(int controlid, float val);
 
-	// Generated message map functions
-	//{{AFX_MSG(CInertiaDialog)
-	virtual void OnOK();
-	virtual BOOL OnInitDialog();
-	//}}AFX_MSG
-	DECLARE_MESSAGE_MAP()
+    // Generated message map functions
+    //{{AFX_MSG(CInertiaDialog)
+    virtual void OnOK();
+    virtual BOOL OnInitDialog();
+    //}}AFX_MSG
+    DECLARE_MESSAGE_MAP()
 };
 
 //{{AFX_INSERT_LOCATION}}

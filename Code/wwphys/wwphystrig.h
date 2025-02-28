@@ -34,14 +34,12 @@
  * Functions:                                                                                  *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
-
 #if defined(_MSC_VER)
 #pragma once
 #endif
 
 #ifndef WWPHYSTRIG_H
 #define WWPHYSTRIG_H
-
 
 /*
 ** Debug triggers for WWPhys
@@ -52,11 +50,10 @@
 */
 enum
 {
-	WWPHYS_TRIGGER_COLLISION_DEBUGGING =			0x200,
-	WWPHYS_TRIGGER_COLLISION_DISPLAY =				0x201,
-	WWPHYS_TRIGGER_INVERT_VIS =						0x202,
-	WWPHYS_TRIGGER_DISABLE_VIS =						0x203,
+    WWPHYS_TRIGGER_COLLISION_DEBUGGING = 0x200,
+    WWPHYS_TRIGGER_COLLISION_DISPLAY = 0x201,
+    WWPHYS_TRIGGER_INVERT_VIS = 0x202,
+    WWPHYS_TRIGGER_DISABLE_VIS = 0x203,
 };
-
 
 #endif

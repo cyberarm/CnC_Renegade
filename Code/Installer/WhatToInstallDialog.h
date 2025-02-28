@@ -16,22 +16,22 @@
 **	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-/*********************************************************************************************** 
- ***                            Confidential - Westwood Studios                              *** 
- *********************************************************************************************** 
- *                                                                                             * 
- *                 Project Name : Installer                                                    * 
- *                                                                                             * 
- *                     $Archive:: /Commando/Code/Installer/WhatToInstallDialog $* 
- *                                                                                             * 
- *                      $Author:: Ian_l                   $* 
- *                                                                                             * 
- *                     $Modtime:: 10/25/01 1:42p                $* 
- *                                                                                             * 
- *                    $Revision:: 4                     $* 
- *                                                                                             * 
- *---------------------------------------------------------------------------------------------* 
- * Functions:                                                                                  * 
+/***********************************************************************************************
+ ***                            Confidential - Westwood Studios                              ***
+ ***********************************************************************************************
+ *                                                                                             *
+ *                 Project Name : Installer                                                    *
+ *                                                                                             *
+ *                     $Archive:: /Commando/Code/Installer/WhatToInstallDialog $*
+ *                                                                                             *
+ *                      $Author:: Ian_l                   $*
+ *                                                                                             *
+ *                     $Modtime:: 10/25/01 1:42p                $*
+ *                                                                                             *
+ *                    $Revision:: 4                     $*
+ *                                                                                             *
+ *---------------------------------------------------------------------------------------------*
+ * Functions:                                                                                  *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 #ifndef _WHAT_TO_INSTALL_H
 #define _WHAT_TO_INSTALL_H
@@ -39,29 +39,29 @@
 // Includes.
 #include "InstallMenuDialog.h"
 
-
 // Dialog to obtain from user the set of items to install.
 
 // Classes.
 class WhatToInstallDialogClass : public InstallMenuDialogClass
 {
-	public:
-		WhatToInstallDialogClass() : InstallMenuDialogClass (IDD_DIALOG_WHAT_TO_INSTALL) {}
-		
-		// RTTI.
-		void *As_WhatToInstallDialogClass()			{return (this);}
+public:
+    WhatToInstallDialogClass()
+        : InstallMenuDialogClass(IDD_DIALOG_WHAT_TO_INSTALL)
+    {
+    }
 
-		void On_Command (int ctrl_id, int message_id, DWORD param);
+    // RTTI.
+    void* As_WhatToInstallDialogClass() { return (this); }
 
-		bool Install_Game()				{return (Is_Dlg_Button_Checked (IDC_WHAT_TO_INSTALL_CHECK1));}
-		bool Install_WOL()				{return (Is_Dlg_Button_Checked (IDC_WHAT_TO_INSTALL_CHECK2));}
-		bool Install_Game_Shortcut()	{return (Is_Dlg_Button_Checked (IDC_WHAT_TO_INSTALL_CHECK3));}
-		bool Use_IGR_Settings()			{return (Is_Dlg_Button_Checked (IDC_WHAT_TO_INSTALL_CHECK4));}
+    void On_Command(int ctrl_id, int message_id, DWORD param);
 
-	protected:
-		
-		void On_Init_Dialog (void);
+    bool Install_Game() { return (Is_Dlg_Button_Checked(IDC_WHAT_TO_INSTALL_CHECK1)); }
+    bool Install_WOL() { return (Is_Dlg_Button_Checked(IDC_WHAT_TO_INSTALL_CHECK2)); }
+    bool Install_Game_Shortcut() { return (Is_Dlg_Button_Checked(IDC_WHAT_TO_INSTALL_CHECK3)); }
+    bool Use_IGR_Settings() { return (Is_Dlg_Button_Checked(IDC_WHAT_TO_INSTALL_CHECK4)); }
+
+protected:
+    void On_Init_Dialog(void);
 };
-
 
 #endif // _WHAT_TO_INSTALL_DIALOG_H

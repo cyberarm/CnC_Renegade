@@ -30,37 +30,39 @@
 
 class CBackgroundBMPDialog : public CDialog
 {
-// Construction
+    // Construction
 public:
-	CBackgroundBMPDialog(CWnd* pParent = NULL);   // standard constructor
+    CBackgroundBMPDialog(CWnd* pParent = NULL); // standard constructor
 
-// Dialog Data
-	//{{AFX_DATA(CBackgroundBMPDialog)
-	enum { IDD = IDD_BACKGROUND_BMP };
-		// NOTE: the ClassWizard will add data members here
-	//}}AFX_DATA
+    // Dialog Data
+    //{{AFX_DATA(CBackgroundBMPDialog)
+    enum
+    {
+        IDD = IDD_BACKGROUND_BMP
+    };
+    // NOTE: the ClassWizard will add data members here
+    //}}AFX_DATA
 
-
-// Overrides
-	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CBackgroundBMPDialog)
-	protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
-	//}}AFX_VIRTUAL
-
-// Implementation
+    // Overrides
+    // ClassWizard generated virtual function overrides
+    //{{AFX_VIRTUAL(CBackgroundBMPDialog)
 protected:
+    virtual void DoDataExchange(CDataExchange* pDX); // DDX/DDV support
+    //}}AFX_VIRTUAL
 
-	// Generated message map functions
-	//{{AFX_MSG(CBackgroundBMPDialog)
-	virtual BOOL OnInitDialog();
-	virtual void OnOK();
-	afx_msg void OnBrowse();
-	//}}AFX_MSG
-	DECLARE_MESSAGE_MAP()
+    // Implementation
+protected:
+    // Generated message map functions
+    //{{AFX_MSG(CBackgroundBMPDialog)
+    virtual BOOL OnInitDialog();
+    virtual void OnOK();
+    afx_msg void OnBrowse();
+    //}}AFX_MSG
+    DECLARE_MESSAGE_MAP()
 };
 
 //{{AFX_INSERT_LOCATION}}
-// Microsoft Developer Studio will insert additional declarations immediately before the previous line.
+// Microsoft Developer Studio will insert additional declarations immediately before the previous
+// line.
 
 #endif // !defined(AFX_BACKGROUNDBMPDIALOG_H__5D8C201B_6380_11D2_9FC7_00104B791122__INCLUDED_)

@@ -16,22 +16,22 @@
 **	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-/*********************************************************************************************** 
- ***                            Confidential - Westwood Studios                              *** 
- *********************************************************************************************** 
- *                                                                                             * 
- *                 Project Name : Installer                                                    * 
- *                                                                                             * 
- *                     $Archive:: /Commando/Code/Installer/ReviewDialog.cpp $* 
- *                                                                                             * 
- *                      $Author:: Ian_l                   $* 
- *                                                                                             * 
- *                     $Modtime:: 11/24/01 9:29p                $* 
- *                                                                                             * 
- *                    $Revision:: 5                     $* 
- *                                                                                             * 
- *---------------------------------------------------------------------------------------------* 
- * Functions:                                                                                  * 
+/***********************************************************************************************
+ ***                            Confidential - Westwood Studios                              ***
+ ***********************************************************************************************
+ *                                                                                             *
+ *                 Project Name : Installer                                                    *
+ *                                                                                             *
+ *                     $Archive:: /Commando/Code/Installer/ReviewDialog.cpp $*
+ *                                                                                             *
+ *                      $Author:: Ian_l                   $*
+ *                                                                                             *
+ *                     $Modtime:: 11/24/01 9:29p                $*
+ *                                                                                             *
+ *                    $Revision:: 5                     $*
+ *                                                                                             *
+ *---------------------------------------------------------------------------------------------*
+ * Functions:                                                                                  *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
 // Includes.
@@ -40,9 +40,9 @@
 #include "ListCtrl.h"
 #include "Translator.h"
 
-
 /***********************************************************************************************
- * ReviewDialogClass::On_Init_Dialog --																		  *		
+ * ReviewDialogClass::On_Init_Dialog --
+ **
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -51,18 +51,18 @@
  * WARNINGS:                                                                                   *
  *                                                                                             *
  * HISTORY:                                                                                    *
- *   08/22/01    IML : Created.                                                                * 
+ *   08/22/01    IML : Created.                                                                *
  *=============================================================================================*/
-void ReviewDialogClass::On_Init_Dialog (void)
+void ReviewDialogClass::On_Init_Dialog(void)
 {
-	Set_Dlg_Item_Text (IDC_REVIEW_STATIC1, TxWideStringClass (IDS_REVIEW_SETTINGS));
+    Set_Dlg_Item_Text(IDC_REVIEW_STATIC1, TxWideStringClass(IDS_REVIEW_SETTINGS));
 
-	InstallMenuDialogClass::On_Init_Dialog();
+    InstallMenuDialogClass::On_Init_Dialog();
 }
 
-
 /***********************************************************************************************
- * ReviewDialogClass::On_Activate --																			  *		
+ * ReviewDialogClass::On_Activate --
+ **
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -71,59 +71,63 @@ void ReviewDialogClass::On_Init_Dialog (void)
  * WARNINGS:                                                                                   *
  *                                                                                             *
  * HISTORY:                                                                                    *
- *   08/22/01    IML : Created.                                                                * 
+ *   08/22/01    IML : Created.                                                                *
  *=============================================================================================*/
-void ReviewDialogClass::On_Activate (bool onoff)
+void ReviewDialogClass::On_Activate(bool onoff)
 {
-	if (onoff) {
+    if (onoff) {
 
-		const WCHAR *formatstring = L"•%s: %s";
+        const WCHAR* formatstring = L"•%s: %s";
 
-		WideStringClass reviewtext, substring;
-		WideStringClass t;
+        WideStringClass reviewtext, substring;
+        WideStringClass t;
 
-		// NOTE: Items may have changed since this dialog was last active.
-		if (_Installer.Install_Game()) {
-			reviewtext += TxWideStringClass (IDS_INSTALL_GAME);
-			reviewtext += L"\n";
-			substring.Format (formatstring, TxWideStringClass (IDS_DESTINATION_DIRECTORY), _Installer.Get_Target_Game_Path (t));
-			reviewtext += substring;
-			reviewtext += L"\n";
-			substring.Format (formatstring, TxWideStringClass (IDS_PROGRAM_FOLDER), _Installer.Get_Target_Game_Folder (t));
-			reviewtext += substring;
-			reviewtext += L"\n\n";
+        // NOTE: Items may have changed since this dialog was last active.
+        if (_Installer.Install_Game()) {
+            reviewtext += TxWideStringClass(IDS_INSTALL_GAME);
+            reviewtext += L"\n";
+            substring.Format(formatstring, TxWideStringClass(IDS_DESTINATION_DIRECTORY),
+                             _Installer.Get_Target_Game_Path(t));
+            reviewtext += substring;
+            reviewtext += L"\n";
+            substring.Format(formatstring, TxWideStringClass(IDS_PROGRAM_FOLDER),
+                             _Installer.Get_Target_Game_Folder(t));
+            reviewtext += substring;
+            reviewtext += L"\n\n";
 
-			if (_Installer.Install_Game_Shortcut()) {
-				reviewtext += TxWideStringClass (IDS_PLACE_SHORTCUT);
-				reviewtext += L"\n\n";
-			}
-		}
+            if (_Installer.Install_Game_Shortcut()) {
+                reviewtext += TxWideStringClass(IDS_PLACE_SHORTCUT);
+                reviewtext += L"\n\n";
+            }
+        }
 
-		if (_Installer.Install_WOL()) {
-			reviewtext += TxWideStringClass (IDS_INSTALL_WOL);
-			reviewtext += L"\n";
-			substring.Format (formatstring, TxWideStringClass (IDS_DESTINATION_DIRECTORY), _Installer.Get_Target_WOL_Path (t));
-			reviewtext += substring;
-			reviewtext += L"\n";
-			substring.Format (formatstring, TxWideStringClass (IDS_PROGRAM_FOLDER), _Installer.Get_Target_WOL_Folder (t));
-			reviewtext += substring;
-			reviewtext += L"\n\n";
+        if (_Installer.Install_WOL()) {
+            reviewtext += TxWideStringClass(IDS_INSTALL_WOL);
+            reviewtext += L"\n";
+            substring.Format(formatstring, TxWideStringClass(IDS_DESTINATION_DIRECTORY),
+                             _Installer.Get_Target_WOL_Path(t));
+            reviewtext += substring;
+            reviewtext += L"\n";
+            substring.Format(formatstring, TxWideStringClass(IDS_PROGRAM_FOLDER),
+                             _Installer.Get_Target_WOL_Folder(t));
+            reviewtext += substring;
+            reviewtext += L"\n\n";
 
-			if (_Installer.Use_IGR_Settings()) {
-				reviewtext += TxWideStringClass (IDS_USE_GAME_ROOM_SETTINGS);
-				reviewtext += L"\n\n";
-			}
-		}
+            if (_Installer.Use_IGR_Settings()) {
+                reviewtext += TxWideStringClass(IDS_USE_GAME_ROOM_SETTINGS);
+                reviewtext += L"\n\n";
+            }
+        }
 
-		Set_Dlg_Item_Text (IDC_REVIEW_EDIT, reviewtext);
-	}
+        Set_Dlg_Item_Text(IDC_REVIEW_EDIT, reviewtext);
+    }
 
-	InstallMenuDialogClass::On_Activate (onoff);
+    InstallMenuDialogClass::On_Activate(onoff);
 }
 
-
 /***********************************************************************************************
- * ReviewDialogClass::On_Command --																				  *
+ * ReviewDialogClass::On_Command --
+ **
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -132,9 +136,9 @@ void ReviewDialogClass::On_Activate (bool onoff)
  * WARNINGS:                                                                                   *
  *                                                                                             *
  * HISTORY:                                                                                    *
- *   08/22/01    IML : Created.                                                                * 
+ *   08/22/01    IML : Created.                                                                *
  *=============================================================================================*/
-void ReviewDialogClass::On_Command (int ctrl_id, int message_id, DWORD param)
+void ReviewDialogClass::On_Command(int ctrl_id, int message_id, DWORD param)
 {
-	InstallMenuDialogClass::On_Command (ctrl_id, message_id, param);
+    InstallMenuDialogClass::On_Command(ctrl_id, message_id, param);
 }

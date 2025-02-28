@@ -38,24 +38,21 @@ extern "C" {
  * Method:    startWinSock
  * Signature: ()V
  */
-JNIEXPORT void JNICALL Java_RenegadeNet_startWinSock
-  (JNIEnv *, jclass);
+JNIEXPORT void JNICALL Java_RenegadeNet_startWinSock(JNIEnv*, jclass);
 
 /*
  * Class:     RenegadeNet
  * Method:    stopWinSock
  * Signature: ()V
  */
-JNIEXPORT void JNICALL Java_RenegadeNet_stopWinSock
-  (JNIEnv *, jclass);
+JNIEXPORT void JNICALL Java_RenegadeNet_stopWinSock(JNIEnv*, jclass);
 
 /*
  * Class:     RenegadeNet
  * Method:    _nativeSendGR
  * Signature: ([Ljava/lang/String;[D)I
  */
-JNIEXPORT jint JNICALL Java_RenegadeNet__1nativeSendGR
-  (JNIEnv *, jclass, jobjectArray, jdoubleArray);
+JNIEXPORT jint JNICALL Java_RenegadeNet__1nativeSendGR(JNIEnv*, jclass, jobjectArray, jdoubleArray);
 
 #ifdef __cplusplus
 }

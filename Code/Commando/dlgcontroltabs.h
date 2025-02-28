@@ -20,7 +20,8 @@
  ***              C O N F I D E N T I A L  ---  W E S T W O O D  S T U D I O S               ***
  ***********************************************************************************************
  *                                                                                             *
- *                 Project Name : Combat																		  *
+ *                 Project Name : Combat
+ **
  *                                                                                             *
  *                     $Archive:: /Commando/Code/commando/dlgcontroltabs.h        $*
  *                                                                                             *
@@ -41,15 +42,12 @@
 #ifndef __DLGCONTROLTABS_H
 #define __DLGCONTROLTABS_H
 
-
 #include "dlgcontrolslisttab.h"
 #include "resource.h"
-
 
 ////////////////////////////////////////////////////////////////
 //	Forward declarations
 ////////////////////////////////////////////////////////////////
-
 
 ////////////////////////////////////////////////////////////////
 //
@@ -59,9 +57,8 @@
 class ControlsBasicMvmtTabClass : public ControlsListTabClass
 {
 public:
-	ControlsBasicMvmtTabClass (void);
+    ControlsBasicMvmtTabClass(void);
 };
-
 
 ////////////////////////////////////////////////////////////////
 //
@@ -71,9 +68,8 @@ public:
 class ControlsMultiPlayTabClass : public ControlsListTabClass
 {
 public:
-	ControlsMultiPlayTabClass (void);
+    ControlsMultiPlayTabClass(void);
 };
-
 
 ////////////////////////////////////////////////////////////////
 //
@@ -83,10 +79,8 @@ public:
 class ControlsMiscTabClass : public ControlsListTabClass
 {
 public:
-	ControlsMiscTabClass (void);
-
+    ControlsMiscTabClass(void);
 };
-
 
 ////////////////////////////////////////////////////////////////
 //
@@ -96,16 +90,15 @@ public:
 class ControlsLookTabClass : public ControlsListTabClass
 {
 public:
-	ControlsLookTabClass (void);
+    ControlsLookTabClass(void);
 
-	void			On_Init_Dialog (void);
-	bool			On_Apply (void);
-	void			On_Reload (void);
+    void On_Init_Dialog(void);
+    bool On_Apply(void);
+    void On_Reload(void);
 
 private:
-	void			Load_Controls (void);
+    void Load_Controls(void);
 };
-
 
 ////////////////////////////////////////////////////////////////
 //
@@ -115,9 +108,8 @@ private:
 class ControlsWeaponsTabClass : public ControlsListTabClass
 {
 public:
-	ControlsWeaponsTabClass (void);
+    ControlsWeaponsTabClass(void);
 };
-
 
 ////////////////////////////////////////////////////////////////
 //
@@ -127,16 +119,14 @@ public:
 class ControlsAttackTabClass : public ControlsListTabClass
 {
 public:
-	ControlsAttackTabClass (void);
+    ControlsAttackTabClass(void);
 
-	void			On_Init_Dialog (void);
-	bool			On_Apply (void);
-	void			On_Reload (void);
+    void On_Init_Dialog(void);
+    bool On_Apply(void);
+    void On_Reload(void);
 
 private:
-	void			Load_Controls (void);
+    void Load_Controls(void);
 };
 
-
 #endif //__DLGCONTROLTABS_H
-

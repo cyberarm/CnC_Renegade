@@ -16,22 +16,22 @@
 **	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-/*********************************************************************************************** 
- ***                            Confidential - Westwood Studios                              *** 
- *********************************************************************************************** 
- *                                                                                             * 
- *                 Project Name : LightMap                                                     * 
- *                                                                                             * 
- *                     $Archive:: /Commando/Code/Tool $* 
- *                                                                                             * 
- *                      $Author:: Ian_l               $* 
- *                                                                                             * 
- *                     $Modtime:: 2/03/00 6:19p       $* 
- *                                                                                             * 
- *                    $Revision:: 2                                                         $* 
- *                                                                                             * 
- *---------------------------------------------------------------------------------------------* 
- * Functions:                                                                                  * 
+/***********************************************************************************************
+ ***                            Confidential - Westwood Studios                              ***
+ ***********************************************************************************************
+ *                                                                                             *
+ *                 Project Name : LightMap                                                     *
+ *                                                                                             *
+ *                     $Archive:: /Commando/Code/Tool $*
+ *                                                                                             *
+ *                      $Author:: Ian_l               $*
+ *                                                                                             *
+ *                     $Modtime:: 2/03/00 6:19p       $*
+ *                                                                                             *
+ *                    $Revision:: 2                                                         $*
+ *                                                                                             *
+ *---------------------------------------------------------------------------------------------*
+ * Functions:                                                                                  *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
 #if !defined(AFX_PACKINGDIALOG_H__F120E798_DA72_11D3_A385_009027447394__INCLUDED_)
@@ -41,37 +41,38 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-
 class PackingDialog : public CDialog
 {
-// Construction
+    // Construction
 public:
-	PackingDialog(CWnd* pParent = NULL);   // standard constructor
+    PackingDialog(CWnd* pParent = NULL); // standard constructor
 
-// Dialog Data
-	//{{AFX_DATA(PackingDialog)
-	enum { IDD = IDD_PACKING };
-		// NOTE: the ClassWizard will add data members here
-	//}}AFX_DATA
+    // Dialog Data
+    //{{AFX_DATA(PackingDialog)
+    enum
+    {
+        IDD = IDD_PACKING
+    };
+    // NOTE: the ClassWizard will add data members here
+    //}}AFX_DATA
 
+    // Overrides
+    // ClassWizard generated virtual function overrides
+    //{{AFX_VIRTUAL(PackingDialog)
+public:
+    virtual int DoModal();
 
-// Overrides
-	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(PackingDialog)
-	public:
-	virtual int DoModal();
-	protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
-	//}}AFX_VIRTUAL
-
-// Implementation
 protected:
+    virtual void DoDataExchange(CDataExchange* pDX); // DDX/DDV support
+    //}}AFX_VIRTUAL
 
-	// Generated message map functions
-	//{{AFX_MSG(PackingDialog)
-	virtual BOOL OnInitDialog();
-	//}}AFX_MSG
-	DECLARE_MESSAGE_MAP()
+    // Implementation
+protected:
+    // Generated message map functions
+    //{{AFX_MSG(PackingDialog)
+    virtual BOOL OnInitDialog();
+    //}}AFX_MSG
+    DECLARE_MESSAGE_MAP()
 };
 
 //{{AFX_INSERT_LOCATION}}

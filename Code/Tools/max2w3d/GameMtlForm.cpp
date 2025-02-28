@@ -40,10 +40,8 @@
  *   GameMtlFormClass::SetTime -- set the current time                                         *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
-
 #include "GameMtlForm.h"
 #include "GameMtl.h"
-
 
 /***********************************************************************************************
  * GameMtlFormClass::GameMtlFormClass -- constructor                                           *
@@ -57,22 +55,16 @@
  * HISTORY:                                                                                    *
  *   11/23/98   GTH : Created.                                                                 *
  *=============================================================================================*/
-GameMtlFormClass::GameMtlFormClass
-(
-	IMtlParams *	imtl_params, 
-	GameMtl *		mtl,
-	int				pass
-)
+GameMtlFormClass::GameMtlFormClass(IMtlParams* imtl_params, GameMtl* mtl, int pass)
 {
 #if !defined W3D_GMAXDEV
-	IParams = imtl_params;
+    IParams = imtl_params;
 #else
-	IParams = new FakeIMtlParams;
+    IParams = new FakeIMtlParams;
 #endif
-	TheMtl = mtl;
-	PassIndex = pass;
+    TheMtl = mtl;
+    PassIndex = pass;
 }
-
 
 /***********************************************************************************************
  * GameMtlFormClass::SetThing -- Set the material being edited by this form                    *
@@ -86,14 +78,13 @@ GameMtlFormClass::GameMtlFormClass
  * HISTORY:                                                                                    *
  *   11/23/98   GTH : Created.                                                                 *
  *=============================================================================================*/
-void GameMtlFormClass::SetThing(ReferenceTarget * target)
+void GameMtlFormClass::SetThing(ReferenceTarget* target)
 {
-	assert (target->SuperClassID()==MATERIAL_CLASS_ID);
-	assert (target->ClassID()==GameMaterialClassID);
+    assert(target->SuperClassID() == MATERIAL_CLASS_ID);
+    assert(target->ClassID() == GameMaterialClassID);
 
-	TheMtl = (GameMtl *)target;
+    TheMtl = (GameMtl*)target;
 }
-
 
 /***********************************************************************************************
  * GameMtlFormClass::GetThing -- get the material being edited by this form                    *
@@ -107,11 +98,10 @@ void GameMtlFormClass::SetThing(ReferenceTarget * target)
  * HISTORY:                                                                                    *
  *   11/23/98   GTH : Created.                                                                 *
  *=============================================================================================*/
-ReferenceTarget * GameMtlFormClass::GetThing(void) 
-{ 
-	return (ReferenceTarget*)TheMtl; 
+ReferenceTarget* GameMtlFormClass::GetThing(void)
+{
+    return (ReferenceTarget*)TheMtl;
 }
-
 
 /***********************************************************************************************
  * GameMtlFormClass::DeleteThis -- delete myself                                               *
@@ -127,9 +117,8 @@ ReferenceTarget * GameMtlFormClass::GetThing(void)
  *=============================================================================================*/
 void GameMtlFormClass::DeleteThis(void)
 {
-	delete this;
+    delete this;
 }
-
 
 /***********************************************************************************************
  * GameMtlFormClass::ClassID -- returns the classID of the object being edited                 *
@@ -143,11 +132,10 @@ void GameMtlFormClass::DeleteThis(void)
  * HISTORY:                                                                                    *
  *   11/23/98   GTH : Created.                                                                 *
  *=============================================================================================*/
-Class_ID	GameMtlFormClass::ClassID()
+Class_ID GameMtlFormClass::ClassID()
 {
-	return GameMaterialClassID;  
+    return GameMaterialClassID;
 }
-
 
 /***********************************************************************************************
  * GameMtlFormClass::SetTime -- set the current time                                           *
@@ -163,6 +151,6 @@ Class_ID	GameMtlFormClass::ClassID()
  *=============================================================================================*/
 void GameMtlFormClass::SetTime(TimeValue t)
 {
-	// child dialog classes don't have to support
-	// the SetTime function.
+    // child dialog classes don't have to support
+    // the SetTime function.
 }

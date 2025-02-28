@@ -25,32 +25,27 @@ class MixFileFactoryClass;
 class MixFileCreator;
 class MixCombiningDialogClass;
 
-
-
 class MixPatchMakerClass
 {
-	public:
-		MixPatchMakerClass(void);
-		void Make_Patch(char *old_input_file, char *new_input_file, char *output_file, char *old_art_dir, char *new_art_dir);
-		static unsigned int Do_Stuff(void *param);
-		void Thread_Make(void);
+public:
+    MixPatchMakerClass(void);
+    void Make_Patch(char* old_input_file, char* new_input_file, char* output_file,
+                    char* old_art_dir, char* new_art_dir);
+    static unsigned int Do_Stuff(void* param);
+    void Thread_Make(void);
 
+private:
+    void Copy_File(MixFileFactoryClass* src_mix, MixFileCreator* dest_mix, char* filename);
+    bool Compare_File(MixFileFactoryClass* src_mix, MixFileFactoryClass* dest_mix, char* filename);
+    bool Compare_Source_Art_File(char* filename);
+    bool Find_File(char* file_name, char* path, char* found_path);
 
-	private:
-		void Copy_File(MixFileFactoryClass *src_mix, MixFileCreator *dest_mix, char *filename);
-		bool Compare_File(MixFileFactoryClass *src_mix, MixFileFactoryClass *dest_mix, char *filename);
-		bool Compare_Source_Art_File(char *filename);
-		bool Find_File(char *file_name, char *path, char *found_path);
-
-		MixCombiningDialogClass *Dialog;
-		char OldInputFile[1024];
-		char NewInputFile[1024];
-		char OutputFile[1024];
-		char OldArtDir[1024];
-		char NewArtDir[1024];
-
-
+    MixCombiningDialogClass* Dialog;
+    char OldInputFile[1024];
+    char NewInputFile[1024];
+    char OutputFile[1024];
+    char OldArtDir[1024];
+    char NewArtDir[1024];
 };
-
 
 #endif //_MIXPATCHMAKER_H

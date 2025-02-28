@@ -19,14 +19,12 @@
 // MixViewerView.cpp : implementation of the CMixViewerView class
 //
 
-#include "stdafx.h"
 #include "MixViewer.h"
-
-#include "mixviewerdoc.h"
-#include "mixviewerview.h"
 #include "ffactory.h"
 #include "mixfile.h"
-
+#include "mixviewerdoc.h"
+#include "mixviewerview.h"
+#include "stdafx.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -37,8 +35,7 @@ static char THIS_FILE[] = __FILE__;
 /////////////////////////////////////////////////////////////////////////////
 //	Local prototypes
 /////////////////////////////////////////////////////////////////////////////
-static int CALLBACK MixFilenamesListSortCallback (LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort);
-
+static int CALLBACK MixFilenamesListSortCallback(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort);
 
 /////////////////////////////////////////////////////////////////////////////
 // CMixViewerView
@@ -46,84 +43,75 @@ static int CALLBACK MixFilenamesListSortCallback (LPARAM lParam1, LPARAM lParam2
 IMPLEMENT_DYNCREATE(CMixViewerView, CListView)
 
 BEGIN_MESSAGE_MAP(CMixViewerView, CListView)
-	//{{AFX_MSG_MAP(CMixViewerView)
-	ON_WM_CREATE()
-	ON_NOTIFY_REFLECT(LVN_DELETEITEM, OnDeleteitem)
-	ON_WM_WINDOWPOSCHANGING()
-	//}}AFX_MSG_MAP
+//{{AFX_MSG_MAP(CMixViewerView)
+ON_WM_CREATE()
+ON_NOTIFY_REFLECT(LVN_DELETEITEM, OnDeleteitem)
+ON_WM_WINDOWPOSCHANGING()
+//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
-
 
 /////////////////////////////////////////////////////////////////////////////
 //
 //	CMixViewerView
 //
 /////////////////////////////////////////////////////////////////////////////
-CMixViewerView::CMixViewerView (void)
+CMixViewerView::CMixViewerView(void)
 {
-	return ;
+    return;
 }
-
 
 /////////////////////////////////////////////////////////////////////////////
 //
 //	~CMixViewerView
 //
 /////////////////////////////////////////////////////////////////////////////
-CMixViewerView::~CMixViewerView (void)
+CMixViewerView::~CMixViewerView(void)
 {
-	return ;
+    return;
 }
-
 
 /////////////////////////////////////////////////////////////////////////////
 //
 //	PreCreateWindow
 //
 /////////////////////////////////////////////////////////////////////////////
-BOOL
-CMixViewerView::PreCreateWindow (CREATESTRUCT &cs)
+BOOL CMixViewerView::PreCreateWindow(CREATESTRUCT& cs)
 {
-	cs.style |= LVS_REPORT;
+    cs.style |= LVS_REPORT;
 
-	return CListView::PreCreateWindow (cs);
+    return CListView::PreCreateWindow(cs);
 }
-
 
 /////////////////////////////////////////////////////////////////////////////
 //
 //	OnDraw
 //
 /////////////////////////////////////////////////////////////////////////////
-void
-CMixViewerView::OnDraw (CDC *pDC)
+void CMixViewerView::OnDraw(CDC* pDC)
 {
-	CMixViewerDoc* pDoc = GetDocument();
-	ASSERT_VALID(pDoc);
-	return ;
+    CMixViewerDoc* pDoc = GetDocument();
+    ASSERT_VALID(pDoc);
+    return;
 }
-
 
 /////////////////////////////////////////////////////////////////////////////
 //
 //	OnInitialUpdate
 //
 /////////////////////////////////////////////////////////////////////////////
-void
-CMixViewerView::OnInitialUpdate (void)
+void CMixViewerView::OnInitialUpdate(void)
 {
-	CListView::OnInitialUpdate ();
+    CListView::OnInitialUpdate();
 
-	//
-	//	Size the column
-	//
-	CRect rect;
-	GetListCtrl ().GetClientRect (&rect);
-	rect.right -= ::GetSystemMetrics (SM_CXVSCROLL) + 2;
-	GetListCtrl ().SetColumnWidth (0, rect.Width ());
-	return ;
+    //
+    //	Size the column
+    //
+    CRect rect;
+    GetListCtrl().GetClientRect(&rect);
+    rect.right -= ::GetSystemMetrics(SM_CXVSCROLL) + 2;
+    GetListCtrl().SetColumnWidth(0, rect.Width());
+    return;
 }
-
 
 /////////////////////////////////////////////////////////////////////////////
 // CMixViewerView diagnostics
@@ -131,210 +119,194 @@ CMixViewerView::OnInitialUpdate (void)
 #ifdef _DEBUG
 void CMixViewerView::AssertValid() const
 {
-	CListView::AssertValid();
+    CListView::AssertValid();
 }
 
 void CMixViewerView::Dump(CDumpContext& dc) const
 {
-	CListView::Dump(dc);
+    CListView::Dump(dc);
 }
 
 CMixViewerDoc* CMixViewerView::GetDocument() // non-debug version is inline
 {
-	ASSERT(m_pDocument->IsKindOf(RUNTIME_CLASS(CMixViewerDoc)));
-	return (CMixViewerDoc*)m_pDocument;
+    ASSERT(m_pDocument->IsKindOf(RUNTIME_CLASS(CMixViewerDoc)));
+    return (CMixViewerDoc*)m_pDocument;
 }
 #endif //_DEBUG
-
 
 /////////////////////////////////////////////////////////////////////////////
 //
 //	Reload
 //
 /////////////////////////////////////////////////////////////////////////////
-void
-CMixViewerView::Reload (const char *filename)
+void CMixViewerView::Reload(const char* filename)
 {
-	CurrentFilename = filename;
+    CurrentFilename = filename;
 
-	CMixViewerDoc *document = GetDocument ();
-	if (document == NULL) {
-		return ;
-	}
+    CMixViewerDoc* document = GetDocument();
+    if (document == NULL) {
+        return;
+    }
 
-	//
-	//	Start fresh
-	//
-	GetListCtrl ().DeleteAllItems ();
+    //
+    //	Start fresh
+    //
+    GetListCtrl().DeleteAllItems();
 
-	//
-	//	Get the filename list from the mix file
-	//
-	MixFileFactoryClass mix_factory (filename, _TheFileFactory);
-	if (mix_factory.Build_Filename_List (FilenameList)) {
-	
-		//
-		//	Add each filename to the list
-		//
-		for (int index = 0; index < FilenameList.Count (); index ++) {
-			int item_index = GetListCtrl ().InsertItem (index, FilenameList[index]);
-			if (item_index != -1) {
-				GetListCtrl ().SetItemData (item_index, (DWORD)new StringClass (FilenameList[index]));
-			}
-		}
+    //
+    //	Get the filename list from the mix file
+    //
+    MixFileFactoryClass mix_factory(filename, _TheFileFactory);
+    if (mix_factory.Build_Filename_List(FilenameList)) {
 
-		//
-		//	Sort the data
-		//
-		GetListCtrl ().SortItems (MixFilenamesListSortCallback, 0);
+        //
+        //	Add each filename to the list
+        //
+        for (int index = 0; index < FilenameList.Count(); index++) {
+            int item_index = GetListCtrl().InsertItem(index, FilenameList[index]);
+            if (item_index != -1) {
+                GetListCtrl().SetItemData(item_index, (DWORD) new StringClass(FilenameList[index]));
+            }
+        }
 
-	} else {
-		
-		//
-		//	Notify the user
-		//
-		StringClass message;
-		message.Format ("Error reading the filename list from %s.", filename);
-		MessageBox (message, "Mix File Error", MB_ICONERROR | MB_OK);
-	}
-	
-	return ;
+        //
+        //	Sort the data
+        //
+        GetListCtrl().SortItems(MixFilenamesListSortCallback, 0);
+    }
+    else {
+
+        //
+        //	Notify the user
+        //
+        StringClass message;
+        message.Format("Error reading the filename list from %s.", filename);
+        MessageBox(message, "Mix File Error", MB_ICONERROR | MB_OK);
+    }
+
+    return;
 }
-
 
 /////////////////////////////////////////////////////////////////////////////
 //
 //	Reset
 //
 /////////////////////////////////////////////////////////////////////////////
-void
-CMixViewerView::Reset (void)
+void CMixViewerView::Reset(void)
 {
-	GetListCtrl ().DeleteAllItems ();
-	FilenameList.Delete_All ();
-	CurrentFilename = "";
-	return ;
+    GetListCtrl().DeleteAllItems();
+    FilenameList.Delete_All();
+    CurrentFilename = "";
+    return;
 }
-
 
 /////////////////////////////////////////////////////////////////////////////
 //
 //	OnCreate
 //
 /////////////////////////////////////////////////////////////////////////////
-int
-CMixViewerView::OnCreate (LPCREATESTRUCT lpCreateStruct) 
+int CMixViewerView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 {
-	if (CListView::OnCreate (lpCreateStruct) == -1)	{
-		return -1;
-	}
+    if (CListView::OnCreate(lpCreateStruct) == -1) {
+        return -1;
+    }
 
-	//
-	//	Configure the list control
-	//
-	GetListCtrl ().SetExtendedStyle (GetListCtrl ().GetExtendedStyle () | LVS_EX_FULLROWSELECT);
-	GetListCtrl ().InsertColumn (0, "Filename");
-	return 0;
+    //
+    //	Configure the list control
+    //
+    GetListCtrl().SetExtendedStyle(GetListCtrl().GetExtendedStyle() | LVS_EX_FULLROWSELECT);
+    GetListCtrl().InsertColumn(0, "Filename");
+    return 0;
 }
-
 
 ////////////////////////////////////////////////////////////////////////////
 //
 //  MixFilenamesListSortCallback
 //
 ////////////////////////////////////////////////////////////////////////////
-int CALLBACK
-MixFilenamesListSortCallback
-(
-	LPARAM lParam1,
-	LPARAM lParam2,
-   LPARAM lParamSort
-)
+int CALLBACK MixFilenamesListSortCallback(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort)
 {
-	int retval = 0;
+    int retval = 0;
 
-	//
-	//	Get the data from list control
-	//
-	StringClass *item_data1 = (StringClass *)lParam1;
-	StringClass *item_data2 = (StringClass *)lParam2;
-	if (item_data1 != NULL && item_data2 != NULL) {
+    //
+    //	Get the data from list control
+    //
+    StringClass* item_data1 = (StringClass*)lParam1;
+    StringClass* item_data2 = (StringClass*)lParam2;
+    if (item_data1 != NULL && item_data2 != NULL) {
 
-		
-		bool is_1_dir = (::strrchr (*item_data1, '\\') != NULL);
-		bool is_2_dir = (::strrchr (*item_data2, '\\') != NULL);
+        bool is_1_dir = (::strrchr(*item_data1, '\\') != NULL);
+        bool is_2_dir = (::strrchr(*item_data2, '\\') != NULL);
 
-		if (is_1_dir && is_2_dir == false) {
-			retval = -1;
-		} else if (is_1_dir == false && is_2_dir) {
-			retval = 1;
-		} else {
-		
-			//
-			//	Do a simple string compare
-			//
-			retval = item_data1->Compare_No_Case (*item_data2);
-		}
-	}
-	
-	return retval;
+        if (is_1_dir && is_2_dir == false) {
+            retval = -1;
+        }
+        else if (is_1_dir == false && is_2_dir) {
+            retval = 1;
+        }
+        else {
+
+            //
+            //	Do a simple string compare
+            //
+            retval = item_data1->Compare_No_Case(*item_data2);
+        }
+    }
+
+    return retval;
 }
-
 
 /////////////////////////////////////////////////////////////////////////////
 //
 //	OnDeleteitem
 //
 /////////////////////////////////////////////////////////////////////////////
-void
-CMixViewerView::OnDeleteitem (NMHDR *pNMHDR, LRESULT *pResult) 
+void CMixViewerView::OnDeleteitem(NMHDR* pNMHDR, LRESULT* pResult)
 {
-	NM_LISTVIEW* pNMListView = (NM_LISTVIEW *)pNMHDR;
-	*pResult = 0;
+    NM_LISTVIEW* pNMListView = (NM_LISTVIEW*)pNMHDR;
+    *pResult = 0;
 
-	//
-	//	Get the string associated with this entry
-	//
-	StringClass *string = (StringClass *)GetListCtrl ().GetItemData (pNMListView->iItem);
-	GetListCtrl ().SetItemData (pNMListView->iItem, 0);
+    //
+    //	Get the string associated with this entry
+    //
+    StringClass* string = (StringClass*)GetListCtrl().GetItemData(pNMListView->iItem);
+    GetListCtrl().SetItemData(pNMListView->iItem, 0);
 
-	//
-	//	Free the string
-	//
-	if (string != NULL) {
-		delete string;
-		string = NULL;
-	}
+    //
+    //	Free the string
+    //
+    if (string != NULL) {
+        delete string;
+        string = NULL;
+    }
 
-	return ;
+    return;
 }
-
 
 /////////////////////////////////////////////////////////////////////////////
 //
 //	OnWindowPosChanging
 //
 /////////////////////////////////////////////////////////////////////////////
-void
-CMixViewerView::OnWindowPosChanging (WINDOWPOS FAR *lpwndpos) 
+void CMixViewerView::OnWindowPosChanging(WINDOWPOS FAR* lpwndpos)
 {
-	if ((lpwndpos->flags & SWP_NOSIZE) == 0) {
-		
-		//
-		//	Get the current percent of the column width
-		//
-		CRect rect;
-		GetListCtrl ().GetWindowRect (&rect);
-		int curr_width	= GetListCtrl ().GetColumnWidth (0);
-		float percent	= (float)curr_width / (float)rect.Width ();
+    if ((lpwndpos->flags & SWP_NOSIZE) == 0) {
 
-		//
-		//	Size the column
-		//
-		int new_width = int(lpwndpos->cx * percent);
-		GetListCtrl ().SetColumnWidth (0, new_width);
-	}
+        //
+        //	Get the current percent of the column width
+        //
+        CRect rect;
+        GetListCtrl().GetWindowRect(&rect);
+        int curr_width = GetListCtrl().GetColumnWidth(0);
+        float percent = (float)curr_width / (float)rect.Width();
 
-	CListView::OnWindowPosChanging (lpwndpos);
-	return ;
+        //
+        //	Size the column
+        //
+        int new_width = int(lpwndpos->cx * percent);
+        GetListCtrl().SetColumnWidth(0, new_width);
+    }
+
+    CListView::OnWindowPosChanging(lpwndpos);
+    return;
 }

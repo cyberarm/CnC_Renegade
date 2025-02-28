@@ -40,16 +40,13 @@
 #include "physcon.h"
 #include "physresourcemgr.h"
 
-
 void WWPhys::Init(void)
 {
-	PhysicsConstants::Init();
-	PhysResourceMgrClass::Init();
+    PhysicsConstants::Init();
+    PhysResourceMgrClass::Init();
 }
 
 void WWPhys::Shutdown(void)
 {
-	PhysResourceMgrClass::Shutdown();
+    PhysResourceMgrClass::Shutdown();
 }
-
-

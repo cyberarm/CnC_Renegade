@@ -16,68 +16,73 @@
 **	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-/*********************************************************************************************** 
- ***                            Confidential - Westwood Studios                              *** 
- *********************************************************************************************** 
- *                                                                                             * 
- *                 Project Name : Installer                                                    * 
- *                                                                                             * 
- *                     $Archive:: /Commando/Code/Installer/MessageBox.h  $* 
- *                                                                                             * 
- *                      $Author:: Ian_l                   $* 
- *                                                                                             * 
- *                     $Modtime:: 11/28/01 12:50a               $* 
- *                                                                                             * 
- *                    $Revision:: 5                     $* 
- *                                                                                             * 
- *---------------------------------------------------------------------------------------------* 
- * Functions:                                                                                  * 
+/***********************************************************************************************
+ ***                            Confidential - Westwood Studios                              ***
+ ***********************************************************************************************
+ *                                                                                             *
+ *                 Project Name : Installer                                                    *
+ *                                                                                             *
+ *                     $Archive:: /Commando/Code/Installer/MessageBox.h  $*
+ *                                                                                             *
+ *                      $Author:: Ian_l                   $*
+ *                                                                                             *
+ *                     $Modtime:: 11/28/01 12:50a               $*
+ *                                                                                             *
+ *                    $Revision:: 5                     $*
+ *                                                                                             *
+ *---------------------------------------------------------------------------------------------*
+ * Functions:                                                                                  *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 #ifndef _MESSAGE_BOX_H
 #define _MESSAGE_BOX_H
 
 // Includes.
-#include "PopupDialog.h"
 #include "MenuDialog.h"
-
+#include "PopupDialog.h"
 
 // Forward declarations.
 class CallbackMenuDialogClass;
 
-
 // Simple pop-up style message box.
 class MessageBoxClass : public PopupDialogClass
 {
-	public:
+public:
+    enum MessageBoxTypeEnum
+    {
 
-		enum MessageBoxTypeEnum {
+        MESSAGE_BOX_TYPE_OK,
+        MESSAGE_BOX_TYPE_YES_NO,
+        MESSAGE_BOX_TYPE_RETRY_QUIT
+    };
 
-			MESSAGE_BOX_TYPE_OK,
-			MESSAGE_BOX_TYPE_YES_NO,
-			MESSAGE_BOX_TYPE_RETRY_QUIT
-		};
+    MessageBoxClass(int res_id, CallbackMenuDialogClass* callbackobject)
+        : PopupDialogClass(res_id),
+          CallbackObject(callbackobject)
+    {
+    }
 
-		MessageBoxClass (int res_id, CallbackMenuDialogClass *callbackobject) : PopupDialogClass (res_id), CallbackObject (callbackobject) {}
+    static MessageBoxClass* Create_Dialog(const WCHAR* title, const WCHAR* text,
+                                          MessageBoxTypeEnum type,
+                                          CallbackMenuDialogClass* callbackobject);
+    static void Do_Dialog(const WCHAR* title, const WCHAR* text, MessageBoxTypeEnum type,
+                          CallbackMenuDialogClass* callbackobject = NULL);
 
-		static MessageBoxClass *Create_Dialog (const WCHAR *title, const WCHAR *text, MessageBoxTypeEnum type, CallbackMenuDialogClass *callbackobject);
-		static void					Do_Dialog (const WCHAR *title, const WCHAR *text, MessageBoxTypeEnum type, CallbackMenuDialogClass *callbackobject = NULL);
+    void On_Command(int ctrl_id, int message_id, DWORD param);
 
-		void On_Command (int ctrl_id, int message_id, DWORD param);
-
-	protected:
-
-		CallbackMenuDialogClass *CallbackObject;
+protected:
+    CallbackMenuDialogClass* CallbackObject;
 };
-
 
 // Interface class to inherit if you want to be notified of a key press from the message box.
 class CallbackMenuDialogClass : public MenuDialogClass
 {
-	public:
-		
-		CallbackMenuDialogClass (int resourceid) : MenuDialogClass (resourceid) {}
+public:
+    CallbackMenuDialogClass(int resourceid)
+        : MenuDialogClass(resourceid)
+    {
+    }
 
-		virtual void Callback (int id, PopupDialogClass *popup);
+    virtual void Callback(int id, PopupDialogClass* popup);
 };
 
 #endif // _MESSAGE_BOX_H

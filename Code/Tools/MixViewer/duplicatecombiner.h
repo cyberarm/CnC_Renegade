@@ -34,7 +34,6 @@
  * Functions:                                                                                  *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
-
 #if defined(_MSC_VER)
 #pragma once
 #endif
@@ -42,16 +41,14 @@
 #ifndef __DUPLICATE_REMOVER_H
 #define __DUPLICATE_REMOVER_H
 
-#include "wwstring.h"
 #include "vector.h"
-
+#include "wwstring.h"
 
 //////////////////////////////////////////////////////////////////////////////////
 //	Forward declarations
 //////////////////////////////////////////////////////////////////////////////////
 class MixFileFactoryClass;
 class MixCombiningDialogClass;
-
 
 //////////////////////////////////////////////////////////////////////////////////
 //
@@ -61,63 +58,58 @@ class MixCombiningDialogClass;
 class DuplicateRemoverClass
 {
 public:
+    //////////////////////////////////////////////////////////////////
+    //	Public constructors/destructor
+    //////////////////////////////////////////////////////////////////
+    DuplicateRemoverClass(void);
+    ~DuplicateRemoverClass(void);
 
-	//////////////////////////////////////////////////////////////////
-	//	Public constructors/destructor
-	//////////////////////////////////////////////////////////////////
-	DuplicateRemoverClass (void);
-	~DuplicateRemoverClass (void);
+    //////////////////////////////////////////////////////////////////
+    //	Public methods
+    //////////////////////////////////////////////////////////////////
 
-	//////////////////////////////////////////////////////////////////
-	//	Public methods
-	//////////////////////////////////////////////////////////////////
+    //
+    //	Configuration
+    //
+    void Add_Mix_File(const char* filename) { MixFileList.Add(filename); }
+    void Set_Destination_File(const char* filename) { DestinationMixFilename = filename; }
 
-	//
-	//	Configuration
-	//
-	void			Add_Mix_File (const char *filename)				{ MixFileList.Add (filename); }
-	void			Set_Destination_File (const char *filename)	{ DestinationMixFilename = filename; }
-
-	//
-	//	Processing
-	//
-	void			Process (void);
+    //
+    //	Processing
+    //
+    void Process(void);
 
 private:
+    //////////////////////////////////////////////////////////////////
+    //	Private methods
+    //////////////////////////////////////////////////////////////////
+    void Open_Mix_Files(DynamicVectorClass<MixFileFactoryClass*>& list);
+    void Close_Mix_Files(DynamicVectorClass<MixFileFactoryClass*>& list);
+    void Internal_Process(void);
 
-	//////////////////////////////////////////////////////////////////
-	//	Private methods
-	//////////////////////////////////////////////////////////////////
-	void			Open_Mix_Files (DynamicVectorClass<MixFileFactoryClass *> &list);
-	void			Close_Mix_Files (DynamicVectorClass<MixFileFactoryClass *> &list);
-	void			Internal_Process (void);	
+    static UINT fnThreadProc(LPVOID pParam);
 
-	static UINT	fnThreadProc (LPVOID pParam);
+    //
+    //	Utilities
+    //
+    void Copy_File(MixFileFactoryClass* src_mix, MixFileFactoryClass* dest_mix,
+                   const char* filename);
+    bool Clean_Directory(LPCTSTR local_dir);
+    void Get_Temp_Filename(StringClass& full_path);
+    void Make_Temp_Directory(void);
+    void Delete_Temp_Directory(void);
+    bool Delete_File(LPCTSTR filename);
+    StringClass Make_Path(LPCTSTR path, LPCTSTR filename);
+    bool Is_File_In_Factory(const StringClass& filename, MixFileFactoryClass* factory);
 
-
-	//
-	//	Utilities
-	//
-	void			Copy_File (MixFileFactoryClass *src_mix, MixFileFactoryClass *dest_mix, const char *filename);
-	bool			Clean_Directory (LPCTSTR local_dir);
-	void			Get_Temp_Filename (StringClass &full_path);
-	void			Make_Temp_Directory (void);
-	void			Delete_Temp_Directory (void);
-	bool			Delete_File (LPCTSTR filename);
-	StringClass	Make_Path (LPCTSTR path, LPCTSTR filename);
-	bool			Is_File_In_Factory (const StringClass &filename, MixFileFactoryClass *factory);
-
-
-	//////////////////////////////////////////////////////////////////
-	//	Private member data
-	//////////////////////////////////////////////////////////////////
-	DynamicVectorClass<StringClass>	MixFileList;
-	StringClass								DestinationMixFilename;
-	StringClass								TempDirectory;
-	int										TempFilenameStart;
-	MixCombiningDialogClass	*			Dialog;
+    //////////////////////////////////////////////////////////////////
+    //	Private member data
+    //////////////////////////////////////////////////////////////////
+    DynamicVectorClass<StringClass> MixFileList;
+    StringClass DestinationMixFilename;
+    StringClass TempDirectory;
+    int TempFilenameStart;
+    MixCombiningDialogClass* Dialog;
 };
 
-
 #endif //__DUPLICATE_REMOVER_H
-

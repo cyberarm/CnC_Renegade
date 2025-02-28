@@ -17,34 +17,30 @@
 */
 
 /* $Header: /Commando/Code/Tests/movietest/_GLOBALS.CPP 2     3/21/98 12:08p Greg_h $ */
-/*********************************************************************************************** 
- ***                            Confidential - Westwood Studios                              *** 
- *********************************************************************************************** 
- *                                                                                             * 
- *                 Project Name : Commando                                                     * 
- *                                                                                             * 
- *                     $Archive:: /Commando/Code/Tests/movietest/_GLOBALS.CPP                 $* 
- *                                                                                             * 
- *                      $Author:: Greg_h                                                      $* 
- *                                                                                             * 
- *                     $Modtime:: 2/27/98 10:57a                                              $* 
- *                                                                                             * 
- *                    $Revision:: 2                                                           $* 
- *                                                                                             * 
- *---------------------------------------------------------------------------------------------* 
- * Functions:                                                                                  * 
+/***********************************************************************************************
+ ***                            Confidential - Westwood Studios                              ***
+ ***********************************************************************************************
+ *                                                                                             *
+ *                 Project Name : Commando                                                     *
+ *                                                                                             *
+ *                     $Archive:: /Commando/Code/Tests/movietest/_GLOBALS.CPP                 $*
+ *                                                                                             *
+ *                      $Author:: Greg_h                                                      $*
+ *                                                                                             *
+ *                     $Modtime:: 2/27/98 10:57a                                              $*
+ *                                                                                             *
+ *                    $Revision:: 2                                                           $*
+ *                                                                                             *
+ *---------------------------------------------------------------------------------------------*
+ * Functions:                                                                                  *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
-
 
 #include "_globals.h"
 
-bool						GameInFocus;
-Mouse						* MouseCursor = NULL;
-WWKeyboardClass		* Keyboard = NULL;
-SystemTimerClass		SystemTimer;
+bool GameInFocus;
+Mouse* MouseCursor = NULL;
+WWKeyboardClass* Keyboard = NULL;
+SystemTimerClass SystemTimer;
 
-int						Argc;
-char						* Argv[20];
-
-
-
+int Argc;
+char* Argv[20];

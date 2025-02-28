@@ -17,40 +17,38 @@
 */
 
 /* $Header: /Commando/Code/Tests/MeshTest/init.cpp 9     10/12/98 5:59p Greg_h $ */
-/*********************************************************************************************** 
- ***                            Confidential - Westwood Studios                              *** 
- *********************************************************************************************** 
- *                                                                                             * 
- *                 Project Name : Commando                                                     * 
- *                                                                                             * 
- *                     $Archive:: /Commando/Code/Tests/MeshTest/init.cpp                      $* 
- *                                                                                             * 
- *                      $Author:: Greg_h                                                      $* 
- *                                                                                             * 
- *                     $Modtime:: 10/07/98 2:50p                                              $* 
- *                                                                                             * 
- *                    $Revision:: 9                                                           $* 
- *                                                                                             * 
- *---------------------------------------------------------------------------------------------* 
- * Functions:                                                                                  * 
+/***********************************************************************************************
+ ***                            Confidential - Westwood Studios                              ***
+ ***********************************************************************************************
+ *                                                                                             *
+ *                 Project Name : Commando                                                     *
+ *                                                                                             *
+ *                     $Archive:: /Commando/Code/Tests/MeshTest/init.cpp                      $*
+ *                                                                                             *
+ *                      $Author:: Greg_h                                                      $*
+ *                                                                                             *
+ *                     $Modtime:: 10/07/98 2:50p                                              $*
+ *                                                                                             *
+ *                    $Revision:: 9                                                           $*
+ *                                                                                             *
+ *---------------------------------------------------------------------------------------------*
+ * Functions:                                                                                  *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
-
 #include "init.h"
-#include <sr.hpp>
-#include "_viewpt.h"
 #include "_scenes.h"
-#include "ww3d.h"
+#include "_viewpt.h"
 #include "winmain.h"
+#include "ww3d.h"
+#include <sr.hpp>
 
 bool Init(void)
 {
-	if (WW3D::Init(hWndMain) != WW3D::WW3D_OK) {
-		return false;
-	}
+    if (WW3D::Init(hWndMain) != WW3D::WW3D_OK) {
+        return false;
+    }
 
-	WW3D::Create_Debug_Window();
+    WW3D::Create_Debug_Window();
 
-	return true;
+    return true;
 }
-

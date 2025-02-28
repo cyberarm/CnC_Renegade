@@ -22,66 +22,71 @@
 
 #ifndef DEFFONT_H
 #define DEFFONT_H
- 
+
 #include "wwfont.h"
-									
+
 // Default 1 color fonts.
-extern WWFontClass				DefaultFont;
+extern WWFontClass DefaultFont;
 
+enum FontStyleEnum
+{
+    // Note: Space 6 means that a standard letter uses 6 points - the font is larger then that
+    //			because of overhangs and rises.
+    //			The 4 Color means there are four colors used in this not including
+    //transperancy.
+    SPACE_6_PNT_2_COLOR,
+    SPACE_8_PNT_3_COLOR,
+    SPACE_11_PNT_4_COLOR,
 
-enum FontStyleEnum {
-	// Note: Space 6 means that a standard letter uses 6 points - the font is larger then that
-	//			because of overhangs and rises.
-	//			The 4 Color means there are four colors used in this not including transperancy.
-	SPACE_6_PNT_2_COLOR,
-	SPACE_8_PNT_3_COLOR,
-	SPACE_11_PNT_4_COLOR,
-	
-	NUM_FONT_STYLES,
+    NUM_FONT_STYLES,
 };
 
-enum FontRemapEnum  {
-	// A temp buffer that programmer can change before each use.
-	USER_256_COLORS,
+enum FontRemapEnum
+{
+    // A temp buffer that programmer can change before each use.
+    USER_256_COLORS,
 
-	DARK_GREEN_3_COLOR,
-	LIGHT_GREEN_3_COLOR,
-	DARK_GREEN_4_COLOR,
-	LIGHT_GREEN_4_COLOR,
-	DARK_GREEN_2_COLOR,
-	LIGHT_GREEN_2_COLOR,	
-	DARK_BLUE_2_COLOR,
-	LIGHT_BLUE_2_COLOR,	 
-	DARK_RED_4_COLOR,	 
-							 
-	// This is a RAMP palette.  See/Use Build_Font_Palette_From_Ramp().
-	RAMP_GREEN_TO_RED_2_COLOR,	   // For use with 2 color fonts where color 2 is changes.  Color 1 is preset to 0.
-	
-	NUM_FONT_REMAPS,
+    DARK_GREEN_3_COLOR,
+    LIGHT_GREEN_3_COLOR,
+    DARK_GREEN_4_COLOR,
+    LIGHT_GREEN_4_COLOR,
+    DARK_GREEN_2_COLOR,
+    LIGHT_GREEN_2_COLOR,
+    DARK_BLUE_2_COLOR,
+    LIGHT_BLUE_2_COLOR,
+    DARK_RED_4_COLOR,
+
+    // This is a RAMP palette.  See/Use Build_Font_Palette_From_Ramp().
+    RAMP_GREEN_TO_RED_2_COLOR, // For use with 2 color fonts where color 2 is changes.  Color 1 is
+                               // preset to 0.
+
+    NUM_FONT_REMAPS,
 };
 
 // Two spacy looking fonts that use 8 colors each.
-extern void 						*FontData[NUM_FONT_STYLES];
+extern void* FontData[NUM_FONT_STYLES];
 
 // For now we have green cause that is all that is needed.  Add more as needed.
-extern unsigned char				*FontRemapTables[NUM_FONT_REMAPS];
+extern unsigned char* FontRemapTables[NUM_FONT_REMAPS];
 
 // Number of colors (allocated chars) in FontRemapTable.  Useful for some of the RAMPS.
-extern int							FontRemapTablesSize[NUM_FONT_REMAPS];
+extern int FontRemapTablesSize[NUM_FONT_REMAPS];
 
 // Converter class for use with Font*Data and *FontRemapTable.
 // You can create a font like this:
 //		NEW WWFontClass(SpaceFont8Data, true, 1, FontConverter, GreenFontRemapTable);
-extern ConvertClass				*FontConverter;
-					  
+extern ConvertClass* FontConverter;
+
 // Load font data for fonts listed above.
 void Load_Default_Font_Data();
 void Release_Default_Font_Data();
 
 // A routine that will load font data from a *.fnt file make from FontMake.exe
-void *Load_Font_Data(char *fname);
-																  
+void* Load_Font_Data(char* fname);
+
 // Creates a palette from a ramp palette given min and max values.
-unsigned char *Build_Font_Palette_From_Ramp(float val_norm, FontRemapEnum remap, unsigned char *ret_remap = &FontRemapTables[USER_256_COLORS][0]);
+unsigned char* Build_Font_Palette_From_Ramp(float val_norm, FontRemapEnum remap,
+                                            unsigned char* ret_remap
+                                            = &FontRemapTables[USER_256_COLORS][0]);
 
 #endif

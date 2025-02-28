@@ -16,22 +16,22 @@
 **	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-/*********************************************************************************************** 
- ***                            Confidential - Westwood Studios                              *** 
- *********************************************************************************************** 
- *                                                                                             * 
- *                 Project Name : Installer                                                    * 
- *                                                                                             * 
- *                     $Archive:: /Commando/Code/Installer/SerialDialog.h $* 
- *                                                                                             * 
- *                      $Author:: Ian_l                   $* 
- *                                                                                             * 
- *                     $Modtime:: 11/12/01 7:35p                $* 
- *                                                                                             * 
- *                    $Revision:: 4                     $* 
- *                                                                                             * 
- *---------------------------------------------------------------------------------------------* 
- * Functions:                                                                                  * 
+/***********************************************************************************************
+ ***                            Confidential - Westwood Studios                              ***
+ ***********************************************************************************************
+ *                                                                                             *
+ *                 Project Name : Installer                                                    *
+ *                                                                                             *
+ *                     $Archive:: /Commando/Code/Installer/SerialDialog.h $*
+ *                                                                                             *
+ *                      $Author:: Ian_l                   $*
+ *                                                                                             *
+ *                     $Modtime:: 11/12/01 7:35p                $*
+ *                                                                                             *
+ *                    $Revision:: 4                     $*
+ *                                                                                             *
+ *---------------------------------------------------------------------------------------------*
+ * Functions:                                                                                  *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 #ifndef _SERIAL_DIALOG_H
 #define _SERIAL_DIALOG_H
@@ -39,27 +39,27 @@
 // Includes.
 #include "InstallMenuDialog.h"
 
-
 // Dialog to obtain serial number from user.
 
 // Classes.
 class SerialDialogClass : public InstallMenuDialogClass
 {
-	public:
-		SerialDialogClass() : InstallMenuDialogClass (IDD_DIALOG_SERIAL) {}
-		
-		// RTTI.
-		void *As_SerialDialogClass() {return (this);}
+public:
+    SerialDialogClass()
+        : InstallMenuDialogClass(IDD_DIALOG_SERIAL)
+    {
+    }
 
-		void On_Command (int ctrl_id, int message_id, DWORD param);
+    // RTTI.
+    void* As_SerialDialogClass() { return (this); }
 
-		bool Get_Serial_Number (StringClass &serialnumber);
+    void On_Command(int ctrl_id, int message_id, DWORD param);
 
-	protected:
-		
-		void On_Init_Dialog (void);
-		void On_Unicode_Char (uint16 unicode);
+    bool Get_Serial_Number(StringClass& serialnumber);
+
+protected:
+    void On_Init_Dialog(void);
+    void On_Unicode_Char(uint16 unicode);
 };
-
 
 #endif // _SERIAL_DIALOG_H

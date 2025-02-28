@@ -22,7 +22,7 @@
  *                                                                                             *
  *                 Project Name : Commando                                                     *
  *                                                                                             *
- *                     $Archive:: /Commando/Code/Commando/clienthintmanager.h                           $*
+ *                     $Archive:: /Commando/Code/Commando/clienthintmanager.h $*
  *                                                                                             *
  *                      $Author:: Steve_t                                                     $*
  *                                                                                             *
@@ -41,18 +41,15 @@
 class NetworkObjectClass;
 
 //-----------------------------------------------------------------------------
-class	cClientHintManager
+class cClientHintManager
 {
 public:
-	static void		Think(void);
+    static void Think(void);
 
 private:
-	static int __cdecl Priority_Compare(const void **object1, const void **object2);
-
+    static int __cdecl Priority_Compare(const void** object1, const void** object2);
 };
 
 //-----------------------------------------------------------------------------
 
-#endif	// __CLIENTHINTMANAGER_H__
-
-
+#endif // __CLIENTHINTMANAGER_H__

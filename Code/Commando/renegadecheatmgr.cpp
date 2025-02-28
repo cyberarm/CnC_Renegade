@@ -22,7 +22,7 @@
  *                                                                                             *
  *                 Project Name : commando                                                    *
  *                                                                                             *
- *                     $Archive:: /Commando/Code/commando/renegadecheatmgr.cpp                              $*
+ *                     $Archive:: /Commando/Code/commando/renegadecheatmgr.cpp $*
  *                                                                                             *
  *                       Author:: Patrick Smith                                                *
  *                                                                                             *
@@ -35,67 +35,62 @@
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
 #include "renegadecheatmgr.h"
+#include "_globals.h"
+#include "cnetwork.h"
+#include "combat.h"
 #include "player.h"
 #include "playermanager.h"
-#include "combat.h"
-#include "cnetwork.h"
 #include "registry.h"
-#include "_globals.h"
 
 //////////////////////////////////////////////////////////////////////
 //	Global instance
 //////////////////////////////////////////////////////////////////////
 static RenegadeCheatMgrClass _TheCheatMgr;
 
-
 //////////////////////////////////////////////////////////////////////
 //	Constants
 //////////////////////////////////////////////////////////////////////
-//static const char *KEY_NAME_SETTINGS	= "Software\\Westwood\\Renegade\\Options";
-static const char *VALUE_NAME_CHEATS	= "Cheats";
-
+// static const char *KEY_NAME_SETTINGS	= "Software\\Westwood\\Renegade\\Options";
+static const char* VALUE_NAME_CHEATS = "Cheats";
 
 //////////////////////////////////////////////////////////////////////
 //
 //	RenegadeCheatMgrClass
 //
 //////////////////////////////////////////////////////////////////////
-RenegadeCheatMgrClass::RenegadeCheatMgrClass (void)
+RenegadeCheatMgrClass::RenegadeCheatMgrClass(void)
 {
-	//
-	//	Attempt to open the registry key
-	//
-	RegistryClass registry (APPLICATION_SUB_KEY_NAME_OPTIONS);
-	if (registry.Is_Valid ()) {
+    //
+    //	Attempt to open the registry key
+    //
+    RegistryClass registry(APPLICATION_SUB_KEY_NAME_OPTIONS);
+    if (registry.Is_Valid()) {
 
-		//
-		//	Read the values from the registry
-		//
-		//Flags = registry.Get_Int (VALUE_NAME_CHEATS, 0);
-	}
+        //
+        //	Read the values from the registry
+        //
+        // Flags = registry.Get_Int (VALUE_NAME_CHEATS, 0);
+    }
 
-	return ;
+    return;
 }
-
 
 //////////////////////////////////////////////////////////////////////
 //
 //	~RenegadeCheatMgrClass
 //
 //////////////////////////////////////////////////////////////////////
-RenegadeCheatMgrClass::~RenegadeCheatMgrClass (void)
+RenegadeCheatMgrClass::~RenegadeCheatMgrClass(void)
 {
-	return ;
+    return;
 }
-
 
 //////////////////////////////////////////////////////////////////////
 //
 //	Enable_Cheat
 //
 //////////////////////////////////////////////////////////////////////
-void
-RenegadeCheatMgrClass::Enable_Cheat (int cheat, bool onoff)
+void RenegadeCheatMgrClass::Enable_Cheat(int cheat, bool onoff)
 {
 #if 0
 
@@ -137,19 +132,17 @@ RenegadeCheatMgrClass::Enable_Cheat (int cheat, bool onoff)
 		}
 	}
 
-#endif //0
+#endif // 0
 
-	return ;
+    return;
 }
-
 
 //////////////////////////////////////////////////////////////////////
 //
 //	Apply_Cheats
 //
 //////////////////////////////////////////////////////////////////////
-void
-RenegadeCheatMgrClass::Apply_Cheats (void)
+void RenegadeCheatMgrClass::Apply_Cheats(void)
 {
 
 #if 0
@@ -161,7 +154,7 @@ RenegadeCheatMgrClass::Apply_Cheats (void)
 	Enable_Cheat (CHEAT_INVULNERABILITY,	Is_Cheat_Set (CHEAT_INVULNERABILITY));
 	Enable_Cheat (CHEAT_INFINITE_AMMO,		Is_Cheat_Set (CHEAT_INFINITE_AMMO));
 	Enable_Cheat (CHEAT_ALL_WEAPONS,			Is_Cheat_Set (CHEAT_ALL_WEAPONS));
-#endif //0
+#endif // 0
 
-	return ;
+    return;
 }

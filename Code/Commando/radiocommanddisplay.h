@@ -22,7 +22,7 @@
  *                                                                                             *
  *                 Project Name : commando                                                    *
  *                                                                                             *
- *                     $Archive:: /Commando/Code/commando/radiocommanddisplay.h                              $*
+ *                     $Archive:: /Commando/Code/commando/radiocommanddisplay.h $*
  *                                                                                             *
  *                       Author:: Patrick Smith                                                *
  *                                                                                             *
@@ -41,12 +41,10 @@
 #ifndef __RADIOCOMMANDDISPLAY_H
 #define __RADIOCOMMANDDISPLAY_H
 
-
-#include "wwstring.h"
+#include "textwindow.h"
 #include "vector.h"
 #include "vector3.h"
-#include "textwindow.h"
-
+#include "wwstring.h"
 
 //////////////////////////////////////////////////////////////////////
 //
@@ -56,62 +54,58 @@
 class RadioCommandDisplayClass
 {
 public:
+    ////////////////////////////////////////////////////////////////
+    //	Public contants
+    ////////////////////////////////////////////////////////////////
+    typedef enum
+    {
+        DISPLAY_CMDS_01 = 0,
+        DISPLAY_CMDS_02,
+        DISPLAY_CMDS_03,
+        DISPLAY_MAX
+    } DISPLAY_TYPE;
 
-	////////////////////////////////////////////////////////////////
-	//	Public contants
-	////////////////////////////////////////////////////////////////
-	typedef enum
-	{
-		DISPLAY_CMDS_01	= 0,
-		DISPLAY_CMDS_02,
-		DISPLAY_CMDS_03,
-		DISPLAY_MAX
-	} DISPLAY_TYPE;
+    ////////////////////////////////////////////////////////////////
+    //	Public methods
+    ////////////////////////////////////////////////////////////////
+    static void Initialize(void);
+    static void Shutdown(void);
 
-	////////////////////////////////////////////////////////////////
-	//	Public methods
-	////////////////////////////////////////////////////////////////
-	static void			Initialize (void);
-	static void			Shutdown (void);
-	
-	//
-	//	Visibility methods
-	//
-	static bool			Is_Displayed (void) { return IsDisplayed; }
-	static void			Display (bool onoff, DISPLAY_TYPE type = DISPLAY_CMDS_01);
-	static void			Render (void);
+    //
+    //	Visibility methods
+    //
+    static bool Is_Displayed(void) { return IsDisplayed; }
+    static void Display(bool onoff, DISPLAY_TYPE type = DISPLAY_CMDS_01);
+    static void Render(void);
 
-	static void			Reset_Display_Timer (void)	{ DisplayTimer = 2.0F; }
+    static void Reset_Display_Timer(void) { DisplayTimer = 2.0F; }
 
 protected:
-	
-	///////////////////////////////////////////////////////////////////
-	//	Protected methods
-	///////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////
+    //	Protected methods
+    ///////////////////////////////////////////////////////////////////
 
-	//
-	//	Display control
-	//
-	static void			Check_Keys (void);
-	static void			Update (DISPLAY_TYPE type);
-	
-	///////////////////////////////////////////////////////////////////
-	//	Protected member data
-	///////////////////////////////////////////////////////////////////
-	
+    //
+    //	Display control
+    //
+    static void Check_Keys(void);
+    static void Update(DISPLAY_TYPE type);
+
+    ///////////////////////////////////////////////////////////////////
+    //	Protected member data
+    ///////////////////////////////////////////////////////////////////
+
 private:
-	
-	///////////////////////////////////////////////////////////////////
-	//	Private methods
-	///////////////////////////////////////////////////////////////////
-	
-	////////////////////////////////////////////////////////////////
-	//	Private member data
-	////////////////////////////////////////////////////////////////
-	static float					DisplayTimer;
-	static bool						IsDisplayed;
-	static TextWindowClass *	TextWindow;
-};
+    ///////////////////////////////////////////////////////////////////
+    //	Private methods
+    ///////////////////////////////////////////////////////////////////
 
+    ////////////////////////////////////////////////////////////////
+    //	Private member data
+    ////////////////////////////////////////////////////////////////
+    static float DisplayTimer;
+    static bool IsDisplayed;
+    static TextWindowClass* TextWindow;
+};
 
 #endif //__RADIOCOMMANDDISPLAY_H

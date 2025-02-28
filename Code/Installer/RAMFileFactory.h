@@ -16,46 +16,44 @@
 **	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-/*********************************************************************************************** 
- ***                            Confidential - Westwood Studios                              *** 
- *********************************************************************************************** 
- *                                                                                             * 
- *                 Project Name : Installer                                                    * 
- *                                                                                             * 
- *                     $Archive:: /Commando/Code/Installer/RAMFileFactory.h  $* 
- *                                                                                             * 
- *                      $Author:: Ian_l                   $* 
- *                                                                                             * 
- *                     $Modtime:: 10/31/01 2:52p                $* 
- *                                                                                             * 
- *                    $Revision:: 2                     $* 
- *                                                                                             * 
- *---------------------------------------------------------------------------------------------* 
- * Functions:                                                                                  * 
+/***********************************************************************************************
+ ***                            Confidential - Westwood Studios                              ***
+ ***********************************************************************************************
+ *                                                                                             *
+ *                 Project Name : Installer                                                    *
+ *                                                                                             *
+ *                     $Archive:: /Commando/Code/Installer/RAMFileFactory.h  $*
+ *                                                                                             *
+ *                      $Author:: Ian_l                   $*
+ *                                                                                             *
+ *                     $Modtime:: 10/31/01 2:52p                $*
+ *                                                                                             *
+ *                    $Revision:: 2                     $*
+ *                                                                                             *
+ *---------------------------------------------------------------------------------------------*
+ * Functions:                                                                                  *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 #ifndef _RAM_FILE_FACTORY_H
 #define _RAM_FILE_FACTORY_H
 
-
 // Includes.
 #include "FFactory.h"
 
+// Classes
+class RAMFileFactoryClass : public FileFactoryClass
+{
 
-// Classes 
-class	RAMFileFactoryClass : public FileFactoryClass {
+public:
+    RAMFileFactoryClass();
+    ~RAMFileFactoryClass();
 
-	public:
-		 RAMFileFactoryClass();
-		~RAMFileFactoryClass();
+    FileClass* Get_File(const char* filename);
+    void Return_File(FileClass* file);
 
-		FileClass *Get_File (const char *filename);
-		void		  Return_File (FileClass *file);
-
-	protected:
-		unsigned char *FileBuffer;
-		unsigned			FileBufferSize;
-		StringClass		FileName;
+protected:
+    unsigned char* FileBuffer;
+    unsigned FileBufferSize;
+    StringClass FileName;
 };
-
 
 #endif // RAM_FILE_FACTORY_H

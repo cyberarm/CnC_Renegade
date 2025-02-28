@@ -17,34 +17,30 @@
 */
 
 /* $Header: /Commando/Code/Tests/meshtest/_GLOBALS.CPP 4     11/06/97 8:01a Greg_h $ */
-/*********************************************************************************************** 
- ***                            Confidential - Westwood Studios                              *** 
- *********************************************************************************************** 
- *                                                                                             * 
- *                 Project Name : Commando                                                     * 
- *                                                                                             * 
- *                     $Archive:: /Commando/Code/Tests/meshtest/_GLOBALS.CPP                  $* 
- *                                                                                             * 
- *                      $Author:: Greg_h                                                      $* 
- *                                                                                             * 
- *                     $Modtime:: 10/31/97 9:22a                                              $* 
- *                                                                                             * 
- *                    $Revision:: 4                                                           $* 
- *                                                                                             * 
- *---------------------------------------------------------------------------------------------* 
- * Functions:                                                                                  * 
+/***********************************************************************************************
+ ***                            Confidential - Westwood Studios                              ***
+ ***********************************************************************************************
+ *                                                                                             *
+ *                 Project Name : Commando                                                     *
+ *                                                                                             *
+ *                     $Archive:: /Commando/Code/Tests/meshtest/_GLOBALS.CPP                  $*
+ *                                                                                             *
+ *                      $Author:: Greg_h                                                      $*
+ *                                                                                             *
+ *                     $Modtime:: 10/31/97 9:22a                                              $*
+ *                                                                                             *
+ *                    $Revision:: 4                                                           $*
+ *                                                                                             *
+ *---------------------------------------------------------------------------------------------*
+ * Functions:                                                                                  *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
-
 
 #include "_globals.h"
 
-bool						GameInFocus;
-Mouse						* MouseCursor = NULL;
-WWKeyboardClass		* Keyboard = NULL;
-SystemTimerClass		SystemTimer;
+bool GameInFocus;
+Mouse* MouseCursor = NULL;
+WWKeyboardClass* Keyboard = NULL;
+SystemTimerClass SystemTimer;
 
-int						Argc;
-char						* Argv[20];
-
-
-
+int Argc;
+char* Argv[20];

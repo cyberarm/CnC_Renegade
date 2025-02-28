@@ -17,22 +17,22 @@
 */
 
 /******************************************************************************
-*
-* FILE
-*     $Archive: /Commando/Code/Launcher/Protect.h $
-*
-* DESCRIPTION
-*     Copy protection
-*
-* PROGRAMMER
-*     Denzil E. Long, Jr.
-*     $Author: Denzil_l $
-*
-* VERSION INFO
-*     $Modtime: 10/18/01 4:50p $
-*     $Revision: 1 $
-*
-******************************************************************************/
+ *
+ * FILE
+ *     $Archive: /Commando/Code/Launcher/Protect.h $
+ *
+ * DESCRIPTION
+ *     Copy protection
+ *
+ * PROGRAMMER
+ *     Denzil E. Long, Jr.
+ *     $Author: Denzil_l $
+ *
+ * VERSION INFO
+ *     $Modtime: 10/18/01 4:50p $
+ *     $Revision: 1 $
+ *
+ ******************************************************************************/
 
 #ifndef __PROTECT_H__
 #define __PROTECT_H__
@@ -41,32 +41,31 @@
 
 #include <windows.h>
 
-//#define OLDWAY
+// #define OLDWAY
 
 #ifdef OLDWAY
-template<typename T> class RefPtr;
+template <typename T> class RefPtr;
 class UString;
 
-
 class Protect
-	{
-	public:
-		Protect();
-		~Protect();
+{
+public:
+    Protect();
+    ~Protect();
 
-		void SendMappedFileHandle(HANDLE process, DWORD threadID) const;
+    void SendMappedFileHandle(HANDLE process, DWORD threadID) const;
 
-	private:
-		// Prevent copy & assignment
-		Protect(const Protect&);
-		const Protect& operator=(const Protect&);
+private:
+    // Prevent copy & assignment
+    Protect(const Protect&);
+    const Protect& operator=(const Protect&);
 
-		// Retrieve machine unique key
-		RefPtr<UString> GetPassKey(void) const;
+    // Retrieve machine unique key
+    RefPtr<UString> GetPassKey(void) const;
 
-		HANDLE mLauncherMutex;
-		HANDLE mMappedFile;
-	};
+    HANDLE mLauncherMutex;
+    HANDLE mMappedFile;
+};
 
 #else
 

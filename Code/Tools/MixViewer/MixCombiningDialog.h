@@ -32,41 +32,41 @@
 
 class MixCombiningDialogClass : public CDialog
 {
-// Construction
+    // Construction
 public:
-	MixCombiningDialogClass(CWnd* pParent = NULL);   // standard constructor
+    MixCombiningDialogClass(CWnd* pParent = NULL); // standard constructor
 
-// Dialog Data
-	//{{AFX_DATA(MixCombiningDialogClass)
-	enum { IDD = IDD_COMBINING_DIALOG };
-	CProgressCtrl	ProgressCtrl;
-	//}}AFX_DATA
+    // Dialog Data
+    //{{AFX_DATA(MixCombiningDialogClass)
+    enum
+    {
+        IDD = IDD_COMBINING_DIALOG
+    };
+    CProgressCtrl ProgressCtrl;
+    //}}AFX_DATA
 
-
-// Overrides
-	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(MixCombiningDialogClass)
-	protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
-	//}}AFX_VIRTUAL
-
-// Implementation
+    // Overrides
+    // ClassWizard generated virtual function overrides
+    //{{AFX_VIRTUAL(MixCombiningDialogClass)
 protected:
+    virtual void DoDataExchange(CDataExchange* pDX); // DDX/DDV support
+    //}}AFX_VIRTUAL
 
-	// Generated message map functions
-	//{{AFX_MSG(MixCombiningDialogClass)
-	virtual BOOL OnInitDialog();
-	//}}AFX_MSG
-	DECLARE_MESSAGE_MAP()
+    // Implementation
+protected:
+    // Generated message map functions
+    //{{AFX_MSG(MixCombiningDialogClass)
+    virtual BOOL OnInitDialog();
+    //}}AFX_MSG
+    DECLARE_MESSAGE_MAP()
 
 public:
-
-	////////////////////////////////////////////////////////////////////////
-	//	Public methods
-	////////////////////////////////////////////////////////////////////////
-	void			Set_Status_Text (const char *text);
-	void			Set_Progress_Percent (float percent);
-	void			Set_Title(const char *text);
+    ////////////////////////////////////////////////////////////////////////
+    //	Public methods
+    ////////////////////////////////////////////////////////////////////////
+    void Set_Status_Text(const char* text);
+    void Set_Progress_Percent(float percent);
+    void Set_Title(const char* text);
 };
 
 //{{AFX_INSERT_LOCATION}}

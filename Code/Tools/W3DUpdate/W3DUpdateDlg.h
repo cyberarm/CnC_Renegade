@@ -31,46 +31,49 @@
 
 class CW3DUpdateDlg : public CDialog
 {
-// Construction
+    // Construction
 public:
-	void RegisterViewer(int index);
-	void RegisterShellExt();
-	CW3DUpdateDlg(CWnd* pParent = NULL);	// standard constructor
+    void RegisterViewer(int index);
+    void RegisterShellExt();
+    CW3DUpdateDlg(CWnd* pParent = NULL); // standard constructor
 
-// Dialog Data
-	//{{AFX_DATA(CW3DUpdateDlg)
-	enum { IDD = IDD_W3DUPDATE_DIALOG };
-		// NOTE: the ClassWizard will add data members here
-	//}}AFX_DATA
+    // Dialog Data
+    //{{AFX_DATA(CW3DUpdateDlg)
+    enum
+    {
+        IDD = IDD_W3DUPDATE_DIALOG
+    };
+    // NOTE: the ClassWizard will add data members here
+    //}}AFX_DATA
 
-	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CW3DUpdateDlg)
-	protected:
-	virtual void DoDataExchange(CDataExchange* pDX);	// DDX/DDV support
-	virtual BOOL OnCommand(WPARAM wParam, LPARAM lParam);
-	//}}AFX_VIRTUAL
-
-// Implementation
+    // ClassWizard generated virtual function overrides
+    //{{AFX_VIRTUAL(CW3DUpdateDlg)
 protected:
-	HICON m_hIcon;
+    virtual void DoDataExchange(CDataExchange* pDX); // DDX/DDV support
+    virtual BOOL OnCommand(WPARAM wParam, LPARAM lParam);
+    //}}AFX_VIRTUAL
 
-	// Generated message map functions
-	//{{AFX_MSG(CW3DUpdateDlg)
-	virtual BOOL OnInitDialog();
-	afx_msg void OnPaint();
-	afx_msg HCURSOR OnQueryDragIcon();
-	virtual void OnOK();
-	afx_msg void OnDefaults();
-	//}}AFX_MSG
-	DECLARE_MESSAGE_MAP()
+    // Implementation
+protected:
+    HICON m_hIcon;
+
+    // Generated message map functions
+    //{{AFX_MSG(CW3DUpdateDlg)
+    virtual BOOL OnInitDialog();
+    afx_msg void OnPaint();
+    afx_msg HCURSOR OnQueryDragIcon();
+    virtual void OnOK();
+    afx_msg void OnDefaults();
+    //}}AFX_MSG
+    DECLARE_MESSAGE_MAP()
 
 private:
-
-	///////////////////////////////////////////////////////////////
-	//	Private methods
-	///////////////////////////////////////////////////////////////
-	void		Get_Destination_Path (int app_id, CString &dest_path);
-	bool		Install_App (const CString &title, const CString &src_path, const CString &dest_path, const CString &reg_key_name, bool clean);
+    ///////////////////////////////////////////////////////////////
+    //	Private methods
+    ///////////////////////////////////////////////////////////////
+    void Get_Destination_Path(int app_id, CString& dest_path);
+    bool Install_App(const CString& title, const CString& src_path, const CString& dest_path,
+                     const CString& reg_key_name, bool clean);
 };
 
 //{{AFX_INSERT_LOCATION}}

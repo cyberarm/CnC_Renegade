@@ -34,10 +34,8 @@
  * Functions:                                                                                  *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
-
 #ifndef ODETEST_H
 #define ODETEST_H
-
 
 #ifndef ALWAYS_H
 #include "always.h"
@@ -51,49 +49,50 @@
 #include "ode.h"
 #endif
 
-
-
 class ODETestClass : public ODESystemClass
 {
 
 public:
+    ODETestClass(void)
+        : Point(1.0, 0.0, 0.0),
+          AngVel(0.5)
+    {
+    }
 
-	ODETestClass(void) : Point(1.0,0.0,0.0), AngVel(0.5) { }
+    Vector3 Point;
+    double AngVel;
 
-	Vector3				Point;
-	double				AngVel;
+    virtual void Get_State(StateVectorClass& set_state)
+    {
+        set_state.Add(Point.X);
+        set_state.Add(Point.Y);
+        set_state.Add(Point.Z);
+    }
 
-	virtual void 	Get_State(StateVectorClass & set_state)
-	{
-		set_state.Add(Point.X);
-		set_state.Add(Point.Y);
-		set_state.Add(Point.Z);
-	}
+    virtual int Set_State(const StateVectorClass& new_state, int start_index)
+    {
+        Point.X = new_state[start_index++];
+        Point.Y = new_state[start_index++];
+        Point.Z = new_state[start_index++];
+        return start_index;
+    }
 
-	virtual int		Set_State(const StateVectorClass & new_state,int start_index)
-	{
-		Point.X = new_state[start_index++];
-		Point.Y = new_state[start_index++];
-		Point.Z = new_state[start_index++];
-		return start_index;
-	}
+    virtual int Compute_Derivatives(float t, StateVectorClass* test_state,
+                                    StateVectorClass* set_derivs, int index)
+    {
+        if (test_state != NULL) {
+            Set_State(*test_state, index);
+        }
 
-	virtual int		Compute_Derivatives(float t,StateVectorClass * test_state,StateVectorClass * set_derivs,int index)
-	{
-		if (test_state != NULL) {
-			Set_State(*test_state,index);
-		}
-		
-		Vector3 Vel;
-		Vector3::Cross_Product(Vector3(0,0,AngVel) , Point , &Vel);
-	
-		(*set_derivs)[index++] = Vel[0];
-		(*set_derivs)[index++] = Vel[1];
-		(*set_derivs)[index++] = Vel[2];
+        Vector3 Vel;
+        Vector3::Cross_Product(Vector3(0, 0, AngVel), Point, &Vel);
 
-		return index;
-	}
+        (*set_derivs)[index++] = Vel[0];
+        (*set_derivs)[index++] = Vel[1];
+        (*set_derivs)[index++] = Vel[2];
+
+        return index;
+    }
 };
-
 
 #endif /*ODETEST_H*/

@@ -16,69 +16,69 @@
 **	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-/*********************************************************************************************** 
- ***                            Confidential - Westwood Studios                              *** 
- *********************************************************************************************** 
- *                                                                                             * 
- *                 Project Name : Commando                                                     * 
- *                                                                                             * 
- *                     $Archive:: /Commando/Code/commando/level.cpp                           $* 
- *                                                                                             * 
- *                      $Author:: Patrick                                                     $* 
- *                                                                                             * 
- *                     $Modtime:: 1/16/02 8:56a                                               $* 
- *                                                                                             * 
- *                    $Revision:: 81                                                          $* 
- *                                                                                             * 
- *---------------------------------------------------------------------------------------------* 
- * Functions:                                                                                  * 
+/***********************************************************************************************
+ ***                            Confidential - Westwood Studios                              ***
+ ***********************************************************************************************
+ *                                                                                             *
+ *                 Project Name : Commando                                                     *
+ *                                                                                             *
+ *                     $Archive:: /Commando/Code/commando/level.cpp                           $*
+ *                                                                                             *
+ *                      $Author:: Patrick                                                     $*
+ *                                                                                             *
+ *                     $Modtime:: 1/16/02 8:56a                                               $*
+ *                                                                                             *
+ *                    $Revision:: 81                                                          $*
+ *                                                                                             *
+ *---------------------------------------------------------------------------------------------*
+ * Functions:                                                                                  *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
 #include "level.h"
-#include "combat.h"
-#include "pscene.h"
-#include "savegame.h"
-#include "WWAudio.H"
 #include "SoundScene.h"
-#include "gameobjmanager.h"
+#include "WWAudio.H"
 #include "assets.h"
-#include "transition.h"
+#include "combat.h"
 #include "conversationmgr.h"
-#include "wwprofile.h"
+#include "gameobjmanager.h"
 #include "phys.h"
+#include "pscene.h"
 #include "rendobj.h"
+#include "savegame.h"
+#include "transition.h"
+#include "wwprofile.h"
 
 /*
 ** Release all objects and resources loaded for this level
 */
-void		LevelManager::Release_Level( void )
+void LevelManager::Release_Level(void)
 {
-WWPROFILE( "Release Level" );
-	SaveGameManager::Set_Map_Filename( NULL );
-	ConversationMgrClass::Reset_Active_Conversations ();
+    WWPROFILE("Release Level");
+    SaveGameManager::Set_Map_Filename(NULL);
+    ConversationMgrClass::Reset_Active_Conversations();
 
-	//
-	// Stop (and free) any currently playing sounds
-	//
-   WWASSERT(WWAudioClass::Get_Instance() != NULL);
-   SoundSceneClass *sound_scene = WWAudioClass::Get_Instance ()->Get_Sound_Scene ();
-	if( sound_scene != NULL ) {
-		sound_scene->Flush_Scene ();
-	}	
+    //
+    // Stop (and free) any currently playing sounds
+    //
+    WWASSERT(WWAudioClass::Get_Instance() != NULL);
+    SoundSceneClass* sound_scene = WWAudioClass::Get_Instance()->Get_Sound_Scene();
+    if (sound_scene != NULL) {
+        sound_scene->Flush_Scene();
+    }
 
-	WWAudioClass::Get_Instance ()->Flush_Playlist ();
+    WWAudioClass::Get_Instance()->Flush_Playlist();
 
-	GameObjManager::Destroy_All();		// Kill All Objects (including the Camera)
+    GameObjManager::Destroy_All(); // Kill All Objects (including the Camera)
 
-	TransitionManager::Reset();
+    TransitionManager::Reset();
 
-{WWPROFILE( "Scene remove" );
-	COMBAT_SCENE->Remove_All();
+    {
+        WWPROFILE("Scene remove");
+        COMBAT_SCENE->Remove_All();
+    }
+
+    {
+        WWPROFILE("Free assets");
+        WW3DAssetManager::Get_Instance()->Free_Assets();
+    }
 }
-
-{WWPROFILE( "Free assets" );
-	WW3DAssetManager::Get_Instance()->Free_Assets();	
-}
-}
-
-

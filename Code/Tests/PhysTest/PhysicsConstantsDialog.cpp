@@ -19,11 +19,10 @@
 // PhysicsConstantsDialog.cpp : implementation file
 //
 
-#include "stdafx.h"
-#include "phystest.h"
 #include "PhysicsConstantsDialog.h"
 #include "physcon.h"
-
+#include "phystest.h"
+#include "stdafx.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -31,105 +30,98 @@
 static char THIS_FILE[] = __FILE__;
 #endif
 
-
 const int MIN_DAMPING = 0;
 const int MAX_DAMPING = 255;
 const int MIN_GRAVITY = -100;
 const int MAX_GRAVITY = 0;
 
-
 /////////////////////////////////////////////////////////////////////////////
 // CPhysicsConstantsDialog dialog
 
-
 CPhysicsConstantsDialog::CPhysicsConstantsDialog(CWnd* pParent /*=NULL*/)
-	: CDialog(CPhysicsConstantsDialog::IDD, pParent)
+    : CDialog(CPhysicsConstantsDialog::IDD, pParent)
 {
-	//{{AFX_DATA_INIT(CPhysicsConstantsDialog)
-		// NOTE: the ClassWizard will add member initialization here
-	//}}AFX_DATA_INIT
+    //{{AFX_DATA_INIT(CPhysicsConstantsDialog)
+    // NOTE: the ClassWizard will add member initialization here
+    //}}AFX_DATA_INIT
 }
-
 
 void CPhysicsConstantsDialog::DoDataExchange(CDataExchange* pDX)
 {
-	CDialog::DoDataExchange(pDX);
-	//{{AFX_DATA_MAP(CPhysicsConstantsDialog)
-	DDX_Control(pDX, IDC_LDAMPING_SPIN, m_LDampingSpin);
-	DDX_Control(pDX, IDC_GRAVITYACCEL_SPIN, m_GravityAccelSpin);
-	DDX_Control(pDX, IDC_ADAMPING_SPIN, m_ADampingSpin);
-	//}}AFX_DATA_MAP
+    CDialog::DoDataExchange(pDX);
+    //{{AFX_DATA_MAP(CPhysicsConstantsDialog)
+    DDX_Control(pDX, IDC_LDAMPING_SPIN, m_LDampingSpin);
+    DDX_Control(pDX, IDC_GRAVITYACCEL_SPIN, m_GravityAccelSpin);
+    DDX_Control(pDX, IDC_ADAMPING_SPIN, m_ADampingSpin);
+    //}}AFX_DATA_MAP
 }
 
-
 BEGIN_MESSAGE_MAP(CPhysicsConstantsDialog, CDialog)
-	//{{AFX_MSG_MAP(CPhysicsConstantsDialog)
-	//}}AFX_MSG_MAP
+//{{AFX_MSG_MAP(CPhysicsConstantsDialog)
+//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
 // CPhysicsConstantsDialog message handlers
 
-BOOL CPhysicsConstantsDialog::OnInitDialog() 
+BOOL CPhysicsConstantsDialog::OnInitDialog()
 {
-	CDialog::OnInitDialog();
-	
-	m_LDampingSpin.SetRange(MIN_DAMPING * 100,MAX_DAMPING * 100);
-	m_ADampingSpin.SetRange(MIN_DAMPING * 100,MAX_DAMPING * 100);
-	m_GravityAccelSpin.SetRange(MIN_GRAVITY * 100,MAX_GRAVITY * 100);
-	
-	m_LDampingSpin.SetPos(PhysicsConstants::LinearDamping * 100);
-	m_LDampingSpin.SetPos(PhysicsConstants::LinearDamping * 100);
-	m_GravityAccelSpin.SetPos(PhysicsConstants::GravityAcceleration.Z * 100);
+    CDialog::OnInitDialog();
 
-	SetDlgItemFloat(IDC_LDAMPING_EDIT,PhysicsConstants::LinearDamping);
-	SetDlgItemFloat(IDC_ADAMPING_EDIT,PhysicsConstants::AngularDamping);
-	SetDlgItemFloat(IDC_GRAVITYACCEL_EDIT,PhysicsConstants::GravityAcceleration.Z);
+    m_LDampingSpin.SetRange(MIN_DAMPING * 100, MAX_DAMPING * 100);
+    m_ADampingSpin.SetRange(MIN_DAMPING * 100, MAX_DAMPING * 100);
+    m_GravityAccelSpin.SetRange(MIN_GRAVITY * 100, MAX_GRAVITY * 100);
 
-	return TRUE;	
+    m_LDampingSpin.SetPos(PhysicsConstants::LinearDamping * 100);
+    m_LDampingSpin.SetPos(PhysicsConstants::LinearDamping * 100);
+    m_GravityAccelSpin.SetPos(PhysicsConstants::GravityAcceleration.Z * 100);
+
+    SetDlgItemFloat(IDC_LDAMPING_EDIT, PhysicsConstants::LinearDamping);
+    SetDlgItemFloat(IDC_ADAMPING_EDIT, PhysicsConstants::AngularDamping);
+    SetDlgItemFloat(IDC_GRAVITYACCEL_EDIT, PhysicsConstants::GravityAcceleration.Z);
+
+    return TRUE;
 }
 
-BOOL CPhysicsConstantsDialog::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult) 
+BOOL CPhysicsConstantsDialog::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult)
 {
-	// make the spin controls work...
-	switch(wParam) 
-	{
-		case IDC_LDAMPING_SPIN:
-		case IDC_ADAMPING_SPIN:
-		case IDC_GRAVITYACCEL_SPIN:
-			LPNMUPDOWN lpnmud = (LPNMUPDOWN) lParam;
-			if (lpnmud->hdr.code == UDN_DELTAPOS) {
-				HWND hwnd = (HWND)SendDlgItemMessage(LOWORD(wParam),UDM_GETBUDDY);
-				float curval = GetDlgItemFloat(GetWindowLong(hwnd,GWL_ID));
-				curval += (float)lpnmud->iDelta / 100.0f;
-				SetDlgItemFloat(GetWindowLong(hwnd,GWL_ID), curval);
-			}
-			break;
-	}
+    // make the spin controls work...
+    switch (wParam) {
+    case IDC_LDAMPING_SPIN:
+    case IDC_ADAMPING_SPIN:
+    case IDC_GRAVITYACCEL_SPIN:
+        LPNMUPDOWN lpnmud = (LPNMUPDOWN)lParam;
+        if (lpnmud->hdr.code == UDN_DELTAPOS) {
+            HWND hwnd = (HWND)SendDlgItemMessage(LOWORD(wParam), UDM_GETBUDDY);
+            float curval = GetDlgItemFloat(GetWindowLong(hwnd, GWL_ID));
+            curval += (float)lpnmud->iDelta / 100.0f;
+            SetDlgItemFloat(GetWindowLong(hwnd, GWL_ID), curval);
+        }
+        break;
+    }
 
-	return CDialog::OnNotify(wParam, lParam, pResult);
+    return CDialog::OnNotify(wParam, lParam, pResult);
 }
 
-void CPhysicsConstantsDialog::OnOK() 
+void CPhysicsConstantsDialog::OnOK()
 {
-	PhysicsConstants::LinearDamping = GetDlgItemFloat(IDC_LDAMPING_EDIT);
-	PhysicsConstants::AngularDamping = GetDlgItemFloat(IDC_ADAMPING_EDIT);
-	PhysicsConstants::GravityAcceleration.Z = GetDlgItemFloat(IDC_GRAVITYACCEL_EDIT);
-	
-	CDialog::OnOK();
-}
+    PhysicsConstants::LinearDamping = GetDlgItemFloat(IDC_LDAMPING_EDIT);
+    PhysicsConstants::AngularDamping = GetDlgItemFloat(IDC_ADAMPING_EDIT);
+    PhysicsConstants::GravityAcceleration.Z = GetDlgItemFloat(IDC_GRAVITYACCEL_EDIT);
 
+    CDialog::OnOK();
+}
 
 float CPhysicsConstantsDialog::GetDlgItemFloat(int controlid)
 {
-	CString string;
-	GetDlgItemText(controlid,string);
-	return atof(string);
+    CString string;
+    GetDlgItemText(controlid, string);
+    return atof(string);
 }
 
-void CPhysicsConstantsDialog::SetDlgItemFloat(int controlid,float val)
+void CPhysicsConstantsDialog::SetDlgItemFloat(int controlid, float val)
 {
-	CString string;
-	string.Format("%.2f",val);
-	SetDlgItemText(controlid,string);
+    CString string;
+    string.Format("%.2f", val);
+    SetDlgItemText(controlid, string);
 }

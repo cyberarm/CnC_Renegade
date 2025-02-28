@@ -30,46 +30,48 @@
 
 class CAmbientLightDialog : public CDialog
 {
-// Construction
+    // Construction
 public:
-	CAmbientLightDialog(CWnd* pParent = NULL);   // standard constructor
+    CAmbientLightDialog(CWnd* pParent = NULL); // standard constructor
 
-// Dialog Data
-	//{{AFX_DATA(CAmbientLightDialog)
-	enum { IDD = IDD_LIGHT_AMBIENT_DIALOG };
-	CSliderCtrl	m_blueSlider;
-	CSliderCtrl	m_greenSlider;
-	CSliderCtrl	m_redSlider;
-	//}}AFX_DATA
+    // Dialog Data
+    //{{AFX_DATA(CAmbientLightDialog)
+    enum
+    {
+        IDD = IDD_LIGHT_AMBIENT_DIALOG
+    };
+    CSliderCtrl m_blueSlider;
+    CSliderCtrl m_greenSlider;
+    CSliderCtrl m_redSlider;
+    //}}AFX_DATA
 
-
-// Overrides
-	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CAmbientLightDialog)
-	protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
-	virtual LRESULT WindowProc(UINT message, WPARAM wParam, LPARAM lParam);
-	//}}AFX_VIRTUAL
-
-// Implementation
+    // Overrides
+    // ClassWizard generated virtual function overrides
+    //{{AFX_VIRTUAL(CAmbientLightDialog)
 protected:
+    virtual void DoDataExchange(CDataExchange* pDX); // DDX/DDV support
+    virtual LRESULT WindowProc(UINT message, WPARAM wParam, LPARAM lParam);
+    //}}AFX_VIRTUAL
 
-	// Generated message map functions
-	//{{AFX_MSG(CAmbientLightDialog)
-	virtual BOOL OnInitDialog();
-	afx_msg void OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar);
-	virtual void OnCancel();
-	afx_msg void OnGrayscaleCheck();
-	//}}AFX_MSG
-	DECLARE_MESSAGE_MAP()
+    // Implementation
+protected:
+    // Generated message map functions
+    //{{AFX_MSG(CAmbientLightDialog)
+    virtual BOOL OnInitDialog();
+    afx_msg void OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar);
+    virtual void OnCancel();
+    afx_msg void OnGrayscaleCheck();
+    //}}AFX_MSG
+    DECLARE_MESSAGE_MAP()
 
-    private:
-        int m_initialRed;
-        int m_initialGreen;
-        int m_initialBlue;
+private:
+    int m_initialRed;
+    int m_initialGreen;
+    int m_initialBlue;
 };
 
 //{{AFX_INSERT_LOCATION}}
-// Microsoft Developer Studio will insert additional declarations immediately before the previous line.
+// Microsoft Developer Studio will insert additional declarations immediately before the previous
+// line.
 
 #endif // !defined(AFX_AMBIENTLIGHTDIALOG_H__D60CC3CE_5F94_11D2_9FC7_00104B791122__INCLUDED_)

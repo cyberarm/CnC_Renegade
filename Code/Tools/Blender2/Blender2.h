@@ -22,7 +22,7 @@
 #include "Max.h"
 #include "resource.h"
 
-extern ClassDesc* BlenderDesc ();
+extern ClassDesc* BlenderDesc();
 
 extern HINSTANCE hInstance;
 

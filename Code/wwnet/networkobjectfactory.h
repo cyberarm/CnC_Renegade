@@ -45,16 +45,14 @@
 #include "bittype.h"
 #include "wwpacket.h"
 
-
 //////////////////////////////////////////////////////////////////////////////////
 // Forward declarations
 //////////////////////////////////////////////////////////////////////////////////
 class NetworkObjectClass;
 
-
 //////////////////////////////////////////////////////////////////////////////////
 //
-//	NetworkObjectFactoryClass 
+//	NetworkObjectFactoryClass
 //
 //	These factories act as virtual constructors for object network objects.  They
 //	are responsible for creating new network objects for a particular class of objects.
@@ -63,76 +61,69 @@ class NetworkObjectClass;
 class NetworkObjectFactoryClass
 {
 public:
+    //////////////////////////////////////////////////////////////
+    //	Public constructors/destructors
+    //////////////////////////////////////////////////////////////
+    NetworkObjectFactoryClass(void);
+    virtual ~NetworkObjectFactoryClass(void);
 
-	//////////////////////////////////////////////////////////////
-	//	Public constructors/destructors
-	//////////////////////////////////////////////////////////////
-	NetworkObjectFactoryClass (void);
-	virtual ~NetworkObjectFactoryClass (void);
-
-	//////////////////////////////////////////////////////////////
-	//	Public methods
-	//////////////////////////////////////////////////////////////
-	virtual NetworkObjectClass *	Create (cPacket &packet) const = 0;
-	virtual void						Prep_Packet (NetworkObjectClass *object, cPacket &packet) const {};
-	virtual uint32						Get_Class_ID (void) const = 0;
+    //////////////////////////////////////////////////////////////
+    //	Public methods
+    //////////////////////////////////////////////////////////////
+    virtual NetworkObjectClass* Create(cPacket& packet) const = 0;
+    virtual void Prep_Packet(NetworkObjectClass* object, cPacket& packet) const { };
+    virtual uint32 Get_Class_ID(void) const = 0;
 
 protected:
-	
-	//////////////////////////////////////////////////////////////
-	//	Protected member data
-	//////////////////////////////////////////////////////////////
-	NetworkObjectFactoryClass *	NextFactory;
-	NetworkObjectFactoryClass *	PrevFactory;
+    //////////////////////////////////////////////////////////////
+    //	Protected member data
+    //////////////////////////////////////////////////////////////
+    NetworkObjectFactoryClass* NextFactory;
+    NetworkObjectFactoryClass* PrevFactory;
 
-	
-	//////////////////////////////////////////////////////////////
-	//	Friends
-	//////////////////////////////////////////////////////////////
-	friend class NetworkObjectFactoryMgrClass;
+    //////////////////////////////////////////////////////////////
+    //	Friends
+    //////////////////////////////////////////////////////////////
+    friend class NetworkObjectFactoryMgrClass;
 };
-
 
 //////////////////////////////////////////////////////////////////////////////////
 //
-//	SimpleNetworkObjectFactoryClass 
+//	SimpleNetworkObjectFactoryClass
 //
 //	Template class to automate the creation of simple network object factories.
 //
 //////////////////////////////////////////////////////////////////////////////////
-template<class T, int class_id>
+template <class T, int class_id>
 class SimpleNetworkObjectFactoryClass : public NetworkObjectFactoryClass
 {
 public:
+    //////////////////////////////////////////////////////////////
+    //	Public constructors/destructors
+    //////////////////////////////////////////////////////////////
+    SimpleNetworkObjectFactoryClass(void) { }
 
-	//////////////////////////////////////////////////////////////
-	//	Public constructors/destructors
-	//////////////////////////////////////////////////////////////
-	SimpleNetworkObjectFactoryClass (void)	{}
-
-	//////////////////////////////////////////////////////////////
-	//	Public methods
-	//////////////////////////////////////////////////////////////
-	virtual NetworkObjectClass *	Create (cPacket &packet) const;
-	virtual uint32						Get_Class_ID (void) const;
+    //////////////////////////////////////////////////////////////
+    //	Public methods
+    //////////////////////////////////////////////////////////////
+    virtual NetworkObjectClass* Create(cPacket& packet) const;
+    virtual uint32 Get_Class_ID(void) const;
 };
 
-template<class T, int class_id>
-inline NetworkObjectClass *
-SimpleNetworkObjectFactoryClass<T, class_id>::Create (cPacket & /*packet*/) const
+template <class T, int class_id>
+inline NetworkObjectClass*
+SimpleNetworkObjectFactoryClass<T, class_id>::Create(cPacket& /*packet*/) const
 {
-	return new T;
+    return new T;
 }
 
-template<class T, int class_id>
-inline uint32
-SimpleNetworkObjectFactoryClass<T, class_id>::Get_Class_ID (void) const
+template <class T, int class_id>
+inline uint32 SimpleNetworkObjectFactoryClass<T, class_id>::Get_Class_ID(void) const
 {
-	return class_id;
+    return class_id;
 }
 
-#define DECLARE_NETWORKOBJECT_FACTORY(_class, _id)					\
-SimpleNetworkObjectFactoryClass<_class, _id> _class ## Factory
-
+#define DECLARE_NETWORKOBJECT_FACTORY(_class, _id)                                                 \
+    SimpleNetworkObjectFactoryClass<_class, _id> _class##Factory
 
 #endif //__NETWORK_OBJECT_FACTORY_H

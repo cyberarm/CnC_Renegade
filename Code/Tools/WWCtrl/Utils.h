@@ -25,16 +25,14 @@
 #ifndef __UTILS_H
 #define __UTILS_H
 
-
 /////////////////////////////////////////////////////////////////////////////
 //
 // Prototypes
 //
-void		Frame_Rect (UCHAR *pbits, const RECT &rect, COLORREF color, int scanline_size);
-void		Draw_Vert_Line (UCHAR *pbits, int x, int y, int len, COLORREF color, int scanline_size);
-void		Draw_Horz_Line (UCHAR *pbits, int x, int y, int len, COLORREF color, int scanline_size);
-void		Draw_Sunken_Rect (UCHAR *pbits, const RECT &rect, int scanline_size);
-void		Draw_Raised_Rect (UCHAR *pbits, const RECT &rect, int scanline_size);
+void Frame_Rect(UCHAR* pbits, const RECT& rect, COLORREF color, int scanline_size);
+void Draw_Vert_Line(UCHAR* pbits, int x, int y, int len, COLORREF color, int scanline_size);
+void Draw_Horz_Line(UCHAR* pbits, int x, int y, int len, COLORREF color, int scanline_size);
+void Draw_Sunken_Rect(UCHAR* pbits, const RECT& rect, int scanline_size);
+void Draw_Raised_Rect(UCHAR* pbits, const RECT& rect, int scanline_size);
 
 #endif //__UTILS_H
-

@@ -20,243 +20,201 @@
 // Filename:     gamespyadmin.cpp
 // Author:       Tom Spencer-Smith
 // Date:         Jan 2002
-// Description:  
+// Description:
 //
 
 #include "gamespyadmin.h"
-
-#include "wwdebug.h"
-#include "widestring.h"
-#include "gameinitmgr.h"
-#include "gamedata.h"
-#include "cnetwork.h"
-#include "dlgmpconnect.h"
-#include "gamespy_qnr.h"
-#include <Gamespy\ghttp.h>
-#include "useroptions.h"
-#include "renegadedialogmgr.h"
-#include "dialogtests.h"
-#include "translatedb.h"
-#include "string_ids.h"
 #include "bandwidthcheck.h"
+#include "cnetwork.h"
+#include "dialogtests.h"
+#include "dlgmpconnect.h"
+#include "gamedata.h"
+#include "gameinitmgr.h"
+#include "gamespy_qnr.h"
 #include "gamespyauthmgr.h"
+#include "renegadedialogmgr.h"
 #include "specialbuilds.h"
+#include "string_ids.h"
+#include "translatedb.h"
+#include "useroptions.h"
+#include "widestring.h"
+#include "wwdebug.h"
+#include <Gamespy\ghttp.h>
 
 //
 // Class statics
 //
 
-bool					cGameSpyAdmin::DetectingBandwidth				= false;
-bool					cGameSpyAdmin::IsUnderGamespyMenuing			= false;
-bool					cGameSpyAdmin::IsLaunchFromGamespyRequested	= false;
-bool					cGameSpyAdmin::IsLaunchedFromGamespy			= false;
-bool					cGameSpyAdmin::IsServerGamespyListed			= false;
-ULONG					cGameSpyAdmin::GameHostIp							= 0;
-USHORT				cGameSpyAdmin::GameHostPort						= 0;
-WideStringClass	cGameSpyAdmin::PasswordAttempt;
+bool cGameSpyAdmin::DetectingBandwidth = false;
+bool cGameSpyAdmin::IsUnderGamespyMenuing = false;
+bool cGameSpyAdmin::IsLaunchFromGamespyRequested = false;
+bool cGameSpyAdmin::IsLaunchedFromGamespy = false;
+bool cGameSpyAdmin::IsServerGamespyListed = false;
+ULONG cGameSpyAdmin::GameHostIp = 0;
+USHORT cGameSpyAdmin::GameHostPort = 0;
+WideStringClass cGameSpyAdmin::PasswordAttempt;
 
 // It's 2:00am....see DoDialog below..
 cGameSpyAdmin theGameSpy;
 
 //----------------------------------------------------------------------------------
-void 
-cGameSpyAdmin::Think
-(
-	void
-)
+void cGameSpyAdmin::Think(void)
 {
-	WWASSERT(Is_Gamespy_Game());
+    WWASSERT(Is_Gamespy_Game());
 
-	if (IsLaunchFromGamespyRequested && SplashIntroMenuDialogClass::Is_Complete ())
-	{
-		if (!DetectingBandwidth) {
-			RefPtr<SerialWait> serverWait = SerialWait::Create();
-			WWASSERT(serverWait.IsValid());
+    if (IsLaunchFromGamespyRequested && SplashIntroMenuDialogClass::Is_Complete()) {
+        if (!DetectingBandwidth) {
+            RefPtr<SerialWait> serverWait = SerialWait::Create();
+            WWASSERT(serverWait.IsValid());
 
-			DetectingBandwidth = true;
-			RefPtr<WaitCondition> bandwidth_wait = BandwidthCheckerClass::Detect();
+            DetectingBandwidth = true;
+            RefPtr<WaitCondition> bandwidth_wait = BandwidthCheckerClass::Detect();
 
-			if (cUserOptions::DoneClientBandwidthTest.Is_True()) {
-				//DlgWOLWait::DoDialog(TRANSLATE (IDS_MENU_DETECTING_BANDWIDTH), L"Skip", bandwidth_wait, &theGameSpy);
-				DlgWOLWait::DoDialog(TRANSLATE (IDS_MENU_DETECTING_BANDWIDTH), TRANSLATE (IDS_MP_SKIP), bandwidth_wait, &theGameSpy);
-			} else {
-				DlgWOLWait::DoDialog(TRANSLATE (IDS_MENU_DETECTING_BANDWIDTH), bandwidth_wait, &theGameSpy);
-			}
-		}
-	}
+            if (cUserOptions::DoneClientBandwidthTest.Is_True()) {
+                // DlgWOLWait::DoDialog(TRANSLATE (IDS_MENU_DETECTING_BANDWIDTH), L"Skip",
+                // bandwidth_wait, &theGameSpy);
+                DlgWOLWait::DoDialog(TRANSLATE(IDS_MENU_DETECTING_BANDWIDTH),
+                                     TRANSLATE(IDS_MP_SKIP), bandwidth_wait, &theGameSpy);
+            }
+            else {
+                DlgWOLWait::DoDialog(TRANSLATE(IDS_MENU_DETECTING_BANDWIDTH), bandwidth_wait,
+                                     &theGameSpy);
+            }
+        }
+    }
 
-	ghttpThink();
-
+    ghttpThink();
 
 #ifndef MULTIPLAYERDEMO
-	if (cNetwork::I_Am_Server()) 
-	{
-		cGameSpyAuthMgr::Think();
-	}
+    if (cNetwork::I_Am_Server()) {
+        cGameSpyAuthMgr::Think();
+    }
 #endif // MULTIPLAYERDEMO
 }
 
 //----------------------------------------------------------------------------------
-void cGameSpyAdmin::HandleNotification(DlgWOLWaitEvent& event) {
-
-	switch (event.Result()) {
-		case WaitCondition::ConditionMet:
-		{
-			if (DetectingBandwidth) {
-				DetectingBandwidth = false;
-				cUserOptions::Set_Bandwidth_Type(BANDWIDTH_AUTO);
-				cUserOptions::DoneClientBandwidthTest.Set(true);
-				Join_Server();
-			}
-		}
-		break;
-			
-		case WaitCondition::Waiting:
-		{
-			// Do nothing
-		}
-		break;
-	
-		case WaitCondition::UserCancel:
-		{
-			if (DetectingBandwidth) {
-				if (cUserOptions::DoneClientBandwidthTest.Is_True()) {
-					// Skip Bandwidth test...
-					DetectingBandwidth = false;
-					BandwidthCheckerClass::Force_Upstream_Bandwidth(cUserOptions::BandwidthBps.Get());
-					cUserOptions::Set_Bandwidth_Type(BANDWIDTH_AUTO);
-					Join_Server();
-				} else { // This must be an Abort...
-					DetectingBandwidth = false;
-#pragma message ("Is Stop_Main_Loop() safe here?")
-					extern void Stop_Main_Loop (int);
-					Stop_Main_Loop(EXIT_SUCCESS);
-				}
-			}
-		}
-		break;
-			
-		case WaitCondition::TimeOut:
-		case WaitCondition::Error:
-		{
-			DetectingBandwidth = false;
-#pragma message ("Is Stop_Main_Loop() safe here?")
-			extern void Stop_Main_Loop (int);
-			Stop_Main_Loop(EXIT_SUCCESS);
-		}
-		break;
-
-		default:
-		DIE;
-		break;
-	}
-}
-
-
-//----------------------------------------------------------------------------------
-void 
-cGameSpyAdmin::Join_Server(void) {
-	Connect_To_Game_Server();
-	IsLaunchFromGamespyRequested = false;
-	IsLaunchedFromGamespy = true;
-}
-
-//----------------------------------------------------------------------------------
-void 
-cGameSpyAdmin::Reset
-(
-	void
-)
+void cGameSpyAdmin::HandleNotification(DlgWOLWaitEvent& event)
 {
-	IsUnderGamespyMenuing			= false;
-	IsLaunchFromGamespyRequested	= false;
-	IsLaunchedFromGamespy			= false;
-	IsServerGamespyListed			= false;
-	GameHostIp							= 0;
-	GameHostPort						= 0;
-	GameSpyQnR.Shutdown();
+
+    switch (event.Result()) {
+    case WaitCondition::ConditionMet: {
+        if (DetectingBandwidth) {
+            DetectingBandwidth = false;
+            cUserOptions::Set_Bandwidth_Type(BANDWIDTH_AUTO);
+            cUserOptions::DoneClientBandwidthTest.Set(true);
+            Join_Server();
+        }
+    } break;
+
+    case WaitCondition::Waiting: {
+        // Do nothing
+    } break;
+
+    case WaitCondition::UserCancel: {
+        if (DetectingBandwidth) {
+            if (cUserOptions::DoneClientBandwidthTest.Is_True()) {
+                // Skip Bandwidth test...
+                DetectingBandwidth = false;
+                BandwidthCheckerClass::Force_Upstream_Bandwidth(cUserOptions::BandwidthBps.Get());
+                cUserOptions::Set_Bandwidth_Type(BANDWIDTH_AUTO);
+                Join_Server();
+            }
+            else { // This must be an Abort...
+                DetectingBandwidth = false;
+#pragma message("Is Stop_Main_Loop() safe here?")
+                extern void Stop_Main_Loop(int);
+                Stop_Main_Loop(EXIT_SUCCESS);
+            }
+        }
+    } break;
+
+    case WaitCondition::TimeOut:
+    case WaitCondition::Error: {
+        DetectingBandwidth = false;
+#pragma message("Is Stop_Main_Loop() safe here?")
+        extern void Stop_Main_Loop(int);
+        Stop_Main_Loop(EXIT_SUCCESS);
+    } break;
+
+    default:
+        DIE;
+        break;
+    }
 }
 
 //----------------------------------------------------------------------------------
-void 
-cGameSpyAdmin::Connect_To_Game_Server
-(
-	void
-)
+void cGameSpyAdmin::Join_Server(void)
 {
-	WWASSERT(GameHostIp > 0);
-	WWASSERT(GameHostPort > 0);
-
-	GameInitMgrClass::Initialize_LAN();
-
-	WWASSERT(PTheGameData == NULL);
-	PTheGameData = cGameData::Create_Game_Of_Type(cGameData::GAME_TYPE_CNC);
-	WWASSERT(PTheGameData != NULL);
-	PTheGameData->Set_Ip_Address(GameHostIp);
-	PTheGameData->Set_Port(GameHostPort);
-
-	cNetwork::Init_Client();
-
-	//
-	//	Display the "connecting" dialog
-	//
-	DlgMPConnect::DoDialog(-1, 0);
+    Connect_To_Game_Server();
+    IsLaunchFromGamespyRequested = false;
+    IsLaunchedFromGamespy = true;
 }
 
 //----------------------------------------------------------------------------------
-void
-cGameSpyAdmin::Set_Game_Host_Ip
-(
-	ULONG ip
-)
+void cGameSpyAdmin::Reset(void)
 {
-	WWASSERT(ip > 0);
-	GameHostIp = ip;
+    IsUnderGamespyMenuing = false;
+    IsLaunchFromGamespyRequested = false;
+    IsLaunchedFromGamespy = false;
+    IsServerGamespyListed = false;
+    GameHostIp = 0;
+    GameHostPort = 0;
+    GameSpyQnR.Shutdown();
 }
 
 //----------------------------------------------------------------------------------
-void
-cGameSpyAdmin::Set_Game_Host_Port
-(	
-	USHORT port
-)
+void cGameSpyAdmin::Connect_To_Game_Server(void)
 {
-	WWASSERT(port > 0);
-	GameHostPort = port;
+    WWASSERT(GameHostIp > 0);
+    WWASSERT(GameHostPort > 0);
+
+    GameInitMgrClass::Initialize_LAN();
+
+    WWASSERT(PTheGameData == NULL);
+    PTheGameData = cGameData::Create_Game_Of_Type(cGameData::GAME_TYPE_CNC);
+    WWASSERT(PTheGameData != NULL);
+    PTheGameData->Set_Ip_Address(GameHostIp);
+    PTheGameData->Set_Port(GameHostPort);
+
+    cNetwork::Init_Client();
+
+    //
+    //	Display the "connecting" dialog
+    //
+    DlgMPConnect::DoDialog(-1, 0);
 }
 
 //----------------------------------------------------------------------------------
-bool
-cGameSpyAdmin::Is_Gamespy_Game
-(
-	void
-)
+void cGameSpyAdmin::Set_Game_Host_Ip(ULONG ip)
 {
-	return 
-		IsUnderGamespyMenuing			||
-		IsLaunchFromGamespyRequested	|| 
-		IsLaunchedFromGamespy			|| 
-		IsServerGamespyListed;
+    WWASSERT(ip > 0);
+    GameHostIp = ip;
 }
 
 //----------------------------------------------------------------------------------
-bool
-cGameSpyAdmin::Is_Nickname_Collision
-(
-	WideStringClass & nickname
-)
+void cGameSpyAdmin::Set_Game_Host_Port(USHORT port)
 {
-	WWASSERT(!nickname.Is_Empty());
-	WWASSERT(cNetwork::I_Am_Server());
-
-	bool collides = (cPlayerManager::Find_Player(nickname) != NULL);
-	if (cNetwork::I_Am_Only_Server()) 
-	{
-		collides |= !nickname.Compare_No_Case(cNetInterface::Get_Nickname());
-	}
-
-	return collides;
+    WWASSERT(port > 0);
+    GameHostPort = port;
 }
 
+//----------------------------------------------------------------------------------
+bool cGameSpyAdmin::Is_Gamespy_Game(void)
+{
+    return IsUnderGamespyMenuing || IsLaunchFromGamespyRequested || IsLaunchedFromGamespy
+        || IsServerGamespyListed;
+}
 
+//----------------------------------------------------------------------------------
+bool cGameSpyAdmin::Is_Nickname_Collision(WideStringClass& nickname)
+{
+    WWASSERT(!nickname.Is_Empty());
+    WWASSERT(cNetwork::I_Am_Server());
 
+    bool collides = (cPlayerManager::Find_Player(nickname) != NULL);
+    if (cNetwork::I_Am_Only_Server()) {
+        collides |= !nickname.Compare_No_Case(cNetInterface::Get_Nickname());
+    }
+
+    return collides;
+}

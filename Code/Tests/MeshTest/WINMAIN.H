@@ -29,18 +29,15 @@
 
 #include <sr.hpp>
 
+extern "C" {
+extern HWND hWndMain;
 
-extern "C" 
-{
-	extern HWND		hWndMain;
+extern bool WIN_fullscreen;
 
-	extern bool		WIN_fullscreen;
-
-#ifdef PORT130	
-	SRBOOL SRCALL WIN_resize(SRLONG width, SRLONG height);
-	SRBOOL SRCALL WIN_set_fullscreen(SRBOOL state);
+#ifdef PORT130
+SRBOOL SRCALL WIN_resize(SRLONG width, SRLONG height);
+SRBOOL SRCALL WIN_set_fullscreen(SRBOOL state);
 #endif
 }
-
 
 #endif

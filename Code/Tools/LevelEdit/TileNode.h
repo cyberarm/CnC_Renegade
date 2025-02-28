@@ -34,7 +34,6 @@
  * Functions:                                                                                  *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
-
 #if defined(_MSC_VER)
 #pragma once
 #endif
@@ -42,14 +41,13 @@
 #ifndef __TILE_NODE_H
 #define __TILE_NODE_H
 
-#include "node.h"
-#include "vector.h"
 #include "icons.h"
+#include "node.h"
 #include "staticphys.h"
+#include "vector.h"
 
 // Forward declarations
 class PresetClass;
-
 
 ////////////////////////////////////////////////////////////////////////////
 //
@@ -59,139 +57,124 @@ class PresetClass;
 class TileNodeClass : public NodeClass
 {
 public:
-	
-	//////////////////////////////////////////////////////////////////
-	//	Public constructors/destructors
-	//////////////////////////////////////////////////////////////////
-	TileNodeClass (PresetClass *preset = NULL);
-	TileNodeClass (const TileNodeClass &src);
-	~TileNodeClass (void);
+    //////////////////////////////////////////////////////////////////
+    //	Public constructors/destructors
+    //////////////////////////////////////////////////////////////////
+    TileNodeClass(PresetClass* preset = NULL);
+    TileNodeClass(const TileNodeClass& src);
+    ~TileNodeClass(void);
 
+    //////////////////////////////////////////////////////////////
+    //	Public operators
+    //////////////////////////////////////////////////////////////
+    const TileNodeClass& operator=(const TileNodeClass& src);
 
-	//////////////////////////////////////////////////////////////
-	//	Public operators
-	//////////////////////////////////////////////////////////////
-	const TileNodeClass &operator= (const TileNodeClass &src);
+    //////////////////////////////////////////////////////////////////
+    //	Public methods
+    //////////////////////////////////////////////////////////////////
 
+    // From PersistClass
+    virtual const PersistFactoryClass& Get_Factory(void) const;
 
-	//////////////////////////////////////////////////////////////////
-	//	Public methods
-	//////////////////////////////////////////////////////////////////
+    //
+    //	RTTI
+    //
+    TileNodeClass* As_TileNodeClass(void) { return this; }
 
-	// From PersistClass
-	virtual const PersistFactoryClass &	Get_Factory (void) const;
+    // From NodeClass
+    void Initialize(void);
+    NodeClass* Clone(void) { return new TileNodeClass(*this); }
+    NODE_TYPE Get_Type(void) const { return NODE_TYPE_TILE; }
+    int Get_Icon_Index(void) const { return TILE_ICON; }
+    PhysClass* Peek_Physics_Obj(void) const { return m_PhysObj; }
+    bool Is_Static(void) const { return true; }
+    bool Can_Be_Rotated_Freely(void) const { return true; }
+    void Set_ID(uint32 id);
+    void Update_Cached_Vis_IDs(void);
 
-	//
-	//	RTTI
-	//
-	TileNodeClass *As_TileNodeClass (void)			{ return this; }
-	
-	// From NodeClass
-	void			Initialize (void);
-	NodeClass *	Clone (void)							{ return new TileNodeClass (*this); }
-	NODE_TYPE	Get_Type (void) const				{ return NODE_TYPE_TILE; }
-	int			Get_Icon_Index (void) const		{ return TILE_ICON; }
-	PhysClass *	Peek_Physics_Obj (void)	const		{ return m_PhysObj; }
-	bool			Is_Static (void) const				{ return true; }
-	bool			Can_Be_Rotated_Freely (void) const	{ return true; }
-	void			Set_ID (uint32 id);
-	void			Update_Cached_Vis_IDs (void);
+    void Pre_Export(void);
+    void Post_Export(void);
 
-	void			Pre_Export (void);
-	void			Post_Export (void);
+    //
+    //	From PersistClass
+    //
+    bool Save(ChunkSaveClass& csave);
+    bool Load(ChunkLoadClass& cload);
 
-
-	//
-	//	From PersistClass
-	//
-	bool			Save (ChunkSaveClass &csave);
-	bool			Load (ChunkLoadClass &cload);
-
-	//
-	//	Notifications
-	//
-	void			On_Rotate (void);
-	void			On_Translate (void);
-	void			On_Transform (void);
+    //
+    //	Notifications
+    //
+    void On_Rotate(void);
+    void On_Translate(void);
+    void On_Transform(void);
 
 protected:
+    //////////////////////////////////////////////////////////////////
+    //	Protected methods
+    //////////////////////////////////////////////////////////////////
+    bool Load_Variables(ChunkLoadClass& cload);
 
-	//////////////////////////////////////////////////////////////////
-	//	Protected methods
-	//////////////////////////////////////////////////////////////////
-	bool			Load_Variables (ChunkLoadClass &cload);
-
-	//////////////////////////////////////////////////////////////////
-	//	Protected member data
-	//////////////////////////////////////////////////////////////////
-	StaticPhysClass *	m_PhysObj;
-	uint32				m_VisObjectID;
-	uint32				m_VisSectorID;
+    //////////////////////////////////////////////////////////////////
+    //	Protected member data
+    //////////////////////////////////////////////////////////////////
+    StaticPhysClass* m_PhysObj;
+    uint32 m_VisObjectID;
+    uint32 m_VisSectorID;
 };
-
 
 //////////////////////////////////////////////////////////////////
 //	Set_ID
 //////////////////////////////////////////////////////////////////
-inline void
-TileNodeClass::Set_ID (uint32 id)
+inline void TileNodeClass::Set_ID(uint32 id)
 {
-	if (m_PhysObj != NULL) {
-		m_PhysObj->Set_ID (id);
-	}
+    if (m_PhysObj != NULL) {
+        m_PhysObj->Set_ID(id);
+    }
 
-	NodeClass::Set_ID (id);
-	return ;
+    NodeClass::Set_ID(id);
+    return;
 }
-
 
 //////////////////////////////////////////////////////////////////
 //	On_Rotate
 //////////////////////////////////////////////////////////////////
-inline void
-TileNodeClass::On_Rotate (void)
+inline void TileNodeClass::On_Rotate(void)
 {
-	NodeClass::On_Rotate ();
+    NodeClass::On_Rotate();
 
-	//
-	//	Update the cull-link index
-	//
-	Update_Cached_Cull_Link ();
-	return ;
+    //
+    //	Update the cull-link index
+    //
+    Update_Cached_Cull_Link();
+    return;
 }
-
 
 //////////////////////////////////////////////////////////////////
 //	On_Translate
 //////////////////////////////////////////////////////////////////
-inline void
-TileNodeClass::On_Translate (void)
+inline void TileNodeClass::On_Translate(void)
 {
-	NodeClass::On_Translate ();
+    NodeClass::On_Translate();
 
-	//
-	//	Update the cull-link index
-	//
-	Update_Cached_Cull_Link ();
-	return ;
+    //
+    //	Update the cull-link index
+    //
+    Update_Cached_Cull_Link();
+    return;
 }
-
 
 //////////////////////////////////////////////////////////////////
 //	On_Transform
 //////////////////////////////////////////////////////////////////
-inline void
-TileNodeClass::On_Transform (void)
+inline void TileNodeClass::On_Transform(void)
 {
-	NodeClass::On_Transform ();
+    NodeClass::On_Transform();
 
-	//
-	//	Update the cull-link index
-	//
-	Update_Cached_Cull_Link ();
-	return ;
+    //
+    //	Update the cull-link index
+    //
+    Update_Cached_Cull_Link();
+    return;
 }
 
-
 #endif //__TILE_NODE_H
-

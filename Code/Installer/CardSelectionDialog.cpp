@@ -16,22 +16,22 @@
 **	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-/*********************************************************************************************** 
- ***                            Confidential - Westwood Studios                              *** 
- *********************************************************************************************** 
- *                                                                                             * 
- *                 Project Name : Installer                                                    * 
- *                                                                                             * 
- *                     $Archive:: /Commando/Code/Installer/CardSelectionDialog.cpp          $  * 
- *                                                                                             * 
- *                      $Author:: Ian_l                   $* 
- *                                                                                             * 
- *                     $Modtime:: 11/09/01 1:07p                $* 
- *                                                                                             * 
- *                    $Revision:: 3                     $* 
- *                                                                                             * 
- *---------------------------------------------------------------------------------------------* 
- * Functions:                                                                                  * 
+/***********************************************************************************************
+ ***                            Confidential - Westwood Studios                              ***
+ ***********************************************************************************************
+ *                                                                                             *
+ *                 Project Name : Installer                                                    *
+ *                                                                                             *
+ *                     $Archive:: /Commando/Code/Installer/CardSelectionDialog.cpp          $  *
+ *                                                                                             *
+ *                      $Author:: Ian_l                   $*
+ *                                                                                             *
+ *                     $Modtime:: 11/09/01 1:07p                $*
+ *                                                                                             *
+ *                    $Revision:: 3                     $*
+ *                                                                                             *
+ *---------------------------------------------------------------------------------------------*
+ * Functions:                                                                                  *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
 // Includes.
@@ -42,9 +42,9 @@
 #include "RDDesc.h"
 #include "Translator.h"
 
-
 /***********************************************************************************************
- * CardSelectionDialogClass::On_Init_Dialog --																  *
+ * CardSelectionDialogClass::On_Init_Dialog --
+ **
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -53,34 +53,36 @@
  * WARNINGS:                                                                                   *
  *                                                                                             *
  * HISTORY:                                                                                    *
- *   08/22/01    IML : Created.                                                                * 
+ *   08/22/01    IML : Created.                                                                *
  *=============================================================================================*/
-void CardSelectionDialogClass::On_Init_Dialog (void)
+void CardSelectionDialogClass::On_Init_Dialog(void)
 {
-	ListCtrlClass *listctrl;
-	int				e;
-	
-	listctrl = Get_Dlg_Item (IDC_CARD_SELECTION_LIST)->As_ListCtrlClass();
-	listctrl->Add_Column (L"", 1.0f, Vector3 (1.0f, 1.0f, 1.0f));
-	e = 0;
-	for (int d = 0; d < WW3D::Get_Render_Device_Count(); d++) {
-		listctrl->Insert_Entry (e, WideStringClass (WW3D::Get_Render_Device_Name (d)));
-		e++;
-	}
+    ListCtrlClass* listctrl;
+    int e;
 
-	listctrl->Set_Curr_Sel (0);
+    listctrl = Get_Dlg_Item(IDC_CARD_SELECTION_LIST)->As_ListCtrlClass();
+    listctrl->Add_Column(L"", 1.0f, Vector3(1.0f, 1.0f, 1.0f));
+    e = 0;
+    for (int d = 0; d < WW3D::Get_Render_Device_Count(); d++) {
+        listctrl->Insert_Entry(e, WideStringClass(WW3D::Get_Render_Device_Name(d)));
+        e++;
+    }
 
-	MenuDialogClass::On_Init_Dialog();
+    listctrl->Set_Curr_Sel(0);
 
-	// Show message to indicate that the user's last video card selection was unsuccessful?
-	if (ShowMessage) {
-		MessageBoxClass::Do_Dialog (TxWideStringClass (IDS_WARNING), TxWideStringClass (IDS_CANNOT_INITIALIZE_THIS_D3D_DEVICE), MessageBoxClass::MESSAGE_BOX_TYPE_OK, this);
-	}
+    MenuDialogClass::On_Init_Dialog();
+
+    // Show message to indicate that the user's last video card selection was unsuccessful?
+    if (ShowMessage) {
+        MessageBoxClass::Do_Dialog(TxWideStringClass(IDS_WARNING),
+                                   TxWideStringClass(IDS_CANNOT_INITIALIZE_THIS_D3D_DEVICE),
+                                   MessageBoxClass::MESSAGE_BOX_TYPE_OK, this);
+    }
 }
 
-
 /***********************************************************************************************
- * CardSelectionDialogClass::Callback --																		  *
+ * CardSelectionDialogClass::Callback --
+ **
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -89,25 +91,25 @@ void CardSelectionDialogClass::On_Init_Dialog (void)
  * WARNINGS:                                                                                   *
  *                                                                                             *
  * HISTORY:                                                                                    *
- *   08/22/01    IML : Created.                                                                * 
+ *   08/22/01    IML : Created.                                                                *
  *=============================================================================================*/
-void CardSelectionDialogClass::Callback (int id, PopupDialogClass *popup)
+void CardSelectionDialogClass::Callback(int id, PopupDialogClass* popup)
 {
-	switch (id) {
-		
-		case IDC_BUTTON_YES:
-			CancelApplication = true;
-			End_Dialog();
-			break;
+    switch (id) {
 
-		default:
-			break;
-	}
+    case IDC_BUTTON_YES:
+        CancelApplication = true;
+        End_Dialog();
+        break;
+
+    default:
+        break;
+    }
 }
 
-
 /***********************************************************************************************
- * CardSelectionDialogClass::On_Command --																	  *
+ * CardSelectionDialogClass::On_Command --
+ **
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -116,28 +118,28 @@ void CardSelectionDialogClass::Callback (int id, PopupDialogClass *popup)
  * WARNINGS:                                                                                   *
  *                                                                                             *
  * HISTORY:                                                                                    *
- *   08/22/01    IML : Created.                                                                * 
+ *   08/22/01    IML : Created.                                                                *
  *=============================================================================================*/
-void CardSelectionDialogClass::On_Command (int ctrl_id, int message_id, DWORD param)
+void CardSelectionDialogClass::On_Command(int ctrl_id, int message_id, DWORD param)
 {
-	switch (ctrl_id)
-	{
-		case IDCANCEL:
-			MessageBoxClass::Do_Dialog (TxWideStringClass (IDS_EXIT_SETUP), TxWideStringClass (IDS_PROMPT_EXIT_SETUP), MessageBoxClass::MESSAGE_BOX_TYPE_YES_NO, this);
-			return;
+    switch (ctrl_id) {
+    case IDCANCEL:
+        MessageBoxClass::Do_Dialog(TxWideStringClass(IDS_EXIT_SETUP),
+                                   TxWideStringClass(IDS_PROMPT_EXIT_SETUP),
+                                   MessageBoxClass::MESSAGE_BOX_TYPE_YES_NO, this);
+        return;
 
-		case IDOK:
-		{
-			ListCtrlClass *listctrl;
+    case IDOK: {
+        ListCtrlClass* listctrl;
 
-			listctrl = Get_Dlg_Item (IDC_CARD_SELECTION_LIST)->As_ListCtrlClass();
-			CardSelection = listctrl->Get_Curr_Sel();
-			End_Dialog();
-		}
+        listctrl = Get_Dlg_Item(IDC_CARD_SELECTION_LIST)->As_ListCtrlClass();
+        CardSelection = listctrl->Get_Curr_Sel();
+        End_Dialog();
+    }
 
-		default:
-			break;
-	}
+    default:
+        break;
+    }
 
-	MenuDialogClass::On_Command (ctrl_id, message_id, param);
+    MenuDialogClass::On_Command(ctrl_id, message_id, param);
 }

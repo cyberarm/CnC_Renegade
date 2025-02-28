@@ -34,11 +34,15 @@
  * Functions:                                                                                  *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
-
-void Print(const char * format,...);
-void Print_Title(const char * title);
+void Print(const char* format, ...);
+void Print_Title(const char* title);
 void Pass_Message(int test_index);
 void Fail_Message(int test_index);
 
-
-#define CHECK(index,expr) if (expr) { Pass_Message(index); } else { Fail_Message(index); }
+#define CHECK(index, expr)                                                                         \
+    if (expr) {                                                                                    \
+        Pass_Message(index);                                                                       \
+    }                                                                                              \
+    else {                                                                                         \
+        Fail_Message(index);                                                                       \
+    }

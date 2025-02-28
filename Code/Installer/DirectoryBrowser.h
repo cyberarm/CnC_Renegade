@@ -16,22 +16,22 @@
 **	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-/*********************************************************************************************** 
- ***                            Confidential - Westwood Studios                              *** 
- *********************************************************************************************** 
- *                                                                                             * 
- *                 Project Name : Installer                                                    * 
- *                                                                                             * 
- *                     $Archive:: /Commando/Code/Installer/DirectoryBrowser.h $* 
- *                                                                                             * 
- *                      $Author:: Ian_l                   $* 
- *                                                                                             * 
- *                     $Modtime:: 11/19/01 9:53p                $* 
- *                                                                                             * 
- *                    $Revision:: 4                     $* 
- *                                                                                             * 
- *---------------------------------------------------------------------------------------------* 
- * Functions:                                                                                  * 
+/***********************************************************************************************
+ ***                            Confidential - Westwood Studios                              ***
+ ***********************************************************************************************
+ *                                                                                             *
+ *                 Project Name : Installer                                                    *
+ *                                                                                             *
+ *                     $Archive:: /Commando/Code/Installer/DirectoryBrowser.h $*
+ *                                                                                             *
+ *                      $Author:: Ian_l                   $*
+ *                                                                                             *
+ *                     $Modtime:: 11/19/01 9:53p                $*
+ *                                                                                             *
+ *                    $Revision:: 4                     $*
+ *                                                                                             *
+ *---------------------------------------------------------------------------------------------*
+ * Functions:                                                                                  *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 #ifndef _DIRECTORY_BROWSER_H
 #define _DIRECTORY_BROWSER_H
@@ -40,26 +40,28 @@
 #include "MessageBox.h"
 #include "Resource.h"
 
-
 // Popup dialog to implement directory browsing and selection.
 
-class DirectoryBrowserClass : public MessageBoxClass {
+class DirectoryBrowserClass : public MessageBoxClass
+{
 
-	public:
-	
-		DirectoryBrowserClass (CallbackMenuDialogClass *callbackobject) : MessageBoxClass (IDD_DIALOG_BROWSER, callbackobject) {}
+public:
+    DirectoryBrowserClass(CallbackMenuDialogClass* callbackobject)
+        : MessageBoxClass(IDD_DIALOG_BROWSER, callbackobject)
+    {
+    }
 
-		void On_TreeCtrl_Needs_Children (TreeCtrlClass *tree_ctrl, int ctrl_id, TreeItemClass *parent_item);
-		void Get_Selected_Path (WideStringClass &selectedpath);
+    void On_TreeCtrl_Needs_Children(TreeCtrlClass* tree_ctrl, int ctrl_id,
+                                    TreeItemClass* parent_item);
+    void Get_Selected_Path(WideStringClass& selectedpath);
 
-	protected:
+protected:
+    void On_Init_Dialog(void);
 
-		void On_Init_Dialog (void);
-
-		bool Has_Children (TreeCtrlClass *tree_ctrl, int ctrl_id, TreeItemClass *parent_item);
-		void Build_Pathname (TreeItemClass *treenode, WideStringClass &path);
-		bool Add_Folders (bool recurse, const WideStringClass &path, TreeCtrlClass *treectrl, TreeItemClass *treenode);
+    bool Has_Children(TreeCtrlClass* tree_ctrl, int ctrl_id, TreeItemClass* parent_item);
+    void Build_Pathname(TreeItemClass* treenode, WideStringClass& path);
+    bool Add_Folders(bool recurse, const WideStringClass& path, TreeCtrlClass* treectrl,
+                     TreeItemClass* treenode);
 };
-
 
 #endif // DIRECTORY_BROWSER

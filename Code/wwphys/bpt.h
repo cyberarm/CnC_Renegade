@@ -38,15 +38,15 @@
 #pragma once
 #endif
 
-#if 0 //OBSOLETE
+#if 0 // OBSOLETE
 #ifdef PORT140
 
 #ifndef BPT_H
 #define BPT_H
 
+#include "aabox.h"
 #include "always.h"
 #include "lineseg.h"
-#include "aabox.h"
 #include "obbox.h"
 #include "physcoltest.h"
 #include "rendobj.h"
@@ -122,7 +122,7 @@ protected:
 
 };
 
-#endif 
+#endif
 
-#endif //PORT140
-#endif 
+#endif // PORT140
+#endif

@@ -22,7 +22,7 @@
  *                                                                                             *
  *                 Project Name : wwui                                                    *
  *                                                                                             *
- *                     $Archive:: /Commando/Code/wwui/healthbarctrl.h                              $*
+ *                     $Archive:: /Commando/Code/wwui/healthbarctrl.h $*
  *                                                                                             *
  *                       Author:: Patrick Smith                                                *
  *                                                                                             *
@@ -41,10 +41,8 @@
 #ifndef __HEALTHBARCTRL_H
 #define __HEALTHBARCTRL_H
 
-
-#include "render2d.h"
 #include "dialogcontrol.h"
-
+#include "render2d.h"
 
 //////////////////////////////////////////////////////////////////////
 //
@@ -54,42 +52,39 @@
 class HealthBarCtrlClass : public DialogControlClass
 {
 public:
+    ///////////////////////////////////////////////////////////////////
+    //	Public constructors/destructors
+    ///////////////////////////////////////////////////////////////////
+    HealthBarCtrlClass(void);
+    virtual ~HealthBarCtrlClass(void);
 
-	///////////////////////////////////////////////////////////////////
-	//	Public constructors/destructors
-	///////////////////////////////////////////////////////////////////
-	HealthBarCtrlClass  (void);
-	virtual ~HealthBarCtrlClass (void);
+    ///////////////////////////////////////////////////////////////////
+    //	Public methods
+    ///////////////////////////////////////////////////////////////////
 
-	///////////////////////////////////////////////////////////////////
-	//	Public methods
-	///////////////////////////////////////////////////////////////////
+    //
+    //	Inherited
+    //
+    void Render(void);
 
-	//
-	//	Inherited
-	//
-	void				Render (void);
+    //
+    //	Configuration
+    //
+    void Set_Life(float value);
 
-	//
-	//	Configuration
-	//
-	void				Set_Life (float value);
-	
 protected:
-	
-	///////////////////////////////////////////////////////////////////
-	//	Protected methods
-	///////////////////////////////////////////////////////////////////
-	void				Create_Control_Renderer (void);
-	void				Create_Texture_Renderer (void);
-	
-	///////////////////////////////////////////////////////////////////
-	//	Protected member data
-	///////////////////////////////////////////////////////////////////
-	Render2DClass			ControlRenderer;
-	Render2DClass			TextureRenderer;
-	float						Percent;
-};
+    ///////////////////////////////////////////////////////////////////
+    //	Protected methods
+    ///////////////////////////////////////////////////////////////////
+    void Create_Control_Renderer(void);
+    void Create_Texture_Renderer(void);
 
+    ///////////////////////////////////////////////////////////////////
+    //	Protected member data
+    ///////////////////////////////////////////////////////////////////
+    Render2DClass ControlRenderer;
+    Render2DClass TextureRenderer;
+    float Percent;
+};
 
 #endif //__HEALTHBARCTRL_H

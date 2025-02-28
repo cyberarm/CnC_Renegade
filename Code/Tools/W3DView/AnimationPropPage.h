@@ -30,39 +30,41 @@
 
 class CAnimationPropPage : public CPropertyPage
 {
-	DECLARE_DYNCREATE(CAnimationPropPage)
+    DECLARE_DYNCREATE(CAnimationPropPage)
 
-// Construction
+    // Construction
 public:
-	CAnimationPropPage();
-	~CAnimationPropPage();
+    CAnimationPropPage();
+    ~CAnimationPropPage();
 
-// Dialog Data
-	//{{AFX_DATA(CAnimationPropPage)
-	enum { IDD = IDD_PROP_PAGE_ANIMATION };
-		// NOTE - ClassWizard will add data members here.
-		//    DO NOT EDIT what you see in these blocks of generated code !
-	//}}AFX_DATA
+    // Dialog Data
+    //{{AFX_DATA(CAnimationPropPage)
+    enum
+    {
+        IDD = IDD_PROP_PAGE_ANIMATION
+    };
+    // NOTE - ClassWizard will add data members here.
+    //    DO NOT EDIT what you see in these blocks of generated code !
+    //}}AFX_DATA
 
-
-// Overrides
-	// ClassWizard generate virtual function overrides
-	//{{AFX_VIRTUAL(CAnimationPropPage)
-	protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
-	//}}AFX_VIRTUAL
-
-// Implementation
+    // Overrides
+    // ClassWizard generate virtual function overrides
+    //{{AFX_VIRTUAL(CAnimationPropPage)
 protected:
-	// Generated message map functions
-	//{{AFX_MSG(CAnimationPropPage)
-	virtual BOOL OnInitDialog();
-	//}}AFX_MSG
-	DECLARE_MESSAGE_MAP()
+    virtual void DoDataExchange(CDataExchange* pDX); // DDX/DDV support
+    //}}AFX_VIRTUAL
 
+    // Implementation
+protected:
+    // Generated message map functions
+    //{{AFX_MSG(CAnimationPropPage)
+    virtual BOOL OnInitDialog();
+    //}}AFX_MSG
+    DECLARE_MESSAGE_MAP()
 };
 
 //{{AFX_INSERT_LOCATION}}
-// Microsoft Developer Studio will insert additional declarations immediately before the previous line.
+// Microsoft Developer Studio will insert additional declarations immediately before the previous
+// line.
 
 #endif // !defined(AFX_ANIMATIONPROPPAGE_H__9B07DA65_62B6_11D2_9FC7_00104B791122__INCLUDED_)

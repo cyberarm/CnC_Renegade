@@ -32,39 +32,40 @@ class CardinalSpline3DClass;
 
 class CCardinalDialog : public CDialog
 {
-// Construction
+    // Construction
 public:
-	CCardinalDialog(CWnd* pParent,CardinalSpline3DClass * curve,int key);   
+    CCardinalDialog(CWnd* pParent, CardinalSpline3DClass* curve, int key);
 
-// Dialog Data
-	//{{AFX_DATA(CCardinalDialog)
-	enum { IDD = IDD_CARDINAL_DIALOG };
-		// NOTE: the ClassWizard will add data members here
-	//}}AFX_DATA
+    // Dialog Data
+    //{{AFX_DATA(CCardinalDialog)
+    enum
+    {
+        IDD = IDD_CARDINAL_DIALOG
+    };
+    // NOTE: the ClassWizard will add data members here
+    //}}AFX_DATA
 
-
-// Overrides
-	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CCardinalDialog)
-	protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
-	//}}AFX_VIRTUAL
-
-// Implementation
+    // Overrides
+    // ClassWizard generated virtual function overrides
+    //{{AFX_VIRTUAL(CCardinalDialog)
 protected:
+    virtual void DoDataExchange(CDataExchange* pDX); // DDX/DDV support
+    //}}AFX_VIRTUAL
 
-	CardinalSpline3DClass *		Curve;
-	int								Key;
-	
-	float								GetDlgItemFloat(int controlid);
-	void								SetDlgItemFloat(int controlid,float val);
+    // Implementation
+protected:
+    CardinalSpline3DClass* Curve;
+    int Key;
 
-	// Generated message map functions
-	//{{AFX_MSG(CCardinalDialog)
-	virtual void OnOK();
-	virtual BOOL OnInitDialog();
-	//}}AFX_MSG
-	DECLARE_MESSAGE_MAP()
+    float GetDlgItemFloat(int controlid);
+    void SetDlgItemFloat(int controlid, float val);
+
+    // Generated message map functions
+    //{{AFX_MSG(CCardinalDialog)
+    virtual void OnOK();
+    virtual BOOL OnInitDialog();
+    //}}AFX_MSG
+    DECLARE_MESSAGE_MAP()
 };
 
 //{{AFX_INSERT_LOCATION}}

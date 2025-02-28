@@ -27,8 +27,8 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-#include "resource.h"
 #include "cardinalspline.h"
+#include "resource.h"
 #include "vector2.h"
 
 class CSimpleGraphDoc;
@@ -36,105 +36,112 @@ class CSimpleGraphDoc;
 class CSimpleGraphView : public CView
 {
 protected: // create from serialization only
-	CSimpleGraphView();
-	DECLARE_DYNCREATE(CSimpleGraphView)
+    CSimpleGraphView();
+    DECLARE_DYNCREATE(CSimpleGraphView)
 
-// Attributes
+    // Attributes
 public:
-	CSimpleGraphDoc* GetDocument();
+    CSimpleGraphDoc* GetDocument();
 
-// Operations
+    // Operations
 public:
-
-// Overrides
-	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CSimpleGraphView)
-	public:
-	virtual void OnDraw(CDC* pDC);  // overridden to draw this view
-	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
-	virtual void OnInitialUpdate();
-	//}}AFX_VIRTUAL
-
-// Implementation
+    // Overrides
+    // ClassWizard generated virtual function overrides
+    //{{AFX_VIRTUAL(CSimpleGraphView)
 public:
-	virtual ~CSimpleGraphView();
+    virtual void OnDraw(CDC* pDC); // overridden to draw this view
+    virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
+    virtual void OnInitialUpdate();
+    //}}AFX_VIRTUAL
+
+    // Implementation
+public:
+    virtual ~CSimpleGraphView();
 #ifdef _DEBUG
-	virtual void AssertValid() const;
-	virtual void Dump(CDumpContext& dc) const;
+    virtual void AssertValid() const;
+    virtual void Dump(CDumpContext& dc) const;
 #endif
 
 protected:
-
-// Generated message map functions
+    // Generated message map functions
 protected:
-	//{{AFX_MSG(CSimpleGraphView)
-	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
-	afx_msg void OnLButtonUp(UINT nFlags, CPoint point);
-	afx_msg void OnMouseMove(UINT nFlags, CPoint point);
-	afx_msg void OnDelete();
-	afx_msg void OnUpdateDelete(CCmdUI* pCmdUI);
-	afx_msg void OnZoomExtents();
-	afx_msg void OnRButtonDown(UINT nFlags, CPoint point);
-	afx_msg void OnRButtonUp(UINT nFlags, CPoint point);
-	//}}AFX_MSG
-	DECLARE_MESSAGE_MAP()
+    //{{AFX_MSG(CSimpleGraphView)
+    afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
+    afx_msg void OnLButtonUp(UINT nFlags, CPoint point);
+    afx_msg void OnMouseMove(UINT nFlags, CPoint point);
+    afx_msg void OnDelete();
+    afx_msg void OnUpdateDelete(CCmdUI* pCmdUI);
+    afx_msg void OnZoomExtents();
+    afx_msg void OnRButtonDown(UINT nFlags, CPoint point);
+    afx_msg void OnRButtonUp(UINT nFlags, CPoint point);
+    //}}AFX_MSG
+    DECLARE_MESSAGE_MAP()
 
 public:
+    //////////////////////////////////////////////////////////
+    //	Protected methods
+    //////////////////////////////////////////////////////////
+    void Render_Graph(CDC* dc);
+    void Get_Visible_Points(int* left_pt, int* right_pt);
 
-	//////////////////////////////////////////////////////////
-	//	Protected methods
-	//////////////////////////////////////////////////////////
-	void							Render_Graph (CDC *dc);
-	void							Get_Visible_Points (int *left_pt, int *right_pt);
-		
-	typedef enum
-	{
-		HIT_GRAPH_AREA		= 1,
-		HIT_POINT,
-		HIT_AXIS,
-		HIT_UNKNOWN
+    typedef enum
+    {
+        HIT_GRAPH_AREA = 1,
+        HIT_POINT,
+        HIT_AXIS,
+        HIT_UNKNOWN
 
-	} HITTYPE;
-	
-	HITTYPE						Hit_Test (const CPoint &point, int *hit_pt);
+    } HITTYPE;
 
-	void							Get_Graph_Rect (CRect &rect);
-	void							Value_To_Point (const Vector2 &value, CPoint *point);
-	void							Point_To_Value (const CPoint &point, Vector2 *value);
-	int							Move_Value (int old_index, const Vector2 &new_value);
-	void							Render_Axis (CDC *dc);
-	void							Repaint_Graph (void);
-	void							Render_Points (CDC *dc);
-	int							Add_New_Point (CPoint &point);
-	void							Delete_Point (int index);
-	int							Get_Selection (void) const { return m_SelPt; }
+    HITTYPE Hit_Test(const CPoint& point, int* hit_pt);
 
-	void							Get_Ranges (Vector2 &range_min, Vector2 &range_max)	{ range_min = m_Min; range_max = m_Max; }
-	void							Set_Ranges (Vector2 &range_min, Vector2 &range_max)	{ m_Min = range_min; m_Max = range_max; Repaint_Graph (); }
+    void Get_Graph_Rect(CRect& rect);
+    void Value_To_Point(const Vector2& value, CPoint* point);
+    void Point_To_Value(const CPoint& point, Vector2* value);
+    int Move_Value(int old_index, const Vector2& new_value);
+    void Render_Axis(CDC* dc);
+    void Repaint_Graph(void);
+    void Render_Points(CDC* dc);
+    int Add_New_Point(CPoint& point);
+    void Delete_Point(int index);
+    int Get_Selection(void) const { return m_SelPt; }
+
+    void Get_Ranges(Vector2& range_min, Vector2& range_max)
+    {
+        range_min = m_Min;
+        range_max = m_Max;
+    }
+    void Set_Ranges(Vector2& range_min, Vector2& range_max)
+    {
+        m_Min = range_min;
+        m_Max = range_max;
+        Repaint_Graph();
+    }
 
 protected:
+    //////////////////////////////////////////////////////////
+    //	Protected member data
+    //////////////////////////////////////////////////////////
 
-	//////////////////////////////////////////////////////////
-	//	Protected member data
-	//////////////////////////////////////////////////////////	
+    Vector2 m_Min;
+    Vector2 m_Max;
 
-	Vector2						m_Min;
-	Vector2						m_Max;
+    int m_DraggingPt;
+    int m_SelPt;
 
-	int							m_DraggingPt;
-	int							m_SelPt;
+    CBrush m_Brush;
+    CBrush m_SelBrush;
+    HFONT m_Font;
 
-	CBrush						m_Brush;
-	CBrush						m_SelBrush;
-	HFONT							m_Font;
-
-	CPoint						m_ZoomPt;
-	bool							m_IsZooming;
+    CPoint m_ZoomPt;
+    bool m_IsZooming;
 };
 
-#ifndef _DEBUG  // debug version in SimpleGraphView.cpp
+#ifndef _DEBUG // debug version in SimpleGraphView.cpp
 inline CSimpleGraphDoc* CSimpleGraphView::GetDocument()
-   { return (CSimpleGraphDoc*)m_pDocument; }
+{
+    return (CSimpleGraphDoc*)m_pDocument;
+}
 #endif
 
 /////////////////////////////////////////////////////////////////////////////

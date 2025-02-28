@@ -17,22 +17,22 @@
 */
 
 /* $Header: /Commando/Code/Tests/MeshTest/_GLOBALS.H 5     5/01/98 11:04a Greg_h $ */
-/*********************************************************************************************** 
- ***                            Confidential - Westwood Studios                              *** 
- *********************************************************************************************** 
- *                                                                                             * 
- *                 Project Name : Commando                                                     * 
- *                                                                                             * 
- *                     $Archive:: /Commando/Code/Tests/MeshTest/_GLOBALS.H                    $* 
- *                                                                                             * 
- *                      $Author:: Greg_h                                                      $* 
- *                                                                                             * 
- *                     $Modtime:: 4/30/98 2:33p                                               $* 
- *                                                                                             * 
- *                    $Revision:: 5                                                           $* 
- *                                                                                             * 
- *---------------------------------------------------------------------------------------------* 
- * Functions:                                                                                  * 
+/***********************************************************************************************
+ ***                            Confidential - Westwood Studios                              ***
+ ***********************************************************************************************
+ *                                                                                             *
+ *                 Project Name : Commando                                                     *
+ *                                                                                             *
+ *                     $Archive:: /Commando/Code/Tests/MeshTest/_GLOBALS.H                    $*
+ *                                                                                             *
+ *                      $Author:: Greg_h                                                      $*
+ *                                                                                             *
+ *                     $Modtime:: 4/30/98 2:33p                                               $*
+ *                                                                                             *
+ *                    $Revision:: 5                                                           $*
+ *                                                                                             *
+ *---------------------------------------------------------------------------------------------*
+ * Functions:                                                                                  *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
 #ifndef _GLOBALS_H
@@ -54,22 +54,21 @@
 #include "stimer.h"
 #endif
 
-extern bool						GameInFocus;
-extern Mouse *					MouseCursor;
-extern WWKeyboardClass *	Keyboard;
+extern bool GameInFocus;
+extern Mouse* MouseCursor;
+extern WWKeyboardClass* Keyboard;
 
-extern int						Argc;
-extern char * 					Argv[20];
-
+extern int Argc;
+extern char* Argv[20];
 
 #if 0
 	//   60 Hz Timer
 	extern	SystemTimerClass		SystemTimer;
-	#define	SYSTEM_TIMER_RATE		TIMER_SECOND
+#define SYSTEM_TIMER_RATE TIMER_SECOND
 #else
-	//		1 KHz Timer
-	#define	SystemTimer()			(int)timeGetTime()
-	#define	SYSTEM_TIMER_RATE		1000
+//		1 KHz Timer
+#define SystemTimer() (int)timeGetTime()
+#define SYSTEM_TIMER_RATE 1000
 #endif
 
 #endif

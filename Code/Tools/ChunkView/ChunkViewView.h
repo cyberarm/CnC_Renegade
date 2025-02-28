@@ -34,7 +34,6 @@
  * Functions:                                                                                  *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
-
 // ChunkViewView.h : interface of the CChunkViewView class
 //
 /////////////////////////////////////////////////////////////////////////////
@@ -46,51 +45,51 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-
 class CChunkViewView : public CView
 {
 protected: // create from serialization only
-	CChunkViewView();
-	DECLARE_DYNCREATE(CChunkViewView)
+    CChunkViewView();
+    DECLARE_DYNCREATE(CChunkViewView)
 
-// Attributes
+    // Attributes
 public:
-	CChunkViewDoc* GetDocument();
+    CChunkViewDoc* GetDocument();
 
-// Operations
+    // Operations
 public:
-
-// Overrides
-	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CChunkViewView)
-	public:
-	virtual void OnDraw(CDC* pDC);  // overridden to draw this view
-	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
-	protected:
-	//}}AFX_VIRTUAL
-
-// Implementation
+    // Overrides
+    // ClassWizard generated virtual function overrides
+    //{{AFX_VIRTUAL(CChunkViewView)
 public:
-	virtual ~CChunkViewView();
+    virtual void OnDraw(CDC* pDC); // overridden to draw this view
+    virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
+
+protected:
+    //}}AFX_VIRTUAL
+
+    // Implementation
+public:
+    virtual ~CChunkViewView();
 #ifdef _DEBUG
-	virtual void AssertValid() const;
-	virtual void Dump(CDumpContext& dc) const;
+    virtual void AssertValid() const;
+    virtual void Dump(CDumpContext& dc) const;
 #endif
 
 protected:
-
-// Generated message map functions
+    // Generated message map functions
 protected:
-	//{{AFX_MSG(CChunkViewView)
-		// NOTE - the ClassWizard will add and remove member functions here.
-		//    DO NOT EDIT what you see in these blocks of generated code !
-	//}}AFX_MSG
-	DECLARE_MESSAGE_MAP()
+    //{{AFX_MSG(CChunkViewView)
+    // NOTE - the ClassWizard will add and remove member functions here.
+    //    DO NOT EDIT what you see in these blocks of generated code !
+    //}}AFX_MSG
+    DECLARE_MESSAGE_MAP()
 };
 
-#ifndef _DEBUG  // debug version in ChunkViewView.cpp
+#ifndef _DEBUG // debug version in ChunkViewView.cpp
 inline CChunkViewDoc* CChunkViewView::GetDocument()
-   { return (CChunkViewDoc*)m_pDocument; }
+{
+    return (CChunkViewDoc*)m_pDocument;
+}
 #endif
 
 /////////////////////////////////////////////////////////////////////////////

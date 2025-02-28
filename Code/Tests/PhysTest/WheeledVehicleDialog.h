@@ -32,41 +32,42 @@ class WheeledVehicleClass;
 
 class CWheeledVehicleDialog : public CDialog
 {
-// Construction
+    // Construction
 public:
-	CWheeledVehicleDialog(CWnd* pParent,WheeledVehicleClass * obj);
+    CWheeledVehicleDialog(CWnd* pParent, WheeledVehicleClass* obj);
 
-// Dialog Data
-	//{{AFX_DATA(CWheeledVehicleDialog)
-	enum { IDD = IDD_WHEELEDVEHICLE_DIALOG };
-	CSpinButtonCtrl	m_LengthSpin;
-	CSpinButtonCtrl	m_KSSpin;
-	CSpinButtonCtrl	m_KDSpin;
-	//}}AFX_DATA
+    // Dialog Data
+    //{{AFX_DATA(CWheeledVehicleDialog)
+    enum
+    {
+        IDD = IDD_WHEELEDVEHICLE_DIALOG
+    };
+    CSpinButtonCtrl m_LengthSpin;
+    CSpinButtonCtrl m_KSSpin;
+    CSpinButtonCtrl m_KDSpin;
+    //}}AFX_DATA
 
-
-// Overrides
-	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CWheeledVehicleDialog)
-	protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
-	virtual BOOL OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult);
-	//}}AFX_VIRTUAL
-
-// Implementation
+    // Overrides
+    // ClassWizard generated virtual function overrides
+    //{{AFX_VIRTUAL(CWheeledVehicleDialog)
 protected:
+    virtual void DoDataExchange(CDataExchange* pDX); // DDX/DDV support
+    virtual BOOL OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult);
+    //}}AFX_VIRTUAL
 
-	WheeledVehicleClass * EditedObject;
+    // Implementation
+protected:
+    WheeledVehicleClass* EditedObject;
 
-	float GetDlgItemFloat(int controlid);
-	void SetDlgItemFloat(int controlid,float val);
+    float GetDlgItemFloat(int controlid);
+    void SetDlgItemFloat(int controlid, float val);
 
-	// Generated message map functions
-	//{{AFX_MSG(CWheeledVehicleDialog)
-	virtual void OnOK();
-	virtual BOOL OnInitDialog();
-	//}}AFX_MSG
-	DECLARE_MESSAGE_MAP()
+    // Generated message map functions
+    //{{AFX_MSG(CWheeledVehicleDialog)
+    virtual void OnOK();
+    virtual BOOL OnInitDialog();
+    //}}AFX_MSG
+    DECLARE_MESSAGE_MAP()
 };
 
 //{{AFX_INSERT_LOCATION}}

@@ -38,17 +38,29 @@ class ChunkLoadClass;
 class ItemInfoClass
 {
 public:
-	enum { MODEL = 0, INSTANCE };
+    enum
+    {
+        MODEL = 0,
+        INSTANCE
+    };
 
-	ItemInfoClass(const char * name,int type) : Instance(NULL) { Name = strdup(name); Type = type; }
-	~ItemInfoClass(void) { if (Name) free(Name); }
+    ItemInfoClass(const char* name, int type)
+        : Instance(NULL)
+    {
+        Name = strdup(name);
+        Type = type;
+    }
+    ~ItemInfoClass(void)
+    {
+        if (Name) {
+            free(Name);
+        }
+    }
 
-	char *		Name;
-	int			Type;
-	PhysClass *	Instance;
+    char* Name;
+    int Type;
+    PhysClass* Instance;
 };
-
-
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -57,52 +69,50 @@ public:
 class CDataView : public CTreeView
 {
 protected:
-	CDataView();           // protected constructor used by dynamic creation
-	DECLARE_DYNCREATE(CDataView)
+    CDataView(); // protected constructor used by dynamic creation
+    DECLARE_DYNCREATE(CDataView)
 
-// Attributes
+    // Attributes
 public:
-
-// Operations
+    // Operations
 public:
+    void Rebuild_Tree(void);
+    ItemInfoClass* Get_Selected_Item(void);
+    void Save(ChunkSaveClass& csave);
+    void Load(ChunkLoadClass& cload);
 
-	void								Rebuild_Tree(void);
-	ItemInfoClass *				Get_Selected_Item(void);
-	void								Save(ChunkSaveClass & csave);
-	void								Load(ChunkLoadClass & cload);
-
-// Overrides
-	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CDataView)
-	protected:
-	virtual void OnDraw(CDC* pDC);      // overridden to draw this view
-	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
-	//}}AFX_VIRTUAL
-
-// Implementation
+    // Overrides
+    // ClassWizard generated virtual function overrides
+    //{{AFX_VIRTUAL(CDataView)
 protected:
-	virtual ~CDataView();
+    virtual void OnDraw(CDC* pDC); // overridden to draw this view
+    virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
+    //}}AFX_VIRTUAL
+
+    // Implementation
+protected:
+    virtual ~CDataView();
 
 #ifdef _DEBUG
-	virtual void AssertValid() const;
-	virtual void Dump(CDumpContext& dc) const;
+    virtual void AssertValid() const;
+    virtual void Dump(CDumpContext& dc) const;
 #endif
 
-	///////////////////////////////////////////////////////
-	//
-	//	Private member data
-	//
-	HTREEITEM	ModelsRoot;
-	HTREEITEM	InstancesRoot;
+    ///////////////////////////////////////////////////////
+    //
+    //	Private member data
+    //
+    HTREEITEM ModelsRoot;
+    HTREEITEM InstancesRoot;
 
-	// Generated message map functions
+    // Generated message map functions
 protected:
-	//{{AFX_MSG(CDataView)
-	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
-	afx_msg void OnDeleteitem(NMHDR* pNMHDR, LRESULT* pResult);
-	afx_msg void OnSelchanged(NMHDR* pNMHDR, LRESULT* pResult);
-	//}}AFX_MSG
-	DECLARE_MESSAGE_MAP()
+    //{{AFX_MSG(CDataView)
+    afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
+    afx_msg void OnDeleteitem(NMHDR* pNMHDR, LRESULT* pResult);
+    afx_msg void OnSelchanged(NMHDR* pNMHDR, LRESULT* pResult);
+    //}}AFX_MSG
+    DECLARE_MESSAGE_MAP()
 };
 
 /////////////////////////////////////////////////////////////////////////////

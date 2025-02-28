@@ -31,34 +31,37 @@
 
 class CCopyLockedDlg : public CDialog
 {
-// Construction
+    // Construction
 public:
-	CCopyLockedDlg(CWnd* pParent = NULL);	// standard constructor
+    CCopyLockedDlg(CWnd* pParent = NULL); // standard constructor
 
-// Dialog Data
-	//{{AFX_DATA(CCopyLockedDlg)
-	enum { IDD = IDD_COPYLOCKED_DIALOG };
-		// NOTE: the ClassWizard will add data members here
-	//}}AFX_DATA
+    // Dialog Data
+    //{{AFX_DATA(CCopyLockedDlg)
+    enum
+    {
+        IDD = IDD_COPYLOCKED_DIALOG
+    };
+    // NOTE: the ClassWizard will add data members here
+    //}}AFX_DATA
 
-	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CCopyLockedDlg)
-	protected:
-	virtual void DoDataExchange(CDataExchange* pDX);	// DDX/DDV support
-	//}}AFX_VIRTUAL
-
-// Implementation
+    // ClassWizard generated virtual function overrides
+    //{{AFX_VIRTUAL(CCopyLockedDlg)
 protected:
-	HICON m_hIcon;
+    virtual void DoDataExchange(CDataExchange* pDX); // DDX/DDV support
+    //}}AFX_VIRTUAL
 
-	// Generated message map functions
-	//{{AFX_MSG(CCopyLockedDlg)
-	virtual BOOL OnInitDialog();
-	afx_msg void OnPaint();
-	afx_msg HCURSOR OnQueryDragIcon();
-	virtual void OnOK();
-	//}}AFX_MSG
-	DECLARE_MESSAGE_MAP()
+    // Implementation
+protected:
+    HICON m_hIcon;
+
+    // Generated message map functions
+    //{{AFX_MSG(CCopyLockedDlg)
+    virtual BOOL OnInitDialog();
+    afx_msg void OnPaint();
+    afx_msg HCURSOR OnQueryDragIcon();
+    virtual void OnOK();
+    //}}AFX_MSG
+    DECLARE_MESSAGE_MAP()
 };
 
 //{{AFX_INSERT_LOCATION}}

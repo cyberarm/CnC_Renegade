@@ -19,9 +19,9 @@
 // StringsCategoryNameDialog.cpp : implementation file
 //
 
-#include "stdafx.h"
-#include "leveledit.h"
 #include "StringsCategoryNameDialog.h"
+#include "leveledit.h"
+#include "stdafx.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -35,62 +35,54 @@ static char THIS_FILE[] = __FILE__;
 //
 /////////////////////////////////////////////////////////////////////////////
 StringsCategoryNameDialogClass::StringsCategoryNameDialogClass(CWnd* pParent /*=NULL*/)
-	: CDialog(StringsCategoryNameDialogClass::IDD, pParent)
+    : CDialog(StringsCategoryNameDialogClass::IDD, pParent)
 {
-	//{{AFX_DATA_INIT(StringsCategoryNameDialogClass)
-		// NOTE: the ClassWizard will add member initialization here
-	//}}AFX_DATA_INIT
-	return ;
+    //{{AFX_DATA_INIT(StringsCategoryNameDialogClass)
+    // NOTE: the ClassWizard will add member initialization here
+    //}}AFX_DATA_INIT
+    return;
 }
-
 
 /////////////////////////////////////////////////////////////////////////////
 //
 // DoDataExchange
 //
 /////////////////////////////////////////////////////////////////////////////
-void
-StringsCategoryNameDialogClass::DoDataExchange (CDataExchange *pDX)
+void StringsCategoryNameDialogClass::DoDataExchange(CDataExchange* pDX)
 {
-	CDialog::DoDataExchange(pDX);
-	//{{AFX_DATA_MAP(StringsCategoryNameDialogClass)
-		// NOTE: the ClassWizard will add DDX and DDV calls here
-	//}}AFX_DATA_MAP
-	return ;
+    CDialog::DoDataExchange(pDX);
+    //{{AFX_DATA_MAP(StringsCategoryNameDialogClass)
+    // NOTE: the ClassWizard will add DDX and DDV calls here
+    //}}AFX_DATA_MAP
+    return;
 }
 
-
 BEGIN_MESSAGE_MAP(StringsCategoryNameDialogClass, CDialog)
-	//{{AFX_MSG_MAP(StringsCategoryNameDialogClass)
-	//}}AFX_MSG_MAP
+//{{AFX_MSG_MAP(StringsCategoryNameDialogClass)
+//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
-
 
 /////////////////////////////////////////////////////////////////////////////
 //
 // OnInitDialog
 //
 /////////////////////////////////////////////////////////////////////////////
-BOOL
-StringsCategoryNameDialogClass::OnInitDialog (void) 
+BOOL StringsCategoryNameDialogClass::OnInitDialog(void)
 {
-	CDialog::OnInitDialog ();
+    CDialog::OnInitDialog();
 
-	SetDlgItemText (IDC_NAME, Name);
-	return TRUE;
+    SetDlgItemText(IDC_NAME, Name);
+    return TRUE;
 }
-
 
 /////////////////////////////////////////////////////////////////////////////
 //
 // OnOK
 //
 /////////////////////////////////////////////////////////////////////////////
-void
-StringsCategoryNameDialogClass::OnOK (void)
+void StringsCategoryNameDialogClass::OnOK(void)
 {
-	GetDlgItemText (IDC_NAME, Name);
-	CDialog::OnOK ();
-	return ;
+    GetDlgItemText(IDC_NAME, Name);
+    CDialog::OnOK();
+    return;
 }
-

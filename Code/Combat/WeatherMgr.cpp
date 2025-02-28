@@ -24,7 +24,7 @@
  *                                                                                             *
  *                     $Archive:: /Commando/Code/Combat/WeatherMgr.cpp        $*
  *                                                                                             *
- *                       Author:: Ian Leslie		                                               *
+ *                       Author:: Ian Leslie *
  *                                                                                             *
  *                     $Modtime:: 1/02/02 1:26p                                     $*
  *                                                                                             *
@@ -42,11 +42,11 @@
 #include "camera.h"
 #include "chunkio.h"
 #include "combat.h"
+#include "dx8indexbuffer.h"
+#include "dx8wrapper.h"
 #include "gameobjmanager.h"
 #include "gametype.h"
 #include "light.h"
-#include "dx8indexbuffer.h"
-#include "dx8wrapper.h"
 #include "phys.h"
 #include "physcoltest.h"
 #include "pscene.h"
@@ -57,33 +57,31 @@
 #include "wwaudio.h"
 #include "wwmemlog.h"
 
-
 // Singletons.
 WeatherMgrClass _TheWeatherMgr;
-
 
 // Static data.
 DEFINE_AUTO_POOL(WeatherSystemClass::RayStruct, WeatherSystemClass::GROWTH_STEP);
 DEFINE_AUTO_POOL(WeatherSystemClass::ParticleStruct, WeatherSystemClass::GROWTH_STEP);
 
-Random2Class									 WeatherSystemClass::_RandomNumber (0x60486223);
-unsigned											 WeatherSystemClass::_GlobalParticleCount = 0;
+Random2Class WeatherSystemClass::_RandomNumber(0x60486223);
+unsigned WeatherSystemClass::_GlobalParticleCount = 0;
 
-SoundEnvironmentClass						*WeatherMgrClass::_SoundEnvironment;
-WeatherParameterClass						 WeatherMgrClass::_Parameters [PARAMETER_COUNT];
-bool												 WeatherMgrClass::_Prime;
-bool												 WeatherMgrClass::_Imported;
-unsigned											 WeatherMgrClass::_WindOverrideCount;
-unsigned											 WeatherMgrClass::_PrecipitationOverrideCount;
+SoundEnvironmentClass* WeatherMgrClass::_SoundEnvironment;
+WeatherParameterClass WeatherMgrClass::_Parameters[PARAMETER_COUNT];
+bool WeatherMgrClass::_Prime;
+bool WeatherMgrClass::_Imported;
+unsigned WeatherMgrClass::_WindOverrideCount;
+unsigned WeatherMgrClass::_PrecipitationOverrideCount;
 
-WindClass										*WeatherMgrClass::_Wind;
-WeatherSystemClass							*WeatherMgrClass::_Precipitation [PRECIPITATION_COUNT];
-bool												 WeatherMgrClass::_FogEnabled;
-bool												 WeatherMgrClass::_Dirty;
-
+WindClass* WeatherMgrClass::_Wind;
+WeatherSystemClass* WeatherMgrClass::_Precipitation[PRECIPITATION_COUNT];
+bool WeatherMgrClass::_FogEnabled;
+bool WeatherMgrClass::_Dirty;
 
 /***********************************************************************************************
- * WindClass::WindClass --																							  *
+ * WindClass::WindClass --
+ **
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -94,30 +92,31 @@ bool												 WeatherMgrClass::_Dirty;
  * HISTORY:                                                                                    *
  *   04/09/01    IML : Created.                                                                *
  *=============================================================================================*/
-WindClass::WindClass (float heading, float speed, float variability, SoundEnvironmentClass *soundenvironment)
-	: Velocity (0.0f, 0.0f),
-	  SoundEnvironment (soundenvironment)
+WindClass::WindClass(float heading, float speed, float variability,
+                     SoundEnvironmentClass* soundenvironment)
+    : Velocity(0.0f, 0.0f),
+      SoundEnvironment(soundenvironment)
 {
-	const char *windsamplename	= "Wind01";
+    const char* windsamplename = "Wind01";
 
-	Set (heading, speed, variability);
+    Set(heading, speed, variability);
 
-	for (unsigned octave = 0; octave < OCTAVE_COUNT; octave++) {
-		Theta [octave] = 0.0l;
-	}
+    for (unsigned octave = 0; octave < OCTAVE_COUNT; octave++) {
+        Theta[octave] = 0.0l;
+    }
 
-	// Create the wind sound effect.
-	Sound = WWAudioClass::Get_Instance()->Create_Sound (windsamplename, NULL, 0, CLASSID_2D);
-	if (Sound != NULL) {
-		SoundEnvironment->Add_User();
-		Sound->Set_Volume (0.0f);
-		Sound->Play();
-	}
+    // Create the wind sound effect.
+    Sound = WWAudioClass::Get_Instance()->Create_Sound(windsamplename, NULL, 0, CLASSID_2D);
+    if (Sound != NULL) {
+        SoundEnvironment->Add_User();
+        Sound->Set_Volume(0.0f);
+        Sound->Play();
+    }
 }
 
-
 /***********************************************************************************************
- * WindClass::~WindClass --																						  *
+ * WindClass::~WindClass --
+ **
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -130,17 +129,17 @@ WindClass::WindClass (float heading, float speed, float variability, SoundEnviro
  *=============================================================================================*/
 WindClass::~WindClass()
 {
-	// Remove wind sound effect.
-	if (Sound != NULL) {
-		Sound->Stop();
-		REF_PTR_RELEASE (Sound);
-		SoundEnvironment->Remove_User();
-	}
+    // Remove wind sound effect.
+    if (Sound != NULL) {
+        Sound->Stop();
+        REF_PTR_RELEASE(Sound);
+        SoundEnvironment->Remove_User();
+    }
 }
 
-
 /***********************************************************************************************
- * WindClass::Set --																									  *
+ * WindClass::Set --
+ **
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -151,18 +150,18 @@ WindClass::~WindClass()
  * HISTORY:                                                                                    *
  *   04/09/01    IML : Created.                                                                *
  *=============================================================================================*/
-void WindClass::Set (float heading, float speed, float variability)
+void WindClass::Set(float heading, float speed, float variability)
 {
-	WWASSERT (speed >= 0.0f);
+    WWASSERT(speed >= 0.0f);
 
-	Heading		= DEG_TO_RADF (heading);
-	Speed			= speed;
-	Variability = variability;
+    Heading = DEG_TO_RADF(heading);
+    Speed = speed;
+    Variability = variability;
 }
 
-
 /***********************************************************************************************
- * WindClass::Update --																								  *
+ * WindClass::Update --
+ **
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -175,50 +174,54 @@ void WindClass::Set (float heading, float speed, float variability)
  *=============================================================================================*/
 bool WindClass::Update()
 {
-	const double frequency [OCTAVE_COUNT] = {0.5l, 0.2l};
-	const double twopi						  = WWMATH_PI * 2.0l;
+    const double frequency[OCTAVE_COUNT] = { 0.5l, 0.2l };
+    const double twopi = WWMATH_PI * 2.0l;
 
-	float	h, speed;
+    float h, speed;
 
-	if (Variability > 0.0f) {
+    if (Variability > 0.0f) {
 
-		float f = 0.0f;
-		int	d;
+        float f = 0.0f;
+        int d;
 
-		for (unsigned octave = 0; octave < OCTAVE_COUNT; octave++) {
+        for (unsigned octave = 0; octave < OCTAVE_COUNT; octave++) {
 
-			Theta [octave] += WW3D::Get_Frame_Time() * 0.001l * frequency [octave];
-			d = floorf (Theta [octave] / twopi);
-			if (d >= 1) Theta [octave] -= d * twopi;
-			f += sinf (Theta [octave]);
-		}
-		speed = Speed - (Speed * ((f + 1.0f) * 0.5f) * Variability);
-	} else {
-		speed = Speed;
-	}
+            Theta[octave] += WW3D::Get_Frame_Time() * 0.001l * frequency[octave];
+            d = floorf(Theta[octave] / twopi);
+            if (d >= 1) {
+                Theta[octave] -= d * twopi;
+            }
+            f += sinf(Theta[octave]);
+        }
+        speed = Speed - (Speed * ((f + 1.0f) * 0.5f) * Variability);
+    }
+    else {
+        speed = Speed;
+    }
 
-	h = Heading + (0.5f * WWMATH_PI);
-	Velocity.Set (cosf (h) * speed, sinf (h) * speed);
+    h = Heading + (0.5f * WWMATH_PI);
+    Velocity.Set(cosf(h) * speed, sinf(h) * speed);
 
-	// Update wind sound effect.
-	if (Sound != NULL) {
+    // Update wind sound effect.
+    if (Sound != NULL) {
 
-		const float maxvolumespeed	= 10.0f;
+        const float maxvolumespeed = 10.0f;
 
-		float attenuation;
+        float attenuation;
 
-		// Precalculate volume attenuation based on speed.
-		attenuation = (0.5f * (MIN (Speed, maxvolumespeed) + MIN (speed, maxvolumespeed))) / maxvolumespeed;
-		Sound->Set_Volume (SoundEnvironment->Get_Amplitude() * attenuation);
-	}
+        // Precalculate volume attenuation based on speed.
+        attenuation
+            = (0.5f * (MIN(Speed, maxvolumespeed) + MIN(speed, maxvolumespeed))) / maxvolumespeed;
+        Sound->Set_Volume(SoundEnvironment->Get_Amplitude() * attenuation);
+    }
 
-	// Is the wind essentially idle (ie. it is not contributing to the scene visually or audibly)?
-	return (Speed > 0.0f);
+    // Is the wind essentially idle (ie. it is not contributing to the scene visually or audibly)?
+    return (Speed > 0.0f);
 }
 
-
 /***********************************************************************************************
- * WeatherSystemClass::WeatherSystemClass --																	  *
+ * WeatherSystemClass::WeatherSystemClass --
+ **
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -229,112 +232,104 @@ bool WindClass::Update()
  * HISTORY:                                                                                    *
  *   03/06/01    IML : Created.                                                                *
  *=============================================================================================*/
-WeatherSystemClass::WeatherSystemClass	(PhysicsSceneClass *scene,
-													 float emittersize,
-													 float emitterheight,
-													 float particledensity,
-													 float particlesperunitlength,
-													 float particlewidth,
-													 float particleheight,
-													 float particlespeed,
-													 const Vector2 &pageoffset,
-													 const Vector2 &pagesize,
-													 unsigned pagecount,
-													 bool	staticpageexists,
-													 float minstatictime,
-													 float maxstatictime,
-													 RenderModeEnum rendermode,
-													 bool decayaftercollision,
-													 bool prime)
-	: Scene (scene),
-	  EmitterSize (emittersize),
-	  EmitterHeight (emitterheight),
-	  EmitterPosition (Vector3 (0.0f, 0.0f, 0.0f)),
-	  ParticlesPerUnitLength (particlesperunitlength),
-	  ParticleSpeed (particlespeed),
-	  HalfParticleWidth (particlewidth * 0.5f),
-	  HalfParticleHeight (particleheight * 0.5f),
-	  RayHead (NULL),
-	  RayCount (0),
-	  RaySpawnPtr (NULL),
-	  RayUpdatePtr (NULL),
-	  ParticleHead (NULL),
-	  ParticleCount (0),
-	  MinRayEndZ (FLT_MAX),
-	  SpawnCountFraction (0.0f),
-	  PageCount (pagecount),
-	  StaticPageExists (staticpageexists),
-	  MinStaticTime (minstatictime),
-	  MaxStaticTime (maxstatictime),
-	  RenderMode (rendermode),
-	  DecayAfterCollision (decayaftercollision),
-	  CameraPositionValid (false)
+WeatherSystemClass::WeatherSystemClass(
+    PhysicsSceneClass* scene, float emittersize, float emitterheight, float particledensity,
+    float particlesperunitlength, float particlewidth, float particleheight, float particlespeed,
+    const Vector2& pageoffset, const Vector2& pagesize, unsigned pagecount, bool staticpageexists,
+    float minstatictime, float maxstatictime, RenderModeEnum rendermode, bool decayaftercollision,
+    bool prime)
+    : Scene(scene),
+      EmitterSize(emittersize),
+      EmitterHeight(emitterheight),
+      EmitterPosition(Vector3(0.0f, 0.0f, 0.0f)),
+      ParticlesPerUnitLength(particlesperunitlength),
+      ParticleSpeed(particlespeed),
+      HalfParticleWidth(particlewidth * 0.5f),
+      HalfParticleHeight(particleheight * 0.5f),
+      RayHead(NULL),
+      RayCount(0),
+      RaySpawnPtr(NULL),
+      RayUpdatePtr(NULL),
+      ParticleHead(NULL),
+      ParticleCount(0),
+      MinRayEndZ(FLT_MAX),
+      SpawnCountFraction(0.0f),
+      PageCount(pagecount),
+      StaticPageExists(staticpageexists),
+      MinStaticTime(minstatictime),
+      MaxStaticTime(maxstatictime),
+      RenderMode(rendermode),
+      DecayAfterCollision(decayaftercollision),
+      CameraPositionValid(false)
 {
-	const char								*texturename = "WeatherParticles.tga";
-	const TextureClass::MipCountType  mipcount	 = TextureClass::MIP_LEVELS_5;
-	const float								 oopagecount = 1.0f / pagecount;
+    const char* texturename = "WeatherParticles.tga";
+    const TextureClass::MipCountType mipcount = TextureClass::MIP_LEVELS_5;
+    const float oopagecount = 1.0f / pagecount;
 
-	WWASSERT (particlespeed >= 0.0f);
+    WWASSERT(particlespeed >= 0.0f);
 
-	// How old is the weather system?
-	Age = prime ? MAX_AGE : 0.0f;
+    // How old is the weather system?
+    Age = prime ? MAX_AGE : 0.0f;
 
-	// Set density of system.
-	Set_Density (particledensity);
+    // Set density of system.
+    Set_Density(particledensity);
 
-	// Get the scene's bounding box.
-	scene->Get_Level_Extents (SceneMin, SceneMax);
+    // Get the scene's bounding box.
+    scene->Get_Level_Extents(SceneMin, SceneMax);
 
-	// Expand the bounding box by a small amount so that we can distinguish between collisions with geometry and
-	// collisions with the bounding box.
-	SceneMin.Z -= 1.0f;
-	SceneMax.Z += 1.0f;
+    // Expand the bounding box by a small amount so that we can distinguish between collisions with
+    // geometry and collisions with the bounding box.
+    SceneMin.Z -= 1.0f;
+    SceneMax.Z += 1.0f;
 
-	// Initialize an index buffer.
-	#if WEATHER_PARTICLE_SORT
-	IndexBuffer = NEW_REF (SortingIndexBufferClass, (MAX_IB_PARTICLE_COUNT * VERTICES_PER_TRIANGLE));
-	#else
-	IndexBuffer = NEW_REF (DX8IndexBufferClass, (MAX_IB_PARTICLE_COUNT * VERTICES_PER_TRIANGLE));
-	#endif
-	{
-		SortingIndexBufferClass::WriteLockClass lock (IndexBuffer);
-		unsigned short *indices = lock.Get_Index_Array();
+// Initialize an index buffer.
+#if WEATHER_PARTICLE_SORT
+    IndexBuffer = NEW_REF(SortingIndexBufferClass, (MAX_IB_PARTICLE_COUNT * VERTICES_PER_TRIANGLE));
+#else
+    IndexBuffer = NEW_REF(DX8IndexBufferClass, (MAX_IB_PARTICLE_COUNT * VERTICES_PER_TRIANGLE));
+#endif
+    {
+        SortingIndexBufferClass::WriteLockClass lock(IndexBuffer);
+        unsigned short* indices = lock.Get_Index_Array();
 
-		for (unsigned i = 0; i < MAX_IB_PARTICLE_COUNT * VERTICES_PER_TRIANGLE; i++) {
-			*indices++ = i;
-		}
-	}
+        for (unsigned i = 0; i < MAX_IB_PARTICLE_COUNT * VERTICES_PER_TRIANGLE; i++) {
+            *indices++ = i;
+        }
+    }
 
-	// Configure material.
-	Material = VertexMaterialClass::Get_Preset (VertexMaterialClass::PRELIT_NODIFFUSE);
+    // Configure material.
+    Material = VertexMaterialClass::Get_Preset(VertexMaterialClass::PRELIT_NODIFFUSE);
 
-	// Configure shader.
-	Shader = ShaderClass::_PresetAlphaShader;
-	Shader.Set_Primary_Gradient (ShaderClass::GRADIENT_MODULATE);
-	Shader.Set_Cull_Mode (ShaderClass::CULL_MODE_DISABLE);
-	Shader.Enable_Fog ("WeatherSystemClass");
+    // Configure shader.
+    Shader = ShaderClass::_PresetAlphaShader;
+    Shader.Set_Primary_Gradient(ShaderClass::GRADIENT_MODULATE);
+    Shader.Set_Cull_Mode(ShaderClass::CULL_MODE_DISABLE);
+    Shader.Enable_Fog("WeatherSystemClass");
 
-	// Configure texture.
-	Texture = WW3DAssetManager::Get_Instance()->Get_Texture (texturename, mipcount);
-	Texture->Set_U_Addr_Mode (TextureClass::TEXTURE_ADDRESS_CLAMP);
-	Texture->Set_V_Addr_Mode (TextureClass::TEXTURE_ADDRESS_CLAMP);
-	Set_Translucent (true);
+    // Configure texture.
+    Texture = WW3DAssetManager::Get_Instance()->Get_Texture(texturename, mipcount);
+    Texture->Set_U_Addr_Mode(TextureClass::TEXTURE_ADDRESS_CLAMP);
+    Texture->Set_V_Addr_Mode(TextureClass::TEXTURE_ADDRESS_CLAMP);
+    Set_Translucent(true);
 
-	// Configure texture coordinates according to given page count.
-	// NOTE: Split the texture into vertical pages.
-	WWASSERT (pagecount > 0);
-	TextureArray = new Vector2 [pagecount * VERTICES_PER_TRIANGLE];
-	WWASSERT (TextureArray != NULL);
-	for (unsigned page = 0; page < pagecount; page++) {
-		TextureArray [page * VERTICES_PER_TRIANGLE + 0].Set (pageoffset.U + (((page + 0.5f) * oopagecount) * pagesize.U), pageoffset.V + 0.0f);
-		TextureArray [page * VERTICES_PER_TRIANGLE + 1].Set (pageoffset.U + (((page + 1.0f) * oopagecount) * pagesize.U), pageoffset.V + pagesize.V);
-		TextureArray [page * VERTICES_PER_TRIANGLE + 2].Set (pageoffset.U + (((page + 0.0f) * oopagecount) * pagesize.U), pageoffset.V + pagesize.V);
-	}
+    // Configure texture coordinates according to given page count.
+    // NOTE: Split the texture into vertical pages.
+    WWASSERT(pagecount > 0);
+    TextureArray = new Vector2[pagecount * VERTICES_PER_TRIANGLE];
+    WWASSERT(TextureArray != NULL);
+    for (unsigned page = 0; page < pagecount; page++) {
+        TextureArray[page * VERTICES_PER_TRIANGLE + 0].Set(
+            pageoffset.U + (((page + 0.5f) * oopagecount) * pagesize.U), pageoffset.V + 0.0f);
+        TextureArray[page * VERTICES_PER_TRIANGLE + 1].Set(
+            pageoffset.U + (((page + 1.0f) * oopagecount) * pagesize.U), pageoffset.V + pagesize.V);
+        TextureArray[page * VERTICES_PER_TRIANGLE + 2].Set(
+            pageoffset.U + (((page + 0.0f) * oopagecount) * pagesize.U), pageoffset.V + pagesize.V);
+    }
 }
 
-
 /***********************************************************************************************
- * WeatherSystemClass::WeatherSystemClass --																	  *
+ * WeatherSystemClass::WeatherSystemClass --
+ **
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -347,44 +342,44 @@ WeatherSystemClass::WeatherSystemClass	(PhysicsSceneClass *scene,
  *=============================================================================================*/
 WeatherSystemClass::~WeatherSystemClass()
 {
-	RayStruct		*rayptr;
-	ParticleStruct *particleptr;
+    RayStruct* rayptr;
+    ParticleStruct* particleptr;
 
-	// Clean-up rays.
-	rayptr = RayHead;
-	while (rayptr != NULL) {
+    // Clean-up rays.
+    rayptr = RayHead;
+    while (rayptr != NULL) {
 
-		RayStruct *nextrayptr;
+        RayStruct* nextrayptr;
 
-		nextrayptr = rayptr->Next;
-		delete rayptr;
-		rayptr = nextrayptr;
-		RayCount--;
-	}
+        nextrayptr = rayptr->Next;
+        delete rayptr;
+        rayptr = nextrayptr;
+        RayCount--;
+    }
 
-	WWASSERT (RayCount == 0);
+    WWASSERT(RayCount == 0);
 
-	// Clean-up particles.
-	particleptr = ParticleHead;
-	while (particleptr != NULL) {
+    // Clean-up particles.
+    particleptr = ParticleHead;
+    while (particleptr != NULL) {
 
-		ParticleStruct *nextparticleptr = particleptr->Next;
+        ParticleStruct* nextparticleptr = particleptr->Next;
 
-		Kill (particleptr);
-		particleptr = nextparticleptr;
-	}
+        Kill(particleptr);
+        particleptr = nextparticleptr;
+    }
 
-	WWASSERT (ParticleCount == 0);
+    WWASSERT(ParticleCount == 0);
 
-	REF_PTR_RELEASE (Material);
-	delete [] TextureArray;
-	REF_PTR_RELEASE (Texture);
-	REF_PTR_RELEASE (IndexBuffer);
+    REF_PTR_RELEASE(Material);
+    delete[] TextureArray;
+    REF_PTR_RELEASE(Texture);
+    REF_PTR_RELEASE(IndexBuffer);
 }
 
-
 /***********************************************************************************************
- * WeatherSystemClass::Set_Density --																			  *
+ * WeatherSystemClass::Set_Density --
+ **
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -395,63 +390,73 @@ WeatherSystemClass::~WeatherSystemClass()
  * HISTORY:                                                                                    *
  *   03/06/01    IML : Created.                                                                *
  *=============================================================================================*/
-void WeatherSystemClass::Set_Density (float density)
+void WeatherSystemClass::Set_Density(float density)
 {
-	unsigned   raycount;
-	int		  signedcount, r;
-	RayStruct *rayptr;
+    unsigned raycount;
+    int signedcount, r;
+    RayStruct* rayptr;
 
-	// Calculate no. of rays required.
-	ParticleDensity = density;
-	raycount			 = Spawn_Count (1.0f) / (ParticlesPerUnitLength * ParticleSpeed);
+    // Calculate no. of rays required.
+    ParticleDensity = density;
+    raycount = Spawn_Count(1.0f) / (ParticlesPerUnitLength * ParticleSpeed);
 
-	// Is the ray count increasing or decreasing in size?
-	signedcount = ((int) RayCount) - ((int) raycount);
-	if (signedcount < 0) {
+    // Is the ray count increasing or decreasing in size?
+    signedcount = ((int)RayCount) - ((int)raycount);
+    if (signedcount < 0) {
 
-		// Add new, uninitialized rays to head of list.
-		for (r = signedcount; r < 0; r++) {
+        // Add new, uninitialized rays to head of list.
+        for (r = signedcount; r < 0; r++) {
 
-			rayptr = new RayStruct;
-			WWASSERT (rayptr != NULL);
+            rayptr = new RayStruct;
+            WWASSERT(rayptr != NULL);
 
-			rayptr->Next = RayHead;
-			rayptr->Initialized = false;
-			RayHead = rayptr;
-		}
+            rayptr->Next = RayHead;
+            rayptr->Initialized = false;
+            RayHead = rayptr;
+        }
 
-		// If necessary, initialize the spawn and update pointers.
-		if (RaySpawnPtr  == NULL) RaySpawnPtr  = RayHead;
-		if (RayUpdatePtr == NULL) RayUpdatePtr = RayHead;
+        // If necessary, initialize the spawn and update pointers.
+        if (RaySpawnPtr == NULL) {
+            RaySpawnPtr = RayHead;
+        }
+        if (RayUpdatePtr == NULL) {
+            RayUpdatePtr = RayHead;
+        }
+    }
+    else {
 
-	} else {
+        // Remove rays from head of list.
+        rayptr = RayHead;
+        for (r = 0; r < signedcount; r++) {
 
-		// Remove rays from head of list.
-		rayptr = RayHead;
-		for (r = 0; r < signedcount; r++) {
+            RayStruct* nextrayptr;
 
-			RayStruct *nextrayptr;
+            if (rayptr == NULL) {
+                break;
+            }
 
-			if (rayptr == NULL) break;
+            nextrayptr = rayptr->Next;
 
-			nextrayptr = rayptr->Next;
+            // If this ray is referenced by the spawn or update pointers then change them.
+            if (RaySpawnPtr == rayptr) {
+                RaySpawnPtr = nextrayptr;
+            }
+            if (RayUpdatePtr == rayptr) {
+                RayUpdatePtr = nextrayptr;
+            }
 
-			// If this ray is referenced by the spawn or update pointers then change them.
-			if (RaySpawnPtr  == rayptr) RaySpawnPtr  = nextrayptr;
-			if (RayUpdatePtr == rayptr) RayUpdatePtr = nextrayptr;
+            delete rayptr;
+            rayptr = nextrayptr;
+        }
+        RayHead = rayptr;
+    }
 
-			delete rayptr;
-			rayptr = nextrayptr;
-		}
-		RayHead = rayptr;
-	}
-
-	RayCount = raycount;
+    RayCount = raycount;
 }
 
-
 /***********************************************************************************************
- * WeatherSystemClass::Update --																					  *
+ * WeatherSystemClass::Update --
+ **
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -462,374 +467,405 @@ void WeatherSystemClass::Set_Density (float density)
  * HISTORY:                                                                                    *
  *   03/06/01    IML : Created.                                                                *
  *=============================================================================================*/
-bool WeatherSystemClass::Update (WindClass *wind, const Vector3 &cameraposition)
+bool WeatherSystemClass::Update(WindClass* wind, const Vector3& cameraposition)
 {
-	struct BoundingBoxStruct {
-		Vector2 Min, Max;
-	};
-
-	const unsigned randomness		= 10000;
-	const float		oorandomness	= 1.0f / randomness;
-	const float		overlapdelta	= EmitterSize * 2.0f;
-	const unsigned rayupdatecount = MAX (RayCount * 0.018f, 1);
-
-	Vector3				oldemitterposition;
-	float					ooz;
-	Vector3				emitterdirection, emitteroffset;
-	Vector3				projectedemitterposition;
-	BoundingBoxStruct emitterbounds;
-	float					deltax, deltay;
-	BoundingBoxStruct nonoverlapregions [2];
-	float					regionthreshold;
-	Vector3				sceneminoffset, scenemaxoffset;
-	Vector2				raystartoffset;
-	RayStruct		  *rayptr;
-	float					spawncountfraction;
-	float					alpha, beta;
-	Vector2				range;
-	Vector3				minrayendposition;
-	float					l, boxoffset;
-	ParticleStruct	  *particleptr;
-	float					s;
-	unsigned				spawncount;
-	float					time;
-
-	oldemitterposition = EmitterPosition;
-
-	// Calculate particle velocity based on wind.
-	if (wind != NULL) {
-		ParticleVelocity.Set (wind->Get_Velocity().X, wind->Get_Velocity().Y, -ParticleSpeed);
-	} else {
-		ParticleVelocity.Set (0.0f, 0.0f, -ParticleSpeed);
-	}
-
-	// Calculate new emitter position.
-	ooz = 1.0f / ParticleVelocity.Z;
-	emitterdirection.Set (ParticleVelocity.X * ooz, ParticleVelocity.Y * ooz, 1.0f);
-	emitteroffset = EmitterHeight * emitterdirection;
-	EmitterPosition =	cameraposition + emitteroffset;
-
-	// Define bounding box for new emitter area.
-	emitterbounds.Min.Set (EmitterPosition.X - EmitterSize, EmitterPosition.Y - EmitterSize);
-	emitterbounds.Max.Set (EmitterPosition.X + EmitterSize, EmitterPosition.Y + EmitterSize);
-
-	// Calculate new regions that define the areas of non-overlap between the old and new emitter positions.
-
-	// Project the old emitter onto the plane of the new emitter.
-	projectedemitterposition = oldemitterposition + ((EmitterPosition.Z - oldemitterposition.Z) * emitterdirection);
-
-	// If the old and new emitters partially overlap...
-	deltax = WWMath::Fabs (EmitterPosition.X - projectedemitterposition.X);
-	deltay = WWMath::Fabs (EmitterPosition.Y - projectedemitterposition.Y);
-	if ((deltax < overlapdelta) && (deltay < overlapdelta) && (EmitterPosition != projectedemitterposition)) {
-
-		float area0, area1;
-
-		// Compare X-extents.
-		if (EmitterPosition.X < projectedemitterposition.X) {
-			nonoverlapregions [0].Min.X = emitterbounds.Min.X;
-			nonoverlapregions [0].Max.X = projectedemitterposition.X - EmitterSize;
-			nonoverlapregions [1].Min.X = nonoverlapregions [0].Max.X;
-			nonoverlapregions [1].Max.X = emitterbounds.Max.X;
-		} else {
-			nonoverlapregions [0].Min.X = projectedemitterposition.X + EmitterSize;
-			nonoverlapregions [0].Max.X = emitterbounds.Max.X;
-			nonoverlapregions [1].Min.X = emitterbounds.Min.X;
-			nonoverlapregions [1].Max.X = nonoverlapregions [0].Min.X;
-		}
-		nonoverlapregions [0].Min.Y = emitterbounds.Min.Y;
-		nonoverlapregions [0].Max.Y = emitterbounds.Max.Y;
-
-		// Compare Y-extents.
-		if (EmitterPosition.Y < projectedemitterposition.Y) {
-			nonoverlapregions [1].Min.Y = emitterbounds.Min.Y;
-			nonoverlapregions [1].Max.Y = projectedemitterposition.Y - EmitterSize;
-		} else {
-			nonoverlapregions [1].Min.Y = projectedemitterposition.Y + EmitterSize;
-			nonoverlapregions [1].Max.Y = emitterbounds.Max.Y;
-		}
-
-		area0 = (nonoverlapregions [0].Max.X - nonoverlapregions [0].Min.X) * (nonoverlapregions [0].Max.Y - nonoverlapregions [0].Min.Y);
-		area1 = (nonoverlapregions [1].Max.X - nonoverlapregions [1].Min.X) * (nonoverlapregions [1].Max.Y - nonoverlapregions [1].Min.Y);
-		if (area0 == 0.0f) {
-
-			// Always select region 1.
-			regionthreshold = -FLT_MAX;
-
-		} else {
-			if (area1 == 0.0f) {
-
-				// Always select region 0.
-				regionthreshold = +FLT_MAX;
-
-			} else {
-
-				// Select either region 0 or region 1 weighted by area.
-				regionthreshold = area0 / (area0 + area1);
-			}
-		}
-
-	} else {
-
-		// No overlap or complete overlap: region 0 is emitter area, region 1 is not used.
-		nonoverlapregions [0] = emitterbounds;
-		regionthreshold = +FLT_MAX;
-	}
-
-	// Calculate offset of projection of ray start from old to new emitter.
-	raystartoffset	= (EmitterPosition.Z - oldemitterposition.Z) * Vector2 (emitterdirection.X, emitterdirection.Y);
-
-	// Precalculate offsets to intersection with upper and lower planes of scene bounds from emitter position.
-	sceneminoffset = (SceneMin.Z - EmitterPosition.Z) * emitterdirection;
-	scenemaxoffset = (SceneMax.Z - EmitterPosition.Z) * emitterdirection;
-
-	// Iterate over all rays...
-	spawncountfraction = 0.0f;
-	rayptr = RayHead;
-	while (rayptr != NULL) {
-
-	  	Vector3 raystartposition;
-
-		// Does this ray need to be initialized?
-		if (!rayptr->Initialized) {
-
-			// Randomly allocate a new ray start position from the entire emitter region.
-			alpha = _RandomNumber (0, randomness) * oorandomness;
-			beta  = _RandomNumber (0, randomness) * oorandomness;
-			range = emitterbounds.Max - emitterbounds.Min;
-			range.Scale (alpha, beta);
-			rayptr->StartPosition = emitterbounds.Min + range;
-			rayptr->Initialized	 = true;
-			rayptr->RayCast		 = true;
-
-		} else {
-
-		  	// Project the ray's emitter position onto the plane of the new emitter.
-			rayptr->StartPosition += raystartoffset;
-
-			// Does the ray fall outside the emitter (and therefore needs to be raycast)?
-			rayptr->RayCast = (rayptr->StartPosition.X < emitterbounds.Min.X) ||
-									(rayptr->StartPosition.X > emitterbounds.Max.X) ||
-									(rayptr->StartPosition.Y < emitterbounds.Min.Y) ||
-									(rayptr->StartPosition.Y > emitterbounds.Max.Y);
-
-			if (rayptr->RayCast) {
-
-				unsigned regionindex;
-
-				// Randomly allocate a new ray start position from one of the non-overlap regions.
-				if ((_RandomNumber (0, randomness) * oorandomness) < regionthreshold) {
-					regionindex = 0;
-				} else {
-					regionindex = 1;
-				}
-				alpha = _RandomNumber (0, randomness) * oorandomness;
-				beta  = _RandomNumber (0, randomness) * oorandomness;
-				range = nonoverlapregions [regionindex].Max - nonoverlapregions [regionindex].Min;
-				range.Scale (alpha, beta);
-				rayptr->StartPosition = nonoverlapregions [regionindex].Min + range;
-
-			} else {
-
-				// Next ray.
-				rayptr = rayptr->Next;
-				continue;
-			}
-		}
-
-		raystartposition.Set (rayptr->StartPosition.X, rayptr->StartPosition.Y, EmitterPosition.Z);
-
-		// Raycast to find the ray's collision point with the environment.
-		{
-			Vector3						  raycaststartpoint (raystartposition + scenemaxoffset);
-			Vector3						  raycastendpoint (raystartposition + sceneminoffset);
-			LineSegClass				  raycast (raycaststartpoint, raycastendpoint);
-			CastResultStruct			  rayresult;
-			PhysRayCollisionTestClass raytest (raycast, &rayresult, TERRAIN_ONLY_COLLISION_GROUP, COLLISION_TYPE_PROJECTILE);
-
-			Scene->Cast_Ray (raytest);
-			raycast.Compute_Point (raytest.Result->Fraction, &(rayptr->EndPosition));
-			if (raytest.Result->Fraction < 1.0f) {
-				rayptr->ValidSurfaceNormal = true;
-				rayptr->SurfaceNormal = raytest.Result->Normal;
-			} else {
-				rayptr->ValidSurfaceNormal = false;
-			}
-		}
-
-		rayptr->ParticleVelocity = ParticleVelocity;
-
-		if ((Age > 0.0f) && (Can_Spawn (rayptr))) {
-
-			float		s;
-			unsigned	spawncount;
-
-			// Spawn some particles along the ray.
-			// NOTE: For accuracy, accumulate fractional spawncounts so that they can be used on a later ray.
-			s = ParticlesPerUnitLength * (rayptr->EndPosition - raystartposition).Quick_Length();
-			spawncount = floor (s);
-			spawncountfraction += s - spawncount;
-			if (spawncountfraction >= 1.0f) {
-				spawncountfraction -= 1.0f;
-				spawncount++;
-			}
-			for (unsigned p = 0; p < spawncount; p++) {
-				Spawn (rayptr);
-			}
-		}
-
-		// Update minimum ray end Z.
-		if (rayptr->EndPosition.Z < MinRayEndZ) {
-			MinRayEndZ = rayptr->EndPosition.Z;
-		}
-
-		// Next ray.
-		rayptr = rayptr->Next;
-	}
-
-	// Now iterate over rayupdatecount rays and randomize them so that the ray 'pattern' is
-	// not discernable to the user (because it is constantly changing) and also to take
-	// account of the new particle velocity.
-	if (RayUpdatePtr != NULL) {
-
-		for (unsigned r = 0; r < rayupdatecount; r++) {
-
-			// NOTE: Only need to randomize those rays that have not just been relocated inside the emitter.
-			if (!RayUpdatePtr->RayCast) {
-
-				// Randomly allocate a new ray start position from the entire emitter region.
-				alpha = _RandomNumber (0, randomness) * oorandomness;
-				beta  = _RandomNumber (0, randomness) * oorandomness;
-				range = emitterbounds.Max - emitterbounds.Min;
-				range.Scale (alpha, beta);
-				RayUpdatePtr->StartPosition = emitterbounds.Min + range;
-
-				// Raycast to find the ray's collision point with the environment.
-				{
-					Vector3						  raystartposition (RayUpdatePtr->StartPosition.X, RayUpdatePtr->StartPosition.Y, EmitterPosition.Z);
-					Vector3						  raycaststartpoint (raystartposition + scenemaxoffset);
-					Vector3						  raycastendpoint (raystartposition + sceneminoffset);
-					LineSegClass				  raycast (raycaststartpoint, raycastendpoint);
-					CastResultStruct			  rayresult;
-					PhysRayCollisionTestClass raytest (raycast, &rayresult, TERRAIN_ONLY_COLLISION_GROUP, COLLISION_TYPE_PROJECTILE);
-
-					Scene->Cast_Ray (raytest);
-					raycast.Compute_Point (raytest.Result->Fraction, &(RayUpdatePtr->EndPosition));
-					if (raytest.Result->Fraction < 1.0f) {
-						RayUpdatePtr->ValidSurfaceNormal = true;
-						RayUpdatePtr->SurfaceNormal = raytest.Result->Normal;
-					} else {
-						RayUpdatePtr->ValidSurfaceNormal = false;
-					}
-				}
-
-				RayUpdatePtr->ParticleVelocity = ParticleVelocity;
-
-				// Update minimum ray end Z.
-				if (RayUpdatePtr->EndPosition.Z < MinRayEndZ) {
-					MinRayEndZ = RayUpdatePtr->EndPosition.Z;
-				}
-			}
-
-			// Next ray. If necessary, wrap around to head of list.
-			RayUpdatePtr = RayUpdatePtr->Next;
-			if (RayUpdatePtr == NULL) RayUpdatePtr = RayHead;
-		}
-	}
-
-	// Calculate a bounding box for the render object that encompasses the rays.
-	// NOTE 0: For efficiency, calculate the parallelepiped that is generated by projecting
-	//			  the emitter area onto the plane that contains the lowest ray end point and put
-	//			  a bounding box around this.
-	// NOTE 1: Make the bounding box a little bigger to account for the particle point size.
-	minrayendposition = EmitterPosition + ((MinRayEndZ - EmitterPosition.Z) * emitterdirection);
-	l = MAX (HalfParticleWidth, HalfParticleHeight);
-	boxoffset = EmitterSize + l;
-	ObjectMax.Set (MAX (EmitterPosition.X, minrayendposition.X) + boxoffset, MAX (EmitterPosition.Y, minrayendposition.Y) + boxoffset, MAX (EmitterPosition.Z, minrayendposition.Z) + l);
-	ObjectMin.Set (MIN (EmitterPosition.X, minrayendposition.X) - boxoffset, MIN (EmitterPosition.Y, minrayendposition.Y) - boxoffset, MIN (EmitterPosition.Z, minrayendposition.Z) - l);
-
-	// Flag that the object bounding box has been modified.
-	Invalidate_Cached_Bounding_Volumes();
-
-	// Iterate over all particles...
-	time = WW3D::Get_Frame_Time() * 0.001f;
-	particleptr = ParticleHead;
-	while (particleptr != NULL) {
-
-		Vector2 emitterposition;
-		bool	  outside;
-
-		ParticleStruct *nextparticleptr = particleptr->Next;
-
-		// Advance time.
-		particleptr->ElapsedTime += time;
-
-		// Has it expired?
-		if (particleptr->ElapsedTime >= particleptr->LifeTime) {
-
-			Kill (particleptr);
-			particleptr = nextparticleptr;
-			continue;
-		}
-
-		// Has it just collided?
-		if (particleptr->ElapsedTime >= particleptr->CollisionTime) {
-			if (particleptr->Velocity.Z != 0.0f) {
-
-				// Place the particle at the collision point.
-				particleptr->Velocity.Set (0.0f, 0.0f, 0.0f);
-				particleptr->CurrentPosition = particleptr->CollisionPosition;
-				if (StaticPageExists) particleptr->Page = PageCount - 1;
-				particleptr->RenderMode = RENDER_MODE_SURFACE_ALIGNED;
-			}
-
-		} else {
-
-			// Advance position.
-			particleptr->CurrentPosition += particleptr->Velocity * time;
-		}
-
-		// Project the particle's position onto the plane of the new emitter.
-		emitterposition = Vector2 (particleptr->CurrentPosition.X, particleptr->CurrentPosition.Y) + ((EmitterPosition.Z - particleptr->CurrentPosition.Z) * particleptr->UnitZVelocity);
-
-		// Does the particle fall outside the emitter?
-		outside = (emitterposition.X < emitterbounds.Min.X) ||
-					 (emitterposition.X > emitterbounds.Max.X) ||
-					 (emitterposition.Y < emitterbounds.Min.Y) ||
-					 (emitterposition.Y > emitterbounds.Max.Y);
-
-		if (outside) {
-			Kill (particleptr);
-		}
-
-		particleptr = nextparticleptr;
-	}
-
-
-	// Spawn any new particles that need to be spawned on this update.
-	// NOTE: For accuracy, accumulate fractional spawncounts so that they can be used on a later iteration.
-	s = Spawn_Count (time);
-	spawncount = floor (s);
-	SpawnCountFraction += s - spawncount;
-	if (SpawnCountFraction >= 1.0f) {
-		SpawnCountFraction -= 1.0f;
-		spawncount++;
-	}
-	for (unsigned p = 0; p < spawncount; p++) {
-		Spawn();
-	}
-
-	// Advance weather system age.
-	// NOTE: To prevent floating point overflow, don't advance the age past some maximum.
-	if (Age < MAX_AGE) Age += time;
-
-	// Is the weather still active (ie. it is contributing to the scene visually or audibly)?
-	return ((ParticleDensity > 0.0f) || (ParticleCount > 0));
+    struct BoundingBoxStruct
+    {
+        Vector2 Min, Max;
+    };
+
+    const unsigned randomness = 10000;
+    const float oorandomness = 1.0f / randomness;
+    const float overlapdelta = EmitterSize * 2.0f;
+    const unsigned rayupdatecount = MAX(RayCount * 0.018f, 1);
+
+    Vector3 oldemitterposition;
+    float ooz;
+    Vector3 emitterdirection, emitteroffset;
+    Vector3 projectedemitterposition;
+    BoundingBoxStruct emitterbounds;
+    float deltax, deltay;
+    BoundingBoxStruct nonoverlapregions[2];
+    float regionthreshold;
+    Vector3 sceneminoffset, scenemaxoffset;
+    Vector2 raystartoffset;
+    RayStruct* rayptr;
+    float spawncountfraction;
+    float alpha, beta;
+    Vector2 range;
+    Vector3 minrayendposition;
+    float l, boxoffset;
+    ParticleStruct* particleptr;
+    float s;
+    unsigned spawncount;
+    float time;
+
+    oldemitterposition = EmitterPosition;
+
+    // Calculate particle velocity based on wind.
+    if (wind != NULL) {
+        ParticleVelocity.Set(wind->Get_Velocity().X, wind->Get_Velocity().Y, -ParticleSpeed);
+    }
+    else {
+        ParticleVelocity.Set(0.0f, 0.0f, -ParticleSpeed);
+    }
+
+    // Calculate new emitter position.
+    ooz = 1.0f / ParticleVelocity.Z;
+    emitterdirection.Set(ParticleVelocity.X * ooz, ParticleVelocity.Y * ooz, 1.0f);
+    emitteroffset = EmitterHeight * emitterdirection;
+    EmitterPosition = cameraposition + emitteroffset;
+
+    // Define bounding box for new emitter area.
+    emitterbounds.Min.Set(EmitterPosition.X - EmitterSize, EmitterPosition.Y - EmitterSize);
+    emitterbounds.Max.Set(EmitterPosition.X + EmitterSize, EmitterPosition.Y + EmitterSize);
+
+    // Calculate new regions that define the areas of non-overlap between the old and new emitter
+    // positions.
+
+    // Project the old emitter onto the plane of the new emitter.
+    projectedemitterposition
+        = oldemitterposition + ((EmitterPosition.Z - oldemitterposition.Z) * emitterdirection);
+
+    // If the old and new emitters partially overlap...
+    deltax = WWMath::Fabs(EmitterPosition.X - projectedemitterposition.X);
+    deltay = WWMath::Fabs(EmitterPosition.Y - projectedemitterposition.Y);
+    if ((deltax < overlapdelta) && (deltay < overlapdelta)
+        && (EmitterPosition != projectedemitterposition)) {
+
+        float area0, area1;
+
+        // Compare X-extents.
+        if (EmitterPosition.X < projectedemitterposition.X) {
+            nonoverlapregions[0].Min.X = emitterbounds.Min.X;
+            nonoverlapregions[0].Max.X = projectedemitterposition.X - EmitterSize;
+            nonoverlapregions[1].Min.X = nonoverlapregions[0].Max.X;
+            nonoverlapregions[1].Max.X = emitterbounds.Max.X;
+        }
+        else {
+            nonoverlapregions[0].Min.X = projectedemitterposition.X + EmitterSize;
+            nonoverlapregions[0].Max.X = emitterbounds.Max.X;
+            nonoverlapregions[1].Min.X = emitterbounds.Min.X;
+            nonoverlapregions[1].Max.X = nonoverlapregions[0].Min.X;
+        }
+        nonoverlapregions[0].Min.Y = emitterbounds.Min.Y;
+        nonoverlapregions[0].Max.Y = emitterbounds.Max.Y;
+
+        // Compare Y-extents.
+        if (EmitterPosition.Y < projectedemitterposition.Y) {
+            nonoverlapregions[1].Min.Y = emitterbounds.Min.Y;
+            nonoverlapregions[1].Max.Y = projectedemitterposition.Y - EmitterSize;
+        }
+        else {
+            nonoverlapregions[1].Min.Y = projectedemitterposition.Y + EmitterSize;
+            nonoverlapregions[1].Max.Y = emitterbounds.Max.Y;
+        }
+
+        area0 = (nonoverlapregions[0].Max.X - nonoverlapregions[0].Min.X)
+            * (nonoverlapregions[0].Max.Y - nonoverlapregions[0].Min.Y);
+        area1 = (nonoverlapregions[1].Max.X - nonoverlapregions[1].Min.X)
+            * (nonoverlapregions[1].Max.Y - nonoverlapregions[1].Min.Y);
+        if (area0 == 0.0f) {
+
+            // Always select region 1.
+            regionthreshold = -FLT_MAX;
+        }
+        else {
+            if (area1 == 0.0f) {
+
+                // Always select region 0.
+                regionthreshold = +FLT_MAX;
+            }
+            else {
+
+                // Select either region 0 or region 1 weighted by area.
+                regionthreshold = area0 / (area0 + area1);
+            }
+        }
+    }
+    else {
+
+        // No overlap or complete overlap: region 0 is emitter area, region 1 is not used.
+        nonoverlapregions[0] = emitterbounds;
+        regionthreshold = +FLT_MAX;
+    }
+
+    // Calculate offset of projection of ray start from old to new emitter.
+    raystartoffset = (EmitterPosition.Z - oldemitterposition.Z)
+        * Vector2(emitterdirection.X, emitterdirection.Y);
+
+    // Precalculate offsets to intersection with upper and lower planes of scene bounds from emitter
+    // position.
+    sceneminoffset = (SceneMin.Z - EmitterPosition.Z) * emitterdirection;
+    scenemaxoffset = (SceneMax.Z - EmitterPosition.Z) * emitterdirection;
+
+    // Iterate over all rays...
+    spawncountfraction = 0.0f;
+    rayptr = RayHead;
+    while (rayptr != NULL) {
+
+        Vector3 raystartposition;
+
+        // Does this ray need to be initialized?
+        if (!rayptr->Initialized) {
+
+            // Randomly allocate a new ray start position from the entire emitter region.
+            alpha = _RandomNumber(0, randomness) * oorandomness;
+            beta = _RandomNumber(0, randomness) * oorandomness;
+            range = emitterbounds.Max - emitterbounds.Min;
+            range.Scale(alpha, beta);
+            rayptr->StartPosition = emitterbounds.Min + range;
+            rayptr->Initialized = true;
+            rayptr->RayCast = true;
+        }
+        else {
+
+            // Project the ray's emitter position onto the plane of the new emitter.
+            rayptr->StartPosition += raystartoffset;
+
+            // Does the ray fall outside the emitter (and therefore needs to be raycast)?
+            rayptr->RayCast = (rayptr->StartPosition.X < emitterbounds.Min.X)
+                || (rayptr->StartPosition.X > emitterbounds.Max.X)
+                || (rayptr->StartPosition.Y < emitterbounds.Min.Y)
+                || (rayptr->StartPosition.Y > emitterbounds.Max.Y);
+
+            if (rayptr->RayCast) {
+
+                unsigned regionindex;
+
+                // Randomly allocate a new ray start position from one of the non-overlap regions.
+                if ((_RandomNumber(0, randomness) * oorandomness) < regionthreshold) {
+                    regionindex = 0;
+                }
+                else {
+                    regionindex = 1;
+                }
+                alpha = _RandomNumber(0, randomness) * oorandomness;
+                beta = _RandomNumber(0, randomness) * oorandomness;
+                range = nonoverlapregions[regionindex].Max - nonoverlapregions[regionindex].Min;
+                range.Scale(alpha, beta);
+                rayptr->StartPosition = nonoverlapregions[regionindex].Min + range;
+            }
+            else {
+
+                // Next ray.
+                rayptr = rayptr->Next;
+                continue;
+            }
+        }
+
+        raystartposition.Set(rayptr->StartPosition.X, rayptr->StartPosition.Y, EmitterPosition.Z);
+
+        // Raycast to find the ray's collision point with the environment.
+        {
+            Vector3 raycaststartpoint(raystartposition + scenemaxoffset);
+            Vector3 raycastendpoint(raystartposition + sceneminoffset);
+            LineSegClass raycast(raycaststartpoint, raycastendpoint);
+            CastResultStruct rayresult;
+            PhysRayCollisionTestClass raytest(raycast, &rayresult, TERRAIN_ONLY_COLLISION_GROUP,
+                                              COLLISION_TYPE_PROJECTILE);
+
+            Scene->Cast_Ray(raytest);
+            raycast.Compute_Point(raytest.Result->Fraction, &(rayptr->EndPosition));
+            if (raytest.Result->Fraction < 1.0f) {
+                rayptr->ValidSurfaceNormal = true;
+                rayptr->SurfaceNormal = raytest.Result->Normal;
+            }
+            else {
+                rayptr->ValidSurfaceNormal = false;
+            }
+        }
+
+        rayptr->ParticleVelocity = ParticleVelocity;
+
+        if ((Age > 0.0f) && (Can_Spawn(rayptr))) {
+
+            float s;
+            unsigned spawncount;
+
+            // Spawn some particles along the ray.
+            // NOTE: For accuracy, accumulate fractional spawncounts so that they can be used on a
+            // later ray.
+            s = ParticlesPerUnitLength * (rayptr->EndPosition - raystartposition).Quick_Length();
+            spawncount = floor(s);
+            spawncountfraction += s - spawncount;
+            if (spawncountfraction >= 1.0f) {
+                spawncountfraction -= 1.0f;
+                spawncount++;
+            }
+            for (unsigned p = 0; p < spawncount; p++) {
+                Spawn(rayptr);
+            }
+        }
+
+        // Update minimum ray end Z.
+        if (rayptr->EndPosition.Z < MinRayEndZ) {
+            MinRayEndZ = rayptr->EndPosition.Z;
+        }
+
+        // Next ray.
+        rayptr = rayptr->Next;
+    }
+
+    // Now iterate over rayupdatecount rays and randomize them so that the ray 'pattern' is
+    // not discernable to the user (because it is constantly changing) and also to take
+    // account of the new particle velocity.
+    if (RayUpdatePtr != NULL) {
+
+        for (unsigned r = 0; r < rayupdatecount; r++) {
+
+            // NOTE: Only need to randomize those rays that have not just been relocated inside the
+            // emitter.
+            if (!RayUpdatePtr->RayCast) {
+
+                // Randomly allocate a new ray start position from the entire emitter region.
+                alpha = _RandomNumber(0, randomness) * oorandomness;
+                beta = _RandomNumber(0, randomness) * oorandomness;
+                range = emitterbounds.Max - emitterbounds.Min;
+                range.Scale(alpha, beta);
+                RayUpdatePtr->StartPosition = emitterbounds.Min + range;
+
+                // Raycast to find the ray's collision point with the environment.
+                {
+                    Vector3 raystartposition(RayUpdatePtr->StartPosition.X,
+                                             RayUpdatePtr->StartPosition.Y, EmitterPosition.Z);
+                    Vector3 raycaststartpoint(raystartposition + scenemaxoffset);
+                    Vector3 raycastendpoint(raystartposition + sceneminoffset);
+                    LineSegClass raycast(raycaststartpoint, raycastendpoint);
+                    CastResultStruct rayresult;
+                    PhysRayCollisionTestClass raytest(raycast, &rayresult,
+                                                      TERRAIN_ONLY_COLLISION_GROUP,
+                                                      COLLISION_TYPE_PROJECTILE);
+
+                    Scene->Cast_Ray(raytest);
+                    raycast.Compute_Point(raytest.Result->Fraction, &(RayUpdatePtr->EndPosition));
+                    if (raytest.Result->Fraction < 1.0f) {
+                        RayUpdatePtr->ValidSurfaceNormal = true;
+                        RayUpdatePtr->SurfaceNormal = raytest.Result->Normal;
+                    }
+                    else {
+                        RayUpdatePtr->ValidSurfaceNormal = false;
+                    }
+                }
+
+                RayUpdatePtr->ParticleVelocity = ParticleVelocity;
+
+                // Update minimum ray end Z.
+                if (RayUpdatePtr->EndPosition.Z < MinRayEndZ) {
+                    MinRayEndZ = RayUpdatePtr->EndPosition.Z;
+                }
+            }
+
+            // Next ray. If necessary, wrap around to head of list.
+            RayUpdatePtr = RayUpdatePtr->Next;
+            if (RayUpdatePtr == NULL) {
+                RayUpdatePtr = RayHead;
+            }
+        }
+    }
+
+    // Calculate a bounding box for the render object that encompasses the rays.
+    // NOTE 0: For efficiency, calculate the parallelepiped that is generated by projecting
+    //			  the emitter area onto the plane that contains the lowest ray end point and
+    //put 			  a bounding box around this.
+    // NOTE 1: Make the bounding box a little bigger to account for the particle point size.
+    minrayendposition = EmitterPosition + ((MinRayEndZ - EmitterPosition.Z) * emitterdirection);
+    l = MAX(HalfParticleWidth, HalfParticleHeight);
+    boxoffset = EmitterSize + l;
+    ObjectMax.Set(MAX(EmitterPosition.X, minrayendposition.X) + boxoffset,
+                  MAX(EmitterPosition.Y, minrayendposition.Y) + boxoffset,
+                  MAX(EmitterPosition.Z, minrayendposition.Z) + l);
+    ObjectMin.Set(MIN(EmitterPosition.X, minrayendposition.X) - boxoffset,
+                  MIN(EmitterPosition.Y, minrayendposition.Y) - boxoffset,
+                  MIN(EmitterPosition.Z, minrayendposition.Z) - l);
+
+    // Flag that the object bounding box has been modified.
+    Invalidate_Cached_Bounding_Volumes();
+
+    // Iterate over all particles...
+    time = WW3D::Get_Frame_Time() * 0.001f;
+    particleptr = ParticleHead;
+    while (particleptr != NULL) {
+
+        Vector2 emitterposition;
+        bool outside;
+
+        ParticleStruct* nextparticleptr = particleptr->Next;
+
+        // Advance time.
+        particleptr->ElapsedTime += time;
+
+        // Has it expired?
+        if (particleptr->ElapsedTime >= particleptr->LifeTime) {
+
+            Kill(particleptr);
+            particleptr = nextparticleptr;
+            continue;
+        }
+
+        // Has it just collided?
+        if (particleptr->ElapsedTime >= particleptr->CollisionTime) {
+            if (particleptr->Velocity.Z != 0.0f) {
+
+                // Place the particle at the collision point.
+                particleptr->Velocity.Set(0.0f, 0.0f, 0.0f);
+                particleptr->CurrentPosition = particleptr->CollisionPosition;
+                if (StaticPageExists) {
+                    particleptr->Page = PageCount - 1;
+                }
+                particleptr->RenderMode = RENDER_MODE_SURFACE_ALIGNED;
+            }
+        }
+        else {
+
+            // Advance position.
+            particleptr->CurrentPosition += particleptr->Velocity * time;
+        }
+
+        // Project the particle's position onto the plane of the new emitter.
+        emitterposition = Vector2(particleptr->CurrentPosition.X, particleptr->CurrentPosition.Y)
+            + ((EmitterPosition.Z - particleptr->CurrentPosition.Z) * particleptr->UnitZVelocity);
+
+        // Does the particle fall outside the emitter?
+        outside = (emitterposition.X < emitterbounds.Min.X)
+            || (emitterposition.X > emitterbounds.Max.X)
+            || (emitterposition.Y < emitterbounds.Min.Y)
+            || (emitterposition.Y > emitterbounds.Max.Y);
+
+        if (outside) {
+            Kill(particleptr);
+        }
+
+        particleptr = nextparticleptr;
+    }
+
+    // Spawn any new particles that need to be spawned on this update.
+    // NOTE: For accuracy, accumulate fractional spawncounts so that they can be used on a later
+    // iteration.
+    s = Spawn_Count(time);
+    spawncount = floor(s);
+    SpawnCountFraction += s - spawncount;
+    if (SpawnCountFraction >= 1.0f) {
+        SpawnCountFraction -= 1.0f;
+        spawncount++;
+    }
+    for (unsigned p = 0; p < spawncount; p++) {
+        Spawn();
+    }
+
+    // Advance weather system age.
+    // NOTE: To prevent floating point overflow, don't advance the age past some maximum.
+    if (Age < MAX_AGE) {
+        Age += time;
+    }
+
+    // Is the weather still active (ie. it is contributing to the scene visually or audibly)?
+    return ((ParticleDensity > 0.0f) || (ParticleCount > 0));
 }
 
-
 /***********************************************************************************************
- * WeatherSystemClass::Spawn --																					  *
+ * WeatherSystemClass::Spawn --
+ **
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -840,119 +876,132 @@ bool WeatherSystemClass::Update (WindClass *wind, const Vector3 &cameraposition)
  * HISTORY:                                                                                    *
  *   03/06/01    IML : Created.                                                                *
  *=============================================================================================*/
-bool WeatherSystemClass::Spawn (RayStruct *suppliedrayptr)
+bool WeatherSystemClass::Spawn(RayStruct* suppliedrayptr)
 {
-	const unsigned maxparticlecount = USHRT_MAX / (2 * VERTICES_PER_TRIANGLE);
+    const unsigned maxparticlecount = USHRT_MAX / (2 * VERTICES_PER_TRIANGLE);
 
-	// Due to a limitation in the underlying rendering API, there cannot be more than USHRT_MAX
-	// total vertices in the system. Conservatively restrict this to half of this to compensate
-	// for other primitives in the system.
-	if (_GlobalParticleCount < maxparticlecount) {
+    // Due to a limitation in the underlying rendering API, there cannot be more than USHRT_MAX
+    // total vertices in the system. Conservatively restrict this to half of this to compensate
+    // for other primitives in the system.
+    if (_GlobalParticleCount < maxparticlecount) {
 
-		RayStruct *rayptr;
+        RayStruct* rayptr;
 
-		if (suppliedrayptr == NULL) {
+        if (suppliedrayptr == NULL) {
 
-			// Assign a ray to this particle.
-			// If there are no rays to assign then return failure to spawn.
-			if (RaySpawnPtr != NULL) {
-				rayptr = RaySpawnPtr;
-				RaySpawnPtr = RaySpawnPtr->Next;
-				if (RaySpawnPtr == NULL) RaySpawnPtr = RayHead;
-			} else {
-				return (false);
-			}
+            // Assign a ray to this particle.
+            // If there are no rays to assign then return failure to spawn.
+            if (RaySpawnPtr != NULL) {
+                rayptr = RaySpawnPtr;
+                RaySpawnPtr = RaySpawnPtr->Next;
+                if (RaySpawnPtr == NULL) {
+                    RaySpawnPtr = RayHead;
+                }
+            }
+            else {
+                return (false);
+            }
+        }
+        else {
+            rayptr = suppliedrayptr;
+        }
 
-		} else {
-			rayptr = suppliedrayptr;
-		}
+        // Ensure that this ray's endpoint lies below the emitter (otherwise there is an obstruction
+        // between the ray's source and the emitter).
+        if (Can_Spawn(rayptr)) {
 
-		// Ensure that this ray's endpoint lies below the emitter (otherwise there is an obstruction
-		// between the ray's source and the emitter).
-		if (Can_Spawn (rayptr)) {
+            const unsigned randomness = 1000;
+            const float oorandomness = 1.0f / randomness;
+            const float ooz = 1.0f / rayptr->ParticleVelocity.Z;
+            const float collisiontime = (rayptr->EndPosition.Z - EmitterPosition.Z) * ooz;
 
-			const unsigned randomness	  = 1000;
-			const float		oorandomness  = 1.0f / randomness;
-			const float		ooz			  = 1.0f / rayptr->ParticleVelocity.Z;
-			const float		collisiontime = (rayptr->EndPosition.Z - EmitterPosition.Z) * ooz;
+            ParticleStruct* particleptr;
 
-			ParticleStruct *particleptr;
+            particleptr = new ParticleStruct;
+            WWASSERT(particleptr != NULL);
 
-			particleptr = new ParticleStruct;
-			WWASSERT (particleptr != NULL);
+            // Add this particle to the head of the list.
+            if (ParticleHead != NULL) {
+                ParticleHead->Prev = particleptr;
+            }
+            particleptr->Prev = NULL;
+            particleptr->Next = ParticleHead;
+            ParticleHead = particleptr;
 
-			// Add this particle to the head of the list.
-			if (ParticleHead != NULL) {
-				ParticleHead->Prev = particleptr;
-			}
-			particleptr->Prev = NULL;
-			particleptr->Next = ParticleHead;
-			ParticleHead		= particleptr;
+            // Increment the no. of particles.
+            ParticleCount++;
 
-			// Increment the no. of particles.
-			ParticleCount++;
+            // Increment total no. of global weather particles.
+            _GlobalParticleCount++;
 
-			// Increment total no. of global weather particles.
-			_GlobalParticleCount++;
+            particleptr->UnitZVelocity.Set(rayptr->ParticleVelocity.X * ooz,
+                                           rayptr->ParticleVelocity.Y * ooz);
+            particleptr->CollisionTime = collisiontime;
+            particleptr->CollisionPosition = rayptr->EndPosition;
 
-			particleptr->UnitZVelocity.Set (rayptr->ParticleVelocity.X * ooz, rayptr->ParticleVelocity.Y * ooz);
-			particleptr->CollisionTime		 = collisiontime;
-			particleptr->CollisionPosition = rayptr->EndPosition;
+            // If the ray does not have a valid surface normal then the ray's end position
+            // intersects the level's bounding box. In this case it is not necessary to sustain the
+            // particle past the collision time.
+            if (rayptr->ValidSurfaceNormal) {
+                particleptr->LifeTime = collisiontime
+                    + WWMath::Lerp(MinStaticTime, MaxStaticTime,
+                                   _RandomNumber(0, randomness) * oorandomness);
+                particleptr->SurfaceNormal = rayptr->SurfaceNormal;
+            }
+            else {
+                particleptr->LifeTime = collisiontime;
+            }
 
-			// If the ray does not have a valid surface normal then the ray's end position intersects the level's bounding box.
-			// In this case it is not necessary to sustain the particle past the collision time.
-			if (rayptr->ValidSurfaceNormal) {
-				particleptr->LifeTime = collisiontime + WWMath::Lerp (MinStaticTime, MaxStaticTime, _RandomNumber (0, randomness) * oorandomness);
-				particleptr->SurfaceNormal = rayptr->SurfaceNormal;
-			} else {
-				particleptr->LifeTime = collisiontime;
-			}
+            if (suppliedrayptr == NULL) {
 
-			if (suppliedrayptr == NULL) {
+                // Start particle at emitter.
+                particleptr->ElapsedTime = 0.0f;
+                particleptr->Velocity = rayptr->ParticleVelocity;
+                particleptr->CurrentPosition
+                    = Vector3(rayptr->StartPosition.X, rayptr->StartPosition.Y, EmitterPosition.Z);
+                particleptr->Page = _RandomNumber(0, PageCount - (StaticPageExists) ? 2 : 1);
+                particleptr->RenderMode = RenderMode;
+            }
+            else {
 
-				// Start particle at emitter.
-				particleptr->ElapsedTime	  = 0.0f;
-				particleptr->Velocity		  = rayptr->ParticleVelocity;
-				particleptr->CurrentPosition = Vector3 (rayptr->StartPosition.X, rayptr->StartPosition.Y, EmitterPosition.Z);
-				particleptr->Page				  = _RandomNumber (0, PageCount - (StaticPageExists) ? 2 : 1);
-				particleptr->RenderMode		  = RenderMode;
+                float t;
 
-			} else {
+                // Advance the particle some random amount in time.
+                // NOTE: The particle cannot have existed longer than the weather system itself.
+                t = _RandomNumber(0, randomness) * oorandomness * particleptr->LifeTime;
+                particleptr->ElapsedTime = MIN(t, Age);
+                if (particleptr->ElapsedTime >= particleptr->CollisionTime) {
+                    particleptr->Velocity.Set(0.0f, 0.0f, 0.0f);
+                    particleptr->CurrentPosition = rayptr->EndPosition;
+                    if (StaticPageExists) {
+                        particleptr->Page = PageCount - 1;
+                    }
+                    else {
+                        particleptr->Page = _RandomNumber(0, PageCount - 1);
+                    }
+                    particleptr->RenderMode = RENDER_MODE_SURFACE_ALIGNED;
+                }
+                else {
+                    particleptr->Velocity = rayptr->ParticleVelocity;
+                    particleptr->CurrentPosition
+                        = Vector3(rayptr->StartPosition.X, rayptr->StartPosition.Y,
+                                  EmitterPosition.Z)
+                        + (particleptr->Velocity * particleptr->ElapsedTime);
+                    particleptr->Page = _RandomNumber(0, PageCount - (StaticPageExists) ? 2 : 1);
+                    particleptr->RenderMode = RenderMode;
+                }
+            }
 
-				float t;
+            return (true);
+        }
+    }
 
-				// Advance the particle some random amount in time.
-				// NOTE: The particle cannot have existed longer than the weather system itself.
-				t = _RandomNumber (0, randomness) * oorandomness * particleptr->LifeTime;
-				particleptr->ElapsedTime = MIN (t, Age);
-				if (particleptr->ElapsedTime >= particleptr->CollisionTime) {
-					particleptr->Velocity.Set (0.0f, 0.0f, 0.0f);
-					particleptr->CurrentPosition = rayptr->EndPosition;
-					if (StaticPageExists) {
-						particleptr->Page	= PageCount - 1;
-					} else {
-						particleptr->Page	= _RandomNumber (0, PageCount - 1);
-					}
-					particleptr->RenderMode = RENDER_MODE_SURFACE_ALIGNED;
-
-				} else {
-					particleptr->Velocity		  = rayptr->ParticleVelocity;
-					particleptr->CurrentPosition = Vector3 (rayptr->StartPosition.X, rayptr->StartPosition.Y, EmitterPosition.Z) + (particleptr->Velocity * particleptr->ElapsedTime);
-					particleptr->Page				  = _RandomNumber (0, PageCount - (StaticPageExists) ? 2 : 1);
-					particleptr->RenderMode		  = RenderMode;
-				}
-			}
-
-			return (true);
-		}
-	}
-
-	return (false);
+    return (false);
 }
 
-
 /***********************************************************************************************
- * WeatherSystemClass::Kill --																					  *
+ * WeatherSystemClass::Kill --
+ **
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -963,32 +1012,33 @@ bool WeatherSystemClass::Spawn (RayStruct *suppliedrayptr)
  * HISTORY:                                                                                    *
  *   03/06/01    IML : Created.                                                                *
  *=============================================================================================*/
-void WeatherSystemClass::Kill (ParticleStruct *particleptr)
+void WeatherSystemClass::Kill(ParticleStruct* particleptr)
 {
-	WWASSERT (ParticleCount > 0);
+    WWASSERT(ParticleCount > 0);
 
-	// Remove this particle from the list.
-	if (particleptr->Prev != NULL) {
-		particleptr->Prev->Next = particleptr->Next;
-	} else {
-		ParticleHead = particleptr->Next;
-	}
-	if (particleptr->Next != NULL) {
-		particleptr->Next->Prev = particleptr->Prev;
-	}
+    // Remove this particle from the list.
+    if (particleptr->Prev != NULL) {
+        particleptr->Prev->Next = particleptr->Next;
+    }
+    else {
+        ParticleHead = particleptr->Next;
+    }
+    if (particleptr->Next != NULL) {
+        particleptr->Next->Prev = particleptr->Prev;
+    }
 
-	delete particleptr;
+    delete particleptr;
 
-	// Decrement the no. of particles.
-	ParticleCount--;
+    // Decrement the no. of particles.
+    ParticleCount--;
 
-	// Decrement the no. of global weather particles.
-	_GlobalParticleCount--;
+    // Decrement the no. of global weather particles.
+    _GlobalParticleCount--;
 }
 
-
 /***********************************************************************************************
- * WeatherSystemClass::Render --																					  *
+ * WeatherSystemClass::Render --
+ **
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -999,232 +1049,245 @@ void WeatherSystemClass::Kill (ParticleStruct *particleptr)
  * HISTORY:                                                                                    *
  *   03/06/01    IML : Created.                                                                *
  *=============================================================================================*/
-void WeatherSystemClass::Render (RenderInfoClass &rinfo)
+void WeatherSystemClass::Render(RenderInfoClass& rinfo)
 {
-	if (WW3D::Are_Static_Sort_Lists_Enabled()) {
+    if (WW3D::Are_Static_Sort_Lists_Enabled()) {
 
-		const unsigned sortlevel = 31;
+        const unsigned sortlevel = 31;
 
-		WW3D::Add_To_Static_Sort_List (this, sortlevel);
+        WW3D::Add_To_Static_Sort_List(this, sortlevel);
+    }
+    else {
 
-	} else {
+        const Vector3 zero(0.0f, 0.0f, 0.0f);
+        const Vector3 white(1.0f, 1.0f, 1.0f);
 
-		const Vector3 zero  (0.0f, 0.0f, 0.0f);
-		const Vector3 white (1.0f, 1.0f, 1.0f);
+        Vector3 cameravelocity;
+        Vector3 color;
+        unsigned dxcolor;
+        Matrix4 viewmatrix(true), identitymatrix(true);
+        float maxalphaheight, oomaxalphaheight, deltaheight;
+        Vector3 x, y;
+        float w, h;
+        Vector3 offset[VERTICES_PER_TRIANGLE];
+        Vector3 camerafocus;
+        ParticleStruct* particleptr;
+        unsigned processedparticlecount, bufferparticlecount;
 
-		Vector3			 cameravelocity;
-		Vector3			 color;
-		unsigned			 dxcolor;
-		Matrix4			 viewmatrix (true), identitymatrix (true);
-		float				 maxalphaheight, oomaxalphaheight, deltaheight;
-		Vector3			 x, y;
-		float				 w, h;
-		Vector3			 offset [VERTICES_PER_TRIANGLE];
-		Vector3			 camerafocus;
-		ParticleStruct *particleptr;
-		unsigned			 processedparticlecount, bufferparticlecount;
+        if (CameraPositionValid) {
+            cameravelocity = ((rinfo.Camera.Get_Position() - CameraPosition)
+                              / (WW3D::Get_Frame_Time() * 0.001f));
+        }
+        else {
+            cameravelocity.Set(0.0f, 0.0f, 0.0f);
+            CameraPositionValid = true;
+        }
 
-		if (CameraPositionValid) {
-			cameravelocity = ((rinfo.Camera.Get_Position() - CameraPosition) / (WW3D::Get_Frame_Time() * 0.001f));
-		} else {
-			cameravelocity.Set (0.0f, 0.0f, 0.0f);
-			CameraPositionValid = true;
-		}
+        CameraPosition = rinfo.Camera.Get_Position();
 
-		CameraPosition = rinfo.Camera.Get_Position();
+        dxcolor = DX8Wrapper::Convert_Color(Vector3(1.0f, 1.0f, 1.0f), 0.0f);
 
-		dxcolor = DX8Wrapper::Convert_Color (Vector3 (1.0f, 1.0f, 1.0f), 0.0f);
+        // Precalculate alpha values.
+        maxalphaheight = EmitterHeight * 0.2f;
+        oomaxalphaheight = 1.0f / maxalphaheight;
+        deltaheight = rinfo.Camera.Get_Position().Z + (EmitterHeight - maxalphaheight);
 
-		// Precalculate alpha values.
-		maxalphaheight	  = EmitterHeight * 0.2f;
-		oomaxalphaheight = 1.0f / maxalphaheight;
-		deltaheight		  = rinfo.Camera.Get_Position().Z + (EmitterHeight - maxalphaheight);
+        // NOTE: All particle positions are already in world space.
+        DX8Wrapper::Set_Transform(D3DTS_WORLD, identitymatrix);
 
-		// NOTE: All particle positions are already in world space.
-		DX8Wrapper::Set_Transform (D3DTS_WORLD, identitymatrix);
+        DX8Wrapper::Set_Material(Material);
+        DX8Wrapper::Set_Shader(Shader);
+        DX8Wrapper::Set_Texture(0, Texture);
 
-		DX8Wrapper::Set_Material (Material);
-		DX8Wrapper::Set_Shader (Shader);
-		DX8Wrapper::Set_Texture (0, Texture);
+        DX8Wrapper::Set_Index_Buffer(IndexBuffer, 0);
 
-		DX8Wrapper::Set_Index_Buffer (IndexBuffer, 0);
+#if WEATHER_PARTICLE_SORT
+#else
+        DX8Wrapper::Set_DX8_Render_State(D3DRS_ZBIAS, 12);
+#endif
 
-		#if WEATHER_PARTICLE_SORT
-		#else
-		DX8Wrapper::Set_DX8_Render_State (D3DRS_ZBIAS, 12);
-		#endif
+        camerafocus = rinfo.Camera.Get_Transform().Get_Z_Vector();
+        particleptr = ParticleHead;
+        processedparticlecount = 0;
+        bufferparticlecount = MIN(MAX_IB_PARTICLE_COUNT, ParticleCount);
+        while (processedparticlecount < ParticleCount) {
 
- 		camerafocus = rinfo.Camera.Get_Transform().Get_Z_Vector();
-		particleptr = ParticleHead;
-		processedparticlecount = 0;
-		bufferparticlecount = MIN (MAX_IB_PARTICLE_COUNT, ParticleCount);
-		while (processedparticlecount < ParticleCount) {
+            unsigned particlecount, submittedparticlecount;
 
-			unsigned particlecount, submittedparticlecount;
+#if WEATHER_PARTICLE_SORT
+            DynamicVBAccessClass dynamicvb(BUFFER_TYPE_DYNAMIC_SORTING, dynamic_fvf_type,
+                                           bufferparticlecount * VERTICES_PER_TRIANGLE);
+#else
+            DynamicVBAccessClass dynamicvb(BUFFER_TYPE_DYNAMIC_DX8, dynamic_fvf_type,
+                                           bufferparticlecount * VERTICES_PER_TRIANGLE);
+#endif
 
-			#if WEATHER_PARTICLE_SORT
-			DynamicVBAccessClass dynamicvb (BUFFER_TYPE_DYNAMIC_SORTING, dynamic_fvf_type, bufferparticlecount * VERTICES_PER_TRIANGLE);
-			#else
-			DynamicVBAccessClass dynamicvb (BUFFER_TYPE_DYNAMIC_DX8, dynamic_fvf_type, bufferparticlecount * VERTICES_PER_TRIANGLE);
-			#endif
+            // Copy the data into the sorting vertex buffer.
+            particlecount = MIN(ParticleCount - processedparticlecount, MAX_IB_PARTICLE_COUNT);
+            submittedparticlecount = 0;
+            {
+                DynamicVBAccessClass::WriteLockClass lock(&dynamicvb);
 
-			// Copy the data into the sorting vertex buffer.
-			particlecount = MIN (ParticleCount - processedparticlecount, MAX_IB_PARTICLE_COUNT);
-			submittedparticlecount = 0;
-			{
-				DynamicVBAccessClass::WriteLockClass lock (&dynamicvb);
+                VertexFormatXYZNDUV2* vertex = lock.Get_Formatted_Vertex_Array();
 
-				VertexFormatXYZNDUV2 *vertex = lock.Get_Formatted_Vertex_Array();
+                for (unsigned p = 0; p < particlecount; p++) {
 
-				for (unsigned p = 0; p < particlecount; p++)	{
+                    Vector3 position;
 
-					Vector3	position;
+                    WWASSERT(particleptr != NULL);
+                    position = particleptr->CurrentPosition;
 
-					WWASSERT (particleptr != NULL);
-					position = particleptr->CurrentPosition;
+                    // Optimization: only submit this particle for rendering if it is in the view
+                    // frustum.
+                    if (CollisionMath::Overlap_Test(rinfo.Camera.Get_Frustum(), position)
+                        != CollisionMath::OUTSIDE) {
 
-					// Optimization: only submit this particle for rendering if it is in the view frustum.
-					if (CollisionMath::Overlap_Test (rinfo.Camera.Get_Frustum(), position) != CollisionMath::OUTSIDE) {
+                        unsigned base;
+                        float alphaheight, alpha;
 
-						unsigned base;
-						float		alphaheight, alpha;
+                        switch (particleptr->RenderMode) {
 
-						switch (particleptr->RenderMode) {
+                        case RENDER_MODE_AXIS_ALIGNED:
+                            y = particleptr->Velocity - cameravelocity;
+                            y /= y.Quick_Length();
+                            x = Vector3::Cross_Product(camerafocus, y);
+                            x /= x.Quick_Length();
+                            w = HalfParticleWidth;
+                            h = HalfParticleHeight;
+                            break;
 
-							case RENDER_MODE_AXIS_ALIGNED:
-								y = particleptr->Velocity - cameravelocity;
-								y /= y.Quick_Length();
-								x = Vector3::Cross_Product (camerafocus, y);
-								x /= x.Quick_Length();
-								w = HalfParticleWidth;
-								h = HalfParticleHeight;
-								break;
+                        case RENDER_MODE_CAMERA_ALIGNED:
+                            x = rinfo.Camera.Get_Transform().Get_X_Vector();
+                            y = rinfo.Camera.Get_Transform().Get_Y_Vector();
+                            w = HalfParticleWidth;
+                            h = HalfParticleHeight;
+                            break;
 
-							case RENDER_MODE_CAMERA_ALIGNED:
-								x = rinfo.Camera.Get_Transform().Get_X_Vector();
-								y = rinfo.Camera.Get_Transform().Get_Y_Vector();
-								w = HalfParticleWidth;
-								h = HalfParticleHeight;
-								break;
+                        case RENDER_MODE_SURFACE_ALIGNED:
 
-							case RENDER_MODE_SURFACE_ALIGNED:
+                            // Particle has an orientation so back-face cull it.
+                            if (Vector3::Dot_Product(camerafocus, particleptr->SurfaceNormal)
+                                > 0.0f) {
 
-								// Particle has an orientation so back-face cull it.
-								if (Vector3::Dot_Product (camerafocus, particleptr->SurfaceNormal) > 0.0f) {
+                                x = Vector3::Cross_Product(camerafocus, particleptr->SurfaceNormal);
+                                x /= x.Quick_Length();
+                                y = Vector3::Cross_Product(x, particleptr->SurfaceNormal);
 
-									x = Vector3::Cross_Product (camerafocus, particleptr->SurfaceNormal);
-									x /= x.Quick_Length();
-									y = Vector3::Cross_Product (x, particleptr->SurfaceNormal);
+                                if (DecayAfterCollision) {
 
-									if (DecayAfterCollision) {
+                                    float decaytime, totaldecaytime, s;
 
-										float decaytime, totaldecaytime, s;
+                                    decaytime
+                                        = particleptr->ElapsedTime - particleptr->CollisionTime;
+                                    totaldecaytime
+                                        = particleptr->LifeTime - particleptr->CollisionTime;
+                                    if ((decaytime >= 0.0f) && (totaldecaytime > 0.0f)) {
+                                        s = 1.0f - (decaytime / totaldecaytime);
+                                        w = HalfParticleWidth * s;
+                                        h = HalfParticleHeight * s;
+                                    }
+                                    else {
+                                        w = h = 0.0f;
+                                    }
+                                }
+                                else {
+                                    w = HalfParticleWidth;
+                                    h = HalfParticleHeight;
+                                }
+                                break;
+                            }
+                            else {
 
-										decaytime		= particleptr->ElapsedTime - particleptr->CollisionTime;
-										totaldecaytime = particleptr->LifeTime - particleptr->CollisionTime;
-										if ((decaytime >= 0.0f) && (totaldecaytime > 0.0f)) {
-											s = 1.0f - (decaytime / totaldecaytime);
-											w = HalfParticleWidth  * s;
-											h = HalfParticleHeight * s;
-										} else {
-											w = h = 0.0f;
-										}
+                                // Advance to next particle.
+                                particleptr = particleptr->Next;
 
-									} else {
-										w = HalfParticleWidth;
-										h = HalfParticleHeight;
-									}
-									break;
+                                continue;
+                            }
 
-								} else {
+                        default:
+                            WWASSERT(false);
+                            w = h = 0.0f;
+                            break;
+                        }
 
-				  					// Advance to next particle.
-									particleptr = particleptr->Next;
+                        offset[0] = -h * y;
+                        offset[1] = h * y + w * x;
+                        offset[2] = h * y - w * x;
 
-									continue;
-								}
+                        base = particleptr->Page * VERTICES_PER_TRIANGLE;
 
- 							default:
-								WWASSERT (false);
-								w = h = 0.0f;
-								break;
-						}
+                        alphaheight = position.Z - deltaheight;
+                        if (alphaheight > 0.0f) {
+                            alpha = 1.0f - (alphaheight * oomaxalphaheight);
+                        }
+                        else {
+                            alpha = 1.0f;
+                        }
+                        DX8Wrapper::Set_Alpha(alpha, dxcolor);
 
-						offset [0] = -h * y;
-						offset [1] =  h * y + w * x;
-						offset [2] =  h * y - w * x;
+                        // Vertex 0 of triangle.
+                        vertex->x = position.X + offset[0].X;
+                        vertex->y = position.Y + offset[0].Y;
+                        vertex->z = position.Z + offset[0].Z;
+                        vertex->diffuse = dxcolor;
+                        vertex->u1 = TextureArray[base].U;
+                        vertex->v1 = TextureArray[base].V;
+                        vertex++;
 
-						base = particleptr->Page * VERTICES_PER_TRIANGLE;
+                        // Vertex 1 of triangle.
+                        vertex->x = position.X + offset[1].X;
+                        vertex->y = position.Y + offset[1].Y;
+                        vertex->z = position.Z + offset[1].Z;
+                        vertex->diffuse = dxcolor;
+                        vertex->u1 = TextureArray[base + 1].U;
+                        vertex->v1 = TextureArray[base + 1].V;
+                        vertex++;
 
-						alphaheight = position.Z - deltaheight;
-						if (alphaheight > 0.0f) {
-							alpha = 1.0f - (alphaheight * oomaxalphaheight);
-						} else {
-							alpha = 1.0f;
-						}
-						DX8Wrapper::Set_Alpha (alpha, dxcolor);
+                        // Vertex 2 of triangle.
+                        vertex->x = position.X + offset[2].X;
+                        vertex->y = position.Y + offset[2].Y;
+                        vertex->z = position.Z + offset[2].Z;
+                        vertex->diffuse = dxcolor;
+                        vertex->u1 = TextureArray[base + 2].U;
+                        vertex->v1 = TextureArray[base + 2].V;
+                        vertex++;
 
-						// Vertex 0 of triangle.
-						vertex->x		 = position.X + offset [0].X;
-						vertex->y		 = position.Y + offset [0].Y;
-						vertex->z		 = position.Z + offset [0].Z;
-						vertex->diffuse = dxcolor;
-						vertex->u1		 = TextureArray [base].U;
-						vertex->v1		 = TextureArray [base].V;
-						vertex++;
+                        submittedparticlecount++;
+                    }
 
-						// Vertex 1 of triangle.
-						vertex->x		 = position.X + offset [1].X;
-						vertex->y		 = position.Y + offset [1].Y;
-						vertex->z		 = position.Z + offset [1].Z;
-						vertex->diffuse = dxcolor;
-						vertex->u1		 = TextureArray [base + 1].U;
-						vertex->v1		 = TextureArray [base + 1].V;
-						vertex++;
+                    // Advance to next particle.
+                    particleptr = particleptr->Next;
+                }
+            }
 
-						// Vertex 2 of triangle.
-						vertex->x		 = position.X + offset [2].X;
-						vertex->y		 = position.Y + offset [2].Y;
-						vertex->z		 = position.Z + offset [2].Z;
-						vertex->diffuse = dxcolor;
-						vertex->u1		 = TextureArray [base + 2].U;
-						vertex->v1		 = TextureArray [base + 2].V;
-						vertex++;
+            if (submittedparticlecount > 0) {
 
-						submittedparticlecount++;
-					}
+                DX8Wrapper::Set_Vertex_Buffer(dynamicvb);
 
-					// Advance to next particle.
-					particleptr = particleptr->Next;
-				}
-			}
+#if WEATHER_PARTICLE_SORT
+                SortingRendererClass::Insert_Triangles(
+                    0, submittedparticlecount, 0, submittedparticlecount * VERTICES_PER_TRIANGLE);
+#else
+                DX8Wrapper::Draw_Triangles(0, submittedparticlecount, 0,
+                                           submittedparticlecount * VERTICES_PER_TRIANGLE);
+#endif
+            }
 
-			if (submittedparticlecount > 0) {
+            processedparticlecount += particlecount;
+        }
 
-				DX8Wrapper::Set_Vertex_Buffer (dynamicvb);
+        WWASSERT(particleptr == NULL);
 
-				#if WEATHER_PARTICLE_SORT
-				SortingRendererClass::Insert_Triangles (0, submittedparticlecount, 0, submittedparticlecount * VERTICES_PER_TRIANGLE);
-				#else
-				DX8Wrapper::Draw_Triangles (0, submittedparticlecount, 0, submittedparticlecount * VERTICES_PER_TRIANGLE);
-				#endif
-			}
-
-			processedparticlecount += particlecount;
-		}
-
-		WWASSERT (particleptr == NULL);
-
-		#if WEATHER_PARTICLE_SORT
-		#else
-		DX8Wrapper::Set_DX8_Render_State (D3DRS_ZBIAS, 0);
-		#endif
-	}
+#if WEATHER_PARTICLE_SORT
+#else
+        DX8Wrapper::Set_DX8_Render_State(D3DRS_ZBIAS, 0);
+#endif
+    }
 }
 
-
 /***********************************************************************************************
- * WeatherSystemClass::Get_Obj_Space_Bounding_Sphere --													  *
+ * WeatherSystemClass::Get_Obj_Space_Bounding_Sphere --
+ **
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -1235,14 +1298,14 @@ void WeatherSystemClass::Render (RenderInfoClass &rinfo)
  * HISTORY:                                                                                    *
  *   03/06/01    IML : Created.                                                                *
  *=============================================================================================*/
-void WeatherSystemClass::Get_Obj_Space_Bounding_Sphere (SphereClass &sphere) const
+void WeatherSystemClass::Get_Obj_Space_Bounding_Sphere(SphereClass& sphere) const
 {
-	sphere.Init ((ObjectMin + ObjectMax) * 0.5f, ((ObjectMax - ObjectMin) * 0.5f).Length());
+    sphere.Init((ObjectMin + ObjectMax) * 0.5f, ((ObjectMax - ObjectMin) * 0.5f).Length());
 }
 
-
 /***********************************************************************************************
- * WeatherSystemClass::Get_Obj_Space_Bounding_Box --														  *
+ * WeatherSystemClass::Get_Obj_Space_Bounding_Box --
+ **
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -1253,14 +1316,14 @@ void WeatherSystemClass::Get_Obj_Space_Bounding_Sphere (SphereClass &sphere) con
  * HISTORY:                                                                                    *
  *   03/06/01    IML : Created.                                                                *
  *=============================================================================================*/
-void WeatherSystemClass::Get_Obj_Space_Bounding_Box (AABoxClass &box) const
+void WeatherSystemClass::Get_Obj_Space_Bounding_Box(AABoxClass& box) const
 {
-	box.Init ((ObjectMin + ObjectMax) * 0.5f, (ObjectMax - ObjectMin) * 0.5f);
+    box.Init((ObjectMin + ObjectMax) * 0.5f, (ObjectMax - ObjectMin) * 0.5f);
 }
 
-
 /***********************************************************************************************
- * RainSystemClass::RainSystemClass --																			  *
+ * RainSystemClass::RainSystemClass --
+ **
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -1271,25 +1334,28 @@ void WeatherSystemClass::Get_Obj_Space_Bounding_Box (AABoxClass &box) const
  * HISTORY:                                                                                    *
  *   03/06/01    IML : Created.                                                                *
  *=============================================================================================*/
-RainSystemClass::RainSystemClass (PhysicsSceneClass *scene, float particledensity, WindClass *wind, SoundEnvironmentClass *soundenvironment, bool prime)
-	: WeatherSystemClass (scene, 20.0f, 20.0f, particledensity, 0.2f, 0.15f, 0.45f, 15.0f, Vector2 (0.0f, 0.0f), Vector2 (1.0f, 0.5f), PAGE_COUNT, true, 0.1f, 0.2f, WeatherSystemClass::RENDER_MODE_AXIS_ALIGNED, false, prime),
-	  SoundEnvironment (soundenvironment)
+RainSystemClass::RainSystemClass(PhysicsSceneClass* scene, float particledensity, WindClass* wind,
+                                 SoundEnvironmentClass* soundenvironment, bool prime)
+    : WeatherSystemClass(scene, 20.0f, 20.0f, particledensity, 0.2f, 0.15f, 0.45f, 15.0f,
+                         Vector2(0.0f, 0.0f), Vector2(1.0f, 0.5f), PAGE_COUNT, true, 0.1f, 0.2f,
+                         WeatherSystemClass::RENDER_MODE_AXIS_ALIGNED, false, prime),
+      SoundEnvironment(soundenvironment)
 {
-	const char *rainsamplename	= "Rainfall01";
+    const char* rainsamplename = "Rainfall01";
 
-	// Create the rain sound effect.
-	// Optimization: Only add the sound effect if wind speed is non-zero.
-	Sound = WWAudioClass::Get_Instance()->Create_Sound (rainsamplename, NULL, 0, CLASSID_2D);
-	if (Sound != NULL) {
-		SoundEnvironment->Add_User();
-		Sound->Set_Volume (0.0f);
-		Sound->Play();
- 	}
+    // Create the rain sound effect.
+    // Optimization: Only add the sound effect if wind speed is non-zero.
+    Sound = WWAudioClass::Get_Instance()->Create_Sound(rainsamplename, NULL, 0, CLASSID_2D);
+    if (Sound != NULL) {
+        SoundEnvironment->Add_User();
+        Sound->Set_Volume(0.0f);
+        Sound->Play();
+    }
 }
 
-
 /***********************************************************************************************
- * RainSystemClass::~RainSystemClass --																		  *
+ * RainSystemClass::~RainSystemClass --
+ **
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -1302,17 +1368,17 @@ RainSystemClass::RainSystemClass (PhysicsSceneClass *scene, float particledensit
  *=============================================================================================*/
 RainSystemClass::~RainSystemClass()
 {
-	// Remove rain sound effect.
-	if (Sound != NULL) {
-		Sound->Stop();
-		REF_PTR_RELEASE (Sound);
-		SoundEnvironment->Remove_User();
-	}
+    // Remove rain sound effect.
+    if (Sound != NULL) {
+        Sound->Stop();
+        REF_PTR_RELEASE(Sound);
+        SoundEnvironment->Remove_User();
+    }
 }
 
-
 /***********************************************************************************************
- * RainSystemClass::Update --																						  *
+ * RainSystemClass::Update --
+ **
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -1323,27 +1389,27 @@ RainSystemClass::~RainSystemClass()
  * HISTORY:                                                                                    *
  *   03/06/01    IML : Created.                                                                *
  *=============================================================================================*/
-bool RainSystemClass::Update (WindClass *wind, const Vector3 &cameraposition)
+bool RainSystemClass::Update(WindClass* wind, const Vector3& cameraposition)
 {
-	if (Sound != NULL) {
+    if (Sound != NULL) {
 
-		const float maxvolume			= 4.0f;
-		const float volumeperparticle	= 0.0025f;
+        const float maxvolume = 4.0f;
+        const float volumeperparticle = 0.0025f;
 
-		float attenuation;
+        float attenuation;
 
-		// Calculate sound attenuation based on no. of particles in system.
-		attenuation = MIN (ParticleCount * volumeperparticle, maxvolume) / maxvolume;
-		Sound->Set_Volume (SoundEnvironment->Get_Amplitude() * attenuation);
-	}
+        // Calculate sound attenuation based on no. of particles in system.
+        attenuation = MIN(ParticleCount * volumeperparticle, maxvolume) / maxvolume;
+        Sound->Set_Volume(SoundEnvironment->Get_Amplitude() * attenuation);
+    }
 
-	// Base class update.
-	return (WeatherSystemClass::Update (wind, cameraposition));
+    // Base class update.
+    return (WeatherSystemClass::Update(wind, cameraposition));
 }
 
-
 /***********************************************************************************************
- * SnowSystemClass::SnowSystemClass --																			  *
+ * SnowSystemClass::SnowSystemClass --
+ **
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -1354,14 +1420,17 @@ bool RainSystemClass::Update (WindClass *wind, const Vector3 &cameraposition)
  * HISTORY:                                                                                    *
  *   03/06/01    IML : Created.                                                                *
  *=============================================================================================*/
-SnowSystemClass::SnowSystemClass (PhysicsSceneClass *scene, float particledensity, WindClass *wind, bool prime)
-	: WeatherSystemClass (scene, 40.0f, 20.0f, particledensity, 0.1f, 0.32f, 0.32f, 3.5f, Vector2 (0.0f, 0.5f), Vector2 (1.0f, 0.25f), PAGE_COUNT, false, 1.0f, 2.0f, WeatherSystemClass::RENDER_MODE_CAMERA_ALIGNED, true, prime)
+SnowSystemClass::SnowSystemClass(PhysicsSceneClass* scene, float particledensity, WindClass* wind,
+                                 bool prime)
+    : WeatherSystemClass(scene, 40.0f, 20.0f, particledensity, 0.1f, 0.32f, 0.32f, 3.5f,
+                         Vector2(0.0f, 0.5f), Vector2(1.0f, 0.25f), PAGE_COUNT, false, 1.0f, 2.0f,
+                         WeatherSystemClass::RENDER_MODE_CAMERA_ALIGNED, true, prime)
 {
 }
 
-
 /***********************************************************************************************
- * SnowSystemClass::Update --																						  *
+ * SnowSystemClass::Update --
+ **
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -1372,15 +1441,15 @@ SnowSystemClass::SnowSystemClass (PhysicsSceneClass *scene, float particledensit
  * HISTORY:                                                                                    *
  *   03/06/01    IML : Created.                                                                *
  *=============================================================================================*/
-bool SnowSystemClass::Update (WindClass *wind, const Vector3 &cameraposition)
+bool SnowSystemClass::Update(WindClass* wind, const Vector3& cameraposition)
 {
-	// Base class update.
-	return (WeatherSystemClass::Update (wind, cameraposition));
+    // Base class update.
+    return (WeatherSystemClass::Update(wind, cameraposition));
 }
 
-
 /***********************************************************************************************
- * AshSystemClass::AshSystemClass --																			  *
+ * AshSystemClass::AshSystemClass --
+ **
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -1391,14 +1460,17 @@ bool SnowSystemClass::Update (WindClass *wind, const Vector3 &cameraposition)
  * HISTORY:                                                                                    *
  *   03/06/01    IML : Created.                                                                *
  *=============================================================================================*/
-AshSystemClass::AshSystemClass (PhysicsSceneClass *scene, float particledensity, WindClass *wind, bool prime)
-	: WeatherSystemClass (scene, 40.0f, 20.0f, particledensity, 0.1f, 0.32f, 0.32f, 3.0f, Vector2 (0.0f, 0.75f), Vector2 (1.0f, 0.25f), PAGE_COUNT, false, 1.0f, 2.0f, WeatherSystemClass::RENDER_MODE_CAMERA_ALIGNED, true, prime)
+AshSystemClass::AshSystemClass(PhysicsSceneClass* scene, float particledensity, WindClass* wind,
+                               bool prime)
+    : WeatherSystemClass(scene, 40.0f, 20.0f, particledensity, 0.1f, 0.32f, 0.32f, 3.0f,
+                         Vector2(0.0f, 0.75f), Vector2(1.0f, 0.25f), PAGE_COUNT, false, 1.0f, 2.0f,
+                         WeatherSystemClass::RENDER_MODE_CAMERA_ALIGNED, true, prime)
 {
 }
 
-
 /***********************************************************************************************
- * AshSystemClass::Update --																						  *
+ * AshSystemClass::Update --
+ **
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -1409,15 +1481,15 @@ AshSystemClass::AshSystemClass (PhysicsSceneClass *scene, float particledensity,
  * HISTORY:                                                                                    *
  *   03/06/01    IML : Created.                                                                *
  *=============================================================================================*/
-bool AshSystemClass::Update (WindClass *wind, const Vector3 &cameraposition)
+bool AshSystemClass::Update(WindClass* wind, const Vector3& cameraposition)
 {
-	// Base class update.
-	return (WeatherSystemClass::Update (wind, cameraposition));
+    // Base class update.
+    return (WeatherSystemClass::Update(wind, cameraposition));
 }
 
-
 /***********************************************************************************************
- * WeatherParameterClass::Initialize --																		  *
+ * WeatherParameterClass::Initialize --
+ **
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -1430,16 +1502,16 @@ bool AshSystemClass::Update (WindClass *wind, const Vector3 &cameraposition)
  *=============================================================================================*/
 void WeatherParameterClass::Initialize()
 {
-	CurrentValue	  = 0.0f;
-	NormalTarget	  = 0.0f;
-	NormalDuration	  = 0.0f;
-	OverrideTarget	  = 0.0f;
-	OverrideDuration = 0.0f;
+    CurrentValue = 0.0f;
+    NormalTarget = 0.0f;
+    NormalDuration = 0.0f;
+    OverrideTarget = 0.0f;
+    OverrideDuration = 0.0f;
 }
 
-
 /***********************************************************************************************
- * WeatherParameterClass::Set --																					  *
+ * WeatherParameterClass::Set --
+ **
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -1450,20 +1522,21 @@ void WeatherParameterClass::Initialize()
  * HISTORY:                                                                                    *
  *   04/24/01    IML : Created.                                                                *
  *=============================================================================================*/
-void WeatherParameterClass::Set (float target, float ramptime, bool override)
+void WeatherParameterClass::Set(float target, float ramptime, bool override)
 {
-	if (!override) {
-		NormalTarget	  = target;
-		NormalDuration	  = ramptime;
-	} else {
-		OverrideTarget	  = target;
-		OverrideDuration = ramptime;
-	}
+    if (!override) {
+        NormalTarget = target;
+        NormalDuration = ramptime;
+    }
+    else {
+        OverrideTarget = target;
+        OverrideDuration = ramptime;
+    }
 }
 
-
 /***********************************************************************************************
- * WeatherParameterClass::Update --																				  *
+ * WeatherParameterClass::Update --
+ **
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -1474,30 +1547,32 @@ void WeatherParameterClass::Set (float target, float ramptime, bool override)
  * HISTORY:                                                                                    *
  *   04/24/01    IML : Created.                                                                *
  *=============================================================================================*/
-bool WeatherParameterClass::Update (float time, bool override)
+bool WeatherParameterClass::Update(float time, bool override)
 {
-	const float previouscurrentvalue = CurrentValue;
+    const float previouscurrentvalue = CurrentValue;
 
-	// Update the normal parameters.
-	Update (NormalValue, NormalTarget, NormalDuration, time);
+    // Update the normal parameters.
+    Update(NormalValue, NormalTarget, NormalDuration, time);
 
-	// Update the override parameters?
-	if (override) {
-		Update (CurrentValue, OverrideTarget, OverrideDuration, time);
-	} else {
-		if (OverrideDuration > 0.0f) {
-			Update (CurrentValue, NormalValue, OverrideDuration, time);
-		} else {
-			CurrentValue = NormalValue;
-		}
-	}
+    // Update the override parameters?
+    if (override) {
+        Update(CurrentValue, OverrideTarget, OverrideDuration, time);
+    }
+    else {
+        if (OverrideDuration > 0.0f) {
+            Update(CurrentValue, NormalValue, OverrideDuration, time);
+        }
+        else {
+            CurrentValue = NormalValue;
+        }
+    }
 
-	return (CurrentValue != previouscurrentvalue);
+    return (CurrentValue != previouscurrentvalue);
 }
 
-
 /***********************************************************************************************
- * WeatherParameterClass::Update --																				  *
+ * WeatherParameterClass::Update --
+ **
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -1508,39 +1583,42 @@ bool WeatherParameterClass::Update (float time, bool override)
  * HISTORY:                                                                                    *
  *   04/24/01    IML : Created.                                                                *
  *=============================================================================================*/
-void WeatherParameterClass::Update (float &value, float &target, float &duration, float time)
+void WeatherParameterClass::Update(float& value, float& target, float& duration, float time)
 {
-	if (value == target) {
-		duration = 0.0f;
-	} else {
-		duration -= time;
-		if (duration > 0.0f) {
+    if (value == target) {
+        duration = 0.0f;
+    }
+    else {
+        duration -= time;
+        if (duration > 0.0f) {
 
-			bool sign0, sign1;
+            bool sign0, sign1;
 
-			sign0 = value < target;
-			value += ((target - value) * (time / duration));
-			if (value == target) {
-				duration = 0.0f;
-			} else {
-				sign1 = value < target;
+            sign0 = value < target;
+            value += ((target - value) * (time / duration));
+            if (value == target) {
+                duration = 0.0f;
+            }
+            else {
+                sign1 = value < target;
 
-				// If the value has 'blown past' the target value...
-				if (sign0 ^ sign1) {
-					duration = 0.0f;
-					value		= target;
-				}
-			}
-		} else {
-			duration = 0.0f;
-			value	   = target;
-		}
-	}
+                // If the value has 'blown past' the target value...
+                if (sign0 ^ sign1) {
+                    duration = 0.0f;
+                    value = target;
+                }
+            }
+        }
+        else {
+            duration = 0.0f;
+            value = target;
+        }
+    }
 }
 
-
 /***********************************************************************************************
- * WeatherMgrClass::WeatherMgrClass --																			  *
+ * WeatherMgrClass::WeatherMgrClass --
+ **
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -1553,13 +1631,13 @@ void WeatherParameterClass::Update (float &value, float &target, float &duration
  *=============================================================================================*/
 WeatherMgrClass::WeatherMgrClass()
 {
-	Set_Network_ID (NETID_SERVER_WEATHER);
-	Set_App_Packet_Type (APPPACKETTYPE_NETWEATHER);
+    Set_Network_ID(NETID_SERVER_WEATHER);
+    Set_App_Packet_Type(APPPACKETTYPE_NETWEATHER);
 }
 
-
 /***********************************************************************************************
- * WeatherMgrClass::Init --																						  *
+ * WeatherMgrClass::Init --
+ **
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -1570,23 +1648,23 @@ WeatherMgrClass::WeatherMgrClass()
  * HISTORY:                                                                                    *
  *   03/06/01    IML : Created.                                                                *
  *=============================================================================================*/
-void WeatherMgrClass::Init (SoundEnvironmentClass *soundenvironment)
+void WeatherMgrClass::Init(SoundEnvironmentClass* soundenvironment)
 {
-	WWASSERT (soundenvironment != NULL);
+    WWASSERT(soundenvironment != NULL);
 
-	REF_PTR_SET (_SoundEnvironment, soundenvironment);
+    REF_PTR_SET(_SoundEnvironment, soundenvironment);
 
-	_Wind = NULL;
-	for (int p = PRECIPITATION_FIRST; p < PRECIPITATION_COUNT; p++) {
-		_Precipitation [p] = NULL;
-	}
+    _Wind = NULL;
+    for (int p = PRECIPITATION_FIRST; p < PRECIPITATION_COUNT; p++) {
+        _Precipitation[p] = NULL;
+    }
 
-	Reset();
+    Reset();
 }
 
-
 /***********************************************************************************************
- * WeatherMgrClass::Reset --																						  *
+ * WeatherMgrClass::Reset --
+ **
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -1599,41 +1677,41 @@ void WeatherMgrClass::Init (SoundEnvironmentClass *soundenvironment)
  *=============================================================================================*/
 void WeatherMgrClass::Reset()
 {
-	int p;
+    int p;
 
-	// Iterate and initialize the parameters.
-	for (p = 0; p < PARAMETER_COUNT; p++) {
-		_Parameters [p].Initialize();
-	}
+    // Iterate and initialize the parameters.
+    for (p = 0; p < PARAMETER_COUNT; p++) {
+        _Parameters[p].Initialize();
+    }
 
-	if (_Wind != NULL) {
-		delete _Wind;
-		_Wind = NULL;
-	}
+    if (_Wind != NULL) {
+        delete _Wind;
+        _Wind = NULL;
+    }
 
-	//	Restore the settings to default.
-	Set_Wind (0.0f, 0.0f, 0.0f, 0.0f, false);
-	for (p = PRECIPITATION_FIRST; p < PRECIPITATION_COUNT; p++) {
-		if (_Precipitation [p] != NULL) {
-			_Precipitation [p]->Remove();
-  			REF_PTR_RELEASE (_Precipitation [p]);
-			Set_Precipitation ((PrecipitationEnum) p, 0.0f, 0.0f, false);
-		}
-	}
-	Set_Fog_Enable (false);
-	Set_Fog_Range (200.0f, 300.0f);
+    //	Restore the settings to default.
+    Set_Wind(0.0f, 0.0f, 0.0f, 0.0f, false);
+    for (p = PRECIPITATION_FIRST; p < PRECIPITATION_COUNT; p++) {
+        if (_Precipitation[p] != NULL) {
+            _Precipitation[p]->Remove();
+            REF_PTR_RELEASE(_Precipitation[p]);
+            Set_Precipitation((PrecipitationEnum)p, 0.0f, 0.0f, false);
+        }
+    }
+    Set_Fog_Enable(false);
+    Set_Fog_Range(200.0f, 300.0f);
 
-	_Prime = true;
-	_Imported = false;
-	_WindOverrideCount = 0;
-	_PrecipitationOverrideCount = 0;
+    _Prime = true;
+    _Imported = false;
+    _WindOverrideCount = 0;
+    _PrecipitationOverrideCount = 0;
 
-	Set_Dirty();
+    Set_Dirty();
 }
 
-
 /***********************************************************************************************
- * WeatherMgrClass::Shutdown --																					  *
+ * WeatherMgrClass::Shutdown --
+ **
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -1646,13 +1724,13 @@ void WeatherMgrClass::Reset()
  *=============================================================================================*/
 void WeatherMgrClass::Shutdown()
 {
-	Reset();
-	REF_PTR_RELEASE (_SoundEnvironment);
+    Reset();
+    REF_PTR_RELEASE(_SoundEnvironment);
 }
 
-
 /***********************************************************************************************
- * WeatherMgrClass::Set_Wind --																					  *
+ * WeatherMgrClass::Set_Wind --
+ **
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -1663,20 +1741,20 @@ void WeatherMgrClass::Shutdown()
  * HISTORY:                                                                                    *
  *   03/06/01    IML : Created.                                                                *
  *=============================================================================================*/
-bool WeatherMgrClass::Set_Wind (float heading, float speed, float variability, float ramptime)
+bool WeatherMgrClass::Set_Wind(float heading, float speed, float variability, float ramptime)
 {
-	if (CombatManager::I_Am_Server()) {
-		if (Set_Wind (heading, speed, variability, ramptime, false)) {
-			_TheWeatherMgr.Set_Object_Dirty_Bit (NetworkObjectClass::BIT_RARE, true);
-			return (true);
-		}
-	}
-	return (false);
+    if (CombatManager::I_Am_Server()) {
+        if (Set_Wind(heading, speed, variability, ramptime, false)) {
+            _TheWeatherMgr.Set_Object_Dirty_Bit(NetworkObjectClass::BIT_RARE, true);
+            return (true);
+        }
+    }
+    return (false);
 }
 
-
 /***********************************************************************************************
- * WeatherMgrClass::Override_Wind --																			  *
+ * WeatherMgrClass::Override_Wind --
+ **
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -1687,21 +1765,21 @@ bool WeatherMgrClass::Set_Wind (float heading, float speed, float variability, f
  * HISTORY:                                                                                    *
  *   03/06/01    IML : Created.                                                                *
  *=============================================================================================*/
-bool WeatherMgrClass::Override_Wind (float heading, float speed, float variability, float ramptime)
+bool WeatherMgrClass::Override_Wind(float heading, float speed, float variability, float ramptime)
 {
-	if (CombatManager::I_Am_Server()) {
-		_WindOverrideCount++;
-		if (Set_Wind (heading, speed, variability, ramptime, true)) {
-			_TheWeatherMgr.Set_Object_Dirty_Bit (NetworkObjectClass::BIT_RARE, true);
-			return (true);
-		}
-	}
-	return (false);
+    if (CombatManager::I_Am_Server()) {
+        _WindOverrideCount++;
+        if (Set_Wind(heading, speed, variability, ramptime, true)) {
+            _TheWeatherMgr.Set_Object_Dirty_Bit(NetworkObjectClass::BIT_RARE, true);
+            return (true);
+        }
+    }
+    return (false);
 }
 
-
 /***********************************************************************************************
- * WeatherMgrClass::Set_Wind --																					  *
+ * WeatherMgrClass::Set_Wind --
+ **
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -1712,25 +1790,26 @@ bool WeatherMgrClass::Override_Wind (float heading, float speed, float variabili
  * HISTORY:                                                                                    *
  *   03/06/01    IML : Created.                                                                *
  *=============================================================================================*/
-bool WeatherMgrClass::Set_Wind (float heading, float speed, float variability, float ramptime, bool override)
+bool WeatherMgrClass::Set_Wind(float heading, float speed, float variability, float ramptime,
+                               bool override)
 {
-	if ((heading >= 0.0f) && (heading <= 360.0f) && (speed >= 0.0f) && (variability >= 0.0f) &&
-		(variability <= 1.0f) && (ramptime >= 0.0f)) {
+    if ((heading >= 0.0f) && (heading <= 360.0f) && (speed >= 0.0f) && (variability >= 0.0f)
+        && (variability <= 1.0f) && (ramptime >= 0.0f)) {
 
-		bool o;
+        bool o;
 
-		o = (_WindOverrideCount > 0) && override;
-		_Parameters [PARAMETER_WIND_HEADING].Set (heading, ramptime, o);
-		_Parameters [PARAMETER_WIND_SPEED].Set (speed, ramptime, o);
-		_Parameters [PARAMETER_WIND_VARIABILITY].Set (variability, ramptime, o);
-		return (true);
-	}
-	return (false);
+        o = (_WindOverrideCount > 0) && override;
+        _Parameters[PARAMETER_WIND_HEADING].Set(heading, ramptime, o);
+        _Parameters[PARAMETER_WIND_SPEED].Set(speed, ramptime, o);
+        _Parameters[PARAMETER_WIND_VARIABILITY].Set(variability, ramptime, o);
+        return (true);
+    }
+    return (false);
 }
 
-
 /***********************************************************************************************
- * WeatherMgrClass::Get_Wind --																					  *
+ * WeatherMgrClass::Get_Wind --
+ **
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -1741,16 +1820,16 @@ bool WeatherMgrClass::Set_Wind (float heading, float speed, float variability, f
  * HISTORY:                                                                                    *
  *   03/06/01    IML : Created.                                                                *
  *=============================================================================================*/
-void WeatherMgrClass::Get_Wind (float &heading, float &speed, float &variability)
+void WeatherMgrClass::Get_Wind(float& heading, float& speed, float& variability)
 {
-	heading		= _Parameters [PARAMETER_WIND_HEADING].Value();
-	speed			= _Parameters [PARAMETER_WIND_SPEED].Value();
-	variability = _Parameters [PARAMETER_WIND_VARIABILITY].Value();
+    heading = _Parameters[PARAMETER_WIND_HEADING].Value();
+    speed = _Parameters[PARAMETER_WIND_SPEED].Value();
+    variability = _Parameters[PARAMETER_WIND_VARIABILITY].Value();
 }
 
-
 /***********************************************************************************************
- * WeatherMgrClass::Restore_Wind --																				  *
+ * WeatherMgrClass::Restore_Wind --
+ **
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -1761,20 +1840,20 @@ void WeatherMgrClass::Get_Wind (float &heading, float &speed, float &variability
  * HISTORY:                                                                                    *
  *   03/06/01    IML : Created.                                                                *
  *=============================================================================================*/
-void WeatherMgrClass::Restore_Wind (float ramptime)
+void WeatherMgrClass::Restore_Wind(float ramptime)
 {
-	if (CombatManager::I_Am_Server()) {
-		_Parameters [PARAMETER_WIND_HEADING].Set (ramptime);
-		_Parameters [PARAMETER_WIND_SPEED].Set (ramptime);
-		_Parameters [PARAMETER_WIND_VARIABILITY].Set (ramptime);
-		_WindOverrideCount--;
-		_TheWeatherMgr.Set_Object_Dirty_Bit (NetworkObjectClass::BIT_RARE, true);
-	}
+    if (CombatManager::I_Am_Server()) {
+        _Parameters[PARAMETER_WIND_HEADING].Set(ramptime);
+        _Parameters[PARAMETER_WIND_SPEED].Set(ramptime);
+        _Parameters[PARAMETER_WIND_VARIABILITY].Set(ramptime);
+        _WindOverrideCount--;
+        _TheWeatherMgr.Set_Object_Dirty_Bit(NetworkObjectClass::BIT_RARE, true);
+    }
 }
 
-
 /***********************************************************************************************
- * WeatherMgrClass::Set_Precipitation --																		  *
+ * WeatherMgrClass::Set_Precipitation --
+ **
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -1785,20 +1864,21 @@ void WeatherMgrClass::Restore_Wind (float ramptime)
  * HISTORY:                                                                                    *
  *   03/06/01    IML : Created.                                                                *
  *=============================================================================================*/
-bool WeatherMgrClass::Set_Precipitation (PrecipitationEnum precipitation, float density, float ramptime)
+bool WeatherMgrClass::Set_Precipitation(PrecipitationEnum precipitation, float density,
+                                        float ramptime)
 {
-	if (CombatManager::I_Am_Server()) {
-		if (Set_Precipitation (precipitation, density, ramptime, false)) {
-			_TheWeatherMgr.Set_Object_Dirty_Bit (NetworkObjectClass::BIT_RARE, true);
-			return (true);
-		}
-	}
-	return (false);
+    if (CombatManager::I_Am_Server()) {
+        if (Set_Precipitation(precipitation, density, ramptime, false)) {
+            _TheWeatherMgr.Set_Object_Dirty_Bit(NetworkObjectClass::BIT_RARE, true);
+            return (true);
+        }
+    }
+    return (false);
 }
 
-
 /***********************************************************************************************
- * WeatherMgrClass::Override_Precipitation --																  *
+ * WeatherMgrClass::Override_Precipitation --
+ **
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -1809,32 +1889,35 @@ bool WeatherMgrClass::Set_Precipitation (PrecipitationEnum precipitation, float 
  * HISTORY:                                                                                    *
  *   03/06/01    IML : Created.                                                                *
  *=============================================================================================*/
-bool WeatherMgrClass::Override_Precipitation (PrecipitationEnum precipitation, float density, float ramptime)
+bool WeatherMgrClass::Override_Precipitation(PrecipitationEnum precipitation, float density,
+                                             float ramptime)
 {
-	if (CombatManager::I_Am_Server()) {
+    if (CombatManager::I_Am_Server()) {
 
-		bool success;
+        bool success;
 
-		_PrecipitationOverrideCount++;
+        _PrecipitationOverrideCount++;
 
-		// Override requested precipitation but also override and ramp down any other types of precipitation that may exist.
-		success = true;
-		for (int p = PRECIPITATION_FIRST; p < PRECIPITATION_COUNT; p++) {
-			if (p != precipitation) {
-				success &= Set_Precipitation ((PrecipitationEnum) p, 0.0f, ramptime, true);
-			} else {
-				success &= Set_Precipitation ((PrecipitationEnum) p, density, ramptime, true);
-			}
-		}
-		_TheWeatherMgr.Set_Object_Dirty_Bit (NetworkObjectClass::BIT_RARE, true);
-		return (success);
-	}
-	return (false);
+        // Override requested precipitation but also override and ramp down any other types of
+        // precipitation that may exist.
+        success = true;
+        for (int p = PRECIPITATION_FIRST; p < PRECIPITATION_COUNT; p++) {
+            if (p != precipitation) {
+                success &= Set_Precipitation((PrecipitationEnum)p, 0.0f, ramptime, true);
+            }
+            else {
+                success &= Set_Precipitation((PrecipitationEnum)p, density, ramptime, true);
+            }
+        }
+        _TheWeatherMgr.Set_Object_Dirty_Bit(NetworkObjectClass::BIT_RARE, true);
+        return (success);
+    }
+    return (false);
 }
 
-
 /***********************************************************************************************
- * WeatherMgrClass::Set_Precipitation --																		  *
+ * WeatherMgrClass::Set_Precipitation --
+ **
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -1845,38 +1928,39 @@ bool WeatherMgrClass::Override_Precipitation (PrecipitationEnum precipitation, f
  * HISTORY:                                                                                    *
  *   03/06/01    IML : Created.                                                                *
  *=============================================================================================*/
-bool WeatherMgrClass::Set_Precipitation (PrecipitationEnum precipitation, float density, float ramptime, bool override)
+bool WeatherMgrClass::Set_Precipitation(PrecipitationEnum precipitation, float density,
+                                        float ramptime, bool override)
 {
-	if ((density >= 0.0f) && (ramptime >= 0.0f)) {
+    if ((density >= 0.0f) && (ramptime >= 0.0f)) {
 
-		const bool o = (_PrecipitationOverrideCount > 0) && override;
+        const bool o = (_PrecipitationOverrideCount > 0) && override;
 
-		switch (precipitation) {
+        switch (precipitation) {
 
-			case PRECIPITATION_RAIN:
-				_Parameters [PARAMETER_RAIN_DENSITY].Set (density, ramptime, o);
-				break;
+        case PRECIPITATION_RAIN:
+            _Parameters[PARAMETER_RAIN_DENSITY].Set(density, ramptime, o);
+            break;
 
-			case PRECIPITATION_SNOW:
-				_Parameters [PARAMETER_SNOW_DENSITY].Set (density, ramptime, o);
-				break;
+        case PRECIPITATION_SNOW:
+            _Parameters[PARAMETER_SNOW_DENSITY].Set(density, ramptime, o);
+            break;
 
-			case PRECIPITATION_ASH:
-				_Parameters [PARAMETER_ASH_DENSITY].Set (density, ramptime, o);
-				break;
+        case PRECIPITATION_ASH:
+            _Parameters[PARAMETER_ASH_DENSITY].Set(density, ramptime, o);
+            break;
 
-			default:
-				WWASSERT (false);
-				break;
-		}
-		return (true);
-	}
-	return (false);
+        default:
+            WWASSERT(false);
+            break;
+        }
+        return (true);
+    }
+    return (false);
 }
 
-
 /***********************************************************************************************
- * WeatherMgrClass::Get_Precipitation --																		  *
+ * WeatherMgrClass::Get_Precipitation --
+ **
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -1887,31 +1971,31 @@ bool WeatherMgrClass::Set_Precipitation (PrecipitationEnum precipitation, float 
  * HISTORY:                                                                                    *
  *   03/06/01    IML : Created.                                                                *
  *=============================================================================================*/
-void WeatherMgrClass::Get_Precipitation (PrecipitationEnum precipitation, float &density)
+void WeatherMgrClass::Get_Precipitation(PrecipitationEnum precipitation, float& density)
 {
-	switch (precipitation) {
+    switch (precipitation) {
 
-		case PRECIPITATION_RAIN:
-			density = _Parameters [PARAMETER_RAIN_DENSITY].Value();
-			break;
+    case PRECIPITATION_RAIN:
+        density = _Parameters[PARAMETER_RAIN_DENSITY].Value();
+        break;
 
-		case PRECIPITATION_SNOW:
-			density = _Parameters [PARAMETER_SNOW_DENSITY].Value();
-			break;
+    case PRECIPITATION_SNOW:
+        density = _Parameters[PARAMETER_SNOW_DENSITY].Value();
+        break;
 
-		case PRECIPITATION_ASH:
-			density = _Parameters [PARAMETER_ASH_DENSITY].Value();
-			break;
+    case PRECIPITATION_ASH:
+        density = _Parameters[PARAMETER_ASH_DENSITY].Value();
+        break;
 
-		default:
-			WWASSERT (false);
-			break;
-	}
+    default:
+        WWASSERT(false);
+        break;
+    }
 }
 
-
 /***********************************************************************************************
- * WeatherMgrClass::Restore_Precipitation --																	  *
+ * WeatherMgrClass::Restore_Precipitation --
+ **
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -1922,20 +2006,20 @@ void WeatherMgrClass::Get_Precipitation (PrecipitationEnum precipitation, float 
  * HISTORY:                                                                                    *
  *   03/06/01    IML : Created.                                                                *
  *=============================================================================================*/
-void WeatherMgrClass::Restore_Precipitation (float ramptime)
+void WeatherMgrClass::Restore_Precipitation(float ramptime)
 {
-	if (CombatManager::I_Am_Server()) {
-		_Parameters [PARAMETER_RAIN_DENSITY].Set (ramptime);
-		_Parameters [PARAMETER_SNOW_DENSITY].Set (ramptime);
-		_Parameters [PARAMETER_ASH_DENSITY].Set (ramptime);
-		_PrecipitationOverrideCount--;
-		_TheWeatherMgr.Set_Object_Dirty_Bit (NetworkObjectClass::BIT_RARE, true);
-	}
+    if (CombatManager::I_Am_Server()) {
+        _Parameters[PARAMETER_RAIN_DENSITY].Set(ramptime);
+        _Parameters[PARAMETER_SNOW_DENSITY].Set(ramptime);
+        _Parameters[PARAMETER_ASH_DENSITY].Set(ramptime);
+        _PrecipitationOverrideCount--;
+        _TheWeatherMgr.Set_Object_Dirty_Bit(NetworkObjectClass::BIT_RARE, true);
+    }
 }
 
-
 /***********************************************************************************************
- * WeatherMgrClass::Set_Fog_Range --																			  *
+ * WeatherMgrClass::Set_Fog_Range --
+ **
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -1946,19 +2030,19 @@ void WeatherMgrClass::Restore_Precipitation (float ramptime)
  * HISTORY:                                                                                    *
  *   07/12/01    IML : Created.                                                                *
  *=============================================================================================*/
-bool WeatherMgrClass::Set_Fog_Range (float startdistance, float enddistance, float ramptime)
+bool WeatherMgrClass::Set_Fog_Range(float startdistance, float enddistance, float ramptime)
 {
-	if ((startdistance >= 0.0f) && (enddistance >= startdistance)) {
-		_Parameters [PARAMETER_FOG_START_DISTANCE].Set (startdistance, ramptime, false);
-		_Parameters [PARAMETER_FOG_END_DISTANCE].Set (enddistance, ramptime, false);
-		return (true);
-	}
-	return (false);
+    if ((startdistance >= 0.0f) && (enddistance >= startdistance)) {
+        _Parameters[PARAMETER_FOG_START_DISTANCE].Set(startdistance, ramptime, false);
+        _Parameters[PARAMETER_FOG_END_DISTANCE].Set(enddistance, ramptime, false);
+        return (true);
+    }
+    return (false);
 }
 
-
 /***********************************************************************************************
- * WeatherMgrClass::Get_Fog_Range --																			  *
+ * WeatherMgrClass::Get_Fog_Range --
+ **
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -1969,15 +2053,15 @@ bool WeatherMgrClass::Set_Fog_Range (float startdistance, float enddistance, flo
  * HISTORY:                                                                                    *
  *   07/12/01    IML : Created.                                                                *
  *=============================================================================================*/
-void WeatherMgrClass::Get_Fog_Range (float &startdistance, float &enddistance)
+void WeatherMgrClass::Get_Fog_Range(float& startdistance, float& enddistance)
 {
-	startdistance = _Parameters [PARAMETER_FOG_START_DISTANCE].Value();
-	enddistance	  = _Parameters [PARAMETER_FOG_END_DISTANCE].Value();
+    startdistance = _Parameters[PARAMETER_FOG_START_DISTANCE].Value();
+    enddistance = _Parameters[PARAMETER_FOG_END_DISTANCE].Value();
 }
 
-
 /***********************************************************************************************
- * WeatherMgrClass::Update --																						  *
+ * WeatherMgrClass::Update --
+ **
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -1988,129 +2072,141 @@ void WeatherMgrClass::Get_Fog_Range (float &startdistance, float &enddistance)
  * HISTORY:                                                                                    *
  *   03/06/01    IML : Created.                                                                *
  *=============================================================================================*/
-void WeatherMgrClass::Update (PhysicsSceneClass *scene, CameraClass *camera)
+void WeatherMgrClass::Update(PhysicsSceneClass* scene, CameraClass* camera)
 {
-	float	time;
-	bool	windmodified, fogmodified;
+    float time;
+    bool windmodified, fogmodified;
 
-	time = WW3D::Get_Frame_Time() * 0.001f;
+    time = WW3D::Get_Frame_Time() * 0.001f;
 
-	// Update wind.
-	windmodified  = _Parameters [PARAMETER_WIND_HEADING].Update (time, _WindOverrideCount > 0);
-	windmodified |= _Parameters [PARAMETER_WIND_SPEED].Update (time, _WindOverrideCount > 0);
-	windmodified |= _Parameters [PARAMETER_WIND_VARIABILITY].Update (time, _WindOverrideCount > 0);
-	if (_Wind != NULL) {
-		if (windmodified) {
-			_Wind->Set (_Parameters [PARAMETER_WIND_HEADING].Value(), _Parameters [PARAMETER_WIND_SPEED].Value(), _Parameters [PARAMETER_WIND_VARIABILITY].Value());
-		}
+    // Update wind.
+    windmodified = _Parameters[PARAMETER_WIND_HEADING].Update(time, _WindOverrideCount > 0);
+    windmodified |= _Parameters[PARAMETER_WIND_SPEED].Update(time, _WindOverrideCount > 0);
+    windmodified |= _Parameters[PARAMETER_WIND_VARIABILITY].Update(time, _WindOverrideCount > 0);
+    if (_Wind != NULL) {
+        if (windmodified) {
+            _Wind->Set(_Parameters[PARAMETER_WIND_HEADING].Value(),
+                       _Parameters[PARAMETER_WIND_SPEED].Value(),
+                       _Parameters[PARAMETER_WIND_VARIABILITY].Value());
+        }
 
-		// Optimization: if there is nothing to update, can safely remove the wind.
-		if (!_Wind->Update()) {
-			delete _Wind;
-			_Wind = NULL;
-		}
+        // Optimization: if there is nothing to update, can safely remove the wind.
+        if (!_Wind->Update()) {
+            delete _Wind;
+            _Wind = NULL;
+        }
+    }
+    else {
 
-	} else {
+        // Optimization: only create wind if speed is non-zero.
+        if (_Parameters[PARAMETER_WIND_SPEED].Value() > 0.0f) {
+            _Wind
+                = new WindClass(_Parameters[PARAMETER_WIND_HEADING].Value(),
+                                _Parameters[PARAMETER_WIND_SPEED].Value(),
+                                _Parameters[PARAMETER_WIND_VARIABILITY].Value(), _SoundEnvironment);
+        }
+    }
 
-	  	// Optimization: only create wind if speed is non-zero.
-		if (_Parameters [PARAMETER_WIND_SPEED].Value() > 0.0f) {
-			_Wind = new WindClass (_Parameters [PARAMETER_WIND_HEADING].Value(), _Parameters [PARAMETER_WIND_SPEED].Value(), _Parameters [PARAMETER_WIND_VARIABILITY].Value(), _SoundEnvironment);
-		}
-	}
+    for (int p = PRECIPITATION_FIRST; p < PRECIPITATION_COUNT; p++) {
 
-	for (int p = PRECIPITATION_FIRST; p < PRECIPITATION_COUNT; p++) {
+        WeatherParameterClass* parameterptr = NULL;
+        bool modified;
 
-		WeatherParameterClass *parameterptr = NULL;
-		bool						  modified;
+        switch (p) {
 
-		switch (p) {
+        case PRECIPITATION_RAIN:
+            parameterptr = &_Parameters[PARAMETER_RAIN_DENSITY];
+            break;
 
-		  	case PRECIPITATION_RAIN:
-				parameterptr = &_Parameters [PARAMETER_RAIN_DENSITY];
-				break;
+        case PRECIPITATION_SNOW:
+            parameterptr = &_Parameters[PARAMETER_SNOW_DENSITY];
+            break;
 
-		  	case PRECIPITATION_SNOW:
-				parameterptr = &_Parameters [PARAMETER_SNOW_DENSITY];
-				break;
+        case PRECIPITATION_ASH:
+            parameterptr = &_Parameters[PARAMETER_ASH_DENSITY];
+            break;
 
-		  	case PRECIPITATION_ASH:
-				parameterptr = &_Parameters [PARAMETER_ASH_DENSITY];
-				break;
+        default:
+            WWASSERT(false);
+            break;
+        }
 
-			default:
-				WWASSERT (false);
-				break;
-		}
+        modified = parameterptr->Update(time, _PrecipitationOverrideCount > 0);
+        if (_Precipitation[p] != NULL) {
+            if (modified) {
+                _Precipitation[p]->Set_Density(parameterptr->Value());
+            }
 
-		modified = parameterptr->Update (time, _PrecipitationOverrideCount > 0);
-	  	if (_Precipitation [p] != NULL) {
-	  		if (modified) {
-	  			_Precipitation [p]->Set_Density (parameterptr->Value());
-	  		}
+            // Optimization: if there is nothing to update, can safely remove the weather system.
+            if (!_Precipitation[p]->Update(_Wind, camera->Get_Position())) {
+                _Precipitation[p]->Remove();
+                REF_PTR_RELEASE(_Precipitation[p]);
+            }
+        }
+        else {
 
-	  		// Optimization: if there is nothing to update, can safely remove the weather system.
-	  		if (!_Precipitation [p]->Update (_Wind, camera->Get_Position())) {
-				_Precipitation [p]->Remove();
-	  			REF_PTR_RELEASE (_Precipitation [p]);
-	  		}
+            // Optimization: only create weather if density is non-zero.
+            if (parameterptr->Value() > 0.0f) {
 
-	  	} else {
+                // Don't bother on dedicated servers.
+                if (!CombatManager::I_Am_Only_Server()) {
 
-			// Optimization: only create weather if density is non-zero.
-	  	  	if (parameterptr->Value() > 0.0f) {
+                    switch (p) {
 
-				// Don't bother on dedicated servers.
-				if (!CombatManager::I_Am_Only_Server()) {
+                    case PRECIPITATION_RAIN:
+                        _Precipitation[p] = NEW_REF(
+                            RainSystemClass,
+                            (scene, parameterptr->Value(), _Wind, _SoundEnvironment, _Prime));
+                        break;
 
-					switch (p) {
+                    case PRECIPITATION_SNOW:
+                        _Precipitation[p] = NEW_REF(SnowSystemClass,
+                                                    (scene, parameterptr->Value(), _Wind, _Prime));
+                        break;
 
-	  					case PRECIPITATION_RAIN:
-	  						_Precipitation [p] = NEW_REF (RainSystemClass, (scene, parameterptr->Value(), _Wind, _SoundEnvironment, _Prime));
-	  						break;
+                    case PRECIPITATION_ASH:
+                        _Precipitation[p] = NEW_REF(AshSystemClass,
+                                                    (scene, parameterptr->Value(), _Wind, _Prime));
+                        break;
 
-	  					case PRECIPITATION_SNOW:
-	  						_Precipitation [p] = NEW_REF (SnowSystemClass, (scene, parameterptr->Value(), _Wind, _Prime));
-	  						break;
+                    default:
+                        WWASSERT(false);
+                        break;
+                    }
+                    scene->Add_Render_Object(_Precipitation[p]);
+                }
+            }
+        }
+    }
 
-	  					case PRECIPITATION_ASH:
-	  						_Precipitation [p] = NEW_REF (AshSystemClass, (scene, parameterptr->Value(), _Wind, _Prime));
-	  						break;
+    fogmodified = _Parameters[PARAMETER_FOG_START_DISTANCE].Update(time, false);
+    fogmodified |= _Parameters[PARAMETER_FOG_END_DISTANCE].Update(time, false);
+    if (Is_Dirty() || fogmodified) {
+        scene->Set_Fog_Enable(_FogEnabled);
+        scene->Set_Fog_Range(_Parameters[PARAMETER_FOG_START_DISTANCE].Value(),
+                             _Parameters[PARAMETER_FOG_END_DISTANCE].Value());
+    }
 
-						default:
-							WWASSERT (false);
-							break;
-					}
-					scene->Add_Render_Object (_Precipitation [p]);
-				}
-			}
-		}
-	}
+    if (CombatManager::I_Am_Server()) {
 
-	fogmodified  = _Parameters [PARAMETER_FOG_START_DISTANCE].Update (time, false);
-	fogmodified |= _Parameters [PARAMETER_FOG_END_DISTANCE].Update (time, false);
-	if (Is_Dirty() || fogmodified) {
-		scene->Set_Fog_Enable (_FogEnabled);
-		scene->Set_Fog_Range (_Parameters [PARAMETER_FOG_START_DISTANCE].Value(), _Parameters [PARAMETER_FOG_END_DISTANCE].Value());
-	}
+        // Server precipitation can only be primed on the first update iteration of a level.
+        _Prime = false;
+    }
+    else {
 
-	if (CombatManager::I_Am_Server()) {
+        // Clients can be primed right up until the first import from the server.
+        if (_Imported) {
+            _Prime = false;
+        }
+    }
 
-		// Server precipitation can only be primed on the first update iteration of a level.
-		_Prime = false;
-
-	} else {
-
-		// Clients can be primed right up until the first import from the server.
-		if (_Imported) _Prime = false;
-	}
-
-	// Everything necessary has been updated. Clear the dirty flag.
-	Set_Dirty (false);
+    // Everything necessary has been updated. Clear the dirty flag.
+    Set_Dirty(false);
 }
 
-
 /***********************************************************************************************
- * WeatherMgrClass::Save --																						  *
+ * WeatherMgrClass::Save --
+ **
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -2121,26 +2217,32 @@ void WeatherMgrClass::Update (PhysicsSceneClass *scene, CameraClass *camera)
  * HISTORY:                                                                                    *
  *   03/02/01    IML : Created.                                                                *
  *=============================================================================================*/
- #define WRITE_PARAMETER(varname) \
-WRITE_MICRO_CHUNK (csave, VARID_ ## varname ## _CURRENT_VALUE, _Parameters [PARAMETER_ ## varname ##].CurrentValue); \
-WRITE_MICRO_CHUNK (csave, VARID_ ## varname ## _NORMAL_VALUE, _Parameters [PARAMETER_ ## varname ##].NormalValue);	\
-WRITE_MICRO_CHUNK (csave, VARID_ ## varname ## _NORMAL_TARGET, _Parameters [PARAMETER_ ## varname ##].NormalTarget);	\
-WRITE_MICRO_CHUNK (csave, VARID_ ## varname ## _NORMAL_DURATION, _Parameters [PARAMETER_ ## varname ##].NormalDuration);	\
-WRITE_MICRO_CHUNK (csave, VARID_ ## varname ## _OVERRIDE_TARGET, _Parameters [PARAMETER_ ## varname ##].OverrideTarget);	\
-WRITE_MICRO_CHUNK (csave, VARID_ ## varname ## _OVERRIDE_DURATION, _Parameters [PARAMETER_ ## varname ##].OverrideDuration)
+#define WRITE_PARAMETER(varname)                                                                   \
+    WRITE_MICRO_CHUNK(csave, VARID_##varname##_CURRENT_VALUE,                                      \
+                      _Parameters[PARAMETER_##varname##].CurrentValue);                            \
+    WRITE_MICRO_CHUNK(csave, VARID_##varname##_NORMAL_VALUE,                                       \
+                      _Parameters[PARAMETER_##varname##].NormalValue);                             \
+    WRITE_MICRO_CHUNK(csave, VARID_##varname##_NORMAL_TARGET,                                      \
+                      _Parameters[PARAMETER_##varname##].NormalTarget);                            \
+    WRITE_MICRO_CHUNK(csave, VARID_##varname##_NORMAL_DURATION,                                    \
+                      _Parameters[PARAMETER_##varname##].NormalDuration);                          \
+    WRITE_MICRO_CHUNK(csave, VARID_##varname##_OVERRIDE_TARGET,                                    \
+                      _Parameters[PARAMETER_##varname##].OverrideTarget);                          \
+    WRITE_MICRO_CHUNK(csave, VARID_##varname##_OVERRIDE_DURATION,                                  \
+                      _Parameters[PARAMETER_##varname##].OverrideDuration)
 
-bool WeatherMgrClass::Save (ChunkSaveClass &csave)
+bool WeatherMgrClass::Save(ChunkSaveClass& csave)
 {
-	csave.Begin_Chunk (CHUNKID_MICRO_CHUNKS);
-	csave.End_Chunk ();
+    csave.Begin_Chunk(CHUNKID_MICRO_CHUNKS);
+    csave.End_Chunk();
 
-	Save_Dynamic (csave);
-	return (true);
+    Save_Dynamic(csave);
+    return (true);
 }
 
-
 /***********************************************************************************************
- * WeatherMgrClass::Save_Dynamic --																						  *
+ * WeatherMgrClass::Save_Dynamic --
+ **
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -2151,27 +2253,27 @@ bool WeatherMgrClass::Save (ChunkSaveClass &csave)
  * HISTORY:                                                                                    *
  *   03/02/01    IML : Created.                                                                *
  *=============================================================================================*/
-bool WeatherMgrClass::Save_Dynamic (ChunkSaveClass &csave)
+bool WeatherMgrClass::Save_Dynamic(ChunkSaveClass& csave)
 {
-	csave.Begin_Chunk (CHUNKID_DYNAMIC_MICRO_CHUNKS);
-	WRITE_PARAMETER (WIND_HEADING);
-	WRITE_PARAMETER (WIND_SPEED);
-	WRITE_PARAMETER (WIND_VARIABILITY);
-	WRITE_PARAMETER (RAIN_DENSITY);
-	WRITE_PARAMETER (SNOW_DENSITY);
-	WRITE_PARAMETER (ASH_DENSITY);
-	WRITE_MICRO_CHUNK (csave, VARID_WIND_OVERRIDE_COUNT, _WindOverrideCount);
-	WRITE_MICRO_CHUNK (csave, VARID_PRECIPITATION_OVERRIDE_COUNT, _PrecipitationOverrideCount);
-	WRITE_MICRO_CHUNK (csave, VARID_FOG_ENABLED, _FogEnabled);
-	WRITE_PARAMETER (FOG_START_DISTANCE);
-	WRITE_PARAMETER (FOG_END_DISTANCE);
-	csave.End_Chunk ();
-	return (true);
+    csave.Begin_Chunk(CHUNKID_DYNAMIC_MICRO_CHUNKS);
+    WRITE_PARAMETER(WIND_HEADING);
+    WRITE_PARAMETER(WIND_SPEED);
+    WRITE_PARAMETER(WIND_VARIABILITY);
+    WRITE_PARAMETER(RAIN_DENSITY);
+    WRITE_PARAMETER(SNOW_DENSITY);
+    WRITE_PARAMETER(ASH_DENSITY);
+    WRITE_MICRO_CHUNK(csave, VARID_WIND_OVERRIDE_COUNT, _WindOverrideCount);
+    WRITE_MICRO_CHUNK(csave, VARID_PRECIPITATION_OVERRIDE_COUNT, _PrecipitationOverrideCount);
+    WRITE_MICRO_CHUNK(csave, VARID_FOG_ENABLED, _FogEnabled);
+    WRITE_PARAMETER(FOG_START_DISTANCE);
+    WRITE_PARAMETER(FOG_END_DISTANCE);
+    csave.End_Chunk();
+    return (true);
 }
 
-
 /***********************************************************************************************
- * WeatherMgrClass::Load --																						  *
+ * WeatherMgrClass::Load --
+ **
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -2182,31 +2284,31 @@ bool WeatherMgrClass::Save_Dynamic (ChunkSaveClass &csave)
  * HISTORY:                                                                                    *
  *   03/02/01    IML : Created.                                                                *
  *=============================================================================================*/
-bool WeatherMgrClass::Load (ChunkLoadClass &cload)
+bool WeatherMgrClass::Load(ChunkLoadClass& cload)
 {
-	WWMEMLOG (MEM_GAMEDATA);
+    WWMEMLOG(MEM_GAMEDATA);
 
-	bool retval = true;
+    bool retval = true;
 
-	while (cload.Open_Chunk ()) {
-		switch (cload.Cur_Chunk_ID ()) {
+    while (cload.Open_Chunk()) {
+        switch (cload.Cur_Chunk_ID()) {
 
-			case CHUNKID_MICRO_CHUNKS:
-				retval &= Load_Micro_Chunks (cload);
-				break;
+        case CHUNKID_MICRO_CHUNKS:
+            retval &= Load_Micro_Chunks(cload);
+            break;
 
-			case CHUNKID_DYNAMIC_MICRO_CHUNKS:
-				retval &= Load_Dynamic_Micro_Chunks (cload);
-				break;
-		}
-		cload.Close_Chunk ();
-	}
-	return (retval);
+        case CHUNKID_DYNAMIC_MICRO_CHUNKS:
+            retval &= Load_Dynamic_Micro_Chunks(cload);
+            break;
+        }
+        cload.Close_Chunk();
+    }
+    return (retval);
 }
 
-
 /***********************************************************************************************
- * WeatherMgrClass::Load_Micro_Chunks --																		  *
+ * WeatherMgrClass::Load_Micro_Chunks --
+ **
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -2217,27 +2319,33 @@ bool WeatherMgrClass::Load (ChunkLoadClass &cload)
  * HISTORY:                                                                                    *
  *   03/02/01    IML : Created.                                                                *
  *=============================================================================================*/
-#define READ_PARAMETER(varname) \
-READ_MICRO_CHUNK (cload, VARID_ ## varname ## _CURRENT_VALUE, _Parameters [PARAMETER_ ## varname ##].CurrentValue); \
-READ_MICRO_CHUNK (cload, VARID_ ## varname ## _NORMAL_VALUE, _Parameters [PARAMETER_ ## varname ##].NormalValue);	\
-READ_MICRO_CHUNK (cload, VARID_ ## varname ## _NORMAL_TARGET, _Parameters [PARAMETER_ ## varname ##].NormalTarget);	\
-READ_MICRO_CHUNK (cload, VARID_ ## varname ## _NORMAL_DURATION, _Parameters [PARAMETER_ ## varname ##].NormalDuration);	\
-READ_MICRO_CHUNK (cload, VARID_ ## varname ## _OVERRIDE_TARGET, _Parameters [PARAMETER_ ## varname ##].OverrideTarget);	\
-READ_MICRO_CHUNK (cload, VARID_ ## varname ## _OVERRIDE_DURATION, _Parameters [PARAMETER_ ## varname ##].OverrideDuration)
+#define READ_PARAMETER(varname)                                                                    \
+    READ_MICRO_CHUNK(cload, VARID_##varname##_CURRENT_VALUE,                                       \
+                     _Parameters[PARAMETER_##varname##].CurrentValue);                             \
+    READ_MICRO_CHUNK(cload, VARID_##varname##_NORMAL_VALUE,                                        \
+                     _Parameters[PARAMETER_##varname##].NormalValue);                              \
+    READ_MICRO_CHUNK(cload, VARID_##varname##_NORMAL_TARGET,                                       \
+                     _Parameters[PARAMETER_##varname##].NormalTarget);                             \
+    READ_MICRO_CHUNK(cload, VARID_##varname##_NORMAL_DURATION,                                     \
+                     _Parameters[PARAMETER_##varname##].NormalDuration);                           \
+    READ_MICRO_CHUNK(cload, VARID_##varname##_OVERRIDE_TARGET,                                     \
+                     _Parameters[PARAMETER_##varname##].OverrideTarget);                           \
+    READ_MICRO_CHUNK(cload, VARID_##varname##_OVERRIDE_DURATION,                                   \
+                     _Parameters[PARAMETER_##varname##].OverrideDuration)
 
-bool WeatherMgrClass::Load_Micro_Chunks (ChunkLoadClass &cload)
+bool WeatherMgrClass::Load_Micro_Chunks(ChunkLoadClass& cload)
 {
-	// Read weather micro chunk.
-	while (cload.Open_Micro_Chunk ()) {
-		cload.Close_Micro_Chunk ();
-	}
+    // Read weather micro chunk.
+    while (cload.Open_Micro_Chunk()) {
+        cload.Close_Micro_Chunk();
+    }
 
-	return (true);
+    return (true);
 }
 
-
 /***********************************************************************************************
- * WeatherMgrClass::Load_Dynamic --																						  *
+ * WeatherMgrClass::Load_Dynamic --
+ **
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -2248,27 +2356,27 @@ bool WeatherMgrClass::Load_Micro_Chunks (ChunkLoadClass &cload)
  * HISTORY:                                                                                    *
  *   03/02/01    IML : Created.                                                                *
  *=============================================================================================*/
-bool WeatherMgrClass::Load_Dynamic (ChunkLoadClass &cload)
+bool WeatherMgrClass::Load_Dynamic(ChunkLoadClass& cload)
 {
-	WWMEMLOG (MEM_GAMEDATA);
+    WWMEMLOG(MEM_GAMEDATA);
 
-	bool retval = true;
+    bool retval = true;
 
-	while (cload.Open_Chunk ()) {
-		switch (cload.Cur_Chunk_ID ()) {
+    while (cload.Open_Chunk()) {
+        switch (cload.Cur_Chunk_ID()) {
 
-			case CHUNKID_DYNAMIC_MICRO_CHUNKS:
-				retval &= Load_Dynamic_Micro_Chunks (cload);
-				break;
-		}
-		cload.Close_Chunk ();
-	}
-	return (retval);
+        case CHUNKID_DYNAMIC_MICRO_CHUNKS:
+            retval &= Load_Dynamic_Micro_Chunks(cload);
+            break;
+        }
+        cload.Close_Chunk();
+    }
+    return (retval);
 }
 
-
 /***********************************************************************************************
- * WeatherMgrClass::Load_Dynamic_Micro_Chunks --																		  *
+ * WeatherMgrClass::Load_Dynamic_Micro_Chunks --
+ **
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -2279,32 +2387,33 @@ bool WeatherMgrClass::Load_Dynamic (ChunkLoadClass &cload)
  * HISTORY:                                                                                    *
  *   03/02/01    IML : Created.                                                                *
  *=============================================================================================*/
-bool WeatherMgrClass::Load_Dynamic_Micro_Chunks (ChunkLoadClass &cload)
+bool WeatherMgrClass::Load_Dynamic_Micro_Chunks(ChunkLoadClass& cload)
 {
-	// Read weather micro chunk.
-	while (cload.Open_Micro_Chunk ()) {
-		switch (cload.Cur_Micro_Chunk_ID ()) {
-			READ_PARAMETER (WIND_HEADING);
-			READ_PARAMETER (WIND_SPEED);
-			READ_PARAMETER (WIND_VARIABILITY);
-			READ_PARAMETER (RAIN_DENSITY);
-			READ_PARAMETER (SNOW_DENSITY);
-			READ_PARAMETER (ASH_DENSITY);
-			READ_MICRO_CHUNK (cload, VARID_WIND_OVERRIDE_COUNT, _WindOverrideCount);
-			READ_MICRO_CHUNK (cload, VARID_PRECIPITATION_OVERRIDE_COUNT, _PrecipitationOverrideCount);
-			READ_MICRO_CHUNK (cload, VARID_FOG_ENABLED, _FogEnabled);
-			READ_PARAMETER (FOG_START_DISTANCE);
-			READ_PARAMETER (FOG_END_DISTANCE);
-		}
-		cload.Close_Micro_Chunk ();
-	}
+    // Read weather micro chunk.
+    while (cload.Open_Micro_Chunk()) {
+        switch (cload.Cur_Micro_Chunk_ID()) {
+            READ_PARAMETER(WIND_HEADING);
+            READ_PARAMETER(WIND_SPEED);
+            READ_PARAMETER(WIND_VARIABILITY);
+            READ_PARAMETER(RAIN_DENSITY);
+            READ_PARAMETER(SNOW_DENSITY);
+            READ_PARAMETER(ASH_DENSITY);
+            READ_MICRO_CHUNK(cload, VARID_WIND_OVERRIDE_COUNT, _WindOverrideCount);
+            READ_MICRO_CHUNK(cload, VARID_PRECIPITATION_OVERRIDE_COUNT,
+                             _PrecipitationOverrideCount);
+            READ_MICRO_CHUNK(cload, VARID_FOG_ENABLED, _FogEnabled);
+            READ_PARAMETER(FOG_START_DISTANCE);
+            READ_PARAMETER(FOG_END_DISTANCE);
+        }
+        cload.Close_Micro_Chunk();
+    }
 
-	return (true);
+    return (true);
 }
 
-
 /***********************************************************************************************
- * WeatherMgrClass::Export_Rare --																				  *
+ * WeatherMgrClass::Export_Rare --
+ **
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -2315,29 +2424,29 @@ bool WeatherMgrClass::Load_Dynamic_Micro_Chunks (ChunkLoadClass &cload)
  * HISTORY:                                                                                    *
  *   03/02/01    IML : Created.                                                                *
  *=============================================================================================*/
-#define EXPORT_PARAMETER(object, varname) \
-object.Add (_Parameters [PARAMETER_ ## varname ##].NormalTarget); \
-object.Add (_Parameters [PARAMETER_ ## varname ##].NormalDuration); \
-object.Add (_Parameters [PARAMETER_ ## varname ##].OverrideTarget); \
-object.Add (_Parameters [PARAMETER_ ## varname ##].OverrideDuration)
+#define EXPORT_PARAMETER(object, varname)                                                          \
+    object.Add(_Parameters[PARAMETER_##varname##].NormalTarget);                                   \
+    object.Add(_Parameters[PARAMETER_##varname##].NormalDuration);                                 \
+    object.Add(_Parameters[PARAMETER_##varname##].OverrideTarget);                                 \
+    object.Add(_Parameters[PARAMETER_##varname##].OverrideDuration)
 
-void WeatherMgrClass::Export_Rare (BitStreamClass &packet)
+void WeatherMgrClass::Export_Rare(BitStreamClass& packet)
 {
-	WWASSERT (CombatManager::I_Am_Server());
+    WWASSERT(CombatManager::I_Am_Server());
 
-	EXPORT_PARAMETER (packet, WIND_HEADING);
-	EXPORT_PARAMETER (packet, WIND_SPEED);
-	EXPORT_PARAMETER (packet, WIND_VARIABILITY);
-	EXPORT_PARAMETER (packet, RAIN_DENSITY);
-	EXPORT_PARAMETER (packet, SNOW_DENSITY);
-	EXPORT_PARAMETER (packet, ASH_DENSITY);
-	packet.Add (_WindOverrideCount);
-	packet.Add (_PrecipitationOverrideCount);
+    EXPORT_PARAMETER(packet, WIND_HEADING);
+    EXPORT_PARAMETER(packet, WIND_SPEED);
+    EXPORT_PARAMETER(packet, WIND_VARIABILITY);
+    EXPORT_PARAMETER(packet, RAIN_DENSITY);
+    EXPORT_PARAMETER(packet, SNOW_DENSITY);
+    EXPORT_PARAMETER(packet, ASH_DENSITY);
+    packet.Add(_WindOverrideCount);
+    packet.Add(_PrecipitationOverrideCount);
 }
 
-
 /***********************************************************************************************
- * WeatherMgrClass::Import_Rare --																				  *
+ * WeatherMgrClass::Import_Rare --
+ **
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -2348,29 +2457,28 @@ void WeatherMgrClass::Export_Rare (BitStreamClass &packet)
  * HISTORY:                                                                                    *
  *   03/02/01    IML : Created.                                                                *
  *=============================================================================================*/
-#define IMPORT_PARAMETER(object, varname) \
-object.Get (_Parameters [PARAMETER_ ## varname ##].NormalTarget); \
-object.Get (_Parameters [PARAMETER_ ## varname ##].NormalDuration); \
-object.Get (_Parameters [PARAMETER_ ## varname ##].OverrideTarget); \
-object.Get (_Parameters [PARAMETER_ ## varname ##].OverrideDuration)
+#define IMPORT_PARAMETER(object, varname)                                                          \
+    object.Get(_Parameters[PARAMETER_##varname##].NormalTarget);                                   \
+    object.Get(_Parameters[PARAMETER_##varname##].NormalDuration);                                 \
+    object.Get(_Parameters[PARAMETER_##varname##].OverrideTarget);                                 \
+    object.Get(_Parameters[PARAMETER_##varname##].OverrideDuration)
 
-void WeatherMgrClass::Import_Rare (BitStreamClass &packet)
+void WeatherMgrClass::Import_Rare(BitStreamClass& packet)
 {
-	WWASSERT (CombatManager::I_Am_Client());
+    WWASSERT(CombatManager::I_Am_Client());
 
-	IMPORT_PARAMETER (packet, WIND_HEADING);
-	IMPORT_PARAMETER (packet, WIND_SPEED);
-	IMPORT_PARAMETER (packet, WIND_VARIABILITY);
-	IMPORT_PARAMETER (packet, RAIN_DENSITY);
-	IMPORT_PARAMETER (packet, SNOW_DENSITY);
-	IMPORT_PARAMETER (packet, ASH_DENSITY);
-	packet.Get (_WindOverrideCount);
-	packet.Get (_PrecipitationOverrideCount);
+    IMPORT_PARAMETER(packet, WIND_HEADING);
+    IMPORT_PARAMETER(packet, WIND_SPEED);
+    IMPORT_PARAMETER(packet, WIND_VARIABILITY);
+    IMPORT_PARAMETER(packet, RAIN_DENSITY);
+    IMPORT_PARAMETER(packet, SNOW_DENSITY);
+    IMPORT_PARAMETER(packet, ASH_DENSITY);
+    packet.Get(_WindOverrideCount);
+    packet.Get(_PrecipitationOverrideCount);
 
-	// Flag that weather data has been imported.
-	_Imported = true;
+    // Flag that weather data has been imported.
+    _Imported = true;
 }
-
 
 #undef EXPORT_PARAMETER
 #undef IMPORT_PARAMETER

@@ -32,67 +32,70 @@
 class Curve3DClass;
 class Vector3;
 
-
 class CSplineTestDoc : public CDocument
 {
 protected: // create from serialization only
-	CSplineTestDoc();
-	DECLARE_DYNCREATE(CSplineTestDoc)
+    CSplineTestDoc();
+    DECLARE_DYNCREATE(CSplineTestDoc)
 
-// Attributes
+    // Attributes
 public:
-	
-// Operations
+    // Operations
 public:
+    // Overrides
+    // ClassWizard generated virtual function overrides
+    //{{AFX_VIRTUAL(CSplineTestDoc)
+public:
+    virtual BOOL OnNewDocument();
+    virtual void Serialize(CArchive& ar);
+    //}}AFX_VIRTUAL
 
-// Overrides
-	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CSplineTestDoc)
-	public:
-	virtual BOOL OnNewDocument();
-	virtual void Serialize(CArchive& ar);
-	//}}AFX_VIRTUAL
-
-// Implementation
+    // Implementation
 public:
-	virtual ~CSplineTestDoc();
+    virtual ~CSplineTestDoc();
 #ifdef _DEBUG
-	virtual void AssertValid() const;
-	virtual void Dump(CDumpContext& dc) const;
+    virtual void AssertValid() const;
+    virtual void Dump(CDumpContext& dc) const;
 #endif
 
-	enum { LINEAR=0,CATMULL_ROM,CARDINAL,TCB,VEHICLE };
+    enum
+    {
+        LINEAR = 0,
+        CATMULL_ROM,
+        CARDINAL,
+        TCB,
+        VEHICLE
+    };
 
-	void									Reset_Curve(void);
-	void									Set_Curve_Type(int type);
-	int									Get_Curve_Type(void);
-	Curve3DClass *						Get_Curve(void);
-	
-	bool									Grab_Point(const Vector3 & pos);
-	bool									Drag_Point(const Vector3 & pos);
-	bool									Release_Point(void);
-	bool									Is_Dragging(void);
-	bool									Add_Point(const Vector3 & pos);
-	void									Edit_Point(const Vector3 & pos);
+    void Reset_Curve(void);
+    void Set_Curve_Type(int type);
+    int Get_Curve_Type(void);
+    Curve3DClass* Get_Curve(void);
 
-	void									Simulate_Turn_Radius (void);
+    bool Grab_Point(const Vector3& pos);
+    bool Drag_Point(const Vector3& pos);
+    bool Release_Point(void);
+    bool Is_Dragging(void);
+    bool Add_Point(const Vector3& pos);
+    void Edit_Point(const Vector3& pos);
+
+    void Simulate_Turn_Radius(void);
 
 protected:
+    int Pick(const Vector3& pos);
+    Curve3DClass* Create_Curve(int type);
 
-	int									Pick(const Vector3 & pos);
-	Curve3DClass *						Create_Curve(int type);
+    int CurveType;
+    Curve3DClass* Curve;
+    int DragIndex;
 
-	int									CurveType;
-	Curve3DClass *						Curve;
-	int									DragIndex;
-
-// Generated message map functions
+    // Generated message map functions
 protected:
-	//{{AFX_MSG(CSplineTestDoc)
-		// NOTE - the ClassWizard will add and remove member functions here.
-		//    DO NOT EDIT what you see in these blocks of generated code !
-	//}}AFX_MSG
-	DECLARE_MESSAGE_MAP()
+    //{{AFX_MSG(CSplineTestDoc)
+    // NOTE - the ClassWizard will add and remove member functions here.
+    //    DO NOT EDIT what you see in these blocks of generated code !
+    //}}AFX_MSG
+    DECLARE_MESSAGE_MAP()
 };
 
 /////////////////////////////////////////////////////////////////////////////

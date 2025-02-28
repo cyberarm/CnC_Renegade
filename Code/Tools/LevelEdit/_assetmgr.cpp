@@ -20,7 +20,8 @@
  ***              C O N F I D E N T I A L  ---  W E S T W O O D  S T U D I O S               ***
  ***********************************************************************************************
  *                                                                                             *
- *                 Project Name : LevelEdit																	  *
+ *                 Project Name : LevelEdit
+ **
  *                                                                                             *
  *                     $Archive:: /Commando/Code/Tools/LevelEdit/_assetmgr.cpp                $*
  *                                                                                             *
@@ -34,10 +35,8 @@
  * Functions:                                                                                  *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
-
-
+#include "EditorAssetMgr.H"
 #include "StdAfx.h"
 #include "_AssetMgr.H"
-#include "EditorAssetMgr.H"
 
-EditorAssetMgrClass *_pThe3DAssetManager;
+EditorAssetMgrClass* _pThe3DAssetManager;

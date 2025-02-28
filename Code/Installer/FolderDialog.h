@@ -16,22 +16,22 @@
 **	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-/*********************************************************************************************** 
- ***                            Confidential - Westwood Studios                              *** 
- *********************************************************************************************** 
- *                                                                                             * 
- *                 Project Name : Installer                                                    * 
- *                                                                                             * 
- *                     $Archive:: /Commando/Code/Installer/FolderDialog.h $* 
- *                                                                                             * 
- *                      $Author:: Ian_l                   $* 
- *                                                                                             * 
- *                     $Modtime:: 11/24/01 8:52p                $* 
- *                                                                                             * 
- *                    $Revision:: 5                     $* 
- *                                                                                             * 
- *---------------------------------------------------------------------------------------------* 
- * Functions:                                                                                  * 
+/***********************************************************************************************
+ ***                            Confidential - Westwood Studios                              ***
+ ***********************************************************************************************
+ *                                                                                             *
+ *                 Project Name : Installer                                                    *
+ *                                                                                             *
+ *                     $Archive:: /Commando/Code/Installer/FolderDialog.h $*
+ *                                                                                             *
+ *                      $Author:: Ian_l                   $*
+ *                                                                                             *
+ *                     $Modtime:: 11/24/01 8:52p                $*
+ *                                                                                             *
+ *                    $Revision:: 5                     $*
+ *                                                                                             *
+ *---------------------------------------------------------------------------------------------*
+ * Functions:                                                                                  *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 #ifndef _FOLDER_DIALOG_H
 #define _FOLDER_DIALOG_H
@@ -39,54 +39,58 @@
 // Includes.
 #include "InstallMenuDialog.h"
 
-
 // Dialog to select the folder to which icons will be added. GameFolderClass specifies the
 // folder for game icons, WOLFolderClass specifies the directory for online icons.
 
 // Classes.
 class FolderDialogClass : public InstallMenuDialogClass
 {
-	public:
-		FolderDialogClass() : InstallMenuDialogClass (IDD_DIALOG_FOLDER) {}
-		
-		// RTTI.
-		void *As_FolderDialogClass()		{return (this);}
+public:
+    FolderDialogClass()
+        : InstallMenuDialogClass(IDD_DIALOG_FOLDER)
+    {
+    }
 
-		void			 On_ListCtrl_Sel_Change (ListCtrlClass *list_ctrl, int ctrl_id, int old_index, int new_index);
-		void			 On_Command (int ctrl_id, int message_id, DWORD param);
-		const WCHAR *Get_Folder (WideStringClass &folder);
+    // RTTI.
+    void* As_FolderDialogClass() { return (this); }
 
-	protected:
-		void On_Init_Dialog (void);
+    void On_ListCtrl_Sel_Change(ListCtrlClass* list_ctrl, int ctrl_id, int old_index,
+                                int new_index);
+    void On_Command(int ctrl_id, int message_id, DWORD param);
+    const WCHAR* Get_Folder(WideStringClass& folder);
+
+protected:
+    void On_Init_Dialog(void);
 };
-
 
 class GameFolderDialogClass : public FolderDialogClass
 {
-	public:
-		
-		// RTTI.
-		virtual void *As_GameFolderDialogClass()		{return (this);}
+public:
+    // RTTI.
+    virtual void* As_GameFolderDialogClass() { return (this); }
 
-		void On_Command (int ctrl_id, int message_id, DWORD param) {FolderDialogClass::On_Command (ctrl_id, message_id, param);}
+    void On_Command(int ctrl_id, int message_id, DWORD param)
+    {
+        FolderDialogClass::On_Command(ctrl_id, message_id, param);
+    }
 
-	protected:
-		void On_Init_Dialog (void);
+protected:
+    void On_Init_Dialog(void);
 };
-
 
 class WOLFolderDialogClass : public FolderDialogClass
 {
-	public:
-		
-		// RTTI.
-		virtual void *As_WOLFolderDialogClass()		{return (this);}
+public:
+    // RTTI.
+    virtual void* As_WOLFolderDialogClass() { return (this); }
 
-		void On_Command (int ctrl_id, int message_id, DWORD param) {FolderDialogClass::On_Command (ctrl_id, message_id, param);}
+    void On_Command(int ctrl_id, int message_id, DWORD param)
+    {
+        FolderDialogClass::On_Command(ctrl_id, message_id, param);
+    }
 
-	protected:
-		void On_Init_Dialog (void);
+protected:
+    void On_Init_Dialog(void);
 };
-
 
 #endif // _FOLDER_DIALOG_H

@@ -27,45 +27,45 @@
 
 class TCBSpline3DClass;
 
-
 /////////////////////////////////////////////////////////////////////////////
 // CTCBDialog dialog
 
 class CTCBDialog : public CDialog
 {
-// Construction
+    // Construction
 public:
-	CTCBDialog(CWnd* pParent,TCBSpline3DClass * curve,int key);
+    CTCBDialog(CWnd* pParent, TCBSpline3DClass* curve, int key);
 
-// Dialog Data
-	//{{AFX_DATA(CTCBDialog)
-	enum { IDD = IDD_TCB_DIALOG };
-		// NOTE: the ClassWizard will add data members here
-	//}}AFX_DATA
+    // Dialog Data
+    //{{AFX_DATA(CTCBDialog)
+    enum
+    {
+        IDD = IDD_TCB_DIALOG
+    };
+    // NOTE: the ClassWizard will add data members here
+    //}}AFX_DATA
 
-
-// Overrides
-	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CTCBDialog)
-	protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
-	//}}AFX_VIRTUAL
-
-// Implementation
+    // Overrides
+    // ClassWizard generated virtual function overrides
+    //{{AFX_VIRTUAL(CTCBDialog)
 protected:
+    virtual void DoDataExchange(CDataExchange* pDX); // DDX/DDV support
+    //}}AFX_VIRTUAL
 
-	TCBSpline3DClass *		Curve;
-	int							Key;
+    // Implementation
+protected:
+    TCBSpline3DClass* Curve;
+    int Key;
 
-	float							GetDlgItemFloat(int controlid);
-	void							SetDlgItemFloat(int controlid,float val);
+    float GetDlgItemFloat(int controlid);
+    void SetDlgItemFloat(int controlid, float val);
 
-	// Generated message map functions
-	//{{AFX_MSG(CTCBDialog)
-	virtual void OnOK();
-	virtual BOOL OnInitDialog();
-	//}}AFX_MSG
-	DECLARE_MESSAGE_MAP()
+    // Generated message map functions
+    //{{AFX_MSG(CTCBDialog)
+    virtual void OnOK();
+    virtual BOOL OnInitDialog();
+    //}}AFX_MSG
+    DECLARE_MESSAGE_MAP()
 };
 
 //{{AFX_INSERT_LOCATION}}

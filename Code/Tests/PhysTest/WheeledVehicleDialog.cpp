@@ -19,9 +19,9 @@
 // WheeledVehicleDialog.cpp : implementation file
 //
 
-#include "stdafx.h"
-#include "phystest.h"
 #include "WheeledVehicleDialog.h"
+#include "phystest.h"
+#include "stdafx.h"
 #include "wheelvehicle.h"
 
 #ifdef _DEBUG
@@ -30,7 +30,6 @@
 static char THIS_FILE[] = __FILE__;
 #endif
 
-
 const float MIN_KS = 0.01f;
 const float MAX_KS = 1000.0f;
 const float MIN_KD = 0.01f;
@@ -38,109 +37,97 @@ const float MAX_KD = 1000.0f;
 const float MIN_LENGTH = 0.1f;
 const float MAX_LENGTH = 32.0f;
 
-
 /////////////////////////////////////////////////////////////////////////////
 // CWheeledVehicleDialog dialog
 
-
-CWheeledVehicleDialog::CWheeledVehicleDialog(CWnd* pParent,WheeledVehicleClass * obj)
-	: CDialog(CWheeledVehicleDialog::IDD, pParent),
-	EditedObject(obj)
+CWheeledVehicleDialog::CWheeledVehicleDialog(CWnd* pParent, WheeledVehicleClass* obj)
+    : CDialog(CWheeledVehicleDialog::IDD, pParent),
+      EditedObject(obj)
 {
-	//{{AFX_DATA_INIT(CWheeledVehicleDialog)
-		// NOTE: the ClassWizard will add member initialization here
-	//}}AFX_DATA_INIT
+    //{{AFX_DATA_INIT(CWheeledVehicleDialog)
+    // NOTE: the ClassWizard will add member initialization here
+    //}}AFX_DATA_INIT
 }
-
 
 void CWheeledVehicleDialog::DoDataExchange(CDataExchange* pDX)
 {
-	CDialog::DoDataExchange(pDX);
-	//{{AFX_DATA_MAP(CWheeledVehicleDialog)
-	DDX_Control(pDX, IDC_WVEHICLE_LENGTH_SPIN, m_LengthSpin);
-	DDX_Control(pDX, IDC_WVEHICLE_KS_SPIN, m_KSSpin);
-	DDX_Control(pDX, IDC_WVEHICLE_KD_SPIN, m_KDSpin);
-	//}}AFX_DATA_MAP
+    CDialog::DoDataExchange(pDX);
+    //{{AFX_DATA_MAP(CWheeledVehicleDialog)
+    DDX_Control(pDX, IDC_WVEHICLE_LENGTH_SPIN, m_LengthSpin);
+    DDX_Control(pDX, IDC_WVEHICLE_KS_SPIN, m_KSSpin);
+    DDX_Control(pDX, IDC_WVEHICLE_KD_SPIN, m_KDSpin);
+    //}}AFX_DATA_MAP
 }
 
-
 BEGIN_MESSAGE_MAP(CWheeledVehicleDialog, CDialog)
-	//{{AFX_MSG_MAP(CWheeledVehicleDialog)
-	//}}AFX_MSG_MAP
+//{{AFX_MSG_MAP(CWheeledVehicleDialog)
+//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
-
 
 /////////////////////////////////////////////////////////////////////////////
 // CWheeledVehicleDialog message handlers
 
-BOOL CWheeledVehicleDialog::OnInitDialog() 
+BOOL CWheeledVehicleDialog::OnInitDialog()
 {
-	CDialog::OnInitDialog();
-	
-	m_KSSpin.SetRange(MIN_KS * 100,MAX_KS * 100);
-	m_KDSpin.SetRange(MIN_KD * 100,MAX_KD * 100);
-	m_LengthSpin.SetRange(MIN_LENGTH * 100,MAX_LENGTH * 100);
-	
-	float ks,kd,len;
-	EditedObject->Get_Suspension_Parameters(&ks,&kd,&len);
-	m_KSSpin.SetPos(ks * 100);
-	m_KDSpin.SetPos(kd * 100);
-	m_LengthSpin.SetPos(len * 100);
+    CDialog::OnInitDialog();
 
-	SetDlgItemFloat(IDC_WVEHICLE_KS_EDIT,ks);
-	SetDlgItemFloat(IDC_WVEHICLE_KD_EDIT,kd);
-	SetDlgItemFloat(IDC_WVEHICLE_LENGTH_EDIT,len);
+    m_KSSpin.SetRange(MIN_KS * 100, MAX_KS * 100);
+    m_KDSpin.SetRange(MIN_KD * 100, MAX_KD * 100);
+    m_LengthSpin.SetRange(MIN_LENGTH * 100, MAX_LENGTH * 100);
 
-	return TRUE; 
+    float ks, kd, len;
+    EditedObject->Get_Suspension_Parameters(&ks, &kd, &len);
+    m_KSSpin.SetPos(ks * 100);
+    m_KDSpin.SetPos(kd * 100);
+    m_LengthSpin.SetPos(len * 100);
+
+    SetDlgItemFloat(IDC_WVEHICLE_KS_EDIT, ks);
+    SetDlgItemFloat(IDC_WVEHICLE_KD_EDIT, kd);
+    SetDlgItemFloat(IDC_WVEHICLE_LENGTH_EDIT, len);
+
+    return TRUE;
 }
 
-BOOL CWheeledVehicleDialog::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult) 
+BOOL CWheeledVehicleDialog::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult)
 {
-	// make the spin controls work...
-	switch(wParam) 
-	{
-		case IDC_WVEHICLE_KS_SPIN:
-		case IDC_WVEHICLE_KD_SPIN:
-		case IDC_WVEHICLE_LENGTH_SPIN:
-			LPNMUPDOWN lpnmud = (LPNMUPDOWN) lParam;
-			if (lpnmud->hdr.code == UDN_DELTAPOS) {
-				HWND hwnd = (HWND)SendDlgItemMessage(LOWORD(wParam),UDM_GETBUDDY);
-				float curval = GetDlgItemFloat(GetWindowLong(hwnd,GWL_ID));
-				curval += (float)lpnmud->iDelta / 100.0f;
-				SetDlgItemFloat(GetWindowLong(hwnd,GWL_ID), curval);
-			}
-			break;
-	}
+    // make the spin controls work...
+    switch (wParam) {
+    case IDC_WVEHICLE_KS_SPIN:
+    case IDC_WVEHICLE_KD_SPIN:
+    case IDC_WVEHICLE_LENGTH_SPIN:
+        LPNMUPDOWN lpnmud = (LPNMUPDOWN)lParam;
+        if (lpnmud->hdr.code == UDN_DELTAPOS) {
+            HWND hwnd = (HWND)SendDlgItemMessage(LOWORD(wParam), UDM_GETBUDDY);
+            float curval = GetDlgItemFloat(GetWindowLong(hwnd, GWL_ID));
+            curval += (float)lpnmud->iDelta / 100.0f;
+            SetDlgItemFloat(GetWindowLong(hwnd, GWL_ID), curval);
+        }
+        break;
+    }
 
-	return CDialog::OnNotify(wParam, lParam, pResult);
+    return CDialog::OnNotify(wParam, lParam, pResult);
 }
 
-
-void CWheeledVehicleDialog::OnOK() 
+void CWheeledVehicleDialog::OnOK()
 {
-	float ks,kd,len;
-	ks = GetDlgItemFloat(IDC_WVEHICLE_KS_EDIT);
-	kd = GetDlgItemFloat(IDC_WVEHICLE_KD_EDIT);
-	len = GetDlgItemFloat(IDC_WVEHICLE_LENGTH_EDIT);
-	EditedObject->Set_Suspension_Parameters(ks,kd,len);
-	CDialog::OnOK();
+    float ks, kd, len;
+    ks = GetDlgItemFloat(IDC_WVEHICLE_KS_EDIT);
+    kd = GetDlgItemFloat(IDC_WVEHICLE_KD_EDIT);
+    len = GetDlgItemFloat(IDC_WVEHICLE_LENGTH_EDIT);
+    EditedObject->Set_Suspension_Parameters(ks, kd, len);
+    CDialog::OnOK();
 }
-
-
 
 float CWheeledVehicleDialog::GetDlgItemFloat(int controlid)
 {
-	CString string;
-	GetDlgItemText(controlid,string);
-	return atof(string);
+    CString string;
+    GetDlgItemText(controlid, string);
+    return atof(string);
 }
 
-void CWheeledVehicleDialog::SetDlgItemFloat(int controlid,float val)
+void CWheeledVehicleDialog::SetDlgItemFloat(int controlid, float val)
 {
-	CString string;
-	string.Format("%.2f",val);
-	SetDlgItemText(controlid,string);
+    CString string;
+    string.Format("%.2f", val);
+    SetDlgItemText(controlid, string);
 }
-
-
-

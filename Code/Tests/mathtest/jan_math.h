@@ -18,10 +18,9 @@
 
 /*
 
-	This file contains some math functions that Jan worked on while visiting westwood
-	between Meltdown and Siggraph 2001.
+        This file contains some math functions that Jan worked on while visiting westwood
+        between Meltdown and Siggraph 2001.
 
 */
-
 
 int jan_main(int argc, char* argv[]);

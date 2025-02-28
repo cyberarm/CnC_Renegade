@@ -19,15 +19,15 @@
 // LightAmbientFormClass.cpp : implementation file
 //
 
-#include "Stdafx.H"
 #include "LevelEdit.H"
 #include "LightAmbientForm.H"
-#include "Vector3.H"
-#include "Utils.H"
 #include "SceneEditor.H"
-#include "rendobj.h"
-#include "phys.h"
+#include "Stdafx.H"
+#include "Utils.H"
+#include "Vector3.H"
 #include "colorpickerdialogclass.h"
+#include "phys.h"
+#include "rendobj.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -35,12 +35,10 @@
 static char THIS_FILE[] = __FILE__;
 #endif
 
-
 /////////////////////////////////////////////////////////////////////////////
 //	Forward declarations
 /////////////////////////////////////////////////////////////////////////////
-void ColorUpdateCallback (int red, int green, int blue, void *arg);
-
+void ColorUpdateCallback(int red, int green, int blue, void* arg);
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -48,15 +46,14 @@ void ColorUpdateCallback (int red, int green, int blue, void *arg);
 //
 /////////////////////////////////////////////////////////////////////////////
 LightAmbientFormClass::LightAmbientFormClass()
-	:	m_ColorForm (NULL),
-		DockableFormClass(LightAmbientFormClass::IDD)
+    : m_ColorForm(NULL),
+      DockableFormClass(LightAmbientFormClass::IDD)
 {
-	//{{AFX_DATA_INIT(LightAmbientFormClass)
-		// NOTE: the ClassWizard will add member initialization here
-	//}}AFX_DATA_INIT
-	return ;
+    //{{AFX_DATA_INIT(LightAmbientFormClass)
+    // NOTE: the ClassWizard will add member initialization here
+    //}}AFX_DATA_INIT
+    return;
 }
-
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -64,27 +61,24 @@ LightAmbientFormClass::LightAmbientFormClass()
 //
 LightAmbientFormClass::~LightAmbientFormClass()
 {
-	return ;
+    return;
 }
-
 
 /////////////////////////////////////////////////////////////////////////////
 //
 // DoDataExchange
 //
-void
-LightAmbientFormClass::DoDataExchange (CDataExchange* pDX)
+void LightAmbientFormClass::DoDataExchange(CDataExchange* pDX)
 {
-	DockableFormClass::DoDataExchange(pDX);
-	//{{AFX_DATA_MAP(LightAmbientFormClass)
-	//}}AFX_DATA_MAP
-	return ;
+    DockableFormClass::DoDataExchange(pDX);
+    //{{AFX_DATA_MAP(LightAmbientFormClass)
+    //}}AFX_DATA_MAP
+    return;
 }
 
-
 BEGIN_MESSAGE_MAP(LightAmbientFormClass, DockableFormClass)
-	//{{AFX_MSG_MAP(LightAmbientFormClass)
-	//}}AFX_MSG_MAP
+//{{AFX_MSG_MAP(LightAmbientFormClass)
+//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -93,85 +87,79 @@ END_MESSAGE_MAP()
 #ifdef _DEBUG
 void LightAmbientFormClass::AssertValid() const
 {
-	DockableFormClass::AssertValid();
+    DockableFormClass::AssertValid();
 }
 
 void LightAmbientFormClass::Dump(CDumpContext& dc) const
 {
-	DockableFormClass::Dump(dc);
+    DockableFormClass::Dump(dc);
 }
 #endif //_DEBUG
-
 
 /////////////////////////////////////////////////////////////////////////////
 //
 // HandleInitDialog
 //
 /////////////////////////////////////////////////////////////////////////////
-void
-LightAmbientFormClass::HandleInitDialog (void)
-{	
-	//
-	//	Create the color picker
-	//
-	m_ColorForm = Create_Color_Picker_Form (m_hWnd, 0, 0, 0);
-	Set_Update_Callback (m_ColorForm, ColorUpdateCallback);
-	::ShowWindow (m_ColorForm, SW_SHOW);
+void LightAmbientFormClass::HandleInitDialog(void)
+{
+    //
+    //	Create the color picker
+    //
+    m_ColorForm = Create_Color_Picker_Form(m_hWnd, 0, 0, 0);
+    Set_Update_Callback(m_ColorForm, ColorUpdateCallback);
+    ::ShowWindow(m_ColorForm, SW_SHOW);
 
-	Update_Settings ();
-	return ;
+    Update_Settings();
+    return;
 }
-
 
 //////////////////////////////////////////////////////////////
 //
 //  Update_Settings
 //
 //////////////////////////////////////////////////////////////
-void
-LightAmbientFormClass::Update_Settings (void)
+void LightAmbientFormClass::Update_Settings(void)
 {
-	//
-	// Get the current ambient light settings
-	//
-	Vector3 light_settings = ::Get_Scene_Editor()->Get_Ambient_Light ();
+    //
+    // Get the current ambient light settings
+    //
+    Vector3 light_settings = ::Get_Scene_Editor()->Get_Ambient_Light();
 
-	int red		= light_settings.X * 255;
-	int green	= light_settings.Y * 255;
-	int blue		= light_settings.Z * 255;
+    int red = light_settings.X * 255;
+    int green = light_settings.Y * 255;
+    int blue = light_settings.Z * 255;
 
-	//
-	//	Pass these colors onto the form
-	//
-	Set_Form_Original_Color (m_ColorForm, red, green, blue);
-	Set_Form_Color (m_ColorForm, red, green, blue);
+    //
+    //	Pass these colors onto the form
+    //
+    Set_Form_Original_Color(m_ColorForm, red, green, blue);
+    Set_Form_Color(m_ColorForm, red, green, blue);
 
-	::Get_Scene_Editor ()->Update_Lighting ();
-	return ;
+    ::Get_Scene_Editor()->Update_Lighting();
+    return;
 }
-
 
 //////////////////////////////////////////////////////////////
 //
 //  ColorUpdateCallback
 //
 //////////////////////////////////////////////////////////////
-void
-ColorUpdateCallback (int red, int green, int blue, void *arg)
+void ColorUpdateCallback(int red, int green, int blue, void* arg)
 {
-	//
-	//	Convert the settings to a vector3
-	//
-	Vector3 light;
-	light.X = ((float)red) / 255;
-	light.Y = ((float)green) / 255;
-	light.Z = ((float)blue) / 255;
+    //
+    //	Convert the settings to a vector3
+    //
+    Vector3 light;
+    light.X = ((float)red) / 255;
+    light.Y = ((float)green) / 255;
+    light.Z = ((float)blue) / 255;
 
-	//
-	//	Update the scene's abmient light
-	//
-	::Get_Scene_Editor()->Set_Ambient_Light (light);
-	::Get_Scene_Editor()->Update_Lighting ();
-	::Refresh_Main_View ();
-	return ;
+    //
+    //	Update the scene's abmient light
+    //
+    ::Get_Scene_Editor()->Set_Ambient_Light(light);
+    ::Get_Scene_Editor()->Update_Lighting();
+    ::Refresh_Main_View();
+    return;
 }

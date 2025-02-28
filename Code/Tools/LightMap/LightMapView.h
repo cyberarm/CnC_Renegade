@@ -16,93 +16,92 @@
 **	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-/*********************************************************************************************** 
- ***                            Confidential - Westwood Studios                              *** 
- *********************************************************************************************** 
- *                                                                                             * 
- *                 Project Name : LightMap                                                     * 
- *                                                                                             * 
- *                     $Archive:: /Commando/Code/Tool $* 
- *                                                                                             * 
- *                      $Author:: Ian_l               $* 
- *                                                                                             * 
- *                     $Modtime:: 7/09/01 2:42p       $* 
- *                                                                                             * 
- *                    $Revision:: 15                                                        $* 
- *                                                                                             * 
- *---------------------------------------------------------------------------------------------* 
- * Functions:                                                                                  * 
+/***********************************************************************************************
+ ***                            Confidential - Westwood Studios                              ***
+ ***********************************************************************************************
+ *                                                                                             *
+ *                 Project Name : LightMap                                                     *
+ *                                                                                             *
+ *                     $Archive:: /Commando/Code/Tool $*
+ *                                                                                             *
+ *                      $Author:: Ian_l               $*
+ *                                                                                             *
+ *                     $Modtime:: 7/09/01 2:42p       $*
+ *                                                                                             *
+ *                    $Revision:: 15                                                        $*
+ *                                                                                             *
+ *---------------------------------------------------------------------------------------------*
+ * Functions:                                                                                  *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
 #ifndef LIGHTMAPVIEW_H
 #define LIGHTMAPVIEW_H
 
-#include <afxcview.h>
 #include "LightMapDoc.h"
 #include "Lightscape.h"
+#include <afxcview.h>
 
 class StringBuilder;
 
 class LightMapView : public CListView
 {
-	protected:
+protected:
+private:
+    // Static functions.
+    static int Compare_Names(const void* index0, const void* index1);
 
-	private:
+    // Member data.
+    unsigned* MeshIndexTable;
 
-		// Static functions.
-		static int Compare_Names (const void *index0, const void *index1);
-		
-		// Member data.
-		unsigned				 *MeshIndexTable;
-		
-		// Static data.
-		static LightMapDoc *_Document;
+    // Static data.
+    static LightMapDoc* _Document;
 
-// The following is maintained by MFC tools.
+    // The following is maintained by MFC tools.
 protected: // create from serialization only
-	LightMapView();
-	DECLARE_DYNCREATE(LightMapView)
+    LightMapView();
+    DECLARE_DYNCREATE(LightMapView)
 
-// Attributes
+    // Attributes
 public:
-
-// Operations
+    // Operations
 public:
-
-// Overrides
-	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(LightMapView)
-	public:
-	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
-	virtual void OnUpdate (CView* pSender, LPARAM lHint, CObject* pHint);
-	//}}AFX_VIRTUAL
-
-// Implementation
+    // Overrides
+    // ClassWizard generated virtual function overrides
+    //{{AFX_VIRTUAL(LightMapView)
 public:
-	virtual ~LightMapView();
+    virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
+    virtual void OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint);
+    //}}AFX_VIRTUAL
+
+    // Implementation
+public:
+    virtual ~LightMapView();
 #ifdef _DEBUG
-	virtual void AssertValid() const;
-	virtual void Dump(CDumpContext& dc) const;
+    virtual void AssertValid() const;
+    virtual void Dump(CDumpContext& dc) const;
 #endif
 
-	LightMapDoc* GetDocument();
+    LightMapDoc* GetDocument();
 
-// Generated message map functions
+    // Generated message map functions
 protected:
-	//{{AFX_MSG(LightMapView)
-	afx_msg int  OnCreate(LPCREATESTRUCT lpCreateStruct);
-	afx_msg void OnInsertSolve();
-	afx_msg void OnUpdateInsertSolve(CCmdUI* pCmdUI);
-	afx_msg void OnToolsOptions();
-	afx_msg void OnToolsPacking();
-	afx_msg void OnUpdateToolsPacking(CCmdUI* pCmdUI);
-	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
-	//}}AFX_MSG
-	DECLARE_MESSAGE_MAP()
+    //{{AFX_MSG(LightMapView)
+    afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
+    afx_msg void OnInsertSolve();
+    afx_msg void OnUpdateInsertSolve(CCmdUI* pCmdUI);
+    afx_msg void OnToolsOptions();
+    afx_msg void OnToolsPacking();
+    afx_msg void OnUpdateToolsPacking(CCmdUI* pCmdUI);
+    afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
+    //}}AFX_MSG
+    DECLARE_MESSAGE_MAP()
 };
 
-#ifndef _DEBUG  // debug version in LightMapView.cpp
-inline LightMapDoc* LightMapView::GetDocument()  {return (LightMapDoc*)m_pDocument;}
+#ifndef _DEBUG // debug version in LightMapView.cpp
+inline LightMapDoc* LightMapView::GetDocument()
+{
+    return (LightMapDoc*)m_pDocument;
+}
 #endif
 
 #endif // LIGHTMAPVIEW_H

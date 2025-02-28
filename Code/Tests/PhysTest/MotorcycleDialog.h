@@ -32,41 +32,42 @@ class MotorcycleClass;
 
 class CMotorcycleDialog : public CDialog
 {
-// Construction
+    // Construction
 public:
-	CMotorcycleDialog(CWnd* pParent,MotorcycleClass * obj);   
+    CMotorcycleDialog(CWnd* pParent, MotorcycleClass* obj);
 
-// Dialog Data
-	//{{AFX_DATA(CMotorcycleDialog)
-	enum { IDD = IDD_MOTORCYCLE_DIALOG };
-	CSpinButtonCtrl	m_LeanK1Spin;
-	CSpinButtonCtrl	m_LeanK0Spin;
-	CSpinButtonCtrl	m_BalanceK0Spin;
-	//}}AFX_DATA
+    // Dialog Data
+    //{{AFX_DATA(CMotorcycleDialog)
+    enum
+    {
+        IDD = IDD_MOTORCYCLE_DIALOG
+    };
+    CSpinButtonCtrl m_LeanK1Spin;
+    CSpinButtonCtrl m_LeanK0Spin;
+    CSpinButtonCtrl m_BalanceK0Spin;
+    //}}AFX_DATA
 
-
-// Overrides
-	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CMotorcycleDialog)
-	protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
-	virtual BOOL OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult);
-	//}}AFX_VIRTUAL
-
-// Implementation
+    // Overrides
+    // ClassWizard generated virtual function overrides
+    //{{AFX_VIRTUAL(CMotorcycleDialog)
 protected:
+    virtual void DoDataExchange(CDataExchange* pDX); // DDX/DDV support
+    virtual BOOL OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult);
+    //}}AFX_VIRTUAL
 
-	MotorcycleClass * EditedObject;
+    // Implementation
+protected:
+    MotorcycleClass* EditedObject;
 
-	float GetDlgItemFloat(int controlid);
-	void SetDlgItemFloat(int controlid,float val);
+    float GetDlgItemFloat(int controlid);
+    void SetDlgItemFloat(int controlid, float val);
 
-	// Generated message map functions
-	//{{AFX_MSG(CMotorcycleDialog)
-	virtual BOOL OnInitDialog();
-	virtual void OnOK();
-	//}}AFX_MSG
-	DECLARE_MESSAGE_MAP()
+    // Generated message map functions
+    //{{AFX_MSG(CMotorcycleDialog)
+    virtual BOOL OnInitDialog();
+    virtual void OnOK();
+    //}}AFX_MSG
+    DECLARE_MESSAGE_MAP()
 };
 
 //{{AFX_INSERT_LOCATION}}

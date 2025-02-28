@@ -34,11 +34,9 @@
  * Functions:                                                                                  *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
-
 #if defined(_MSC_VER)
 #pragma once
 #endif
-
 
 #ifndef OBBOXTEST_H
 #define OBBOXTEST_H
@@ -46,5 +44,3 @@
 void Test_OBBoxes(void);
 
 #endif
-
-

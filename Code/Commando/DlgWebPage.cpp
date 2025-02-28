@@ -17,345 +17,320 @@
 */
 
 /******************************************************************************
-*
-* NAME
-*     $Archive: /Commando/Code/Commando/DlgWebPage.cpp $
-*
-* DESCRIPTION
-*     Web Browser dialog
-*
-* PROGRAMMER
-*     Denzil E. Long, Jr.
-*     $Author: Denzil_l $
-*
-* VERSION INFO
-*     $Revision: 9 $
-*     $Modtime: 10/30/01 10:08p $
-*
-******************************************************************************/
+ *
+ * NAME
+ *     $Archive: /Commando/Code/Commando/DlgWebPage.cpp $
+ *
+ * DESCRIPTION
+ *     Web Browser dialog
+ *
+ * PROGRAMMER
+ *     Denzil E. Long, Jr.
+ *     $Author: Denzil_l $
+ *
+ * VERSION INFO
+ *     $Revision: 9 $
+ *     $Modtime: 10/30/01 10:08p $
+ *
+ ******************************************************************************/
 
 #include "DlgWebPage.h"
-#include "WebBrowser.h"
-#include <WWUI\PopupDialog.h>
-#include <WWUI\DialogControl.h>
-#include <Combat\DirectInput.h>
-#include <WW3D2\WW3D.h>
 #include "DlgMessageBox.h"
 #include "Resource.h"
-#include <Combat\String_IDs.h>
 #include "WWDebug.h"
-
+#include "WebBrowser.h"
+#include <Combat\DirectInput.h>
+#include <Combat\String_IDs.h>
+#include <WW3D2\WW3D.h>
+#include <WWUI\DialogControl.h>
+#include <WWUI\PopupDialog.h>
 
 /******************************************************************************
-*
-* NAME
-*     DlgWebPage::DoDialog
-*
-* DESCRIPTION
-*     Show the specified web page.
-*
-* INPUTS
-*     Page - Page to display.
-*
-* RESULT
-*     NONE
-*
-******************************************************************************/
+ *
+ * NAME
+ *     DlgWebPage::DoDialog
+ *
+ * DESCRIPTION
+ *     Show the specified web page.
+ *
+ * INPUTS
+ *     Page - Page to display.
+ *
+ * RESULT
+ *     NONE
+ *
+ ******************************************************************************/
 
 void DlgWebPage::DoDialog(char* page)
-	{
-	WWASSERT_PRINT(page && (strlen(page) > 0), "Invalid parameter.\n");
+{
+    WWASSERT_PRINT(page && (strlen(page) > 0), "Invalid parameter.\n");
 
-	if ((page == NULL) || (strlen(page) == 0))
-		{
-		return;
-		}
+    if ((page == NULL) || (strlen(page) == 0)) {
+        return;
+    }
 
-	DlgWebPage* dialog = new DlgWebPage;
+    DlgWebPage* dialog = new DlgWebPage;
 
-	if (dialog)
-		{
-		bool success = dialog->FinalizeCreate();
+    if (dialog) {
+        bool success = dialog->FinalizeCreate();
 
-		if (success)
-			{
-			// If we are using the embedded browser then show the webpage. Otherwise
-			// ask the user if they want to launch an external browser to view the page.
-			if (dialog->mBrowser->UsingEmbeddedBrowser())
-				{
-				dialog->Start_Dialog();
-				dialog->mBrowser->ShowWebPage(page);
-				}
-			else
-				{
-				// Increment the dialog reference so the dialog will be around for the
-				// message box result.
-				dialog->Add_Ref();
+        if (success) {
+            // If we are using the embedded browser then show the webpage. Otherwise
+            // ask the user if they want to launch an external browser to view the page.
+            if (dialog->mBrowser->UsingEmbeddedBrowser()) {
+                dialog->Start_Dialog();
+                dialog->mBrowser->ShowWebPage(page);
+            }
+            else {
+                // Increment the dialog reference so the dialog will be around for the
+                // message box result.
+                dialog->Add_Ref();
 
-				dialog->mPage = page;
-				DlgMsgBox::DoDialog(0, IDS_WEB_LAUNCHBROWSER,
-						DlgMsgBox::YesNo, static_cast< Observer<DlgMsgBoxEvent>* >(dialog));
-				}
-			}
+                dialog->mPage = page;
+                DlgMsgBox::DoDialog(0, IDS_WEB_LAUNCHBROWSER, DlgMsgBox::YesNo,
+                                    static_cast<Observer<DlgMsgBoxEvent>*>(dialog));
+            }
+        }
 
-		// The dialog manager keeps a referenece to the dialog.
-		dialog->Release_Ref();
-		}
-	}
-
+        // The dialog manager keeps a referenece to the dialog.
+        dialog->Release_Ref();
+    }
+}
 
 /******************************************************************************
-*
-* NAME
-*     DlgWebPage::DlgWebPage
-*
-* DESCRIPTION
-*     Default constructor
-*
-* INPUTS
-*     NONE
-*
-* RESULT
-*     NONE
-*
-******************************************************************************/
+ *
+ * NAME
+ *     DlgWebPage::DlgWebPage
+ *
+ * DESCRIPTION
+ *     Default constructor
+ *
+ * INPUTS
+ *     NONE
+ *
+ * RESULT
+ *     NONE
+ *
+ ******************************************************************************/
 
-DlgWebPage::DlgWebPage() :
-		DialogBaseClass(IDD_WEBPAGE),
-		mBrowser(NULL)
-	{
-	WWDEBUG_SAY(("Instantiating DlgWebPage\n"));
-	}
-
+DlgWebPage::DlgWebPage()
+    : DialogBaseClass(IDD_WEBPAGE),
+      mBrowser(NULL)
+{
+    WWDEBUG_SAY(("Instantiating DlgWebPage\n"));
+}
 
 /******************************************************************************
-*
-* NAME
-*     DlgWebPage::~DlgWebPage
-*
-* DESCRIPTION
-*     Destructor
-*
-* INPUTS
-*     NONE
-*
-* RESULT
-*     NONE
-*
-******************************************************************************/
+ *
+ * NAME
+ *     DlgWebPage::~DlgWebPage
+ *
+ * DESCRIPTION
+ *     Destructor
+ *
+ * INPUTS
+ *     NONE
+ *
+ * RESULT
+ *     NONE
+ *
+ ******************************************************************************/
 
 DlgWebPage::~DlgWebPage()
-	{
-	WWDEBUG_SAY(("Destroying DlgWebPage\n"));
+{
+    WWDEBUG_SAY(("Destroying DlgWebPage\n"));
 
-	if (mBrowser)
-		{
-		mBrowser->Release();
-		}
-	}
-
+    if (mBrowser) {
+        mBrowser->Release();
+    }
+}
 
 /******************************************************************************
-*
-* NAME
-*     DlgWebPage::FinalizeCreate
-*
-* DESCRIPTION
-*     Finalize object creation. (Initialize object)
-*
-* INPUTS
-*     NONE
-*
-* RESULT
-*     Success - True if successful; False if failed.
-*
-******************************************************************************/
+ *
+ * NAME
+ *     DlgWebPage::FinalizeCreate
+ *
+ * DESCRIPTION
+ *     Finalize object creation. (Initialize object)
+ *
+ * INPUTS
+ *     NONE
+ *
+ * RESULT
+ *     Success - True if successful; False if failed.
+ *
+ ******************************************************************************/
 
 bool DlgWebPage::FinalizeCreate(void)
-	{
-	mBrowser = WebBrowser::CreateInstance(MainWindow);
+{
+    mBrowser = WebBrowser::CreateInstance(MainWindow);
 
-	if (mBrowser)
-		{
-		Observer<WebEvent>::NotifyMe(*mBrowser);
-		return true;
-		}
+    if (mBrowser) {
+        Observer<WebEvent>::NotifyMe(*mBrowser);
+        return true;
+    }
 
-	return false;
-	}
-
+    return false;
+}
 
 /******************************************************************************
-*
-* NAME
-*     DlgWebPage::Start_Dialog
-*
-* DESCRIPTION
-*
-* INPUTS
-*     NONE
-*
-* RESULT
-*     NONE
-*
-******************************************************************************/
+ *
+ * NAME
+ *     DlgWebPage::Start_Dialog
+ *
+ * DESCRIPTION
+ *
+ * INPUTS
+ *     NONE
+ *
+ * RESULT
+ *     NONE
+ *
+ ******************************************************************************/
 
 void DlgWebPage::Start_Dialog(void)
-	{
-	DirectInput::Unacquire();
-	WW3D::Flip_To_Primary();
-	DialogBaseClass::Start_Dialog();
-	}
-
+{
+    DirectInput::Unacquire();
+    WW3D::Flip_To_Primary();
+    DialogBaseClass::Start_Dialog();
+}
 
 /******************************************************************************
-*
-* NAME
-*     DlgWebPage::End_Dialog
-*
-* DESCRIPTION
-*
-* INPUTS
-*     NONE
-*
-* RESULT
-*     NONE
-*
-******************************************************************************/
+ *
+ * NAME
+ *     DlgWebPage::End_Dialog
+ *
+ * DESCRIPTION
+ *
+ * INPUTS
+ *     NONE
+ *
+ * RESULT
+ *     NONE
+ *
+ ******************************************************************************/
 
 void DlgWebPage::End_Dialog(void)
-	{
-	DirectInput::Acquire();
-	DialogBaseClass::End_Dialog();
-	SetFocus(MainWindow);
-	}
-
+{
+    DirectInput::Acquire();
+    DialogBaseClass::End_Dialog();
+    SetFocus(MainWindow);
+}
 
 /******************************************************************************
-*
-* NAME
-*     DlgWebPage::On_Frame_Update
-*
-* DESCRIPTION
-*
-* INPUTS
-*     NONE
-*
-* RESULT
-*     NONE
-*
-******************************************************************************/
+ *
+ * NAME
+ *     DlgWebPage::On_Frame_Update
+ *
+ * DESCRIPTION
+ *
+ * INPUTS
+ *     NONE
+ *
+ * RESULT
+ *     NONE
+ *
+ ******************************************************************************/
 
 void DlgWebPage::On_Frame_Update(void)
-	{
-	DialogBaseClass::On_Frame_Update();
+{
+    DialogBaseClass::On_Frame_Update();
 
-	if (mBrowser)
-		{
-		bool usingEmbedded = mBrowser->UsingEmbeddedBrowser();
+    if (mBrowser) {
+        bool usingEmbedded = mBrowser->UsingEmbeddedBrowser();
 
-		if (!usingEmbedded)
-			{
-			bool externalRunning = mBrowser->IsExternalBrowserRunning();
-			bool gameActivated = (GameInFocus || (GetTopWindow(NULL) == MainWindow)
-					|| (GetForegroundWindow() == MainWindow));
+        if (!usingEmbedded) {
+            bool externalRunning = mBrowser->IsExternalBrowserRunning();
+            bool gameActivated = (GameInFocus || (GetTopWindow(NULL) == MainWindow)
+                                  || (GetForegroundWindow() == MainWindow));
 
-			if (!externalRunning || gameActivated)
-				{
-				WWDEBUG_SAY(("***** Reactivating Game *****\n"));
+            if (!externalRunning || gameActivated) {
+                WWDEBUG_SAY(("***** Reactivating Game *****\n"));
 
-				HWND topWindow = GetTopWindow(NULL);
+                HWND topWindow = GetTopWindow(NULL);
 
-        if (topWindow != MainWindow)
-					{
-          SetForegroundWindow(MainWindow);
-          ShowWindow(MainWindow, SW_RESTORE);
-					}
+                if (topWindow != MainWindow) {
+                    SetForegroundWindow(MainWindow);
+                    ShowWindow(MainWindow, SW_RESTORE);
+                }
 
-				End_Dialog();
-				}
-			}
-		}
-	}
-
+                End_Dialog();
+            }
+        }
+    }
+}
 
 /******************************************************************************
-*
-* NAME
-*     DlgWebPage::HandleNotification(WebEvent)
-*
-* DESCRIPTION
-*     Handle web event notifications
-*
-* INPUTS
-*     WebEvent - WebEvent to handle
-*
-* RESULT
-*     NONE
-*
-******************************************************************************/
+ *
+ * NAME
+ *     DlgWebPage::HandleNotification(WebEvent)
+ *
+ * DESCRIPTION
+ *     Handle web event notifications
+ *
+ * INPUTS
+ *     WebEvent - WebEvent to handle
+ *
+ * RESULT
+ *     NONE
+ *
+ ******************************************************************************/
 
 void DlgWebPage::HandleNotification(WebEvent& event)
-	{
-	switch (event.Event())
-		{
-		case WebEvent::Quit:
-			End_Dialog();
-			break;
+{
+    switch (event.Event()) {
+    case WebEvent::Quit:
+        End_Dialog();
+        break;
 
-		case WebEvent::CertificationFailed:
-			{
-			WebBrowser* browser = event.Subject();
-			browser->Hide();
+    case WebEvent::CertificationFailed: {
+        WebBrowser* browser = event.Subject();
+        browser->Hide();
 
-			DlgMsgBox::DoDialog(IDS_WEB_ERROR, IDS_WEB_PAGEFAILED);
+        DlgMsgBox::DoDialog(IDS_WEB_ERROR, IDS_WEB_PAGEFAILED);
 
-			End_Dialog();
-			}
-			break;
+        End_Dialog();
+    } break;
 
-		default:
-			break;
-		}
-	}
-
+    default:
+        break;
+    }
+}
 
 /******************************************************************************
-*
-* NAME
-*     DlgWebPage::HandleNotification(DlgMsgBoxEvent)
-*
-* DESCRIPTION
-*     Handle message box dialog event notifications
-*
-* INPUTS
-*     DlgMsgBoxEvent - Message box event to handle.
-*
-* RESULT
-*     NONE
-*
-******************************************************************************/
+ *
+ * NAME
+ *     DlgWebPage::HandleNotification(DlgMsgBoxEvent)
+ *
+ * DESCRIPTION
+ *     Handle message box dialog event notifications
+ *
+ * INPUTS
+ *     DlgMsgBoxEvent - Message box event to handle.
+ *
+ * RESULT
+ *     NONE
+ *
+ ******************************************************************************/
 
 void DlgWebPage::HandleNotification(DlgMsgBoxEvent& event)
-	{
-	switch (event.Event())
-		{
-		case DlgMsgBoxEvent::Yes:
-			// Start the dialog to monitor the external browser.
-			Start_Dialog();
-			mBrowser->ShowWebPage(mPage);
+{
+    switch (event.Event()) {
+    case DlgMsgBoxEvent::Yes:
+        // Start the dialog to monitor the external browser.
+        Start_Dialog();
+        mBrowser->ShowWebPage(mPage);
 
-			// Release the reference we added to keep the dialog alive until this point.
-			Release_Ref();
-			break;
+        // Release the reference we added to keep the dialog alive until this point.
+        Release_Ref();
+        break;
 
-		case DlgMsgBoxEvent::No:
-			// Release the reference we added to keep the dialog alive until this point.
-			Release_Ref();
-			break;
+    case DlgMsgBoxEvent::No:
+        // Release the reference we added to keep the dialog alive until this point.
+        Release_Ref();
+        break;
 
-		default:
-			break;
-		}
-	}
-
+    default:
+        break;
+    }
+}

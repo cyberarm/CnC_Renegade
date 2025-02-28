@@ -19,14 +19,14 @@
 // WWConfigDlg.cpp : implementation file
 //
 
-#include "stdafx.h"
-#include "wwconfig.h"
-#include "wwconfigdlg.h"
-#include "videoconfigdialog.h"
 #include "audioconfigdialog.h"
-#include "performanceconfigdialog.h"
 #include "locale_api.h"
+#include "performanceconfigdialog.h"
+#include "stdafx.h"
+#include "videoconfigdialog.h"
+#include "wwconfig.h"
 #include "wwconfig_ids.h"
+#include "wwconfigdlg.h"
 
 extern int GlobalExitValue;
 
@@ -36,48 +36,44 @@ extern int GlobalExitValue;
 static char THIS_FILE[] = __FILE__;
 #endif
 
-
 ///////////////////////////////////////////////////////////////////
 //
 //	CWWConfigDlg
 //
 ///////////////////////////////////////////////////////////////////
-CWWConfigDlg::CWWConfigDlg (CWnd *pParent)
-	:	CurrentTab (0),
-		CDialog(CWWConfigDlg::IDD, pParent)
+CWWConfigDlg::CWWConfigDlg(CWnd* pParent)
+    : CurrentTab(0),
+      CDialog(CWWConfigDlg::IDD, pParent)
 {
-	//{{AFX_DATA_INIT(CWWConfigDlg)
-		// NOTE: the ClassWizard will add member initialization here
-	//}}AFX_DATA_INIT
-	
-	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
-	return ;
-}
+    //{{AFX_DATA_INIT(CWWConfigDlg)
+    // NOTE: the ClassWizard will add member initialization here
+    //}}AFX_DATA_INIT
 
+    m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
+    return;
+}
 
 ///////////////////////////////////////////////////////////////////
 //
 //	DoDataExchange
 //
 ///////////////////////////////////////////////////////////////////
-void
-CWWConfigDlg::DoDataExchange (CDataExchange *pDX)
+void CWWConfigDlg::DoDataExchange(CDataExchange* pDX)
 {
-	CDialog::DoDataExchange(pDX);
-	//{{AFX_DATA_MAP(CWWConfigDlg)
-	DDX_Control(pDX, IDC_TAB_CTRL, m_TabCtrl);
-	//}}AFX_DATA_MAP
-	return ;
+    CDialog::DoDataExchange(pDX);
+    //{{AFX_DATA_MAP(CWWConfigDlg)
+    DDX_Control(pDX, IDC_TAB_CTRL, m_TabCtrl);
+    //}}AFX_DATA_MAP
+    return;
 }
 
 BEGIN_MESSAGE_MAP(CWWConfigDlg, CDialog)
-	//{{AFX_MSG_MAP(CWWConfigDlg)
-	ON_WM_PAINT()
-	ON_WM_QUERYDRAGICON()
-	ON_NOTIFY(TCN_SELCHANGE, IDC_TAB_CTRL, OnSelchangeTabCtrl)
-	//}}AFX_MSG_MAP
+//{{AFX_MSG_MAP(CWWConfigDlg)
+ON_WM_PAINT()
+ON_WM_QUERYDRAGICON()
+ON_NOTIFY(TCN_SELCHANGE, IDC_TAB_CTRL, OnSelchangeTabCtrl)
+//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
-
 
 ///////////////////////////////////////////////////////////////////
 //
@@ -85,123 +81,118 @@ END_MESSAGE_MAP()
 //
 //	Modified: 12/06/2001 by	MML	- Retrieving strings from Locomoto file.
 ///////////////////////////////////////////////////////////////////
-BOOL
-CWWConfigDlg::OnInitDialog (void)
+BOOL CWWConfigDlg::OnInitDialog(void)
 {
-	char string[ _MAX_PATH ];
+    char string[_MAX_PATH];
 
-	CDialog::OnInitDialog();
+    CDialog::OnInitDialog();
 
-	// Set the icon for this dialog.  The framework does this automatically
-	//  when the application's main window is not a dialog
-	SetIcon (m_hIcon, TRUE);
-	SetIcon (m_hIcon, FALSE);
+    // Set the icon for this dialog.  The framework does this automatically
+    //  when the application's main window is not a dialog
+    SetIcon(m_hIcon, TRUE);
+    SetIcon(m_hIcon, FALSE);
 
-	//
-	// Set Title of Dialog.
-	//
-	Locale_GetString( IDS_WWCONFIG_TITLE, string );
-	SetWindowText((LPCTSTR) string );
+    //
+    // Set Title of Dialog.
+    //
+    Locale_GetString(IDS_WWCONFIG_TITLE, string);
+    SetWindowText((LPCTSTR)string);
 
-	//
-	// Set text on buttons.
-	//
-	Locale_GetString( IDS_OK, string );
-	SetDlgItemText( IDOK, string  );
+    //
+    // Set text on buttons.
+    //
+    Locale_GetString(IDS_OK, string);
+    SetDlgItemText(IDOK, string);
 
-	Locale_GetString( IDS_CANCEL, string );
-	SetDlgItemText( IDCANCEL, string  );
+    Locale_GetString(IDS_CANCEL, string);
+    SetDlgItemText(IDCANCEL, string);
 
-	//
-	//	Add a tab to the dialog for video configuration
-	//
-	TC_ITEM tab_info	= { 0 };
+    //
+    //	Add a tab to the dialog for video configuration
+    //
+    TC_ITEM tab_info = { 0 };
 
-	Locale_GetString( IDS_VIDEO_TAB, string );
-	tab_info.mask		= TCIF_TEXT;
-//	tab_info.pszText	= "Video";
-	tab_info.pszText	= string;
-	m_TabCtrl.InsertItem (0xFF, &tab_info);
+    Locale_GetString(IDS_VIDEO_TAB, string);
+    tab_info.mask = TCIF_TEXT;
+    //	tab_info.pszText	= "Video";
+    tab_info.pszText = string;
+    m_TabCtrl.InsertItem(0xFF, &tab_info);
 
-	//
-	//	Add a tab to the dialog for audio configuration
-	//
-	Locale_GetString( IDS_SOUND_TAB, string );
-	tab_info.mask		= TCIF_TEXT;
-//	tab_info.pszText	= "Sound";
-	tab_info.pszText	= string;
-	m_TabCtrl.InsertItem (0xFF, &tab_info);
+    //
+    //	Add a tab to the dialog for audio configuration
+    //
+    Locale_GetString(IDS_SOUND_TAB, string);
+    tab_info.mask = TCIF_TEXT;
+    //	tab_info.pszText	= "Sound";
+    tab_info.pszText = string;
+    m_TabCtrl.InsertItem(0xFF, &tab_info);
 
-	//
-	//	Add a tab to the dialog for performance configuration
-	//
-	Locale_GetString( IDS_PERFORMANCE_TAB, string );
-	tab_info.mask		= TCIF_TEXT;
-//	tab_info.pszText	= "Performance";
-	tab_info.pszText	= string;
-	m_TabCtrl.InsertItem (0xFF, &tab_info);
+    //
+    //	Add a tab to the dialog for performance configuration
+    //
+    Locale_GetString(IDS_PERFORMANCE_TAB, string);
+    tab_info.mask = TCIF_TEXT;
+    //	tab_info.pszText	= "Performance";
+    tab_info.pszText = string;
+    m_TabCtrl.InsertItem(0xFF, &tab_info);
 
-	//
-	// Get the display rectangle of the tab control
-	//
-	CRect tab_rect;
-	m_TabCtrl.GetWindowRect (&tab_rect);
-	m_TabCtrl.AdjustRect (FALSE, &tab_rect);
-	ScreenToClient (&tab_rect);
+    //
+    // Get the display rectangle of the tab control
+    //
+    CRect tab_rect;
+    m_TabCtrl.GetWindowRect(&tab_rect);
+    m_TabCtrl.AdjustRect(FALSE, &tab_rect);
+    ScreenToClient(&tab_rect);
 
-	VideoConfigDialogClass			*video_page = new VideoConfigDialogClass (this);
-	AudioConfigDialogClass			*audio_page = new AudioConfigDialogClass (this);
-	PerformanceConfigDialogClass	*performance_page = new PerformanceConfigDialogClass (this);
+    VideoConfigDialogClass* video_page = new VideoConfigDialogClass(this);
+    AudioConfigDialogClass* audio_page = new AudioConfigDialogClass(this);
+    PerformanceConfigDialogClass* performance_page = new PerformanceConfigDialogClass(this);
 
-	video_page->SetWindowPos		( NULL, tab_rect.left, tab_rect.top, 0, 0, SWP_NOZORDER | SWP_NOSIZE);	
-	audio_page->SetWindowPos		( NULL, tab_rect.left, tab_rect.top, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
-	performance_page->SetWindowPos	( NULL, tab_rect.left, tab_rect.top, 0, 0, SWP_NOZORDER | SWP_NOSIZE);	
+    video_page->SetWindowPos(NULL, tab_rect.left, tab_rect.top, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
+    audio_page->SetWindowPos(NULL, tab_rect.left, tab_rect.top, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
+    performance_page->SetWindowPos(NULL, tab_rect.left, tab_rect.top, 0, 0,
+                                   SWP_NOZORDER | SWP_NOSIZE);
 
-	ConfigPages.Add ( video_page );
-	ConfigPages.Add ( audio_page );
-	ConfigPages.Add ( performance_page );
-	
-	//
-	//	Display the first category page
-	//
-	ConfigPages[0]->ShowWindow( SW_SHOW );
-	return TRUE;
+    ConfigPages.Add(video_page);
+    ConfigPages.Add(audio_page);
+    ConfigPages.Add(performance_page);
+
+    //
+    //	Display the first category page
+    //
+    ConfigPages[0]->ShowWindow(SW_SHOW);
+    return TRUE;
 }
-
 
 ///////////////////////////////////////////////////////////////////
 //
 //	OnPaint
 //
 ///////////////////////////////////////////////////////////////////
-void
-CWWConfigDlg::OnPaint (void) 
+void CWWConfigDlg::OnPaint(void)
 {
-	if (IsIconic())
-	{
-		CPaintDC dc(this);
+    if (IsIconic()) {
+        CPaintDC dc(this);
 
-		SendMessage(WM_ICONERASEBKGND, (WPARAM) dc.GetSafeHdc(), 0);
+        SendMessage(WM_ICONERASEBKGND, (WPARAM)dc.GetSafeHdc(), 0);
 
-		// Center icon in client rectangle
-		int cxIcon = GetSystemMetrics(SM_CXICON);
-		int cyIcon = GetSystemMetrics(SM_CYICON);
-		CRect rect;
-		GetClientRect(&rect);
-		int x = (rect.Width() - cxIcon + 1) / 2;
-		int y = (rect.Height() - cyIcon + 1) / 2;
+        // Center icon in client rectangle
+        int cxIcon = GetSystemMetrics(SM_CXICON);
+        int cyIcon = GetSystemMetrics(SM_CYICON);
+        CRect rect;
+        GetClientRect(&rect);
+        int x = (rect.Width() - cxIcon + 1) / 2;
+        int y = (rect.Height() - cyIcon + 1) / 2;
 
-		// Draw the icon
-		dc.DrawIcon(x, y, m_hIcon);
-	}
-	else
-	{
-		CDialog::OnPaint();
-	}
+        // Draw the icon
+        dc.DrawIcon(x, y, m_hIcon);
+    }
+    else {
+        CDialog::OnPaint();
+    }
 
-	return ;
+    return;
 }
-
 
 ///////////////////////////////////////////////////////////////////
 //
@@ -209,80 +200,71 @@ CWWConfigDlg::OnPaint (void)
 //
 ///////////////////////////////////////////////////////////////////
 HCURSOR
-CWWConfigDlg::OnQueryDragIcon (void)
+CWWConfigDlg::OnQueryDragIcon(void)
 {
-	return (HCURSOR) m_hIcon;
+    return (HCURSOR)m_hIcon;
 }
-
 
 ///////////////////////////////////////////////////////////////////
 //
 //	OnOK
 //
 ///////////////////////////////////////////////////////////////////
-void
-CWWConfigDlg::OnOK (void) 
+void CWWConfigDlg::OnOK(void)
 {
-	GlobalExitValue=0;
-	//
-	//	Loop over each page and ask them to save themselves
-	//
-	for (int index = 0; index < ConfigPages.Count (); index ++) {
-		ConfigPages[index]->SendMessage (WM_USER + 101);
-	}
+    GlobalExitValue = 0;
+    //
+    //	Loop over each page and ask them to save themselves
+    //
+    for (int index = 0; index < ConfigPages.Count(); index++) {
+        ConfigPages[index]->SendMessage(WM_USER + 101);
+    }
 
-	CDialog::OnOK ();
-	return ;
+    CDialog::OnOK();
+    return;
 }
-
 
 ///////////////////////////////////////////////////////////////////
 //
 //	OnSelchangeTabCtrl
 //
 ///////////////////////////////////////////////////////////////////
-void
-CWWConfigDlg::OnSelchangeTabCtrl
-(
-	NMHDR *		pNMHDR,
-	LRESULT *	pResult
-)
+void CWWConfigDlg::OnSelchangeTabCtrl(NMHDR* pNMHDR, LRESULT* pResult)
 {
-	(*pResult) = 0;
+    (*pResult) = 0;
 
-	//
-	//	Check to see if the user has selected a new tab
-	//
-	int newtab = m_TabCtrl.GetCurSel ();
-	if (CurrentTab != newtab) {
-		
-		//
-		// Hide the old tab
-		//
-		if (CurrentTab < ConfigPages.Count () && ConfigPages[CurrentTab] != NULL) {
-			ConfigPages[CurrentTab]->ShowWindow (SW_HIDE);
-		}
+    //
+    //	Check to see if the user has selected a new tab
+    //
+    int newtab = m_TabCtrl.GetCurSel();
+    if (CurrentTab != newtab) {
 
-		//
-		// Show the new tab
-		//
-		if (ConfigPages[newtab] != NULL) {
-			ConfigPages[newtab]->ShowWindow (SW_SHOW);
-		}
+        //
+        // Hide the old tab
+        //
+        if (CurrentTab < ConfigPages.Count() && ConfigPages[CurrentTab] != NULL) {
+            ConfigPages[CurrentTab]->ShowWindow(SW_HIDE);
+        }
 
-		//
-		// Remember what our new current tab is
-		//
-		CurrentTab = newtab;
-	}
+        //
+        // Show the new tab
+        //
+        if (ConfigPages[newtab] != NULL) {
+            ConfigPages[newtab]->ShowWindow(SW_SHOW);
+        }
 
-	return ;
+        //
+        // Remember what our new current tab is
+        //
+        CurrentTab = newtab;
+    }
+
+    return;
 }
 
-
-void CWWConfigDlg::OnCancel() 
+void CWWConfigDlg::OnCancel()
 {
-	// TODO: Add extra cleanup here
-	GlobalExitValue=1;
-	CDialog::OnCancel();
+    // TODO: Add extra cleanup here
+    GlobalExitValue = 1;
+    CDialog::OnCancel();
 }

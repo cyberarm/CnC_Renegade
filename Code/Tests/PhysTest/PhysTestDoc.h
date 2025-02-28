@@ -34,63 +34,58 @@ class LightClass;
 class RenderObjClass;
 class PhysClass;
 
-
 class CPhysTestDoc : public CDocument
 {
 protected: // create from serialization only
-	CPhysTestDoc();
-	DECLARE_DYNCREATE(CPhysTestDoc)
+    CPhysTestDoc();
+    DECLARE_DYNCREATE(CPhysTestDoc)
 
-// Attributes
+    // Attributes
 public:
-
-// Operations
+    // Operations
 public:
-
-// Overrides
-	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CPhysTestDoc)
-	public:
-	virtual BOOL OnNewDocument();
-	virtual void Serialize(CArchive& ar);
-	virtual BOOL OnOpenDocument(LPCTSTR lpszPathName);
-	virtual BOOL OnSaveDocument(LPCTSTR lpszPathName);
-	//}}AFX_VIRTUAL
-
-// Implementation
+    // Overrides
+    // ClassWizard generated virtual function overrides
+    //{{AFX_VIRTUAL(CPhysTestDoc)
 public:
+    virtual BOOL OnNewDocument();
+    virtual void Serialize(CArchive& ar);
+    virtual BOOL OnOpenDocument(LPCTSTR lpszPathName);
+    virtual BOOL OnSaveDocument(LPCTSTR lpszPathName);
+    //}}AFX_VIRTUAL
 
-	virtual ~CPhysTestDoc(void);
-	void				Init_Scene(void);
-	void				Load_LEV_File(LPCTSTR lpszPathName);
-	void				Load_W3D_File(LPCTSTR lpszPathName);
-	void				Load_PHY_File(LPCTSTR lpszPathName);
-	void				Save_PHY_File(LPCTSTR lpszPathName);
+    // Implementation
+public:
+    virtual ~CPhysTestDoc(void);
+    void Init_Scene(void);
+    void Load_LEV_File(LPCTSTR lpszPathName);
+    void Load_W3D_File(LPCTSTR lpszPathName);
+    void Load_PHY_File(LPCTSTR lpszPathName);
+    void Save_PHY_File(LPCTSTR lpszPathName);
 
-	CGraphicView * Get_Graphic_View(void);
-	CDataView *		Get_Data_View(void);
-	void				Add_Physics_Object(PhysClass * obj);
-	int				Get_Physics_Object_Count(void);
+    CGraphicView* Get_Graphic_View(void);
+    CDataView* Get_Data_View(void);
+    void Add_Physics_Object(PhysClass* obj);
+    int Get_Physics_Object_Count(void);
 
 #ifdef _DEBUG
-	virtual void AssertValid(void) const;
-	virtual void Dump(CDumpContext& dc) const;
+    virtual void AssertValid(void) const;
+    virtual void Dump(CDumpContext& dc) const;
 #endif
 
-	PhysicsSceneClass *	Scene;
-	LightClass *			Light;
-	RenderObjClass *		Origin;
-	DWORD						LastTime;		
+    PhysicsSceneClass* Scene;
+    LightClass* Light;
+    RenderObjClass* Origin;
+    DWORD LastTime;
 
 protected:
-
-// Generated message map functions
+    // Generated message map functions
 protected:
-	//{{AFX_MSG(CPhysTestDoc)
-		// NOTE - the ClassWizard will add and remove member functions here.
-		//    DO NOT EDIT what you see in these blocks of generated code !
-	//}}AFX_MSG
-	DECLARE_MESSAGE_MAP()
+    //{{AFX_MSG(CPhysTestDoc)
+    // NOTE - the ClassWizard will add and remove member functions here.
+    //    DO NOT EDIT what you see in these blocks of generated code !
+    //}}AFX_MSG
+    DECLARE_MESSAGE_MAP()
 };
 
 /////////////////////////////////////////////////////////////////////////////

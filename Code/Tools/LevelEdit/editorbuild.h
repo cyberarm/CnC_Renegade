@@ -22,7 +22,7 @@
  *                                                                                             *
  *                 Project Name : LevelEdit                                                    *
  *                                                                                             *
- *                     $Archive:: /Commando/Code/Tools/LevelEdit/editorbuild.h                              $*
+ *                     $Archive:: /Commando/Code/Tools/LevelEdit/editorbuild.h $*
  *                                                                                             *
  *                       Author:: Patrick Smith                                                *
  *                                                                                             *
@@ -41,7 +41,6 @@
 #ifndef __EDITORBUILD_H
 #define __EDITORBUILD_H
 
-
 //////////////////////////////////////////////////////////////////////
 //
 //	Build defines
@@ -53,8 +52,6 @@
 // built with the public "mod" functionality or the in-house tool
 // functionality.
 //
-//#define PUBLIC_EDITOR_VER
-
-
+// #define PUBLIC_EDITOR_VER
 
 #endif //__EDITORBUILD_H

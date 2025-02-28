@@ -47,103 +47,91 @@
 //
 //	UniqueListClass
 //
-template<class T>
-class UniqueListClass : public DynamicVectorClass<T>
+template <class T> class UniqueListClass : public DynamicVectorClass<T>
 {
-	public:
-		UniqueListClass (void)
-			: DynamicVectorClass<T> () {}
-		virtual ~UniqueListClass (void) {}
+public:
+    UniqueListClass(void)
+        : DynamicVectorClass<T>()
+    {
+    }
+    virtual ~UniqueListClass(void) { }
 
-		UniqueListClass<T> &			operator += (const UniqueListClass<T> &reference);
-		bool								Add_Unique (T const & object);
-		void								Remove (T const & object);
-		bool								Is_Item_In_List (T const & object);
+    UniqueListClass<T>& operator+=(const UniqueListClass<T>& reference);
+    bool Add_Unique(T const& object);
+    void Remove(T const& object);
+    bool Is_Item_In_List(T const& object);
 };
-
 
 /////////////////////////////////////////////////////////////////////
 //
 //	Is_Item_In_List
 //
-template<class T>
-bool
-UniqueListClass<T>::Is_Item_In_List (T const & object)
+template <class T> bool UniqueListClass<T>::Is_Item_In_List(T const& object)
 {
-	// Assume failure
-	bool bfound = false;
+    // Assume failure
+    bool bfound = false;
 
-	// Loop through all the objects in this list and see
-	// if any of them match the provided object
-	for (int index = 0; (index < Count ()) && !bfound; index ++) {
-		if (object == Vector[index]) {
-			bfound = true;
-		}
-	}
+    // Loop through all the objects in this list and see
+    // if any of them match the provided object
+    for (int index = 0; (index < Count()) && !bfound; index++) {
+        if (object == Vector[index]) {
+            bfound = true;
+        }
+    }
 
-	// Return the true/false result code
-	return bfound;
+    // Return the true/false result code
+    return bfound;
 }
-
 
 /////////////////////////////////////////////////////////////////////
 //
 //	Add_Unique
 //
-template<class T>
-UniqueListClass<T> &
-UniqueListClass<T>::operator += (const UniqueListClass<T> &reference)
+template <class T>
+UniqueListClass<T>& UniqueListClass<T>::operator+=(const UniqueListClass<T>& reference)
 {
-	for (int index = 0; index < reference.Count (); index ++) {
-		Add_Unique (reference[index]);
-	}
+    for (int index = 0; index < reference.Count(); index++) {
+        Add_Unique(reference[index]);
+    }
 
-	return *this;
+    return *this;
 }
-
 
 /////////////////////////////////////////////////////////////////////
 //
 //	Add_Unique
 //
-template<class T>
-bool
-UniqueListClass<T>::Add_Unique (T const & object)
+template <class T> bool UniqueListClass<T>::Add_Unique(T const& object)
 {
-	// Assume sucess
-	bool retval = true;
+    // Assume sucess
+    bool retval = true;
 
-	// If the object isn't already in the list, then add it
-	if (!Is_Item_In_List (object)) {
-		retval = Add (object);
-	}
+    // If the object isn't already in the list, then add it
+    if (!Is_Item_In_List(object)) {
+        retval = Add(object);
+    }
 
-	// Return the true/false result code
-	return retval;
+    // Return the true/false result code
+    return retval;
 }
-
 
 /////////////////////////////////////////////////////////////////////
 //
 //	Remove
 //
-template<class T>
-void
-UniqueListClass<T>::Remove (T const & object)
+template <class T> void UniqueListClass<T>::Remove(T const& object)
 {
-	// Loop through all the objects in this list and see
-	// if any of them match the provided object
-	bool bfound = false;
-	for (int index = 0; (index < Count ()) && !bfound; index ++) {
-		if (object == Vector[index]) {
-			Delete (index);
-			bfound = true;
-		}
-	}
+    // Loop through all the objects in this list and see
+    // if any of them match the provided object
+    bool bfound = false;
+    for (int index = 0; (index < Count()) && !bfound; index++) {
+        if (object == Vector[index]) {
+            Delete(index);
+            bfound = true;
+        }
+    }
 
-	return ;
+    return;
 }
-
-
 
 #endif //__UNIQUELIST_H

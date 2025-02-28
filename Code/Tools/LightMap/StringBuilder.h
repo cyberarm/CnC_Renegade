@@ -16,47 +16,45 @@
 **	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-/*********************************************************************************************** 
- ***                            Confidential - Westwood Studios                              *** 
- *********************************************************************************************** 
- *                                                                                             * 
- *                 Project Name : LightMap                                                     * 
- *                                                                                             * 
- *                     $Archive:: /Commando/Code/Tool $* 
- *                                                                                             * 
- *                      $Author:: Ian_l               $* 
- *                                                                                             * 
- *                     $Modtime:: 10/17/99 9:31p      $* 
- *                                                                                             * 
- *                    $Revision:: 4                                                         $* 
- *                                                                                             * 
- *---------------------------------------------------------------------------------------------* 
- * Functions:                                                                                  * 
+/***********************************************************************************************
+ ***                            Confidential - Westwood Studios                              ***
+ ***********************************************************************************************
+ *                                                                                             *
+ *                 Project Name : LightMap                                                     *
+ *                                                                                             *
+ *                     $Archive:: /Commando/Code/Tool $*
+ *                                                                                             *
+ *                      $Author:: Ian_l               $*
+ *                                                                                             *
+ *                     $Modtime:: 10/17/99 9:31p      $*
+ *                                                                                             *
+ *                    $Revision:: 4                                                         $*
+ *                                                                                             *
+ *---------------------------------------------------------------------------------------------*
+ * Functions:                                                                                  *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
 #ifndef STRINGBUILDER_H
 #define STRINGBUILDER_H
 
-class StringBuilder {
+class StringBuilder
+{
 
-	public:
-		 StringBuilder (unsigned buffersize);
-		 StringBuilder (char *buffer, unsigned buffersize);
-		~StringBuilder ();
+public:
+    StringBuilder(unsigned buffersize);
+    StringBuilder(char* buffer, unsigned buffersize);
+    ~StringBuilder();
 
-		char *String() {return (Buffer);}
-		char *Copy (const char *controlstring, ...);
-		char *Concatenate (const char *controlstring, ...);
+    char* String() { return (Buffer); }
+    char* Copy(const char* controlstring, ...);
+    char* Concatenate(const char* controlstring, ...);
 
-	private:
+private:
+    StringBuilder();
 
-		StringBuilder ();
-		
-		char		*Buffer;
-		unsigned  BufferSize;
-		bool		 BufferAllocated;
+    char* Buffer;
+    unsigned BufferSize;
+    bool BufferAllocated;
 };
 
-
 #endif // STRINGBUILDER_H
-

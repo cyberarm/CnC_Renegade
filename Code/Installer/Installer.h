@@ -16,22 +16,22 @@
 **	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-/*********************************************************************************************** 
- ***                            Confidential - Westwood Studios                              *** 
- *********************************************************************************************** 
- *                                                                                             * 
- *                 Project Name : Installer                                                    * 
- *                                                                                             * 
- *                     $Archive:: /Commando/Code/Installer/Installer.h  $* 
- *                                                                                             * 
- *                      $Author:: Ian_l                   $* 
- *                                                                                             * 
- *                     $Modtime:: 1/17/02 5:01p                 $* 
- *                                                                                             * 
- *                    $Revision:: 13                    $* 
- *                                                                                             * 
- *---------------------------------------------------------------------------------------------* 
- * Functions:                                                                                  * 
+/***********************************************************************************************
+ ***                            Confidential - Westwood Studios                              ***
+ ***********************************************************************************************
+ *                                                                                             *
+ *                 Project Name : Installer                                                    *
+ *                                                                                             *
+ *                     $Archive:: /Commando/Code/Installer/Installer.h  $*
+ *                                                                                             *
+ *                      $Author:: Ian_l                   $*
+ *                                                                                             *
+ *                     $Modtime:: 1/17/02 5:01p                 $*
+ *                                                                                             *
+ *                    $Revision:: 13                    $*
+ *                                                                                             *
+ *---------------------------------------------------------------------------------------------*
+ * Functions:                                                                                  *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 #ifndef _INSTALLER_H
 #define _INSTALLER_H
@@ -41,9 +41,8 @@
 #include "Utilities.h"
 #include "Wwuiinput.h"
 
-
 // Forward declarations.
-class	AudibleSoundClass;
+class AudibleSoundClass;
 class CardSelectionDialogClass;
 class CopyDialogClass;
 class DialogBaseClass;
@@ -54,7 +53,7 @@ class INIClass;
 class NDADialogClass;
 class LicenseDialogClass;
 class MixFileFactoryClass;
-class	ReviewDialogClass;
+class ReviewDialogClass;
 class SerialDialogClass;
 class WelcomeDialogClass;
 class WhatToInstallDialogClass;
@@ -63,215 +62,225 @@ class WOL2DialogClass;
 class WOLDirectoryDialogClass;
 class WOLFolderDialogClass;
 class WWAudioClass;
-class	WW3DAssetManager;
-
+class WW3DAssetManager;
 
 // Class definitions.
 class InstallerUIInputClass : public WWUIInputClass
 {
-	public:
+public:
+    InstallerUIInputClass()
+        : WWUIInputClass(),
+          MousePosition(Vector3(0.0f, 0.0f, 0.0f))
+    {
+    }
 
-		InstallerUIInputClass()	: WWUIInputClass(), MousePosition (Vector3 (0.0f, 0.0f, 0.0f)) {}
+    void Add_Mouse_Wheel(short delta) { MousePosition.Z += delta; }
 
-		void Add_Mouse_Wheel (short delta)
-		{
-			MousePosition.Z += delta;
-		}	
+private:
+    const Vector3& Get_Mouse_Pos(void) const
+    {
+        POINT cursorposition;
 
-	private:
+        GetCursorPos(&cursorposition);
+        ScreenToClient(MainWindow, &cursorposition);
+        MousePosition.X = cursorposition.x;
+        MousePosition.Y = cursorposition.y;
+        return (MousePosition);
+    }
 
-		const Vector3 &Get_Mouse_Pos (void) const
-		{
-			POINT cursorposition;
+    void Set_Mouse_Pos(const Vector3& position)
+    {
+        POINT p;
 
-			GetCursorPos (&cursorposition);
-			ScreenToClient (MainWindow, &cursorposition);
-			MousePosition.X = cursorposition.x;
-			MousePosition.Y = cursorposition.y;
-			return (MousePosition);
-		}
-		
-		void Set_Mouse_Pos (const Vector3 &position)
-		{	
-			POINT p;
+        if (GameInFocus) {
+            p.x = position.X;
+            p.y = position.Y;
+            ClientToScreen(MainWindow, &p);
+            SetCursorPos(p.x, p.y);
+            MousePosition.X = p.x;
+            MousePosition.Y = p.y;
+        }
+    }
 
-			if (GameInFocus) {
-				p.x = position.X;
-				p.y = position.Y;
-				ClientToScreen (MainWindow, &p);
-				SetCursorPos (p.x, p.y);
-				MousePosition.X = p.x;
-				MousePosition.Y = p.y;
-			}
-		}
+    bool Is_Button_Down(int vk_mouse_button_id)
+    {
+        bool retval = false;
+        switch (vk_mouse_button_id) {
+        case VK_LBUTTON:
+        case VK_MBUTTON:
+        case VK_RBUTTON:
+            retval = (GetKeyState(vk_mouse_button_id) & 0x80000000) != 0x0;
+            break;
+        }
 
-		bool Is_Button_Down (int vk_mouse_button_id)
-		{
-			bool retval = false;
-			switch (vk_mouse_button_id)
-			{
-				case VK_LBUTTON:
-				case VK_MBUTTON:
-				case VK_RBUTTON:
-					retval = (GetKeyState (vk_mouse_button_id) & 0x80000000) != 0x0;
-					break;
-			}
+        return retval;
+    }
 
-			return retval;
-		}
-
-		mutable Vector3 MousePosition;
+    mutable Vector3 MousePosition;
 };
 
+class FileLogClass
+{
 
-class FileLogClass {
+public:
+    // Equality operator.
+    bool operator==(const FileLogClass& f)
+    {
+        return ((RelativePathname == f.RelativePathname) && (Size == f.Size));
+    }
 
-	public:
+    // Inequality operator.
+    bool operator!=(const FileLogClass& f) { return (!(*this == f)); }
 
-		// Equality operator.
-		bool operator == (const FileLogClass &f) {
-			return ((RelativePathname == f.RelativePathname) && (Size == f.Size));
-		}
-
-		// Inequality operator.
-		bool operator != (const FileLogClass &f) {
-			return (!(*this == f));
-		}
-	
-		WideStringClass RelativePathname;		// Relative pathname of file.
-		__int64			 Size;						// Size of file (in bytes).
+    WideStringClass RelativePathname; // Relative pathname of file.
+    __int64 Size; // Size of file (in bytes).
 };
-
 
 class InstallerClass
 {
-	public:
+public:
+    InstallerClass();
+    ~InstallerClass();
 
-		 InstallerClass();
-		~InstallerClass(); 
-		
-		InstallerUIInputClass *Get_Input() {return (UIInput);}
+    InstallerUIInputClass* Get_Input() { return (UIInput); }
 
-		void Cancel_Introduction()			  {CancelIntroduction = true;}
+    void Cancel_Introduction() { CancelIntroduction = true; }
 
-		void Install (MixFileFactoryClass *mixfilefactory);
-		void Dialog_Callback (DialogBaseClass *dialog, int ctrl_id, int message_id, DWORD param);
-		void On_Prog_End();
+    void Install(MixFileFactoryClass* mixfilefactory);
+    void Dialog_Callback(DialogBaseClass* dialog, int ctrl_id, int message_id, DWORD param);
+    void On_Prog_End();
 
-  		// Main interface.
-		const WCHAR			*Get_Source_Game_Path (WideStringClass &path)		{path = SourceGamePath; return (path);}
-		const WCHAR			*Get_Source_WOL_Path (WideStringClass &path) 		{path = SourceWOLPath; return (path);}
-		bool					 Install_Game();
-		bool					 Install_WOL();
-		bool					 Install_Game_Shortcut();
-		__int64				 Get_Game_Size (bool ondisk);
-		__int64				 Get_WOL_Size (bool ondisk);
-		__int64				 Get_Total_Size (bool ondisk);
-		bool					 Get_Game_Space_Available (const WideStringClass &path, __int64 &diskspace) {return (Get_Disk_Space_Available (path, diskspace));}
-		bool					 Get_WOL_Space_Available (const WideStringClass &path, __int64 &diskspace);
-		const char			*Get_Serial_Number (StringClass &serialnumber);
-		const WCHAR			*Get_Target_Game_Path (WideStringClass &path);
-		bool					 Get_Target_Sub_Path (unsigned index, WideStringClass &subdirectoryname);
-		const WCHAR			*Get_Target_WOL_Path (WideStringClass &path);
-		const WCHAR			*Get_Target_Game_Folder (WideStringClass &folder);
-		const WCHAR			*Get_Target_WOL_Folder (WideStringClass &folder);
-		bool					 Is_Fresh_Game_Install()									{return (FreshGameInstall);}				
-		bool					 Is_Fresh_WOL_Install()										{return (FreshWOLInstall);}
-		bool					 Is_Target_WOL_Older_Than_Source()						{return (TargetWOLOlder);}
-		WW3DAssetManager	*Get_Asset_Manager()											{return (AssetManager);}
-		bool					 Can_Use_IGR_Settings();
-		bool					 Use_IGR_Settings();
-		bool					 Beta_Test();
-		
-		// Registry interface.
-		void Update_Registry();
-		void Create_Links();
-		bool Get_WOL_Account (unsigned index, WideStringClass &name, WideStringClass &password);
-		void Set_Preferred_WOL_Account (const WideStringClass &accountname) {_RegistryManager.Set_Preferred_WOL_Account (accountname);}
+    // Main interface.
+    const WCHAR* Get_Source_Game_Path(WideStringClass& path)
+    {
+        path = SourceGamePath;
+        return (path);
+    }
+    const WCHAR* Get_Source_WOL_Path(WideStringClass& path)
+    {
+        path = SourceWOLPath;
+        return (path);
+    }
+    bool Install_Game();
+    bool Install_WOL();
+    bool Install_Game_Shortcut();
+    __int64 Get_Game_Size(bool ondisk);
+    __int64 Get_WOL_Size(bool ondisk);
+    __int64 Get_Total_Size(bool ondisk);
+    bool Get_Game_Space_Available(const WideStringClass& path, __int64& diskspace)
+    {
+        return (Get_Disk_Space_Available(path, diskspace));
+    }
+    bool Get_WOL_Space_Available(const WideStringClass& path, __int64& diskspace);
+    const char* Get_Serial_Number(StringClass& serialnumber);
+    const WCHAR* Get_Target_Game_Path(WideStringClass& path);
+    bool Get_Target_Sub_Path(unsigned index, WideStringClass& subdirectoryname);
+    const WCHAR* Get_Target_WOL_Path(WideStringClass& path);
+    const WCHAR* Get_Target_Game_Folder(WideStringClass& folder);
+    const WCHAR* Get_Target_WOL_Folder(WideStringClass& folder);
+    bool Is_Fresh_Game_Install() { return (FreshGameInstall); }
+    bool Is_Fresh_WOL_Install() { return (FreshWOLInstall); }
+    bool Is_Target_WOL_Older_Than_Source() { return (TargetWOLOlder); }
+    WW3DAssetManager* Get_Asset_Manager() { return (AssetManager); }
+    bool Can_Use_IGR_Settings();
+    bool Use_IGR_Settings();
+    bool Beta_Test();
 
-		// File/subdirectory logging interface.
-		void Log (const WideStringClass &pathname, __int64 size = -1);
-		void Create_Uninstall_Logs();
+    // Registry interface.
+    void Update_Registry();
+    void Create_Links();
+    bool Get_WOL_Account(unsigned index, WideStringClass& name, WideStringClass& password);
+    void Set_Preferred_WOL_Account(const WideStringClass& accountname)
+    {
+        _RegistryManager.Set_Preferred_WOL_Account(accountname);
+    }
 
-	protected:
+    // File/subdirectory logging interface.
+    void Log(const WideStringClass& pathname, __int64 size = -1);
+    void Create_Uninstall_Logs();
 
-		enum ProgEndActionEnum {
-			ACTION_NONE,
-			ACTION_RUN_GAME,
-			ACTION_DISPLAY_README
-		};
+protected:
+    enum ProgEndActionEnum
+    {
+        ACTION_NONE,
+        ACTION_RUN_GAME,
+        ACTION_DISPLAY_README
+    };
 
-		// Internal initialization/shutdown.
-		void Initialize();
-		void Shutdown();
-		bool WW3D_Initialize (int cardselection = -1);
-		void WW3D_Shutdown();
+    // Internal initialization/shutdown.
+    void Initialize();
+    void Shutdown();
+    bool WW3D_Initialize(int cardselection = -1);
+    void WW3D_Shutdown();
 
-		// Support functions.
-		bool Check_Source();
-		void Count_Source_Files (const WideStringClass &sourcepath, unsigned &filecount, __int64 &filesize);
-		void Check_Existing_Install();
-		void Auto_Configure();
-		bool Register_COM_Server (const WideStringClass &comdll);
-		void Create_Encryption_File (const WideStringClass &pathname);
-		void Encrypt (const char *number, const WideStringClass &pathname, StringClass &encryptednumber);
-		bool Create_File_Link (const WideStringClass &linkpath, const WideStringClass &title, const WideStringClass &targetpathname, const WideStringClass &iconpathname, const WideStringClass *arguments = NULL);
-		bool Create_URL_Link (const WideStringClass &linkpath, const WideStringClass &title, const WideStringClass &url);
-		bool Has_WOL_Account();
-		void Create_Game_Uninstall_Log();
-		void Create_WOL_Uninstall_Log();
-		void Run_Game();
-		void Display_Readme();
+    // Support functions.
+    bool Check_Source();
+    void Count_Source_Files(const WideStringClass& sourcepath, unsigned& filecount,
+                            __int64& filesize);
+    void Check_Existing_Install();
+    void Auto_Configure();
+    bool Register_COM_Server(const WideStringClass& comdll);
+    void Create_Encryption_File(const WideStringClass& pathname);
+    void Encrypt(const char* number, const WideStringClass& pathname, StringClass& encryptednumber);
+    bool Create_File_Link(const WideStringClass& linkpath, const WideStringClass& title,
+                          const WideStringClass& targetpathname,
+                          const WideStringClass& iconpathname,
+                          const WideStringClass* arguments = NULL);
+    bool Create_URL_Link(const WideStringClass& linkpath, const WideStringClass& title,
+                         const WideStringClass& url);
+    bool Has_WOL_Account();
+    void Create_Game_Uninstall_Log();
+    void Create_WOL_Uninstall_Log();
+    void Run_Game();
+    void Display_Readme();
 
-		// Data.
-		INIClass										 *SetupIni;
-		INIClass										 *GameIni;
-		INIClass										 *WOLIni;
-		WideStringClass							  SourceGamePath;
-		WideStringClass							  SourceWOLPath;
-		MixFileFactoryClass						 *MixFileFactory;
-		DynamicVectorClass <WideStringClass>  FontNames;
-		WideStringClass							  TargetGamePath;
-		bool											  FreshGameInstall;
-		bool											  FreshWOLInstall;
-		bool											  TargetWOLOlder;
-		unsigned										  GameFileCount;
-		__int64										  GameSize;	
-		unsigned										  WOLFileCount;
-		__int64										  WOLSize;	
-		WW3DAssetManager							 *AssetManager;
-		bool											  WwmathInitialized;
-		bool											  DialogMgrInitialized;
-		WWAudioClass								 *AudioSystem;
-		AudibleSoundClass							 *TransitionMusic;
-		AudibleSoundClass							 *InstallMusic;
-		InstallerUIInputClass					 *UIInput;
-		bool											  CancelIntroduction;
-		bool											  CancelApplication;
-		WelcomeDialogClass						 *WelcomeDialog;
-		NDADialogClass								 *NDADialog;
-		LicenseDialogClass						 *LicenseDialog;	
-		SerialDialogClass							 *SerialDialog;
-		WhatToInstallDialogClass				 *WhatToInstallDialog;
-	   GameDirectoryDialogClass				 *GameDirectoryDialog;
-	   GameFolderDialogClass					 *GameFolderDialog;
-	   WOLDirectoryDialogClass					 *WOLDirectoryDialog;
-	   WOLFolderDialogClass						 *WOLFolderDialog;
-	   ReviewDialogClass							 *ReviewDialog;
-		CopyDialogClass							 *CopyDialog;
-		WOL1DialogClass							 *WOL1Dialog;
-		WOL2DialogClass							 *WOL2Dialog;
-		FinalDialogClass							 *FinalDialog;
-		CardSelectionDialogClass				 *CardSelectionDialog;
-		DynamicVectorClass <WideStringClass>  GameSubdirectories;
-		DynamicVectorClass <FileLogClass>	  GameFiles;
-		DynamicVectorClass <FileLogClass>	  WOLFiles;
-		ProgEndActionEnum							  ProgEndAction;
+    // Data.
+    INIClass* SetupIni;
+    INIClass* GameIni;
+    INIClass* WOLIni;
+    WideStringClass SourceGamePath;
+    WideStringClass SourceWOLPath;
+    MixFileFactoryClass* MixFileFactory;
+    DynamicVectorClass<WideStringClass> FontNames;
+    WideStringClass TargetGamePath;
+    bool FreshGameInstall;
+    bool FreshWOLInstall;
+    bool TargetWOLOlder;
+    unsigned GameFileCount;
+    __int64 GameSize;
+    unsigned WOLFileCount;
+    __int64 WOLSize;
+    WW3DAssetManager* AssetManager;
+    bool WwmathInitialized;
+    bool DialogMgrInitialized;
+    WWAudioClass* AudioSystem;
+    AudibleSoundClass* TransitionMusic;
+    AudibleSoundClass* InstallMusic;
+    InstallerUIInputClass* UIInput;
+    bool CancelIntroduction;
+    bool CancelApplication;
+    WelcomeDialogClass* WelcomeDialog;
+    NDADialogClass* NDADialog;
+    LicenseDialogClass* LicenseDialog;
+    SerialDialogClass* SerialDialog;
+    WhatToInstallDialogClass* WhatToInstallDialog;
+    GameDirectoryDialogClass* GameDirectoryDialog;
+    GameFolderDialogClass* GameFolderDialog;
+    WOLDirectoryDialogClass* WOLDirectoryDialog;
+    WOLFolderDialogClass* WOLFolderDialog;
+    ReviewDialogClass* ReviewDialog;
+    CopyDialogClass* CopyDialog;
+    WOL1DialogClass* WOL1Dialog;
+    WOL2DialogClass* WOL2Dialog;
+    FinalDialogClass* FinalDialog;
+    CardSelectionDialogClass* CardSelectionDialog;
+    DynamicVectorClass<WideStringClass> GameSubdirectories;
+    DynamicVectorClass<FileLogClass> GameFiles;
+    DynamicVectorClass<FileLogClass> WOLFiles;
+    ProgEndActionEnum ProgEndAction;
 };
-
 
 // Singleton.
 extern InstallerClass _Installer;
-
 
 #endif // INSTALLER_H

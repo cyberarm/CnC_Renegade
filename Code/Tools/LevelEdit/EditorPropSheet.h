@@ -26,13 +26,12 @@
 //
 
 #include "dockableform.h"
-#include "vector.h"
 #include "resource.h"
+#include "vector.h"
 
 #ifndef __AFXEXT_H__
 #include <afxext.h>
 #endif
-
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -41,84 +40,87 @@
 /////////////////////////////////////////////////////////////////////////////
 class EditorPropSheetClass : public CDialog
 {
-	public:
-		EditorPropSheetClass (void);
-		virtual ~EditorPropSheetClass (void);
-
-// Form Data
 public:
-	//{{AFX_DATA(EditorPropSheetClass)
-	enum { IDD = IDD_PROP_SHEET_TEMPLATE };
-	CTabCtrl	m_TabCtrl;
-	//}}AFX_DATA
+    EditorPropSheetClass(void);
+    virtual ~EditorPropSheetClass(void);
 
-// Attributes
+    // Form Data
 public:
+    //{{AFX_DATA(EditorPropSheetClass)
+    enum
+    {
+        IDD = IDD_PROP_SHEET_TEMPLATE
+    };
+    CTabCtrl m_TabCtrl;
+    //}}AFX_DATA
 
-// Operations
+    // Attributes
 public:
+    // Operations
+public:
+    // Overrides
+    // ClassWizard generated virtual function overrides
+    //{{AFX_VIRTUAL(EditorPropSheetClass)
+protected:
+    virtual void DoDataExchange(CDataExchange* pDX); // DDX/DDV support
+    virtual BOOL OnCommand(WPARAM wParam, LPARAM lParam);
+    //}}AFX_VIRTUAL
 
-// Overrides
-	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(EditorPropSheetClass)
-	protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
-	virtual BOOL OnCommand(WPARAM wParam, LPARAM lParam);
-	//}}AFX_VIRTUAL
-
-// Implementation
-protected:	
+    // Implementation
+protected:
 #ifdef _DEBUG
-	virtual void AssertValid() const;
-	virtual void Dump(CDumpContext& dc) const;
+    virtual void AssertValid() const;
+    virtual void Dump(CDumpContext& dc) const;
 #endif
 
-	// Generated message map functions
-	//{{AFX_MSG(EditorPropSheetClass)
-	afx_msg void OnSize(UINT nType, int cx, int cy);
-	afx_msg void OnSelchangeTabCtrl(NMHDR* pNMHDR, LRESULT* pResult);
-	virtual BOOL OnInitDialog();
-	afx_msg void OnOk();
-	virtual void OnCancel();
-	//}}AFX_MSG
-	DECLARE_MESSAGE_MAP()
+    // Generated message map functions
+    //{{AFX_MSG(EditorPropSheetClass)
+    afx_msg void OnSize(UINT nType, int cx, int cy);
+    afx_msg void OnSelchangeTabCtrl(NMHDR* pNMHDR, LRESULT* pResult);
+    virtual BOOL OnInitDialog();
+    afx_msg void OnOk();
+    virtual void OnCancel();
+    //}}AFX_MSG
+    DECLARE_MESSAGE_MAP()
 
-	public:
+public:
+    ///////////////////////////////////////////////////////
+    //	Public methods
+    ///////////////////////////////////////////////////
+    virtual void Add_Page(DockableFormClass* pnew_tab)
+    {
+        if (m_hWnd == NULL) {
+            m_TabList.Add(pnew_tab);
+        }
+    }
 
-		///////////////////////////////////////////////////////
-		//	Public methods
-		///////////////////////////////////////////////////
-		virtual void	Add_Page (DockableFormClass *pnew_tab) { if (m_hWnd == NULL) m_TabList.Add (pnew_tab); }
+    bool Is_Read_Only(void) const { return m_IsReadOnly; }
+    void Set_Read_Only(bool onoff) { m_IsReadOnly = onoff; }
 
-		bool				Is_Read_Only (void) const	{ return m_IsReadOnly; }
-		void				Set_Read_Only (bool onoff)	{ m_IsReadOnly = onoff; }
+protected:
+    ///////////////////////////////////////////////////
+    //	Protected methods
+    ///////////////////////////////////////////////////
+    virtual void Reposition_Buttons(int cx, int cy);
+    virtual bool Apply_Changes(void);
 
-	protected:
+    ///////////////////////////////////////////////////
+    //	Protected member data
+    ///////////////////////////////////////////////////
+    DynamicVectorClass<DockableFormClass*> m_TabList;
 
-		///////////////////////////////////////////////////
-		//	Protected methods
-		///////////////////////////////////////////////////
-		virtual void	Reposition_Buttons (int cx, int cy);
-		virtual bool	Apply_Changes (void);
-
-		///////////////////////////////////////////////////
-		//	Protected member data
-		///////////////////////////////////////////////////
-		DynamicVectorClass<DockableFormClass *> m_TabList;
-
-
-	private:
-
-		///////////////////////////////////////////////////
-		//	Private member data
-		///////////////////////////////////////////////////
-		int	m_iCurrentTab;
-		bool	m_IsReadOnly;
+private:
+    ///////////////////////////////////////////////////
+    //	Private member data
+    ///////////////////////////////////////////////////
+    int m_iCurrentTab;
+    bool m_IsReadOnly;
 };
 
 /////////////////////////////////////////////////////////////////////////////
 
 //{{AFX_INSERT_LOCATION}}
-// Microsoft Developer Studio will insert additional declarations immediately before the previous line.
+// Microsoft Developer Studio will insert additional declarations immediately before the previous
+// line.
 
 #endif // !defined(AFX_EDITORPROPSHEETCLASS_H__E2623E75_740A_11D2_9FD0_00104B791122__INCLUDED_)

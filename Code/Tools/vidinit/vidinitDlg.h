@@ -31,48 +31,51 @@
 class CSurrenderWnd;
 class CVidinitDlg : public CDialog
 {
-// Construction
+    // Construction
 public:
-	CVidinitDlg(CWnd* pParent = NULL);	// standard constructor
+    CVidinitDlg(CWnd* pParent = NULL); // standard constructor
 
-// Dialog Data
-	//{{AFX_DATA(CVidinitDlg)
-	enum { IDD = IDD_VIDINIT_DIALOG };
-	CListBox	m_Resolutions;
-	CListBox	m_Drivers;
-	BOOL		m_RunFullScreen;
-	//}}AFX_DATA
+    // Dialog Data
+    //{{AFX_DATA(CVidinitDlg)
+    enum
+    {
+        IDD = IDD_VIDINIT_DIALOG
+    };
+    CListBox m_Resolutions;
+    CListBox m_Drivers;
+    BOOL m_RunFullScreen;
+    //}}AFX_DATA
 
-	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CVidinitDlg)
-	protected:
-	virtual void DoDataExchange(CDataExchange* pDX);	// DDX/DDV support
-	//}}AFX_VIRTUAL
-
-// Implementation
+    // ClassWizard generated virtual function overrides
+    //{{AFX_VIRTUAL(CVidinitDlg)
 protected:
-	HICON	m_hIcon;
-	LPCTSTR	m_WndClass;
-	CSurrenderWnd *  m_TestCWnd;
+    virtual void DoDataExchange(CDataExchange* pDX); // DDX/DDV support
+    //}}AFX_VIRTUAL
 
-	char	m_DeviceName[255];
-	int		m_DeviceWidth;
-	int		m_DeviceHeight;
-	int		m_DeviceDepth;
-	int		m_DeviceWindowed;
+    // Implementation
+protected:
+    HICON m_hIcon;
+    LPCTSTR m_WndClass;
+    CSurrenderWnd* m_TestCWnd;
 
-	// Generated message map functions
-	//{{AFX_MSG(CVidinitDlg)
-	virtual BOOL OnInitDialog();
-	afx_msg void OnPaint();
-	afx_msg HCURSOR OnQueryDragIcon();
-	virtual void OnOK();
-	virtual void OnCancel();
-	afx_msg void OnSelchangeDrivers();
-	afx_msg void OnTest();
-	//}}AFX_MSG
-	afx_msg LRESULT OnDeadBeef(WPARAM, LPARAM);
-	DECLARE_MESSAGE_MAP()
+    char m_DeviceName[255];
+    int m_DeviceWidth;
+    int m_DeviceHeight;
+    int m_DeviceDepth;
+    int m_DeviceWindowed;
+
+    // Generated message map functions
+    //{{AFX_MSG(CVidinitDlg)
+    virtual BOOL OnInitDialog();
+    afx_msg void OnPaint();
+    afx_msg HCURSOR OnQueryDragIcon();
+    virtual void OnOK();
+    virtual void OnCancel();
+    afx_msg void OnSelchangeDrivers();
+    afx_msg void OnTest();
+    //}}AFX_MSG
+    afx_msg LRESULT OnDeadBeef(WPARAM, LPARAM);
+    DECLARE_MESSAGE_MAP()
 };
 
 //{{AFX_INSERT_LOCATION}}

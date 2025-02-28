@@ -17,51 +17,48 @@
 */
 
 /* $Header: /Commando/Code/Tests/movietest/_viewpt.cpp 2     3/21/98 12:08p Greg_h $ */
-/*********************************************************************************************** 
- ***                            Confidential - Westwood Studios                              *** 
- *********************************************************************************************** 
- *                                                                                             * 
- *                 Project Name : Commando                                                     * 
- *                                                                                             * 
- *                     $Archive:: /Commando/Code/Tests/movietest/_viewpt.cpp                  $* 
- *                                                                                             * 
- *                      $Author:: Greg_h                                                      $* 
- *                                                                                             * 
- *                     $Modtime:: 2/27/98 10:57a                                              $* 
- *                                                                                             * 
- *                    $Revision:: 2                                                           $* 
- *                                                                                             * 
- *---------------------------------------------------------------------------------------------* 
- * Functions:                                                                                  * 
+/***********************************************************************************************
+ ***                            Confidential - Westwood Studios                              ***
+ ***********************************************************************************************
+ *                                                                                             *
+ *                 Project Name : Commando                                                     *
+ *                                                                                             *
+ *                     $Archive:: /Commando/Code/Tests/movietest/_viewpt.cpp                  $*
+ *                                                                                             *
+ *                      $Author:: Greg_h                                                      $*
+ *                                                                                             *
+ *                     $Modtime:: 2/27/98 10:57a                                              $*
+ *                                                                                             *
+ *                    $Revision:: 2                                                           $*
+ *                                                                                             *
+ *---------------------------------------------------------------------------------------------*
+ * Functions:                                                                                  *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
-
 #include "_viewpt.h"
-
 
 /*
 ** Current resolution of the screen / game window.
 ** (only the Width and Height fields are valid...)
 */
-Rect		ScreenResolution;
+Rect ScreenResolution;
 
 /*
 ** Rectangle within main window for the main viewport
 */
-Rect		MainViewport;
+Rect MainViewport;
 
 /*
 ** Rectangle within the main window for the status bar
 */
-Rect		StatusViewport;
+Rect StatusViewport;
 
 /*
 ** Rectangle within the main window for the radar / map
 */
-Rect		RadarViewport;
+Rect RadarViewport;
 
 /*
 ** Rectangle within the main window for the PIP viewport
 */
-Rect		PIPViewport;
-
+Rect PIPViewport;

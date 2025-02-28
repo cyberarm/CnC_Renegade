@@ -19,10 +19,10 @@
 // InertiaDialog.cpp : implementation file
 //
 
-#include "stdafx.h"
-#include "phystest.h"
 #include "InertiaDialog.h"
+#include "phystest.h"
 #include "rbody.h"
+#include "stdafx.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -30,111 +30,103 @@
 static char THIS_FILE[] = __FILE__;
 #endif
 
-
 const int MIN_IBODY = 0;
 const int MAX_IBODY = 255;
-
 
 /////////////////////////////////////////////////////////////////////////////
 // CInertiaDialog dialog
 
-CInertiaDialog::CInertiaDialog(CWnd* pParent,RigidBodyClass * obj) :
-	CDialog(CInertiaDialog::IDD, pParent),
-	Object(obj)
+CInertiaDialog::CInertiaDialog(CWnd* pParent, RigidBodyClass* obj)
+    : CDialog(CInertiaDialog::IDD, pParent),
+      Object(obj)
 {
-	//{{AFX_DATA_INIT(CInertiaDialog)
-		// NOTE: the ClassWizard will add member initialization here
-	//}}AFX_DATA_INIT
+    //{{AFX_DATA_INIT(CInertiaDialog)
+    // NOTE: the ClassWizard will add member initialization here
+    //}}AFX_DATA_INIT
 
-	ASSERT(Object != NULL);
+    ASSERT(Object != NULL);
 }
-
 
 void CInertiaDialog::DoDataExchange(CDataExchange* pDX)
 {
-	CDialog::DoDataExchange(pDX);
-	//{{AFX_DATA_MAP(CInertiaDialog)
-	DDX_Control(pDX, IDC_IBODYZ_SPIN, m_IBodyZSpin);
-	DDX_Control(pDX, IDC_IBODYY_SPIN, m_IBodyYSpin);
-	DDX_Control(pDX, IDC_IBODYX_SPIN, m_IBodyXSpin);
-	//}}AFX_DATA_MAP
+    CDialog::DoDataExchange(pDX);
+    //{{AFX_DATA_MAP(CInertiaDialog)
+    DDX_Control(pDX, IDC_IBODYZ_SPIN, m_IBodyZSpin);
+    DDX_Control(pDX, IDC_IBODYY_SPIN, m_IBodyYSpin);
+    DDX_Control(pDX, IDC_IBODYX_SPIN, m_IBodyXSpin);
+    //}}AFX_DATA_MAP
 }
 
-
 BEGIN_MESSAGE_MAP(CInertiaDialog, CDialog)
-	//{{AFX_MSG_MAP(CInertiaDialog)
-	//}}AFX_MSG_MAP
+//{{AFX_MSG_MAP(CInertiaDialog)
+//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
 // CInertiaDialog message handlers
 
-BOOL CInertiaDialog::OnInitDialog() 
+BOOL CInertiaDialog::OnInitDialog()
 {
-	CDialog::OnInitDialog();
-	
-	m_IBodyXSpin.SetRange(MIN_IBODY * 100,MAX_IBODY * 100);
-	m_IBodyYSpin.SetRange(MIN_IBODY * 100,MAX_IBODY * 100);
-	m_IBodyZSpin.SetRange(MIN_IBODY * 100,MAX_IBODY * 100);
-	
-	Matrix3 ibody;
-	Object->Get_Inertia(&ibody);
-	m_IBodyXSpin.SetPos(ibody[0][0] * 100);
-	m_IBodyYSpin.SetPos(ibody[1][1] * 100);
-	m_IBodyZSpin.SetPos(ibody[2][2] * 100);
+    CDialog::OnInitDialog();
 
-	SetDlgItemFloat(IDC_IBODYX_EDIT,ibody[0][0]);
-	SetDlgItemFloat(IDC_IBODYY_EDIT,ibody[1][1]);
-	SetDlgItemFloat(IDC_IBODYZ_EDIT,ibody[2][2]);
+    m_IBodyXSpin.SetRange(MIN_IBODY * 100, MAX_IBODY * 100);
+    m_IBodyYSpin.SetRange(MIN_IBODY * 100, MAX_IBODY * 100);
+    m_IBodyZSpin.SetRange(MIN_IBODY * 100, MAX_IBODY * 100);
 
-	return TRUE; 
+    Matrix3 ibody;
+    Object->Get_Inertia(&ibody);
+    m_IBodyXSpin.SetPos(ibody[0][0] * 100);
+    m_IBodyYSpin.SetPos(ibody[1][1] * 100);
+    m_IBodyZSpin.SetPos(ibody[2][2] * 100);
+
+    SetDlgItemFloat(IDC_IBODYX_EDIT, ibody[0][0]);
+    SetDlgItemFloat(IDC_IBODYY_EDIT, ibody[1][1]);
+    SetDlgItemFloat(IDC_IBODYZ_EDIT, ibody[2][2]);
+
+    return TRUE;
 }
 
-
-BOOL CInertiaDialog::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult) 
+BOOL CInertiaDialog::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult)
 {
-	// make the spin controls work...
-	switch(wParam) 
-	{
-		case IDC_IBODYX_SPIN:
-		case IDC_IBODYY_SPIN:
-		case IDC_IBODYZ_SPIN:
-			LPNMUPDOWN lpnmud = (LPNMUPDOWN) lParam;
-			if (lpnmud->hdr.code == UDN_DELTAPOS) {
-				HWND hwnd = (HWND)SendDlgItemMessage(LOWORD(wParam),UDM_GETBUDDY);
-				float curval = GetDlgItemFloat(GetWindowLong(hwnd,GWL_ID));
-				curval += (float)lpnmud->iDelta / 100.0f;
-				SetDlgItemFloat(GetWindowLong(hwnd,GWL_ID), curval);
-			}
-			break;
-	}
+    // make the spin controls work...
+    switch (wParam) {
+    case IDC_IBODYX_SPIN:
+    case IDC_IBODYY_SPIN:
+    case IDC_IBODYZ_SPIN:
+        LPNMUPDOWN lpnmud = (LPNMUPDOWN)lParam;
+        if (lpnmud->hdr.code == UDN_DELTAPOS) {
+            HWND hwnd = (HWND)SendDlgItemMessage(LOWORD(wParam), UDM_GETBUDDY);
+            float curval = GetDlgItemFloat(GetWindowLong(hwnd, GWL_ID));
+            curval += (float)lpnmud->iDelta / 100.0f;
+            SetDlgItemFloat(GetWindowLong(hwnd, GWL_ID), curval);
+        }
+        break;
+    }
 
-	return CDialog::OnNotify(wParam, lParam, pResult);
+    return CDialog::OnNotify(wParam, lParam, pResult);
 }
 
-
-void CInertiaDialog::OnOK() 
+void CInertiaDialog::OnOK()
 {
-	Matrix3 ibody(1);
-	ibody[0][0] = GetDlgItemFloat(IDC_IBODYX_EDIT);
-	ibody[1][1] = GetDlgItemFloat(IDC_IBODYY_EDIT);
-	ibody[2][2] = GetDlgItemFloat(IDC_IBODYZ_EDIT);
-	Object->Set_Inertia(ibody);
-	
-	CDialog::OnOK();
-}
+    Matrix3 ibody(1);
+    ibody[0][0] = GetDlgItemFloat(IDC_IBODYX_EDIT);
+    ibody[1][1] = GetDlgItemFloat(IDC_IBODYY_EDIT);
+    ibody[2][2] = GetDlgItemFloat(IDC_IBODYZ_EDIT);
+    Object->Set_Inertia(ibody);
 
+    CDialog::OnOK();
+}
 
 float CInertiaDialog::GetDlgItemFloat(int controlid)
 {
-	CString string;
-	GetDlgItemText(controlid,string);
-	return atof(string);
+    CString string;
+    GetDlgItemText(controlid, string);
+    return atof(string);
 }
 
-void CInertiaDialog::SetDlgItemFloat(int controlid,float val)
+void CInertiaDialog::SetDlgItemFloat(int controlid, float val)
 {
-	CString string;
-	string.Format("%.2f",val);
-	SetDlgItemText(controlid,string);
+    CString string;
+    string.Format("%.2f", val);
+    SetDlgItemText(controlid, string);
 }

@@ -22,7 +22,7 @@
  *                                                                                             *
  *                 Project Name : leveledit                                                    *
  *                                                                                             *
- *                     $Archive:: /Commando/Code/Tools/LevelEdit/assetdatabase.cpp                              $*
+ *                     $Archive:: /Commando/Code/Tools/LevelEdit/assetdatabase.cpp $*
  *                                                                                             *
  *                       Author:: Patrick Smith                                                *
  *                                                                                             *
@@ -34,5 +34,5 @@
  * Functions:                                                                                  *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
-#include "stdafx.h"
 #include "assetdatabase.h"
+#include "stdafx.h"

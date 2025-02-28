@@ -25,5 +25,4 @@
 
 #include "resource.h"
 
-
 #endif // !defined(AFX_SKELETON_H__E48DBEDA_2947_4E55_9064_895B85FBE5B2__INCLUDED_)

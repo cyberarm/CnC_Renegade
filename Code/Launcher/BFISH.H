@@ -16,29 +16,28 @@
 **	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-/*********************************************************************************************** 
- ***              C O N F I D E N T I A L  ---  W E S T W O O D  S T U D I O S               *** 
- *********************************************************************************************** 
- *                                                                                             * 
- *                 Project Name : Blowfish Component                                           * 
- *                                                                                             * 
- *                     $Archive:: /Commando/Code/Launcher/BFISH.H                             $* 
- *                                                                                             * 
+/***********************************************************************************************
+ ***              C O N F I D E N T I A L  ---  W E S T W O O D  S T U D I O S               ***
+ ***********************************************************************************************
+ *                                                                                             *
+ *                 Project Name : Blowfish Component                                           *
+ *                                                                                             *
+ *                     $Archive:: /Commando/Code/Launcher/BFISH.H                             $*
+ *                                                                                             *
  *                      $Author:: Denzil_l                                                    $*
- *                                                                                             * 
+ *                                                                                             *
  *                     $Modtime:: 12/02/97 9:35p                                              $*
- *                                                                                             * 
+ *                                                                                             *
  *                    $Revision:: 1                                                           $*
  *                                                                                             *
- *---------------------------------------------------------------------------------------------* 
- * Functions:                                                                                  * 
+ *---------------------------------------------------------------------------------------------*
+ * Functions:                                                                                  *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
 #ifndef BFISH_H
 #define BFISH_H
 
-#include	<limits.h>
-
+#include <limits.h>
 
 /*
 **	This engine will process data blocks by encryption and decryption.
@@ -47,59 +46,65 @@
 **	weaknesses, but is still relatively new. Blowfish is particularly strong
 **	against brute force attacks. It is also quite strong against linear and
 **	differential cryptanalysis. Unlike public key encription, it is very
-**	fast at encryption, as far as cryptography goes. Its weakness is that 
-**	it takes a relatively long time to set up with a new key (1/100th of 
-**	a second on a P6-200). The time to set up a key is equivalent to 
+**	fast at encryption, as far as cryptography goes. Its weakness is that
+**	it takes a relatively long time to set up with a new key (1/100th of
+**	a second on a P6-200). The time to set up a key is equivalent to
 **	encrypting 4240 bytes.
 */
-class BlowfishEngine {
-	public:
-		BlowfishEngine(void) : IsKeyed(false) {}
-		~BlowfishEngine(void);
+class BlowfishEngine
+{
+public:
+    BlowfishEngine(void)
+        : IsKeyed(false)
+    {
+    }
+    ~BlowfishEngine(void);
 
-		void Submit_Key(void const * key, int length);
+    void Submit_Key(void const* key, int length);
 
-		int Encrypt(void const * plaintext, int length, void * cyphertext);
-		int Decrypt(void const * cyphertext, int length, void * plaintext);
+    int Encrypt(void const* plaintext, int length, void* cyphertext);
+    int Decrypt(void const* cyphertext, int length, void* plaintext);
 
-		/*
-		**	This is the maximum key length supported.
-		*/
-		enum {MAX_KEY_LENGTH=56,
-				BYTES_PER_BLOCK=8		// The number of bytes in each cypher block (don't change).
-		};
+    /*
+    **	This is the maximum key length supported.
+    */
+    enum
+    {
+        MAX_KEY_LENGTH = 56,
+        BYTES_PER_BLOCK = 8 // The number of bytes in each cypher block (don't change).
+    };
 
-	private:
-		bool IsKeyed;
+private:
+    bool IsKeyed;
 
-		void Sub_Key_Encrypt(unsigned long & left, unsigned long & right);
+    void Sub_Key_Encrypt(unsigned long& left, unsigned long& right);
 
-		void Process_Block(void const * plaintext, void * cyphertext, unsigned long const * ptable);
-		void Initialize_Tables(void);
+    void Process_Block(void const* plaintext, void* cyphertext, unsigned long const* ptable);
+    void Initialize_Tables(void);
 
-		enum {
-			ROUNDS = 16		// Feistal round count (16 is standard).
-		};
+    enum
+    {
+        ROUNDS = 16 // Feistal round count (16 is standard).
+    };
 
-		/*
-		**	Initialization data for sub keys. The initial values are constant and
-		**	filled with a number generated from pi. Thus they are not random but
-		**	they don't hold a weak pattern either.
-		*/
-		static unsigned long const P_Init[ROUNDS+2];
-		static unsigned long const S_Init[4][UCHAR_MAX+1];
+    /*
+    **	Initialization data for sub keys. The initial values are constant and
+    **	filled with a number generated from pi. Thus they are not random but
+    **	they don't hold a weak pattern either.
+    */
+    static unsigned long const P_Init[ROUNDS + 2];
+    static unsigned long const S_Init[4][UCHAR_MAX + 1];
 
-		/*
-		**	Permutation tables for encryption and decryption.
-		*/
- 		unsigned long P_Encrypt[ROUNDS+2];
- 		unsigned long P_Decrypt[ROUNDS+2];
+    /*
+    **	Permutation tables for encryption and decryption.
+    */
+    unsigned long P_Encrypt[ROUNDS + 2];
+    unsigned long P_Decrypt[ROUNDS + 2];
 
-		/*
-		**	S-Box tables (four).
-		*/
-		unsigned long bf_S[4][UCHAR_MAX+1];
+    /*
+    **	S-Box tables (four).
+    */
+    unsigned long bf_S[4][UCHAR_MAX + 1];
 };
 
 #endif
-

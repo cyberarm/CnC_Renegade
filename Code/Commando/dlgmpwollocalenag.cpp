@@ -22,7 +22,7 @@
  *                                                                                             *
  *                 Project Name : commando                                                    *
  *                                                                                             *
- *                     $Archive:: /Commando/Code/commando/dlgmpwollocalenag.cpp                              $*
+ *                     $Archive:: /Commando/Code/commando/dlgmpwollocalenag.cpp $*
  *                                                                                             *
  *                       Author:: Patrick Smith                                                *
  *                                                                                             *
@@ -35,84 +35,78 @@
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
 #include "dlgmpwollocalenag.h"
+#include "comboboxctrl.h"
 #include "resource.h"
 #include "wollocalemgr.h"
-#include "comboboxctrl.h"
-
 
 //////////////////////////////////////////////////////////////////////
 //
 //	MPWolLocaleNagDialogClass
 //
 //////////////////////////////////////////////////////////////////////
-MPWolLocaleNagDialogClass::MPWolLocaleNagDialogClass (void)	:
-	PopupDialogClass (IDD_MP_WOL_LOCALE_NAG)
+MPWolLocaleNagDialogClass::MPWolLocaleNagDialogClass(void)
+    : PopupDialogClass(IDD_MP_WOL_LOCALE_NAG)
 {
-	return ;
+    return;
 }
-
 
 //////////////////////////////////////////////////////////////////////
 //
 //	~MPWolLocaleNagDialogClass
 //
 //////////////////////////////////////////////////////////////////////
-MPWolLocaleNagDialogClass::~MPWolLocaleNagDialogClass (void)
+MPWolLocaleNagDialogClass::~MPWolLocaleNagDialogClass(void)
 {
-	return ;
+    return;
 }
-
 
 //////////////////////////////////////////////////////////////////////
 //
 //	On_Init_Dialog
 //
 //////////////////////////////////////////////////////////////////////
-void
-MPWolLocaleNagDialogClass::On_Init_Dialog (void)
-{	
-	//
-	//	Fill the combobox with all the locales
-	//
-	ComboBoxCtrlClass *ctrl = (ComboBoxCtrlClass *)Get_Dlg_Item (IDC_LOCALE_COMBO);
-	if (ctrl != NULL) {
-		WolLocaleMgrClass::Configure_Locale_Combobox (ctrl);
-	}
+void MPWolLocaleNagDialogClass::On_Init_Dialog(void)
+{
+    //
+    //	Fill the combobox with all the locales
+    //
+    ComboBoxCtrlClass* ctrl = (ComboBoxCtrlClass*)Get_Dlg_Item(IDC_LOCALE_COMBO);
+    if (ctrl != NULL) {
+        WolLocaleMgrClass::Configure_Locale_Combobox(ctrl);
+    }
 
-	PopupDialogClass::On_Init_Dialog ();
-	return ;
+    PopupDialogClass::On_Init_Dialog();
+    return;
 }
-
 
 //////////////////////////////////////////////////////////////////////
 //
 //	On_Command
 //
 //////////////////////////////////////////////////////////////////////
-void
-MPWolLocaleNagDialogClass::On_Command (int ctrl_id, int message_id, DWORD param)
+void MPWolLocaleNagDialogClass::On_Command(int ctrl_id, int message_id, DWORD param)
 {
-	if (ctrl_id == IDOK) {
-		
-		//
-		//	Get the selected locale from the combobox
-		//
-		ComboBoxCtrlClass *ctrl = (ComboBoxCtrlClass *)Get_Dlg_Item (IDC_LOCALE_COMBO);
-		if (ctrl != NULL) {
-			WOL::Locale locale = (WOL::Locale)ctrl->Get_Curr_Sel ();
+    if (ctrl_id == IDOK) {
 
-			//
-			//	Set the current locale accordingly
-			//
-			WolLocaleMgrClass::Set_Current_Locale (locale);
-		}
+        //
+        //	Get the selected locale from the combobox
+        //
+        ComboBoxCtrlClass* ctrl = (ComboBoxCtrlClass*)Get_Dlg_Item(IDC_LOCALE_COMBO);
+        if (ctrl != NULL) {
+            WOL::Locale locale = (WOL::Locale)ctrl->Get_Curr_Sel();
 
-		//
-		//	Close the dialog
-		//
-		End_Dialog ();
-	}
+            //
+            //	Set the current locale accordingly
+            //
+            WolLocaleMgrClass::Set_Current_Locale(locale);
+        }
 
-	PopupDialogClass::On_Command (ctrl_id, message_id, param);
-	return ;
+        //
+        //	Close the dialog
+        //
+        End_Dialog();
+    }
+
+    PopupDialogClass::On_Command(ctrl_id, message_id, param);
+    return;
 }

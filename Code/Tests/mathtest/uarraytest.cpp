@@ -36,70 +36,55 @@
 
 #include "uarraytest.h"
 #include "output.h"
-#include "vector3.h"
 #include "uarray.h"
+#include "vector3.h"
 
-
-Vector3 InputVectors[] = 
-{
-	Vector3(0,0,0),
-	Vector3(1,0,0),
-	Vector3(1,0,0),
-	Vector3(1,0,0),
-	Vector3(1,0,0),
-	Vector3(1,0,0),
-	Vector3(5.4f,2.3f,4.5f),
-	Vector3(0,0,0),
-	Vector3(5.4f,2.3f,4.5f),
+Vector3 InputVectors[] = {
+    Vector3(0, 0, 0),          Vector3(1, 0, 0), Vector3(1, 0, 0),
+    Vector3(1, 0, 0),          Vector3(1, 0, 0), Vector3(1, 0, 0),
+    Vector3(5.4f, 2.3f, 4.5f), Vector3(0, 0, 0), Vector3(5.4f, 2.3f, 4.5f),
 };
-
 
 class VectorHasherClass : public HashCalculatorClass<Vector3>
 {
 public:
+    virtual bool Items_Match(const Vector3& a, const Vector3& b)
+    {
+        // looking for an exact match for normals...
+        return ((a.X == b.X) && (a.Y == b.Y) && (a.Z == b.Z));
+    }
 
-	virtual bool	Items_Match(const Vector3 & a, const Vector3 & b) 
-	{
-		// looking for an exact match for normals...
-		return ((a.X == b.X) && (a.Y == b.Y) && (a.Z == b.Z));
-	}
+    virtual void Compute_Hash(const Vector3& item)
+    {
+        HashVal = (int)(item.X * 12345.6f + item.Y * 1714.38484f + item.Z * 27561.3f) & 1023;
+    }
 
-	virtual void	Compute_Hash(const Vector3 & item)
-	{
-		HashVal = (int)(item.X*12345.6f + item.Y*1714.38484f + item.Z*27561.3f)&1023; 
-	}
+    virtual int Num_Hash_Bits(void)
+    {
+        return 12; // 12bit hash value.
+    }
 
-	virtual int		Num_Hash_Bits(void) 
-	{ 
-		return 12;  // 12bit hash value. 
-	}
-	
-	virtual int		Num_Hash_Values(void)
-	{
-		return 1;	// only one hash value for normals, require *exact* match
-	}
-	
-	virtual int		Get_Hash_Value(int index)
-	{
-		return HashVal;
-	}
+    virtual int Num_Hash_Values(void)
+    {
+        return 1; // only one hash value for normals, require *exact* match
+    }
+
+    virtual int Get_Hash_Value(int index) { return HashVal; }
 
 private:
-	
-	int HashVal;
-
+    int HashVal;
 };
 
 void Test_Uarray(void)
 {
 
-	VectorHasherClass vectorhasher;
-	UniqueArrayClass<Vector3> UniqueVectors(4,4,&vectorhasher);
+    VectorHasherClass vectorhasher;
+    UniqueArrayClass<Vector3> UniqueVectors(4, 4, &vectorhasher);
 
-	int num_input_vectors = sizeof(InputVectors) / sizeof(Vector3);
-	int add_index;
+    int num_input_vectors = sizeof(InputVectors) / sizeof(Vector3);
+    int add_index;
 
-	for (int vi=0; vi<num_input_vectors; vi++) {
-		add_index = UniqueVectors.Add(InputVectors[vi]);
-	}
+    for (int vi = 0; vi < num_input_vectors; vi++) {
+        add_index = UniqueVectors.Add(InputVectors[vi]);
+    }
 }

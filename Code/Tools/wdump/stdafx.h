@@ -28,23 +28,22 @@
 #pragma once
 #endif // _MSC_VER >= 1000
 
-#define VC_EXTRALEAN		// Exclude rarely-used stuff from Windows headers
+#define VC_EXTRALEAN // Exclude rarely-used stuff from Windows headers
 
-#include <afxwin.h>         // MFC core and standard components
-#include <afxext.h>         // MFC extensions
+#include <afxext.h> // MFC extensions
+#include <afxwin.h> // MFC core and standard components
 #ifndef _AFX_NO_AFXCMN_SUPPORT
-#include <afxcmn.h>			// MFC support for Windows Common Controls
+#include <afxcmn.h> // MFC support for Windows Common Controls
 #endif // _AFX_NO_AFXCMN_SUPPORT
-#include <afxcview.h> // treeview class
-#include <afxtempl.h> // CList class
-#include <afxdlgs.h> // FileDialog class
-
 #include "chunkio.h"
 #include "vector3i.h"
 #include "w3d_file.h"
-
+#include <afxcview.h> // treeview class
+#include <afxdlgs.h> // FileDialog class
+#include <afxtempl.h> // CList class
 
 //{{AFX_INSERT_LOCATION}}
-// Microsoft Developer Studio will insert additional declarations immediately before the previous line.
+// Microsoft Developer Studio will insert additional declarations immediately before the previous
+// line.
 
 #endif // !defined(AFX_STDAFX_H__41C157E9_5631_11D1_8CDB_006097C6A583__INCLUDED_)

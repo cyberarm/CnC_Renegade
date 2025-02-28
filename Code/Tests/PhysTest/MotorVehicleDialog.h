@@ -32,39 +32,40 @@ class MotorVehicleClass;
 
 class CMotorVehicleDialog : public CDialog
 {
-// Construction
+    // Construction
 public:
-	CMotorVehicleDialog(CWnd* pParent,MotorVehicleClass * obj);
+    CMotorVehicleDialog(CWnd* pParent, MotorVehicleClass* obj);
 
-// Dialog Data
-	//{{AFX_DATA(CMotorVehicleDialog)
-	enum { IDD = IDD_MOTORVEHICLE_DIALOG };
-	CSpinButtonCtrl	m_TorqueSpin;
-	//}}AFX_DATA
+    // Dialog Data
+    //{{AFX_DATA(CMotorVehicleDialog)
+    enum
+    {
+        IDD = IDD_MOTORVEHICLE_DIALOG
+    };
+    CSpinButtonCtrl m_TorqueSpin;
+    //}}AFX_DATA
 
-
-// Overrides
-	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CMotorVehicleDialog)
-	protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
-	virtual BOOL OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult);
-	//}}AFX_VIRTUAL
-
-// Implementation
+    // Overrides
+    // ClassWizard generated virtual function overrides
+    //{{AFX_VIRTUAL(CMotorVehicleDialog)
 protected:
-	
-	MotorVehicleClass * EditedObject;
+    virtual void DoDataExchange(CDataExchange* pDX); // DDX/DDV support
+    virtual BOOL OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult);
+    //}}AFX_VIRTUAL
 
-	float GetDlgItemFloat(int controlid);
-	void SetDlgItemFloat(int controlid,float val);
+    // Implementation
+protected:
+    MotorVehicleClass* EditedObject;
 
-	// Generated message map functions
-	//{{AFX_MSG(CMotorVehicleDialog)
-	virtual BOOL OnInitDialog();
-	virtual void OnOK();
-	//}}AFX_MSG
-	DECLARE_MESSAGE_MAP()
+    float GetDlgItemFloat(int controlid);
+    void SetDlgItemFloat(int controlid, float val);
+
+    // Generated message map functions
+    //{{AFX_MSG(CMotorVehicleDialog)
+    virtual BOOL OnInitDialog();
+    virtual void OnOK();
+    //}}AFX_MSG
+    DECLARE_MESSAGE_MAP()
 };
 
 //{{AFX_INSERT_LOCATION}}

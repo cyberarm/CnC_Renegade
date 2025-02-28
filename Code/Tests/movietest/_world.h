@@ -34,7 +34,6 @@
  * Functions:                                                                                  *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
-
 #ifndef _WORLD_H
 #define _WORLD_H
 
@@ -42,9 +41,7 @@
 #include "scene.h"
 #endif
 
-
-//extern WorldClass				TheWorld;
-extern SimpleSceneClass *		TheScene;
-
+// extern WorldClass				TheWorld;
+extern SimpleSceneClass* TheScene;
 
 #endif

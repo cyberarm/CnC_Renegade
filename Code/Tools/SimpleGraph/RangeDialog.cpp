@@ -19,11 +19,11 @@
 // RangeDialog.cpp : implementation file
 //
 
-#include "stdafx.h"
-#include "SimpleGraph.h"
 #include "RangeDialog.h"
+#include "SimpleGraph.h"
 #include "SimpleGraphView.h"
 #include "mainfrm.h"
+#include "stdafx.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -31,119 +31,101 @@
 static char THIS_FILE[] = __FILE__;
 #endif
 
-
 /////////////////////////////////////////////////////////////////////////////
 //
 //	fnEditToFloatProc
 //
 /////////////////////////////////////////////////////////////////////////////
-LRESULT CALLBACK
-fnEditToFloatProc
-(
-	HWND		hwnd,
-	UINT		message,
-	WPARAM	wparam,
-	LPARAM	lparam
-)
+LRESULT CALLBACK fnEditToFloatProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam)
 {
-	WNDPROC old_proc = (WNDPROC)::GetProp (hwnd, "OLD_WND_PROC");
-	LRESULT result = 0L;
+    WNDPROC old_proc = (WNDPROC)::GetProp(hwnd, "OLD_WND_PROC");
+    LRESULT result = 0L;
 
-	if (message == WM_SETTEXT) {
-		
-		//
-		//	Convert the textual value to a long, convert
-		// the long to a float, and conver the float to
-		// a string.
-		//
-		LPCTSTR string		= (LPCTSTR)lparam;
-		if (::strchr (string, '.') != 0) {
-			result = ::CallWindowProc (old_proc, hwnd, message, wparam, lparam);
-		} else {
-			long value			= ::atol ((LPCTSTR)lparam);
-			float float_value	= value / 100.0F;
-			CString new_text;
-			new_text.Format ("%.2f", float_value);
-			result = ::CallWindowProc (old_proc, hwnd, message, wparam, (LPARAM)(LPCTSTR)new_text);
-		}
+    if (message == WM_SETTEXT) {
 
-	} else if (message == WM_GETTEXT) {
-		
-		//
-		//	Get the value (as text) from the control,
-		// convert it to a float, convert the float
-		// to a long, then convert the long back to
-		// a string.
-		//
-		result				= ::CallWindowProc (old_proc, hwnd, message, wparam, lparam);		
-		LPCTSTR string		= (LPCTSTR)lparam;
-		if (::strchr (string, '.') != 0) {
-			float float_value	= ::atof (string);
-			long int_value		= long(float_value * 100);
-			::itoa (int_value, (LPTSTR)lparam, 10);			
-		} else {
-			long int_value		= ::atol (string) * 100;
-			::itoa (int_value, (LPTSTR)lparam, 10);						
-		}
+        //
+        //	Convert the textual value to a long, convert
+        // the long to a float, and conver the float to
+        // a string.
+        //
+        LPCTSTR string = (LPCTSTR)lparam;
+        if (::strchr(string, '.') != 0) {
+            result = ::CallWindowProc(old_proc, hwnd, message, wparam, lparam);
+        }
+        else {
+            long value = ::atol((LPCTSTR)lparam);
+            float float_value = value / 100.0F;
+            CString new_text;
+            new_text.Format("%.2f", float_value);
+            result = ::CallWindowProc(old_proc, hwnd, message, wparam, (LPARAM)(LPCTSTR)new_text);
+        }
+    }
+    else if (message == WM_GETTEXT) {
 
-		result = ::lstrlen ((LPTSTR)lparam);
+        //
+        //	Get the value (as text) from the control,
+        // convert it to a float, convert the float
+        // to a long, then convert the long back to
+        // a string.
+        //
+        result = ::CallWindowProc(old_proc, hwnd, message, wparam, lparam);
+        LPCTSTR string = (LPCTSTR)lparam;
+        if (::strchr(string, '.') != 0) {
+            float float_value = ::atof(string);
+            long int_value = long(float_value * 100);
+            ::itoa(int_value, (LPTSTR)lparam, 10);
+        }
+        else {
+            long int_value = ::atol(string) * 100;
+            ::itoa(int_value, (LPTSTR)lparam, 10);
+        }
 
-	} else if (message == WM_CHAR) {
-		
-		//
-		//	Check to see if this is one of the characters we allow
-		// the user to type
-		//
-		if (	(wparam >= '0' && wparam <= '9') ||
-				wparam == '.' ||
-				wparam == VK_BACK ||
-				wparam == '-')
-		{
-			result = ::CallWindowProc (old_proc, hwnd, message, wparam, lparam);
-		}
+        result = ::lstrlen((LPTSTR)lparam);
+    }
+    else if (message == WM_CHAR) {
 
-	} else if (old_proc != NULL) {
-		result = ::CallWindowProc (old_proc, hwnd, message, wparam, lparam);
-	}
+        //
+        //	Check to see if this is one of the characters we allow
+        // the user to type
+        //
+        if ((wparam >= '0' && wparam <= '9') || wparam == '.' || wparam == VK_BACK
+            || wparam == '-') {
+            result = ::CallWindowProc(old_proc, hwnd, message, wparam, lparam);
+        }
+    }
+    else if (old_proc != NULL) {
+        result = ::CallWindowProc(old_proc, hwnd, message, wparam, lparam);
+    }
 
-	return result;
+    return result;
 }
-
 
 /////////////////////////////////////////////////////////////////////////////
 //
 //	Make_Edit_Float_Ctrl
 //
 /////////////////////////////////////////////////////////////////////////////
-void
-Make_Edit_Float_Ctrl (HWND edit_wnd)
+void Make_Edit_Float_Ctrl(HWND edit_wnd)
 {
-	LONG old_proc = ::SetWindowLong (edit_wnd, GWL_WNDPROC, (LONG)fnEditToFloatProc);
-	SetProp (edit_wnd, "OLD_WND_PROC", (HANDLE)old_proc);
-	return ;
+    LONG old_proc = ::SetWindowLong(edit_wnd, GWL_WNDPROC, (LONG)fnEditToFloatProc);
+    SetProp(edit_wnd, "OLD_WND_PROC", (HANDLE)old_proc);
+    return;
 }
-
 
 ////////////////////////////////////////////////////////////////////////////
 //
 //  SetDlgItemFloat
 //
 ////////////////////////////////////////////////////////////////////////////
-void
-SetDlgItemFloat
-(
-	HWND hdlg,
-	UINT child_id,
-	float value
-)
+void SetDlgItemFloat(HWND hdlg, UINT child_id, float value)
 {
-	// Convert the float to a string
-	CString text;
-	text.Format ("%.2f", value);
+    // Convert the float to a string
+    CString text;
+    text.Format("%.2f", value);
 
-	// Pass the string onto the dialog control
-	::SetDlgItemText (hdlg, child_id, text);
-	return ;
+    // Pass the string onto the dialog control
+    ::SetDlgItemText(hdlg, child_id, text);
+    return;
 }
 
 ////////////////////////////////////////////////////////////////////////////
@@ -151,21 +133,15 @@ SetDlgItemFloat
 //  GetDlgItemFloat
 //
 ////////////////////////////////////////////////////////////////////////////
-float
-GetDlgItemFloat
-(
-	HWND hdlg,
-	UINT child_id
-)
+float GetDlgItemFloat(HWND hdlg, UINT child_id)
 {
-	// Get the string from the window
-	TCHAR string_value[20];
-	::GetDlgItemText (hdlg, child_id, string_value, sizeof (string_value));
+    // Get the string from the window
+    TCHAR string_value[20];
+    ::GetDlgItemText(hdlg, child_id, string_value, sizeof(string_value));
 
-	// Convert the string to a float and return the value
-	return ::atof (string_value);
+    // Convert the string to a float and return the value
+    return ::atof(string_value);
 }
-
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -173,82 +149,74 @@ GetDlgItemFloat
 //
 /////////////////////////////////////////////////////////////////////////////
 CRangeDialog::CRangeDialog(CWnd* pParent /*=NULL*/)
-	: CDialog(CRangeDialog::IDD, pParent)
+    : CDialog(CRangeDialog::IDD, pParent)
 {
-	//{{AFX_DATA_INIT(CRangeDialog)
-		// NOTE: the ClassWizard will add member initialization here
-	//}}AFX_DATA_INIT
-	return ;
+    //{{AFX_DATA_INIT(CRangeDialog)
+    // NOTE: the ClassWizard will add member initialization here
+    //}}AFX_DATA_INIT
+    return;
 }
-
 
 void CRangeDialog::DoDataExchange(CDataExchange* pDX)
 {
-	CDialog::DoDataExchange(pDX);
-	//{{AFX_DATA_MAP(CRangeDialog)
-		// NOTE: the ClassWizard will add DDX and DDV calls here
-	//}}AFX_DATA_MAP
+    CDialog::DoDataExchange(pDX);
+    //{{AFX_DATA_MAP(CRangeDialog)
+    // NOTE: the ClassWizard will add DDX and DDV calls here
+    //}}AFX_DATA_MAP
 }
 
-
 BEGIN_MESSAGE_MAP(CRangeDialog, CDialog)
-	//{{AFX_MSG_MAP(CRangeDialog)
-	//}}AFX_MSG_MAP
+//{{AFX_MSG_MAP(CRangeDialog)
+//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
-
 
 /////////////////////////////////////////////////////////////////////////////
 //
 // CRangeDialog
 //
 /////////////////////////////////////////////////////////////////////////////
-BOOL
-CRangeDialog::OnInitDialog (void)
+BOOL CRangeDialog::OnInitDialog(void)
 {
-	CDialog::OnInitDialog ();
+    CDialog::OnInitDialog();
 
-	CSimpleGraphView *view = (CSimpleGraphView *)((CMainFrame *)::AfxGetMainWnd ())->GetActiveView ();
-	
-	Vector2 range_min;
-	Vector2 range_max;
-	view->Get_Ranges (range_min, range_max);
-	
-	/*::Make_Edit_Float_Ctrl (::GetDlgItem (m_hWnd, IDC_MIN_X));
-	::Make_Edit_Float_Ctrl (::GetDlgItem (m_hWnd, IDC_MIN_Y));
-	::Make_Edit_Float_Ctrl (::GetDlgItem (m_hWnd, IDC_MAX_X));
-	::Make_Edit_Float_Ctrl (::GetDlgItem (m_hWnd, IDC_MAX_Y));*/
+    CSimpleGraphView* view = (CSimpleGraphView*)((CMainFrame*)::AfxGetMainWnd())->GetActiveView();
 
-	SetDlgItemFloat (m_hWnd, IDC_MIN_X, range_min.X);
-	SetDlgItemFloat (m_hWnd, IDC_MIN_Y, range_min.Y);
-	SetDlgItemFloat (m_hWnd, IDC_MAX_X, range_max.X);
-	SetDlgItemFloat (m_hWnd, IDC_MAX_Y, range_max.Y);
-	
-	return TRUE;
+    Vector2 range_min;
+    Vector2 range_max;
+    view->Get_Ranges(range_min, range_max);
+
+    /*::Make_Edit_Float_Ctrl (::GetDlgItem (m_hWnd, IDC_MIN_X));
+    ::Make_Edit_Float_Ctrl (::GetDlgItem (m_hWnd, IDC_MIN_Y));
+    ::Make_Edit_Float_Ctrl (::GetDlgItem (m_hWnd, IDC_MAX_X));
+    ::Make_Edit_Float_Ctrl (::GetDlgItem (m_hWnd, IDC_MAX_Y));*/
+
+    SetDlgItemFloat(m_hWnd, IDC_MIN_X, range_min.X);
+    SetDlgItemFloat(m_hWnd, IDC_MIN_Y, range_min.Y);
+    SetDlgItemFloat(m_hWnd, IDC_MAX_X, range_max.X);
+    SetDlgItemFloat(m_hWnd, IDC_MAX_Y, range_max.Y);
+
+    return TRUE;
 }
-
 
 /////////////////////////////////////////////////////////////////////////////
 //
 // OnOK
 //
 /////////////////////////////////////////////////////////////////////////////
-void
-CRangeDialog::OnOK (void)
+void CRangeDialog::OnOK(void)
 {
-	Vector2 range_min;
-	Vector2 range_max;
-	range_min.X = ::GetDlgItemFloat (m_hWnd, IDC_MIN_X);
-	range_min.Y = ::GetDlgItemFloat (m_hWnd, IDC_MIN_Y);
-	range_max.X = ::GetDlgItemFloat (m_hWnd, IDC_MAX_X);
-	range_max.Y = ::GetDlgItemFloat (m_hWnd, IDC_MAX_Y);
-	
-	
-	CSimpleGraphView *view = (CSimpleGraphView *)((CMainFrame *)::AfxGetMainWnd ())->GetActiveView ();
-	view->Set_Ranges (range_min, range_max);
-	view->InvalidateRect (NULL, TRUE);
-	view->UpdateWindow ();
+    Vector2 range_min;
+    Vector2 range_max;
+    range_min.X = ::GetDlgItemFloat(m_hWnd, IDC_MIN_X);
+    range_min.Y = ::GetDlgItemFloat(m_hWnd, IDC_MIN_Y);
+    range_max.X = ::GetDlgItemFloat(m_hWnd, IDC_MAX_X);
+    range_max.Y = ::GetDlgItemFloat(m_hWnd, IDC_MAX_Y);
 
+    CSimpleGraphView* view = (CSimpleGraphView*)((CMainFrame*)::AfxGetMainWnd())->GetActiveView();
+    view->Set_Ranges(range_min, range_max);
+    view->InvalidateRect(NULL, TRUE);
+    view->UpdateWindow();
 
-	CDialog::OnOK ();
-	return ;
+    CDialog::OnOK();
+    return;
 }

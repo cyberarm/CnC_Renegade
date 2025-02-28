@@ -20,7 +20,8 @@
  ***              C O N F I D E N T I A L  ---  W E S T W O O D  S T U D I O S               ***
  ***********************************************************************************************
  *                                                                                             *
- *                 Project Name : wwtranslatedb																  *
+ *                 Project Name : wwtranslatedb
+ **
  *                                                                                             *
  *                     $Archive:: /Commando/Code/wwtranslatedb/tdbcategories.h      $*
  *                                                                                             *
@@ -34,14 +35,12 @@
  * Functions:                                                                                  *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
-
 #if defined(_MSC_VER)
 #pragma once
 #endif
 
 #ifndef __TDB_CATEGORIES_H
 #define __TDB_CATEGORIES_H
-
 
 //////////////////////////////////////////////////////////////////////////
 //
@@ -50,9 +49,8 @@
 //////////////////////////////////////////////////////////////////////////
 typedef enum
 {
-	CATEGORY_DEFAULT	= 0,
+    CATEGORY_DEFAULT = 0,
 
 } TDB_CATEGORIES;
-
 
 #endif //__TDB_CATEGORIES_H

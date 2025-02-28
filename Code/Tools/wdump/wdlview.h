@@ -31,44 +31,44 @@
 class CWDumpListView : public CListView
 {
 protected:
-	CWDumpListView();           // protected constructor used by dynamic creation
-	DECLARE_DYNCREATE(CWDumpListView)
+    CWDumpListView(); // protected constructor used by dynamic creation
+    DECLARE_DYNCREATE(CWDumpListView)
 
-// Attributes
+    // Attributes
 public:
-
-// Operations
+    // Operations
 public:
+    // Overrides
+    // ClassWizard generated virtual function overrides
+    //{{AFX_VIRTUAL(CWDumpListView)
+public:
+    virtual void OnInitialUpdate();
 
-// Overrides
-	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CWDumpListView)
-	public:
-	virtual void OnInitialUpdate();
-	protected:
-	virtual void OnDraw(CDC* pDC);      // overridden to draw this view
-	virtual void OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint);
-	//}}AFX_VIRTUAL
-
-// Implementation
 protected:
-	virtual ~CWDumpListView();
+    virtual void OnDraw(CDC* pDC); // overridden to draw this view
+    virtual void OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint);
+    //}}AFX_VIRTUAL
+
+    // Implementation
+protected:
+    virtual ~CWDumpListView();
 #ifdef _DEBUG
-	virtual void AssertValid() const;
-	virtual void Dump(CDumpContext& dc) const;
+    virtual void AssertValid() const;
+    virtual void Dump(CDumpContext& dc) const;
 #endif
 
-	// Generated message map functions
+    // Generated message map functions
 protected:
-	//{{AFX_MSG(CWDumpListView)
-		// NOTE - the ClassWizard will add and remove member functions here.
-	//}}AFX_MSG
-	DECLARE_MESSAGE_MAP()
+    //{{AFX_MSG(CWDumpListView)
+    // NOTE - the ClassWizard will add and remove member functions here.
+    //}}AFX_MSG
+    DECLARE_MESSAGE_MAP()
 };
 
 /////////////////////////////////////////////////////////////////////////////
 
 //{{AFX_INSERT_LOCATION}}
-// Microsoft Developer Studio will insert additional declarations immediately before the previous line.
+// Microsoft Developer Studio will insert additional declarations immediately before the previous
+// line.
 
 #endif // !defined(AFX_WDLVIEW_H__6C0D7C07_56CD_11D1_8CDC_006097C6A583__INCLUDED_)

@@ -32,46 +32,48 @@ class MoveablePhysClass;
 
 class CRbodyPropertiesDialog : public CDialog
 {
-// Construction
+    // Construction
 public:
-	CRbodyPropertiesDialog(CWnd* pParent,MoveablePhysClass * obj);
+    CRbodyPropertiesDialog(CWnd* pParent, MoveablePhysClass* obj);
 
-// Dialog Data
-	//{{AFX_DATA(CRbodyPropertiesDialog)
-	enum { IDD = IDD_RBODY_PROPERTIES_DIALOG };
-	CSpinButtonCtrl	m_LengthSpin;
-	CSpinButtonCtrl	m_StiffnessSpin;
-	CSpinButtonCtrl	m_DampingSpin;
-	CSpinButtonCtrl	m_PositionZSpin;
-	CSpinButtonCtrl	m_PositionYSpin;
-	CSpinButtonCtrl	m_PositionXSpin;
-	CSpinButtonCtrl	m_MassSpin;
-	CSpinButtonCtrl	m_GravitySpin;
-	CSpinButtonCtrl	m_ElasticitySpin;
-	//}}AFX_DATA
+    // Dialog Data
+    //{{AFX_DATA(CRbodyPropertiesDialog)
+    enum
+    {
+        IDD = IDD_RBODY_PROPERTIES_DIALOG
+    };
+    CSpinButtonCtrl m_LengthSpin;
+    CSpinButtonCtrl m_StiffnessSpin;
+    CSpinButtonCtrl m_DampingSpin;
+    CSpinButtonCtrl m_PositionZSpin;
+    CSpinButtonCtrl m_PositionYSpin;
+    CSpinButtonCtrl m_PositionXSpin;
+    CSpinButtonCtrl m_MassSpin;
+    CSpinButtonCtrl m_GravitySpin;
+    CSpinButtonCtrl m_ElasticitySpin;
+    //}}AFX_DATA
 
-	MoveablePhysClass *	Object;
+    MoveablePhysClass* Object;
 
-// Overrides
-	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CRbodyPropertiesDialog)
-	protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
-	virtual BOOL OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult);
-	//}}AFX_VIRTUAL
-
-// Implementation
+    // Overrides
+    // ClassWizard generated virtual function overrides
+    //{{AFX_VIRTUAL(CRbodyPropertiesDialog)
 protected:
+    virtual void DoDataExchange(CDataExchange* pDX); // DDX/DDV support
+    virtual BOOL OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult);
+    //}}AFX_VIRTUAL
 
-	float GetDlgItemFloat(int controlid);
-	void SetDlgItemFloat(int controlid,float val);
+    // Implementation
+protected:
+    float GetDlgItemFloat(int controlid);
+    void SetDlgItemFloat(int controlid, float val);
 
-	// Generated message map functions
-	//{{AFX_MSG(CRbodyPropertiesDialog)
-	virtual void OnOK();
-	virtual BOOL OnInitDialog();
-	//}}AFX_MSG
-	DECLARE_MESSAGE_MAP()
+    // Generated message map functions
+    //{{AFX_MSG(CRbodyPropertiesDialog)
+    virtual void OnOK();
+    virtual BOOL OnInitDialog();
+    //}}AFX_MSG
+    DECLARE_MESSAGE_MAP()
 };
 
 //{{AFX_INSERT_LOCATION}}

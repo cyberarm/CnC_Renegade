@@ -34,12 +34,9 @@
  * Functions:                                                                                  *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
-
 #ifndef RAYTEST_H
 #define RAYTEST_H
 
-
 void Test_Rays(void);
-
 
 #endif

@@ -16,44 +16,49 @@
 **	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include "cvec.h"
 #include "matrix3.h"
 #include "vector3.h"
-#include "cvec.h"
 
 typedef enum
 {
-	itIntersects,
-	itA0, itA1, itA2,
-	itB0, itB1, itB2,
-	itA0B0, itA0B1, itA0B2,
-	itA1B0, itA1B1, itA1B2,
-	itA2B0, itA2B1, itA2B2
-}
-IntersectType;
-
+    itIntersects,
+    itA0,
+    itA1,
+    itA2,
+    itB0,
+    itB1,
+    itB2,
+    itA0B0,
+    itA0B1,
+    itA0B2,
+    itA1B0,
+    itA1B1,
+    itA1B2,
+    itA2B0,
+    itA2B1,
+    itA2B2
+} IntersectType;
 
 typedef struct
 {
-	Vector center;
-	Vector basis[3];
-	Vector extent;
-	Vector velocity;
-}
-Box;
+    Vector center;
+    Vector basis[3];
+    Vector extent;
+    Vector velocity;
+} Box;
 
 class BoxClass
 {
 public:
+    BoxClass(Box box);
 
-	BoxClass(Box box);
-	
-	Vector3	Center;
-	Vector3	Extent;
-	Vector3	Velocity;
-	Matrix3	Basis;
+    Vector3 Center;
+    Vector3 Extent;
+    Vector3 Velocity;
+    Matrix3 Basis;
 };
 
-
-IntersectType Boxes_Intersect(const BoxClass & box0, const BoxClass & box1);
-IntersectType Boxes_Intersect(const BoxClass & box0, const BoxClass & box1,float dt);
-IntersectType BoxesIntersect(float dt, const Box & box0, const Box & box1);
+IntersectType Boxes_Intersect(const BoxClass& box0, const BoxClass& box1);
+IntersectType Boxes_Intersect(const BoxClass& box0, const BoxClass& box1, float dt);
+IntersectType BoxesIntersect(float dt, const Box& box0, const Box& box1);

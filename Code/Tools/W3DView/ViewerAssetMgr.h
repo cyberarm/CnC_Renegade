@@ -43,7 +43,6 @@
 
 #include "AssetMgr.H"
 
-
 /////////////////////////////////////////////////////////////////////////////
 //
 // ViewerAssetMgrClass
@@ -52,43 +51,41 @@
 class ViewerAssetMgrClass : public WW3DAssetManager
 {
 public:
+    ///////////////////////////////////////////////////
+    //	Public constructors/destructors
+    ///////////////////////////////////////////////////
+    ViewerAssetMgrClass(void) { }
+    virtual ~ViewerAssetMgrClass(void) { }
 
-	///////////////////////////////////////////////////
-	//	Public constructors/destructors
-	///////////////////////////////////////////////////
-	ViewerAssetMgrClass (void) {}
-	virtual ~ViewerAssetMgrClass (void) {}
-	
-	///////////////////////////////////////////////////
-	//	Public methods
-	///////////////////////////////////////////////////
+    ///////////////////////////////////////////////////
+    //	Public methods
+    ///////////////////////////////////////////////////
 
-	//
-	// Base class overrides
-	//
-	virtual bool						Load_3D_Assets (FileClass &w3dfile);
-	virtual TextureClass *			Get_Texture(const char * filename, TextureClass::MipCountType mip_level_count=TextureClass::MIP_LEVELS_ALL);
+    //
+    // Base class overrides
+    //
+    virtual bool Load_3D_Assets(FileClass& w3dfile);
+    virtual TextureClass* Get_Texture(const char* filename,
+                                      TextureClass::MipCountType mip_level_count
+                                      = TextureClass::MIP_LEVELS_ALL);
 
-	//
-	//	Missing texture methods
-	//
-	void									Start_Tracking_Textures (void)	{ m_MissingTextureList.Delete_All (); }
-	DynamicVectorClass<CString> &	Get_Missing_Texture_List (void)	{ return m_MissingTextureList; }
+    //
+    //	Missing texture methods
+    //
+    void Start_Tracking_Textures(void) { m_MissingTextureList.Delete_All(); }
+    DynamicVectorClass<CString>& Get_Missing_Texture_List(void) { return m_MissingTextureList; }
 
-	//
-	//	Texture caching overrides
-	//
-	virtual void						Open_Texture_File_Cache(const char * /*prefix*/);
-	virtual void						Close_Texture_File_Cache();
-
+    //
+    //	Texture caching overrides
+    //
+    virtual void Open_Texture_File_Cache(const char* /*prefix*/);
+    virtual void Close_Texture_File_Cache();
 
 private:
-
-	///////////////////////////////////////////////////
-	//	Private member data
-	///////////////////////////////////////////////////
-	DynamicVectorClass<CString>	m_MissingTextureList;
+    ///////////////////////////////////////////////////
+    //	Private member data
+    ///////////////////////////////////////////////////
+    DynamicVectorClass<CString> m_MissingTextureList;
 };
-
 
 #endif //__VIEWER_ASSETMGR_H

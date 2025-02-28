@@ -1,0 +1,38 @@
+BasedOnStyle: WebKit
+
+AlignAfterOpenBracket: Align
+AllowShortFunctionsOnASingleLine: InlineOnly
+BreakBeforeBraces: Custom
+BreakConstructorInitializers: BeforeColon
+BraceWrapping:
+  AfterClass: true
+  AfterEnum: true
+  AfterFunction: true
+  AfterNamespace: true
+  AfterStruct: true
+  AfterUnion: true
+  BeforeElse: true
+ColumnLimit: 100
+IncludeBlocks: Regroup
+IncludeCategories:
+  # Make sure that Google Test comes first, so that the FRIEND_TEST macro works reliably.
+  - Regex: '^<gtest/gtest.h>$'
+    Priority: -1
+  - Regex: '^<Gosu/Fwd.hpp>$'
+    Priority: 0
+    SortPriority: 2
+  - Regex: '^<Gosu/'
+    Priority: 0
+    SortPriority: 3
+  - Regex: '^"'
+    Priority: 0
+    SortPriority: 4
+  - Regex: '\.h$'
+    Priority: 0
+    SortPriority: 5
+  - Regex: '.*'
+    Priority: 0
+    SortPriority: 6
+InsertBraces: true
+NamespaceIndentation: All
+PackConstructorInitializers: Never

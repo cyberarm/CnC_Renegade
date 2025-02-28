@@ -16,22 +16,22 @@
 **	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-/*********************************************************************************************** 
- ***                            Confidential - Westwood Studios                              *** 
- *********************************************************************************************** 
- *                                                                                             * 
- *                 Project Name : Installer                                                    * 
- *                                                                                             * 
- *                     $Archive:: /Commando/Code/Installer/DirectoryBrowser.cpp $* 
- *                                                                                             * 
- *                      $Author:: Ian_l                   $* 
- *                                                                                             * 
- *                     $Modtime:: 11/25/01 11:12p               $* 
- *                                                                                             * 
- *                    $Revision:: 6                     $* 
- *                                                                                             * 
- *---------------------------------------------------------------------------------------------* 
- * Functions:                                                                                  * 
+/***********************************************************************************************
+ ***                            Confidential - Westwood Studios                              ***
+ ***********************************************************************************************
+ *                                                                                             *
+ *                 Project Name : Installer                                                    *
+ *                                                                                             *
+ *                     $Archive:: /Commando/Code/Installer/DirectoryBrowser.cpp $*
+ *                                                                                             *
+ *                      $Author:: Ian_l                   $*
+ *                                                                                             *
+ *                     $Modtime:: 11/25/01 11:12p               $*
+ *                                                                                             *
+ *                    $Revision:: 6                     $*
+ *                                                                                             *
+ *---------------------------------------------------------------------------------------------*
+ * Functions:                                                                                  *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
 // Includes.
@@ -40,9 +40,9 @@
 #include "TreeCtrl.h"
 #include <io.h>
 
-
 /***********************************************************************************************
- * DirectoryBrowserClass::Get_Selected_Path --																  *
+ * DirectoryBrowserClass::Get_Selected_Path --
+ **
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -51,23 +51,24 @@
  * WARNINGS:                                                                                   *
  *                                                                                             *
  * HISTORY:                                                                                    *
- *   08/22/01    IML : Created.                                                                * 
+ *   08/22/01    IML : Created.                                                                *
  *=============================================================================================*/
-void DirectoryBrowserClass::Get_Selected_Path (WideStringClass &selectedpath)
+void DirectoryBrowserClass::Get_Selected_Path(WideStringClass& selectedpath)
 {
-	TreeCtrlClass *treectrl;
+    TreeCtrlClass* treectrl;
 
-	treectrl = Get_Dlg_Item (IDC_BROWSER_TREE)->As_TreeCtrlClass();
-	if (treectrl->Get_Selected_Item() != NULL) {
-		Build_Pathname (treectrl->Get_Selected_Item(), selectedpath);
-	} else {
-		selectedpath = L"???";
-	}
+    treectrl = Get_Dlg_Item(IDC_BROWSER_TREE)->As_TreeCtrlClass();
+    if (treectrl->Get_Selected_Item() != NULL) {
+        Build_Pathname(treectrl->Get_Selected_Item(), selectedpath);
+    }
+    else {
+        selectedpath = L"???";
+    }
 }
 
-
 /***********************************************************************************************
- * BrowserDialogClass::On_Init_Dialog --																		  *
+ * BrowserDialogClass::On_Init_Dialog --
+ **
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -76,40 +77,41 @@ void DirectoryBrowserClass::Get_Selected_Path (WideStringClass &selectedpath)
  * WARNINGS:                                                                                   *
  *                                                                                             *
  * HISTORY:                                                                                    *
- *   08/22/01    IML : Created.                                                                * 
+ *   08/22/01    IML : Created.                                                                *
  *=============================================================================================*/
-void DirectoryBrowserClass::On_Init_Dialog (void)
+void DirectoryBrowserClass::On_Init_Dialog(void)
 {
-	TreeCtrlClass *treectrl;
+    TreeCtrlClass* treectrl;
 
-	char				drivename [] = "?:";
+    char drivename[] = "?:";
 
-	treectrl = Get_Dlg_Item (IDC_BROWSER_TREE)->As_TreeCtrlClass();
+    treectrl = Get_Dlg_Item(IDC_BROWSER_TREE)->As_TreeCtrlClass();
 
-	// Make an entry at the root of the tree control for every fixed drive.
-	for (char r = 'A'; r <= 'Z'; r++) {
-			
-		drivename [0] = r;
+    // Make an entry at the root of the tree control for every fixed drive.
+    for (char r = 'A'; r <= 'Z'; r++) {
 
-		// If the drive is a fixed hard disc...
-		if (GetDriveType (drivename) == DRIVE_FIXED) {
+        drivename[0] = r;
 
-			TreeItemClass *treeitem;
-			
-			treeitem = treectrl->Insert_Item (WideStringClass (drivename), TreeCtrlClass::ICON_FOLDER, TreeCtrlClass::ICON_FOLDER_OPEN, NULL);
-			treeitem->Set_Needs_Children (Has_Children (treectrl, treectrl->Get_ID(), treeitem));
-		}
-	}
+        // If the drive is a fixed hard disc...
+        if (GetDriveType(drivename) == DRIVE_FIXED) {
 
-	treectrl->Sort_Children_Alphabetically (NULL);
-	
-	// Must call base class.
-	PopupDialogClass::On_Init_Dialog();
+            TreeItemClass* treeitem;
+
+            treeitem = treectrl->Insert_Item(WideStringClass(drivename), TreeCtrlClass::ICON_FOLDER,
+                                             TreeCtrlClass::ICON_FOLDER_OPEN, NULL);
+            treeitem->Set_Needs_Children(Has_Children(treectrl, treectrl->Get_ID(), treeitem));
+        }
+    }
+
+    treectrl->Sort_Children_Alphabetically(NULL);
+
+    // Must call base class.
+    PopupDialogClass::On_Init_Dialog();
 }
 
-
 /***********************************************************************************************
- * DirectoryBrowserClass::On_TreeCtrl_Needs_Children --													  *
+ * DirectoryBrowserClass::On_TreeCtrl_Needs_Children --
+ **
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -118,24 +120,25 @@ void DirectoryBrowserClass::On_Init_Dialog (void)
  * WARNINGS:                                                                                   *
  *                                                                                             *
  * HISTORY:                                                                                    *
- *   08/22/01    IML : Created.                                                                * 
+ *   08/22/01    IML : Created.                                                                *
  *=============================================================================================*/
-void DirectoryBrowserClass::On_TreeCtrl_Needs_Children (TreeCtrlClass *tree_ctrl, int ctrl_id, TreeItemClass *parent_item)
+void DirectoryBrowserClass::On_TreeCtrl_Needs_Children(TreeCtrlClass* tree_ctrl, int ctrl_id,
+                                                       TreeItemClass* parent_item)
 {
-	if (parent_item != NULL) {
+    if (parent_item != NULL) {
 
-		WideStringClass path;
-	
-		Build_Pathname (parent_item, path);
-		Add_Folders (true, path, tree_ctrl, parent_item);
-		tree_ctrl->Sort_Children_Alphabetically (parent_item);
-		parent_item->Set_Needs_Children (false);
-	}
+        WideStringClass path;
+
+        Build_Pathname(parent_item, path);
+        Add_Folders(true, path, tree_ctrl, parent_item);
+        tree_ctrl->Sort_Children_Alphabetically(parent_item);
+        parent_item->Set_Needs_Children(false);
+    }
 }
 
-
 /***********************************************************************************************
- * DirectoryBrowserClass::Has_Children --																		  *
+ * DirectoryBrowserClass::Has_Children --
+ **
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -144,26 +147,27 @@ void DirectoryBrowserClass::On_TreeCtrl_Needs_Children (TreeCtrlClass *tree_ctrl
  * WARNINGS:                                                                                   *
  *                                                                                             *
  * HISTORY:                                                                                    *
- *   08/22/01    IML : Created.                                                                * 
+ *   08/22/01    IML : Created.                                                                *
  *=============================================================================================*/
-bool DirectoryBrowserClass::Has_Children (TreeCtrlClass *tree_ctrl, int ctrl_id, TreeItemClass *parent_item)
+bool DirectoryBrowserClass::Has_Children(TreeCtrlClass* tree_ctrl, int ctrl_id,
+                                         TreeItemClass* parent_item)
 {
-	bool haschildren = true;
+    bool haschildren = true;
 
-	if (parent_item != NULL) {
+    if (parent_item != NULL) {
 
-		WideStringClass path;
-	
-		Build_Pathname (parent_item, path);
-		haschildren = Add_Folders (false, path, tree_ctrl, parent_item); 	
-	}
+        WideStringClass path;
 
-	return (haschildren);
+        Build_Pathname(parent_item, path);
+        haschildren = Add_Folders(false, path, tree_ctrl, parent_item);
+    }
+
+    return (haschildren);
 }
 
-
 /***********************************************************************************************
- * DirectoryBrowserClass::Build_Pathname --																	  *
+ * DirectoryBrowserClass::Build_Pathname --
+ **
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -172,27 +176,27 @@ bool DirectoryBrowserClass::Has_Children (TreeCtrlClass *tree_ctrl, int ctrl_id,
  * WARNINGS:                                                                                   *
  *                                                                                             *
  * HISTORY:                                                                                    *
- *   08/22/01    IML : Created.                                                                * 
+ *   08/22/01    IML : Created.                                                                *
  *=============================================================================================*/
-void DirectoryBrowserClass::Build_Pathname (TreeItemClass *treenode, WideStringClass &path)
+void DirectoryBrowserClass::Build_Pathname(TreeItemClass* treenode, WideStringClass& path)
 {
-	WideStringClass backslash ("\\");
+    WideStringClass backslash("\\");
 
-	if (treenode->Get_Parent() != NULL) {
-		Build_Pathname (treenode->Get_Parent(), path);
-	}
+    if (treenode->Get_Parent() != NULL) {
+        Build_Pathname(treenode->Get_Parent(), path);
+    }
 
-	if (path.Get_Length() > 0) {
-		path += backslash;
-	}
+    if (path.Get_Length() > 0) {
+        path += backslash;
+    }
 
-	// Append the tree node's name whilst recursively unwinding.
-	path += treenode->Get_Name();
+    // Append the tree node's name whilst recursively unwinding.
+    path += treenode->Get_Name();
 }
 
-
 /***********************************************************************************************
- * DirectoryBrowserClass::Add_Folders --																		  *
+ * DirectoryBrowserClass::Add_Folders --
+ **
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -201,47 +205,56 @@ void DirectoryBrowserClass::Build_Pathname (TreeItemClass *treenode, WideStringC
  * WARNINGS:                                                                                   *
  *                                                                                             *
  * HISTORY:                                                                                    *
- *   08/22/01    IML : Created.                                                                * 
+ *   08/22/01    IML : Created.                                                                *
  *=============================================================================================*/
-bool DirectoryBrowserClass::Add_Folders (bool recurse, const WideStringClass &path, TreeCtrlClass *treectrl, TreeItemClass *treenode)
+bool DirectoryBrowserClass::Add_Folders(bool recurse, const WideStringClass& path,
+                                        TreeCtrlClass* treectrl, TreeItemClass* treenode)
 {
-	const WCHAR *wildcardname = L"*.*";
+    const WCHAR* wildcardname = L"*.*";
 
-	WideStringClass pathname (path);
-	StringClass		 multibytepathname;	
-	WIN32_FIND_DATA finddata;	
-	HANDLE			 handle;
-	bool				 done = false;			
-	bool				 haschildren = false;	
+    WideStringClass pathname(path);
+    StringClass multibytepathname;
+    WIN32_FIND_DATA finddata;
+    HANDLE handle;
+    bool done = false;
+    bool haschildren = false;
 
-	// Add a child node for each subdirectory.
-	pathname += L"\\";
-	pathname += wildcardname;
-	multibytepathname = pathname;
-	handle = FindFirstFile (multibytepathname, &finddata);
-	if (handle != INVALID_HANDLE_VALUE) {
+    // Add a child node for each subdirectory.
+    pathname += L"\\";
+    pathname += wildcardname;
+    multibytepathname = pathname;
+    handle = FindFirstFile(multibytepathname, &finddata);
+    if (handle != INVALID_HANDLE_VALUE) {
 
-		while (!done) {
+        while (!done) {
 
-			WideStringClass filename (finddata.cFileName);
+            WideStringClass filename(finddata.cFileName);
 
-			if ((filename [0] != L'.') && (finddata.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)) {
+            if ((filename[0] != L'.') && (finddata.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)) {
 
-				TreeItemClass *treechild;
-	
-				haschildren = true;
-				if (!recurse) break;
+                TreeItemClass* treechild;
 
-				treechild = treectrl->Insert_Item (filename, TreeCtrlClass::ICON_FOLDER, TreeCtrlClass::ICON_FOLDER_OPEN, treenode);
-				treechild->Set_Needs_Children (Has_Children (treectrl, treectrl->Get_ID(), treechild));
-			}
-			if (done = FindNextFile (handle, &finddata) == 0) {
-				if (GetLastError() != ERROR_NO_MORE_FILES) FATAL_SYSTEM_ERROR;
-			}	
-		}
-		if (!FindClose (handle)) FATAL_SYSTEM_ERROR;
-	}
+                haschildren = true;
+                if (!recurse) {
+                    break;
+                }
 
-	// Does this node have any children?
-	return (haschildren);
+                treechild = treectrl->Insert_Item(filename, TreeCtrlClass::ICON_FOLDER,
+                                                  TreeCtrlClass::ICON_FOLDER_OPEN, treenode);
+                treechild->Set_Needs_Children(
+                    Has_Children(treectrl, treectrl->Get_ID(), treechild));
+            }
+            if (done = FindNextFile(handle, &finddata) == 0) {
+                if (GetLastError() != ERROR_NO_MORE_FILES) {
+                    FATAL_SYSTEM_ERROR;
+                }
+            }
+        }
+        if (!FindClose(handle)) {
+            FATAL_SYSTEM_ERROR;
+        }
+    }
+
+    // Does this node have any children?
+    return (haschildren);
 }

@@ -16,107 +16,106 @@
 **	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-/*********************************************************************************************** 
- ***                            Confidential - Westwood Studios                              *** 
- *********************************************************************************************** 
- *                                                                                             * 
- *                 Project Name : Installer                                                    * 
- *                                                                                             * 
- *                     $Archive:: /Commando/Code/Installer/CopyThread.h $* 
- *                                                                                             * 
- *                      $Author:: Ian_l                   $* 
- *                                                                                             * 
- *                     $Modtime:: 1/10/02 6:34p                 $* 
- *                                                                                             * 
- *                    $Revision:: 7                     $* 
- *                                                                                             * 
- *---------------------------------------------------------------------------------------------* 
- * Functions:                                                                                  * 
+/***********************************************************************************************
+ ***                            Confidential - Westwood Studios                              ***
+ ***********************************************************************************************
+ *                                                                                             *
+ *                 Project Name : Installer                                                    *
+ *                                                                                             *
+ *                     $Archive:: /Commando/Code/Installer/CopyThread.h $*
+ *                                                                                             *
+ *                      $Author:: Ian_l                   $*
+ *                                                                                             *
+ *                     $Modtime:: 1/10/02 6:34p                 $*
+ *                                                                                             *
+ *                    $Revision:: 7                     $*
+ *                                                                                             *
+ *---------------------------------------------------------------------------------------------*
+ * Functions:                                                                                  *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 #ifndef _COPY_THREAD_H
 #define _COPY_THREAD_H
 
 // Includes.
 #include "Thread.h"
-#include "Win.h"
-#include	"WWString.h"
+#include "WWString.h"
 #include "WideString.h"
-
+#include "Win.h"
 
 // Class to implement a worker thread that will execute the file copying process.
 // NOTE: Thread usage will ensure that copying does not stall the copy dialog.
-class CopyThreadClass : public ThreadClass 
+class CopyThreadClass : public ThreadClass
 {
-	public:
+public:
+    enum StatusEnum
+    {
 
-		enum StatusEnum {
-		
-			STATUS_OK,
-			STATUS_RETRY = STATUS_OK,
-			STATUS_ERROR,
-			STATUS_QUIT,
-			STATUS_SUCCESS,
-			STATUS_ABORTED,
-			STATUS_FAILURE
-		};
+        STATUS_OK,
+        STATUS_RETRY = STATUS_OK,
+        STATUS_ERROR,
+        STATUS_QUIT,
+        STATUS_SUCCESS,
+        STATUS_ABORTED,
+        STATUS_FAILURE
+    };
 
-		 CopyThreadClass (__int64 bytestocopy);
-		~CopyThreadClass();
+    CopyThreadClass(__int64 bytestocopy);
+    ~CopyThreadClass();
 
-		void					 Thread_Function();
-		bool					 Can_Abort (bool lock);
-		void					 Set_Abort (bool abort);
-		bool					 Get_Abort (bool canabort);	
-		bool					 Is_Aborting() {return (IsAborting);}
-		void					 Add_Bytes_Copied (unsigned bytecount);
-		float					 Get_Fraction_Complete();
-		void					 Set_Target_Path (const WideStringClass &targetpath);
-		WCHAR					*Get_Target_Path (WideStringClass &targetpath);
-		void					 Set_Status_Message (const WideStringClass &targetpath);
-		WCHAR					*Get_Status_Message (WideStringClass &targetpath);
-		void					 Set_Error_Message (const WideStringClass &errormessage);
-		WCHAR					*Get_Error_Message (WideStringClass &errormessage);
-		void					 Set_Status (StatusEnum status);
-		StatusEnum			 Get_Status();
-		bool					 Retry();
+    void Thread_Function();
+    bool Can_Abort(bool lock);
+    void Set_Abort(bool abort);
+    bool Get_Abort(bool canabort);
+    bool Is_Aborting() { return (IsAborting); }
+    void Add_Bytes_Copied(unsigned bytecount);
+    float Get_Fraction_Complete();
+    void Set_Target_Path(const WideStringClass& targetpath);
+    WCHAR* Get_Target_Path(WideStringClass& targetpath);
+    void Set_Status_Message(const WideStringClass& targetpath);
+    WCHAR* Get_Status_Message(WideStringClass& targetpath);
+    void Set_Error_Message(const WideStringClass& errormessage);
+    WCHAR* Get_Error_Message(WideStringClass& errormessage);
+    void Set_Status(StatusEnum status);
+    StatusEnum Get_Status();
+    bool Retry();
 
-		DynamicVectorClass <StringClass> &Get_Subdirectory_Log() {return (SubdirectoryLog);}
-		DynamicVectorClass <StringClass> &Get_Filename_Log()		{return (FilenameLog);}
+    DynamicVectorClass<StringClass>& Get_Subdirectory_Log() { return (SubdirectoryLog); }
+    DynamicVectorClass<StringClass>& Get_Filename_Log() { return (FilenameLog); }
 
-		static bool Replace_File (const FILETIME &sourcefiletime, DWORD sourcefilesize, const WideStringClass &targetpathname);
-		static bool Replace_File (const WideStringClass &sourcepathname, const WideStringClass &targetpathname);
+    static bool Replace_File(const FILETIME& sourcefiletime, DWORD sourcefilesize,
+                             const WideStringClass& targetpathname);
+    static bool Replace_File(const WideStringClass& sourcepathname,
+                             const WideStringClass& targetpathname);
 
-		static CopyThreadClass *_ActiveCopyThread;
-		
-	protected:
-		
-		void Copy_Directory (const WideStringClass &sourcepath, const WideStringClass &targetpath);
-		void Copy_File (const WideStringClass &sourcepathname, const WideStringClass &targetpathname);
+    static CopyThreadClass* _ActiveCopyThread;
 
-		__int64										 BytesToCopy;
-		bool											 IsAborting;
+protected:
+    void Copy_Directory(const WideStringClass& sourcepath, const WideStringClass& targetpath);
+    void Copy_File(const WideStringClass& sourcepathname, const WideStringClass& targetpathname);
 
-		// NOTE: Do not access the following variables directly. Instead use the Set/Get()
-		//			functions because they are protected by critical sections.
-		bool										    Abort;
-		bool											 CanAbort;	
-		__int64										 BytesCopied;		// Bytes copied so far.
-		WideStringClass							 TargetPath;
-		WideStringClass							 StatusMessage;
-		WideStringClass							 ErrorMessage;
-		StatusEnum									 Status;
+    __int64 BytesToCopy;
+    bool IsAborting;
 
-		FastCriticalSectionClass::LockClass *AbortLock;
-		FastCriticalSectionClass				 SectionAbort;
-		FastCriticalSectionClass				 SectionBytesCopied;
-		FastCriticalSectionClass				 SectionTargetPath;
-		FastCriticalSectionClass				 SectionStatusMessage;
-		FastCriticalSectionClass				 SectionErrorMessage;
-		FastCriticalSectionClass				 SectionStatus;
+    // NOTE: Do not access the following variables directly. Instead use the Set/Get()
+    //			functions because they are protected by critical sections.
+    bool Abort;
+    bool CanAbort;
+    __int64 BytesCopied; // Bytes copied so far.
+    WideStringClass TargetPath;
+    WideStringClass StatusMessage;
+    WideStringClass ErrorMessage;
+    StatusEnum Status;
 
-		DynamicVectorClass <StringClass>		 SubdirectoryLog;
-		DynamicVectorClass <StringClass>		 FilenameLog;
+    FastCriticalSectionClass::LockClass* AbortLock;
+    FastCriticalSectionClass SectionAbort;
+    FastCriticalSectionClass SectionBytesCopied;
+    FastCriticalSectionClass SectionTargetPath;
+    FastCriticalSectionClass SectionStatusMessage;
+    FastCriticalSectionClass SectionErrorMessage;
+    FastCriticalSectionClass SectionStatus;
+
+    DynamicVectorClass<StringClass> SubdirectoryLog;
+    DynamicVectorClass<StringClass> FilenameLog;
 };
-
 
 #endif // COPY_THREAD_H

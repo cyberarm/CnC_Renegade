@@ -16,58 +16,56 @@
 **	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-/*********************************************************************************************** 
- ***                            Confidential - Westwood Studios                              *** 
- *********************************************************************************************** 
- *                                                                                             * 
- *                 Project Name : Installer                                                    * 
- *                                                                                             * 
- *                     $Archive:: /Commando/Code/Installer/InstallMenuDialog. $* 
- *                                                                                             * 
- *                      $Author:: Ian_l                   $* 
- *                                                                                             * 
- *                     $Modtime:: 12/04/01 4:43p                $* 
- *                                                                                             * 
- *                    $Revision:: 5                     $* 
- *                                                                                             * 
- *---------------------------------------------------------------------------------------------* 
- * Functions:                                                                                  * 
+/***********************************************************************************************
+ ***                            Confidential - Westwood Studios                              ***
+ ***********************************************************************************************
+ *                                                                                             *
+ *                 Project Name : Installer                                                    *
+ *                                                                                             *
+ *                     $Archive:: /Commando/Code/Installer/InstallMenuDialog. $*
+ *                                                                                             *
+ *                      $Author:: Ian_l                   $*
+ *                                                                                             *
+ *                     $Modtime:: 12/04/01 4:43p                $*
+ *                                                                                             *
+ *                    $Revision:: 5                     $*
+ *                                                                                             *
+ *---------------------------------------------------------------------------------------------*
+ * Functions:                                                                                  *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 #ifndef _INSTALL_MENU_DIALOG_H
 #define _INSTALL_MENU_DIALOG_H
 
 // Includes.
 #include "MenuDialog.h"
-#include "Resource.h"
 #include "MessageBox.h"
-
+#include "Resource.h"
 
 // Classes.
 class InstallMenuDialogClass : public CallbackMenuDialogClass
 {
-	public:
-		 InstallMenuDialogClass (int resourceid);
-		~InstallMenuDialogClass();
+public:
+    InstallMenuDialogClass(int resourceid);
+    ~InstallMenuDialogClass();
 
-		// RTTI.
-		virtual void *As_CopyDialogClass()					{return (NULL);}
-		virtual void *As_DirectoryDialogClass()			{return (NULL);}
-		virtual void *As_FinalDialogClass()					{return (NULL);}
-		virtual void *As_GameFolderDialogClass()			{return (NULL);}
-		virtual void *As_GameDirectoryDialogClass()		{return (NULL);}
-		virtual void *As_LicenseDialogClass()				{return (NULL);}
-		virtual void *As_NDADialogClass()					{return (NULL);}
-		virtual void *As_WOLDirectoryDialogClass()		{return (NULL);}
-		virtual void *As_WOLFolderDialogClass()			{return (NULL);}
-		virtual void *As_ReviewDialogClass()				{return (NULL);}
-		virtual void *As_SerialDialogClass()				{return (NULL);}
-		virtual void *As_WelcomeDialogClass()				{return (NULL);}
-		virtual void *As_WhatToInstallDialogClass()		{return (NULL);}
-		virtual void *As_WOL1DialogClass()					{return (NULL);}
-		virtual void *As_WOL2DialogClass()					{return (NULL);}
+    // RTTI.
+    virtual void* As_CopyDialogClass() { return (NULL); }
+    virtual void* As_DirectoryDialogClass() { return (NULL); }
+    virtual void* As_FinalDialogClass() { return (NULL); }
+    virtual void* As_GameFolderDialogClass() { return (NULL); }
+    virtual void* As_GameDirectoryDialogClass() { return (NULL); }
+    virtual void* As_LicenseDialogClass() { return (NULL); }
+    virtual void* As_NDADialogClass() { return (NULL); }
+    virtual void* As_WOLDirectoryDialogClass() { return (NULL); }
+    virtual void* As_WOLFolderDialogClass() { return (NULL); }
+    virtual void* As_ReviewDialogClass() { return (NULL); }
+    virtual void* As_SerialDialogClass() { return (NULL); }
+    virtual void* As_WelcomeDialogClass() { return (NULL); }
+    virtual void* As_WhatToInstallDialogClass() { return (NULL); }
+    virtual void* As_WOL1DialogClass() { return (NULL); }
+    virtual void* As_WOL2DialogClass() { return (NULL); }
 
-		void On_Command (int ctrl_id, int message_id, DWORD param);
+    void On_Command(int ctrl_id, int message_id, DWORD param);
 };
-
 
 #endif // _INSTALL_MENU_DIALOG_H

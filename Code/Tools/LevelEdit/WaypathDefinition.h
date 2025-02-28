@@ -34,18 +34,15 @@
  * Functions:                                                                                  *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
-
 #if defined(_MSC_VER)
 #pragma once
 #endif
-
 
 #ifndef __WAYPATH_DEFINITION_H
 #define __WAYPATH_DEFINITION_H
 
 #include "definition.h"
 #include "editorchunkids.h"
-
 
 //////////////////////////////////////////////////////////////////////////////////
 //
@@ -56,43 +53,37 @@ class WaypathDefinitionClass : public DefinitionClass
 {
 
 public:
+    /////////////////////////////////////////////////////////////////////
+    //	Editable interface requirements
+    /////////////////////////////////////////////////////////////////////
+    DECLARE_EDITABLE(WaypathDefinitionClass, DefinitionClass);
 
-	/////////////////////////////////////////////////////////////////////
-	//	Editable interface requirements
-	/////////////////////////////////////////////////////////////////////
-	DECLARE_EDITABLE(WaypathDefinitionClass, DefinitionClass);
+    //////////////////////////////////////////////////////////////
+    //	Public constructors/destructors
+    //////////////////////////////////////////////////////////////
+    WaypathDefinitionClass(void);
+    virtual ~WaypathDefinitionClass(void);
 
-	//////////////////////////////////////////////////////////////
-	//	Public constructors/destructors
-	//////////////////////////////////////////////////////////////
-	WaypathDefinitionClass (void);
-	virtual ~WaypathDefinitionClass (void);
+    // From DefinitionClass
+    virtual uint32 Get_Class_ID(void) const { return CLASSID_WAYPATH; }
 
-	// From DefinitionClass
-	virtual uint32								Get_Class_ID (void) const { return CLASSID_WAYPATH; }
-
-	// From PersistClass
-	virtual const PersistFactoryClass &	Get_Factory (void) const;
-	virtual bool								Save (ChunkSaveClass &csave);
-	virtual bool								Load (ChunkLoadClass &cload);
-	virtual PersistClass *					Create (void) const;
+    // From PersistClass
+    virtual const PersistFactoryClass& Get_Factory(void) const;
+    virtual bool Save(ChunkSaveClass& csave);
+    virtual bool Load(ChunkLoadClass& cload);
+    virtual PersistClass* Create(void) const;
 
 protected:
-	
-	/////////////////////////////////////////////////////////////////////
-	//	Protected methods
-	/////////////////////////////////////////////////////////////////////
-	bool											Load_Variables (ChunkLoadClass &cload);
+    /////////////////////////////////////////////////////////////////////
+    //	Protected methods
+    /////////////////////////////////////////////////////////////////////
+    bool Load_Variables(ChunkLoadClass& cload);
 
 private:
-
-	/////////////////////////////////////////////////////////////////////
-	//	Private member data
-	/////////////////////////////////////////////////////////////////////
-	int			m_PassableObjects;
+    /////////////////////////////////////////////////////////////////////
+    //	Private member data
+    /////////////////////////////////////////////////////////////////////
+    int m_PassableObjects;
 };
 
-
-
 #endif //__WAYPATH_DEFINITION_H
-

@@ -16,22 +16,22 @@
 **	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-/*********************************************************************************************** 
- ***                            Confidential - Westwood Studios                              *** 
- *********************************************************************************************** 
- *                                                                                             * 
- *                 Project Name : LightMap                                                     * 
- *                                                                                             * 
- *                     $Archive:: /Commando/Code/Tool $* 
- *                                                                                             * 
- *                      $Author:: Ian_l               $* 
- *                                                                                             * 
- *                     $Modtime:: 1/24/01 3:29p       $* 
- *                                                                                             * 
- *                    $Revision:: 3                                                         $* 
- *                                                                                             * 
- *---------------------------------------------------------------------------------------------* 
- * Functions:                                                                                  * 
+/***********************************************************************************************
+ ***                            Confidential - Westwood Studios                              ***
+ ***********************************************************************************************
+ *                                                                                             *
+ *                 Project Name : LightMap                                                     *
+ *                                                                                             *
+ *                     $Archive:: /Commando/Code/Tool $*
+ *                                                                                             *
+ *                      $Author:: Ian_l               $*
+ *                                                                                             *
+ *                     $Modtime:: 1/24/01 3:29p       $*
+ *                                                                                             *
+ *                    $Revision:: 3                                                         $*
+ *                                                                                             *
+ *---------------------------------------------------------------------------------------------*
+ * Functions:                                                                                  *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
 #if !defined(AFX_INSERTSOLVEDIALOG_H__6F280B62_836D_11D4_A3D2_009027447394__INCLUDED_)
@@ -41,63 +41,68 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-
 class InsertSolveDialog : public CDialog
 {
-// Construction
+    // Construction
 public:
-	InsertSolveDialog (const char *initialpathname, CWnd* pParent = NULL);
+    InsertSolveDialog(const char* initialpathname, CWnd* pParent = NULL);
 
-	~InsertSolveDialog() {
-		if (FileListBuffer != NULL) delete [] FileListBuffer;
-		if (InclusionString != NULL) delete [] InclusionString;
-	}
+    ~InsertSolveDialog()
+    {
+        if (FileListBuffer != NULL) {
+            delete[] FileListBuffer;
+        }
+        if (InclusionString != NULL) {
+            delete[] InclusionString;
+        }
+    }
 
-	char *Directory_Name()	 {return (DirectoryName);}
-	char *Filename_List()	 {return (FilenameList);}
-	bool  Apply_Selective()	 {return (ApplySelective);}
-	bool	Invert_Selection() {return (InvertSelection);}	
-	bool	Blend_Noise()		 {return (BlendNoise);}
-	char *Inclusion_String() {return (InclusionString);}	
+    char* Directory_Name() { return (DirectoryName); }
+    char* Filename_List() { return (FilenameList); }
+    bool Apply_Selective() { return (ApplySelective); }
+    bool Invert_Selection() { return (InvertSelection); }
+    bool Blend_Noise() { return (BlendNoise); }
+    char* Inclusion_String() { return (InclusionString); }
 
-// Dialog Data
-	//{{AFX_DATA(InsertSolveDialog)
-	enum { IDD = IDD_INSERT_SOLVE };
-		// NOTE: the ClassWizard will add data members here
-	//}}AFX_DATA
+    // Dialog Data
+    //{{AFX_DATA(InsertSolveDialog)
+    enum
+    {
+        IDD = IDD_INSERT_SOLVE
+    };
+    // NOTE: the ClassWizard will add data members here
+    //}}AFX_DATA
 
-
-// Overrides
-	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(InsertSolveDialog)
-	protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
-	//}}AFX_VIRTUAL
-
-// Implementation
+    // Overrides
+    // ClassWizard generated virtual function overrides
+    //{{AFX_VIRTUAL(InsertSolveDialog)
 protected:
+    virtual void DoDataExchange(CDataExchange* pDX); // DDX/DDV support
+    //}}AFX_VIRTUAL
 
-	// Generated message map functions
-	//{{AFX_MSG(InsertSolveDialog)
-	afx_msg void OnBrowse();
-	afx_msg void OnApplySelective();
-	afx_msg void OnBlendNoise();
-	afx_msg void OnChangeInclusionString();
-	afx_msg void OnMoreOptions();
-	virtual BOOL OnInitDialog();
-	afx_msg void OnContaining();
-	afx_msg void OnNotContaining();
-	//}}AFX_MSG
-	DECLARE_MESSAGE_MAP()
+    // Implementation
+protected:
+    // Generated message map functions
+    //{{AFX_MSG(InsertSolveDialog)
+    afx_msg void OnBrowse();
+    afx_msg void OnApplySelective();
+    afx_msg void OnBlendNoise();
+    afx_msg void OnChangeInclusionString();
+    afx_msg void OnMoreOptions();
+    virtual BOOL OnInitDialog();
+    afx_msg void OnContaining();
+    afx_msg void OnNotContaining();
+    //}}AFX_MSG
+    DECLARE_MESSAGE_MAP()
 
-	const char *InitialPathname;				// Pathname used to indicate default browsing directory.
-			char  DirectoryName [_MAX_DIR];	// Directory containing solve files.
-			char *FileListBuffer;				// Buffer to store list of solve filenames.
-			char *FilenameList;					// Ptr to list of solve filenames (separated by null terminating character).
-			bool	ApplySelective;
-			bool	InvertSelection;
-			bool	BlendNoise;
-			char *InclusionString;
+    const char* InitialPathname; // Pathname used to indicate default browsing directory.
+    char DirectoryName[_MAX_DIR]; // Directory containing solve files.
+    char* FileListBuffer; // Buffer to store list of solve filenames.
+    char* FilenameList; // Ptr to list of solve filenames (separated by null terminating character).
+    bool ApplySelective;
+    bool InvertSelection;
+    bool BlendNoise;
+    char* InclusionString;
 };
 
 //{{AFX_INSERT_LOCATION}}

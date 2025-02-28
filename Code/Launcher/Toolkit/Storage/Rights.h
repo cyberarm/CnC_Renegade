@@ -17,32 +17,32 @@
 */
 
 /****************************************************************************
-*
-* FILE
-*     $Archive: /Commando/Code/Launcher/Toolkit/Storage/Rights.h $
-*
-* DESCRIPTION
-*     Access privilege definitions.
-*
-* PROGRAMMER
-*     Denzil E. Long, Jr.
-*     $Author: Denzil_l $
-*
-* VERSION INFO
-*     $Modtime: 9/23/00 6:19p $
-*     $Revision: 1 $
-*
-****************************************************************************/
+ *
+ * FILE
+ *     $Archive: /Commando/Code/Launcher/Toolkit/Storage/Rights.h $
+ *
+ * DESCRIPTION
+ *     Access privilege definitions.
+ *
+ * PROGRAMMER
+ *     Denzil E. Long, Jr.
+ *     $Author: Denzil_l $
+ *
+ * VERSION INFO
+ *     $Modtime: 9/23/00 6:19p $
+ *     $Revision: 1 $
+ *
+ ****************************************************************************/
 
 #ifndef RIGHTS_H
 #define RIGHTS_H
 
 // Access rights
 typedef enum
-	{
-	Rights_ReadOnly = 0,
-	Rights_WriteOnly,
-	Rights_ReadWrite,
-	} ERights;
+{
+    Rights_ReadOnly = 0,
+    Rights_WriteOnly,
+    Rights_ReadWrite,
+} ERights;
 
 #endif // RIGHTS_H

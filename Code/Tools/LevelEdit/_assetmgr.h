@@ -34,7 +34,6 @@
  * Functions:                                                                                  *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
-
 #ifndef _ASSETMGR_H
 #define _ASSETMGR_H
 
@@ -42,6 +41,6 @@
 
 class EditorAssetMgrClass;
 
-extern EditorAssetMgrClass *_pThe3DAssetManager;
+extern EditorAssetMgrClass* _pThe3DAssetManager;
 
 #endif

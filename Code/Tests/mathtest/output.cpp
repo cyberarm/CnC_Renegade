@@ -34,32 +34,31 @@
  * Functions:                                                                                  *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
-
-#include "stdio.h"
 #include "stdarg.h"
+#include "stdio.h"
 
-void Print(const char * format,...)
+void Print(const char* format, ...)
 {
-	va_list	va;
-	va_start(va, format);
-	vprintf(format, va);
-	va_end(va);
+    va_list va;
+    va_start(va, format);
+    vprintf(format, va);
+    va_end(va);
 }
 
-void Print_Title(const char * title)
+void Print_Title(const char* title)
 {
-	Print("\n");
-	Print("-------------------------------------------------------------------\n");
-	Print("%s\n",title);
-	Print("-------------------------------------------------------------------\n");
+    Print("\n");
+    Print("-------------------------------------------------------------------\n");
+    Print("%s\n", title);
+    Print("-------------------------------------------------------------------\n");
 }
 
 void Pass_Message(int num)
 {
-	Print("test %d passed.\n",num);
+    Print("test %d passed.\n", num);
 }
 
 void Fail_Message(int num)
 {
-	Print("*** test %d failed! ***\n",num);
+    Print("*** test %d failed! ***\n", num);
 }

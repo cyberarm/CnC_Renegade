@@ -16,31 +16,31 @@
 **	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-/*********************************************************************************************** 
- ***                            Confidential - Westwood Studios                              *** 
- *********************************************************************************************** 
- *                                                                                             * 
- *                 Project Name : Installer                                                    * 
- *                                                                                             * 
- *                     $Archive:: /Commando/Code/Installer/WelcomeDialog.cpp $* 
- *                                                                                             * 
- *                      $Author:: Ian_l                   $* 
- *                                                                                             * 
- *                     $Modtime:: 11/12/01 4:12p                $* 
- *                                                                                             * 
- *                    $Revision:: 3                     $* 
- *                                                                                             * 
- *---------------------------------------------------------------------------------------------* 
- * Functions:                                                                                  * 
+/***********************************************************************************************
+ ***                            Confidential - Westwood Studios                              ***
+ ***********************************************************************************************
+ *                                                                                             *
+ *                 Project Name : Installer                                                    *
+ *                                                                                             *
+ *                     $Archive:: /Commando/Code/Installer/WelcomeDialog.cpp $*
+ *                                                                                             *
+ *                      $Author:: Ian_l                   $*
+ *                                                                                             *
+ *                     $Modtime:: 11/12/01 4:12p                $*
+ *                                                                                             *
+ *                    $Revision:: 3                     $*
+ *                                                                                             *
+ *---------------------------------------------------------------------------------------------*
+ * Functions:                                                                                  *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 // Includes.
 #include "WelcomeDialog.h"
 #include "Resource.h"
 #include "Translator.h"
 
-
 /***********************************************************************************************
- * WelcomeDialogClass::On_Init_Dialog --																		  *
+ * WelcomeDialogClass::On_Init_Dialog --
+ **
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -49,12 +49,12 @@
  * WARNINGS:                                                                                   *
  *                                                                                             *
  * HISTORY:                                                                                    *
- *   08/22/01    IML : Created.                                                                * 
+ *   08/22/01    IML : Created.                                                                *
  *=============================================================================================*/
-void WelcomeDialogClass::On_Init_Dialog (void)
+void WelcomeDialogClass::On_Init_Dialog(void)
 {
-	Set_Dlg_Item_Text (IDC_WELCOME_STATIC1, TxWideStringClass (IDS_WELCOME_HEADER));
-	Set_Dlg_Item_Text (IDC_WELCOME_EDIT, TxWideStringClass (IDS_WELCOME_COPYRIGHT));
+    Set_Dlg_Item_Text(IDC_WELCOME_STATIC1, TxWideStringClass(IDS_WELCOME_HEADER));
+    Set_Dlg_Item_Text(IDC_WELCOME_EDIT, TxWideStringClass(IDS_WELCOME_COPYRIGHT));
 
-	InstallMenuDialogClass::On_Init_Dialog();
+    InstallMenuDialogClass::On_Init_Dialog();
 }

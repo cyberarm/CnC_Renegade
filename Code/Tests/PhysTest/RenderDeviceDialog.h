@@ -30,33 +30,34 @@
 
 class CRenderDeviceDialog : public CDialog
 {
-// Construction
+    // Construction
 public:
-	CRenderDeviceDialog(CWnd* pParent = NULL);   // standard constructor
+    CRenderDeviceDialog(CWnd* pParent = NULL); // standard constructor
 
-// Dialog Data
-	//{{AFX_DATA(CRenderDeviceDialog)
-	enum { IDD = IDD_RENDER_DEVICE_DIALOG };
-	CComboBox	m_RenderDeviceCombo;
-	//}}AFX_DATA
+    // Dialog Data
+    //{{AFX_DATA(CRenderDeviceDialog)
+    enum
+    {
+        IDD = IDD_RENDER_DEVICE_DIALOG
+    };
+    CComboBox m_RenderDeviceCombo;
+    //}}AFX_DATA
 
-
-// Overrides
-	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CRenderDeviceDialog)
-	protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
-	//}}AFX_VIRTUAL
-
-// Implementation
+    // Overrides
+    // ClassWizard generated virtual function overrides
+    //{{AFX_VIRTUAL(CRenderDeviceDialog)
 protected:
+    virtual void DoDataExchange(CDataExchange* pDX); // DDX/DDV support
+    //}}AFX_VIRTUAL
 
-	// Generated message map functions
-	//{{AFX_MSG(CRenderDeviceDialog)
-	virtual void OnOK();
-	virtual BOOL OnInitDialog();
-	//}}AFX_MSG
-	DECLARE_MESSAGE_MAP()
+    // Implementation
+protected:
+    // Generated message map functions
+    //{{AFX_MSG(CRenderDeviceDialog)
+    virtual void OnOK();
+    virtual BOOL OnInitDialog();
+    //}}AFX_MSG
+    DECLARE_MESSAGE_MAP()
 };
 
 //{{AFX_INSERT_LOCATION}}

@@ -36,45 +36,44 @@ class ConvertClass;
 
 class CSurrenderWnd : public CWnd
 {
-// Construction
+    // Construction
 public:
-	CSurrenderWnd(CWnd *cwnd, int driver, int width, int height, int bitdepth, bool run_in_window);
-	void RemoveSubclass();
+    CSurrenderWnd(CWnd* cwnd, int driver, int width, int height, int bitdepth, bool run_in_window);
+    void RemoveSubclass();
 
-// Attributes
+    // Attributes
 public:
-	CameraClass			*m_Camera;
-	CameraClass			*m_TextCamera;
-	SimpleSceneClass	*m_Scene;
-	SimpleSceneClass	*m_TextScene;
-	RenderObjClass		*m_RObj;
-	Text2DObjClass		*m_Text;
-	HAnimClass			*m_Motion;
-	CWnd				*m_CWnd;
-	int					m_MotionTime;
-	HWND				m_RenderHWnd;
-	int					m_FrameRate;
-	LONG					m_SubClass;
-// Operations
+    CameraClass* m_Camera;
+    CameraClass* m_TextCamera;
+    SimpleSceneClass* m_Scene;
+    SimpleSceneClass* m_TextScene;
+    RenderObjClass* m_RObj;
+    Text2DObjClass* m_Text;
+    HAnimClass* m_Motion;
+    CWnd* m_CWnd;
+    int m_MotionTime;
+    HWND m_RenderHWnd;
+    int m_FrameRate;
+    LONG m_SubClass;
+    // Operations
 public:
+    // Overrides
+    // ClassWizard generated virtual function overrides
+    //{{AFX_VIRTUAL(CSurrenderWnd)
+    //}}AFX_VIRTUAL
 
-// Overrides
-	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CSurrenderWnd)
-	//}}AFX_VIRTUAL
-
-// Implementation
+    // Implementation
 public:
-	virtual ~CSurrenderWnd();
+    virtual ~CSurrenderWnd();
 
-	// Generated message map functions
+    // Generated message map functions
 protected:
-	//{{AFX_MSG(CSurrenderWnd)
-	afx_msg void OnPaint();
-	afx_msg void OnClose();
-	afx_msg void OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags);
-	//}}AFX_MSG
-	DECLARE_MESSAGE_MAP()
+    //{{AFX_MSG(CSurrenderWnd)
+    afx_msg void OnPaint();
+    afx_msg void OnClose();
+    afx_msg void OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags);
+    //}}AFX_MSG
+    DECLARE_MESSAGE_MAP()
 };
 
 /////////////////////////////////////////////////////////////////////////////

@@ -59,16 +59,16 @@ class Random4Class;
 class SamplingClass
 {
 public:
-	SamplingClass(unsigned int dimensions, unsigned char divisions):
-		Dimensions(dimensions),
-		Divisions(divisions)
-		{};	
-	virtual void Reset() {};
-	virtual void Sample(float *target)=0;
-	virtual ~SamplingClass() {};
+    SamplingClass(unsigned int dimensions, unsigned char divisions)
+        : Dimensions(dimensions),
+          Divisions(divisions) { };
+    virtual void Reset() { };
+    virtual void Sample(float* target) = 0;
+    virtual ~SamplingClass() { };
+
 protected:
-	unsigned int Dimensions;
-	unsigned char Divisions;
+    unsigned int Dimensions;
+    unsigned char Divisions;
 };
 
 // Samples randomly in the dimensions using Mesenne Twister
@@ -77,9 +77,9 @@ protected:
 class RandomSamplingClass : public SamplingClass
 {
 public:
-	RandomSamplingClass(unsigned int dimensions, unsigned char divisions=0);
-	virtual void Reset() {};
-	virtual void Sample(float *target);	
+    RandomSamplingClass(unsigned int dimensions, unsigned char divisions = 0);
+    virtual void Reset() { };
+    virtual void Sample(float* target);
 };
 
 // samples over a regular hypergrid
@@ -87,12 +87,13 @@ public:
 class RegularSamplingClass : public SamplingClass
 {
 public:
-	RegularSamplingClass(unsigned int dimensions, unsigned char divisions=3);
-	virtual void Reset();
-	virtual void Sample(float *target);
-	virtual ~RegularSamplingClass();
+    RegularSamplingClass(unsigned int dimensions, unsigned char divisions = 3);
+    virtual void Reset();
+    virtual void Sample(float* target);
+    virtual ~RegularSamplingClass();
+
 protected:
-	unsigned char *index;
+    unsigned char* index;
 };
 
 // samples over a regular hypergrid with random perturbations
@@ -100,12 +101,13 @@ protected:
 class StratifiedSamplingClass : public SamplingClass
 {
 public:
-	StratifiedSamplingClass(unsigned int dimensions, unsigned char divisions=3);
-	virtual void Reset();
-	virtual void Sample(float *target);
-	virtual ~StratifiedSamplingClass();
+    StratifiedSamplingClass(unsigned int dimensions, unsigned char divisions = 3);
+    virtual void Reset();
+    virtual void Sample(float* target);
+    virtual ~StratifiedSamplingClass();
+
 protected:
-	unsigned char *index;
+    unsigned char* index;
 };
 
 // samples using QuasiMonteCarlo
@@ -115,13 +117,13 @@ protected:
 class QMCSamplingClass : public SamplingClass
 {
 public:
-	QMCSamplingClass(unsigned int dimensions, unsigned char divisions=0);
-	virtual void Reset() {index=0;};
-	virtual void Sample(float *target);
-	void Set_Offset(unsigned int offset) { index=offset; }
-protected:
-	unsigned int index;
-};
+    QMCSamplingClass(unsigned int dimensions, unsigned char divisions = 0);
+    virtual void Reset() { index = 0; };
+    virtual void Sample(float* target);
+    void Set_Offset(unsigned int offset) { index = offset; }
 
+protected:
+    unsigned int index;
+};
 
 #endif

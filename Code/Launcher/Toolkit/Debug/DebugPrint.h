@@ -17,22 +17,22 @@
 */
 
 /******************************************************************************
-*
-* FILE
-*     $Archive: /Commando/Code/Launcher/Toolkit/Debug/DebugPrint.h $
-*
-* DESCRIPTION
-*     Debug printing mechanism
-*
-* PROGRAMMER
-*     Denzil E. Long, Jr.
-*     $Author: Denzil_l $
-*
-* VERSION INFO
-*     $Modtime: 9/26/00 2:27a $
-*     $Revision: 1 $
-*
-******************************************************************************/
+ *
+ * FILE
+ *     $Archive: /Commando/Code/Launcher/Toolkit/Debug/DebugPrint.h $
+ *
+ * DESCRIPTION
+ *     Debug printing mechanism
+ *
+ * PROGRAMMER
+ *     Denzil E. Long, Jr.
+ *     $Author: Denzil_l $
+ *
+ * VERSION INFO
+ *     $Modtime: 9/26/00 2:27a $
+ *     $Revision: 1 $
+ *
+ ******************************************************************************/
 
 #ifndef _DEBUGPRINT_H_
 #define _DEBUGPRINT_H_
@@ -40,8 +40,7 @@
 #ifdef _DEBUG
 
 #ifdef __cplusplus
-extern "C"
-{
+extern "C" {
 #endif
 
 //! Ouput debug print messages to the debugger and log file.

@@ -16,22 +16,22 @@
 **	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-/*********************************************************************************************** 
- ***                            Confidential - Westwood Studios                              *** 
- *********************************************************************************************** 
- *                                                                                             * 
- *                 Project Name : Installer                                                    * 
- *                                                                                             * 
- *                     $Archive:: /Commando/Code/Installer/DirectoryDialog.h $* 
- *                                                                                             * 
- *                      $Author:: Ian_l                   $* 
- *                                                                                             * 
- *                     $Modtime:: 11/24/01 8:38p                $* 
- *                                                                                             * 
- *                    $Revision:: 5                     $* 
- *                                                                                             * 
- *---------------------------------------------------------------------------------------------* 
- * Functions:                                                                                  * 
+/***********************************************************************************************
+ ***                            Confidential - Westwood Studios                              ***
+ ***********************************************************************************************
+ *                                                                                             *
+ *                 Project Name : Installer                                                    *
+ *                                                                                             *
+ *                     $Archive:: /Commando/Code/Installer/DirectoryDialog.h $*
+ *                                                                                             *
+ *                      $Author:: Ian_l                   $*
+ *                                                                                             *
+ *                     $Modtime:: 11/24/01 8:38p                $*
+ *                                                                                             *
+ *                    $Revision:: 5                     $*
+ *                                                                                             *
+ *---------------------------------------------------------------------------------------------*
+ * Functions:                                                                                  *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 #ifndef _DIRECTORY_DIALOG_H
 #define _DIRECTORY_DIALOG_H
@@ -40,10 +40,8 @@
 #include "InstallMenuDialog.h"
 #include "Installer.h"
 
-
 // Forward delcarations.
 class DirectoryBrowserClass;
-
 
 // Dialog to set the install directory for the game (GameDirectoryClass) or an
 // online component (WOLDirectoryClass).
@@ -51,67 +49,74 @@ class DirectoryBrowserClass;
 // Classes.
 class DirectoryDialogClass : public InstallMenuDialogClass
 {
-	public:
-		DirectoryDialogClass() : InstallMenuDialogClass (IDD_DIALOG_DIRECTORY), Browser (NULL), OverwriteDialog (NULL), DriveLetter ('\0') {}
-		
-		// RTTI.
-		void *As_DirectoryDialogClass()		{return (this);}
+public:
+    DirectoryDialogClass()
+        : InstallMenuDialogClass(IDD_DIALOG_DIRECTORY),
+          Browser(NULL),
+          OverwriteDialog(NULL),
+          DriveLetter('\0')
+    {
+    }
 
-		void			 On_Command (int ctrl_id, int message_id, DWORD param);
-		void			 Callback (int id, PopupDialogClass *popup);
-		const WCHAR *Get_Path (WideStringClass &path);
+    // RTTI.
+    void* As_DirectoryDialogClass() { return (this); }
 
-	protected:
+    void On_Command(int ctrl_id, int message_id, DWORD param);
+    void Callback(int id, PopupDialogClass* popup);
+    const WCHAR* Get_Path(WideStringClass& path);
 
-		void	 Update (bool lazyupdate = false);
-		
-		void	 On_Init_Dialog (void)		{InstallMenuDialogClass::On_Init_Dialog();}
-		void	 On_Activate (bool onoff);
-		void	 On_Frame_Update (void);
+protected:
+    void Update(bool lazyupdate = false);
 
-		WCHAR *Megabyte_Format (__int64 bytecount, WideStringClass &outputstring);
+    void On_Init_Dialog(void) { InstallMenuDialogClass::On_Init_Dialog(); }
+    void On_Activate(bool onoff);
+    void On_Frame_Update(void);
 
-		virtual __int64 Get_Disk_Space_Needed() = 0;
-		virtual bool	 Get_Disk_Space_Available (const WideStringClass &path, __int64 &diskspace) = 0;
+    WCHAR* Megabyte_Format(__int64 bytecount, WideStringClass& outputstring);
 
-		DirectoryBrowserClass *Browser;
-		MessageBoxClass		 *OverwriteDialog;
-		WCHAR						  DriveLetter;	
+    virtual __int64 Get_Disk_Space_Needed() = 0;
+    virtual bool Get_Disk_Space_Available(const WideStringClass& path, __int64& diskspace) = 0;
+
+    DirectoryBrowserClass* Browser;
+    MessageBoxClass* OverwriteDialog;
+    WCHAR DriveLetter;
 };
-
 
 class GameDirectoryDialogClass : public DirectoryDialogClass
 {
-	public:
-		
-		// RTTI.
-		virtual void *As_GameDirectoryDialogClass()		{return (this);}
+public:
+    // RTTI.
+    virtual void* As_GameDirectoryDialogClass() { return (this); }
 
-		void On_Command (int ctrl_id, int message_id, DWORD param) {DirectoryDialogClass::On_Command (ctrl_id, message_id, param);}
+    void On_Command(int ctrl_id, int message_id, DWORD param)
+    {
+        DirectoryDialogClass::On_Command(ctrl_id, message_id, param);
+    }
 
-	protected:
-
-		void	  On_Init_Dialog (void);
-		__int64 Get_Disk_Space_Needed()																	  {return (_Installer.Get_Game_Size (true));}
-		bool	  Get_Disk_Space_Available (const WideStringClass &path, __int64 &diskspace) {return (_Installer.Get_Game_Space_Available (path, diskspace));}
+protected:
+    void On_Init_Dialog(void);
+    __int64 Get_Disk_Space_Needed() { return (_Installer.Get_Game_Size(true)); }
+    bool Get_Disk_Space_Available(const WideStringClass& path, __int64& diskspace)
+    {
+        return (_Installer.Get_Game_Space_Available(path, diskspace));
+    }
 };
-
 
 class WOLDirectoryDialogClass : public DirectoryDialogClass
 {
-	public:
-		
-		// RTTI.
-		virtual void *As_WOLDirectoryDialogClass()		{return (this);}
+public:
+    // RTTI.
+    virtual void* As_WOLDirectoryDialogClass() { return (this); }
 
-		void On_Command (int ctrl_id, int message_id, DWORD param);
+    void On_Command(int ctrl_id, int message_id, DWORD param);
 
-	protected:
-		
-		void	  On_Init_Dialog (void);
-		__int64 Get_Disk_Space_Needed()																	  {return (_Installer.Get_WOL_Size (true));}
-		bool	  Get_Disk_Space_Available (const WideStringClass &path, __int64 &diskspace) {return (_Installer.Get_WOL_Space_Available (path, diskspace));}
+protected:
+    void On_Init_Dialog(void);
+    __int64 Get_Disk_Space_Needed() { return (_Installer.Get_WOL_Size(true)); }
+    bool Get_Disk_Space_Available(const WideStringClass& path, __int64& diskspace)
+    {
+        return (_Installer.Get_WOL_Space_Available(path, diskspace));
+    }
 };
-
 
 #endif // _DIRECTORY_DIALOG_H

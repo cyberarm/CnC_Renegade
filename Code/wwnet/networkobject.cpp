@@ -36,79 +36,76 @@
 
 #include "networkobject.h"
 #include "networkobjectmgr.h"
-#include "wwmath.h"
-#include "vector3.h"
-#include "wwprofile.h"
 #include "systimer.h"
+#include "vector3.h"
+#include "wwmath.h"
+#include "wwprofile.h"
 
 #define CLIENT_SIDE_UPDATE_FREQUENCY_SAMPLE_PERIOD (1000 * 10)
 
 ////////////////////////////////////////////////////////////////
 //	Static member initializtaion
 ////////////////////////////////////////////////////////////////
-bool		NetworkObjectClass::IsServer		= false;
-
+bool NetworkObjectClass::IsServer = false;
 
 ////////////////////////////////////////////////////////////////
 //
 //	NetworkObjectClass
 //
 ////////////////////////////////////////////////////////////////
-NetworkObjectClass::NetworkObjectClass (void)	:
-	ImportStateCount (0),
-	LastClientsideUpdateTime (0),
-	NetworkID (0),
-	IsDeletePending (false),
-	CachedPriority (0),
-	UnreliableOverride (false),
-	AppPacketType (0),
-	FrequentExportPacketSize(0),
-	ClientsideUpdateFrequencySampleStartTime(TIMEGETTIME()),
-	ClientsideUpdateFrequencySampleCount(0),
-	ClientsideUpdateRate(0),
+NetworkObjectClass::NetworkObjectClass(void)
+    : ImportStateCount(0),
+      LastClientsideUpdateTime(0),
+      NetworkID(0),
+      IsDeletePending(false),
+      CachedPriority(0),
+      UnreliableOverride(false),
+      AppPacketType(0),
+      FrequentExportPacketSize(0),
+      ClientsideUpdateFrequencySampleStartTime(TIMEGETTIME()),
+      ClientsideUpdateFrequencySampleCount(0),
+      ClientsideUpdateRate(0),
 #ifdef WWDEBUG
-	CreatedByPacketID(0),
-#endif //WWDEBUG
-	LastObjectIdIDamaged(-1),
-	LastObjectIdIGotDamagedBy(-1)
+      CreatedByPacketID(0),
+#endif // WWDEBUG
+      LastObjectIdIDamaged(-1),
+      LastObjectIdIGotDamagedBy(-1)
 
 {
-	if (IsServer)
-	{
-		//
-		//	Assign the object a unique ID. This will happen on the client too during object
-		// imports, but will be corrected immediately with an explicit Set_Network_ID call.
-		//
-		int new_id = NetworkObjectMgrClass::Get_New_Dynamic_ID();
-		//WWDEBUG_SAY(("New network id = %d\n", new_id));//TSS2001
-		Set_Network_ID(new_id);
-	}
+    if (IsServer) {
+        //
+        //	Assign the object a unique ID. This will happen on the client too during object
+        // imports, but will be corrected immediately with an explicit Set_Network_ID call.
+        //
+        int new_id = NetworkObjectMgrClass::Get_New_Dynamic_ID();
+        // WWDEBUG_SAY(("New network id = %d\n", new_id));//TSS2001
+        Set_Network_ID(new_id);
+    }
 
-	//
-	//	By default, objects have the modifiction dirty bit set.
-	// Static objects therefore don't need to remember to set this in their constructor.
-	// Game objects will set BIT_CREATION.
-	//
-	Clear_Object_Dirty_Bits ();
+    //
+    //	By default, objects have the modifiction dirty bit set.
+    // Static objects therefore don't need to remember to set this in their constructor.
+    // Game objects will set BIT_CREATION.
+    //
+    Clear_Object_Dirty_Bits();
 
-	memset(CachedPriority_2, 0, sizeof(CachedPriority_2));
+    memset(CachedPriority_2, 0, sizeof(CachedPriority_2));
 
-	return ;
+    return;
 }
-
 
 ////////////////////////////////////////////////////////////////
 //
 //	~NetworkObjectClass
 //
 ////////////////////////////////////////////////////////////////
-NetworkObjectClass::~NetworkObjectClass (void)
+NetworkObjectClass::~NetworkObjectClass(void)
 {
-	//
-	//	Unregister this object from network updates
-	//
-	NetworkObjectMgrClass::Unregister_Object (this);
-	return ;
+    //
+    //	Unregister this object from network updates
+    //
+    NetworkObjectMgrClass::Unregister_Object(this);
+    return;
 }
 
 extern bool SensibleUpdates;
@@ -118,232 +115,204 @@ extern bool SensibleUpdates;
 //	Set_Network_ID
 //
 ////////////////////////////////////////////////////////////////
-void
-NetworkObjectClass::Set_Network_ID (int id)
+void NetworkObjectClass::Set_Network_ID(int id)
 {
-	WWASSERT(id > 0);
+    WWASSERT(id > 0);
 
-	//
-	//	Remove the object from the manager, change it's ID,
-	// and re-insert it.
-	//
-	NetworkObjectMgrClass::Unregister_Object (this);
-	NetworkID = id;
-	NetworkObjectMgrClass::Register_Object (this);
-	return ;
+    //
+    //	Remove the object from the manager, change it's ID,
+    // and re-insert it.
+    //
+    NetworkObjectMgrClass::Unregister_Object(this);
+    NetworkID = id;
+    NetworkObjectMgrClass::Register_Object(this);
+    return;
 }
-
 
 ////////////////////////////////////////////////////////////////
 //
 //	Get_Object_Dirty_Bits
 //
 ////////////////////////////////////////////////////////////////
-BYTE
-NetworkObjectClass::Get_Object_Dirty_Bits (int client_id)
+BYTE NetworkObjectClass::Get_Object_Dirty_Bits(int client_id)
 {
-	return ClientStatus[client_id];
+    return ClientStatus[client_id];
 }
-
 
 ////////////////////////////////////////////////////////////////
 //
 //	Set_Object_Dirty_Bits
 //
 ////////////////////////////////////////////////////////////////
-void
-NetworkObjectClass::Set_Object_Dirty_Bits (int client_id, BYTE bits)
+void NetworkObjectClass::Set_Object_Dirty_Bits(int client_id, BYTE bits)
 {
-	ClientStatus[client_id] = bits;
+    ClientStatus[client_id] = bits;
 }
-
 
 ////////////////////////////////////////////////////////////////
 //
 //	Get_Object_Dirty_Bit
 //
 ////////////////////////////////////////////////////////////////
-bool
-NetworkObjectClass::Get_Object_Dirty_Bit (int client_id, DIRTY_BIT dirty_bit)
+bool NetworkObjectClass::Get_Object_Dirty_Bit(int client_id, DIRTY_BIT dirty_bit)
 {
-	return ((ClientStatus[client_id] & dirty_bit) == dirty_bit);
+    return ((ClientStatus[client_id] & dirty_bit) == dirty_bit);
 }
-
 
 ////////////////////////////////////////////////////////////////
 //
 //	Clear_Object_Dirty_Bits
 //
 ////////////////////////////////////////////////////////////////
-void
-NetworkObjectClass::Clear_Object_Dirty_Bits (void)
+void NetworkObjectClass::Clear_Object_Dirty_Bits(void)
 {
-	//
-	//	Reset the status for each client
-	//
-	for (int index = 0; index < MAX_CLIENT_COUNT; index ++) {
-		ClientStatus[index] = 0;
-		UpdateInfo[index].LastUpdateTime = 0;
-		UpdateInfo[index].UpdateRate = 50;
-		UpdateInfo[index].ClientHintCount = 0;
-	}
+    //
+    //	Reset the status for each client
+    //
+    for (int index = 0; index < MAX_CLIENT_COUNT; index++) {
+        ClientStatus[index] = 0;
+        UpdateInfo[index].LastUpdateTime = 0;
+        UpdateInfo[index].UpdateRate = 50;
+        UpdateInfo[index].ClientHintCount = 0;
+    }
 
-	return ;
+    return;
 }
-
 
 ////////////////////////////////////////////////////////////////
 //
 //	Set_Object_Dirty_Bit
 //
 ////////////////////////////////////////////////////////////////
-void
-NetworkObjectClass::Set_Object_Dirty_Bit (int client_id, DIRTY_BIT dirty_bit, bool onoff)
+void NetworkObjectClass::Set_Object_Dirty_Bit(int client_id, DIRTY_BIT dirty_bit, bool onoff)
 {
-	if (onoff) {
-		ClientStatus[client_id] |= dirty_bit;
-	} else {
-		ClientStatus[client_id] &= (~dirty_bit);
-	}
+    if (onoff) {
+        ClientStatus[client_id] |= dirty_bit;
+    }
+    else {
+        ClientStatus[client_id] &= (~dirty_bit);
+    }
 
-	return ;
+    return;
 }
-
 
 ////////////////////////////////////////////////////////////////
 //
 //	Set_Object_Dirty_Bit
 //
 ////////////////////////////////////////////////////////////////
-void
-NetworkObjectClass::Set_Object_Dirty_Bit (DIRTY_BIT dirty_bit, bool onoff)
+void NetworkObjectClass::Set_Object_Dirty_Bit(DIRTY_BIT dirty_bit, bool onoff)
 {
-	if (!IsServer)
-	{
-		return;
-	}
+    if (!IsServer) {
+        return;
+    }
 
-	//
-	//	Change the status for each client
-	// N.B. Client 0 is actually the server.
-	//
-	for (int index = 1; index < MAX_CLIENT_COUNT; index ++) {//TSS2001
+    //
+    //	Change the status for each client
+    // N.B. Client 0 is actually the server.
+    //
+    for (int index = 1; index < MAX_CLIENT_COUNT; index++) { // TSS2001
 
-		if (onoff) {
-			ClientStatus[index] |= dirty_bit;
-		} else {
-			ClientStatus[index] &= (~dirty_bit);
-		}
-	}
+        if (onoff) {
+            ClientStatus[index] |= dirty_bit;
+        }
+        else {
+            ClientStatus[index] &= (~dirty_bit);
+        }
+    }
 
-	return ;
+    return;
 }
-
 
 ////////////////////////////////////////////////////////////////
 //
 //	Is_Client_Dirty
 //
 ////////////////////////////////////////////////////////////////
-bool
-NetworkObjectClass::Is_Client_Dirty (int client_id)
+bool NetworkObjectClass::Is_Client_Dirty(int client_id)
 {
-	return ClientStatus[client_id] != 0;
+    return ClientStatus[client_id] != 0;
 }
-
 
 ////////////////////////////////////////////////////////////////
 //
 //	Set_Delete_Pending
 //
 ////////////////////////////////////////////////////////////////
-void
-NetworkObjectClass::Set_Delete_Pending (void)
+void NetworkObjectClass::Set_Delete_Pending(void)
 {
-	IsDeletePending = true;
-	NetworkObjectMgrClass::Register_Object_For_Deletion (this);
-	return;
+    IsDeletePending = true;
+    NetworkObjectMgrClass::Register_Object_For_Deletion(this);
+    return;
 }
-
 
 ////////////////////////////////////////////////////////////////
 //
 //	Reset_Client_Hint_Count
 //
 ////////////////////////////////////////////////////////////////
-void
-NetworkObjectClass::Reset_Client_Hint_Count(int client_id)
+void NetworkObjectClass::Reset_Client_Hint_Count(int client_id)
 {
-	WWASSERT(client_id >= 0 && client_id < MAX_CLIENT_COUNT);
+    WWASSERT(client_id >= 0 && client_id < MAX_CLIENT_COUNT);
 
-	UpdateInfo[client_id].ClientHintCount = 0;
+    UpdateInfo[client_id].ClientHintCount = 0;
 }
-
 
 ////////////////////////////////////////////////////////////////
 //
 //	Increment_Client_Hint_Count
 //
 ////////////////////////////////////////////////////////////////
-void
-NetworkObjectClass::Increment_Client_Hint_Count(int client_id)
+void NetworkObjectClass::Increment_Client_Hint_Count(int client_id)
 {
-	WWASSERT(client_id >= 0 && client_id < MAX_CLIENT_COUNT);
+    WWASSERT(client_id >= 0 && client_id < MAX_CLIENT_COUNT);
 
-	if (UpdateInfo[client_id].ClientHintCount < 255) {
-		UpdateInfo[client_id].ClientHintCount++;
-	}
+    if (UpdateInfo[client_id].ClientHintCount < 255) {
+        UpdateInfo[client_id].ClientHintCount++;
+    }
 }
-
 
 ////////////////////////////////////////////////////////////////
 //
 //	Hint_To_All_Clients
 //
 ////////////////////////////////////////////////////////////////
-void
-NetworkObjectClass::Hint_To_All_Clients(void)
+void NetworkObjectClass::Hint_To_All_Clients(void)
 {
-	//
-	// Hint that an update should be sent to all clients
-	//
-	for (int index = 0; index < MAX_CLIENT_COUNT; index ++) {
-		Increment_Client_Hint_Count(index);
-	}
+    //
+    // Hint that an update should be sent to all clients
+    //
+    for (int index = 0; index < MAX_CLIENT_COUNT; index++) {
+        Increment_Client_Hint_Count(index);
+    }
 }
-
 
 ////////////////////////////////////////////////////////////////
 //
 //	Get_Client_Hint_Count
 //
 ////////////////////////////////////////////////////////////////
-BYTE
-NetworkObjectClass::Get_Client_Hint_Count(int client_id)
+BYTE NetworkObjectClass::Get_Client_Hint_Count(int client_id)
 {
-	WWASSERT(client_id >= 0 && client_id < MAX_CLIENT_COUNT);
+    WWASSERT(client_id >= 0 && client_id < MAX_CLIENT_COUNT);
 
-	return UpdateInfo[client_id].ClientHintCount;
+    return UpdateInfo[client_id].ClientHintCount;
 }
-
 
 ////////////////////////////////////////////////////////////////
 //
 //	Belongs_To_Client
 //
 ////////////////////////////////////////////////////////////////
-bool
-NetworkObjectClass::Belongs_To_Client (int client_id)
+bool NetworkObjectClass::Belongs_To_Client(int client_id)
 {
-	WWASSERT(client_id > 0);
+    WWASSERT(client_id > 0);
 
-	int id_min = NETID_CLIENT_OBJECT_MIN + (client_id - 1) * 100000;
-	int id_max = id_min + 100000 - 1;
+    int id_min = NETID_CLIENT_OBJECT_MIN + (client_id - 1) * 100000;
+    int id_max = id_min + 100000 - 1;
 
-	return (NetworkID >= id_min) && (NetworkID <= id_max);
+    return (NetworkID >= id_min) && (NetworkID <= id_max);
 }
-
-
 
 ////////////////////////////////////////////////////////////////
 //
@@ -354,14 +323,12 @@ NetworkObjectClass::Belongs_To_Client (int client_id)
 //
 //	10/16/2001 2:45PM ST
 ////////////////////////////////////////////////////////////////
-unsigned long
-NetworkObjectClass::Get_Last_Update_Time(int client_id)
+unsigned long NetworkObjectClass::Get_Last_Update_Time(int client_id)
 {
-	// Is this assert right? ST - 10/16/2001 2:44PM
-	WWASSERT(client_id > 0 && client_id <= MAX_CLIENT_COUNT);
-	return(UpdateInfo[client_id].LastUpdateTime);
+    // Is this assert right? ST - 10/16/2001 2:44PM
+    WWASSERT(client_id > 0 && client_id <= MAX_CLIENT_COUNT);
+    return (UpdateInfo[client_id].LastUpdateTime);
 }
-
 
 ////////////////////////////////////////////////////////////////
 //
@@ -372,14 +339,12 @@ NetworkObjectClass::Get_Last_Update_Time(int client_id)
 //
 //	10/16/2001 2:45PM ST
 ////////////////////////////////////////////////////////////////
-unsigned short
-NetworkObjectClass::Get_Update_Rate(int client_id)
+unsigned short NetworkObjectClass::Get_Update_Rate(int client_id)
 {
-	// Is this assert right? ST - 10/16/2001 2:44PM
-	WWASSERT(client_id > 0 && client_id <= MAX_CLIENT_COUNT);
-	return(UpdateInfo[client_id].UpdateRate);
+    // Is this assert right? ST - 10/16/2001 2:44PM
+    WWASSERT(client_id > 0 && client_id <= MAX_CLIENT_COUNT);
+    return (UpdateInfo[client_id].UpdateRate);
 }
-
 
 ////////////////////////////////////////////////////////////////
 //
@@ -390,14 +355,12 @@ NetworkObjectClass::Get_Update_Rate(int client_id)
 //
 //	10/16/2001 2:45PM ST
 ////////////////////////////////////////////////////////////////
-void
-NetworkObjectClass::Set_Last_Update_Time(int client_id, unsigned long time)
+void NetworkObjectClass::Set_Last_Update_Time(int client_id, unsigned long time)
 {
-	// Is this assert right? ST - 10/16/2001 2:44PM
-	WWASSERT(client_id > 0 && client_id <= MAX_CLIENT_COUNT);
-	UpdateInfo[client_id].LastUpdateTime = time;
+    // Is this assert right? ST - 10/16/2001 2:44PM
+    WWASSERT(client_id > 0 && client_id <= MAX_CLIENT_COUNT);
+    UpdateInfo[client_id].LastUpdateTime = time;
 }
-
 
 ////////////////////////////////////////////////////////////////
 //
@@ -408,34 +371,12 @@ NetworkObjectClass::Set_Last_Update_Time(int client_id, unsigned long time)
 //
 //	10/16/2001 2:45PM ST
 ////////////////////////////////////////////////////////////////
-void
-NetworkObjectClass::Set_Update_Rate(int client_id, unsigned short rate)
+void NetworkObjectClass::Set_Update_Rate(int client_id, unsigned short rate)
 {
-	// Is this assert right? ST - 10/16/2001 2:44PM
-	WWASSERT(client_id > 0 && client_id <= MAX_CLIENT_COUNT);
-	UpdateInfo[client_id].UpdateRate = rate;
+    // Is this assert right? ST - 10/16/2001 2:44PM
+    WWASSERT(client_id > 0 && client_id <= MAX_CLIENT_COUNT);
+    UpdateInfo[client_id].UpdateRate = rate;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
 ////////////////////////////////////////////////////////////////
@@ -446,14 +387,13 @@ NetworkObjectClass::Set_Update_Rate(int client_id, unsigned short rate)
 void
 NetworkObjectClass::Clear_Object_Dirty_Bits (int client_id)
 {
-	ClientStatus[client_id] = 0;
-	return ;
+        ClientStatus[client_id] = 0;
+        return ;
 }
 */
 
-
-//float		NetworkObjectClass::RandomFloat	= 0.0F;
-		//TSS2001d float perturbation = RandomFloat * 2 * distance - distance;
+// float		NetworkObjectClass::RandomFloat	= 0.0F;
+// TSS2001d float perturbation = RandomFloat * 2 * distance - distance;
 /*
 ////////////////////////////////////////////////////////////////
 //
@@ -463,15 +403,15 @@ NetworkObjectClass::Clear_Object_Dirty_Bits (int client_id)
 void
 NetworkObjectClass::Set_Random_Float (float random_float)
 {
-	WWASSERT(random_float >= 0 && random_float <= 1);
+        WWASSERT(random_float >= 0 && random_float <= 1);
 
-	RandomFloat = random_float;
+        RandomFloat = random_float;
 }
 */
 
-	//Set_Object_Dirty_Bit (BIT_RARE, true);
+// Set_Object_Dirty_Bit (BIT_RARE, true);
 
-//float		NetworkObjectClass::MaxDistance	= 300.0F;
+// float		NetworkObjectClass::MaxDistance	= 300.0F;
 
 ////////////////////////////////////////////////////////////////
 //
@@ -482,36 +422,36 @@ NetworkObjectClass::Set_Random_Float (float random_float)
 float
 NetworkObjectClass::Compute_Object_Priority (int client_id, const Vector3 &client_pos)
 {
-	//
-	// Priority depends on physical distance. Objects with no physical location will
-	// have a priority of 1.
-	//
-	CachedPriority = 0;
+        //
+        // Priority depends on physical distance. Objects with no physical location will
+        // have a priority of 1.
+        //
+        CachedPriority = 0;
 
-	if (Is_Client_Dirty(client_id)) {
+        if (Is_Client_Dirty(client_id)) {
 
-		float distance = Get_Object_Distance (client_pos);
+                float distance = Get_Object_Distance (client_pos);
 
-		if (distance < MaxDistance)
-		{
-			//
-			// This object is visible to this client.
-			// Add a random perturbation in the range [-distance, distance].
-			//
-			float rand_float = ::rand() / (float) RAND_MAX;
-			float perturbation = rand_float * 2 * distance - distance;
+                if (distance < MaxDistance)
+                {
+                        //
+                        // This object is visible to this client.
+                        // Add a random perturbation in the range [-distance, distance].
+                        //
+                        float rand_float = ::rand() / (float) RAND_MAX;
+                        float perturbation = rand_float * 2 * distance - distance;
 
-			distance += perturbation;
-		}
+                        distance += perturbation;
+                }
 
-		//
-		// Priority simply decreases linearly with distance and is zero at MaxDistance.
-		//
-		CachedPriority = 1 - distance / MaxDistance;
-		CachedPriority	= WWMath::Clamp (CachedPriority, 0.0F, 1.0F);
-	}
+                //
+                // Priority simply decreases linearly with distance and is zero at MaxDistance.
+                //
+                CachedPriority = 1 - distance / MaxDistance;
+                CachedPriority	= WWMath::Clamp (CachedPriority, 0.0F, 1.0F);
+        }
 
-	return CachedPriority;
+        return CachedPriority;
 }
 */
 
@@ -519,25 +459,25 @@ NetworkObjectClass::Compute_Object_Priority (int client_id, const Vector3 &clien
 float
 NetworkObjectClass::Compute_Object_Priority (int client_id, const Vector3 &client_pos)
 {
-	//
-	// Compute the priority of this object to the given client at his given position.
-	// Priority depends on physical distance. Objects with no physical location will
-	// have a priority of 1.
-	//
-	CachedPriority = 0;
+        //
+        // Compute the priority of this object to the given client at his given position.
+        // Priority depends on physical distance. Objects with no physical location will
+        // have a priority of 1.
+        //
+        CachedPriority = 0;
 
-	if (Is_Client_Dirty(client_id)) {
+        if (Is_Client_Dirty(client_id)) {
 
-		float distance = Get_Object_Distance (client_pos);
+                float distance = Get_Object_Distance (client_pos);
 
-		//
-		// Priority simply decreases linearly with distance and is zero at MaxDistance.
-		//
-		CachedPriority = 1 - distance / MaxDistance;
-		CachedPriority	= WWMath::Clamp (CachedPriority, 0.0F, 1.0F);
-	}
+                //
+                // Priority simply decreases linearly with distance and is zero at MaxDistance.
+                //
+                CachedPriority = 1 - distance / MaxDistance;
+                CachedPriority	= WWMath::Clamp (CachedPriority, 0.0F, 1.0F);
+        }
 
-	return CachedPriority;
+        return CachedPriority;
 }
 */
 ////////////////////////////////////////////////////////////////
@@ -545,16 +485,12 @@ NetworkObjectClass::Compute_Object_Priority (int client_id, const Vector3 &clien
 //	Set_Cached_Priority
 //
 ////////////////////////////////////////////////////////////////
-void
-NetworkObjectClass::Set_Cached_Priority (float priority)
+void NetworkObjectClass::Set_Cached_Priority(float priority)
 {
-	WWASSERT(priority >= 0 && priority <= 1);
+    WWASSERT(priority >= 0 && priority <= 1);
 
-	CachedPriority = priority;
+    CachedPriority = priority;
 }
-
-
-
 
 /*
 ////////////////////////////////////////////////////////////////
@@ -565,33 +501,32 @@ NetworkObjectClass::Set_Cached_Priority (float priority)
 float
 NetworkObjectClass::Get_Object_Distance (const Vector3 &client_pos)
 {
-	//
-	// Objects without a physical location will return a distance of zero.
-	//
-	float distance = 0;
+        //
+        // Objects without a physical location will return a distance of zero.
+        //
+        float distance = 0;
 
-	//
-	//	Get the object's world position (if it has one)
-	//
-	Vector3 position;
-	if (Get_World_Position (position)) {
+        //
+        //	Get the object's world position (if it has one)
+        //
+        Vector3 position;
+        if (Get_World_Position (position)) {
 
-		//
-		//	Simple distance calculation based on the distance
-		// between points.
-		//
-		distance = (position - client_pos).Length ();
-	}
+                //
+                //	Simple distance calculation based on the distance
+                // between points.
+                //
+                distance = (position - client_pos).Length ();
+        }
 
-	return distance;
+        return distance;
 }
 */
 
-
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //
-//	Reset_Last_Clientside_Update_Time -- Reset the time this client object last got an update for the server
+//	Reset_Last_Clientside_Update_Time -- Reset the time this client object last got an update
+//for the server
 //
 // In: Nothing.
 // Out: Nothing
@@ -600,30 +535,26 @@ NetworkObjectClass::Get_Object_Distance (const Vector3 &client_pos)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void NetworkObjectClass::Reset_Last_Clientside_Update_Time(void)
 {
-	LastClientsideUpdateTime = 0;
-	ClientsideUpdateFrequencySampleStartTime = TIMEGETTIME();
-	ClientsideUpdateFrequencySampleCount = 0;
+    LastClientsideUpdateTime = 0;
+    ClientsideUpdateFrequencySampleStartTime = TIMEGETTIME();
+    ClientsideUpdateFrequencySampleCount = 0;
 }
-
-
-
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //
-//	Set_Last_Clientside_Update_Time -- Set the time this client object last got an update for the server
+//	Set_Last_Clientside_Update_Time -- Set the time this client object last got an update for
+//the server
 //
 // In: Nothing.
 // Out: Nothing
 //
 //	10/19/2001 12:19PM ST
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void NetworkObjectClass::Set_Last_Clientside_Update_Time (ULONG time)
+void NetworkObjectClass::Set_Last_Clientside_Update_Time(ULONG time)
 {
-	LastClientsideUpdateTime = time;
-	ClientsideUpdateFrequencySampleCount++;
+    LastClientsideUpdateTime = time;
+    ClientsideUpdateFrequencySampleCount++;
 }
-
-
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -636,26 +567,27 @@ void NetworkObjectClass::Set_Last_Clientside_Update_Time (ULONG time)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 int NetworkObjectClass::Get_Clientside_Update_Frequency(void)
 {
-	unsigned long time = TIMEGETTIME();
+    unsigned long time = TIMEGETTIME();
 
-	if (time - ClientsideUpdateFrequencySampleStartTime > CLIENT_SIDE_UPDATE_FREQUENCY_SAMPLE_PERIOD) {
-		// Say 10 seconds if we don't know.
-		int rate = 10000;
-		if (ClientsideUpdateFrequencySampleCount) {
-			rate = (time - ClientsideUpdateFrequencySampleStartTime) / ClientsideUpdateFrequencySampleCount;
-			ClientsideUpdateFrequencySampleStartTime = time;
-			ClientsideUpdateFrequencySampleCount = 0;
-		}
-		ClientsideUpdateRate = rate;
-	}
+    if (time - ClientsideUpdateFrequencySampleStartTime
+        > CLIENT_SIDE_UPDATE_FREQUENCY_SAMPLE_PERIOD) {
+        // Say 10 seconds if we don't know.
+        int rate = 10000;
+        if (ClientsideUpdateFrequencySampleCount) {
+            rate = (time - ClientsideUpdateFrequencySampleStartTime)
+                / ClientsideUpdateFrequencySampleCount;
+            ClientsideUpdateFrequencySampleStartTime = time;
+            ClientsideUpdateFrequencySampleCount = 0;
+        }
+        ClientsideUpdateRate = rate;
+    }
 
-	return(ClientsideUpdateRate);
+    return (ClientsideUpdateRate);
 }
-
 
 #ifdef WWDEBUG
-void NetworkObjectClass::Set_Created_By_Packet_ID (int id)
+void NetworkObjectClass::Set_Created_By_Packet_ID(int id)
 {
-	CreatedByPacketID = id;
+    CreatedByPacketID = id;
 }
-#endif //WWDEBUG
+#endif // WWDEBUG

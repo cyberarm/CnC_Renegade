@@ -16,22 +16,22 @@
 **	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-/*********************************************************************************************** 
- ***                            Confidential - Westwood Studios                              *** 
- *********************************************************************************************** 
- *                                                                                             * 
- *                 Project Name : Installer                                                    * 
- *                                                                                             * 
- *                     $Archive:: /Commando/Code/Installer/LicenseDialog.cp $* 
- *                                                                                             * 
- *                      $Author:: Ian_l                   $* 
- *                                                                                             * 
- *                     $Modtime:: 12/04/01 5:17p                $* 
- *                                                                                             * 
- *                    $Revision:: 7                     $* 
- *                                                                                             * 
- *---------------------------------------------------------------------------------------------* 
- * Functions:                                                                                  * 
+/***********************************************************************************************
+ ***                            Confidential - Westwood Studios                              ***
+ ***********************************************************************************************
+ *                                                                                             *
+ *                 Project Name : Installer                                                    *
+ *                                                                                             *
+ *                     $Archive:: /Commando/Code/Installer/LicenseDialog.cp $*
+ *                                                                                             *
+ *                      $Author:: Ian_l                   $*
+ *                                                                                             *
+ *                     $Modtime:: 12/04/01 5:17p                $*
+ *                                                                                             *
+ *                    $Revision:: 7                     $*
+ *                                                                                             *
+ *---------------------------------------------------------------------------------------------*
+ * Functions:                                                                                  *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
 // Includes.
@@ -42,9 +42,9 @@
 #include "Resource.h"
 #include "Translator.h"
 
-
 /***********************************************************************************************
- * LicenseDialogClass::On_Init_Dialog --																	  *
+ * LicenseDialogClass::On_Init_Dialog --
+ **
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -53,27 +53,27 @@
  * WARNINGS:                                                                                   *
  *                                                                                             *
  * HISTORY:                                                                                    *
- *   08/22/01    IML : Created.                                                                * 
+ *   08/22/01    IML : Created.                                                                *
  *=============================================================================================*/
-void LicenseDialogClass::On_Init_Dialog (void)
+void LicenseDialogClass::On_Init_Dialog(void)
 {
-	Load_License ("License.txt");
+    Load_License("License.txt");
 
-	// Set initial check text to 'agree' but uncheck it so that the user must consiously check it.
-	#if NDEBUG
-	Check_Dlg_Button (IDC_LICENSE_CHECK, false);
-	#else
-	Check_Dlg_Button (IDC_LICENSE_CHECK, true);
-	#endif
+// Set initial check text to 'agree' but uncheck it so that the user must consiously check it.
+#if NDEBUG
+    Check_Dlg_Button(IDC_LICENSE_CHECK, false);
+#else
+    Check_Dlg_Button(IDC_LICENSE_CHECK, true);
+#endif
 
-	Set_Dlg_Item_Text (IDC_LICENSE_CHECK, TxWideStringClass (IDS_AGREE_TO_TERMS));
+    Set_Dlg_Item_Text(IDC_LICENSE_CHECK, TxWideStringClass(IDS_AGREE_TO_TERMS));
 
-	InstallMenuDialogClass::On_Init_Dialog();
+    InstallMenuDialogClass::On_Init_Dialog();
 }
 
-
 /***********************************************************************************************
- * LicenseDialogClass::Load_License --																			  *
+ * LicenseDialogClass::Load_License --
+ **
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -82,62 +82,71 @@ void LicenseDialogClass::On_Init_Dialog (void)
  * WARNINGS:                                                                                   *
  *                                                                                             *
  * HISTORY:                                                                                    *
- *   08/22/01    IML : Created.                                                                * 
+ *   08/22/01    IML : Created.                                                                *
  *=============================================================================================*/
-void LicenseDialogClass::Load_License (const char *licensefilename)
+void LicenseDialogClass::Load_License(const char* licensefilename)
 {
-	HANDLE							file;
-	BY_HANDLE_FILE_INFORMATION fileinformation;
+    HANDLE file;
+    BY_HANDLE_FILE_INFORMATION fileinformation;
 
-	// Load up the license agreement text.
-	// NOTE: This agreement should be in Unicode.
-	file = CreateFile (licensefilename, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, 0L, NULL);
-	
-	// If the file exists...
-	if (file != INVALID_HANDLE_VALUE) {
+    // Load up the license agreement text.
+    // NOTE: This agreement should be in Unicode.
+    file
+        = CreateFile(licensefilename, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, 0L, NULL);
 
-		if (!GetFileInformationByHandle (file, &fileinformation)) FATAL_SYSTEM_ERROR;
+    // If the file exists...
+    if (file != INVALID_HANDLE_VALUE) {
 
-		// Does header exist?
-		if ((fileinformation.nFileSizeHigh == 0) && (fileinformation.nFileSizeLow >= sizeof (WCHAR))) {
+        if (!GetFileInformationByHandle(file, &fileinformation)) {
+            FATAL_SYSTEM_ERROR;
+        }
 
-			int	 			length;
-			unsigned long  bytesreadcount;
-			WCHAR			  *buffer;
+        // Does header exist?
+        if ((fileinformation.nFileSizeHigh == 0)
+            && (fileinformation.nFileSizeLow >= sizeof(WCHAR))) {
 
-			length = fileinformation.nFileSizeLow / sizeof (WCHAR);
-			buffer = new WCHAR [length + 1];
-			if (ReadFile (file, buffer, length * sizeof (WCHAR), &bytesreadcount, NULL)) {
+            int length;
+            unsigned long bytesreadcount;
+            WCHAR* buffer;
 
-				unsigned s, d;
+            length = fileinformation.nFileSizeLow / sizeof(WCHAR);
+            buffer = new WCHAR[length + 1];
+            if (ReadFile(file, buffer, length * sizeof(WCHAR), &bytesreadcount, NULL)) {
 
-				buffer [length] = L'\0';
-				
-				// Advance past header.
-				s = 1;
+                unsigned s, d;
 
-				// Strip 0x000D characters from the license text - they're not parsed as carriage return by the multi-line edit control.
-				d = 0;
-				while (true) {
-					if (buffer [s] != 0x000D) {
-						buffer [d] = buffer [s];
-						d++;
-					}
-					if (buffer [s] == 0x000) break;
-					s++;
-				}
+                buffer[length] = L'\0';
 
-				Set_Dlg_Item_Text (IDC_LICENSE_EDIT, buffer);
-			}
-			delete [] buffer;
-		}
-		if (!CloseHandle (file)) FATAL_SYSTEM_ERROR;
-	}
+                // Advance past header.
+                s = 1;
+
+                // Strip 0x000D characters from the license text - they're not parsed as carriage
+                // return by the multi-line edit control.
+                d = 0;
+                while (true) {
+                    if (buffer[s] != 0x000D) {
+                        buffer[d] = buffer[s];
+                        d++;
+                    }
+                    if (buffer[s] == 0x000) {
+                        break;
+                    }
+                    s++;
+                }
+
+                Set_Dlg_Item_Text(IDC_LICENSE_EDIT, buffer);
+            }
+            delete[] buffer;
+        }
+        if (!CloseHandle(file)) {
+            FATAL_SYSTEM_ERROR;
+        }
+    }
 }
 
-
 /***********************************************************************************************
- * LicenseDialogClass::On_Command --																			  *
+ * LicenseDialogClass::On_Command --
+ **
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -146,46 +155,47 @@ void LicenseDialogClass::Load_License (const char *licensefilename)
  * WARNINGS:                                                                                   *
  *                                                                                             *
  * HISTORY:                                                                                    *
- *   08/22/01    IML : Created.                                                                * 
+ *   08/22/01    IML : Created.                                                                *
  *=============================================================================================*/
-void LicenseDialogClass::On_Command (int ctrl_id, int message_id, DWORD param)
+void LicenseDialogClass::On_Command(int ctrl_id, int message_id, DWORD param)
 {
-	switch (ctrl_id)
-	{
-		case IDC_LICENSE_CHECK:
-		{
-			CheckBoxCtrlClass *check =	Get_Dlg_Item (IDC_LICENSE_CHECK)->As_CheckBoxCtrlClass();
-	
-			if (check->Get_Check()) {
-				check->Set_Text (TxWideStringClass (IDS_AGREE_TO_TERMS));
-			} else {
-				check->Set_Text (TxWideStringClass (IDS_NOT_AGREE_TO_TERMS));
-			}
-			break;
-		}
+    switch (ctrl_id) {
+    case IDC_LICENSE_CHECK: {
+        CheckBoxCtrlClass* check = Get_Dlg_Item(IDC_LICENSE_CHECK)->As_CheckBoxCtrlClass();
 
-		case IDOK:
-		{
-			CheckBoxCtrlClass *check =	Get_Dlg_Item (IDC_LICENSE_CHECK)->As_CheckBoxCtrlClass();
+        if (check->Get_Check()) {
+            check->Set_Text(TxWideStringClass(IDS_AGREE_TO_TERMS));
+        }
+        else {
+            check->Set_Text(TxWideStringClass(IDS_NOT_AGREE_TO_TERMS));
+        }
+        break;
+    }
 
-			if (!check->Get_Check()) {
-				MessageBoxClass::Do_Dialog (TxWideStringClass (IDS_WARNING), TxWideStringClass (IDS_MUST_ACCEPT), MessageBoxClass::MESSAGE_BOX_TYPE_OK);
-				return;
-			} else {
-				break;
-			}
-		}
+    case IDOK: {
+        CheckBoxCtrlClass* check = Get_Dlg_Item(IDC_LICENSE_CHECK)->As_CheckBoxCtrlClass();
 
-		default:
-			break;
-	}
+        if (!check->Get_Check()) {
+            MessageBoxClass::Do_Dialog(TxWideStringClass(IDS_WARNING),
+                                       TxWideStringClass(IDS_MUST_ACCEPT),
+                                       MessageBoxClass::MESSAGE_BOX_TYPE_OK);
+            return;
+        }
+        else {
+            break;
+        }
+    }
 
-	InstallMenuDialogClass::On_Command (ctrl_id, message_id, param);
+    default:
+        break;
+    }
+
+    InstallMenuDialogClass::On_Command(ctrl_id, message_id, param);
 }
 
-
 /***********************************************************************************************
- * NDADialogClass::On_Init_Dialog --																			  *
+ * NDADialogClass::On_Init_Dialog --
+ **
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -194,25 +204,23 @@ void LicenseDialogClass::On_Command (int ctrl_id, int message_id, DWORD param)
  * WARNINGS:                                                                                   *
  *                                                                                             *
  * HISTORY:                                                                                    *
- *   08/22/01    IML : Created.                                                                * 
+ *   08/22/01    IML : Created.                                                                *
  *=============================================================================================*/
-void NDADialogClass::On_Init_Dialog (void)
+void NDADialogClass::On_Init_Dialog(void)
 {
-	Load_License ("NDA.txt");
+    Load_License("NDA.txt");
 
-	Set_Dlg_Item_Text (IDC_LICENSE_HEADING, RxWideStringClass (IDS_NON_DISCLOSURE_AGREEMENT));
-	Set_Dlg_Item_Text (IDC_LICENSE_QUERY, RxWideStringClass (IDS_AGREE_TO_NDA));
+    Set_Dlg_Item_Text(IDC_LICENSE_HEADING, RxWideStringClass(IDS_NON_DISCLOSURE_AGREEMENT));
+    Set_Dlg_Item_Text(IDC_LICENSE_QUERY, RxWideStringClass(IDS_AGREE_TO_NDA));
 
-	// Set initial check text to 'agree' but uncheck it so that the user must consiously check it.
-	#if NDEBUG
-	Check_Dlg_Button (IDC_LICENSE_CHECK, false);
-	#else
-	Check_Dlg_Button (IDC_LICENSE_CHECK, true);
-	#endif
+// Set initial check text to 'agree' but uncheck it so that the user must consiously check it.
+#if NDEBUG
+    Check_Dlg_Button(IDC_LICENSE_CHECK, false);
+#else
+    Check_Dlg_Button(IDC_LICENSE_CHECK, true);
+#endif
 
-	Set_Dlg_Item_Text (IDC_LICENSE_CHECK, TxWideStringClass (IDS_AGREE_TO_TERMS));
+    Set_Dlg_Item_Text(IDC_LICENSE_CHECK, TxWideStringClass(IDS_AGREE_TO_TERMS));
 
-	InstallMenuDialogClass::On_Init_Dialog();
+    InstallMenuDialogClass::On_Init_Dialog();
 }
-
-

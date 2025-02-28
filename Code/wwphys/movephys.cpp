@@ -46,28 +46,25 @@
  *   MoveablePhysClass::On_Post_Load -- Post-Load callback for MoveablePhysClass               *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
-
 #if defined(_MSC_VER)
 #pragma once
 #endif
 
 #include "movephys.h"
-#include "colmathaabox.h"
-#include "pscene.h"
-#include "dyntexproject.h"
+#include "assetmgr.h"
 #include "chunkio.h"
+#include "colmathaabox.h"
+#include "dyntexproject.h"
+#include "light.h"
+#include "physcoltest.h"
+#include "pscene.h"
 #include "saveload.h"
 #include "wwhack.h"
-#include "assetmgr.h"
-#include "physcoltest.h"
-#include "light.h"
 
 DECLARE_FORCE_LINK(movephys);
 
-
-#define SINGLE_SHADOW_CODE				1
-#define TRUE_PERSPECTIVE_SHADOWS		0
-
+#define SINGLE_SHADOW_CODE 1
+#define TRUE_PERSPECTIVE_SHADOWS 0
 
 /***********************************************************************************************
 **
@@ -80,17 +77,16 @@ DECLARE_FORCE_LINK(movephys);
 */
 enum
 {
-	MOVEABLE_CHUNK_PHYS				= 0x00803000,		// obsolete parent class
-	MOVEABLE_CHUNK_VARIABLES,
-	MOVEABLE_CHUNK_DYNAMICPHYS,							// current parent class
+    MOVEABLE_CHUNK_PHYS = 0x00803000, // obsolete parent class
+    MOVEABLE_CHUNK_VARIABLES,
+    MOVEABLE_CHUNK_DYNAMICPHYS, // current parent class
 
-	MOVEABLE_VARIABLE_MASS			= 0x00,
-	MOVEABLE_VARIABLE_GRAVSCALE,
-	MOVEABLE_VARIABLE_ELASTICITY,
-	MOVEABLE_VARIABLE_CONTROLLER,
-	MOVEABLE_VARIABLE_CARRIER,
+    MOVEABLE_VARIABLE_MASS = 0x00,
+    MOVEABLE_VARIABLE_GRAVSCALE,
+    MOVEABLE_VARIABLE_ELASTICITY,
+    MOVEABLE_VARIABLE_CONTROLLER,
+    MOVEABLE_VARIABLE_CARRIER,
 };
-
 
 /***********************************************************************************************
  * MoveablePhysClass::MoveablePhysClass -- Constructor                                         *
@@ -103,16 +99,16 @@ enum
  *                                                                                             *
  * HISTORY:                                                                                    *
  *=============================================================================================*/
-MoveablePhysClass::MoveablePhysClass(void) : 
-	Mass(1.0f), 
-	MassInv(1.0f), 
-	GravScale(1.0f), 
-	Elasticity(0.5f), 
-	Controller(NULL),
-	Carrier(NULL),
-	CarrierSubObject(NULL),
-	ShadowManager(*this)
-{ 
+MoveablePhysClass::MoveablePhysClass(void)
+    : Mass(1.0f),
+      MassInv(1.0f),
+      GravScale(1.0f),
+      Elasticity(0.5f),
+      Controller(NULL),
+      Carrier(NULL),
+      CarrierSubObject(NULL),
+      ShadowManager(*this)
+{
 }
 
 /***********************************************************************************************
@@ -129,7 +125,7 @@ MoveablePhysClass::MoveablePhysClass(void) :
  *=============================================================================================*/
 MoveablePhysClass::~MoveablePhysClass(void)
 {
-	Link_To_Carrier(NULL);
+    Link_To_Carrier(NULL);
 }
 
 /***********************************************************************************************
@@ -143,14 +139,14 @@ MoveablePhysClass::~MoveablePhysClass(void)
  *                                                                                             *
  * HISTORY:                                                                                    *
  *=============================================================================================*/
-void MoveablePhysClass::Init(const MoveablePhysDefClass & def) 
+void MoveablePhysClass::Init(const MoveablePhysDefClass& def)
 {
-	Mass = def.Mass;
-	MassInv = 1.0f / Mass;
-	GravScale = def.GravScale;
-	Elasticity = def.Elasticity;
+    Mass = def.Mass;
+    MassInv = 1.0f / Mass;
+    GravScale = def.GravScale;
+    Elasticity = def.Elasticity;
 
-	DynamicPhysClass::Init(def);
+    DynamicPhysClass::Init(def);
 }
 
 /***********************************************************************************************
@@ -166,15 +162,14 @@ void MoveablePhysClass::Init(const MoveablePhysDefClass & def)
  *=============================================================================================*/
 void MoveablePhysClass::Definition_Changed(void)
 {
-	DynamicPhysClass::Definition_Changed();
+    DynamicPhysClass::Definition_Changed();
 
-	MoveablePhysDefClass * def = (MoveablePhysDefClass *)Definition;
-	Mass = def->Mass;
-	MassInv = 1.0f / Mass;
-	GravScale = def->GravScale;
-	Elasticity = def->Elasticity;
+    MoveablePhysDefClass* def = (MoveablePhysDefClass*)Definition;
+    Mass = def->Mass;
+    MassInv = 1.0f / Mass;
+    GravScale = def->GravScale;
+    Elasticity = def->Elasticity;
 }
-
 
 /***********************************************************************************************
  * MoveablePhysClass::Post_Timestep_Process -- perform post-timestep processing                *
@@ -192,9 +187,8 @@ void MoveablePhysClass::Definition_Changed(void)
  *=============================================================================================*/
 void MoveablePhysClass::Post_Timestep_Process(void)
 {
-	ShadowManager.Update_Shadow();
+    ShadowManager.Update_Shadow();
 }
-
 
 /***********************************************************************************************
  * MoveablePhysClass::Get_Shadow_Blob_Box -- Return the object space AABox for the shadow      *
@@ -211,14 +205,13 @@ void MoveablePhysClass::Post_Timestep_Process(void)
  * HISTORY:                                                                                    *
  *   1/4/00     gth : Created.                                                                 *
  *=============================================================================================*/
-void MoveablePhysClass::Get_Shadow_Blob_Box(AABoxClass * set_obj_space_box)
+void MoveablePhysClass::Get_Shadow_Blob_Box(AABoxClass* set_obj_space_box)
 {
-	// NOTE: derived classes should really override this!!!
-	WWASSERT(set_obj_space_box != NULL);
-	set_obj_space_box->Center.Set(0,0,0);
-	set_obj_space_box->Extent.Set(1,1,1);
+    // NOTE: derived classes should really override this!!!
+    WWASSERT(set_obj_space_box != NULL);
+    set_obj_space_box->Center.Set(0, 0, 0);
+    set_obj_space_box->Extent.Set(1, 1, 1);
 }
-
 
 /***********************************************************************************************
  * MoveablePhysClass::Link_To_Carrier -- Link this object to a carrier object                  *
@@ -239,27 +232,28 @@ void MoveablePhysClass::Get_Shadow_Blob_Box(AABoxClass * set_obj_space_box)
  * HISTORY:                                                                                    *
  *   2/11/2000  gth : Created.                                                                 *
  *=============================================================================================*/
-void MoveablePhysClass::Link_To_Carrier(PhysClass * carrier,RenderObjClass * carrier_sub_obj)
+void MoveablePhysClass::Link_To_Carrier(PhysClass* carrier, RenderObjClass* carrier_sub_obj)
 {
-	// If this is the same carrier we already have, just return
-	if ((Carrier == carrier) && (CarrierSubObject == carrier_sub_obj)) return;
-	
-	// If we had a different carrier, unlink from it
-	if (Carrier != NULL) {
-		Carrier->Internal_Unlink_Rider(this);
-		Carrier = NULL;
-		CarrierSubObject = NULL;
-	}
+    // If this is the same carrier we already have, just return
+    if ((Carrier == carrier) && (CarrierSubObject == carrier_sub_obj)) {
+        return;
+    }
 
-	if (carrier) {
-		if (carrier->Internal_Link_Rider(this) == true) {
-			// only track carriers who are tracking us!
-			Carrier = carrier;
-			CarrierSubObject = carrier_sub_obj;
-		}
-	}
+    // If we had a different carrier, unlink from it
+    if (Carrier != NULL) {
+        Carrier->Internal_Unlink_Rider(this);
+        Carrier = NULL;
+        CarrierSubObject = NULL;
+    }
+
+    if (carrier) {
+        if (carrier->Internal_Link_Rider(this) == true) {
+            // only track carriers who are tracking us!
+            Carrier = carrier;
+            CarrierSubObject = carrier_sub_obj;
+        }
+    }
 }
-
 
 /***********************************************************************************************
  * MoveablePhysClass::Peek_Carrier_Object -- returns the carrier object pointer                *
@@ -273,11 +267,10 @@ void MoveablePhysClass::Link_To_Carrier(PhysClass * carrier,RenderObjClass * car
  * HISTORY:                                                                                    *
  *   8/15/2001  tss : Created.                                                                 *
  *=============================================================================================*/
-PhysClass * MoveablePhysClass::Peek_Carrier_Object(void)
+PhysClass* MoveablePhysClass::Peek_Carrier_Object(void)
 {
-	return Carrier;
+    return Carrier;
 }
-
 
 /***********************************************************************************************
  * MoveablePhysClass::Peek_Carrier_Sub_Object -- returns the carrier sub object pointer        *
@@ -291,11 +284,10 @@ PhysClass * MoveablePhysClass::Peek_Carrier_Object(void)
  * HISTORY:                                                                                    *
  *   7/24/2000  gth : Created.                                                                 *
  *=============================================================================================*/
-RenderObjClass * MoveablePhysClass::Peek_Carrier_Sub_Object(void)
+RenderObjClass* MoveablePhysClass::Peek_Carrier_Sub_Object(void)
 {
-	return CarrierSubObject;
+    return CarrierSubObject;
 }
-
 
 /***********************************************************************************************
  * MoveablePhysClass::Cinematic_Move_To -- attempts to teleport to the desired transform       *
@@ -312,86 +304,85 @@ RenderObjClass * MoveablePhysClass::Peek_Carrier_Sub_Object(void)
  * HISTORY:                                                                                    *
  *   7/24/2000  gth : Created.                                                                 *
  *=============================================================================================*/
-bool MoveablePhysClass::Cinematic_Move_To(const Matrix3D &new_tm)
+bool MoveablePhysClass::Cinematic_Move_To(const Matrix3D& new_tm)
 {
-	
-	int cinematic_move_mode = MoveablePhysDefClass::CINEMATIC_COLLISION_PUSH;
-	if (Get_MoveablePhysDef() != NULL) {
-		cinematic_move_mode = Get_MoveablePhysDef()->CinematicCollisionMode;
-	}
 
-	// 
-	// Check if we can teleport to the desired location.
-	// 
-	NonRefPhysListClass intersection_list;
-	bool ok = false;
-	
-	if (cinematic_move_mode == MoveablePhysDefClass::CINEMATIC_COLLISION_NONE) {
-		ok = true;
-	} else {
-		ok = Can_Teleport(new_tm, true, &intersection_list);
-	}
-	
-	//
-	// Handle the intersection if needed
-	//
-	if (!ok) {
+    int cinematic_move_mode = MoveablePhysDefClass::CINEMATIC_COLLISION_PUSH;
+    if (Get_MoveablePhysDef() != NULL) {
+        cinematic_move_mode = Get_MoveablePhysDef()->CinematicCollisionMode;
+    }
 
-		if (cinematic_move_mode == MoveablePhysDefClass::CINEMATIC_COLLISION_PUSH) {
-			//
-			// Try to shove everyone out of our way!
-			// NOTE: this won't work for objects where orientation matters and the object
-			// is rotating as part of the teleportation.  May have to implement this
-			// separately for RBody...
-			//
-			Vector3 position;
-			Get_Position(&position);
-			Vector3 move = new_tm.Get_Translation() - position;
+    //
+    // Check if we can teleport to the desired location.
+    //
+    NonRefPhysListClass intersection_list;
+    bool ok = false;
 
-			NonRefPhysListIterator it(&intersection_list);
-			while (!it.Is_Done()) {
-				it.Peek_Obj()->Push(move);
-				it.Next();
-			}
-		
-		} else if (cinematic_move_mode == MoveablePhysDefClass::CINEMATIC_COLLISION_KILL ) {
+    if (cinematic_move_mode == MoveablePhysDefClass::CINEMATIC_COLLISION_NONE) {
+        ok = true;
+    }
+    else {
+        ok = Can_Teleport(new_tm, true, &intersection_list);
+    }
 
-			// 
-			// Try to kill all objects intersecting us at the destination point
-			//
-			NonRefPhysListIterator it(&intersection_list);
-			while (!it.Is_Done()) {
-				
-				//
-				// (gth) rbody objects are currently including static objects in
-				// the list of intersected objects.  Don't kill them please.
-				//
-				if (it.Peek_Obj()->As_DynamicPhysClass() != NULL) {
-					it.Peek_Obj()->Expire();
-				}
-				it.Next();
-			}
-		}
+    //
+    // Handle the intersection if needed
+    //
+    if (!ok) {
 
-		// 
-		// check one more time unless we are in "stop" mode
-		// 
-		if (cinematic_move_mode != MoveablePhysDefClass::CINEMATIC_COLLISION_STOP) {
-			ok = Can_Teleport(new_tm, true);
-		}
-	}
-	
-	//
-	// If the position is clear, teleport there
-	//
-	if (ok) {
-		Set_Transform(new_tm);
-	}
-	
-	return ok;
+        if (cinematic_move_mode == MoveablePhysDefClass::CINEMATIC_COLLISION_PUSH) {
+            //
+            // Try to shove everyone out of our way!
+            // NOTE: this won't work for objects where orientation matters and the object
+            // is rotating as part of the teleportation.  May have to implement this
+            // separately for RBody...
+            //
+            Vector3 position;
+            Get_Position(&position);
+            Vector3 move = new_tm.Get_Translation() - position;
+
+            NonRefPhysListIterator it(&intersection_list);
+            while (!it.Is_Done()) {
+                it.Peek_Obj()->Push(move);
+                it.Next();
+            }
+        }
+        else if (cinematic_move_mode == MoveablePhysDefClass::CINEMATIC_COLLISION_KILL) {
+
+            //
+            // Try to kill all objects intersecting us at the destination point
+            //
+            NonRefPhysListIterator it(&intersection_list);
+            while (!it.Is_Done()) {
+
+                //
+                // (gth) rbody objects are currently including static objects in
+                // the list of intersected objects.  Don't kill them please.
+                //
+                if (it.Peek_Obj()->As_DynamicPhysClass() != NULL) {
+                    it.Peek_Obj()->Expire();
+                }
+                it.Next();
+            }
+        }
+
+        //
+        // check one more time unless we are in "stop" mode
+        //
+        if (cinematic_move_mode != MoveablePhysDefClass::CINEMATIC_COLLISION_STOP) {
+            ok = Can_Teleport(new_tm, true);
+        }
+    }
+
+    //
+    // If the position is clear, teleport there
+    //
+    if (ok) {
+        Set_Transform(new_tm);
+    }
+
+    return ok;
 }
-
-
 
 /***********************************************************************************************
  * MoveablePhysClass::Save -- persistant object save support                                   *
@@ -405,27 +396,26 @@ bool MoveablePhysClass::Cinematic_Move_To(const Matrix3D &new_tm)
  * HISTORY:                                                                                    *
  *   1/4/00     gth : Created.                                                                 *
  *=============================================================================================*/
-bool MoveablePhysClass::Save(ChunkSaveClass &csave)
+bool MoveablePhysClass::Save(ChunkSaveClass& csave)
 {
-	csave.Begin_Chunk(MOVEABLE_CHUNK_DYNAMICPHYS);
-	DynamicPhysClass::Save(csave);
-	csave.End_Chunk();
+    csave.Begin_Chunk(MOVEABLE_CHUNK_DYNAMICPHYS);
+    DynamicPhysClass::Save(csave);
+    csave.End_Chunk();
 
-	csave.Begin_Chunk(MOVEABLE_CHUNK_VARIABLES);
-	WRITE_MICRO_CHUNK(csave,MOVEABLE_VARIABLE_MASS,Mass);
-	WRITE_MICRO_CHUNK(csave,MOVEABLE_VARIABLE_GRAVSCALE,GravScale);
-	WRITE_MICRO_CHUNK(csave,MOVEABLE_VARIABLE_ELASTICITY,Elasticity);
-	if (Controller != NULL) {
-		WRITE_MICRO_CHUNK(csave,MOVEABLE_VARIABLE_CONTROLLER,Controller);
-	}
-	if (Carrier != NULL) {
-		WRITE_MICRO_CHUNK(csave,MOVEABLE_VARIABLE_CARRIER,Carrier);
-	}
-	csave.End_Chunk();
+    csave.Begin_Chunk(MOVEABLE_CHUNK_VARIABLES);
+    WRITE_MICRO_CHUNK(csave, MOVEABLE_VARIABLE_MASS, Mass);
+    WRITE_MICRO_CHUNK(csave, MOVEABLE_VARIABLE_GRAVSCALE, GravScale);
+    WRITE_MICRO_CHUNK(csave, MOVEABLE_VARIABLE_ELASTICITY, Elasticity);
+    if (Controller != NULL) {
+        WRITE_MICRO_CHUNK(csave, MOVEABLE_VARIABLE_CONTROLLER, Controller);
+    }
+    if (Carrier != NULL) {
+        WRITE_MICRO_CHUNK(csave, MOVEABLE_VARIABLE_CARRIER, Carrier);
+    }
+    csave.End_Chunk();
 
-	return true;
+    return true;
 }
-
 
 /***********************************************************************************************
  * MoveablePhysClass::Load -- persistant object load support                                   *
@@ -439,61 +429,60 @@ bool MoveablePhysClass::Save(ChunkSaveClass &csave)
  * HISTORY:                                                                                    *
  *   1/4/00     gth : Created.                                                                 *
  *=============================================================================================*/
-bool MoveablePhysClass::Load(ChunkLoadClass &cload)
+bool MoveablePhysClass::Load(ChunkLoadClass& cload)
 {
-	Controller = NULL;
-	Carrier = NULL;
+    Controller = NULL;
+    Carrier = NULL;
 
-	while (cload.Open_Chunk()) {
-		
-		switch(cload.Cur_Chunk_ID()) 
-		{
-			case MOVEABLE_CHUNK_PHYS:
-				PhysClass::Load(cload);
-				break;
+    while (cload.Open_Chunk()) {
 
-			case MOVEABLE_CHUNK_DYNAMICPHYS:
-				DynamicPhysClass::Load(cload);
-				break;
+        switch (cload.Cur_Chunk_ID()) {
+        case MOVEABLE_CHUNK_PHYS:
+            PhysClass::Load(cload);
+            break;
 
-			case MOVEABLE_CHUNK_VARIABLES:
-				while (cload.Open_Micro_Chunk()) {
-					switch(cload.Cur_Micro_Chunk_ID()) {
-						READ_MICRO_CHUNK(cload,MOVEABLE_VARIABLE_MASS,Mass);
-						READ_MICRO_CHUNK(cload,MOVEABLE_VARIABLE_GRAVSCALE,GravScale);
-						READ_MICRO_CHUNK(cload,MOVEABLE_VARIABLE_ELASTICITY,Elasticity);
-						READ_MICRO_CHUNK(cload,MOVEABLE_VARIABLE_CONTROLLER,Controller);
-						READ_MICRO_CHUNK(cload,MOVEABLE_VARIABLE_CARRIER,Carrier);
-					}
-					cload.Close_Micro_Chunk();	
-				}
-				break;
+        case MOVEABLE_CHUNK_DYNAMICPHYS:
+            DynamicPhysClass::Load(cload);
+            break;
 
-			default:
-				WWDEBUG_SAY(("Unhandled Chunk: 0x%X File: %s Line: %d\r\n",cload.Cur_Chunk_ID(),__FILE__,__LINE__));
-				break;
-		}
-		
-		cload.Close_Chunk();
-	}
+        case MOVEABLE_CHUNK_VARIABLES:
+            while (cload.Open_Micro_Chunk()) {
+                switch (cload.Cur_Micro_Chunk_ID()) {
+                    READ_MICRO_CHUNK(cload, MOVEABLE_VARIABLE_MASS, Mass);
+                    READ_MICRO_CHUNK(cload, MOVEABLE_VARIABLE_GRAVSCALE, GravScale);
+                    READ_MICRO_CHUNK(cload, MOVEABLE_VARIABLE_ELASTICITY, Elasticity);
+                    READ_MICRO_CHUNK(cload, MOVEABLE_VARIABLE_CONTROLLER, Controller);
+                    READ_MICRO_CHUNK(cload, MOVEABLE_VARIABLE_CARRIER, Carrier);
+                }
+                cload.Close_Micro_Chunk();
+            }
+            break;
 
-	if (Controller != NULL) {
-		REQUEST_POINTER_REMAP((void**)&Controller);
-	}
+        default:
+            WWDEBUG_SAY(("Unhandled Chunk: 0x%X File: %s Line: %d\r\n", cload.Cur_Chunk_ID(),
+                         __FILE__, __LINE__));
+            break;
+        }
 
-	if (Carrier != NULL) {
-		REQUEST_POINTER_REMAP((void**)&Carrier);
-	}
+        cload.Close_Chunk();
+    }
 
-	SaveLoadSystemClass::Register_Post_Load_Callback(this);
+    if (Controller != NULL) {
+        REQUEST_POINTER_REMAP((void**)&Controller);
+    }
 
-	if (Mass < 0.01f) {
-		Mass = 0.01f;
-	}
-	MassInv = 1.0f / Mass;
-	return true;
+    if (Carrier != NULL) {
+        REQUEST_POINTER_REMAP((void**)&Carrier);
+    }
+
+    SaveLoadSystemClass::Register_Post_Load_Callback(this);
+
+    if (Mass < 0.01f) {
+        Mass = 0.01f;
+    }
+    MassInv = 1.0f / Mass;
+    return true;
 }
-
 
 /***********************************************************************************************
  * MoveablePhysClass::On_Post_Load -- Post-Load callback for MoveablePhysClass                 *
@@ -509,15 +498,14 @@ bool MoveablePhysClass::Load(ChunkLoadClass &cload)
  *=============================================================================================*/
 void MoveablePhysClass::On_Post_Load(void)
 {
-	DynamicPhysClass::On_Post_Load();
-	
-	// Force our carrier to get correctly linked up, the way I do this
-	// is to just clear it out and call the Set_Carrier function again.
-	PhysClass * tmp_carrier = Carrier;
-	Carrier = NULL;
-	Link_To_Carrier(tmp_carrier);
-}
+    DynamicPhysClass::On_Post_Load();
 
+    // Force our carrier to get correctly linked up, the way I do this
+    // is to just clear it out and call the Set_Carrier function again.
+    PhysClass* tmp_carrier = Carrier;
+    Carrier = NULL;
+    Link_To_Carrier(tmp_carrier);
+}
 
 /***********************************************************************************************
 **
@@ -525,104 +513,104 @@ void MoveablePhysClass::On_Post_Load(void)
 **
 ***********************************************************************************************/
 
-
 /*
 ** Chunk ID's used by MoveablePhysDefClass
 */
-enum 
+enum
 {
-	MOVEABLEPHYSDEF_CHUNK_PHYSDEF				= 0x04486000,			// obsolete parent class
-	MOVEABLEPHYSDEF_CHUNK_VARIABLES,
-	MOVEABLEPHYSDEF_CHUNK_DYNAMICPHYSDEF,								// current parent class
+    MOVEABLEPHYSDEF_CHUNK_PHYSDEF = 0x04486000, // obsolete parent class
+    MOVEABLEPHYSDEF_CHUNK_VARIABLES,
+    MOVEABLEPHYSDEF_CHUNK_DYNAMICPHYSDEF, // current parent class
 
-	MOVEABLEPHYSDEF_VARIABLE_MASS				= 0x00,
-	MOVEABLEPHYSDEF_VARIABLE_GRAVSCALE,
-	MOVEABLEPHYSDEF_VARIABLE_ELASTICITY,
-	MOVEABLEPHYSDEF_VARIABLE_CINEMATICCOLLISIONMODE,
+    MOVEABLEPHYSDEF_VARIABLE_MASS = 0x00,
+    MOVEABLEPHYSDEF_VARIABLE_GRAVSCALE,
+    MOVEABLEPHYSDEF_VARIABLE_ELASTICITY,
+    MOVEABLEPHYSDEF_VARIABLE_CINEMATICCOLLISIONMODE,
 };
 
-
-MoveablePhysDefClass::MoveablePhysDefClass(void) :
-	Mass(1.0f),
-	GravScale(1.0f),
-	Elasticity(0.1f),
-	CinematicCollisionMode(CINEMATIC_COLLISION_PUSH)
+MoveablePhysDefClass::MoveablePhysDefClass(void)
+    : Mass(1.0f),
+      GravScale(1.0f),
+      Elasticity(0.1f),
+      CinematicCollisionMode(CINEMATIC_COLLISION_PUSH)
 {
-	// make our parameters editable!
-	FLOAT_EDITABLE_PARAM(MoveablePhysDefClass, Mass, 0.01f, 100000.0f);
-	FLOAT_EDITABLE_PARAM(MoveablePhysDefClass, GravScale, 0.0f, 10.0f);
-	FLOAT_EDITABLE_PARAM(MoveablePhysDefClass, Elasticity, 0.0f, 1.0f);	
+    // make our parameters editable!
+    FLOAT_EDITABLE_PARAM(MoveablePhysDefClass, Mass, 0.01f, 100000.0f);
+    FLOAT_EDITABLE_PARAM(MoveablePhysDefClass, GravScale, 0.0f, 10.0f);
+    FLOAT_EDITABLE_PARAM(MoveablePhysDefClass, Elasticity, 0.0f, 1.0f);
 
 #ifdef PARAM_EDITING_ON
-	EnumParameterClass *cinematic_param = new EnumParameterClass(&CinematicCollisionMode);
-	cinematic_param->Set_Name ("CinematicCollisionMode");
-	cinematic_param->Add_Value("NONE",CINEMATIC_COLLISION_NONE);
-	cinematic_param->Add_Value("STOP",CINEMATIC_COLLISION_STOP);
-	cinematic_param->Add_Value("PUSH",CINEMATIC_COLLISION_PUSH);
-	cinematic_param->Add_Value("KILL",CINEMATIC_COLLISION_KILL);
-	GENERIC_EDITABLE_PARAM( MoveablePhysDefClass, cinematic_param);
+    EnumParameterClass* cinematic_param = new EnumParameterClass(&CinematicCollisionMode);
+    cinematic_param->Set_Name("CinematicCollisionMode");
+    cinematic_param->Add_Value("NONE", CINEMATIC_COLLISION_NONE);
+    cinematic_param->Add_Value("STOP", CINEMATIC_COLLISION_STOP);
+    cinematic_param->Add_Value("PUSH", CINEMATIC_COLLISION_PUSH);
+    cinematic_param->Add_Value("KILL", CINEMATIC_COLLISION_KILL);
+    GENERIC_EDITABLE_PARAM(MoveablePhysDefClass, cinematic_param);
 #endif
 }
 
-bool MoveablePhysDefClass::Save(ChunkSaveClass &csave)
+bool MoveablePhysDefClass::Save(ChunkSaveClass& csave)
 {
-	csave.Begin_Chunk(MOVEABLEPHYSDEF_CHUNK_DYNAMICPHYSDEF);
-	DynamicPhysDefClass::Save(csave);
-	csave.End_Chunk();
+    csave.Begin_Chunk(MOVEABLEPHYSDEF_CHUNK_DYNAMICPHYSDEF);
+    DynamicPhysDefClass::Save(csave);
+    csave.End_Chunk();
 
-	csave.Begin_Chunk(MOVEABLEPHYSDEF_CHUNK_VARIABLES);
-	WRITE_MICRO_CHUNK(csave,MOVEABLEPHYSDEF_VARIABLE_MASS,Mass);
-	WRITE_MICRO_CHUNK(csave,MOVEABLEPHYSDEF_VARIABLE_GRAVSCALE,GravScale);
-	WRITE_MICRO_CHUNK(csave,MOVEABLEPHYSDEF_VARIABLE_ELASTICITY,Elasticity);
-	WRITE_MICRO_CHUNK(csave,MOVEABLEPHYSDEF_VARIABLE_CINEMATICCOLLISIONMODE,CinematicCollisionMode);
-	csave.End_Chunk();
-	return true;
+    csave.Begin_Chunk(MOVEABLEPHYSDEF_CHUNK_VARIABLES);
+    WRITE_MICRO_CHUNK(csave, MOVEABLEPHYSDEF_VARIABLE_MASS, Mass);
+    WRITE_MICRO_CHUNK(csave, MOVEABLEPHYSDEF_VARIABLE_GRAVSCALE, GravScale);
+    WRITE_MICRO_CHUNK(csave, MOVEABLEPHYSDEF_VARIABLE_ELASTICITY, Elasticity);
+    WRITE_MICRO_CHUNK(csave, MOVEABLEPHYSDEF_VARIABLE_CINEMATICCOLLISIONMODE,
+                      CinematicCollisionMode);
+    csave.End_Chunk();
+    return true;
 }
 
-
-bool MoveablePhysDefClass::Load(ChunkLoadClass &cload)
+bool MoveablePhysDefClass::Load(ChunkLoadClass& cload)
 {
-	while (cload.Open_Chunk()) {
+    while (cload.Open_Chunk()) {
 
-		switch(cload.Cur_Chunk_ID()) {
+        switch (cload.Cur_Chunk_ID()) {
 
-			case MOVEABLEPHYSDEF_CHUNK_PHYSDEF:
-				PhysDefClass::Load(cload);
-				break;
+        case MOVEABLEPHYSDEF_CHUNK_PHYSDEF:
+            PhysDefClass::Load(cload);
+            break;
 
-			case MOVEABLEPHYSDEF_CHUNK_DYNAMICPHYSDEF:
-				DynamicPhysDefClass::Load(cload);
-				break;
+        case MOVEABLEPHYSDEF_CHUNK_DYNAMICPHYSDEF:
+            DynamicPhysDefClass::Load(cload);
+            break;
 
-			case MOVEABLEPHYSDEF_CHUNK_VARIABLES:
-				while (cload.Open_Micro_Chunk()) {
-					switch(cload.Cur_Micro_Chunk_ID()) {
-						READ_MICRO_CHUNK(cload,MOVEABLEPHYSDEF_VARIABLE_MASS,Mass);
-						READ_MICRO_CHUNK(cload,MOVEABLEPHYSDEF_VARIABLE_GRAVSCALE,GravScale);
-						READ_MICRO_CHUNK(cload,MOVEABLEPHYSDEF_VARIABLE_ELASTICITY,Elasticity);
-						READ_MICRO_CHUNK(cload,MOVEABLEPHYSDEF_VARIABLE_CINEMATICCOLLISIONMODE,CinematicCollisionMode);
-					}
-					cload.Close_Micro_Chunk();
-				}
-				break;
+        case MOVEABLEPHYSDEF_CHUNK_VARIABLES:
+            while (cload.Open_Micro_Chunk()) {
+                switch (cload.Cur_Micro_Chunk_ID()) {
+                    READ_MICRO_CHUNK(cload, MOVEABLEPHYSDEF_VARIABLE_MASS, Mass);
+                    READ_MICRO_CHUNK(cload, MOVEABLEPHYSDEF_VARIABLE_GRAVSCALE, GravScale);
+                    READ_MICRO_CHUNK(cload, MOVEABLEPHYSDEF_VARIABLE_ELASTICITY, Elasticity);
+                    READ_MICRO_CHUNK(cload, MOVEABLEPHYSDEF_VARIABLE_CINEMATICCOLLISIONMODE,
+                                     CinematicCollisionMode);
+                }
+                cload.Close_Micro_Chunk();
+            }
+            break;
 
-			default:
-				WWDEBUG_SAY(("Unhandled Chunk: 0x%X File: %s Line: %d\r\n",cload.Cur_Chunk_ID(),__FILE__,__LINE__));
-				break;
-		}
+        default:
+            WWDEBUG_SAY(("Unhandled Chunk: 0x%X File: %s Line: %d\r\n", cload.Cur_Chunk_ID(),
+                         __FILE__, __LINE__));
+            break;
+        }
 
-		cload.Close_Chunk();
-	}
+        cload.Close_Chunk();
+    }
 
-	return true;
+    return true;
 }
 
-bool MoveablePhysDefClass::Is_Type(const char * type_name)
+bool MoveablePhysDefClass::Is_Type(const char* type_name)
 {
-	if (stricmp(type_name,MoveablePhysDefClass::Get_Type_Name()) == 0) {
-		return true;
-	} else {
-		return DynamicPhysDefClass::Is_Type(type_name);
-	}
+    if (stricmp(type_name, MoveablePhysDefClass::Get_Type_Name()) == 0) {
+        return true;
+    }
+    else {
+        return DynamicPhysDefClass::Is_Type(type_name);
+    }
 }
-

@@ -19,13 +19,12 @@
 // NodeInfoPageClass.cpp : implementation file
 //
 
-#include "stdafx.h"
-#include "leveledit.h"
 #include "NodeInfoPage.H"
 #include "NodeMgr.H"
-#include "rendobj.h"
+#include "leveledit.h"
 #include "node.h"
-
+#include "rendobj.h"
+#include "stdafx.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -33,20 +32,19 @@
 static char THIS_FILE[] = __FILE__;
 #endif
 
-
 /////////////////////////////////////////////////////////////////////////////
 //
 // NodeInfoPageClass
 //
 /////////////////////////////////////////////////////////////////////////////
-NodeInfoPageClass::NodeInfoPageClass (void)
-	:	m_pNode (NULL),
-		DockableFormClass(NodeInfoPageClass::IDD)
+NodeInfoPageClass::NodeInfoPageClass(void)
+    : m_pNode(NULL),
+      DockableFormClass(NodeInfoPageClass::IDD)
 {
-	//{{AFX_DATA_INIT(NodeInfoPageClass)
-		// NOTE: the ClassWizard will add member initialization here
-	//}}AFX_DATA_INIT
-	return ;
+    //{{AFX_DATA_INIT(NodeInfoPageClass)
+    // NOTE: the ClassWizard will add member initialization here
+    //}}AFX_DATA_INIT
+    return;
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -54,44 +52,40 @@ NodeInfoPageClass::NodeInfoPageClass (void)
 // NodeInfoPageClass
 //
 /////////////////////////////////////////////////////////////////////////////
-NodeInfoPageClass::NodeInfoPageClass (NodeClass *node)
-	:	m_pNode (node),
-		DockableFormClass(NodeInfoPageClass::IDD)
+NodeInfoPageClass::NodeInfoPageClass(NodeClass* node)
+    : m_pNode(node),
+      DockableFormClass(NodeInfoPageClass::IDD)
 {
-	return ;
+    return;
 }
-
 
 /////////////////////////////////////////////////////////////////////////////
 //
 // ~NodeInfoPageClass
 //
 /////////////////////////////////////////////////////////////////////////////
-NodeInfoPageClass::~NodeInfoPageClass (void)
+NodeInfoPageClass::~NodeInfoPageClass(void)
 {
-	return ;
+    return;
 }
-
 
 /////////////////////////////////////////////////////////////////////////////
 //
 // DoDataExchange
 //
 /////////////////////////////////////////////////////////////////////////////
-void
-NodeInfoPageClass::DoDataExchange (CDataExchange* pDX)
+void NodeInfoPageClass::DoDataExchange(CDataExchange* pDX)
 {
-	DockableFormClass::DoDataExchange(pDX);
-	//{{AFX_DATA_MAP(NodeInfoPageClass)
-		// NOTE: the ClassWizard will add DDX and DDV calls here
-	//}}AFX_DATA_MAP
-	return ;
+    DockableFormClass::DoDataExchange(pDX);
+    //{{AFX_DATA_MAP(NodeInfoPageClass)
+    // NOTE: the ClassWizard will add DDX and DDV calls here
+    //}}AFX_DATA_MAP
+    return;
 }
 
-
 BEGIN_MESSAGE_MAP(NodeInfoPageClass, DockableFormClass)
-	//{{AFX_MSG_MAP(NodeInfoPageClass)
-	//}}AFX_MSG_MAP
+//{{AFX_MSG_MAP(NodeInfoPageClass)
+//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -100,90 +94,86 @@ END_MESSAGE_MAP()
 #ifdef _DEBUG
 void NodeInfoPageClass::AssertValid() const
 {
-	DockableFormClass::AssertValid();
+    DockableFormClass::AssertValid();
 }
 
 void NodeInfoPageClass::Dump(CDumpContext& dc) const
 {
-	DockableFormClass::Dump(dc);
+    DockableFormClass::Dump(dc);
 }
 #endif //_DEBUG
-
 
 /////////////////////////////////////////////////////////////////////////////
 //
 // HandleInitDialog
 //
 /////////////////////////////////////////////////////////////////////////////
-void
-NodeInfoPageClass::HandleInitDialog (void)
+void NodeInfoPageClass::HandleInitDialog(void)
 {
-	ASSERT (m_pNode != NULL);
+    ASSERT(m_pNode != NULL);
 
-	CString model_name;
-	RenderObjClass *render_obj = m_pNode->Peek_Render_Obj ();
-	if (render_obj != NULL) {
-		model_name = render_obj->Get_Name ();
-	}
+    CString model_name;
+    RenderObjClass* render_obj = m_pNode->Peek_Render_Obj();
+    if (render_obj != NULL) {
+        model_name = render_obj->Get_Name();
+    }
 
-	// Set the text of the respective dialog controls
-	SetDlgItemText (IDC_NAME_EDIT,		m_pNode->Get_Name ());
-	SetDlgItemText (IDC_MODELNAME_EDIT, model_name);
-	SetDlgItemText (IDC_COMMENTS_EDIT,	m_pNode->Get_Comments ());
-	SetDlgItemInt (IDC_ID_EDIT,			m_pNode->Get_ID ());
-	return ;
+    // Set the text of the respective dialog controls
+    SetDlgItemText(IDC_NAME_EDIT, m_pNode->Get_Name());
+    SetDlgItemText(IDC_MODELNAME_EDIT, model_name);
+    SetDlgItemText(IDC_COMMENTS_EDIT, m_pNode->Get_Comments());
+    SetDlgItemInt(IDC_ID_EDIT, m_pNode->Get_ID());
+    return;
 }
-
 
 /////////////////////////////////////////////////////////////////////////////
 //
 // Apply_Changes
 //
 /////////////////////////////////////////////////////////////////////////////
-bool
-NodeInfoPageClass::Apply_Changes (void)
+bool NodeInfoPageClass::Apply_Changes(void)
 {
-	bool retval = true;
+    bool retval = true;
 
-	// Pass the new name onto the node
-	CString name;
-	GetDlgItemText (IDC_NAME_EDIT, name);	
-	m_pNode->Set_Name (name);
+    // Pass the new name onto the node
+    CString name;
+    GetDlgItemText(IDC_NAME_EDIT, name);
+    m_pNode->Set_Name(name);
 
-	// Pass the new comments onto the base
-	CString comments;
-	GetDlgItemText (IDC_COMMENTS_EDIT, comments);
-	m_pNode->Set_Comments (comments);
-	
-	// If the ID was changed then verify that it is unique before actually
-	// changing it for the object.
-	uint32 id = GetDlgItemInt(IDC_ID_EDIT, NULL, FALSE);	
-	if (m_pNode->Get_ID() != id) {
+    // Pass the new comments onto the base
+    CString comments;
+    GetDlgItemText(IDC_COMMENTS_EDIT, comments);
+    m_pNode->Set_Comments(comments);
 
-		//
-		//	Is this ID already used?
-		//
-		if (::Get_Node_Mgr().Verify_Unique_ID (id)) {
+    // If the ID was changed then verify that it is unique before actually
+    // changing it for the object.
+    uint32 id = GetDlgItemInt(IDC_ID_EDIT, NULL, FALSE);
+    if (m_pNode->Get_ID() != id) {
 
-			//
-			//	Is this ID in the range you were assigned?
-			//
-			uint32 min_id = 0;
-			uint32 max_id = 0;
-			NodeMgrClass::Get_ID_Range (m_pNode->Get_Type (), &min_id, &max_id);
-			if (id >= min_id && id < max_id) {
-				m_pNode->Set_ID (id);
-			} else {
-				MessageBox ("This ID is not in your allocated range.\n", "ID Error!");
-				retval = false;
-			}
+        //
+        //	Is this ID already used?
+        //
+        if (::Get_Node_Mgr().Verify_Unique_ID(id)) {
 
-		} else {
-			MessageBox ("ID already in use!\nPlease enter a unique ID\n", "ID Error!");
-			retval = false;
-		}
-	}
+            //
+            //	Is this ID in the range you were assigned?
+            //
+            uint32 min_id = 0;
+            uint32 max_id = 0;
+            NodeMgrClass::Get_ID_Range(m_pNode->Get_Type(), &min_id, &max_id);
+            if (id >= min_id && id < max_id) {
+                m_pNode->Set_ID(id);
+            }
+            else {
+                MessageBox("This ID is not in your allocated range.\n", "ID Error!");
+                retval = false;
+            }
+        }
+        else {
+            MessageBox("ID already in use!\nPlease enter a unique ID\n", "ID Error!");
+            retval = false;
+        }
+    }
 
-	return retval;
+    return retval;
 }
-

@@ -17,22 +17,22 @@
 */
 
 /* $Header: /Commando/Code/Tools/ViewTrans/viewtrans.h 3     7/06/98 6:27p Greg_h $ */
-/*********************************************************************************************** 
- ***                            Confidential - Westwood Studios                              *** 
- *********************************************************************************************** 
- *                                                                                             * 
- *                 Project Name : Matrix Viewer Utility                                        * 
- *                                                                                             * 
- *                    File Name : VIEWTRANS.H                                                  * 
- *                                                                                             * 
- *                   Programmer : Greg Hjelstrom                                               * 
- *                                                                                             * 
- *                   Start Date : 02/25/97                                                     * 
- *                                                                                             * 
- *                  Last Update : February 25, 1997 [GH]                                       * 
- *                                                                                             * 
- *---------------------------------------------------------------------------------------------* 
- * Functions:                                                                                  * 
+/***********************************************************************************************
+ ***                            Confidential - Westwood Studios                              ***
+ ***********************************************************************************************
+ *                                                                                             *
+ *                 Project Name : Matrix Viewer Utility                                        *
+ *                                                                                             *
+ *                    File Name : VIEWTRANS.H                                                  *
+ *                                                                                             *
+ *                   Programmer : Greg Hjelstrom                                               *
+ *                                                                                             *
+ *                   Start Date : 02/25/97                                                     *
+ *                                                                                             *
+ *                  Last Update : February 25, 1997 [GH]                                       *
+ *                                                                                             *
+ *---------------------------------------------------------------------------------------------*
+ * Functions:                                                                                  *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
 #ifndef VIEWTRANS_H
@@ -42,8 +42,6 @@
 #include <Quat.h>
 #include <UTILAPI.H>
 
-
-
 /****************************************************************************
 ** Globals
 */
@@ -51,76 +49,62 @@
 class TransViewerUtility;
 class UtilityClassDesc;
 
-extern HINSTANCE			hInstance;
-extern TransViewerUtility	TheUtility;
-extern UtilityClassDesc		UtilityDesc;
+extern HINSTANCE hInstance;
+extern TransViewerUtility TheUtility;
+extern UtilityClassDesc UtilityDesc;
 
 #define CATEGORY_NAME _T("Westwood Tools")
 #define ROLLUP_PAGE_TITLE _T("Transformation Viewer")
 #define VIEWTRANS_CLASS_NAME _T("Transformation Viewer")
 #define VIEWTRANS_CLASS_ID Class_ID(0x4e607ad, 0x155612cc)
 
-
 /*****************************************************************************
-*
-*  Class declaration for TransViewerUtility.
-*
-*  This utility simply displays the transformation matrices of the currently
-*  selected node.  
-*
-*****************************************************************************/
-class TransViewerUtility : public UtilityObj 
+ *
+ *  Class declaration for TransViewerUtility.
+ *
+ *  This utility simply displays the transformation matrices of the currently
+ *  selected node.
+ *
+ *****************************************************************************/
+class TransViewerUtility : public UtilityObj
 {
 public:
+    TransViewerUtility();
+    void OnInitDialog(HWND hWnd, LPARAM lParam);
+    void BeginEditParams(Interface* ip, IUtil* iu);
+    void EndEditParams(Interface* ip, IUtil* iu);
+    void SelectionSetChanged(Interface* ip, IUtil* iu);
+    void DeleteThis() { }
 
-	TransViewerUtility();
-	void OnInitDialog(HWND hWnd, LPARAM lParam);
-	void BeginEditParams(Interface *ip, IUtil *iu);
-	void EndEditParams(Interface *ip, IUtil *iu);
-	void SelectionSetChanged(Interface *ip,IUtil *iu);
-	void DeleteThis() {}
+    void Display_Data(Matrix3& nodetm, Matrix3& objtm, Point3& objoffpos, Quat& objoffrot,
+                      ScaleValue& objoffscl);
 
-	void Display_Data
-	(
-		Matrix3 &nodetm,
-		Matrix3 &objtm,
-		Point3  &objoffpos,
-		Quat    &objoffrot,
-		ScaleValue &objoffscl
-	);
+    // Keep ahold of pointer to our interfaces to MAX.
+    IUtil* iu;
+    Interface* ip;
 
-	// Keep ahold of pointer to our interfaces to MAX.
-	IUtil *iu;
-	Interface *ip;
-	
-	// Window handle to the dialog box.
-	HWND hPanel;
-	
-private:	
+    // Window handle to the dialog box.
+    HWND hPanel;
 
-	// windows Dialog Proc which manipulates this class's data.
-	friend BOOL CALLBACK UtilityDlgProc(HWND hDlg, UINT message, 
-		WPARAM wParam, LPARAM lParam);
-
+private:
+    // windows Dialog Proc which manipulates this class's data.
+    friend BOOL CALLBACK UtilityDlgProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam);
 };
-
 
 /*****************************************************************************
-*
-* Class Description 
-*
-*****************************************************************************/
-class UtilityClassDesc : public ClassDesc 
+ *
+ * Class Description
+ *
+ *****************************************************************************/
+class UtilityClassDesc : public ClassDesc
 {
 public:
-	int 			IsPublic() {return 1;}
-	void *			Create(BOOL loading = FALSE) {return &TheUtility;}
-	const TCHAR *	ClassName() {return VIEWTRANS_CLASS_NAME;}
-	SClass_ID		SuperClassID() {return UTILITY_CLASS_ID;}
-	Class_ID		ClassID() {return VIEWTRANS_CLASS_ID;}
-	const TCHAR* 	Category() {return CATEGORY_NAME;}
+    int IsPublic() { return 1; }
+    void* Create(BOOL loading = FALSE) { return &TheUtility; }
+    const TCHAR* ClassName() { return VIEWTRANS_CLASS_NAME; }
+    SClass_ID SuperClassID() { return UTILITY_CLASS_ID; }
+    Class_ID ClassID() { return VIEWTRANS_CLASS_ID; }
+    const TCHAR* Category() { return CATEGORY_NAME; }
 };
-
-
 
 #endif /*VIEWTRANS_H*/

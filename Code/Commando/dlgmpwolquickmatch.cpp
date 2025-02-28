@@ -20,7 +20,8 @@
  ***              C O N F I D E N T I A L  ---  W E S T W O O D  S T U D I O S               ***
  ***********************************************************************************************
  *                                                                                             *
- *                 Project Name : Combat																		  *
+ *                 Project Name : Combat
+ **
  *                                                                                             *
  *                     $Archive:: /Commando/Code/commando/dlgmpwolquickmatch.cpp   $*
  *                                                                                             *
@@ -35,60 +36,54 @@
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
 #include "dlgmpwolquickmatch.h"
-#include "dlgmpwolquickmatchoptions.h"
 #include "dlgmpwolgamelist.h"
-
+#include "dlgmpwolquickmatchoptions.h"
 
 ////////////////////////////////////////////////////////////////
 //
 //	MPWolQuickMatchMenuClass
 //
 ////////////////////////////////////////////////////////////////
-MPWolQuickMatchMenuClass::MPWolQuickMatchMenuClass (void)	:
-	MenuDialogClass (IDD_MP_WOL_QUICKMATCH)
+MPWolQuickMatchMenuClass::MPWolQuickMatchMenuClass(void)
+    : MenuDialogClass(IDD_MP_WOL_QUICKMATCH)
 {
-	return ;
+    return;
 }
-
 
 ////////////////////////////////////////////////////////////////
 //
 //	On_Init_Dialog
 //
 ////////////////////////////////////////////////////////////////
-void
-MPWolQuickMatchMenuClass::On_Init_Dialog (void)
+void MPWolQuickMatchMenuClass::On_Init_Dialog(void)
 {
-	MenuDialogClass::On_Init_Dialog ();
-	return ;
+    MenuDialogClass::On_Init_Dialog();
+    return;
 }
-
 
 ////////////////////////////////////////////////////////////////
 //
 //	On_Command
 //
 ////////////////////////////////////////////////////////////////
-void
-MPWolQuickMatchMenuClass::On_Command (int ctrl_id, int message_id, DWORD param)
+void MPWolQuickMatchMenuClass::On_Command(int ctrl_id, int message_id, DWORD param)
 {
-	switch (ctrl_id)
-	{
-		case IDC_MP_WOL_QUICK_MATCH_BUTTON:
-			break;
+    switch (ctrl_id) {
+    case IDC_MP_WOL_QUICK_MATCH_BUTTON:
+        break;
 
-		case IDC_MP_WOL_QUICK_MATCH_COOP_BUTTON:
-			break;
+    case IDC_MP_WOL_QUICK_MATCH_COOP_BUTTON:
+        break;
 
-		case IDC_MP_WOL_QUICK_MATCH_OPTIONS_BUTTON:
-			START_DIALOG (MPWolQuickMatchOptionsMenuClass);
-			break;
+    case IDC_MP_WOL_QUICK_MATCH_OPTIONS_BUTTON:
+        START_DIALOG(MPWolQuickMatchOptionsMenuClass);
+        break;
 
-		case IDC_MP_WOL_ADVANCED_LISTINGS_BUTTON:
-			START_DIALOG (MPWolGameListMenuClass);
-			break;
-	}
+    case IDC_MP_WOL_ADVANCED_LISTINGS_BUTTON:
+        START_DIALOG(MPWolGameListMenuClass);
+        break;
+    }
 
-	MenuDialogClass::On_Command (ctrl_id, message_id, param);
-	return ;
+    MenuDialogClass::On_Command(ctrl_id, message_id, param);
+    return;
 }

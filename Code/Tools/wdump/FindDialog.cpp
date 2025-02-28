@@ -19,9 +19,9 @@
 // FindDialog.cpp : implementation file
 //
 
+#include "FindDialog.h"
 #include "stdafx.h"
 #include "wdump.h"
-#include "FindDialog.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -30,59 +30,55 @@ static char THIS_FILE[] = __FILE__;
 #endif
 
 // Static data.
-char FindDialog::_FindString [MAX_FIND_STRING_LENGTH + 1] = "";
+char FindDialog::_FindString[MAX_FIND_STRING_LENGTH + 1] = "";
 bool FindDialog::_Found;
 
 /////////////////////////////////////////////////////////////////////////////
 // FindDialog dialog
 
-
 FindDialog::FindDialog(CWnd* pParent /*=NULL*/)
-	: CDialog(FindDialog::IDD, pParent)
+    : CDialog(FindDialog::IDD, pParent)
 {
-	//{{AFX_DATA_INIT(FindDialog)
-		// NOTE: the ClassWizard will add member initialization here
-	//}}AFX_DATA_INIT
+    //{{AFX_DATA_INIT(FindDialog)
+    // NOTE: the ClassWizard will add member initialization here
+    //}}AFX_DATA_INIT
 }
-
 
 void FindDialog::DoDataExchange(CDataExchange* pDX)
 {
-	CDialog::DoDataExchange(pDX);
-	//{{AFX_DATA_MAP(FindDialog)
-		// NOTE: the ClassWizard will add DDX and DDV calls here
-	//}}AFX_DATA_MAP
+    CDialog::DoDataExchange(pDX);
+    //{{AFX_DATA_MAP(FindDialog)
+    // NOTE: the ClassWizard will add DDX and DDV calls here
+    //}}AFX_DATA_MAP
 }
 
-
 BEGIN_MESSAGE_MAP(FindDialog, CDialog)
-	//{{AFX_MSG_MAP(FindDialog)
-	ON_EN_CHANGE(IDC_FIND_STRING, OnChangeFindString)
-	ON_EN_UPDATE(IDC_FIND_STRING, OnUpdateFindString)
-	//}}AFX_MSG_MAP
+//{{AFX_MSG_MAP(FindDialog)
+ON_EN_CHANGE(IDC_FIND_STRING, OnChangeFindString)
+ON_EN_UPDATE(IDC_FIND_STRING, OnUpdateFindString)
+//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
 // FindDialog message handlers
 
-BOOL FindDialog::OnInitDialog() 
+BOOL FindDialog::OnInitDialog()
 {
-	CDialog::OnInitDialog();
-	
-	((CEdit*) GetDlgItem (IDC_FIND_STRING))->SetLimitText (MAX_FIND_STRING_LENGTH);
-	GetDlgItem (IDC_FIND_STRING)->SetWindowText (_FindString);
+    CDialog::OnInitDialog();
 
-	return TRUE;  // return TRUE unless you set the focus to a control
-	              // EXCEPTION: OCX Property Pages should return FALSE
+    ((CEdit*)GetDlgItem(IDC_FIND_STRING))->SetLimitText(MAX_FIND_STRING_LENGTH);
+    GetDlgItem(IDC_FIND_STRING)->SetWindowText(_FindString);
+
+    return TRUE; // return TRUE unless you set the focus to a control
+                 // EXCEPTION: OCX Property Pages should return FALSE
 }
 
-
-void FindDialog::OnChangeFindString() 
+void FindDialog::OnChangeFindString()
 {
-	GetDlgItem (IDC_FIND_STRING)->GetWindowText (_FindString, MAX_FIND_STRING_LENGTH);
+    GetDlgItem(IDC_FIND_STRING)->GetWindowText(_FindString, MAX_FIND_STRING_LENGTH);
 }
 
-void FindDialog::OnUpdateFindString() 
+void FindDialog::OnUpdateFindString()
 {
-	GetDlgItem (IDOK)->EnableWindow (GetDlgItem (IDC_FIND_STRING)->GetWindowTextLength() > 0);	
+    GetDlgItem(IDOK)->EnableWindow(GetDlgItem(IDC_FIND_STRING)->GetWindowTextLength() > 0);
 }

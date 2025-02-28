@@ -32,38 +32,40 @@
 
 class CVJoyDialog : public CDialog
 {
-// Construction
+    // Construction
 public:
-	CVJoyDialog(CWnd* pParent = NULL);   // standard constructor
-	~CVJoyDialog(void);
+    CVJoyDialog(CWnd* pParent = NULL); // standard constructor
+    ~CVJoyDialog(void);
 
-// Dialog Data
-	//{{AFX_DATA(CVJoyDialog)
-	enum { IDD = IDD_VJOY_DIALOG };
-	CSliderCtrl	m_TurnZSlider;
-	CSliderCtrl	m_MoveZSlider;
-	//}}AFX_DATA
+    // Dialog Data
+    //{{AFX_DATA(CVJoyDialog)
+    enum
+    {
+        IDD = IDD_VJOY_DIALOG
+    };
+    CSliderCtrl m_TurnZSlider;
+    CSliderCtrl m_MoveZSlider;
+    //}}AFX_DATA
 
-	PhysControllerClass		Controller;	
+    PhysControllerClass Controller;
 
-// Overrides
-	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CVJoyDialog)
-	protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
-	virtual LRESULT WindowProc(UINT message, WPARAM wParam, LPARAM lParam);
-	//}}AFX_VIRTUAL
-
-// Implementation
+    // Overrides
+    // ClassWizard generated virtual function overrides
+    //{{AFX_VIRTUAL(CVJoyDialog)
 protected:
+    virtual void DoDataExchange(CDataExchange* pDX); // DDX/DDV support
+    virtual LRESULT WindowProc(UINT message, WPARAM wParam, LPARAM lParam);
+    //}}AFX_VIRTUAL
 
-	// Generated message map functions
-	//{{AFX_MSG(CVJoyDialog)
-	virtual BOOL OnInitDialog();
-	afx_msg void OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar);
-	afx_msg void OnDestroy();
-	//}}AFX_MSG
-	DECLARE_MESSAGE_MAP()
+    // Implementation
+protected:
+    // Generated message map functions
+    //{{AFX_MSG(CVJoyDialog)
+    virtual BOOL OnInitDialog();
+    afx_msg void OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar);
+    afx_msg void OnDestroy();
+    //}}AFX_MSG
+    DECLARE_MESSAGE_MAP()
 };
 
 //{{AFX_INSERT_LOCATION}}

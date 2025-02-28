@@ -17,24 +17,23 @@
 */
 
 /* $Header: /Commando/Code/Tools/pluglib/nodelist.h 8     3/14/02 4:22p Greg_h $ */
-/*********************************************************************************************** 
- ***                            Confidential - Westwood Studios                              *** 
- *********************************************************************************************** 
- *                                                                                             * 
- *                 Project Name : Commando / G                                                 * 
- *                                                                                             * 
- *                    File Name : NODELIST.H                                                   * 
- *                                                                                             * 
- *                   Programmer : Greg Hjelstrom                                               * 
- *                                                                                             * 
- *                   Start Date : 06/09/97                                                     * 
- *                                                                                             * 
- *                  Last Update : June 9, 1997 [GH]                                            * 
- *                                                                                             * 
- *---------------------------------------------------------------------------------------------* 
- * Functions:                                                                                  * 
+/***********************************************************************************************
+ ***                            Confidential - Westwood Studios                              ***
+ ***********************************************************************************************
+ *                                                                                             *
+ *                 Project Name : Commando / G                                                 *
+ *                                                                                             *
+ *                    File Name : NODELIST.H                                                   *
+ *                                                                                             *
+ *                   Programmer : Greg Hjelstrom                                               *
+ *                                                                                             *
+ *                   Start Date : 06/09/97                                                     *
+ *                                                                                             *
+ *                  Last Update : June 9, 1997 [GH]                                            *
+ *                                                                                             *
+ *---------------------------------------------------------------------------------------------*
+ * Functions:                                                                                  *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
-
 
 #ifndef NODELIST_H
 #define NODELIST_H
@@ -46,78 +45,71 @@
 #include "nodefilt.h"
 #endif
 
-
 class INodeListEntryClass;
 class INodeCompareClass;
 
-
 /*******************************************************************************
-*	INodeListClass
-*
-*	This is a class that can enumerate a 3dsMax scene and build a list of
-*	all of the INodes that meet your desired criteria.
-*
-*******************************************************************************/
+ *	INodeListClass
+ *
+ *	This is a class that can enumerate a 3dsMax scene and build a list of
+ *	all of the INodes that meet your desired criteria.
+ *
+ *******************************************************************************/
 class INodeListClass : public ITreeEnumProc
 {
 public:
+    INodeListClass(TimeValue time, INodeFilterClass* nodefilter = NULL);
+    INodeListClass(IScene* scene, TimeValue time, INodeFilterClass* nodefilter = NULL);
+    INodeListClass(INode* root, TimeValue time, INodeFilterClass* nodefilter = NULL);
+    INodeListClass(INodeListClass& copyfrom, TimeValue time, INodeFilterClass* inodefilter = NULL);
+    ~INodeListClass();
 
-	INodeListClass(TimeValue time,INodeFilterClass * nodefilter = NULL);
-	INodeListClass(IScene * scene,TimeValue time,INodeFilterClass * nodefilter = NULL);
-	INodeListClass(INode * root,TimeValue time,INodeFilterClass * nodefilter = NULL);
-	INodeListClass(INodeListClass & copyfrom,TimeValue time,INodeFilterClass * inodefilter = NULL);
-	~INodeListClass();
-
-	void			Set_Filter(INodeFilterClass * inodefilter) { INodeFilter = inodefilter; }
-	void			Insert(INodeListClass & insertlist);
-	void			Insert(INode * node);
-	void			Remove(int i);
-	unsigned		Num_Nodes(void) const { return NumNodes; }
-	INode *		operator[] (int index) const;
-	void			Sort(const INodeCompareClass & node_compare);
-	void			Add_Tree(INode * root);
-	bool			Contains(INode * node);
+    void Set_Filter(INodeFilterClass* inodefilter) { INodeFilter = inodefilter; }
+    void Insert(INodeListClass& insertlist);
+    void Insert(INode* node);
+    void Remove(int i);
+    unsigned Num_Nodes(void) const { return NumNodes; }
+    INode* operator[](int index) const;
+    void Sort(const INodeCompareClass& node_compare);
+    void Add_Tree(INode* root);
+    bool Contains(INode* node);
 
 private:
+    unsigned NumNodes;
+    TimeValue Time;
+    INodeListEntryClass* ListHead;
+    INodeFilterClass* INodeFilter;
 
-	unsigned						NumNodes;
-	TimeValue					Time;
-	INodeListEntryClass *	ListHead;
-	INodeFilterClass *		INodeFilter;
+    INodeListEntryClass* get_nth_item(int index);
+    int callback(INode* node);
 
-	INodeListEntryClass * get_nth_item(int index);
-	int callback(INode * node);
-
-	friend class INodeListIterator;
+    friend class INodeListIterator;
 };
-
 
 class INodeCompareClass
 {
 public:
-	// returns <0 if nodea < node b.
-	// returns =0 if nodea = node b.
-	// returns >0 if nodea > node b.
-	virtual int operator() (INode * nodea,INode * nodeb) const = 0;
+    // returns <0 if nodea < node b.
+    // returns =0 if nodea = node b.
+    // returns >0 if nodea > node b.
+    virtual int operator()(INode* nodea, INode* nodeb) const = 0;
 };
-
 
 class INodeListIterator
 {
 public:
-	INodeListIterator(INodeListClass * list);
-	~INodeListIterator(void);
+    INodeListIterator(INodeListClass* list);
+    ~INodeListIterator(void);
 
-	void		First(INodeListClass * list = NULL);
-	void		Next(void);
-	bool		Is_Done(void);
+    void First(INodeListClass* list = NULL);
+    void Next(void);
+    bool Is_Done(void);
 
-	INode *	Get_INode(void);
+    INode* Get_INode(void);
 
 private:
-	INodeListClass *			List;
-	INodeListEntryClass *	Node;
-
+    INodeListClass* List;
+    INodeListEntryClass* Node;
 };
 
 #endif /*NODELIST_H*/

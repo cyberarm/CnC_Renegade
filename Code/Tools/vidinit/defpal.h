@@ -16,9 +16,8 @@
 **	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <palette.h>
 #include <convert.h>
+#include <palette.h>
 
-extern PaletteClass					DefaultPalette;
-extern ConvertClass					DefaultConvert;
- 
+extern PaletteClass DefaultPalette;
+extern ConvertClass DefaultConvert;

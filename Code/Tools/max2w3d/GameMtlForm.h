@@ -34,8 +34,6 @@
  * Functions:                                                                                  *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
-
-
 #ifndef GAMEMTLFORM_H
 #define GAMEMTLFORM_H
 
@@ -43,71 +41,84 @@
 
 class GameMtl;
 
-
 #if defined W3D_GMAXDEV
 
-class FakeIMtlParams : public IMtlParams{
+class FakeIMtlParams : public IMtlParams
+{
 public:
-	TimeValue GetTime(){ return GetCOREInterface()->GetTime();}
-	virtual void MtlChanged(){};  
-	virtual HWND AddRollupPage( HINSTANCE hInst, DLGTEMPLATE *dlgTemplate, 
-		DLGPROC dlgProc, TCHAR *title, LPARAM param=0,DWORD flags=0, int category = ROLLUP_CAT_STANDARD ){return NULL;}
-	virtual HWND AddRollupPage( HINSTANCE hInst, TCHAR *dlgTemplate, 
-		DLGPROC dlgProc, TCHAR *title, LPARAM param=0,DWORD flags=0, int category = ROLLUP_CAT_STANDARD ){return NULL;};
+    TimeValue GetTime() { return GetCOREInterface()->GetTime(); }
+    virtual void MtlChanged() { };
+    virtual HWND AddRollupPage(HINSTANCE hInst, DLGTEMPLATE* dlgTemplate, DLGPROC dlgProc,
+                               TCHAR* title, LPARAM param = 0, DWORD flags = 0,
+                               int category = ROLLUP_CAT_STANDARD)
+    {
+        return NULL;
+    }
+    virtual HWND AddRollupPage(HINSTANCE hInst, TCHAR* dlgTemplate, DLGPROC dlgProc, TCHAR* title,
+                               LPARAM param = 0, DWORD flags = 0,
+                               int category = ROLLUP_CAT_STANDARD)
+    {
+        return NULL;
+    };
 
-	virtual HWND ReplaceRollupPage( HWND hOldRollup, HINSTANCE hInst, TCHAR *dlgTemplate, 
-		DLGPROC dlgProc, TCHAR *title, LPARAM param=0,DWORD flags=0, int category = ROLLUP_CAT_STANDARD  ){return NULL;}
+    virtual HWND ReplaceRollupPage(HWND hOldRollup, HINSTANCE hInst, TCHAR* dlgTemplate,
+                                   DLGPROC dlgProc, TCHAR* title, LPARAM param = 0, DWORD flags = 0,
+                                   int category = ROLLUP_CAT_STANDARD)
+    {
+        return NULL;
+    }
 
-	virtual HWND ReplaceRollupPage( HWND hOldRollup, HINSTANCE hInst, DLGTEMPLATE *dlgTemplate, 
-		DLGPROC dlgProc, TCHAR *title, LPARAM param=0,DWORD flags=0, int category = ROLLUP_CAT_STANDARD  ){return NULL;};
+    virtual HWND ReplaceRollupPage(HWND hOldRollup, HINSTANCE hInst, DLGTEMPLATE* dlgTemplate,
+                                   DLGPROC dlgProc, TCHAR* title, LPARAM param = 0, DWORD flags = 0,
+                                   int category = ROLLUP_CAT_STANDARD)
+    {
+        return NULL;
+    };
 
-	virtual void DeleteRollupPage( HWND hRollup ){};
+    virtual void DeleteRollupPage(HWND hRollup) { };
 
-	
-	virtual void RollupMouseMessage( HWND hDlg, UINT message,WPARAM wParam, LPARAM lParam ){};
-	virtual void RegisterTimeChangeCallback(TimeChangeCallback *tc){}
-	virtual void UnRegisterTimeChangeCallback(TimeChangeCallback *tc){}
+    virtual void RollupMouseMessage(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam) { };
+    virtual void RegisterTimeChangeCallback(TimeChangeCallback* tc) { }
+    virtual void UnRegisterTimeChangeCallback(TimeChangeCallback* tc) { }
 
-	virtual void RegisterDlgWnd( HWND hDlg ){};
-	virtual int UnRegisterDlgWnd( HWND hDlg ){return 0;};
+    virtual void RegisterDlgWnd(HWND hDlg) { };
+    virtual int UnRegisterDlgWnd(HWND hDlg) { return 0; };
 
-	// get the current time.
+    // get the current time.
 
-	// Pick an object from the scene
-	virtual void SetPickMode(PickObjectProc *proc){};
-	virtual void EndPickMode(){};
+    // Pick an object from the scene
+    virtual void SetPickMode(PickObjectProc* proc) { };
+    virtual void EndPickMode() { };
 
-	// JBW 10/19/98: get interface to mtl editor rollup
-	virtual IRollupWindow *GetMtlEditorRollup(){return NULL;}
+    // JBW 10/19/98: get interface to mtl editor rollup
+    virtual IRollupWindow* GetMtlEditorRollup() { return NULL; }
 
-	virtual int IsRollupPanelOpen(HWND hwnd){return 0;}
-	virtual int GetRollupScrollPos(){return 0;}
-	virtual void SetRollupScrollPos(int spos){}
-	Mtl*	Multi_mtl_list;
+    virtual int IsRollupPanelOpen(HWND hwnd) { return 0; }
+    virtual int GetRollupScrollPos() { return 0; }
+    virtual void SetRollupScrollPos(int spos) { }
+    Mtl* Multi_mtl_list;
 };
 #endif
-
-
 
 class GameMtlFormClass : public FormClass
 {
 public:
-	GameMtlFormClass(IMtlParams * imtl_params,GameMtl * mtl,int pass);
+    GameMtlFormClass(IMtlParams* imtl_params, GameMtl* mtl, int pass);
 
-	void					SetThing(ReferenceTarget *m);
-	ReferenceTarget*	GetThing(void);
-	void					DeleteThis(void);
-	Class_ID				ClassID(void);
-	void					SetTime(TimeValue t);
+    void SetThing(ReferenceTarget* m);
+    ReferenceTarget* GetThing(void);
+    void DeleteThis(void);
+    Class_ID ClassID(void);
+    void SetTime(TimeValue t);
 
 protected:
 #if !defined W3D_GMAXDEV
-	IMtlParams *		IParams;			// interface to the material editor
+    IMtlParams* IParams; // interface to the material editor
 #else
-	FakeIMtlParams *		IParams;			// interface to the material editor
+    FakeIMtlParams* IParams; // interface to the material editor
 #endif
-	GameMtl *			TheMtl;			// current mtl being edited.
-	int					PassIndex;		// material pass that this form edits
+    GameMtl* TheMtl; // current mtl being edited.
+    int PassIndex; // material pass that this form edits
 };
 
 #endif

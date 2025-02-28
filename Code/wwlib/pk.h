@@ -16,22 +16,22 @@
 **	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-/*********************************************************************************************** 
- ***              C O N F I D E N T I A L  ---  W E S T W O O D  S T U D I O S               *** 
- *********************************************************************************************** 
- *                                                                                             * 
- *                 Project Name : Command & Conquer                                            * 
- *                                                                                             * 
- *                     $Archive:: /G/wwlib/PK.H                                               $* 
- *                                                                                             * 
+/***********************************************************************************************
+ ***              C O N F I D E N T I A L  ---  W E S T W O O D  S T U D I O S               ***
+ ***********************************************************************************************
+ *                                                                                             *
+ *                 Project Name : Command & Conquer                                            *
+ *                                                                                             *
+ *                     $Archive:: /G/wwlib/PK.H                                               $*
+ *                                                                                             *
  *                      $Author:: Eric_c                                                      $*
- *                                                                                             * 
+ *                                                                                             *
  *                     $Modtime:: 4/02/99 12:00p                                              $*
- *                                                                                             * 
+ *                                                                                             *
  *                    $Revision:: 3                                                           $*
  *                                                                                             *
- *---------------------------------------------------------------------------------------------* 
- * Functions:                                                                                  * 
+ *---------------------------------------------------------------------------------------------*
+ * Functions:                                                                                  *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 #if _MSC_VER >= 1000
 #pragma once
@@ -44,7 +44,7 @@
 #include "straw.h"
 #endif
 
-#include	"int.h"
+#include "int.h"
 
 /*
 **	This class holds a public or private key used in Public Key Cryptography. It also serves
@@ -61,39 +61,46 @@
 */
 class PKey
 {
-	public:
-		PKey(void) : Modulus(0), Exponent(0), BitPrecision(0) {}
-		PKey(void const * exponent, void const * modulus);		// DER initialization.
+public:
+    PKey(void)
+        : Modulus(0),
+          Exponent(0),
+          BitPrecision(0)
+    {
+    }
+    PKey(void const* exponent, void const* modulus); // DER initialization.
 
-		int Encrypt(void const * source, int slen, void * dest) const;
-		int Decrypt(void const * source, int slen, void * dest) const;
+    int Encrypt(void const* source, int slen, void* dest) const;
+    int Decrypt(void const* source, int slen, void* dest) const;
 
-		static void Generate(Straw & random, int bits, PKey & fastkey, PKey & slowkey);
+    static void Generate(Straw& random, int bits, PKey& fastkey, PKey& slowkey);
 
-		int Plain_Block_Size(void) const {return((BitPrecision-1)/8);}
-		int Crypt_Block_Size(void) const {return(Plain_Block_Size()+1);}
-		int Block_Count(int plaintext_length) const {return((((plaintext_length-1)/Plain_Block_Size())+1));}
+    int Plain_Block_Size(void) const { return ((BitPrecision - 1) / 8); }
+    int Crypt_Block_Size(void) const { return (Plain_Block_Size() + 1); }
+    int Block_Count(int plaintext_length) const
+    {
+        return ((((plaintext_length - 1) / Plain_Block_Size()) + 1));
+    }
 
-		int Encode_Modulus(void * buffer) const;
-		int Encode_Exponent(void * buffer) const;
+    int Encode_Modulus(void* buffer) const;
+    int Encode_Exponent(void* buffer) const;
 
-		void Decode_Modulus(void * buffer);
-		void Decode_Exponent(void * buffer);
+    void Decode_Modulus(void* buffer);
+    void Decode_Exponent(void* buffer);
 
-		static long Fast_Exponent(void) {return(65537L);}
+    static long Fast_Exponent(void) { return (65537L); }
 
-//	private:
+    //	private:
 
-		// p*q
-		BigInt Modulus;
+    // p*q
+    BigInt Modulus;
 
-		// 65537 or
-		// inverse of (p-1)(q-1).
-		BigInt Exponent;
+    // 65537 or
+    // inverse of (p-1)(q-1).
+    BigInt Exponent;
 
-		// Maximum bits allowed for block.
-		int BitPrecision;
+    // Maximum bits allowed for block.
+    int BitPrecision;
 };
-
 
 #endif

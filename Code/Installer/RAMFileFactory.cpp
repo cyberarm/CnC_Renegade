@@ -16,22 +16,22 @@
 **	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-/*********************************************************************************************** 
- ***                            Confidential - Westwood Studios                              *** 
- *********************************************************************************************** 
- *                                                                                             * 
- *                 Project Name : Installer                                                    * 
- *                                                                                             * 
- *                     $Archive:: /Commando/Code/Installer/RAMFileFactory.cpp  $* 
- *                                                                                             * 
- *                      $Author:: Ian_l                   $* 
- *                                                                                             * 
- *                     $Modtime:: 10/31/01 2:57p                $* 
- *                                                                                             * 
- *                    $Revision:: 2                     $* 
- *                                                                                             * 
- *---------------------------------------------------------------------------------------------* 
- * Functions:                                                                                  * 
+/***********************************************************************************************
+ ***                            Confidential - Westwood Studios                              ***
+ ***********************************************************************************************
+ *                                                                                             *
+ *                 Project Name : Installer                                                    *
+ *                                                                                             *
+ *                     $Archive:: /Commando/Code/Installer/RAMFileFactory.cpp  $*
+ *                                                                                             *
+ *                      $Author:: Ian_l                   $*
+ *                                                                                             *
+ *                     $Modtime:: 10/31/01 2:57p                $*
+ *                                                                                             *
+ *                    $Revision:: 2                     $*
+ *                                                                                             *
+ *---------------------------------------------------------------------------------------------*
+ * Functions:                                                                                  *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
 // Includes.
@@ -39,9 +39,9 @@
 #include "BuffFile.h"
 #include "RamFile.h"
 
-
 /***********************************************************************************************
- * RAMFileFactoryClass::RAMFileFactoryClass --																  *
+ * RAMFileFactoryClass::RAMFileFactoryClass --
+ **
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -50,17 +50,17 @@
  * WARNINGS:                                                                                   *
  *                                                                                             *
  * HISTORY:                                                                                    *
- *   08/22/01    IML : Created.                                                                * 
+ *   08/22/01    IML : Created.                                                                *
  *=============================================================================================*/
 RAMFileFactoryClass::RAMFileFactoryClass()
-	: FileFactoryClass(),
-	  FileBuffer (NULL)	
+    : FileFactoryClass(),
+      FileBuffer(NULL)
 {
 }
 
-
 /***********************************************************************************************
- * RAMFileFactoryClass::RAMFileFactoryClass --																  *
+ * RAMFileFactoryClass::RAMFileFactoryClass --
+ **
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -69,16 +69,18 @@ RAMFileFactoryClass::RAMFileFactoryClass()
  * WARNINGS:                                                                                   *
  *                                                                                             *
  * HISTORY:                                                                                    *
- *   08/22/01    IML : Created.                                                                * 
+ *   08/22/01    IML : Created.                                                                *
  *=============================================================================================*/
 RAMFileFactoryClass::~RAMFileFactoryClass()
 {
-	if (FileBuffer != NULL) delete [] FileBuffer;
+    if (FileBuffer != NULL) {
+        delete[] FileBuffer;
+    }
 }
 
-
 /***********************************************************************************************
- * RAMFileFactoryClass::Get_File --																				  *
+ * RAMFileFactoryClass::Get_File --
+ **
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -87,40 +89,42 @@ RAMFileFactoryClass::~RAMFileFactoryClass()
  * WARNINGS:                                                                                   *
  *                                                                                             *
  * HISTORY:                                                                                    *
- *   08/22/01    IML : Created.                                                                * 
+ *   08/22/01    IML : Created.                                                                *
  *=============================================================================================*/
-FileClass *RAMFileFactoryClass::Get_File (const char *filename)
+FileClass* RAMFileFactoryClass::Get_File(const char* filename)
 {
-	RAMFileClass *ramfile;
+    RAMFileClass* ramfile;
 
-	// If file buffer has not been read then do it now.
-	if ((FileBuffer == NULL) || (stricmp (filename, FileName) != 0)) {
-	
-		BufferedFileClass *bufferfile;
+    // If file buffer has not been read then do it now.
+    if ((FileBuffer == NULL) || (stricmp(filename, FileName) != 0)) {
 
-		if (FileBuffer != NULL) delete [] FileBuffer;
+        BufferedFileClass* bufferfile;
 
-		bufferfile = new BufferedFileClass (filename);
-		if ((bufferfile != NULL) && bufferfile->Is_Available()) {
-			FileBuffer = new unsigned char [bufferfile->Size()];
-			bufferfile->Open();
-			bufferfile->Read (FileBuffer, bufferfile->Size());
-		}
+        if (FileBuffer != NULL) {
+            delete[] FileBuffer;
+        }
 
-		FileBufferSize = bufferfile->Size();
-		FileName			= filename;
-		
-		// Clean-up.
-		delete bufferfile;
-	}
-		
-	ramfile = new RAMFileClass (FileBuffer, FileBufferSize);
-	return (ramfile);
+        bufferfile = new BufferedFileClass(filename);
+        if ((bufferfile != NULL) && bufferfile->Is_Available()) {
+            FileBuffer = new unsigned char[bufferfile->Size()];
+            bufferfile->Open();
+            bufferfile->Read(FileBuffer, bufferfile->Size());
+        }
+
+        FileBufferSize = bufferfile->Size();
+        FileName = filename;
+
+        // Clean-up.
+        delete bufferfile;
+    }
+
+    ramfile = new RAMFileClass(FileBuffer, FileBufferSize);
+    return (ramfile);
 }
 
-
 /***********************************************************************************************
- * RAMFileFactoryClass::Return_File --																			  *
+ * RAMFileFactoryClass::Return_File --
+ **
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -129,9 +133,9 @@ FileClass *RAMFileFactoryClass::Get_File (const char *filename)
  * WARNINGS:                                                                                   *
  *                                                                                             *
  * HISTORY:                                                                                    *
- *   08/22/01    IML : Created.                                                                * 
+ *   08/22/01    IML : Created.                                                                *
  *=============================================================================================*/
-void RAMFileFactoryClass::Return_File (FileClass *file)
+void RAMFileFactoryClass::Return_File(FileClass* file)
 {
-	delete file;
+    delete file;
 }

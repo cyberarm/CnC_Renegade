@@ -34,7 +34,6 @@
  * Functions:                                                                                  *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
-
 #if !defined(AFX_CHUNKDATAVIEW_H__FD83E2D7_72AE_11D3_BB4D_00902742EA14__INCLUDED_)
 #define AFX_CHUNKDATAVIEW_H__FD83E2D7_72AE_11D3_BB4D_00902742EA14__INCLUDED_
 
@@ -49,75 +48,81 @@
 class ChunkImageClass;
 class HexToStringClass;
 
-
 /////////////////////////////////////////////////////////////////////////////
 // CChunkDataView view
 
 class CChunkDataView : public CListView
 {
 protected:
-	CChunkDataView();           // protected constructor used by dynamic creation
-	DECLARE_DYNCREATE(CChunkDataView)
+    CChunkDataView(); // protected constructor used by dynamic creation
+    DECLARE_DYNCREATE(CChunkDataView)
 
-// Attributes
+    // Attributes
 public:
+    enum WordSizeType
+    {
+        WORD_SIZE_BYTE = 0,
+        WORD_SIZE_SHORT = 1,
+        WORD_SIZE_LONG = 2
+    };
 
-	enum WordSizeType
-	{
-		WORD_SIZE_BYTE		= 0,
-		WORD_SIZE_SHORT	= 1,
-		WORD_SIZE_LONG		= 2
-	};
+    enum DisplayModeType
+    {
+        DISPLAY_MODE_HEX = 0,
+        DISPLAY_MODE_MICROCHUNKS,
+    };
 
-	enum DisplayModeType
-	{
-		DISPLAY_MODE_HEX	= 0,
-		DISPLAY_MODE_MICROCHUNKS,
-	};
+    void Set_Word_Size(WordSizeType wordsize)
+    {
+        WordSize = wordsize;
+        OnUpdate(NULL, 0, NULL);
+    }
+    WordSizeType Get_Word_Size(void) { return WordSize; }
+    void Set_Display_Mode(DisplayModeType displaymode)
+    {
+        DisplayMode = displaymode;
+        OnUpdate(NULL, 0, NULL);
+    }
+    DisplayModeType Get_Display_Mode(void) { return DisplayMode; }
 
-	void					Set_Word_Size(WordSizeType wordsize)				{ WordSize = wordsize; OnUpdate(NULL,0,NULL); }
-	WordSizeType		Get_Word_Size(void)										{ return WordSize; }
-	void					Set_Display_Mode(DisplayModeType displaymode)	{ DisplayMode = displaymode; OnUpdate(NULL,0,NULL); }
-	DisplayModeType	Get_Display_Mode(void)									{ return DisplayMode; }
-
-// Operations
+    // Operations
 public:
+    // Overrides
+    // ClassWizard generated virtual function overrides
+    //{{AFX_VIRTUAL(CChunkDataView)
+public:
+    virtual void OnInitialUpdate();
 
-// Overrides
-	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CChunkDataView)
-	public:
-	virtual void OnInitialUpdate();
-	protected:
-	virtual void OnDraw(CDC* pDC);      // overridden to draw this view
-	virtual void OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint);
-	//}}AFX_VIRTUAL
-
-// Implementation
 protected:
-	virtual ~CChunkDataView();
+    virtual void OnDraw(CDC* pDC); // overridden to draw this view
+    virtual void OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint);
+    //}}AFX_VIRTUAL
+
+    // Implementation
+protected:
+    virtual ~CChunkDataView();
 #ifdef _DEBUG
-	virtual void AssertValid() const;
-	virtual void Dump(CDumpContext& dc) const;
+    virtual void AssertValid() const;
+    virtual void Dump(CDumpContext& dc) const;
 #endif
 
-	void						Display_Chunk(const ChunkImageClass * chunk);
-	void						Display_Chunk_Sub_Chunks(const ChunkImageClass * chunk);
-	void						Display_Chunk_Hex(const ChunkImageClass * chunk);
-	void						Display_Chunk_Micro_Chunks(const ChunkImageClass * chunk);
-	void						Reset_Columns(void);
-	HexToStringClass *	Create_Hex_Converter(const uint8 * data,const uint32 size);
-	void						Destroy_Hex_Converter(HexToStringClass * hexconv);
+    void Display_Chunk(const ChunkImageClass* chunk);
+    void Display_Chunk_Sub_Chunks(const ChunkImageClass* chunk);
+    void Display_Chunk_Hex(const ChunkImageClass* chunk);
+    void Display_Chunk_Micro_Chunks(const ChunkImageClass* chunk);
+    void Reset_Columns(void);
+    HexToStringClass* Create_Hex_Converter(const uint8* data, const uint32 size);
+    void Destroy_Hex_Converter(HexToStringClass* hexconv);
 
-	DisplayModeType		DisplayMode;
-	WordSizeType			WordSize;
+    DisplayModeType DisplayMode;
+    WordSizeType WordSize;
 
-	// Generated message map functions
+    // Generated message map functions
 protected:
-	//{{AFX_MSG(CChunkDataView)
-		// NOTE - the ClassWizard will add and remove member functions here.
-	//}}AFX_MSG
-	DECLARE_MESSAGE_MAP()
+    //{{AFX_MSG(CChunkDataView)
+    // NOTE - the ClassWizard will add and remove member functions here.
+    //}}AFX_MSG
+    DECLARE_MESSAGE_MAP()
 };
 
 /////////////////////////////////////////////////////////////////////////////

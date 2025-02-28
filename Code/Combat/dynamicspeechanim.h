@@ -20,7 +20,8 @@
  ***              C O N F I D E N T I A L  ---  W E S T W O O D  S T U D I O S               ***
  ***********************************************************************************************
  *                                                                                             *
- *                 Project Name : Combat																		  *
+ *                 Project Name : Combat
+ **
  *                                                                                             *
  *                     $Archive:: /Commando/Code/Combat/dynamicspeechanim.h       $*
  *                                                                                             *
@@ -44,7 +45,6 @@
 #include "hmorphanim.h"
 #include "viseme.h"
 
-
 ////////////////////////////////////////////////////////////////
 //
 //	DynamicSpeechAnimClass
@@ -53,40 +53,37 @@
 class DynamicSpeechAnimClass : public HMorphAnimClass
 {
 public:
-	
-	////////////////////////////////////////////////////////////////
-	//	Public constructors/destructors
-	////////////////////////////////////////////////////////////////
-	DynamicSpeechAnimClass (const char *skeleton_name);
-	~DynamicSpeechAnimClass (void);
+    ////////////////////////////////////////////////////////////////
+    //	Public constructors/destructors
+    ////////////////////////////////////////////////////////////////
+    DynamicSpeechAnimClass(const char* skeleton_name);
+    ~DynamicSpeechAnimClass(void);
 
-	////////////////////////////////////////////////////////////////
-	//	Public methods
-	////////////////////////////////////////////////////////////////
-	
-	//
-	//	Animation control
-	//
-	bool	Generate_Animation (const char *text, float duration);
-	void	Generate_Idle_Animation (float duration, float frequency);
+    ////////////////////////////////////////////////////////////////
+    //	Public methods
+    ////////////////////////////////////////////////////////////////
+
+    //
+    //	Animation control
+    //
+    bool Generate_Animation(const char* text, float duration);
+    void Generate_Idle_Animation(float duration, float frequency);
 
 protected:
+    ////////////////////////////////////////////////////////////////
+    //	Protected methods
+    ////////////////////////////////////////////////////////////////
+    void Generate_Eyebrows(float duration, float frequency = 1.0F);
+    int Insert_Blink(int current_frame, int current_pose);
 
-	////////////////////////////////////////////////////////////////
-	//	Protected methods
-	////////////////////////////////////////////////////////////////
-	void	Generate_Eyebrows (float duration, float frequency = 1.0F);
-	int	Insert_Blink (int current_frame, int current_pose);
+    ////////////////////////////////////////////////////////////////
+    //	Protected member data
+    ////////////////////////////////////////////////////////////////
 
-	////////////////////////////////////////////////////////////////
-	//	Protected member data
-	////////////////////////////////////////////////////////////////
-
-	////////////////////////////////////////////////////////////////
-	//	Static methods
-	////////////////////////////////////////////////////////////////
-	static VisemeManager		VisemeLookupMgr;
+    ////////////////////////////////////////////////////////////////
+    //	Static methods
+    ////////////////////////////////////////////////////////////////
+    static VisemeManager VisemeLookupMgr;
 };
-
 
 #endif //__DYNAMICSPEECHANIM_H

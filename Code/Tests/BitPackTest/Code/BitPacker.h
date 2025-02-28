@@ -17,64 +17,64 @@
 */
 
 /****************************************************************************
-*
-* FILE
-*     $Archive: /Commando/Code/Tests/BitPackTest/Code/BitPacker.h $
-*
-* DESCRIPTION
-*     Provide variable length bit packing.
-*
-* PROGRAMMER
-*     Denzil E. Long, Jr.
-*
-* VERSION INFO
-*     $Author: Denzil_l $
-*     $Revision: 2 $
-*     $Modtime: 5/31/00 9:21a $
-*
-****************************************************************************/
+ *
+ * FILE
+ *     $Archive: /Commando/Code/Tests/BitPackTest/Code/BitPacker.h $
+ *
+ * DESCRIPTION
+ *     Provide variable length bit packing.
+ *
+ * PROGRAMMER
+ *     Denzil E. Long, Jr.
+ *
+ * VERSION INFO
+ *     $Author: Denzil_l $
+ *     $Revision: 2 $
+ *     $Modtime: 5/31/00 9:21a $
+ *
+ ****************************************************************************/
 
 #ifndef _BITPACKER_H_
 #define _BITPACKER_H_
 
 class BitPacker
-	{
-	public:
-		BitPacker();
-		BitPacker(void* buffer, unsigned int bufferSize);
-		virtual ~BitPacker();
+{
+public:
+    BitPacker();
+    BitPacker(void* buffer, unsigned int bufferSize);
+    virtual ~BitPacker();
 
-		// Set the buffer to use for read / write of bit packed data.
-		void SetBuffer(void* buffer, unsigned int bufferSize);
-		
-		// Flush remainder bits to the stream.
-		// (This must be called when finished writting)
-		void Flush(void);
+    // Set the buffer to use for read / write of bit packed data.
+    void SetBuffer(void* buffer, unsigned int bufferSize);
 
-		// Reset the bitpacked stream.
-		void Reset(void);
+    // Flush remainder bits to the stream.
+    // (This must be called when finished writting)
+    void Flush(void);
 
-		// Retrieve the length of the packed stream (in bytes).
-		unsigned int GetPackedSize(void);
+    // Reset the bitpacked stream.
+    void Reset(void);
 
-		// Retrieve a bit from the stream,
-		int GetBit(void);
+    // Retrieve the length of the packed stream (in bytes).
+    unsigned int GetPackedSize(void);
 
-		// Write a bit to the stream
-		bool PutBit(int value);
+    // Retrieve a bit from the stream,
+    int GetBit(void);
 
-		// Retrieve a series of bits from the stream (Max = 32)
-		int GetBits(unsigned long& outBits, unsigned int numBits);
+    // Write a bit to the stream
+    bool PutBit(int value);
 
-		// Write a series of bits to the stream (Max = 32)
-		int PutBits(unsigned long bits, unsigned int numBits);
+    // Retrieve a series of bits from the stream (Max = 32)
+    int GetBits(unsigned long& outBits, unsigned int numBits);
 
-	private:
-		unsigned char* mBuffer;
-		unsigned int mBufferSize;
-		unsigned int mBytePosition;
-		unsigned int mBitMask;
-		unsigned char mStore;
-	};
+    // Write a series of bits to the stream (Max = 32)
+    int PutBits(unsigned long bits, unsigned int numBits);
+
+private:
+    unsigned char* mBuffer;
+    unsigned int mBufferSize;
+    unsigned int mBytePosition;
+    unsigned int mBitMask;
+    unsigned char mStore;
+};
 
 #endif // _BITPACKER_H_

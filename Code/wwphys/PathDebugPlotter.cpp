@@ -35,35 +35,29 @@
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
 #include "pathdebugplotter.h"
-#include "widgets.h"
 #include "matinfo.h"
+#include "widgets.h"
 
 ////////////////////////////////////////////////////////////////////////////////////////////
 //
 //	Static member initialization
 //
 ////////////////////////////////////////////////////////////////////////////////////////////
-PathDebugPlotterClass *PathDebugPlotterClass::_ThePathDebugPlotter = NULL;
-
+PathDebugPlotterClass* PathDebugPlotterClass::_ThePathDebugPlotter = NULL;
 
 ////////////////////////////////////////////////////////////////////////////////////////////
 //
 //	Render_Vector
 //
 ////////////////////////////////////////////////////////////////////////////////////////////
-void
-PathDebugPlotterClass::Render_Vector
-(
-	RenderInfoClass &	rinfo,
-	const Vector3 &	pt,
-	const Vector3 &	vec,
-	const Vector3 &	color
-)
+void PathDebugPlotterClass::Render_Vector(RenderInfoClass& rinfo, const Vector3& pt,
+                                          const Vector3& vec, const Vector3& color)
 {
-	if (vec.Length2() < WWMATH_EPSILON) return;
+    if (vec.Length2() < WWMATH_EPSILON) {
+        return;
+    }
 
-	PhysicsSceneClass::Get_Instance ()->Add_Debug_Vector (pt, vec, color);
-	
-	return ;
+    PhysicsSceneClass::Get_Instance()->Add_Debug_Vector(pt, vec, color);
+
+    return;
 }
-

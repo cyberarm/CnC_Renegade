@@ -19,27 +19,19 @@
 class Exception
 {
 public:
-
-	virtual const char * message () const
-	{
-		return "General exception.";
-	}
+    virtual const char* message() const { return "General exception."; }
 };
 
 class Parse_Error : public Exception
 {
 public:
+    Parse_Error(const char* message)
+        : Message(message)
+    {
+    }
 
-	Parse_Error ( const char * message ) :
-		Message (message)
-	{}
-
-	virtual const char * message () const
-	{
-		return Message;
-	}
+    virtual const char* message() const { return Message; }
 
 protected:
-
-	const char * Message;
+    const char* Message;
 };

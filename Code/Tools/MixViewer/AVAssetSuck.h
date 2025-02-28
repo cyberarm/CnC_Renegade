@@ -25,27 +25,20 @@ class MixFileFactoryClass;
 class MixFileCreator;
 class MixCombiningDialogClass;
 
-
-
 class AVAssetSuckerClass
 {
-	public:
-		AVAssetSuckerClass(void);
-		void Suck(char *input_file, char *output_file);
-		static unsigned int Do_Stuff(void *param);
-		void Thread_Suck(void);
+public:
+    AVAssetSuckerClass(void);
+    void Suck(char* input_file, char* output_file);
+    static unsigned int Do_Stuff(void* param);
+    void Thread_Suck(void);
 
+private:
+    void Copy_File(MixFileFactoryClass* src_mix, MixFileCreator* dest_mix, char* filename);
 
-	private:
-		void Copy_File(MixFileFactoryClass *src_mix, MixFileCreator *dest_mix, char *filename);
-
-		MixCombiningDialogClass *Dialog;
-		char InputFile[1024];
-		char OutputFile[1024];
-
-
-
+    MixCombiningDialogClass* Dialog;
+    char InputFile[1024];
+    char OutputFile[1024];
 };
-
 
 #endif //_AVASSETSUCK_H

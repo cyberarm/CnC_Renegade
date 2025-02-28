@@ -42,8 +42,8 @@
 #define PHYSTESTSAVESYSTEM_H
 
 #include "always.h"
-#include "saveloadsubsystem.h"
 #include "saveloadids.h"
+#include "saveloadsubsystem.h"
 
 /******************************************************************************************
 **
@@ -54,21 +54,19 @@
 class PhysTestSaveSystemClass : public SaveLoadSubSystemClass
 {
 public:
-	
-	virtual uint32				Chunk_ID (void) const;
+    virtual uint32 Chunk_ID(void) const;
 
 protected:
+    virtual bool Save(ChunkSaveClass& csave);
+    virtual bool Load(ChunkLoadClass& cload);
 
-	virtual bool				Save (ChunkSaveClass &csave);
-	virtual bool				Load (ChunkLoadClass &cload);
-
-	/*
-	** internal chunk id's
-	*/
-	enum 
-	{
-		CHUNKID_MAINFRAME			= 0x00667001,
-	};
+    /*
+    ** internal chunk id's
+    */
+    enum
+    {
+        CHUNKID_MAINFRAME = 0x00667001,
+    };
 };
 
 /*
@@ -76,15 +74,14 @@ protected:
 */
 extern PhysTestSaveSystemClass _PhysTestSaveSystem;
 
-
 /******************************************************************************************
 **
-** Chunk ID's used by PhysTest objects 
+** Chunk ID's used by PhysTest objects
 **
 ******************************************************************************************/
 enum
 {
-	PHYSTEST_CHUNKID_SUBSYSTEM			= CHUNKID_PHYSTEST_BEGIN,
+    PHYSTEST_CHUNKID_SUBSYSTEM = CHUNKID_PHYSTEST_BEGIN,
 };
 
 #endif

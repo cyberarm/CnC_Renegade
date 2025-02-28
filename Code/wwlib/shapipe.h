@@ -16,29 +16,29 @@
 **	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-/*********************************************************************************************** 
- ***              C O N F I D E N T I A L  ---  W E S T W O O D  S T U D I O S               *** 
- *********************************************************************************************** 
- *                                                                                             * 
- *                 Project Name : Command & Conquer                                            * 
- *                                                                                             * 
- *                     $Archive:: /Commando/Library/SHAPIPE.H                                 $* 
- *                                                                                             * 
+/***********************************************************************************************
+ ***              C O N F I D E N T I A L  ---  W E S T W O O D  S T U D I O S               ***
+ ***********************************************************************************************
+ *                                                                                             *
+ *                 Project Name : Command & Conquer                                            *
+ *                                                                                             *
+ *                     $Archive:: /Commando/Library/SHAPIPE.H                                 $*
+ *                                                                                             *
  *                      $Author:: Greg_h                                                      $*
- *                                                                                             * 
+ *                                                                                             *
  *                     $Modtime:: 7/22/97 11:37a                                              $*
- *                                                                                             * 
+ *                                                                                             *
  *                    $Revision:: 1                                                           $*
  *                                                                                             *
- *---------------------------------------------------------------------------------------------* 
- * Functions:                                                                                  * 
+ *---------------------------------------------------------------------------------------------*
+ * Functions:                                                                                  *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
 #ifndef SHAPIPE_H
 #define SHAPIPE_H
 
-#include	"pipe.h"
-#include	"sha.h"
+#include "pipe.h"
+#include "sha.h"
 
 /*
 **	This class serves as a pipe that generates a Secure Hash from the data stream that flows
@@ -46,19 +46,19 @@
 */
 class SHAPipe : public Pipe
 {
-	public:
-		SHAPipe(void) {}
-		virtual int Put(void const * source, int slen);
+public:
+    SHAPipe(void) { }
+    virtual int Put(void const* source, int slen);
 
-		// Fetch the SHA hash value (stored in result buffer -- 20 bytes long).
-		int Result(void * result) const;
+    // Fetch the SHA hash value (stored in result buffer -- 20 bytes long).
+    int Result(void* result) const;
 
-	protected:
-		SHAEngine SHA;
+protected:
+    SHAEngine SHA;
 
-	private:
-		SHAPipe(SHAPipe & rvalue);
-		SHAPipe & operator = (SHAPipe const & pipe);
+private:
+    SHAPipe(SHAPipe& rvalue);
+    SHAPipe& operator=(SHAPipe const& pipe);
 };
 
 #endif

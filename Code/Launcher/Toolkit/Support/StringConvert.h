@@ -17,22 +17,22 @@
 */
 
 /******************************************************************************
-*
-* FILE
-*     $Archive: /Commando/Code/Launcher/Toolkit/Support/StringConvert.h $
-*
-* DESCRIPTION
-*     ANSI <-> Unicode string conversions
-*
-* PROGRAMMER
-*     Denzil E. Long, Jr.
-*     $Author: Denzil_l $
-*
-* VERSION INFO
-*     $Modtime: 8/18/00 10:07a $
-*     $Revision: 1 $
-*
-******************************************************************************/
+ *
+ * FILE
+ *     $Archive: /Commando/Code/Launcher/Toolkit/Support/StringConvert.h $
+ *
+ * DESCRIPTION
+ *     ANSI <-> Unicode string conversions
+ *
+ * PROGRAMMER
+ *     Denzil E. Long, Jr.
+ *     $Author: Denzil_l $
+ *
+ * VERSION INFO
+ *     $Modtime: 8/18/00 10:07a $
+ *     $Revision: 1 $
+ *
+ ******************************************************************************/
 
 #ifndef STRINGCONVERT_H
 #define STRINGCONVERT_H

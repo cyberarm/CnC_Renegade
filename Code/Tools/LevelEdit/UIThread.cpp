@@ -19,9 +19,9 @@
 // UIThread.cpp : implementation file
 //
 
-#include "stdafx.h"
-#include "leveledit.h"
 #include "UIThread.h"
+#include "leveledit.h"
+#include "stdafx.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -44,20 +44,20 @@ UIThreadClass::~UIThreadClass()
 
 BOOL UIThreadClass::InitInstance()
 {
-	// TODO:  perform and per-thread initialization here
-	return TRUE;
+    // TODO:  perform and per-thread initialization here
+    return TRUE;
 }
 
 int UIThreadClass::ExitInstance()
 {
-	// TODO:  perform any per-thread cleanup here
-	return CWinThread::ExitInstance();
+    // TODO:  perform any per-thread cleanup here
+    return CWinThread::ExitInstance();
 }
 
 BEGIN_MESSAGE_MAP(UIThreadClass, CWinThread)
-	//{{AFX_MSG_MAP(UIThreadClass)
-		// NOTE - the ClassWizard will add and remove mapping macros here.
-	//}}AFX_MSG_MAP
+//{{AFX_MSG_MAP(UIThreadClass)
+// NOTE - the ClassWizard will add and remove mapping macros here.
+//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////

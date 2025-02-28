@@ -19,19 +19,18 @@
 #include "StdAfx.h"
 #include "priv.h"
 #include "shellext.h"
-STDMETHODIMP CShellExt::Initialize(LPCITEMIDLIST pIDFolder,
-                                   LPDATAOBJECT pDataObj,
-                                   HKEY hRegKey){
+STDMETHODIMP CShellExt::Initialize(LPCITEMIDLIST pIDFolder, LPDATAOBJECT pDataObj, HKEY hRegKey)
+{
     // Initialize can be called more than once
-    if(m_pDataObj){
-    	m_pDataObj->Release();
-	 }
-    // duplicate the object pointer and registry handle
-    if (pDataObj){
-    	m_pDataObj = pDataObj;
-    	pDataObj->AddRef();
+    if (m_pDataObj) {
+        m_pDataObj->Release();
     }
-//	 m_idFolder = *pIDFolder;
-	 ODS("Initialized");
+    // duplicate the object pointer and registry handle
+    if (pDataObj) {
+        m_pDataObj = pDataObj;
+        pDataObj->AddRef();
+    }
+    //	 m_idFolder = *pIDFolder;
+    ODS("Initialized");
     return NOERROR;
 }

@@ -16,22 +16,22 @@
 **	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-/*********************************************************************************************** 
- ***              C O N F I D E N T I A L  ---  W E S T W O O D  S T U D I O S               *** 
- *********************************************************************************************** 
- *                                                                                             * 
- *                 Project Name : Command & Conquer                                            * 
- *                                                                                             * 
- *                     $Archive:: /G/wwlib/KEYBOARD.CPP                                       $* 
- *                                                                                             * 
+/***********************************************************************************************
+ ***              C O N F I D E N T I A L  ---  W E S T W O O D  S T U D I O S               ***
+ ***********************************************************************************************
+ *                                                                                             *
+ *                 Project Name : Command & Conquer                                            *
+ *                                                                                             *
+ *                     $Archive:: /G/wwlib/KEYBOARD.CPP                                       $*
+ *                                                                                             *
  *                      $Author:: Eric_c                                                      $*
- *                                                                                             * 
+ *                                                                                             *
  *                     $Modtime:: 4/15/99 10:15a                                              $*
- *                                                                                             * 
+ *                                                                                             *
  *                    $Revision:: 2                                                           $*
  *                                                                                             *
- *---------------------------------------------------------------------------------------------* 
- * Functions:                                                                                  * 
+ *---------------------------------------------------------------------------------------------*
+ * Functions:                                                                                  *
  *   WWKeyboardClass::Buff_Get -- Lowlevel function to get a key from key buffer               *
  *   WWKeyboardClass::Check -- Checks to see if a key is in the buffer                         *
  *   WWKeyboardClass::Clear -- Clears the keyboard buffer.                                     *
@@ -55,47 +55,45 @@
  *   WWKeyboardClass::Put_Mouse_Message -- Stores a mouse type message into the keyboard buffer*
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
-#include	"always.h"
-#include	"_xmouse.h"
+#include "_xmouse.h"
+#include "always.h"
 #include "keyboard.h"
-//#include	"mono.h"
-#include	"msgloop.h"
+// #include	"mono.h"
+#include "msgloop.h"
 
+#define ARRAY_SIZE(x) int(sizeof(x) / sizeof(x[0]))
 
-#define	ARRAY_SIZE(x)		int(sizeof(x)/sizeof(x[0]))
-
-void Stop_Execution (void)
+void Stop_Execution(void)
 {
-//	__asm nop			// Is this line needed?
+    //	__asm nop			// Is this line needed?
 }
-
 
 /***********************************************************************************************
  * WWKeyboardClass::WWKeyBoardClass -- Construction for Westwood Keyboard Class                *
  *                                                                                             *
- * INPUT:		none							                                                        *
+ * INPUT:		none *
  *                                                                                             *
- * OUTPUT:     none							                                                        *
+ * OUTPUT:     none *
  *                                                                                             *
  * HISTORY:                                                                                    *
  *   10/16/1995 PWG : Created.                                                                 *
  *=============================================================================================*/
-WWKeyboardClass::WWKeyboardClass(void) :
-	MouseQX(0),
-	MouseQY(0),
-	Head(0),
-	Tail(0)
+WWKeyboardClass::WWKeyboardClass(void)
+    : MouseQX(0),
+      MouseQY(0),
+      Head(0),
+      Tail(0)
 {
-	memset(KeyState, '\0', sizeof(KeyState));
+    memset(KeyState, '\0', sizeof(KeyState));
 }
-
 
 /***********************************************************************************************
  * WWKeyboardClass::Buff_Get -- Lowlevel function to get a key from key buffer                 *
  *                                                                                             *
- * INPUT:		none                                                        						  *
+ * INPUT:		none *
  *                                                                                             *
- * OUTPUT:     int		- the key value that was pulled from buffer (includes bits)				  *                                                                                *
+ * OUTPUT:     int		- the key value that was pulled from buffer (includes bits)
+ **                                                                                *
  *                                                                                             *
  * WARNINGS:   If the key was a mouse event MouseQX and MouseQY will be updated                *
  *                                                                                             *
@@ -104,16 +102,15 @@ WWKeyboardClass::WWKeyboardClass(void) :
  *=============================================================================================*/
 unsigned short WWKeyboardClass::Buff_Get(void)
 {
-	while (!Check()) {}										// wait for key in buffer
+    while (!Check()) { } // wait for key in buffer
 
-	unsigned short temp = Fetch_Element();
-	if (Is_Mouse_Key(temp)) {
-		MouseQX = Fetch_Element();
-		MouseQY = Fetch_Element();
-	}
-	return(temp);
+    unsigned short temp = Fetch_Element();
+    if (Is_Mouse_Key(temp)) {
+        MouseQX = Fetch_Element();
+        MouseQY = Fetch_Element();
+    }
+    return (temp);
 }
-
 
 /***********************************************************************************************
  * WWKeyboardClass::Is_Mouse_Key -- Checks to see if specified key refers to the mouse.        *
@@ -131,10 +128,9 @@ unsigned short WWKeyboardClass::Buff_Get(void)
  *=============================================================================================*/
 bool WWKeyboardClass::Is_Mouse_Key(unsigned short key)
 {
-	key &= 0xFF;
-	return (key == VK_LBUTTON || key == VK_MBUTTON || key == VK_RBUTTON);
+    key &= 0xFF;
+    return (key == VK_LBUTTON || key == VK_MBUTTON || key == VK_RBUTTON);
 }
-
 
 /***********************************************************************************************
  * WWKeyboardClass::Check -- Checks to see if a key is in the buffer                           *
@@ -151,52 +147,55 @@ bool WWKeyboardClass::Is_Mouse_Key(unsigned short key)
  *=============================================================================================*/
 unsigned short WWKeyboardClass::Check(void) const
 {
-	((WWKeyboardClass *)this)->Fill_Buffer_From_System();
-	if (Is_Buffer_Empty()) return(false);
-	return(Peek_Element());
+    ((WWKeyboardClass*)this)->Fill_Buffer_From_System();
+    if (Is_Buffer_Empty()) {
+        return (false);
+    }
+    return (Peek_Element());
 }
-
 
 /***********************************************************************************************
  * WWKeyboardClass::Get -- Logic to get a metakey from the buffer                              *
  *                                                                                             *
- * INPUT:		none                                                        						  *
+ * INPUT:		none *
  *                                                                                             *
- * OUTPUT:     int		- the meta key taken from the buffer.											  *
+ * OUTPUT:     int		- the meta key taken from the buffer.
+ **
  *                                                                                             *
- * WARNINGS:	This routine will not return until a keypress is received							  *
+ * WARNINGS:	This routine will not return until a keypress is received
+ **
  *                                                                                             *
  * HISTORY:                                                                                    *
  *   10/16/1995 PWG : Created.                                                                 *
  *=============================================================================================*/
 unsigned short WWKeyboardClass::Get(void)
 {
-	while (!Check()) {}								// wait for key in buffer
-	return (Buff_Get());
+    while (!Check()) { } // wait for key in buffer
+    return (Buff_Get());
 }
-
 
 /***********************************************************************************************
  * WWKeyboardClass::Put -- Logic to insert a key into the keybuffer]                           *
  *                                                                                             *
- * INPUT:		int	 	- the key to insert into the buffer          								  *
+ * INPUT:		int	 	- the key to insert into the buffer
+ **
  *                                                                                             *
- * OUTPUT:     bool		- true if key is sucessfuly inserted.							              *
+ * OUTPUT:     bool		- true if key is sucessfuly inserted.
+ **
  *                                                                                             *
- * WARNINGS:   none							                                                        *
+ * WARNINGS:   none *
  *                                                                                             *
  * HISTORY:                                                                                    *
  *   10/16/1995 PWG : Created.                                                                 *
  *=============================================================================================*/
 bool WWKeyboardClass::Put(unsigned short key)
 {
-	if (!Is_Buffer_Full()) {
-		Put_Element(key);
-		return(true);
-	}
-	return(false);
+    if (!Is_Buffer_Full()) {
+        Put_Element(key);
+        return (true);
+    }
+    return (false);
 }
-
 
 /***********************************************************************************************
  * WWKeyboardClass::Put_Key_Message -- Translates and inserts wParam into Keyboard Buffer      *
@@ -212,38 +211,36 @@ bool WWKeyboardClass::Put(unsigned short key)
  *=============================================================================================*/
 bool WWKeyboardClass::Put_Key_Message(unsigned short vk_key, bool release)
 {
-	/*
-	** Get the status of all of the different keyboard modifiers.  Note, only pay attention
-	** to numlock and caps lock if we are dealing with a key that is affected by them.  Note
-	** that we do not want to set the shift, ctrl and alt bits for Mouse keypresses as this
-	** would be incompatible with the dos version.
-	*/
-	if (!Is_Mouse_Key(vk_key)) {
-		if (((GetKeyState(VK_SHIFT) & 0x8000) != 0) ||
-			((GetKeyState(VK_CAPITAL) & 0x0008) != 0) ||
-			((GetKeyState(VK_NUMLOCK) & 0x0008) != 0)) {
+    /*
+    ** Get the status of all of the different keyboard modifiers.  Note, only pay attention
+    ** to numlock and caps lock if we are dealing with a key that is affected by them.  Note
+    ** that we do not want to set the shift, ctrl and alt bits for Mouse keypresses as this
+    ** would be incompatible with the dos version.
+    */
+    if (!Is_Mouse_Key(vk_key)) {
+        if (((GetKeyState(VK_SHIFT) & 0x8000) != 0) || ((GetKeyState(VK_CAPITAL) & 0x0008) != 0)
+            || ((GetKeyState(VK_NUMLOCK) & 0x0008) != 0)) {
 
-			vk_key |= WWKEY_SHIFT_BIT;
-		}
-		if ((GetKeyState(VK_CONTROL) & 0x8000) != 0) {
-			vk_key |= WWKEY_CTRL_BIT;
-		}
-		if ((GetKeyState(VK_MENU) & 0x8000) != 0) {
-			vk_key |= WWKEY_ALT_BIT;
-		}
-	}
+            vk_key |= WWKEY_SHIFT_BIT;
+        }
+        if ((GetKeyState(VK_CONTROL) & 0x8000) != 0) {
+            vk_key |= WWKEY_CTRL_BIT;
+        }
+        if ((GetKeyState(VK_MENU) & 0x8000) != 0) {
+            vk_key |= WWKEY_ALT_BIT;
+        }
+    }
 
-	if (release) {
-		vk_key |= WWKEY_RLS_BIT;
-	}
+    if (release) {
+        vk_key |= WWKEY_RLS_BIT;
+    }
 
-	/*
-	** Finally use the put command to enter the key into the keyboard
-	** system.
-	*/
-	return(Put(vk_key));
+    /*
+    ** Finally use the put command to enter the key into the keyboard
+    ** system.
+    */
+    return (Put(vk_key));
 }
-
 
 /***********************************************************************************************
  * WWKeyboardClass::Put_Mouse_Message -- Stores a mouse type message into the keyboard buffer. *
@@ -267,15 +264,14 @@ bool WWKeyboardClass::Put_Key_Message(unsigned short vk_key, bool release)
  *=============================================================================================*/
 bool WWKeyboardClass::Put_Mouse_Message(unsigned short vk_key, int x, int y, bool release)
 {
-	if (Available_Buffer_Room() >= 3 && Is_Mouse_Key(vk_key)) {
-		Put_Key_Message(vk_key, release);
-		Put((unsigned short)x);
-		Put((unsigned short)y);
-		return(true);
-	}
-	return(false);
+    if (Available_Buffer_Room() >= 3 && Is_Mouse_Key(vk_key)) {
+        Put_Key_Message(vk_key, release);
+        Put((unsigned short)x);
+        Put((unsigned short)y);
+        return (true);
+    }
+    return (false);
 }
-
 
 /***********************************************************************************************
  * WWKeyboardClass::To_ASCII -- Convert the key value into an ASCII representation.            *
@@ -295,62 +291,61 @@ bool WWKeyboardClass::Put_Mouse_Message(unsigned short vk_key, int x, int y, boo
  *=============================================================================================*/
 char WWKeyboardClass::To_ASCII(unsigned short key)
 {
-	/*
-	**	Released keys never translate into an ASCII value.
-	*/
-	if (key & WWKEY_RLS_BIT) {
-		return('\0');
-	}
+    /*
+    **	Released keys never translate into an ASCII value.
+    */
+    if (key & WWKEY_RLS_BIT) {
+        return ('\0');
+    }
 
-	/*
-	**	Set the KeyState buffer to reflect the shift bits stored in the key value.
-	*/
-	if (key & WWKEY_SHIFT_BIT) {
-		KeyState[VK_SHIFT] = 0x80;
-	}
-	if (key & WWKEY_CTRL_BIT) {
-		KeyState[VK_CONTROL] = 0x80;
-	}
-	if (key & WWKEY_ALT_BIT) {
-		KeyState[VK_MENU] = 0x80;
-	}
+    /*
+    **	Set the KeyState buffer to reflect the shift bits stored in the key value.
+    */
+    if (key & WWKEY_SHIFT_BIT) {
+        KeyState[VK_SHIFT] = 0x80;
+    }
+    if (key & WWKEY_CTRL_BIT) {
+        KeyState[VK_CONTROL] = 0x80;
+    }
+    if (key & WWKEY_ALT_BIT) {
+        KeyState[VK_MENU] = 0x80;
+    }
 
-	/*
-	**	Ask windows to translate the key into an ASCII equivalent.
-	*/
-	char buffer[10];
-	int result;
-//	int result = 1;
-	int scancode;
-//	int scancode = 0;
+    /*
+    **	Ask windows to translate the key into an ASCII equivalent.
+    */
+    char buffer[10];
+    int result;
+    //	int result = 1;
+    int scancode;
+    //	int scancode = 0;
 
-	scancode = MapVirtualKey(key & 0xFF, 0);
-	result = ToAscii((UINT)(key & 0xFF), (UINT)scancode, (PBYTE)KeyState, (LPWORD)buffer, (UINT)0);
+    scancode = MapVirtualKey(key & 0xFF, 0);
+    result = ToAscii((UINT)(key & 0xFF), (UINT)scancode, (PBYTE)KeyState, (LPWORD)buffer, (UINT)0);
 
-	/*
-	**	Restore the KeyState buffer back to pristine condition.
-	*/
-	if (key & WWKEY_SHIFT_BIT) {
-		KeyState[VK_SHIFT] = 0;
-	}
-	if (key & WWKEY_CTRL_BIT) {
-		KeyState[VK_CONTROL] = 0;
-	}
-	if (key & WWKEY_ALT_BIT) {
-		KeyState[VK_MENU] = 0;
-	}
+    /*
+    **	Restore the KeyState buffer back to pristine condition.
+    */
+    if (key & WWKEY_SHIFT_BIT) {
+        KeyState[VK_SHIFT] = 0;
+    }
+    if (key & WWKEY_CTRL_BIT) {
+        KeyState[VK_CONTROL] = 0;
+    }
+    if (key & WWKEY_ALT_BIT) {
+        KeyState[VK_MENU] = 0;
+    }
 
-	/*
-	**	If Windows could not perform the translation as expected, then
-	**	return with a null ASCII value.
-	*/
-	if (result != 1) {
-		return('\0');
-	}
+    /*
+    **	If Windows could not perform the translation as expected, then
+    **	return with a null ASCII value.
+    */
+    if (result != 1) {
+        return ('\0');
+    }
 
-	return(buffer[0]);
+    return (buffer[0]);
 }
-
 
 /***********************************************************************************************
  * WWKeyboardClass::Down -- Checks to see if the specified key is being held down.             *
@@ -368,14 +363,12 @@ char WWKeyboardClass::To_ASCII(unsigned short key)
  *=============================================================================================*/
 bool WWKeyboardClass::Down(unsigned short key)
 {
-	return(GetAsyncKeyState(key & 0xFF) != 0);
+    return (GetAsyncKeyState(key & 0xFF) != 0);
 }
 
-
-//extern "C" {
+// extern "C" {
 //	void __cdecl Stop_Execution (void);
-//}
-
+// }
 
 /***********************************************************************************************
  * WWKeyboardClass::Fetch_Element -- Extract the next element in the keyboard buffer.          *
@@ -395,15 +388,14 @@ bool WWKeyboardClass::Down(unsigned short key)
  *=============================================================================================*/
 unsigned short WWKeyboardClass::Fetch_Element(void)
 {
-	unsigned short val = 0;
-	if (Head != Tail) {
-		val = Buffer[Head];
+    unsigned short val = 0;
+    if (Head != Tail) {
+        val = Buffer[Head];
 
-		Head = (Head + 1) % ARRAY_SIZE(Buffer);
-	}
-	return(val);
+        Head = (Head + 1) % ARRAY_SIZE(Buffer);
+    }
+    return (val);
 }
-
 
 /***********************************************************************************************
  * WWKeyboardClass::Peek_Element -- Fetches the next element in the keyboard buffer.           *
@@ -424,12 +416,11 @@ unsigned short WWKeyboardClass::Fetch_Element(void)
  *=============================================================================================*/
 unsigned short WWKeyboardClass::Peek_Element(void) const
 {
-	if (!Is_Buffer_Empty()) {
-		return(Buffer[Head]);
-	}
-	return(0);
+    if (!Is_Buffer_Empty()) {
+        return (Buffer[Head]);
+    }
+    return (0);
 }
-
 
 /***********************************************************************************************
  * WWKeyboardClass::Put_Element -- Put a keyboard data element into the buffer.                *
@@ -449,15 +440,14 @@ unsigned short WWKeyboardClass::Peek_Element(void) const
  *=============================================================================================*/
 bool WWKeyboardClass::Put_Element(unsigned short val)
 {
-	if (!Is_Buffer_Full()) {
-		int temp = (Tail+1) % ARRAY_SIZE(Buffer);
-		Buffer[Tail] = val;
-		Tail = temp;
-		return(true);
-	}
-	return(false);
+    if (!Is_Buffer_Full()) {
+        int temp = (Tail + 1) % ARRAY_SIZE(Buffer);
+        Buffer[Tail] = val;
+        Tail = temp;
+        return (true);
+    }
+    return (false);
 }
-
 
 /***********************************************************************************************
  * WWKeyboardClass::Is_Buffer_Full -- Determines if the keyboard buffer is full.               *
@@ -476,12 +466,11 @@ bool WWKeyboardClass::Put_Element(unsigned short val)
  *=============================================================================================*/
 bool WWKeyboardClass::Is_Buffer_Full(void) const
 {
-	if ((Tail + 1) % ARRAY_SIZE(Buffer) == Head) {
-		return(true);
-	}
-	return(false);
+    if ((Tail + 1) % ARRAY_SIZE(Buffer) == Head) {
+        return (true);
+    }
+    return (false);
 }
-
 
 /***********************************************************************************************
  * WWKeyboardClass::Is_Buffer_Empty -- Checks to see if the keyboard buffer is empty.          *
@@ -499,12 +488,11 @@ bool WWKeyboardClass::Is_Buffer_Full(void) const
  *=============================================================================================*/
 bool WWKeyboardClass::Is_Buffer_Empty(void) const
 {
-	if (Head == Tail) {
-		return(true);
-	}
-	return(false);
+    if (Head == Tail) {
+        return (true);
+    }
+    return (false);
 }
-
 
 /***********************************************************************************************
  * WWKeyboardClass::Fill_Buffer_From_Syste -- Extract and process any queued windows messages. *
@@ -524,19 +512,18 @@ bool WWKeyboardClass::Is_Buffer_Empty(void) const
  *=============================================================================================*/
 void WWKeyboardClass::Fill_Buffer_From_System(void)
 {
-	if (!Is_Buffer_Full()) {
-		Windows_Message_Handler();
-//		MSG	msg;
-//		while (PeekMessage(&msg, NULL, 0, 0, PM_NOREMOVE)) {
-//		  	if (!GetMessage( &msg, NULL, 0, 0 )) {
-//				return;
-//			}
-//			TranslateMessage(&msg);
-//			DispatchMessage(&msg);
-//		}
-	}
+    if (!Is_Buffer_Full()) {
+        Windows_Message_Handler();
+        //		MSG	msg;
+        //		while (PeekMessage(&msg, NULL, 0, 0, PM_NOREMOVE)) {
+        //		  	if (!GetMessage( &msg, NULL, 0, 0 )) {
+        //				return;
+        //			}
+        //			TranslateMessage(&msg);
+        //			DispatchMessage(&msg);
+        //		}
+    }
 }
-
 
 /***********************************************************************************************
  * WWKeyboardClass::Clear -- Clears the keyboard buffer.                                       *
@@ -554,21 +541,20 @@ void WWKeyboardClass::Fill_Buffer_From_System(void)
  *=============================================================================================*/
 void WWKeyboardClass::Clear(void)
 {
-	/*
-	**	Extract any windows pending keyboard message events and then clear out the keyboard
-	**	buffer.
-	*/
-	Fill_Buffer_From_System();
-	Head = Tail;
+    /*
+    **	Extract any windows pending keyboard message events and then clear out the keyboard
+    **	buffer.
+    */
+    Fill_Buffer_From_System();
+    Head = Tail;
 
-	/*
-	**	Perform a second clear to handle the rare case of the keyboard buffer being full and there
-	**	still remains keyboard related events in the windows message queue.
-	*/
-	Fill_Buffer_From_System();
-	Head = Tail;
+    /*
+    **	Perform a second clear to handle the rare case of the keyboard buffer being full and there
+    **	still remains keyboard related events in the windows message queue.
+    */
+    Fill_Buffer_From_System();
+    Head = Tail;
 }
-
 
 /***********************************************************************************************
  * WWKeyboardClass::Message_Handler -- Process a windows message as it relates to the keyboard *
@@ -595,149 +581,151 @@ void WWKeyboardClass::Clear(void)
  *=============================================================================================*/
 bool WWKeyboardClass::Message_Handler(HWND window, UINT message, UINT wParam, LONG lParam)
 {
-	bool processed = false;
+    bool processed = false;
 
-	POINT point;
-	point.x = LOWORD(lParam);
-	point.y = HIWORD(lParam);
-	ClientToScreen(window, &point);
-	int x = point.x;
-	int y = point.y;
+    POINT point;
+    point.x = LOWORD(lParam);
+    point.y = HIWORD(lParam);
+    ClientToScreen(window, &point);
+    int x = point.x;
+    int y = point.y;
 
-	// Special conversion to game coordinates is needed here.
-	if (MouseCursor != NULL) MouseCursor->Convert_Coordinate(x, y);
+    // Special conversion to game coordinates is needed here.
+    if (MouseCursor != NULL) {
+        MouseCursor->Convert_Coordinate(x, y);
+    }
 
-	/*
-	**	Examine the message to see if it is one that should be processed. Only keyboard and
-	**	pertinant mouse messages are processed.
-	*/
-	switch (message) {
+    /*
+    **	Examine the message to see if it is one that should be processed. Only keyboard and
+    **	pertinant mouse messages are processed.
+    */
+    switch (message) {
 
-		/*
-		**	System key has been pressed. This is the normal keyboard event message.
-		*/
-		case WM_SYSKEYDOWN:
-		case WM_KEYDOWN:
-			if (wParam == VK_SCROLL) {
-				Stop_Execution();
-			} else {
-				Put_Key_Message((unsigned short)wParam);
-			}
-			processed = true;
-			break;
+    /*
+    **	System key has been pressed. This is the normal keyboard event message.
+    */
+    case WM_SYSKEYDOWN:
+    case WM_KEYDOWN:
+        if (wParam == VK_SCROLL) {
+            Stop_Execution();
+        }
+        else {
+            Put_Key_Message((unsigned short)wParam);
+        }
+        processed = true;
+        break;
 
-		/*
-		**	The key has been released. This is the normal key release message.
-		*/
-		case WM_SYSKEYUP:
-		case WM_KEYUP:
-			Put_Key_Message((unsigned short)wParam, true);
-			processed = true;
-			break;
+    /*
+    **	The key has been released. This is the normal key release message.
+    */
+    case WM_SYSKEYUP:
+    case WM_KEYUP:
+        Put_Key_Message((unsigned short)wParam, true);
+        processed = true;
+        break;
 
-		/*
-		**	Press of the left mouse button.
-		*/
-		case WM_LBUTTONDOWN:
-			Put_Mouse_Message(VK_LBUTTON, x, y);
-			processed = true;
-			break;
+    /*
+    **	Press of the left mouse button.
+    */
+    case WM_LBUTTONDOWN:
+        Put_Mouse_Message(VK_LBUTTON, x, y);
+        processed = true;
+        break;
 
-		/*
-		**	Release of the left mouse button.
-		*/
-		case WM_LBUTTONUP:
-			Put_Mouse_Message(VK_LBUTTON, x, y, true);
-			processed = true;
-			break;
+    /*
+    **	Release of the left mouse button.
+    */
+    case WM_LBUTTONUP:
+        Put_Mouse_Message(VK_LBUTTON, x, y, true);
+        processed = true;
+        break;
 
-		/*
-		**	Double click of the left mouse button. Fake this into being
-		**	just a rapid click of the left button twice.
-		*/
-		case WM_LBUTTONDBLCLK:
-			Put_Mouse_Message(VK_LBUTTON, x, y);
-			Put_Mouse_Message(VK_LBUTTON, x, y, true);
-			Put_Mouse_Message(VK_LBUTTON, x, y);
-			Put_Mouse_Message(VK_LBUTTON, x, y, true);
-			processed = true;
-			break;
+    /*
+    **	Double click of the left mouse button. Fake this into being
+    **	just a rapid click of the left button twice.
+    */
+    case WM_LBUTTONDBLCLK:
+        Put_Mouse_Message(VK_LBUTTON, x, y);
+        Put_Mouse_Message(VK_LBUTTON, x, y, true);
+        Put_Mouse_Message(VK_LBUTTON, x, y);
+        Put_Mouse_Message(VK_LBUTTON, x, y, true);
+        processed = true;
+        break;
 
-		/*
-		**	Press of the middle mouse button.
-		*/
-		case WM_MBUTTONDOWN:
-			Put_Mouse_Message(VK_MBUTTON, x, y);
-			processed = true;
-			break;
+    /*
+    **	Press of the middle mouse button.
+    */
+    case WM_MBUTTONDOWN:
+        Put_Mouse_Message(VK_MBUTTON, x, y);
+        processed = true;
+        break;
 
-		/*
-		**	Release of the middle mouse button.
-		*/
-		case WM_MBUTTONUP:
-			Put_Mouse_Message(VK_MBUTTON, x, y, true);
-			processed = true;
-			break;
+    /*
+    **	Release of the middle mouse button.
+    */
+    case WM_MBUTTONUP:
+        Put_Mouse_Message(VK_MBUTTON, x, y, true);
+        processed = true;
+        break;
 
-		/*
-		**	Middle button double click gets translated into two
-		**	regular middle button clicks.
-		*/
-		case WM_MBUTTONDBLCLK:
-			Put_Mouse_Message(VK_MBUTTON, x, y);
-			Put_Mouse_Message(VK_MBUTTON, x, y, true);
-			Put_Mouse_Message(VK_MBUTTON, x, y);
-			Put_Mouse_Message(VK_MBUTTON, x, y, true);
-			processed = true;
-			break;
+    /*
+    **	Middle button double click gets translated into two
+    **	regular middle button clicks.
+    */
+    case WM_MBUTTONDBLCLK:
+        Put_Mouse_Message(VK_MBUTTON, x, y);
+        Put_Mouse_Message(VK_MBUTTON, x, y, true);
+        Put_Mouse_Message(VK_MBUTTON, x, y);
+        Put_Mouse_Message(VK_MBUTTON, x, y, true);
+        processed = true;
+        break;
 
-		/*
-		**	Right mouse button press.
-		*/
-		case WM_RBUTTONDOWN:
-			Put_Mouse_Message(VK_RBUTTON, x, y);
-			processed = true;
-			break;
+    /*
+    **	Right mouse button press.
+    */
+    case WM_RBUTTONDOWN:
+        Put_Mouse_Message(VK_RBUTTON, x, y);
+        processed = true;
+        break;
 
-		/*
-		**	Right mouse button release.
-		*/
-		case WM_RBUTTONUP:
-			Put_Mouse_Message(VK_RBUTTON, x, y, true);
-			processed = true;
-			break;
+    /*
+    **	Right mouse button release.
+    */
+    case WM_RBUTTONUP:
+        Put_Mouse_Message(VK_RBUTTON, x, y, true);
+        processed = true;
+        break;
 
-		/*
-		**	Translate a double click of the right button
-		**	into being just two regular right button clicks.
-		*/
-		case WM_RBUTTONDBLCLK:
-			Put_Mouse_Message(VK_RBUTTON, x, y);
-			Put_Mouse_Message(VK_RBUTTON, x, y, true);
-			Put_Mouse_Message(VK_RBUTTON, x, y);
-			Put_Mouse_Message(VK_RBUTTON, x, y, true);
-			processed = true;
-			break;
+    /*
+    **	Translate a double click of the right button
+    **	into being just two regular right button clicks.
+    */
+    case WM_RBUTTONDBLCLK:
+        Put_Mouse_Message(VK_RBUTTON, x, y);
+        Put_Mouse_Message(VK_RBUTTON, x, y, true);
+        Put_Mouse_Message(VK_RBUTTON, x, y);
+        Put_Mouse_Message(VK_RBUTTON, x, y, true);
+        processed = true;
+        break;
 
-		/*
-		**	If the message is not pertinant to the keyboard system,
-		**	then do nothing.
-		*/
-		default:
-			break;
-	}
+    /*
+    **	If the message is not pertinant to the keyboard system,
+    **	then do nothing.
+    */
+    default:
+        break;
+    }
 
-	/*
-	**	If this message has been processed, then pass it on to the system
-	**	directly.
-	*/
-	if (processed) {
-		DefWindowProc(window, message, wParam, lParam);
-		return(true);
-	}
-	return(false);
+    /*
+    **	If this message has been processed, then pass it on to the system
+    **	directly.
+    */
+    if (processed) {
+        DefWindowProc(window, message, wParam, lParam);
+        return (true);
+    }
+    return (false);
 }
-
 
 /***********************************************************************************************
  * WWKeyboardClass::Available_Buffer_Room -- Fetch the quantity of free elements in the keyboa *
@@ -759,15 +747,15 @@ bool WWKeyboardClass::Message_Handler(HWND window, UINT message, UINT wParam, LO
  *=============================================================================================*/
 int WWKeyboardClass::Available_Buffer_Room(void) const
 {
-	int avail = 0;
-	if (Head == Tail) {
-		avail = ARRAY_SIZE(Buffer);
-	}
-	if (Head < Tail) {
-		avail = Tail - Head;
-	}
-	if (Head > Tail) {
-		avail = (Tail + ARRAY_SIZE(Buffer)) - Head;
-	}
-	return(avail);
+    int avail = 0;
+    if (Head == Tail) {
+        avail = ARRAY_SIZE(Buffer);
+    }
+    if (Head < Tail) {
+        avail = Tail - Head;
+    }
+    if (Head > Tail) {
+        avail = (Tail + ARRAY_SIZE(Buffer)) - Head;
+    }
+    return (avail);
 }

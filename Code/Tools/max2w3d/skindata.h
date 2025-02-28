@@ -17,24 +17,23 @@
 */
 
 /* $Header: /Commando/Code/Tools/max2w3d/skindata.h 6     10/28/97 6:08p Greg_h $ */
-/*********************************************************************************************** 
- ***                            Confidential - Westwood Studios                              *** 
- *********************************************************************************************** 
- *                                                                                             * 
- *                 Project Name : Commando Tools - WWSkin                                      * 
- *                                                                                             * 
- *                     $Archive:: /Commando/Code/Tools/max2w3d/skindata.h                     $* 
- *                                                                                             * 
- *                      $Author:: Greg_h                                                      $* 
- *                                                                                             * 
- *                     $Modtime:: 10/21/97 2:04p                                              $* 
- *                                                                                             * 
- *                    $Revision:: 6                                                           $* 
- *                                                                                             * 
- *---------------------------------------------------------------------------------------------* 
- * Functions:                                                                                  * 
+/***********************************************************************************************
+ ***                            Confidential - Westwood Studios                              ***
+ ***********************************************************************************************
+ *                                                                                             *
+ *                 Project Name : Commando Tools - WWSkin                                      *
+ *                                                                                             *
+ *                     $Archive:: /Commando/Code/Tools/max2w3d/skindata.h                     $*
+ *                                                                                             *
+ *                      $Author:: Greg_h                                                      $*
+ *                                                                                             *
+ *                     $Modtime:: 10/21/97 2:04p                                              $*
+ *                                                                                             *
+ *                    $Revision:: 6                                                           $*
+ *                                                                                             *
+ *---------------------------------------------------------------------------------------------*
+ * Functions:                                                                                  *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
-
 
 #ifndef SKINDATA_H
 #define SKINDATA_H
@@ -43,120 +42,126 @@
 #include "namedsel.h"
 
 /*
-** InfluenceStruct - structure which stores the bone 
+** InfluenceStruct - structure which stores the bone
 ** influence information for a single vertex.
 */
 struct InfluenceStruct
 {
-	/*
-	** vertices can be influenced by up to two bones.
-	*/
-	int		BoneIdx[2];
-	float		BoneWeight[2];
+    /*
+    ** vertices can be influenced by up to two bones.
+    */
+    int BoneIdx[2];
+    float BoneWeight[2];
 
-	InfluenceStruct(void) { BoneIdx[0] = -1; BoneIdx[1] = -1; BoneWeight[0] = 1.0f; BoneWeight[1] = 0.0f; }
-	
-	void Set_Influence(int boneidx) {
-		// TODO: make this actually let you set two bones with
-		// weighting values.  Need UI to furnish this info...
-		BoneIdx[0] = boneidx;
-	}
+    InfluenceStruct(void)
+    {
+        BoneIdx[0] = -1;
+        BoneIdx[1] = -1;
+        BoneWeight[0] = 1.0f;
+        BoneWeight[1] = 0.0f;
+    }
+
+    void Set_Influence(int boneidx)
+    {
+        // TODO: make this actually let you set two bones with
+        // weighting values.  Need UI to furnish this info...
+        BoneIdx[0] = boneidx;
+    }
 };
-
 
 /*
 ** SkinDataClass - a class which contains the bone influence data
-** for the modifier.  One of these will be hung off of the 
+** for the modifier.  One of these will be hung off of the
 ** ModContext...
 */
 class SkinDataClass : public LocalModData
 {
 
 public:
+    SkinDataClass(void)
+    {
+        Held = FALSE;
+        Valid = FALSE;
+    }
 
-	SkinDataClass(void) { Held = FALSE; Valid = FALSE; }
+    SkinDataClass(Mesh* mesh)
+    {
+        VertSel = mesh->vertSel;
+        VertData.SetCount(mesh->getNumVerts());
+        for (int i = 0; i < VertData.Count(); i++) {
+            VertData[i].BoneIdx[0] = VertData[i].BoneIdx[1] = -1;
+            VertData[i].BoneWeight[0] = 1.0f;
+            VertData[i].BoneWeight[1] = 0.0f;
+        }
+        Valid = TRUE;
+        Held = FALSE;
+    }
 
-	SkinDataClass(Mesh *mesh)
-	{
-		VertSel = mesh->vertSel;
-		VertData.SetCount(mesh->getNumVerts());
-		for (int i=0; i<VertData.Count(); i++) {
-			VertData[i].BoneIdx[0] = VertData[i].BoneIdx[1] = -1;
-			VertData[i].BoneWeight[0] = 1.0f;
-			VertData[i].BoneWeight[1] = 0.0f;
-		}
-		Valid = TRUE;
-		Held = FALSE;
-	}
+    void Invalidate() { Valid = FALSE; }
 
-	void Invalidate() { Valid = FALSE; }
+    BOOL IsValid() { return Valid; }
 
-	BOOL IsValid() { return Valid; }
+    void Validate(Mesh* mesh)
+    {
+        if (!Valid) {
+            VertSel.SetSize(mesh->vertSel.GetSize(), 1);
+            VertData.SetCount(mesh->getNumVerts());
+            Valid = TRUE;
+        }
+    }
 
-	void Validate(Mesh *mesh)
-	{
-		if (!Valid)
-		{
-			VertSel.SetSize(mesh->vertSel.GetSize(),1);
-			VertData.SetCount(mesh->getNumVerts());
-			Valid = TRUE;
-		}
-	}
+    virtual LocalModData* Clone(void)
+    {
+        SkinDataClass* newdata = new SkinDataClass();
+        newdata->VertSel = VertSel;
+        newdata->VertData = VertData;
+        return newdata;
+    }
 
-	virtual LocalModData * Clone(void) 
-	{ 
-		SkinDataClass * newdata = new SkinDataClass();
-		newdata->VertSel = VertSel;
-		newdata->VertData = VertData;
-		return newdata;
-	}
+    void Add_Influence(int boneidx)
+    {
+        /*
+        ** Make this INode influence all currently selected vertices
+        */
+        for (int i = 0; i < VertData.Count(); i++) {
+            if (VertSel[i]) {
+                VertData[i].Set_Influence(boneidx);
+            }
+        }
+    }
 
-	void Add_Influence(int boneidx) 
-	{
-		/*
-		** Make this INode influence all currently selected vertices
-		*/
-		for (int i=0; i<VertData.Count(); i++) {
-			if (VertSel[i]) {
-				VertData[i].Set_Influence(boneidx);
-			}
-		}
-	}
-
-	IOResult Save(ISave *isave);
-	IOResult Load(ILoad *iload);
+    IOResult Save(ISave* isave);
+    IOResult Load(ILoad* iload);
 
 public:
+    BOOL Valid;
+    BOOL Held;
 
-	BOOL							Valid;
-	BOOL							Held;
-	
-	/*
-	** Current selection
-	*/
-	BitArray						VertSel;
-	
-	/*
-	** Named selection sets
-	*/
-	NamedSelSetList			VertSelSets;
+    /*
+    ** Current selection
+    */
+    BitArray VertSel;
 
-	/*
-	** Vertex influence data
-	*/
-	Tab<InfluenceStruct>		VertData;
+    /*
+    ** Named selection sets
+    */
+    NamedSelSetList VertSelSets;
 
-	/*
-	** Load/Save chunk ID's
-	*/
-	enum {
-		FLAGS_CHUNK = 				0x0000,
-		VERT_SEL_CHUNK = 			0x0010,	
-		NAMED_SEL_SETS_CHUNK =	0x0020,
-		INFLUENCE_DATA_CHUNK = 	0x0030
-	};
+    /*
+    ** Vertex influence data
+    */
+    Tab<InfluenceStruct> VertData;
 
+    /*
+    ** Load/Save chunk ID's
+    */
+    enum
+    {
+        FLAGS_CHUNK = 0x0000,
+        VERT_SEL_CHUNK = 0x0010,
+        NAMED_SEL_SETS_CHUNK = 0x0020,
+        INFLUENCE_DATA_CHUNK = 0x0030
+    };
 };
-
 
 #endif

@@ -20,7 +20,8 @@
  ***              C O N F I D E N T I A L  ---  W E S T W O O D  S T U D I O S               ***
  ***********************************************************************************************
  *                                                                                             *
- *                 Project Name : Combat																		  *
+ *                 Project Name : Combat
+ **
  *                                                                                             *
  *                     $Archive:: /Commando/Code/commando/dlgevaobjectivestab.h      $*
  *                                                                                             *
@@ -41,10 +42,8 @@
 #ifndef __DLG_EVA_OBJECTIVES_TAB_H
 #define __DLG_EVA_OBJECTIVES_TAB_H
 
-
 #include "childdialog.h"
 #include "resource.h"
-
 
 ////////////////////////////////////////////////////////////////
 //
@@ -54,37 +53,35 @@
 class EvaObjectivesTabClass : public ChildDialogClass
 {
 public:
+    ////////////////////////////////////////////////////////////////
+    //	Public constructors/destructors
+    ////////////////////////////////////////////////////////////////
+    EvaObjectivesTabClass(void);
 
-	////////////////////////////////////////////////////////////////
-	//	Public constructors/destructors
-	////////////////////////////////////////////////////////////////	
-	EvaObjectivesTabClass (void);
-
-	////////////////////////////////////////////////////////////////
-	//	Public methods
-	////////////////////////////////////////////////////////////////
-	void		On_Init_Dialog (void);
-	void		On_Command (int ctrl_id, int mesage_id, DWORD param);
-	void		On_ListCtrl_Sel_Change (ListCtrlClass *list_ctrl, int ctrl_id, int old_index, int new_index);
+    ////////////////////////////////////////////////////////////////
+    //	Public methods
+    ////////////////////////////////////////////////////////////////
+    void On_Init_Dialog(void);
+    void On_Command(int ctrl_id, int mesage_id, DWORD param);
+    void On_ListCtrl_Sel_Change(ListCtrlClass* list_ctrl, int ctrl_id, int old_index,
+                                int new_index);
 
 private:
+    ////////////////////////////////////////////////////////////////
+    //	Private methods
+    ////////////////////////////////////////////////////////////////
+    void Fill_Objectives_List(void);
+    void Update_Curr_Objective_Controls(void);
 
-	////////////////////////////////////////////////////////////////
-	//	Private methods
-	////////////////////////////////////////////////////////////////
-	void		Fill_Objectives_List (void);
-	void		Update_Curr_Objective_Controls (void);
+    ////////////////////////////////////////////////////////////////
+    //	Static methods
+    ////////////////////////////////////////////////////////////////
+    static int CALLBACK ListSortCallback(ListCtrlClass* list_ctrl, int item_index1, int item_index2,
+                                         uint32 user_param);
 
-	////////////////////////////////////////////////////////////////
-	//	Static methods
-	////////////////////////////////////////////////////////////////
-	static int CALLBACK	ListSortCallback (ListCtrlClass *list_ctrl, int item_index1, int item_index2, uint32 user_param);
-
-	////////////////////////////////////////////////////////////////
-	//	Private member data
-	////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////
+    //	Private member data
+    ////////////////////////////////////////////////////////////////
 };
 
-
 #endif //__DLG_EVA_OBJECTIVES_TAB_H
-

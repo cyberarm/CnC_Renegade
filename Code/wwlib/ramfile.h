@@ -16,96 +16,91 @@
 **	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-/*********************************************************************************************** 
- ***              C O N F I D E N T I A L  ---  W E S T W O O D  S T U D I O S               *** 
- *********************************************************************************************** 
- *                                                                                             * 
- *                 Project Name : Command & Conquer                                            * 
- *                                                                                             * 
- *                     $Archive:: /Commando/Code/wwlib/ramfile.h                              $* 
- *                                                                                             * 
+/***********************************************************************************************
+ ***              C O N F I D E N T I A L  ---  W E S T W O O D  S T U D I O S               ***
+ ***********************************************************************************************
+ *                                                                                             *
+ *                 Project Name : Command & Conquer                                            *
+ *                                                                                             *
+ *                     $Archive:: /Commando/Code/wwlib/ramfile.h                              $*
+ *                                                                                             *
  *                      $Author:: Ian_l                                                       $*
- *                                                                                             * 
+ *                                                                                             *
  *                     $Modtime:: 10/31/01 2:02p                                              $*
- *                                                                                             * 
+ *                                                                                             *
  *                    $Revision:: 2                                                           $*
  *                                                                                             *
- *---------------------------------------------------------------------------------------------* 
- * Functions:                                                                                  * 
+ *---------------------------------------------------------------------------------------------*
+ * Functions:                                                                                  *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
 #ifndef RAMFILE_H
 #define RAMFILE_H
 
-#include	"wwfile.h"
-
+#include "wwfile.h"
 
 class RAMFileClass : public FileClass
 {
-	public:
-		RAMFileClass(void * buffer, int len);
-		virtual ~RAMFileClass(void);
+public:
+    RAMFileClass(void* buffer, int len);
+    virtual ~RAMFileClass(void);
 
-		virtual char const * File_Name(void) const {return("UNKNOWN");}
-		virtual char const * Set_Name(char const * ) {return(File_Name());}
-		virtual int Create(void);
-		virtual int Delete(void);
-		virtual bool Is_Available(int forced=false);
-		virtual bool Is_Open(void) const;
-		virtual int Open(char const * filename, int access=READ);
-		virtual int Open(int access=READ);
-		virtual int Read(void * buffer, int size);
-		virtual int Seek(int pos, int dir=SEEK_CUR);
-		virtual int Size(void);
-		virtual int Write(void const * buffer, int size);
-		virtual void Close(void);
-		virtual unsigned long Get_Date_Time(void) {return(0);}
-		virtual bool Set_Date_Time(unsigned long ) {return(true);}
-		virtual void Error(int , int = false, char const * =NULL) {}
-		virtual void Bias(int start, int length=-1);
+    virtual char const* File_Name(void) const { return ("UNKNOWN"); }
+    virtual char const* Set_Name(char const*) { return (File_Name()); }
+    virtual int Create(void);
+    virtual int Delete(void);
+    virtual bool Is_Available(int forced = false);
+    virtual bool Is_Open(void) const;
+    virtual int Open(char const* filename, int access = READ);
+    virtual int Open(int access = READ);
+    virtual int Read(void* buffer, int size);
+    virtual int Seek(int pos, int dir = SEEK_CUR);
+    virtual int Size(void);
+    virtual int Write(void const* buffer, int size);
+    virtual void Close(void);
+    virtual unsigned long Get_Date_Time(void) { return (0); }
+    virtual bool Set_Date_Time(unsigned long) { return (true); }
+    virtual void Error(int, int = false, char const* = NULL) { }
+    virtual void Bias(int start, int length = -1);
 
-		operator char const * () {return File_Name();}
+    operator char const*() { return File_Name(); }
 
-	private:
+private:
+    /*
+    **	Pointer to the buffer that the "file" will reside in.
+    */
+    char* Buffer;
 
-		/*
-		**	Pointer to the buffer that the "file" will reside in.
-		*/
-		char * Buffer;
+    /*
+    **	The maximum size of the buffer. The file occupying the buffer
+    **	may be smaller than this size.
+    */
+    int MaxLength;
 
-		/*
-		**	The maximum size of the buffer. The file occupying the buffer
-		**	may be smaller than this size.
-		*/
-		int MaxLength;
+    /*
+    **	The number of bytes in the sub-file occupying the buffer.
+    */
+    int Length;
 
-		/*
-		**	The number of bytes in the sub-file occupying the buffer.
-		*/
-		int Length;
+    /*
+    **	The current file position offset within the buffer.
+    */
+    int Offset;
 
-		/*
-		**	The current file position offset within the buffer.
-		*/
-		int Offset;
+    /*
+    **	The file was opened with this access mode.
+    */
+    int Access;
 
-		/*
-		**	The file was opened with this access mode.
-		*/
-		int Access;
+    /*
+    **	Is the file currently open?
+    */
+    bool IsOpen;
 
-		/*
-		**	Is the file currently open?
-		*/
-		bool IsOpen;
-
-		/*
-		**	Was the file buffer allocated during construction of this object?
-		*/
-		bool IsAllocated;
+    /*
+    **	Was the file buffer allocated during construction of this object?
+    */
+    bool IsAllocated;
 };
-
-
-
 
 #endif

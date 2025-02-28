@@ -20,7 +20,8 @@
  ***              C O N F I D E N T I A L  ---  W E S T W O O D  S T U D I O S               ***
  ***********************************************************************************************
  *                                                                                             *
- *                 Project Name : Combat																		  *
+ *                 Project Name : Combat
+ **
  *                                                                                             *
  *                     $Archive:: /Commando/Code/Commando/dialogtests.h       $*
  *                                                                                             *
@@ -41,18 +42,16 @@
 #ifndef __DIALOG_TESTS_H
 #define __DIALOG_TESTS_H
 
-#include "popupdialog.h"
-#include "menudialog.h"
-#include "childdialog.h"
-#include "resource.h"
 #include "DlgWOLWait.h"
+#include "childdialog.h"
+#include "menudialog.h"
+#include "popupdialog.h"
+#include "resource.h"
 #include <WWLib\Notify.h>
 #include <WWOnline\RefPtr.h>
 
-
 class WheeledVehicleDefClass;
 class TrackedVehicleDefClass;
-
 
 ////////////////////////////////////////////////////////////////
 //
@@ -62,33 +61,31 @@ class TrackedVehicleDefClass;
 class SplashIntroMenuDialogClass : public MenuDialogClass
 {
 public:
+    ////////////////////////////////////////////////////////////////
+    //	Public constructors/destructors
+    ////////////////////////////////////////////////////////////////
+    SplashIntroMenuDialogClass(void);
+    ~SplashIntroMenuDialogClass(void);
 
-	////////////////////////////////////////////////////////////////
-	//	Public constructors/destructors
-	////////////////////////////////////////////////////////////////
-	SplashIntroMenuDialogClass (void);
-	~SplashIntroMenuDialogClass (void);
-	
-	//
-	//	Inherited
-	//
-	void		On_Init_Dialog (void);
-	void		On_Frame_Update (void);
-	void		On_Command (int ctrl_id, int mesage_id, DWORD param);
+    //
+    //	Inherited
+    //
+    void On_Init_Dialog(void);
+    void On_Frame_Update(void);
+    void On_Command(int ctrl_id, int mesage_id, DWORD param);
 
-	//
-	//	Static accessors
-	//
-	static bool	Is_Complete (void)	{ return IsComplete; }
+    //
+    //	Static accessors
+    //
+    static bool Is_Complete(void) { return IsComplete; }
 
 private:
-	////////////////////////////////////////////////////////////////
-	//	Private member data
-	////////////////////////////////////////////////////////////////
-	float				Timer;
-	static bool		IsComplete;
+    ////////////////////////////////////////////////////////////////
+    //	Private member data
+    ////////////////////////////////////////////////////////////////
+    float Timer;
+    static bool IsComplete;
 };
-
 
 ////////////////////////////////////////////////////////////////
 //
@@ -98,72 +95,65 @@ private:
 class SplashOutroMenuDialogClass : public MenuDialogClass
 {
 public:
+    ////////////////////////////////////////////////////////////////
+    //	Public constructors/destructors
+    ////////////////////////////////////////////////////////////////
+    SplashOutroMenuDialogClass(void);
+    ~SplashOutroMenuDialogClass(void);
 
-	////////////////////////////////////////////////////////////////
-	//	Public constructors/destructors
-	////////////////////////////////////////////////////////////////
-	SplashOutroMenuDialogClass (void);
-	~SplashOutroMenuDialogClass (void);
-	
-	//
-	//	Inherited
-	//
-	void		On_Init_Dialog (void);
-	void		On_Frame_Update (void);
-	void		On_Command (int ctrl_id, int mesage_id, DWORD param);
+    //
+    //	Inherited
+    //
+    void On_Init_Dialog(void);
+    void On_Frame_Update(void);
+    void On_Command(int ctrl_id, int mesage_id, DWORD param);
 
 private:
-	////////////////////////////////////////////////////////////////
-	//	Private member data
-	////////////////////////////////////////////////////////////////
-	float		Timer;
+    ////////////////////////////////////////////////////////////////
+    //	Private member data
+    ////////////////////////////////////////////////////////////////
+    float Timer;
 };
-
 
 ////////////////////////////////////////////////////////////////
 //
 //	GameSpyMainDialogClass
 //
 ////////////////////////////////////////////////////////////////
-class GameSpyMainDialogClass : public MenuDialogClass,
-public Observer<DlgWOLWaitEvent>
+class GameSpyMainDialogClass : public MenuDialogClass, public Observer<DlgWOLWaitEvent>
 
 {
 public:
+    ////////////////////////////////////////////////////////////////
+    //	Public constructors/destructors
+    ////////////////////////////////////////////////////////////////
+    GameSpyMainDialogClass(void);
+    ~GameSpyMainDialogClass(void);
 
-	////////////////////////////////////////////////////////////////
-	//	Public constructors/destructors
-	////////////////////////////////////////////////////////////////
-	GameSpyMainDialogClass (void);
-	~GameSpyMainDialogClass (void);
-	
-	//
-	//	Inherited
-	//
-	void		On_Init_Dialog(void);
-	void		On_Command (int ctrl_id, int mesage_id, DWORD param);
-	void		On_Last_Menu_Ending (void);
-	void		On_Frame_Update (void);
+    //
+    //	Inherited
+    //
+    void On_Init_Dialog(void);
+    void On_Command(int ctrl_id, int mesage_id, DWORD param);
+    void On_Last_Menu_Ending(void);
+    void On_Frame_Update(void);
 
-	//
-	//	Singleton access
-	//
-	static void								Display (void);
-	static GameSpyMainDialogClass *	Get_Instance (void)	{ return _TheInstance; }
+    //
+    //	Singleton access
+    //
+    static void Display(void);
+    static GameSpyMainDialogClass* Get_Instance(void) { return _TheInstance; }
 
 private:
+    void HandleNotification(DlgWOLWaitEvent& event);
+    static void Host_Game(void);
 
-	void HandleNotification(DlgWOLWaitEvent& event);
-	static void Host_Game(void);
-
-	////////////////////////////////////////////////////////////////
-	//	Private member data
-	////////////////////////////////////////////////////////////////
-	static GameSpyMainDialogClass *	_TheInstance;
-	static bool	DetectingBandwidth;
-
+    ////////////////////////////////////////////////////////////////
+    //	Private member data
+    ////////////////////////////////////////////////////////////////
+    static GameSpyMainDialogClass* _TheInstance;
+    static bool DetectingBandwidth;
 };
-
 
 ////////////////////////////////////////////////////////////////
 //
@@ -173,35 +163,33 @@ private:
 class GameSpyOptionsDialogClass : public MenuDialogClass
 {
 public:
+    ////////////////////////////////////////////////////////////////
+    //	Public constructors/destructors
+    ////////////////////////////////////////////////////////////////
+    GameSpyOptionsDialogClass(void);
+    ~GameSpyOptionsDialogClass(void);
 
-	////////////////////////////////////////////////////////////////
-	//	Public constructors/destructors
-	////////////////////////////////////////////////////////////////
-	GameSpyOptionsDialogClass (void);
-	~GameSpyOptionsDialogClass (void);
-	
-	//
-	//	Inherited
-	//
-	void		On_Init_Dialog(void);
-	void		On_Command (int ctrl_id, int mesage_id, DWORD param);
-	//void		On_Last_Menu_Ending (void);
+    //
+    //	Inherited
+    //
+    void On_Init_Dialog(void);
+    void On_Command(int ctrl_id, int mesage_id, DWORD param);
+    // void		On_Last_Menu_Ending (void);
 
-	//
-	//	Singleton access
-	//
-	static void								Display (void);
-	static GameSpyOptionsDialogClass *	Get_Instance (void)	{ return _TheInstance; }
+    //
+    //	Singleton access
+    //
+    static void Display(void);
+    static GameSpyOptionsDialogClass* Get_Instance(void) { return _TheInstance; }
 
 private:
-	void		Init_Connection_Speed_Combo(void);
+    void Init_Connection_Speed_Combo(void);
 
-	////////////////////////////////////////////////////////////////
-	//	Private member data
-	////////////////////////////////////////////////////////////////
-	static GameSpyOptionsDialogClass *	_TheInstance;
+    ////////////////////////////////////////////////////////////////
+    //	Private member data
+    ////////////////////////////////////////////////////////////////
+    static GameSpyOptionsDialogClass* _TheInstance;
 };
-
 
 ////////////////////////////////////////////////////////////////
 //
@@ -211,34 +199,31 @@ private:
 class InternetMainDialogClass : public MenuDialogClass
 {
 public:
+    ////////////////////////////////////////////////////////////////
+    //	Public constructors/destructors
+    ////////////////////////////////////////////////////////////////
+    InternetMainDialogClass(void);
+    ~InternetMainDialogClass(void);
 
-	////////////////////////////////////////////////////////////////
-	//	Public constructors/destructors
-	////////////////////////////////////////////////////////////////
-	InternetMainDialogClass (void);
-	~InternetMainDialogClass (void);
-	
-	//
-	//	Inherited
-	//
-	void		On_Init_Dialog(void);
-	void		On_Command (int ctrl_id, int mesage_id, DWORD param);
-	//void		On_Last_Menu_Ending (void);
+    //
+    //	Inherited
+    //
+    void On_Init_Dialog(void);
+    void On_Command(int ctrl_id, int mesage_id, DWORD param);
+    // void		On_Last_Menu_Ending (void);
 
-	//
-	//	Singleton access
-	//
-	static void								Display (void);
-	static InternetMainDialogClass *	Get_Instance (void)	{ return _TheInstance; }
+    //
+    //	Singleton access
+    //
+    static void Display(void);
+    static InternetMainDialogClass* Get_Instance(void) { return _TheInstance; }
 
 private:
-
-	////////////////////////////////////////////////////////////////
-	//	Private member data
-	////////////////////////////////////////////////////////////////
-	static InternetMainDialogClass *	_TheInstance;
+    ////////////////////////////////////////////////////////////////
+    //	Private member data
+    ////////////////////////////////////////////////////////////////
+    static InternetMainDialogClass* _TheInstance;
 };
-
 
 ////////////////////////////////////////////////////////////////
 //
@@ -248,18 +233,17 @@ private:
 class StartSPGameDialogClass : public MenuDialogClass
 {
 public:
+    ////////////////////////////////////////////////////////////////
+    //	Public constructors/destructors
+    ////////////////////////////////////////////////////////////////
+    StartSPGameDialogClass(void);
 
-	////////////////////////////////////////////////////////////////
-	//	Public constructors/destructors
-	////////////////////////////////////////////////////////////////
-	StartSPGameDialogClass (void);	
-	
-	void			On_Init_Dialog (void);
-	void			On_Command (int ctrl_id, int mesage_id, DWORD param);
+    void On_Init_Dialog(void);
+    void On_Command(int ctrl_id, int mesage_id, DWORD param);
 
-	//void	On_TreeCtrl_Needs_Children (TreeCtrlClass *list_ctrl, int ctrl_id, TreeItemClass *parent_item);
+    // void	On_TreeCtrl_Needs_Children (TreeCtrlClass *list_ctrl, int ctrl_id, TreeItemClass
+    // *parent_item);
 };
-
 
 ////////////////////////////////////////////////////////////////
 //
@@ -269,26 +253,24 @@ public:
 class DifficultyMenuClass : public MenuDialogClass
 {
 public:
+    ////////////////////////////////////////////////////////////////
+    //	Public constructors/destructors
+    ////////////////////////////////////////////////////////////////
+    DifficultyMenuClass(void);
 
-	////////////////////////////////////////////////////////////////
-	//	Public constructors/destructors
-	////////////////////////////////////////////////////////////////
-	DifficultyMenuClass (void);
+    //
+    //	Inherited
+    //
+    void On_Command(int ctrl_id, int mesage_id, DWORD param);
+    void On_Menu_Activate(bool onoff);
+    void On_Frame_Update(void);
 
-	//
-	//	Inherited
-	//
-	void					On_Command (int ctrl_id, int mesage_id, DWORD param);
-	void					On_Menu_Activate (bool onoff);
-	void					On_Frame_Update (void);
-
-	void					Set_Replay( const char * filename )	{ ReplayFilename = filename; }
+    void Set_Replay(const char* filename) { ReplayFilename = filename; }
 
 private:
-	StringClass				ReplayFilename;
-	int						CurrSel;
+    StringClass ReplayFilename;
+    int CurrSel;
 };
-
 
 ////////////////////////////////////////////////////////////////
 //
@@ -298,17 +280,16 @@ private:
 class MultiplayOptionsMainMenuClass : public MenuDialogClass
 {
 public:
-	MultiplayOptionsMainMenuClass (void)	:
-		MenuDialogClass (IDD_MENU_OPTION_MAIN_MULTIPLAY) {}
+    MultiplayOptionsMainMenuClass(void)
+        : MenuDialogClass(IDD_MENU_OPTION_MAIN_MULTIPLAY)
+    {
+    }
 
-	
-	//
-	//	Inherited
-	//
-	void			On_Command (int ctrl_id, int mesage_id, DWORD param);
+    //
+    //	Inherited
+    //
+    void On_Command(int ctrl_id, int mesage_id, DWORD param);
 };
-
-
 
 ////////////////////////////////////////////////////////////////
 //
@@ -318,10 +299,11 @@ public:
 class CampaignScoreTabClass : public ChildDialogClass
 {
 public:
-	CampaignScoreTabClass (void)	:
-		ChildDialogClass (IDD_SCORE_CAMPAIGN_TAB)	{}
+    CampaignScoreTabClass(void)
+        : ChildDialogClass(IDD_SCORE_CAMPAIGN_TAB)
+    {
+    }
 };
-
 
 ////////////////////////////////////////////////////////////////
 //
@@ -331,11 +313,11 @@ public:
 class MissionsScoreTabClass : public ChildDialogClass
 {
 public:
-	MissionsScoreTabClass (void)	:
-		ChildDialogClass (IDD_SCORE_MISSIONS_TAB)	{}
+    MissionsScoreTabClass(void)
+        : ChildDialogClass(IDD_SCORE_MISSIONS_TAB)
+    {
+    }
 };
-
-
 
 ////////////////////////////////////////////////////////////////
 //
@@ -345,10 +327,11 @@ public:
 class OptionsMenuClass : public MenuDialogClass
 {
 public:
-	OptionsMenuClass (void)	:
-		MenuDialogClass (IDD_MENU_OPTIONS)	{}
+    OptionsMenuClass(void)
+        : MenuDialogClass(IDD_MENU_OPTIONS)
+    {
+    }
 };
-
 
 ////////////////////////////////////////////////////////////////
 //
@@ -358,26 +341,23 @@ public:
 class QuitVerificationDialogClass : public PopupDialogClass
 {
 public:
+    ////////////////////////////////////////////////////////////////
+    //	Public constructors/destructors
+    ////////////////////////////////////////////////////////////////
+    QuitVerificationDialogClass(void);
+    ~QuitVerificationDialogClass(void);
 
-	////////////////////////////////////////////////////////////////
-	//	Public constructors/destructors
-	////////////////////////////////////////////////////////////////
-	QuitVerificationDialogClass (void);
-	~QuitVerificationDialogClass (void);
-
-	////////////////////////////////////////////////////////////////
-	//	Public methods
-	////////////////////////////////////////////////////////////////
-	static QuitVerificationDialogClass *		Get_Instance (void)	{ return _TheInstance; }
+    ////////////////////////////////////////////////////////////////
+    //	Public methods
+    ////////////////////////////////////////////////////////////////
+    static QuitVerificationDialogClass* Get_Instance(void) { return _TheInstance; }
 
 private:
-	
-	////////////////////////////////////////////////////////////////
-	//	Static member data
-	////////////////////////////////////////////////////////////////
-	static QuitVerificationDialogClass *	_TheInstance;
+    ////////////////////////////////////////////////////////////////
+    //	Static member data
+    ////////////////////////////////////////////////////////////////
+    static QuitVerificationDialogClass* _TheInstance;
 };
-
 
 ////////////////////////////////////////////////////////////////
 //
@@ -387,12 +367,13 @@ private:
 class MPMainMenuClass : public MenuDialogClass
 {
 public:
-	MPMainMenuClass (void)	:
-		MenuDialogClass (IDD_MENU_MAIN_MULTIPLAY)	{}
+    MPMainMenuClass(void)
+        : MenuDialogClass(IDD_MENU_MAIN_MULTIPLAY)
+    {
+    }
 
-	void	On_Init_Dialog (void);
+    void On_Init_Dialog(void);
 };
-
 
 ////////////////////////////////////////////////////////////////
 //
@@ -402,14 +383,15 @@ public:
 class MPLanMenuClass : public MenuDialogClass
 {
 public:
-	MPLanMenuClass (void)	:
-		MenuDialogClass (IDD_MULTIPLAY_CS_SEL)	{}
+    MPLanMenuClass(void)
+        : MenuDialogClass(IDD_MULTIPLAY_CS_SEL)
+    {
+    }
 
-	void	On_Init_Dialog (void);
-	void	On_Command (int ctrl_id, int mesage_id, DWORD param);
-	void	On_Destroy (void);
+    void On_Init_Dialog(void);
+    void On_Command(int ctrl_id, int mesage_id, DWORD param);
+    void On_Destroy(void);
 };
-
 
 ////////////////////////////////////////////////////////////////
 //
@@ -419,10 +401,11 @@ public:
 class MPInternetCSMenuClass : public MenuDialogClass
 {
 public:
-	MPInternetCSMenuClass (void)	:
-		MenuDialogClass (IDD_MULTIPLAY_WWOL_CS_SEL)	{}
+    MPInternetCSMenuClass(void)
+        : MenuDialogClass(IDD_MULTIPLAY_WWOL_CS_SEL)
+    {
+    }
 };
-
 
 /*
 ////////////////////////////////////////////////////////////////
@@ -433,10 +416,10 @@ public:
 class MPGameMenuClass : public MenuDialogClass
 {
 public:
-	MPGameMenuClass (void)	:
-		MenuDialogClass (IDD_MULTIPLAY_GAME_TYPE)	{}
+        MPGameMenuClass (void)	:
+                MenuDialogClass (IDD_MULTIPLAY_GAME_TYPE)	{}
 
-	void	On_Command (int ctrl_id, int mesage_id, DWORD param);
+        void	On_Command (int ctrl_id, int mesage_id, DWORD param);
 };
 
 
@@ -448,11 +431,11 @@ public:
 class MPServerConfigClass : public MenuDialogClass
 {
 public:
-	MPServerConfigClass (void)	:
-		MenuDialogClass (IDD_MULTIPLAY_SERVER_CONFIG)	{}
+        MPServerConfigClass (void)	:
+                MenuDialogClass (IDD_MULTIPLAY_SERVER_CONFIG)	{}
 
-	void	On_Init_Dialog (void);
-	void	On_Command (int ctrl_id, int mesage_id, DWORD param);
+        void	On_Init_Dialog (void);
+        void	On_Command (int ctrl_id, int mesage_id, DWORD param);
 };
 
 
@@ -464,19 +447,18 @@ public:
 class MPServerStartMenuClass : public MenuDialogClass
 {
 public:
-	MPServerStartMenuClass (void)	:
-		//IsServer (true),
-		MenuDialogClass (IDD_MULTIPLAY_START_GAME)	{}
-			
+        MPServerStartMenuClass (void)	:
+                //IsServer (true),
+                MenuDialogClass (IDD_MULTIPLAY_START_GAME)	{}
 
-	void	On_Init_Dialog (void);
-	void	On_Command (int ctrl_id, int mesage_id, DWORD param);
-	void	Start_Game (void);
 
-	//bool	IsServer;
+        void	On_Init_Dialog (void);
+        void	On_Command (int ctrl_id, int mesage_id, DWORD param);
+        void	Start_Game (void);
+
+        //bool	IsServer;
 };
 */
-
 
 ////////////////////////////////////////////////////////////////
 //
@@ -486,15 +468,16 @@ public:
 class MPJoinMenuClass : public MenuDialogClass
 {
 public:
-	MPJoinMenuClass (void)	:
-		MenuDialogClass (IDD_MULTIPLAY_JOIN_GAME)	{}
+    MPJoinMenuClass(void)
+        : MenuDialogClass(IDD_MULTIPLAY_JOIN_GAME)
+    {
+    }
 
-	void	On_Init_Dialog (void);
-	void	On_Command (int ctrl_id, int mesage_id, DWORD param);
-	void	Update_Game_List (void);
-	void	On_Frame_Update (void);
+    void On_Init_Dialog(void);
+    void On_Command(int ctrl_id, int mesage_id, DWORD param);
+    void Update_Game_List(void);
+    void On_Frame_Update(void);
 };
-
 
 ////////////////////////////////////////////////////////////////
 //
@@ -504,15 +487,16 @@ public:
 class DeathOptionsPopupClass : public PopupDialogClass
 {
 public:
+    ////////////////////////////////////////////////////////////////
+    //	Public constructors/destructors
+    ////////////////////////////////////////////////////////////////
+    DeathOptionsPopupClass(void)
+        : PopupDialogClass(IDD_DEATH_OPTIONS)
+    {
+    }
 
-	////////////////////////////////////////////////////////////////
-	//	Public constructors/destructors
-	////////////////////////////////////////////////////////////////
-	DeathOptionsPopupClass (void)	:
-		PopupDialogClass (IDD_DEATH_OPTIONS)	{}
-
-	void	On_Init_Dialog (void);
-	void	On_Command (int ctrl_id, int mesage_id, DWORD param);
+    void On_Init_Dialog(void);
+    void On_Command(int ctrl_id, int mesage_id, DWORD param);
 };
 
 ////////////////////////////////////////////////////////////////
@@ -523,17 +507,17 @@ public:
 class FailedOptionsPopupClass : public PopupDialogClass
 {
 public:
+    ////////////////////////////////////////////////////////////////
+    //	Public constructors/destructors
+    ////////////////////////////////////////////////////////////////
+    FailedOptionsPopupClass(void)
+        : PopupDialogClass(IDD_FAILED_OPTIONS)
+    {
+    }
 
-	////////////////////////////////////////////////////////////////
-	//	Public constructors/destructors
-	////////////////////////////////////////////////////////////////
-	FailedOptionsPopupClass (void)	:
-		PopupDialogClass (IDD_FAILED_OPTIONS)	{}
-
-	void	On_Init_Dialog (void);
-	void	On_Command (int ctrl_id, int mesage_id, DWORD param);
+    void On_Init_Dialog(void);
+    void On_Command(int ctrl_id, int mesage_id, DWORD param);
 };
-
 
 ////////////////////////////////////////////////////////////////
 //
@@ -543,19 +527,18 @@ public:
 class EditWheeledVehicleDialogClass : public PopupDialogClass
 {
 public:
-	////////////////////////////////////////////////////////////////
-	//	Public constructors/destructors
-	////////////////////////////////////////////////////////////////
-	EditWheeledVehicleDialogClass (WheeledVehicleDefClass * def,float wheel_radius);
-	~EditWheeledVehicleDialogClass(void);
+    ////////////////////////////////////////////////////////////////
+    //	Public constructors/destructors
+    ////////////////////////////////////////////////////////////////
+    EditWheeledVehicleDialogClass(WheeledVehicleDefClass* def, float wheel_radius);
+    ~EditWheeledVehicleDialogClass(void);
 
-	void	On_Init_Dialog (void);
-	void	On_Command (int ctrl_id, int mesage_id, DWORD param);
+    void On_Init_Dialog(void);
+    void On_Command(int ctrl_id, int mesage_id, DWORD param);
 
 protected:
-
-	WheeledVehicleDefClass *	VehicleDef;
-	float								WheelRadius;
+    WheeledVehicleDefClass* VehicleDef;
+    float WheelRadius;
 };
 
 ////////////////////////////////////////////////////////////////
@@ -566,22 +549,18 @@ protected:
 class EditTrackedVehicleDialogClass : public PopupDialogClass
 {
 public:
-	////////////////////////////////////////////////////////////////
-	//	Public constructors/destructors
-	////////////////////////////////////////////////////////////////
-	EditTrackedVehicleDialogClass (TrackedVehicleDefClass * def,float wheel_radius);
-	~EditTrackedVehicleDialogClass(void);
+    ////////////////////////////////////////////////////////////////
+    //	Public constructors/destructors
+    ////////////////////////////////////////////////////////////////
+    EditTrackedVehicleDialogClass(TrackedVehicleDefClass* def, float wheel_radius);
+    ~EditTrackedVehicleDialogClass(void);
 
-	void	On_Init_Dialog (void);
-	void	On_Command (int ctrl_id, int mesage_id, DWORD param);
+    void On_Init_Dialog(void);
+    void On_Command(int ctrl_id, int mesage_id, DWORD param);
 
 protected:
-
-	TrackedVehicleDefClass *	VehicleDef;
-	float								WheelRadius;
-
+    TrackedVehicleDefClass* VehicleDef;
+    float WheelRadius;
 };
-
-
 
 #endif //__DIALOG_TESTS_H

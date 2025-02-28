@@ -19,11 +19,10 @@
 // MixViewerDoc.cpp : implementation of the CMixViewerDoc class
 //
 
-#include "stdafx.h"
 #include "mixviewer.h"
 #include "mixviewerdoc.h"
 #include "mixviewerview.h"
-
+#include "stdafx.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -37,10 +36,10 @@ static char THIS_FILE[] = __FILE__;
 IMPLEMENT_DYNCREATE(CMixViewerDoc, CDocument)
 
 BEGIN_MESSAGE_MAP(CMixViewerDoc, CDocument)
-	//{{AFX_MSG_MAP(CMixViewerDoc)
-		// NOTE - the ClassWizard will add and remove mapping macros here.
-		//    DO NOT EDIT what you see in these blocks of generated code!
-	//}}AFX_MSG_MAP
+//{{AFX_MSG_MAP(CMixViewerDoc)
+// NOTE - the ClassWizard will add and remove mapping macros here.
+//    DO NOT EDIT what you see in these blocks of generated code!
+//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -48,32 +47,26 @@ END_MESSAGE_MAP()
 
 CMixViewerDoc::CMixViewerDoc()
 {
-	// TODO: add one-time construction code here
-
+    // TODO: add one-time construction code here
 }
 
 CMixViewerDoc::~CMixViewerDoc()
 {
 }
 
-
-
-
 /////////////////////////////////////////////////////////////////////////////
 // CMixViewerDoc serialization
 
 void CMixViewerDoc::Serialize(CArchive& ar)
 {
-	if (ar.IsStoring())
-	{
-		// TODO: add storing code here
-	}
-	else
-	{
-		// TODO: add loading code here
-	}
+    if (ar.IsStoring()) {
+        // TODO: add storing code here
+    }
+    else {
+        // TODO: add loading code here
+    }
 
-	return ;
+    return;
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -82,90 +75,81 @@ void CMixViewerDoc::Serialize(CArchive& ar)
 #ifdef _DEBUG
 void CMixViewerDoc::AssertValid() const
 {
-	CDocument::AssertValid();
+    CDocument::AssertValid();
 }
 
 void CMixViewerDoc::Dump(CDumpContext& dc) const
 {
-	CDocument::Dump(dc);
+    CDocument::Dump(dc);
 }
 #endif //_DEBUG
-
 
 /////////////////////////////////////////////////////////////////////////////
 //
 // OnNewDocument
 //
 /////////////////////////////////////////////////////////////////////////////
-BOOL
-CMixViewerDoc::OnNewDocument (void)
+BOOL CMixViewerDoc::OnNewDocument(void)
 {
-	if (!CDocument::OnNewDocument ()) {
-		return FALSE;
-	}
+    if (!CDocument::OnNewDocument()) {
+        return FALSE;
+    }
 
-	//
-	//	Update each view
-	//
-	POSITION pos = GetFirstViewPosition ();
-   while (pos != NULL)
-   {
-      CMixViewerView *view = (CMixViewerView *)GetNextView (pos);
-		view->Reset ();
-   }
+    //
+    //	Update each view
+    //
+    POSITION pos = GetFirstViewPosition();
+    while (pos != NULL) {
+        CMixViewerView* view = (CMixViewerView*)GetNextView(pos);
+        view->Reset();
+    }
 
-	return TRUE;
+    return TRUE;
 }
-
 
 /////////////////////////////////////////////////////////////////////////////
 //
 // OnOpenDocument
 //
 /////////////////////////////////////////////////////////////////////////////
-BOOL
-CMixViewerDoc::OnOpenDocument (LPCTSTR path)
+BOOL CMixViewerDoc::OnOpenDocument(LPCTSTR path)
 {
-	if (!CDocument::OnOpenDocument (path)) {
-		return FALSE;
-	}
+    if (!CDocument::OnOpenDocument(path)) {
+        return FALSE;
+    }
 
-	//
-	//	Start fresh
-	//
-	OnNewDocument ();
+    //
+    //	Start fresh
+    //
+    OnNewDocument();
 
-	//
-	//	Update each view
-	//
-	POSITION pos = GetFirstViewPosition ();
-	while (pos != NULL)
-	{
-		CMixViewerView *view = (CMixViewerView *)GetNextView (pos);
-		view->Reload (path);
-	}
-		
-	return TRUE;
+    //
+    //	Update each view
+    //
+    POSITION pos = GetFirstViewPosition();
+    while (pos != NULL) {
+        CMixViewerView* view = (CMixViewerView*)GetNextView(pos);
+        view->Reload(path);
+    }
+
+    return TRUE;
 }
-
 
 /////////////////////////////////////////////////////////////////////////////
 //
 // Reload_Views
 //
 /////////////////////////////////////////////////////////////////////////////
-void
-CMixViewerDoc::Reload_Views (void)
+void CMixViewerDoc::Reload_Views(void)
 {
-	//
-	//	Update each view
-	//
-	POSITION pos = GetFirstViewPosition ();
-	while (pos != NULL)
-	{
-		CMixViewerView *view = (CMixViewerView *)GetNextView (pos);
-		view->Reload (GetPathName ());
-	}
-	
-	return ;
+    //
+    //	Update each view
+    //
+    POSITION pos = GetFirstViewPosition();
+    while (pos != NULL) {
+        CMixViewerView* view = (CMixViewerView*)GetNextView(pos);
+        view->Reload(GetPathName());
+    }
+
+    return;
 }

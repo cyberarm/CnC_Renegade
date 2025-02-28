@@ -34,179 +34,162 @@
  * Functions:                                                                                  *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
-#include "stdafx.h"
-#include "tiledefinition.h"
-#include "simpledefinitionfactory.h"
 #include "definitionclassids.h"
 #include "definitionmgr.h"
-#include "persistfactory.h"
 #include "editorchunkids.h"
+#include "persistfactory.h"
+#include "simpledefinitionfactory.h"
+#include "stdafx.h"
+#include "tiledefinition.h"
 #include "tilenode.h"
-
 
 //////////////////////////////////////////////////////////////////////////////////
 //	Constants
 //////////////////////////////////////////////////////////////////////////////////
 enum
 {
-	CHUNKID_VARIABLES			= 0x00000100,
-	CHUNKID_BASE_CLASS		= 0x00000200,
+    CHUNKID_VARIABLES = 0x00000100,
+    CHUNKID_BASE_CLASS = 0x00000200,
 };
 
 enum
 {
-	VARID_XXX_MODEL_NAME		= 0x01,
-	VARID_PHYS_DEF_ID
+    VARID_XXX_MODEL_NAME = 0x01,
+    VARID_PHYS_DEF_ID
 };
-
 
 //////////////////////////////////////////////////////////////////////////////////
 //
 //	Static factories
 //
 //////////////////////////////////////////////////////////////////////////////////
-DECLARE_DEFINITION_FACTORY(TileDefinitionClass, CLASSID_TILE, "Tile")	_TileDefFactory;
-SimplePersistFactoryClass<TileDefinitionClass, CHUNKID_TILE_DEF>			_TilePersistFactory;
-
+DECLARE_DEFINITION_FACTORY(TileDefinitionClass, CLASSID_TILE, "Tile") _TileDefFactory;
+SimplePersistFactoryClass<TileDefinitionClass, CHUNKID_TILE_DEF> _TilePersistFactory;
 
 //////////////////////////////////////////////////////////////////////////////////
 //
 //	TileDefinitionClass
 //
 //////////////////////////////////////////////////////////////////////////////////
-TileDefinitionClass::TileDefinitionClass (void)
-	:	m_PhysDefID (0),
-		DefinitionClass ()		
+TileDefinitionClass::TileDefinitionClass(void)
+    : m_PhysDefID(0),
+      DefinitionClass()
 {
-	MODEL_DEF_PARAM (TileDefinitionClass, m_PhysDefID, "StaticPhysDef");
-	return ;
+    MODEL_DEF_PARAM(TileDefinitionClass, m_PhysDefID, "StaticPhysDef");
+    return;
 }
-
 
 //////////////////////////////////////////////////////////////////////////////////
 //
 //	~TileDefinitionClass
 //
 //////////////////////////////////////////////////////////////////////////////////
-TileDefinitionClass::~TileDefinitionClass (void)
+TileDefinitionClass::~TileDefinitionClass(void)
 {
-	return ;
+    return;
 }
-
 
 //////////////////////////////////////////////////////////////////////////////////
 //
 //	Get_Factory
 //
 //////////////////////////////////////////////////////////////////////////////////
-const PersistFactoryClass &
-TileDefinitionClass::Get_Factory (void) const
+const PersistFactoryClass& TileDefinitionClass::Get_Factory(void) const
 {
-	return _TilePersistFactory;
+    return _TilePersistFactory;
 }
-
 
 //////////////////////////////////////////////////////////////////////////////////
 //
 //	Save
 //
 //////////////////////////////////////////////////////////////////////////////////
-bool
-TileDefinitionClass::Save (ChunkSaveClass &csave)
+bool TileDefinitionClass::Save(ChunkSaveClass& csave)
 {
-	bool retval = true;
+    bool retval = true;
 
-	csave.Begin_Chunk (CHUNKID_VARIABLES);
-	retval &= Save_Variables (csave);
-	csave.End_Chunk ();
+    csave.Begin_Chunk(CHUNKID_VARIABLES);
+    retval &= Save_Variables(csave);
+    csave.End_Chunk();
 
-	csave.Begin_Chunk (CHUNKID_BASE_CLASS);
-	retval &= DefinitionClass::Save (csave);
-	csave.End_Chunk ();
+    csave.Begin_Chunk(CHUNKID_BASE_CLASS);
+    retval &= DefinitionClass::Save(csave);
+    csave.End_Chunk();
 
-	return retval;
+    return retval;
 }
-
 
 //////////////////////////////////////////////////////////////////////////////////
 //
 //	Load
 //
 //////////////////////////////////////////////////////////////////////////////////
-bool
-TileDefinitionClass::Load (ChunkLoadClass &cload)
+bool TileDefinitionClass::Load(ChunkLoadClass& cload)
 {
-	bool retval = true;
+    bool retval = true;
 
-	while (cload.Open_Chunk ()) {
-		switch (cload.Cur_Chunk_ID ()) {
-			
-			case CHUNKID_VARIABLES:
-				retval &= Load_Variables (cload);
-				break;
+    while (cload.Open_Chunk()) {
+        switch (cload.Cur_Chunk_ID()) {
 
-			case CHUNKID_BASE_CLASS:
-				retval &= DefinitionClass::Load (cload);
-				break;
-		}
+        case CHUNKID_VARIABLES:
+            retval &= Load_Variables(cload);
+            break;
 
-		cload.Close_Chunk ();
-	}
+        case CHUNKID_BASE_CLASS:
+            retval &= DefinitionClass::Load(cload);
+            break;
+        }
 
-	return retval;
+        cload.Close_Chunk();
+    }
+
+    return retval;
 }
-
 
 //////////////////////////////////////////////////////////////////////////////////
 //
 //	Save_Variables
 //
 //////////////////////////////////////////////////////////////////////////////////
-bool
-TileDefinitionClass::Save_Variables (ChunkSaveClass &csave)
+bool TileDefinitionClass::Save_Variables(ChunkSaveClass& csave)
 {
-	bool retval = true;
+    bool retval = true;
 
-	WRITE_MICRO_CHUNK (csave, VARID_PHYS_DEF_ID, m_PhysDefID)
+    WRITE_MICRO_CHUNK(csave, VARID_PHYS_DEF_ID, m_PhysDefID)
 
-	return retval;
+    return retval;
 }
-
 
 //////////////////////////////////////////////////////////////////////////////////
 //
 //	Load_Variables
 //
 //////////////////////////////////////////////////////////////////////////////////
-bool
-TileDefinitionClass::Load_Variables (ChunkLoadClass &cload)
+bool TileDefinitionClass::Load_Variables(ChunkLoadClass& cload)
 {
-	bool retval = true;
+    bool retval = true;
 
-	//
-	//	Loop through all the microchunks that define the variables
-	//
-	while (cload.Open_Micro_Chunk ()) {
-		switch (cload.Cur_Micro_Chunk_ID ()) {
-			
-			READ_MICRO_CHUNK (cload, VARID_PHYS_DEF_ID, m_PhysDefID)			
-		}
+    //
+    //	Loop through all the microchunks that define the variables
+    //
+    while (cload.Open_Micro_Chunk()) {
+        switch (cload.Cur_Micro_Chunk_ID()) {
 
-		cload.Close_Micro_Chunk ();
-	}
+            READ_MICRO_CHUNK(cload, VARID_PHYS_DEF_ID, m_PhysDefID)
+        }
 
-	return retval;
+        cload.Close_Micro_Chunk();
+    }
+
+    return retval;
 }
-
 
 //////////////////////////////////////////////////////////////////////////////////
 //
 //	Create
 //
 //////////////////////////////////////////////////////////////////////////////////
-PersistClass *
-TileDefinitionClass::Create (void) const
+PersistClass* TileDefinitionClass::Create(void) const
 {
-	return new TileNodeClass ();
+    return new TileNodeClass();
 }
-

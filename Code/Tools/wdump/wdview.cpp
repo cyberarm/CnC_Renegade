@@ -20,10 +20,9 @@
 //
 
 #include "stdafx.h"
-#include "wdump.h"
-
-#include "wdumpDoc.h"
 #include "wdView.h"
+#include "wdump.h"
+#include "wdumpDoc.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -37,10 +36,10 @@ static char THIS_FILE[] = __FILE__;
 IMPLEMENT_DYNCREATE(CWdumpView, CView)
 
 BEGIN_MESSAGE_MAP(CWdumpView, CView)
-	//{{AFX_MSG_MAP(CWdumpView)
-		// NOTE - the ClassWizard will add and remove mapping macros here.
-		//    DO NOT EDIT what you see in these blocks of generated code!
-	//}}AFX_MSG_MAP
+//{{AFX_MSG_MAP(CWdumpView)
+// NOTE - the ClassWizard will add and remove mapping macros here.
+//    DO NOT EDIT what you see in these blocks of generated code!
+//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -48,8 +47,7 @@ END_MESSAGE_MAP()
 
 CWdumpView::CWdumpView()
 {
-	// TODO: add construction code here
-
+    // TODO: add construction code here
 }
 
 CWdumpView::~CWdumpView()
@@ -58,10 +56,10 @@ CWdumpView::~CWdumpView()
 
 BOOL CWdumpView::PreCreateWindow(CREATESTRUCT& cs)
 {
-	// TODO: Modify the Window class or styles here by modifying
-	//  the CREATESTRUCT cs
+    // TODO: Modify the Window class or styles here by modifying
+    //  the CREATESTRUCT cs
 
-	return CView::PreCreateWindow(cs);
+    return CView::PreCreateWindow(cs);
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -69,10 +67,10 @@ BOOL CWdumpView::PreCreateWindow(CREATESTRUCT& cs)
 
 void CWdumpView::OnDraw(CDC* pDC)
 {
-	CWdumpDoc* pDoc = GetDocument();
-	ASSERT_VALID(pDoc);
+    CWdumpDoc* pDoc = GetDocument();
+    ASSERT_VALID(pDoc);
 
-	// TODO: add draw code for native data here
+    // TODO: add draw code for native data here
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -81,18 +79,18 @@ void CWdumpView::OnDraw(CDC* pDC)
 #ifdef _DEBUG
 void CWdumpView::AssertValid() const
 {
-	CView::AssertValid();
+    CView::AssertValid();
 }
 
 void CWdumpView::Dump(CDumpContext& dc) const
 {
-	CView::Dump(dc);
+    CView::Dump(dc);
 }
 
 CWdumpDoc* CWdumpView::GetDocument() // non-debug version is inline
 {
-	ASSERT(m_pDocument->IsKindOf(RUNTIME_CLASS(CWdumpDoc)));
-	return (CWdumpDoc*)m_pDocument;
+    ASSERT(m_pDocument->IsKindOf(RUNTIME_CLASS(CWdumpDoc)));
+    return (CWdumpDoc*)m_pDocument;
 }
 #endif //_DEBUG
 

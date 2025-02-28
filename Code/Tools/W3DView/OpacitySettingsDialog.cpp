@@ -22,7 +22,8 @@
  *                                                                                             *
  *                 Project Name : W3DView                                                      *
  *                                                                                             *
- *                     $Archive:: /Commando/Code/Tools/W3DView/OpacitySettingsDialog.cpp                                                                                                                                                                                                                                                                                                                              $Modtime::                                                             $*
+ *                     $Archive:: /Commando/Code/Tools/W3DView/OpacitySettingsDialog.cpp $Modtime::
+ *$*
  *                                                                                             *
  *                    $Revision:: 2                                                           $*
  *                                                                                             *
@@ -30,11 +31,10 @@
  * Functions:                                                                                  *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
-
+#include "ColorBar.H"
+#include "OpacitySettingsDialog.h"
 #include "stdafx.h"
 #include "w3dview.h"
-#include "OpacitySettingsDialog.h"
-#include "ColorBar.H"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -42,79 +42,71 @@
 static char THIS_FILE[] = __FILE__;
 #endif
 
-
 /////////////////////////////////////////////////////////////////////////////
 //
 // OpacitySettingsDialogClass
 //
 /////////////////////////////////////////////////////////////////////////////
-OpacitySettingsDialogClass::OpacitySettingsDialogClass (float opacity, CWnd *pParent)
-	:	m_OpacityBar (NULL),
-		m_Opacity (opacity),
-		CDialog(OpacitySettingsDialogClass::IDD, pParent)
+OpacitySettingsDialogClass::OpacitySettingsDialogClass(float opacity, CWnd* pParent)
+    : m_OpacityBar(NULL),
+      m_Opacity(opacity),
+      CDialog(OpacitySettingsDialogClass::IDD, pParent)
 {
-	//{{AFX_DATA_INIT(OpacitySettingsDialogClass)
-		// NOTE: the ClassWizard will add member initialization here
-	//}}AFX_DATA_INIT
-	return ;
+    //{{AFX_DATA_INIT(OpacitySettingsDialogClass)
+    // NOTE: the ClassWizard will add member initialization here
+    //}}AFX_DATA_INIT
+    return;
 }
-
 
 /////////////////////////////////////////////////////////////////////////////
 //
 // DoDataExchange
 //
 /////////////////////////////////////////////////////////////////////////////
-void
-OpacitySettingsDialogClass::DoDataExchange (CDataExchange* pDX)
+void OpacitySettingsDialogClass::DoDataExchange(CDataExchange* pDX)
 {
-	CDialog::DoDataExchange(pDX);
-	//{{AFX_DATA_MAP(OpacitySettingsDialogClass)
-		// NOTE: the ClassWizard will add DDX and DDV calls here
-	//}}AFX_DATA_MAP
-	return ;
+    CDialog::DoDataExchange(pDX);
+    //{{AFX_DATA_MAP(OpacitySettingsDialogClass)
+    // NOTE: the ClassWizard will add DDX and DDV calls here
+    //}}AFX_DATA_MAP
+    return;
 }
 
-
 BEGIN_MESSAGE_MAP(OpacitySettingsDialogClass, CDialog)
-	//{{AFX_MSG_MAP(OpacitySettingsDialogClass)
-	//}}AFX_MSG_MAP
+//{{AFX_MSG_MAP(OpacitySettingsDialogClass)
+//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
-
 
 /////////////////////////////////////////////////////////////////////////////
 //
 // OnInitDialog
 //
 /////////////////////////////////////////////////////////////////////////////
-BOOL
-OpacitySettingsDialogClass::OnInitDialog (void)
+BOOL OpacitySettingsDialogClass::OnInitDialog(void)
 {
-	CDialog::OnInitDialog();
-	
-	m_OpacityBar = ColorBarClass::Get_Color_Bar (::GetDlgItem (m_hWnd, IDC_OPACITY_BAR));
-	ASSERT (m_OpacityBar);
+    CDialog::OnInitDialog();
 
-	//
-	// Setup the opacity bar
-	//
-	m_OpacityBar->Set_Range (0, 1);
-	m_OpacityBar->Modify_Point (0, 0, 0, 0, 0);
-	m_OpacityBar->Insert_Point (1, 1, 255, 255, 255);
-	m_OpacityBar->Set_Selection_Pos (m_Opacity);
-	return TRUE;
+    m_OpacityBar = ColorBarClass::Get_Color_Bar(::GetDlgItem(m_hWnd, IDC_OPACITY_BAR));
+    ASSERT(m_OpacityBar);
+
+    //
+    // Setup the opacity bar
+    //
+    m_OpacityBar->Set_Range(0, 1);
+    m_OpacityBar->Modify_Point(0, 0, 0, 0, 0);
+    m_OpacityBar->Insert_Point(1, 1, 255, 255, 255);
+    m_OpacityBar->Set_Selection_Pos(m_Opacity);
+    return TRUE;
 }
-
 
 /////////////////////////////////////////////////////////////////////////////
 //
 // OnOK
 //
 /////////////////////////////////////////////////////////////////////////////
-void
-OpacitySettingsDialogClass::OnOK (void)
+void OpacitySettingsDialogClass::OnOK(void)
 {
-	m_Opacity = m_OpacityBar->Get_Selection_Pos ();
-	CDialog::OnOK ();
-	return ;
+    m_Opacity = m_OpacityBar->Get_Selection_Pos();
+    CDialog::OnOK();
+    return;
 }

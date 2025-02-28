@@ -44,8 +44,8 @@
 #define MESHDAM_H
 
 #include "always.h"
-#include "vector3.h"
 #include "bittype.h"
+#include "vector3.h"
 #include "w3derr.h"
 
 class MeshModelClass;
@@ -101,8 +101,6 @@ protected:
 	friend class MeshClass;
 };
 
-
 #endif
 
-
-#endif //0
+#endif // 0

@@ -17,24 +17,23 @@
 */
 
 /* $Header: /Commando/Code/Tools/max2w3d/dllmain.h 4     10/28/97 6:08p Greg_h $ */
-/*********************************************************************************************** 
- ***                            Confidential - Westwood Studios                              *** 
- *********************************************************************************************** 
- *                                                                                             * 
- *                 Project Name : Commando / G                                                 * 
- *                                                                                             * 
- *                    File Name : DLLMAIN.H                                                    * 
- *                                                                                             * 
- *                   Programmer : Greg Hjelstrom                                               * 
- *                                                                                             * 
- *                   Start Date : 06/09/97                                                     * 
- *                                                                                             * 
- *                  Last Update : June 9, 1997 [GH]                                            * 
- *                                                                                             * 
- *---------------------------------------------------------------------------------------------* 
- * Functions:                                                                                  * 
+/***********************************************************************************************
+ ***                            Confidential - Westwood Studios                              ***
+ ***********************************************************************************************
+ *                                                                                             *
+ *                 Project Name : Commando / G                                                 *
+ *                                                                                             *
+ *                    File Name : DLLMAIN.H                                                    *
+ *                                                                                             *
+ *                   Programmer : Greg Hjelstrom                                               *
+ *                                                                                             *
+ *                   Start Date : 06/09/97                                                     *
+ *                                                                                             *
+ *                  Last Update : June 9, 1997 [GH]                                            *
+ *                                                                                             *
+ *---------------------------------------------------------------------------------------------*
+ * Functions:                                                                                  *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
-
 
 #ifndef DLLMAIN_H
 #define DLLMAIN_H
@@ -46,6 +45,6 @@ extern HINSTANCE AppInstance;
 #define MAX_STRING_LENGTH 256
 #define MAX_PATH_LENGTH _MAX_PATH
 
-TCHAR * Get_String(int id);
+TCHAR* Get_String(int id);
 
 #endif /*DLLMAIN_H*/

@@ -19,9 +19,9 @@
 // WWCtrl.cpp : Defines the initialization routines for the DLL.
 //
 
+#include "WWCtrl.H"
 #include "stdafx.h"
 #include <afxdllx.h>
-#include "WWCtrl.H"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -33,8 +33,8 @@ static char THIS_FILE[] = __FILE__;
 //
 // Declarations
 //
-extern void RegisterColorPicker (HINSTANCE hinst);
-extern void RegisterColorBar (HINSTANCE hinst);
+extern void RegisterColorPicker(HINSTANCE hinst);
+extern void RegisterColorBar(HINSTANCE hinst);
 
 HINSTANCE _hinstance = NULL;
 
@@ -45,55 +45,51 @@ static AFX_EXTENSION_MODULE WWCtrlDLL = { NULL, NULL };
 //	DllMain
 //
 /////////////////////////////////////////////////////////////
-extern "C" int APIENTRY
-DllMain (HINSTANCE hInstance, DWORD dwReason, LPVOID lpReserved)
+extern "C" int APIENTRY DllMain(HINSTANCE hInstance, DWORD dwReason, LPVOID lpReserved)
 {
-	// Remove this if you use lpReserved
-	UNREFERENCED_PARAMETER(lpReserved);
+    // Remove this if you use lpReserved
+    UNREFERENCED_PARAMETER(lpReserved);
 
-	if (dwReason == DLL_PROCESS_ATTACH)
-	{
-		TRACE0("WWCTRL.DLL Initializing!\n");
-		_hinstance = hInstance;
-		
-		// Extension DLL one-time initialization
-		if (!AfxInitExtensionModule(WWCtrlDLL, hInstance))
-			return 0;
+    if (dwReason == DLL_PROCESS_ATTACH) {
+        TRACE0("WWCTRL.DLL Initializing!\n");
+        _hinstance = hInstance;
 
-		// Insert this DLL into the resource chain
-		// NOTE: If this Extension DLL is being implicitly linked to by
-		//  an MFC Regular DLL (such as an ActiveX Control)
-		//  instead of an MFC application, then you will want to
-		//  remove this line from DllMain and put it in a separate
-		//  function exported from this Extension DLL.  The Regular DLL
-		//  that uses this Extension DLL should then explicitly call that
-		//  function to initialize this Extension DLL.  Otherwise,
-		//  the CDynLinkLibrary object will not be attached to the
-		//  Regular DLL's resource chain, and serious problems will
-		//  result.
+        // Extension DLL one-time initialization
+        if (!AfxInitExtensionModule(WWCtrlDLL, hInstance)) {
+            return 0;
+        }
 
-		RegisterColorPicker (hInstance);
-		RegisterColorBar (hInstance);
+        // Insert this DLL into the resource chain
+        // NOTE: If this Extension DLL is being implicitly linked to by
+        //  an MFC Regular DLL (such as an ActiveX Control)
+        //  instead of an MFC application, then you will want to
+        //  remove this line from DllMain and put it in a separate
+        //  function exported from this Extension DLL.  The Regular DLL
+        //  that uses this Extension DLL should then explicitly call that
+        //  function to initialize this Extension DLL.  Otherwise,
+        //  the CDynLinkLibrary object will not be attached to the
+        //  Regular DLL's resource chain, and serious problems will
+        //  result.
 
-		new CDynLinkLibrary(WWCtrlDLL);
-	}
-	else if (dwReason == DLL_PROCESS_DETACH)
-	{
-		TRACE0("WWCTRL.DLL Terminating!\n");
-		// Terminate the library before destructors are called
-		AfxTermExtensionModule(WWCtrlDLL);
-	}
-	return 1;   // ok
+        RegisterColorPicker(hInstance);
+        RegisterColorBar(hInstance);
+
+        new CDynLinkLibrary(WWCtrlDLL);
+    }
+    else if (dwReason == DLL_PROCESS_DETACH) {
+        TRACE0("WWCTRL.DLL Terminating!\n");
+        // Terminate the library before destructors are called
+        AfxTermExtensionModule(WWCtrlDLL);
+    }
+    return 1; // ok
 }
-
 
 /////////////////////////////////////////////////////////////
 //
 //	Initialize_WWCtrl
 //
 /////////////////////////////////////////////////////////////
-__declspec (dllexport) void
-Initialize_WWCtrl (void)
+__declspec(dllexport) void Initialize_WWCtrl(void)
 {
-	return ;
+    return;
 }

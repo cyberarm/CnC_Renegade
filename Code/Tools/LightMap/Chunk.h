@@ -16,22 +16,22 @@
 **	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-/*********************************************************************************************** 
- ***                            Confidential - Westwood Studios                              *** 
- *********************************************************************************************** 
- *                                                                                             * 
- *                 Project Name : LightMap                                                     * 
- *                                                                                             * 
- *                     $Archive:: /Commando/Code/Tool $* 
- *                                                                                             * 
- *                      $Author:: Ian_l               $* 
- *                                                                                             * 
- *                     $Modtime:: 8/17/99 2:44p       $* 
- *                                                                                             * 
- *                    $Revision:: 1                                                         $* 
- *                                                                                             * 
- *---------------------------------------------------------------------------------------------* 
- * Functions:                                                                                  * 
+/***********************************************************************************************
+ ***                            Confidential - Westwood Studios                              ***
+ ***********************************************************************************************
+ *                                                                                             *
+ *                 Project Name : LightMap                                                     *
+ *                                                                                             *
+ *                     $Archive:: /Commando/Code/Tool $*
+ *                                                                                             *
+ *                      $Author:: Ian_l               $*
+ *                                                                                             *
+ *                     $Modtime:: 8/17/99 2:44p       $*
+ *                                                                                             *
+ *                    $Revision:: 1                                                         $*
+ *                                                                                             *
+ *---------------------------------------------------------------------------------------------*
+ * Functions:                                                                                  *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
 #ifndef CHUNK_H
@@ -40,20 +40,21 @@
 // Includes.
 #include "Chunkio.h"
 
-
 class ChunkClass : public ChunkHeader
 {
-	public:
+public:
+    ChunkClass(ChunkLoadClass& loadchunk);
+    ~ChunkClass()
+    {
+        if (Data != NULL) {
+            delete[] Data;
+        }
+    }
 
-		 ChunkClass (ChunkLoadClass &loadchunk);
-		~ChunkClass() {if (Data != NULL) delete [] Data;}
+    void* Get_Data() const { return (Data); }
 
-		void *Get_Data() const {return (Data);}
-
-	private:
-
-		char *Data;
+private:
+    char* Data;
 };
-
 
 #endif // CHUNK_H

@@ -16,52 +16,51 @@
 **	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-/*********************************************************************************************** 
- ***                            Confidential - Westwood Studios                              *** 
- *********************************************************************************************** 
- *                                                                                             * 
- *                 Project Name : Commando                                                     * 
- *                                                                                             * 
- *                     $Archive:: /Commando/Code/Commando/svrgoodbyeevent.h                      $* 
- *                                                                                             * 
- *                      $Author:: Tom_s                                                       $* 
- *                                                                                             * 
- *                     $Modtime:: 9/21/01 2:42p                                               $* 
- *                                                                                             * 
- *                    $Revision:: 3                                                          $* 
- *                                                                                             * 
- *---------------------------------------------------------------------------------------------* 
- * Functions:                                                                                  * 
+/***********************************************************************************************
+ ***                            Confidential - Westwood Studios                              ***
+ ***********************************************************************************************
+ *                                                                                             *
+ *                 Project Name : Commando                                                     *
+ *                                                                                             *
+ *                     $Archive:: /Commando/Code/Commando/svrgoodbyeevent.h                      $*
+ *                                                                                             *
+ *                      $Author:: Tom_s                                                       $*
+ *                                                                                             *
+ *                     $Modtime:: 9/21/01 2:42p                                               $*
+ *                                                                                             *
+ *                    $Revision:: 3                                                          $*
+ *                                                                                             *
+ *---------------------------------------------------------------------------------------------*
+ * Functions:                                                                                  *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
 #ifndef __SVRGOODBYEEVENT_H__
 #define __SVRGOODBYEEVENT_H__
 
-#include "netevent.h"
 #include "netclassids.h"
+#include "netevent.h"
 
 //-----------------------------------------------------------------------------
 //
 // A S->C mirrored object to represent server destruction
 //
-class	cSvrGoodbyeEvent : public cNetEvent
+class cSvrGoodbyeEvent : public cNetEvent
 {
 public:
-   cSvrGoodbyeEvent(void);
+    cSvrGoodbyeEvent(void);
 
-	void						Init(bool flag);
+    void Init(bool flag);
 
-	virtual void			Export_Creation(BitStreamClass &packet);
-	virtual void			Import_Creation(BitStreamClass &packet);
-	virtual uint32			Get_Network_Class_ID(void) const				{return NETCLASSID_SVRGOODBYEEVENT;}
+    virtual void Export_Creation(BitStreamClass& packet);
+    virtual void Import_Creation(BitStreamClass& packet);
+    virtual uint32 Get_Network_Class_ID(void) const { return NETCLASSID_SVRGOODBYEEVENT; }
 
 private:
+    virtual void Act(void);
 
-	virtual void			Act(void);
-
-	bool						IsQuickFullExitRequested;
+    bool IsQuickFullExitRequested;
 };
 
 //-----------------------------------------------------------------------------
 
-#endif	// __SVRGOODBYEEVENT_H__
+#endif // __SVRGOODBYEEVENT_H__

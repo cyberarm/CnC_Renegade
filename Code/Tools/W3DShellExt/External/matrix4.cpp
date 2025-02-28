@@ -24,24 +24,25 @@
  *                                                                                             *
  *                     $Archive:: /Commando/Code/Tools/W3DShellExt/External/matrix4.cpp       $*
  *                                                                                             *
- *                   Programmer : Kenny Mitchell															  * 
- *																															  * 
- *                   Start Date : 11/16/99																	  * 
- *																															  * 
- *                  Last Update : 11/16/99																	  * 
- *																															  * 
- *---------------------------------------------------------------------------------------------* 
- * Based on Greg Hjelstrom 97 																					  *
- * Functions:                                                                                  *
+ *                   Programmer : Kenny Mitchell
+ **
+ *																															  *
+ *                   Start Date : 11/16/99
+ **
+ *																															  *
+ *                  Last Update : 11/16/99
+ **
+ *																															  *
+ *---------------------------------------------------------------------------------------------*
+ * Based on Greg Hjelstrom 97
+ ** Functions:                                                                                  *
  *   Matrix4::Multiply -- Multiply two Matrix4's together                                      *
  *   Matrix4::Multiply -- Multiply a Matrix3D * Matrix4                                        *
  *   Matrix4::Multiply -- Multiply a Matrix4 * Matrix3D                                        *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
-#include <assert.h>
-
 #include "matrix4.h"
-
+#include <assert.h>
 
 #if 0
 /***********************************************************************************************
@@ -64,7 +65,7 @@ void Matrix4::Multiply(const Matrix4 &a,const Matrix4 &b,Matrix4 * res)
 	assert(res != &a);
 	assert(res != &b);
 
-	#define ROWCOL(i,j) a[i][0]*b[0][j] + a[i][1]*b[1][j] + a[i][2]*b[2][j] + a[i][3]*b[3][j]
+#define ROWCOL(i, j) a[i][0] * b[0][j] + a[i][1] * b[1][j] + a[i][2] * b[2][j] + a[i][3] * b[3][j]
 
 	(*res)[0][0] = ROWCOL(0,0);
 	(*res)[0][1] = ROWCOL(0,1);
@@ -86,7 +87,7 @@ void Matrix4::Multiply(const Matrix4 &a,const Matrix4 &b,Matrix4 * res)
 	(*res)[3][2] = ROWCOL(3,2);
 	(*res)[3][3] = ROWCOL(3,3);
 
-	#undef ROWCOL
+#undef ROWCOL
 }
 
 
@@ -106,7 +107,7 @@ void Matrix4::Multiply(const Matrix3D &a,const Matrix4 &b,Matrix4 * res)
 {
 	assert(res != &b);
 
-	#define ROWCOL(i,j) a[i][0]*b[0][j] + a[i][1]*b[1][j] + a[i][2]*b[2][j] + a[i][3]*b[3][j]
+#define ROWCOL(i, j) a[i][0] * b[0][j] + a[i][1] * b[1][j] + a[i][2] * b[2][j] + a[i][3] * b[3][j]
 
 	(*res)[0][0] = ROWCOL(0,0);
 	(*res)[0][1] = ROWCOL(0,1);
@@ -128,7 +129,7 @@ void Matrix4::Multiply(const Matrix3D &a,const Matrix4 &b,Matrix4 * res)
 	(*res)[3][2] = b[3][2];
 	(*res)[3][3] = b[3][3];
 
-	#undef ROWCOL
+#undef ROWCOL
 }
 
 
@@ -150,8 +151,8 @@ void Matrix4::Multiply(const Matrix4 & a,const Matrix3D & b,Matrix4 * res)
 	// ROWCOL multiplies a row of 'a' by one of the first three columns of 'b' (4th entry in b is zero)
 	// ROWCOL4 multiplies a row of 'a' by the fourth column of 'b' (4th entry in b is one)
 
-	#define ROWCOL(i,j) a[i][0]*b[0][j] + a[i][1]*b[1][j] + a[i][2]*b[2][j]
-	#define ROWCOL4(i,j) a[i][0]*b[0][j] + a[i][1]*b[1][j] + a[i][2]*b[2][j] + a[i][3]
+#define ROWCOL(i, j) a[i][0] * b[0][j] + a[i][1] * b[1][j] + a[i][2] * b[2][j]
+#define ROWCOL4(i, j) a[i][0] * b[0][j] + a[i][1] * b[1][j] + a[i][2] * b[2][j] + a[i][3]
 
 	(*res)[0][0] = ROWCOL(0,0);
 	(*res)[0][1] = ROWCOL(0,1);
@@ -173,8 +174,8 @@ void Matrix4::Multiply(const Matrix4 & a,const Matrix3D & b,Matrix4 * res)
 	(*res)[3][2] = ROWCOL(3,2);
 	(*res)[3][3] = ROWCOL4(3,3);
 
-	#undef ROWCOL
-	#undef ROWCOL4
+#undef ROWCOL
+#undef ROWCOL4
 }
 
 /***********************************************************************************************

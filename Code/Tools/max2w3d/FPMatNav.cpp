@@ -18,85 +18,83 @@
 
 /**********************************************************************
  *<
-	FILE: FPMatNav.cpp
+        FILE: FPMatNav.cpp
 
-	DESCRIPTION:	Function published access for material navigator messages
+        DESCRIPTION:	Function published access for material navigator messages
 
-	CREATED BY:		Michael Russo
+        CREATED BY:		Michael Russo
 
-	HISTORY:		02-08-2002	Created
+        HISTORY:		02-08-2002	Created
 
  *>	Copyright (c) 2000, All Rights Reserved.
  **********************************************************************/
 #if defined W3D_GMAXDEV
 
-#include "Max.h"
 #include "GMaxMtlDlg.h"
-#include "GameMtlForm.h"
 #include "GameMtl.h"
+#include "GameMtlForm.h"
+#include "Max.h"
 #include "resource.h"
 
-extern GMaxMtlDlg		* GMaxMaterialDialog;
+extern GMaxMtlDlg* GMaxMaterialDialog;
 extern GameMtlActionCB* Game_Mtl_ActionCB;
-
 
 //============================================================================================
 FPMatNav fpMatNav(FPMATNAV_INTERFACE, _T("MaterialNavNotify"), 0, NULL, FP_CORE,
-	IFPMatNav::idLaunch, _T("Launch"), 0, TYPE_VOID, 0, 0,
-	IFPMatNav::idSetMultiMaterialTabBySlot, _T("SetMultiMaterialTabBySlot"), 0, TYPE_VOID, 0, 3,
-		_T("slot"), 0, TYPE_INT,
-		_T("SubMtlTexIndex"), 0, TYPE_INT,
-		_T("Element"), 0, TYPE_INT,
-	IFPMatNav::idSetMaterialTabBySlot, _T("SetMaterialTabBySlot"), 0, TYPE_VOID, 0, 2,
-		_T("slot"), 0, TYPE_INT,
-		_T("Element"), 0, TYPE_INT,
-	IFPMatNav::idSetMultiMaterialBySlot, _T("SetMultiMaterialBySlot"), 0, TYPE_VOID, 0, 2,
-		_T("slot"), 0, TYPE_INT,
-		_T("Element"), 0, TYPE_INT,
-	IFPMatNav::idSetMaterialBySlot, _T("SetMaterialBySlot"), 0, TYPE_VOID, 0, 1,
-		_T("slot"), 0, TYPE_INT,
-end 
-);
+                  IFPMatNav::idLaunch, _T("Launch"), 0, TYPE_VOID, 0, 0,
+                  IFPMatNav::idSetMultiMaterialTabBySlot, _T("SetMultiMaterialTabBySlot"), 0,
+                  TYPE_VOID, 0, 3, _T("slot"), 0, TYPE_INT, _T("SubMtlTexIndex"), 0, TYPE_INT,
+                  _T("Element"), 0, TYPE_INT, IFPMatNav::idSetMaterialTabBySlot,
+                  _T("SetMaterialTabBySlot"), 0, TYPE_VOID, 0, 2, _T("slot"), 0, TYPE_INT,
+                  _T("Element"), 0, TYPE_INT, IFPMatNav::idSetMultiMaterialBySlot,
+                  _T("SetMultiMaterialBySlot"), 0, TYPE_VOID, 0, 2, _T("slot"), 0, TYPE_INT,
+                  _T("Element"), 0, TYPE_INT, IFPMatNav::idSetMaterialBySlot,
+                  _T("SetMaterialBySlot"), 0, TYPE_VOID, 0, 1, _T("slot"), 0, TYPE_INT, end);
 
-IFPMatNav *FPMatNav::m_pIFPMatNavCallback = NULL;
+IFPMatNav* FPMatNav::m_pIFPMatNavCallback = NULL;
 
 //============================================================================================
-void FPMatNav::Launch(){
-	if( m_pIFPMatNavCallback ) {
-		m_pIFPMatNavCallback->Launch();
-	}
+void FPMatNav::Launch()
+{
+    if (m_pIFPMatNavCallback) {
+        m_pIFPMatNavCallback->Launch();
+    }
 }
 //============================================================================================
-void FPMatNav::SetMultiMaterialTabBySlot( int iSlot, int iSubMtlTexIndex, int iElement ){
-	if( m_pIFPMatNavCallback ) {
-		m_pIFPMatNavCallback->SetMultiMaterialTabBySlot(iSlot, iSubMtlTexIndex, iElement);
-	}
+void FPMatNav::SetMultiMaterialTabBySlot(int iSlot, int iSubMtlTexIndex, int iElement)
+{
+    if (m_pIFPMatNavCallback) {
+        m_pIFPMatNavCallback->SetMultiMaterialTabBySlot(iSlot, iSubMtlTexIndex, iElement);
+    }
 }
 //============================================================================================
-void FPMatNav::SetMaterialTabBySlot( int iSlot, int iElement ){
-	if( m_pIFPMatNavCallback ) {
-		m_pIFPMatNavCallback->SetMaterialTabBySlot(iSlot, iElement);
-	}
+void FPMatNav::SetMaterialTabBySlot(int iSlot, int iElement)
+{
+    if (m_pIFPMatNavCallback) {
+        m_pIFPMatNavCallback->SetMaterialTabBySlot(iSlot, iElement);
+    }
 }
 //============================================================================================
-void FPMatNav::SetMultiMaterialBySlot( int iSlot, int iIndex ){
-	if( m_pIFPMatNavCallback ) {
-		m_pIFPMatNavCallback->SetMultiMaterialBySlot(iSlot, iIndex);
-	}
+void FPMatNav::SetMultiMaterialBySlot(int iSlot, int iIndex)
+{
+    if (m_pIFPMatNavCallback) {
+        m_pIFPMatNavCallback->SetMultiMaterialBySlot(iSlot, iIndex);
+    }
 }
 //============================================================================================
-void FPMatNav::SetMaterialBySlot(int iSlot ){
-	if( m_pIFPMatNavCallback ) {
-		m_pIFPMatNavCallback->SetMaterialBySlot(iSlot);
-	}else{
-		if(NULL == GMaxMaterialDialog){
-			Game_Mtl_ActionCB->ExecuteAction(IDA_GAMEMTL_DODLG);
-		}
-		//Retry
-		if( NULL != GMaxMaterialDialog && m_pIFPMatNavCallback ) {
-			m_pIFPMatNavCallback->SetMaterialBySlot(iSlot);
-		}
-	}
+void FPMatNav::SetMaterialBySlot(int iSlot)
+{
+    if (m_pIFPMatNavCallback) {
+        m_pIFPMatNavCallback->SetMaterialBySlot(iSlot);
+    }
+    else {
+        if (NULL == GMaxMaterialDialog) {
+            Game_Mtl_ActionCB->ExecuteAction(IDA_GAMEMTL_DODLG);
+        }
+        // Retry
+        if (NULL != GMaxMaterialDialog && m_pIFPMatNavCallback) {
+            m_pIFPMatNavCallback->SetMaterialBySlot(iSlot);
+        }
+    }
 }
 #endif
-

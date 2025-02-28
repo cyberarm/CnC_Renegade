@@ -17,70 +17,63 @@
 */
 
 /* $Header: /Commando/Code/Tools/max2w3d/logdlg.h 4     11/07/00 5:40p Greg_h $ */
-/*********************************************************************************************** 
- ***                            Confidential - Westwood Studios                              *** 
- *********************************************************************************************** 
- *                                                                                             * 
- *                 Project Name : Commando Tools - W3D export                                  * 
- *                                                                                             * 
- *                     $Archive:: /Commando/Code/Tools/max2w3d/logdlg.h                       $* 
- *                                                                                             * 
- *                      $Author:: Greg_h                                                      $* 
- *                                                                                             * 
- *                     $Modtime:: 11/07/00 3:15p                                              $* 
- *                                                                                             * 
- *                    $Revision:: 4                                                           $* 
- *                                                                                             * 
- *---------------------------------------------------------------------------------------------* 
- * Functions:                                                                                  * 
+/***********************************************************************************************
+ ***                            Confidential - Westwood Studios                              ***
+ ***********************************************************************************************
+ *                                                                                             *
+ *                 Project Name : Commando Tools - W3D export                                  *
+ *                                                                                             *
+ *                     $Archive:: /Commando/Code/Tools/max2w3d/logdlg.h                       $*
+ *                                                                                             *
+ *                      $Author:: Greg_h                                                      $*
+ *                                                                                             *
+ *                     $Modtime:: 11/07/00 3:15p                                              $*
+ *                                                                                             *
+ *                    $Revision:: 4                                                           $*
+ *                                                                                             *
+ *---------------------------------------------------------------------------------------------*
+ * Functions:                                                                                  *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
-
 
 #ifndef LOGDLG_H
 #define LOGDLG_H
 
 #include <windows.h>
 
-
 class LogDataDialogClass
 {
 public:
+    LogDataDialogClass(HWND parent);
+    ~LogDataDialogClass();
 
-	LogDataDialogClass(HWND parent);
-	~LogDataDialogClass();
-	
-   void	Wait_OK();	// wait for user to hit OK
-   
-   void	printf(char *, ...);
-	void	printf(char * text, const va_list & args);
-	void  rprintf(char *, ...);
-	void	rprintf(char *text, const va_list & args);
-	
-	void	updatebar(float position, float total);
-   
-	bool	Dialog_Proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM);
+    void Wait_OK(); // wait for user to hit OK
+
+    void printf(char*, ...);
+    void printf(char* text, const va_list& args);
+    void rprintf(char*, ...);
+    void rprintf(char* text, const va_list& args);
+
+    void updatebar(float position, float total);
+
+    bool Dialog_Proc(HWND hWnd, UINT message, WPARAM wParam, LPARAM);
 
 public:
-// public variables
-	HWND		Hwnd;
-	HWND		ParentHwnd;
+    // public variables
+    HWND Hwnd;
+    HWND ParentHwnd;
 
 private:
-
-	void Dialog_Init();
+    void Dialog_Init();
 
 private:
+    HANDLE ThreadHandle;
+    DWORD ThreadID;
 
-	HANDLE	ThreadHandle;
-	DWORD		ThreadID;
+    int last_buffer_index;
+    int buffer_index;
 
-	int	last_buffer_index;
-	int	buffer_index;
-
-volatile int status;
-  
+    volatile int status;
 };
-
 
 #endif
 

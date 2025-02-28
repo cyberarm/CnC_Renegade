@@ -17,24 +17,23 @@
 */
 
 /* $Header: /Commando/Code/Tools/max2w3d/vxldbg.h 3     10/28/97 6:08p Greg_h $ */
-/*********************************************************************************************** 
- ***                            Confidential - Westwood Studios                              *** 
- *********************************************************************************************** 
- *                                                                                             * 
- *                 Project Name : Commando / G 3D Engine                                       * 
- *                                                                                             * 
- *                     $Archive:: /Commando/Code/Tools/max2w3d/vxldbg.h                       $* 
- *                                                                                             * 
- *                      $Author:: Greg_h                                                      $* 
- *                                                                                             * 
- *                     $Modtime:: 10/14/97 3:07p                                              $* 
- *                                                                                             * 
- *                    $Revision:: 3                                                           $* 
- *                                                                                             * 
- *---------------------------------------------------------------------------------------------* 
- * Functions:                                                                                  * 
+/***********************************************************************************************
+ ***                            Confidential - Westwood Studios                              ***
+ ***********************************************************************************************
+ *                                                                                             *
+ *                 Project Name : Commando / G 3D Engine                                       *
+ *                                                                                             *
+ *                     $Archive:: /Commando/Code/Tools/max2w3d/vxldbg.h                       $*
+ *                                                                                             *
+ *                      $Author:: Greg_h                                                      $*
+ *                                                                                             *
+ *                     $Modtime:: 10/14/97 3:07p                                              $*
+ *                                                                                             *
+ *                    $Revision:: 3                                                           $*
+ *                                                                                             *
+ *---------------------------------------------------------------------------------------------*
+ * Functions:                                                                                  *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
-
 
 #ifndef VXLDBG_H
 #define VXLDBG_H
@@ -53,30 +52,25 @@
 #include "vxl.h"
 #endif
 
-
 class VoxelDebugWindowClass
 {
 public:
+    VoxelDebugWindowClass(VoxelClass* vxl);
+    ~VoxelDebugWindowClass(void);
 
-	VoxelDebugWindowClass(VoxelClass * vxl);
-	~VoxelDebugWindowClass(void);
-
-	void	Display_Window(void);
-	bool	Dialog_Proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM);
+    void Display_Window(void);
+    bool Dialog_Proc(HWND hWnd, UINT message, WPARAM wParam, LPARAM);
 
 private:
+    int CurLayer;
 
-	int						CurLayer;
+    SimpleDIBClass* Bitmap;
+    VoxelClass* Voxel;
+    HWND WindowHWND;
+    HWND ViewportHWND;
+    ISpinnerControl* LayerSpin;
 
-	SimpleDIBClass *		Bitmap;
-	VoxelClass *			Voxel;
-	HWND						WindowHWND;
-	HWND						ViewportHWND;
-	ISpinnerControl *		LayerSpin;
- 
-	void update_display(void);
+    void update_display(void);
 };
-
-
 
 #endif

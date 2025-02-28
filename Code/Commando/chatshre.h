@@ -21,7 +21,7 @@
 // Project:      Network.lib, for Commando
 // Author:       Tom Spencer-Smith
 // Date:         Dec 1998
-// Description:  
+// Description:
 //
 //-----------------------------------------------------------------------------
 #if defined(_MSV_VER)
@@ -34,27 +34,28 @@
 #include "bittype.h"
 
 //-----------------------------------------------------------------------------
-enum ChatLocationEnum {
-   
-   //
-	// Wol interface
-	//
-   WOLLOC_EXIT,
-   WOLLOC_NOLIST,
-   WOLLOC_LOBBYLIST,
-   WOLLOC_LOBBY,
-   WOLLOC_GAMESLIST,
-	WOLLOC_GAMEDATA,
-   WOLLOC_INGAME,
+enum ChatLocationEnum
+{
 
-   //
-	// Lan interface
-	//
-	LANLOC_EXIT,
-	LANLOC_LOBBY,
-	LANLOC_GAMESLIST,
-	LANLOC_GAMEDATA,
-   LANLOC_INGAME,
+    //
+    // Wol interface
+    //
+    WOLLOC_EXIT,
+    WOLLOC_NOLIST,
+    WOLLOC_LOBBYLIST,
+    WOLLOC_LOBBY,
+    WOLLOC_GAMESLIST,
+    WOLLOC_GAMEDATA,
+    WOLLOC_INGAME,
+
+    //
+    // Lan interface
+    //
+    LANLOC_EXIT,
+    LANLOC_LOBBY,
+    LANLOC_GAMESLIST,
+    LANLOC_GAMEDATA,
+    LANLOC_INGAME,
 };
 
 LPCSTR Translate_Location(ChatLocationEnum location);
@@ -62,4 +63,3 @@ LPCSTR Translate_Location(ChatLocationEnum location);
 //-----------------------------------------------------------------------------
 
 #endif // CHATSHRE_H
-  

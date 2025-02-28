@@ -16,28 +16,28 @@
 **	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-/*********************************************************************************************** 
- ***                            Confidential - Westwood Studios                              *** 
- *********************************************************************************************** 
- *                                                                                             * 
- *                 Project Name : LightMap                                                     * 
- *                                                                                             * 
- *                     $Archive:: /Commando/Code/Tool $* 
- *                                                                                             * 
- *                      $Author:: Ian_l               $* 
- *                                                                                             * 
- *                     $Modtime:: 9/06/00 5:06p       $* 
- *                                                                                             * 
- *                    $Revision:: 3                                                         $* 
- *                                                                                             * 
- *---------------------------------------------------------------------------------------------* 
- * Functions:                                                                                  * 
+/***********************************************************************************************
+ ***                            Confidential - Westwood Studios                              ***
+ ***********************************************************************************************
+ *                                                                                             *
+ *                 Project Name : LightMap                                                     *
+ *                                                                                             *
+ *                     $Archive:: /Commando/Code/Tool $*
+ *                                                                                             *
+ *                      $Author:: Ian_l               $*
+ *                                                                                             *
+ *                     $Modtime:: 9/06/00 5:06p       $*
+ *                                                                                             *
+ *                    $Revision:: 3                                                         $*
+ *                                                                                             *
+ *---------------------------------------------------------------------------------------------*
+ * Functions:                                                                                  *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
 // Includes.
-#include "StdAfx.h"
 #include "LightMap.h"
 #include "SelectionDialog.h"
+#include "StdAfx.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -45,62 +45,59 @@
 static char THIS_FILE[] = __FILE__;
 #endif
 
-
-SelectionDialog::SelectionDialog (DynamicVectorClass <char*> *listptr, CWnd* pParent /*=NULL*/)
-	: CDialog(SelectionDialog::IDD, pParent)
+SelectionDialog::SelectionDialog(DynamicVectorClass<char*>* listptr, CWnd* pParent /*=NULL*/)
+    : CDialog(SelectionDialog::IDD, pParent)
 {
-	//{{AFX_DATA_INIT(SelectionDialog)
-		// NOTE: the ClassWizard will add member initialization here
-	//}}AFX_DATA_INIT
+    //{{AFX_DATA_INIT(SelectionDialog)
+    // NOTE: the ClassWizard will add member initialization here
+    //}}AFX_DATA_INIT
 
-	ListPtr	 = listptr;
-	Selection = -1;		// NOTE: Indicates no current selection.
+    ListPtr = listptr;
+    Selection = -1; // NOTE: Indicates no current selection.
 }
 
 void SelectionDialog::DoDataExchange(CDataExchange* pDX)
 {
-	CDialog::DoDataExchange(pDX);
-	//{{AFX_DATA_MAP(SelectionDialog)
-		// NOTE: the ClassWizard will add DDX and DDV calls here
-	//}}AFX_DATA_MAP
+    CDialog::DoDataExchange(pDX);
+    //{{AFX_DATA_MAP(SelectionDialog)
+    // NOTE: the ClassWizard will add DDX and DDV calls here
+    //}}AFX_DATA_MAP
 }
 
-
 BEGIN_MESSAGE_MAP(SelectionDialog, CDialog)
-	//{{AFX_MSG_MAP(SelectionDialog)
-	ON_WM_DESTROY()
-	//}}AFX_MSG_MAP
+//{{AFX_MSG_MAP(SelectionDialog)
+ON_WM_DESTROY()
+//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
 // SelectionDialog message handlers
-BOOL SelectionDialog::OnInitDialog() 
+BOOL SelectionDialog::OnInitDialog()
 {
-	CDialog::OnInitDialog();
-	
-	if (ListPtr != NULL) {
+    CDialog::OnInitDialog();
 
-		CListBox *listboxptr = (CListBox*) GetDlgItem (IDC_SELECTION_LIST);
-	
-		for (int i = 0; i < ListPtr->Count(); i++) {
-			listboxptr->AddString ((*ListPtr) [i]);
-		}
-	
-		// Set the initial selection.
-		listboxptr->SetCurSel (0);
-	}
+    if (ListPtr != NULL) {
 
-	return TRUE;  // return TRUE unless you set the focus to a control
-	              // EXCEPTION: OCX Property Pages should return FALSE
+        CListBox* listboxptr = (CListBox*)GetDlgItem(IDC_SELECTION_LIST);
+
+        for (int i = 0; i < ListPtr->Count(); i++) {
+            listboxptr->AddString((*ListPtr)[i]);
+        }
+
+        // Set the initial selection.
+        listboxptr->SetCurSel(0);
+    }
+
+    return TRUE; // return TRUE unless you set the focus to a control
+                 // EXCEPTION: OCX Property Pages should return FALSE
 }
 
-
-void SelectionDialog::OnDestroy() 
+void SelectionDialog::OnDestroy()
 {
-	CDialog::OnDestroy();
+    CDialog::OnDestroy();
 
-	CListBox *listboxptr = (CListBox*) GetDlgItem (IDC_SELECTION_LIST);
-	
-	// Record the most recent list box selection.
-	Selection = listboxptr->GetCurSel();
+    CListBox* listboxptr = (CListBox*)GetDlgItem(IDC_SELECTION_LIST);
+
+    // Record the most recent list box selection.
+    Selection = listboxptr->GetCurSel();
 }

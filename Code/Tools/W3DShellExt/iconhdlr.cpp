@@ -38,23 +38,19 @@ extern HINSTANCE g_DllInstance; // Handle to this DLL itself.
 
 // *********************** IExtractIcon Implementation *************************
 
-STDMETHODIMP CShellExt::GetIconLocation(UINT   uFlags,
-                                        LPSTR  szIconFile,
-                                        UINT   cchMax,
-                                        int   *piIndex,
-                                        UINT  *pwFlags)
-{  
+STDMETHODIMP CShellExt::GetIconLocation(UINT uFlags, LPSTR szIconFile, UINT cchMax, int* piIndex,
+                                        UINT* pwFlags)
+{
     GetModuleFileName(g_DllInstance, szIconFile, cchMax);
     *piIndex = (int)GetPrivateProfileInt("IconImage", "Index", 0, m_szFileUserClickedOn);
     return S_OK;
 }
 
-
-STDMETHODIMP CShellExt::Extract(LPCSTR pszFile,UINT   nIconIndex,HICON  *phiconLarge,HICON  *phiconSmall,UINT   nIconSize)
+STDMETHODIMP CShellExt::Extract(LPCSTR pszFile, UINT nIconIndex, HICON* phiconLarge,
+                                HICON* phiconSmall, UINT nIconSize)
 {
     return S_FALSE;
 }
-
 
 // *********************** IPersistFile Implementation ******************
 
@@ -70,7 +66,8 @@ STDMETHODIMP CShellExt::IsDirty()
 
 STDMETHODIMP CShellExt::Load(LPCOLESTR lpszFileName, DWORD grfMode)
 {
-    WideCharToMultiByte(CP_ACP,0,lpszFileName,-1,m_szFileUserClickedOn, sizeof(m_szFileUserClickedOn), NULL,NULL);
+    WideCharToMultiByte(CP_ACP, 0, lpszFileName, -1, m_szFileUserClickedOn,
+                        sizeof(m_szFileUserClickedOn), NULL, NULL);
     return NOERROR;
 }
 

@@ -34,7 +34,6 @@
  * Functions:                                                                                  *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
-
 #if defined(_MSC_VER)
 #pragma once
 #endif
@@ -44,7 +43,7 @@
 
 #include "always.h"
 
-class	PhysClass;
+class PhysClass;
 class RenderObjClass;
 struct CastResultStruct;
 
@@ -56,17 +55,17 @@ struct CastResultStruct;
 class CollisionEventClass
 {
 public:
-	CollisionEventClass(void) : 
-		OtherObj(NULL),
-		CollisionResult(NULL),
-		CollidedRenderObj(NULL)
-	{}
+    CollisionEventClass(void)
+        : OtherObj(NULL),
+          CollisionResult(NULL),
+          CollidedRenderObj(NULL)
+    {
+    }
 
-	PhysClass *						OtherObj;				// set to the other object before given to you
-	const CastResultStruct *	CollisionResult;		// actual collision data.
-	RenderObjClass *				CollidedRenderObj;	// actual render object collided against (may be NULL!)
+    PhysClass* OtherObj; // set to the other object before given to you
+    const CastResultStruct* CollisionResult; // actual collision data.
+    RenderObjClass* CollidedRenderObj; // actual render object collided against (may be NULL!)
 };
-
 
 /*
 ** CollisionReactionType
@@ -75,9 +74,9 @@ public:
 */
 enum _CollisionReactionType
 {
-	COLLISION_REACTION_DEFAULT,
-	COLLISION_REACTION_STOP_MOTION,
-	COLLISION_REACTION_NO_BOUNCE,
+    COLLISION_REACTION_DEFAULT,
+    COLLISION_REACTION_STOP_MOTION,
+    COLLISION_REACTION_NO_BOUNCE,
 };
 
 typedef int CollisionReactionType;
@@ -89,8 +88,8 @@ typedef int CollisionReactionType;
 */
 enum _ExpirationReactionType
 {
-	EXPIRATION_DENIED,
-	EXPIRATION_APPROVED,
+    EXPIRATION_DENIED,
+    EXPIRATION_APPROVED,
 };
 
 typedef int ExpirationReactionType;
@@ -104,12 +103,17 @@ typedef int ExpirationReactionType;
 class PhysObserverClass
 {
 public:
-
-	virtual CollisionReactionType		Collision_Occurred(const CollisionEventClass & event) { return COLLISION_REACTION_DEFAULT; }
-	virtual ExpirationReactionType	Object_Expired(PhysClass * observed_obj)					{ return EXPIRATION_APPROVED; }
-	virtual void							Object_Removed_From_Scene(PhysClass * observed_obj)	{ };
-	virtual void							Object_Shattered_Something(PhysClass * observed_obj, PhysClass * shattered_obj, int surface_type) { };
+    virtual CollisionReactionType Collision_Occurred(const CollisionEventClass& event)
+    {
+        return COLLISION_REACTION_DEFAULT;
+    }
+    virtual ExpirationReactionType Object_Expired(PhysClass* observed_obj)
+    {
+        return EXPIRATION_APPROVED;
+    }
+    virtual void Object_Removed_From_Scene(PhysClass* observed_obj) { };
+    virtual void Object_Shattered_Something(PhysClass* observed_obj, PhysClass* shattered_obj,
+                                            int surface_type) { };
 };
 
-
-#endif	// PHYSOBSERVER_H
+#endif // PHYSOBSERVER_H

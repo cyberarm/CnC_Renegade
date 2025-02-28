@@ -16,24 +16,23 @@
 **	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-/*********************************************************************************************** 
- ***                            Confidential - Westwood Studios                              *** 
- *********************************************************************************************** 
- *                                                                                             * 
- *                 Project Name : Installer                                                    * 
- *                                                                                             * 
- *                     $Archive:: /Commando/Code/Installer/WinMain.cpp  $* 
- *                                                                                             * 
- *                      $Author:: Ian_l                   $* 
- *                                                                                             * 
- *                     $Modtime:: 1/22/02 2:17p                 $* 
- *                                                                                             * 
- *                    $Revision:: 12                    $* 
- *                                                                                             * 
- *---------------------------------------------------------------------------------------------* 
- * Functions:                                                                                  * 
+/***********************************************************************************************
+ ***                            Confidential - Westwood Studios                              ***
+ ***********************************************************************************************
+ *                                                                                             *
+ *                 Project Name : Installer                                                    *
+ *                                                                                             *
+ *                     $Archive:: /Commando/Code/Installer/WinMain.cpp  $*
+ *                                                                                             *
+ *                      $Author:: Ian_l                   $*
+ *                                                                                             *
+ *                     $Modtime:: 1/22/02 2:17p                 $*
+ *                                                                                             *
+ *                    $Revision:: 12                    $*
+ *                                                                                             *
+ *---------------------------------------------------------------------------------------------*
+ * Functions:                                                                                  *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
-
 
 // Include files.
 #include "Argv.h"
@@ -50,34 +49,31 @@
 #include "SaveLoad.h"
 #include "Timer.h"
 #include "Translator.h"
-#include "Win.h"
 #include "WW3D.h"
 #include "WWFile.h"
-#include <malloc.h>
+#include "Win.h"
 #include <dbt.h>
-
+#include <malloc.h>
 
 // Defines.
-#define AUTORUN_MUTEX_OBJECT			TEXT("01AF9993-3492-11d3-8F6F-0060089C05B1")
-#define APPLICATION_MUTEX_OBJECT		TEXT("C6D925A3-7A9B-4ca3-866D-8B4D506C3665")
-
+#define AUTORUN_MUTEX_OBJECT TEXT("01AF9993-3492-11d3-8F6F-0060089C05B1")
+#define APPLICATION_MUTEX_OBJECT TEXT("C6D925A3-7A9B-4ca3-866D-8B4D506C3665")
 
 // Static variables.
 
-
 // Foward declarations.
-LRESULT CALLBACK WndProc (HWND, UINT, WPARAM, LPARAM);
-ATOM				  MyRegisterClass (HINSTANCE hInstance);
-bool				  Is_Autorun_Running();
-bool				  Is_Application_Running();
-bool				  Is_Win_95_Or_Above();
-bool				  Is_Win_2K_Or_Above();
-bool				  Running_As_Administrator();
-void				  Prog_End();	
-
+LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
+ATOM MyRegisterClass(HINSTANCE hInstance);
+bool Is_Autorun_Running();
+bool Is_Application_Running();
+bool Is_Win_95_Or_Above();
+bool Is_Win_2K_Or_Above();
+bool Running_As_Administrator();
+void Prog_End();
 
 /***********************************************************************************************
- * WinMain -- Entry point to program.																			  *
+ * WinMain -- Entry point to program.
+ **
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -86,109 +82,115 @@ void				  Prog_End();
  * WARNINGS:                                                                                   *
  *                                                                                             *
  * HISTORY:                                                                                    *
- *   08/22/01    IML : Created.                                                                * 
+ *   08/22/01    IML : Created.                                                                *
  *=============================================================================================*/
-int APIENTRY WinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
+int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
-	int result;
+    int result;
 
-	// Initialize command line parser.
-	ArgvClass::Init (lpCmdLine);
-	TranslateDBClass::Initialize();
+    // Initialize command line parser.
+    ArgvClass::Init(lpCmdLine);
+    TranslateDBClass::Initialize();
 
-	try {
+    try {
 
-		// Set global copy of program instance.
-		ProgramInstance = hInstance;
+        // Set global copy of program instance.
+        ProgramInstance = hInstance;
 
-		// Ensure Autorun or another instance of this application is not running.
-		if ((!Is_Autorun_Running()) && (!Is_Application_Running())) {
+        // Ensure Autorun or another instance of this application is not running.
+        if ((!Is_Autorun_Running()) && (!Is_Application_Running())) {
 
-			// WARNING: Can only raise fatal system errors (not fatal application errors) until
-			//				the translation table has been loaded.
-			const char *installmixname			  = "InstallMix.dat";
-			const char *installstringsfilename = "InstallStrings.tdb";
+            // WARNING: Can only raise fatal system errors (not fatal application errors) until
+            //				the translation table has been loaded.
+            const char* installmixname = "InstallMix.dat";
+            const char* installstringsfilename = "InstallStrings.tdb";
 
-			RAMFileFactoryClass  ramfilefactory;
-			MixFileFactoryClass  mixfilefactory (installmixname, &ramfilefactory);
-			FileClass			  *file;
+            RAMFileFactoryClass ramfilefactory;
+            MixFileFactoryClass mixfilefactory(installmixname, &ramfilefactory);
+            FileClass* file;
 
-			// Perform application initialization.
+            // Perform application initialization.
 
-			// An invalid mixfile factory indicates a read error.
-			if (!mixfilefactory.Is_Valid()) FATAL_SYSTEM_ERROR;
+            // An invalid mixfile factory indicates a read error.
+            if (!mixfilefactory.Is_Valid()) {
+                FATAL_SYSTEM_ERROR;
+            }
 
-			_TheFileFactory = &mixfilefactory;
+            _TheFileFactory = &mixfilefactory;
 
-			//	Load the translation table.
-			file = _TheFileFactory->Get_File (installstringsfilename);
-			if (file == NULL) {
-				
-				// Output an appropriate Windows error message.
-				SetLastError (2);
-				FATAL_SYSTEM_ERROR;
-			}
-			file->Open (FileClass::READ);
-			if (file->Is_Available()) {
+            //	Load the translation table.
+            file = _TheFileFactory->Get_File(installstringsfilename);
+            if (file == NULL) {
 
-				ChunkLoadClass cload (file);
-				
-				SaveLoadSystemClass::Load (cload);
-	
-			} else {
+                // Output an appropriate Windows error message.
+                SetLastError(2);
+                FATAL_SYSTEM_ERROR;
+            }
+            file->Open(FileClass::READ);
+            if (file->Is_Available()) {
 
-				// Output an appropriate Windows error message.
-				SetLastError (2);
-				FATAL_SYSTEM_ERROR;
-			}
-			file->Close();
-			_TheFileFactory->Return_File (file);
+                ChunkLoadClass cload(file);
 
-			// Check for valid OS.
-			if (!(Is_Win_95_Or_Above() || Is_Win_2K_Or_Above())) FATAL_APP_ERROR (IDS_BAD_OS);
+                SaveLoadSystemClass::Load(cload);
+            }
+            else {
 
-			// Check for Administrator rights under Win 2k or above.
-			if (Is_Win_2K_Or_Above()) {
-				if (!Running_As_Administrator()) FATAL_APP_ERROR (IDS_NOT_ADMINISTRATOR);
-			}
+                // Output an appropriate Windows error message.
+                SetLastError(2);
+                FATAL_SYSTEM_ERROR;
+            }
+            file->Close();
+            _TheFileFactory->Return_File(file);
 
-			// Register function to be called at exit. 
-			atexit (Prog_End);
+            // Check for valid OS.
+            if (!(Is_Win_95_Or_Above() || Is_Win_2K_Or_Above())) {
+                FATAL_APP_ERROR(IDS_BAD_OS);
+            }
 
-			MyRegisterClass (hInstance);
+            // Check for Administrator rights under Win 2k or above.
+            if (Is_Win_2K_Or_Above()) {
+                if (!Running_As_Administrator()) {
+                    FATAL_APP_ERROR(IDS_NOT_ADMINISTRATOR);
+                }
+            }
 
-			MainWindow = CreateWindow (RxStringClass (IDS_APPLICATION_MAIN_WINDOW),
-												StringClass (TxWideStringClass (IDS_APPLICATION_NAME)),
-												WS_SYSMENU|WS_CAPTION|WS_MINIMIZEBOX|WS_CLIPCHILDREN,
-												0, 0, 0, 0,
-												NULL, NULL,
-												hInstance, NULL);
+            // Register function to be called at exit.
+            atexit(Prog_End);
 
-			if (MainWindow == NULL) FATAL_SYSTEM_ERROR;
+            MyRegisterClass(hInstance);
 
-			ShowCursor (false);
-			_Installer.Install (&mixfilefactory);
-			ShowCursor (true);
-		}
-		result = 1;
+            MainWindow = CreateWindow(RxStringClass(IDS_APPLICATION_MAIN_WINDOW),
+                                      StringClass(TxWideStringClass(IDS_APPLICATION_NAME)),
+                                      WS_SYSMENU | WS_CAPTION | WS_MINIMIZEBOX | WS_CLIPCHILDREN, 0,
+                                      0, 0, 0, NULL, NULL, hInstance, NULL);
 
-	} catch (const WideStringClass &errormessage) {
+            if (MainWindow == NULL) {
+                FATAL_SYSTEM_ERROR;
+            }
 
-		// Catch handler for fatal errors.
-		DestroyWindow (MainWindow);
-		Windows_Message_Handler();
-		Message_Box (TxWideStringClass (IDS_APPLICATION_ERROR), errormessage);
-		result = 0;
-	}
+            ShowCursor(false);
+            _Installer.Install(&mixfilefactory);
+            ShowCursor(true);
+        }
+        result = 1;
 
-	TranslateDBClass::Shutdown();
-	ArgvClass::Free();
-	return (result);
+    } catch (const WideStringClass& errormessage) {
+
+        // Catch handler for fatal errors.
+        DestroyWindow(MainWindow);
+        Windows_Message_Handler();
+        Message_Box(TxWideStringClass(IDS_APPLICATION_ERROR), errormessage);
+        result = 0;
+    }
+
+    TranslateDBClass::Shutdown();
+    ArgvClass::Free();
+    return (result);
 }
 
-
 /***********************************************************************************************
- * MyRegisterClass --																								  *
+ * MyRegisterClass --
+ **
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -197,34 +199,34 @@ int APIENTRY WinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdL
  * WARNINGS:                                                                                   *
  *                                                                                             *
  * HISTORY:                                                                                    *
- *   08/22/01    IML : Created.                                                                * 
+ *   08/22/01    IML : Created.                                                                *
  *=============================================================================================*/
-ATOM MyRegisterClass (HINSTANCE hInstance)
+ATOM MyRegisterClass(HINSTANCE hInstance)
 {
-	static RxStringClass _classname (IDS_APPLICATION_MAIN_WINDOW);
+    static RxStringClass _classname(IDS_APPLICATION_MAIN_WINDOW);
 
-	WNDCLASSEX wcex;
+    WNDCLASSEX wcex;
 
-	wcex.cbSize = sizeof (WNDCLASSEX); 
+    wcex.cbSize = sizeof(WNDCLASSEX);
 
-	wcex.style			 = CS_HREDRAW | CS_VREDRAW;
-	wcex.lpfnWndProc	 = (WNDPROC)WndProc;
-	wcex.cbClsExtra	 = 0;
-	wcex.cbWndExtra	 = 0;
-	wcex.hInstance		 = hInstance;
-	wcex.hIcon			 = LoadIcon(hInstance, (LPCTSTR)IDI_INSTALLER);
-	wcex.hCursor		 = LoadCursor(NULL, IDC_ARROW);
-	wcex.hbrBackground = (HBRUSH)(COLOR_WINDOW+1);
-	wcex.lpszMenuName	 = (LPCSTR)IDS_INSTALLER;
-	wcex.lpszClassName = _classname;
-	wcex.hIconSm		 = LoadIcon (hInstance, (LPCTSTR)IDI_INSTALLER);
+    wcex.style = CS_HREDRAW | CS_VREDRAW;
+    wcex.lpfnWndProc = (WNDPROC)WndProc;
+    wcex.cbClsExtra = 0;
+    wcex.cbWndExtra = 0;
+    wcex.hInstance = hInstance;
+    wcex.hIcon = LoadIcon(hInstance, (LPCTSTR)IDI_INSTALLER);
+    wcex.hCursor = LoadCursor(NULL, IDC_ARROW);
+    wcex.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
+    wcex.lpszMenuName = (LPCSTR)IDS_INSTALLER;
+    wcex.lpszClassName = _classname;
+    wcex.hIconSm = LoadIcon(hInstance, (LPCTSTR)IDI_INSTALLER);
 
-	return RegisterClassEx (&wcex);
+    return RegisterClassEx(&wcex);
 }
 
-
 /***********************************************************************************************
- * WndProc -- Windows message handler.																			  *
+ * WndProc -- Windows message handler.
+ **
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -233,129 +235,128 @@ ATOM MyRegisterClass (HINSTANCE hInstance)
  * WARNINGS:                                                                                   *
  *                                                                                             *
  * HISTORY:                                                                                    *
- *   08/22/01    IML : Created.                                                                * 
+ *   08/22/01    IML : Created.                                                                *
  *=============================================================================================*/
-LRESULT CALLBACK WndProc (HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	//	Pass this message through to the input handler. If the message
-	//	was processed and requires no further action, then return with
-	//	this information.
-	if (_Installer.Get_Input() != NULL) {
+    //	Pass this message through to the input handler. If the message
+    //	was processed and requires no further action, then return with
+    //	this information.
+    if (_Installer.Get_Input() != NULL) {
 
-		LRESULT result = 0;
+        LRESULT result = 0;
 
-		if (_Installer.Get_Input()->ProcessMessage (hWnd, message, wParam, lParam, result)) {
-			return (result);
-		}
-	}
+        if (_Installer.Get_Input()->ProcessMessage(hWnd, message, wParam, lParam, result)) {
+            return (result);
+        }
+    }
 
-	switch (message)
-	{
-		case WM_ACTIVATEAPP:
-			if (wParam && !GameInFocus) {
-				GameInFocus = true;
-			} else {
-				if (!wParam && GameInFocus) {
-					GameInFocus = false;
-				}
-			}
-			return (0);
+    switch (message) {
+    case WM_ACTIVATEAPP:
+        if (wParam && !GameInFocus) {
+            GameInFocus = true;
+        }
+        else {
+            if (!wParam && GameInFocus) {
+                GameInFocus = false;
+            }
+        }
+        return (0);
 
-		case WM_ERASEBKGND:
-			return (1);
+    case WM_ERASEBKGND:
+        return (1);
 
-		case WM_PAINT:
-			ValidateRect (hWnd, NULL);
-			break;
+    case WM_PAINT:
+        ValidateRect(hWnd, NULL);
+        break;
 
-		case WM_CREATE:
-			break;
+    case WM_CREATE:
+        break;
 
-		case WM_DESTROY:
-			PostQuitMessage (0);
-			break;
+    case WM_DESTROY:
+        PostQuitMessage(0);
+        break;
 
-		case WM_SYSCOMMAND:
-			
-			switch (wParam) {
+    case WM_SYSCOMMAND:
 
-				case SC_CLOSE:
-					
-					// Windows sent us a close message - probably in response to Alt-F4. Ignore it.
-					return (0);
+        switch (wParam) {
 
-				case SC_SCREENSAVE:
-					
-					// Windows is about to start the screen saver. If we just return without passing
-					// this message to DefWindowProc then the screen saver will not be allowed to start.
-					return (0);
+        case SC_CLOSE:
 
-				case SC_KEYMENU:
+            // Windows sent us a close message - probably in response to Alt-F4. Ignore it.
+            return (0);
 
-					// Ignore all "menu-activation" commands.
-					return (0);
-			}
-			break;
+        case SC_SCREENSAVE:
 
-		case WM_KEYUP:
-			
-			// Test for SHIFT + ESC.
-			if ((wParam & 0xff) == VK_ESCAPE && ((GetKeyState (VK_SHIFT) & 0x8000) != 0x0)) {
-				_Installer.Cancel_Introduction();
-			}
+            // Windows is about to start the screen saver. If we just return without passing
+            // this message to DefWindowProc then the screen saver will not be allowed to start.
+            return (0);
 
-			#if !NDEBUG
-			// Test for Print Screen (screenshot).
-			if ((wParam & 0xff) == VK_SNAPSHOT) {
-				WW3D::Make_Screen_Shot();
-			}
-			#endif
+        case SC_KEYMENU:
 
-		case WM_MOUSEWHEEL:
-		{
-			if (_Installer.Get_Input() != NULL) {
-				_Installer.Get_Input()->Add_Mouse_Wheel (HIWORD (wParam));
-				return (0);
-			}
-			break;
-		}
+            // Ignore all "menu-activation" commands.
+            return (0);
+        }
+        break;
 
-		case WM_DEVICECHANGE:
-		{
-			PDEV_BROADCAST_HDR pdbch;
+    case WM_KEYUP:
 
-			pdbch = (PDEV_BROADCAST_HDR) lParam;
-			if (pdbch != NULL) {
-				if (pdbch->dbch_devicetype == DBT_DEVTYP_VOLUME) {
+        // Test for SHIFT + ESC.
+        if ((wParam & 0xff) == VK_ESCAPE && ((GetKeyState(VK_SHIFT) & 0x8000) != 0x0)) {
+            _Installer.Cancel_Introduction();
+        }
 
-					// Assume that this is the CD-ROM drive.
-					if (wParam == DBT_DEVICEQUERYREMOVE) {
-						ShowWindow (hWnd, SW_MINIMIZE);
-					} else {
-						if (wParam == DBT_DEVICEARRIVAL) {
-							if (IsIconic (hWnd)) {
-								ShowWindow (hWnd, SW_RESTORE);
-							}
-							SetForegroundWindow (hWnd);
-						}
-					}
-					return (TRUE);
-				}
-			}
-			break;
-		}					 
-		
-		default:
-			break;
-	}
+#if !NDEBUG
+        // Test for Print Screen (screenshot).
+        if ((wParam & 0xff) == VK_SNAPSHOT) {
+            WW3D::Make_Screen_Shot();
+        }
+#endif
 
-	return (DefWindowProc (hWnd, message, wParam, lParam));
+    case WM_MOUSEWHEEL: {
+        if (_Installer.Get_Input() != NULL) {
+            _Installer.Get_Input()->Add_Mouse_Wheel(HIWORD(wParam));
+            return (0);
+        }
+        break;
+    }
+
+    case WM_DEVICECHANGE: {
+        PDEV_BROADCAST_HDR pdbch;
+
+        pdbch = (PDEV_BROADCAST_HDR)lParam;
+        if (pdbch != NULL) {
+            if (pdbch->dbch_devicetype == DBT_DEVTYP_VOLUME) {
+
+                // Assume that this is the CD-ROM drive.
+                if (wParam == DBT_DEVICEQUERYREMOVE) {
+                    ShowWindow(hWnd, SW_MINIMIZE);
+                }
+                else {
+                    if (wParam == DBT_DEVICEARRIVAL) {
+                        if (IsIconic(hWnd)) {
+                            ShowWindow(hWnd, SW_RESTORE);
+                        }
+                        SetForegroundWindow(hWnd);
+                    }
+                }
+                return (TRUE);
+            }
+        }
+        break;
+    }
+
+    default:
+        break;
+    }
+
+    return (DefWindowProc(hWnd, message, wParam, lParam));
 }
-
 
 /***********************************************************************************************
  * InstallerClass::Is_Autorun_Running -- Determine whether Autorun (a sister application) is	  *
- *													  running.															  *
+ *													  running.
+ **
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -364,40 +365,39 @@ LRESULT CALLBACK WndProc (HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
  * WARNINGS:                                                                                   *
  *                                                                                             *
  * HISTORY:                                                                                    *
- *   08/22/01    IML : Created.                                                                * 
+ *   08/22/01    IML : Created.                                                                *
  *=============================================================================================*/
 bool Is_Autorun_Running()
 {
-	HANDLE autorunmutex = OpenMutex (MUTEX_ALL_ACCESS & SYNCHRONIZE, FALSE, AUTORUN_MUTEX_OBJECT);
+    HANDLE autorunmutex = OpenMutex(MUTEX_ALL_ACCESS & SYNCHRONIZE, FALSE, AUTORUN_MUTEX_OBJECT);
 
-	if (autorunmutex != NULL) {
+    if (autorunmutex != NULL) {
 
-		HWND window = FindWindow (RxStringClass (IDS_AUTORUN_MAIN_WINDOW), NULL);
-		if (window) {
+        HWND window = FindWindow(RxStringClass(IDS_AUTORUN_MAIN_WINDOW), NULL);
+        if (window) {
 
-			CDTimerClass <SafeTimerClass> delaytimer (10 * 1000);
+            CDTimerClass<SafeTimerClass> delaytimer(10 * 1000);
 
-			// Hang around for a while to see if Autorun is about to quit...
-			while ((delaytimer.Value() > 0) && (window != NULL)) {
-				window = FindWindow (RxStringClass (IDS_AUTORUN_MAIN_WINDOW), NULL);
-			}
-		}
+            // Hang around for a while to see if Autorun is about to quit...
+            while ((delaytimer.Value() > 0) && (window != NULL)) {
+                window = FindWindow(RxStringClass(IDS_AUTORUN_MAIN_WINDOW), NULL);
+            }
+        }
 
-		CloseHandle (autorunmutex);
-		
-		// If the Autorun window still exists bring it to the foreground.
-		if (window) {
+        CloseHandle(autorunmutex);
 
-			if (IsIconic (window)) {
-				ShowWindow (window, SW_RESTORE);
-			}
-			SetForegroundWindow (window);
-		}
-	}
+        // If the Autorun window still exists bring it to the foreground.
+        if (window) {
 
-	return (autorunmutex != NULL);
+            if (IsIconic(window)) {
+                ShowWindow(window, SW_RESTORE);
+            }
+            SetForegroundWindow(window);
+        }
+    }
+
+    return (autorunmutex != NULL);
 }
-
 
 /***********************************************************************************************
  * InstallerClass::Is_Application_Running -- Determine whether this application is running.	  *
@@ -409,29 +409,32 @@ bool Is_Autorun_Running()
  * WARNINGS:                                                                                   *
  *                                                                                             *
  * HISTORY:                                                                                    *
- *   08/22/01    IML : Created.                                                                * 
+ *   08/22/01    IML : Created.                                                                *
  *=============================================================================================*/
 bool Is_Application_Running()
 {
-	HANDLE appmutex = CreateMutex (NULL, FALSE, APPLICATION_MUTEX_OBJECT);
-	if (appmutex == NULL) FATAL_SYSTEM_ERROR;
+    HANDLE appmutex = CreateMutex(NULL, FALSE, APPLICATION_MUTEX_OBJECT);
+    if (appmutex == NULL) {
+        FATAL_SYSTEM_ERROR;
+    }
 
-	// See if the application was already running.
-	HWND prev = FindWindow (RxStringClass (IDS_APPLICATION_MAIN_WINDOW), NULL);
-	if (prev) {
-		if (IsIconic (prev)) {
-			ShowWindow (prev, SW_RESTORE);
-		}
-		SetForegroundWindow (prev);
-		return (true);
-	} else {
-		return (false);
-	}
+    // See if the application was already running.
+    HWND prev = FindWindow(RxStringClass(IDS_APPLICATION_MAIN_WINDOW), NULL);
+    if (prev) {
+        if (IsIconic(prev)) {
+            ShowWindow(prev, SW_RESTORE);
+        }
+        SetForegroundWindow(prev);
+        return (true);
+    }
+    else {
+        return (false);
+    }
 }
 
-
 /***********************************************************************************************
- * InstallerClass::Is_Win_95_Or_Above --																		  *
+ * InstallerClass::Is_Win_95_Or_Above --
+ **
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -440,27 +443,27 @@ bool Is_Application_Running()
  * WARNINGS:                                                                                   *
  *                                                                                             *
  * HISTORY:                                                                                    *
- *   08/22/01    IML : Created.                                                                * 
+ *   08/22/01    IML : Created.                                                                *
  *=============================================================================================*/
 bool Is_Win_95_Or_Above()
 {
-	OSVERSIONINFO versioninfo;
-	BOOL			  result;	
-	bool			  validos = false;
+    OSVERSIONINFO versioninfo;
+    BOOL result;
+    bool validos = false;
 
-	versioninfo.dwOSVersionInfoSize = sizeof (versioninfo);
-	result = GetVersionEx (&versioninfo);
-	if (result) {
-		if (versioninfo.dwPlatformId == VER_PLATFORM_WIN32_WINDOWS) {
-			validos = true;
-		}
-	}
-	return (validos);
+    versioninfo.dwOSVersionInfoSize = sizeof(versioninfo);
+    result = GetVersionEx(&versioninfo);
+    if (result) {
+        if (versioninfo.dwPlatformId == VER_PLATFORM_WIN32_WINDOWS) {
+            validos = true;
+        }
+    }
+    return (validos);
 }
 
-
 /***********************************************************************************************
- * InstallerClass::Is_Win_2K_Or_Above --																		  *
+ * InstallerClass::Is_Win_2K_Or_Above --
+ **
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -469,27 +472,27 @@ bool Is_Win_95_Or_Above()
  * WARNINGS:                                                                                   *
  *                                                                                             *
  * HISTORY:                                                                                    *
- *   08/22/01    IML : Created.                                                                * 
+ *   08/22/01    IML : Created.                                                                *
  *=============================================================================================*/
 bool Is_Win_2K_Or_Above()
 {
-	OSVERSIONINFO versioninfo;
-	BOOL			  result;	
-	bool			  validos = false;
+    OSVERSIONINFO versioninfo;
+    BOOL result;
+    bool validos = false;
 
-	versioninfo.dwOSVersionInfoSize = sizeof (versioninfo);
-	result = GetVersionEx (&versioninfo);
-	if (result) {
-		if (versioninfo.dwPlatformId == VER_PLATFORM_WIN32_NT) {
-			validos = (versioninfo.dwMajorVersion >= 5) && (versioninfo.dwMinorVersion >= 0);
-		}
-	}
-	return (validos);
+    versioninfo.dwOSVersionInfoSize = sizeof(versioninfo);
+    result = GetVersionEx(&versioninfo);
+    if (result) {
+        if (versioninfo.dwPlatformId == VER_PLATFORM_WIN32_NT) {
+            validos = (versioninfo.dwMajorVersion >= 5) && (versioninfo.dwMinorVersion >= 0);
+        }
+    }
+    return (validos);
 }
 
-
 /***********************************************************************************************
- * InstallerClass::Running_As_Administrator --																  *
+ * InstallerClass::Running_As_Administrator --
+ **
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -498,79 +501,84 @@ bool Is_Win_2K_Or_Above()
  * WARNINGS:                                                                                   *
  *                                                                                             *
  * HISTORY:                                                                                    *
- *   08/22/01    IML : Created.                                                                * 
+ *   08/22/01    IML : Created.                                                                *
  *=============================================================================================*/
 bool Running_As_Administrator()
 {
-	bool			  fAdmin;
-	HANDLE		  hThread;
-	TOKEN_GROUPS *ptg = NULL;
-	DWORD			  cbTokenGroups;
-	DWORD			  dwGroup;
-	PSID			  psidAdmin;
+    bool fAdmin;
+    HANDLE hThread;
+    TOKEN_GROUPS* ptg = NULL;
+    DWORD cbTokenGroups;
+    DWORD dwGroup;
+    PSID psidAdmin;
 
-	SID_IDENTIFIER_AUTHORITY SystemSidAuthority = SECURITY_NT_AUTHORITY;
+    SID_IDENTIFIER_AUTHORITY SystemSidAuthority = SECURITY_NT_AUTHORITY;
 
-	// Open a handle to the access token for this thread.
-	if (!OpenThreadToken (GetCurrentThread(), TOKEN_QUERY, FALSE, &hThread)) {
+    // Open a handle to the access token for this thread.
+    if (!OpenThreadToken(GetCurrentThread(), TOKEN_QUERY, FALSE, &hThread)) {
 
-		if (GetLastError() == ERROR_NO_TOKEN) {
+        if (GetLastError() == ERROR_NO_TOKEN) {
 
-			// If the thread does not have an access token, examine the access token associated with the process.
-			if (! OpenProcessToken (GetCurrentProcess(), TOKEN_QUERY, &hThread)) {
-				return (false);
-			}
-		} else {
-			return (false);
-		}
-	}
+            // If the thread does not have an access token, examine the access token associated with
+            // the process.
+            if (!OpenProcessToken(GetCurrentProcess(), TOKEN_QUERY, &hThread)) {
+                return (false);
+            }
+        }
+        else {
+            return (false);
+        }
+    }
 
-	// Query the size of the group information associated with the token. Note that we expect a FALSE result from GetTokenInformation
-	// because we've given it a NULL buffer. On exit cbTokenGroups will tell the size of the group information.
-	if (GetTokenInformation (hThread, TokenGroups, NULL, 0, &cbTokenGroups)) {
-		return (false);
-	}
+    // Query the size of the group information associated with the token. Note that we expect a
+    // FALSE result from GetTokenInformation because we've given it a NULL buffer. On exit
+    // cbTokenGroups will tell the size of the group information.
+    if (GetTokenInformation(hThread, TokenGroups, NULL, 0, &cbTokenGroups)) {
+        return (false);
+    }
 
-	// Verify that GetTokenInformation failed for lack of a large enough buffer.
-	if (GetLastError() != ERROR_INSUFFICIENT_BUFFER) {
-		return (false);
-	}
+    // Verify that GetTokenInformation failed for lack of a large enough buffer.
+    if (GetLastError() != ERROR_INSUFFICIENT_BUFFER) {
+        return (false);
+    }
 
-	// Allocate a buffer for the group information. Since _alloca allocates on the stack, we don't have
-	// to explicitly deallocate it. That happens automatically when we exit this function.
-	if (!(ptg = (TOKEN_GROUPS*) _alloca (cbTokenGroups))) {
-		return (false);
-	}
+    // Allocate a buffer for the group information. Since _alloca allocates on the stack, we don't
+    // have to explicitly deallocate it. That happens automatically when we exit this function.
+    if (!(ptg = (TOKEN_GROUPS*)_alloca(cbTokenGroups))) {
+        return (false);
+    }
 
-	// Ask for the group information again. This may fail if an administrator has added this account
-	// to an additional group between our first call to GetTokenInformation and this one.
-	if (!GetTokenInformation (hThread, TokenGroups, ptg, cbTokenGroups, &cbTokenGroups)) {
-		return (false);
-	}
-	
-	// Create a System Identifier for the Admin group.
-	if (!AllocateAndInitializeSid (&SystemSidAuthority, 2, SECURITY_BUILTIN_DOMAIN_RID, DOMAIN_ALIAS_RID_ADMINS, 0, 0, 0, 0, 0, 0, &psidAdmin)) {
-		return (false);
-	}
+    // Ask for the group information again. This may fail if an administrator has added this account
+    // to an additional group between our first call to GetTokenInformation and this one.
+    if (!GetTokenInformation(hThread, TokenGroups, ptg, cbTokenGroups, &cbTokenGroups)) {
+        return (false);
+    }
 
-	// Iterate through the list of groups for this access token looking for a match against the SID we created above.
-	fAdmin = false;
+    // Create a System Identifier for the Admin group.
+    if (!AllocateAndInitializeSid(&SystemSidAuthority, 2, SECURITY_BUILTIN_DOMAIN_RID,
+                                  DOMAIN_ALIAS_RID_ADMINS, 0, 0, 0, 0, 0, 0, &psidAdmin)) {
+        return (false);
+    }
 
-	for (dwGroup = 0; dwGroup < ptg->GroupCount; dwGroup++) {
-		if (EqualSid (ptg->Groups[dwGroup].Sid, psidAdmin)) {
-			fAdmin = true;
-			break;
-		}
-	}
+    // Iterate through the list of groups for this access token looking for a match against the SID
+    // we created above.
+    fAdmin = false;
 
-	// Explicity deallocate the SID we created.
-	FreeSid (psidAdmin);
-	return (fAdmin);
+    for (dwGroup = 0; dwGroup < ptg->GroupCount; dwGroup++) {
+        if (EqualSid(ptg->Groups[dwGroup].Sid, psidAdmin)) {
+            fAdmin = true;
+            break;
+        }
+    }
+
+    // Explicity deallocate the SID we created.
+    FreeSid(psidAdmin);
+    return (fAdmin);
 }
 
-
 /***********************************************************************************************
- * Prog_End	--																											  *
+ * Prog_End	--
+ **
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -579,19 +587,19 @@ bool Running_As_Administrator()
  * WARNINGS:                                                                                   *
  *                                                                                             *
  * HISTORY:                                                                                    *
- *   08/22/01    IML : Created.                                                                * 
+ *   08/22/01    IML : Created.                                                                *
  *=============================================================================================*/
 void Prog_End()
 {
-	try {
-		
-		_Installer.On_Prog_End();
+    try {
 
-	} catch (const WideStringClass &errormessage) {
+        _Installer.On_Prog_End();
 
-		// Catch handler for fatal errors.
-		DestroyWindow (MainWindow);
-		Windows_Message_Handler();
-		Message_Box (TxWideStringClass (IDS_APPLICATION_ERROR), errormessage);
-	}
+    } catch (const WideStringClass& errormessage) {
+
+        // Catch handler for fatal errors.
+        DestroyWindow(MainWindow);
+        Windows_Message_Handler();
+        Message_Box(TxWideStringClass(IDS_APPLICATION_ERROR), errormessage);
+    }
 }

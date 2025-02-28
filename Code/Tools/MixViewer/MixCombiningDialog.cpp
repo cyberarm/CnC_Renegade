@@ -19,9 +19,9 @@
 // MixCombiningDialog.cpp : implementation file
 //
 
-#include "stdafx.h"
-#include "MixViewer.h"
 #include "MixCombiningDialog.h"
+#include "MixViewer.h"
+#include "stdafx.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -29,85 +29,75 @@
 static char THIS_FILE[] = __FILE__;
 #endif
 
-
 /////////////////////////////////////////////////////////////////////////////
 //
 // MixCombiningDialogClass
 //
 /////////////////////////////////////////////////////////////////////////////
 MixCombiningDialogClass::MixCombiningDialogClass(CWnd* pParent /*=NULL*/)
-	: CDialog(MixCombiningDialogClass::IDD, pParent)
+    : CDialog(MixCombiningDialogClass::IDD, pParent)
 {
-	//{{AFX_DATA_INIT(MixCombiningDialogClass)
-		// NOTE: the ClassWizard will add member initialization here
-	//}}AFX_DATA_INIT
-	return ;
+    //{{AFX_DATA_INIT(MixCombiningDialogClass)
+    // NOTE: the ClassWizard will add member initialization here
+    //}}AFX_DATA_INIT
+    return;
 }
-
 
 /////////////////////////////////////////////////////////////////////////////
 //
 // DoDataExchange
 //
 /////////////////////////////////////////////////////////////////////////////
-void
-MixCombiningDialogClass::DoDataExchange (CDataExchange *pDX)
+void MixCombiningDialogClass::DoDataExchange(CDataExchange* pDX)
 {
-	CDialog::DoDataExchange(pDX);
-	//{{AFX_DATA_MAP(MixCombiningDialogClass)
-	DDX_Control(pDX, IDC_PROGRESS, ProgressCtrl);
-	//}}AFX_DATA_MAP
-	return ;
+    CDialog::DoDataExchange(pDX);
+    //{{AFX_DATA_MAP(MixCombiningDialogClass)
+    DDX_Control(pDX, IDC_PROGRESS, ProgressCtrl);
+    //}}AFX_DATA_MAP
+    return;
 }
 
-
 BEGIN_MESSAGE_MAP(MixCombiningDialogClass, CDialog)
-	//{{AFX_MSG_MAP(MixCombiningDialogClass)
-	//}}AFX_MSG_MAP
+//{{AFX_MSG_MAP(MixCombiningDialogClass)
+//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
-
 
 /////////////////////////////////////////////////////////////////////////////
 //
 // OnInitDialog
 //
 /////////////////////////////////////////////////////////////////////////////
-BOOL
-MixCombiningDialogClass::OnInitDialog (void)
+BOOL MixCombiningDialogClass::OnInitDialog(void)
 {
-	CDialog::OnInitDialog ();
+    CDialog::OnInitDialog();
 
-	ProgressCtrl.SetPos (0);
-	ProgressCtrl.SetRange (0, 100);
-	return TRUE;
+    ProgressCtrl.SetPos(0);
+    ProgressCtrl.SetRange(0, 100);
+    return TRUE;
 }
-
 
 /////////////////////////////////////////////////////////////////////////////
 //
 // Set_Status_Text
 //
 /////////////////////////////////////////////////////////////////////////////
-void
-MixCombiningDialogClass::Set_Status_Text (const char *text)
+void MixCombiningDialogClass::Set_Status_Text(const char* text)
 {
-	while (!::IsWindow(m_hWnd)) {}
-	SetDlgItemText (IDC_STATUS, text);
-	return ;
+    while (!::IsWindow(m_hWnd)) { }
+    SetDlgItemText(IDC_STATUS, text);
+    return;
 }
-
 
 /////////////////////////////////////////////////////////////////////////////
 //
 // Set_Progress_Percent
 //
 /////////////////////////////////////////////////////////////////////////////
-void
-MixCombiningDialogClass::Set_Progress_Percent (float percent)
+void MixCombiningDialogClass::Set_Progress_Percent(float percent)
 {
-	while (!::IsWindow(m_hWnd)) {}
-	ProgressCtrl.SetPos ((int)(percent * 100.0f));
-	return ;
+    while (!::IsWindow(m_hWnd)) { }
+    ProgressCtrl.SetPos((int)(percent * 100.0f));
+    return;
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -115,8 +105,8 @@ MixCombiningDialogClass::Set_Progress_Percent (float percent)
 // Set_Title
 //
 /////////////////////////////////////////////////////////////////////////////
-void MixCombiningDialogClass::Set_Title(const char *text)
+void MixCombiningDialogClass::Set_Title(const char* text)
 {
-	while (!::IsWindow(m_hWnd)) {}
-	SetWindowText(text);
+    while (!::IsWindow(m_hWnd)) { }
+    SetWindowText(text);
 }

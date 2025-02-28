@@ -16,29 +16,28 @@
 **	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-/*********************************************************************************************** 
- ***              C O N F I D E N T I A L  ---  W E S T W O O D  S T U D I O S               *** 
- *********************************************************************************************** 
- *                                                                                             * 
- *                 Project Name : Command & Conquer                                            * 
- *                                                                                             * 
- *                     $Archive:: /Commando/Library/CRCSTRAW.CPP                              $* 
- *                                                                                             * 
+/***********************************************************************************************
+ ***              C O N F I D E N T I A L  ---  W E S T W O O D  S T U D I O S               ***
+ ***********************************************************************************************
+ *                                                                                             *
+ *                 Project Name : Command & Conquer                                            *
+ *                                                                                             *
+ *                     $Archive:: /Commando/Library/CRCSTRAW.CPP                              $*
+ *                                                                                             *
  *                      $Author:: Greg_h                                                      $*
- *                                                                                             * 
+ *                                                                                             *
  *                     $Modtime:: 7/22/97 11:37a                                              $*
- *                                                                                             * 
+ *                                                                                             *
  *                    $Revision:: 1                                                           $*
  *                                                                                             *
- *---------------------------------------------------------------------------------------------* 
- * Functions:                                                                                  * 
+ *---------------------------------------------------------------------------------------------*
+ * Functions:                                                                                  *
  *   CRCStraw::Get -- Fetch the data requested and calculate CRC on it.                        *
  *   CRCStraw::Result -- Returns with the CRC of all data passed through the straw.            *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
-#include	"always.h"
-#include	"crcstraw.h"
-
+#include "always.h"
+#include "crcstraw.h"
 
 /***********************************************************************************************
  * CRCStraw::Get -- Fetch the data requested and calculate CRC on it.                          *
@@ -60,17 +59,16 @@
  * HISTORY:                                                                                    *
  *   07/03/1996 JLB : Created.                                                                 *
  *=============================================================================================*/
-int CRCStraw::Get(void * source, int slen)
+int CRCStraw::Get(void* source, int slen)
 {
-	if (source == NULL || slen < 1) {
-		return(0);
-	}
+    if (source == NULL || slen < 1) {
+        return (0);
+    }
 
-	int counter = Straw::Get(source, slen);
-	CRC(source, counter);
-	return(counter);
+    int counter = Straw::Get(source, slen);
+    CRC(source, counter);
+    return (counter);
 }
-
 
 /***********************************************************************************************
  * CRCStraw::Result -- Returns with the CRC of all data passed through the straw.              *
@@ -89,5 +87,5 @@ int CRCStraw::Get(void * source, int slen)
  *=============================================================================================*/
 long CRCStraw::Result(void) const
 {
-	return(CRC());
+    return (CRC());
 }

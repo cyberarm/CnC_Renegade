@@ -34,7 +34,6 @@
  * Functions:                                                                                  *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
-
 #if !defined(AFX_CHUNKTREEVIEW_H__FD83E2D6_72AE_11D3_BB4D_00902742EA14__INCLUDED_)
 #define AFX_CHUNKTREEVIEW_H__FD83E2D6_72AE_11D3_BB4D_00902742EA14__INCLUDED_
 
@@ -46,46 +45,43 @@
 
 class ChunkImageClass;
 
-
 /////////////////////////////////////////////////////////////////////////////
 // CChunkTreeView view
 
 class CChunkTreeView : public CTreeView
 {
 protected:
-	CChunkTreeView();           // protected constructor used by dynamic creation
-	DECLARE_DYNCREATE(CChunkTreeView)
+    CChunkTreeView(); // protected constructor used by dynamic creation
+    DECLARE_DYNCREATE(CChunkTreeView)
 
-// Attributes
+    // Attributes
 public:
-
-// Operations
+    // Operations
 public:
-
-// Overrides
-	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CChunkTreeView)
-	protected:
-	virtual void OnDraw(CDC* pDC);      // overridden to draw this view
-	virtual void OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint);
-	//}}AFX_VIRTUAL
-
-// Implementation
+    // Overrides
+    // ClassWizard generated virtual function overrides
+    //{{AFX_VIRTUAL(CChunkTreeView)
 protected:
-	virtual ~CChunkTreeView();
+    virtual void OnDraw(CDC* pDC); // overridden to draw this view
+    virtual void OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint);
+    //}}AFX_VIRTUAL
+
+    // Implementation
+protected:
+    virtual ~CChunkTreeView();
 #ifdef _DEBUG
-	virtual void AssertValid() const;
-	virtual void Dump(CDumpContext& dc) const;
+    virtual void AssertValid() const;
+    virtual void Dump(CDumpContext& dc) const;
 #endif
 
-	void	Insert_Chunk(const ChunkImageClass * chunk, HTREEITEM Parent = TVI_ROOT);
+    void Insert_Chunk(const ChunkImageClass* chunk, HTREEITEM Parent = TVI_ROOT);
 
-	// Generated message map functions
+    // Generated message map functions
 protected:
-	//{{AFX_MSG(CChunkTreeView)
-	afx_msg void OnSelchanged(NMHDR* pNMHDR, LRESULT* pResult);
-	//}}AFX_MSG
-	DECLARE_MESSAGE_MAP()
+    //{{AFX_MSG(CChunkTreeView)
+    afx_msg void OnSelchanged(NMHDR* pNMHDR, LRESULT* pResult);
+    //}}AFX_MSG
+    DECLARE_MESSAGE_MAP()
 };
 
 /////////////////////////////////////////////////////////////////////////////

@@ -28,26 +28,26 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-#define VC_EXTRALEAN		// Exclude rarely-used stuff from Windows headers
+#define VC_EXTRALEAN // Exclude rarely-used stuff from Windows headers
 
-#include <afxwin.h>         // MFC core and standard components
-#include <afxext.h>         // MFC extensions
-#include <afxdisp.h>        // MFC Automation classes
-#include <afxdtctl.h>		// MFC support for Internet Explorer 4 Common Controls
+#include <afxdisp.h> // MFC Automation classes
+#include <afxdtctl.h> // MFC support for Internet Explorer 4 Common Controls
+#include <afxext.h> // MFC extensions
+#include <afxwin.h> // MFC core and standard components
 #ifndef _AFX_NO_AFXCMN_SUPPORT
-#include <afxcmn.h>			// MFC support for Windows Common Controls
-#include <afxcview.h> // treeview class
-#include <afxtempl.h> // CList class
-#include <afxdlgs.h> // FileDialog class
 #include <CdErr.h>
-//#include <AfxRes.h>
+#include <afxcmn.h> // MFC support for Windows Common Controls
+#include <afxcview.h> // treeview class
+#include <afxdlgs.h> // FileDialog class
+#include <afxtempl.h> // CList class
+// #include <AfxRes.h>
 #endif // _AFX_NO_AFXCMN_SUPPORT
 
-#include "chunkio.h"
 #include "BitType.h"
+#include "IOStruct.h"
+#include "chunkio.h"
 #include "vector3i.h"
 #include "w3d_file.h"
-#include "IOStruct.h"
 
 //{{AFX_INSERT_LOCATION}}
 // Microsoft Visual C++ will insert additional declarations immediately before the previous line.

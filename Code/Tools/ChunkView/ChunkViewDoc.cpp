@@ -34,15 +34,13 @@
  * Functions:                                                                                  *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
-
 // ChunkViewDoc.cpp : implementation of the CChunkViewDoc class
 //
 
-#include "stdafx.h"
 #include "ChunkView.h"
-
 #include "ChunkViewDoc.h"
 #include "MainFrm.h"
+#include "stdafx.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -56,20 +54,19 @@ static char THIS_FILE[] = __FILE__;
 IMPLEMENT_DYNCREATE(CChunkViewDoc, CDocument)
 
 BEGIN_MESSAGE_MAP(CChunkViewDoc, CDocument)
-	//{{AFX_MSG_MAP(CChunkViewDoc)
-		// NOTE - the ClassWizard will add and remove mapping macros here.
-		//    DO NOT EDIT what you see in these blocks of generated code!
-	//}}AFX_MSG_MAP
+//{{AFX_MSG_MAP(CChunkViewDoc)
+// NOTE - the ClassWizard will add and remove mapping macros here.
+//    DO NOT EDIT what you see in these blocks of generated code!
+//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
 // CChunkViewDoc construction/destruction
 
-CChunkViewDoc::CChunkViewDoc() :
-	m_pCurChunk(NULL)
+CChunkViewDoc::CChunkViewDoc()
+    : m_pCurChunk(NULL)
 {
-	// TODO: add one-time construction code here
-
+    // TODO: add one-time construction code here
 }
 
 CChunkViewDoc::~CChunkViewDoc()
@@ -78,29 +75,25 @@ CChunkViewDoc::~CChunkViewDoc()
 
 BOOL CChunkViewDoc::OnNewDocument()
 {
-	if (!CDocument::OnNewDocument())
-		return FALSE;
+    if (!CDocument::OnNewDocument()) {
+        return FALSE;
+    }
 
-	// TODO: add reinitialization code here
-	// (SDI documents will reuse this document)
+    // TODO: add reinitialization code here
+    // (SDI documents will reuse this document)
 
-	return TRUE;
+    return TRUE;
 }
-
-
 
 /////////////////////////////////////////////////////////////////////////////
 // CChunkViewDoc serialization
 
 void CChunkViewDoc::Serialize(CArchive& ar)
 {
-	if (ar.IsStoring())
-	{
-	}
-	else
-	{
-		m_ChunkFileImage.Load(ar.m_strFileName);
-	}
+    if (ar.IsStoring()) { }
+    else {
+        m_ChunkFileImage.Load(ar.m_strFileName);
+    }
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -109,32 +102,32 @@ void CChunkViewDoc::Serialize(CArchive& ar)
 #ifdef _DEBUG
 void CChunkViewDoc::AssertValid() const
 {
-	CDocument::AssertValid();
+    CDocument::AssertValid();
 }
 
 void CChunkViewDoc::Dump(CDumpContext& dc) const
 {
-	CDocument::Dump(dc);
+    CDocument::Dump(dc);
 }
 #endif //_DEBUG
 
 /////////////////////////////////////////////////////////////////////////////
 // CChunkViewDoc commands
 
-const ChunkFileImageClass & CChunkViewDoc::Get_File_Image(void)
+const ChunkFileImageClass& CChunkViewDoc::Get_File_Image(void)
 {
-	return m_ChunkFileImage;
+    return m_ChunkFileImage;
 }
 
-void CChunkViewDoc::Set_Cur_Chunk(ChunkImageClass * cur_chunk)
+void CChunkViewDoc::Set_Cur_Chunk(ChunkImageClass* cur_chunk)
 {
-	// The ChunkTreeView calls this when the user clicks on a particular chunk
-	if (m_pCurChunk != cur_chunk) {
-		m_pCurChunk = cur_chunk;
-	}
+    // The ChunkTreeView calls this when the user clicks on a particular chunk
+    if (m_pCurChunk != cur_chunk) {
+        m_pCurChunk = cur_chunk;
+    }
 }
 
-const ChunkImageClass *	CChunkViewDoc::Get_Cur_Chunk(void)
+const ChunkImageClass* CChunkViewDoc::Get_Cur_Chunk(void)
 {
-	return m_pCurChunk;
+    return m_pCurChunk;
 }

@@ -22,7 +22,7 @@
  *                                                                                             *
  *                 Project Name : commando                                                    *
  *                                                                                             *
- *                     $Archive:: /Commando/Code/Commando/dlginternetoptions.h                              $*
+ *                     $Archive:: /Commando/Code/Commando/dlginternetoptions.h $*
  *                                                                                             *
  *                       Author:: Patrick Smith                                                *
  *                                                                                             *
@@ -41,10 +41,8 @@
 #ifndef __DLGINTERNETOPTIONS_H
 #define __DLGINTERNETOPTIONS_H
 
-
 #include "menudialog.h"
 #include "resource.h"
-
 
 //////////////////////////////////////////////////////////////////////
 //
@@ -54,33 +52,30 @@
 class InternetOptionsMenuClass : public MenuDialogClass
 {
 public:
+    ///////////////////////////////////////////////////////////////////
+    //	Public constructors/destructors
+    ///////////////////////////////////////////////////////////////////
+    InternetOptionsMenuClass(void);
+    ~InternetOptionsMenuClass(void) { }
 
-	///////////////////////////////////////////////////////////////////
-	//	Public constructors/destructors
-	///////////////////////////////////////////////////////////////////
-	InternetOptionsMenuClass  (void);
-	~InternetOptionsMenuClass (void) {}
+    ///////////////////////////////////////////////////////////////////
+    //	Public methods
+    ///////////////////////////////////////////////////////////////////
 
-	///////////////////////////////////////////////////////////////////
-	//	Public methods
-	///////////////////////////////////////////////////////////////////
+    //
+    //	Inherited
+    //
+    void On_Init_Dialog(void);
+    void On_Command(int ctrl_id, int mesage_id, DWORD param);
 
-	//
-	//	Inherited
-	//
-	void		On_Init_Dialog (void);
-	void		On_Command (int ctrl_id, int mesage_id, DWORD param);
-	
 protected:
-	
-	///////////////////////////////////////////////////////////////////
-	//	Protected methods
-	///////////////////////////////////////////////////////////////////
-	
-	///////////////////////////////////////////////////////////////////
-	//	Protected member data
-	///////////////////////////////////////////////////////////////////
-};
+    ///////////////////////////////////////////////////////////////////
+    //	Protected methods
+    ///////////////////////////////////////////////////////////////////
 
+    ///////////////////////////////////////////////////////////////////
+    //	Protected member data
+    ///////////////////////////////////////////////////////////////////
+};
 
 #endif //__DLGINTERNETOPTIONS_H

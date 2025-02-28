@@ -21,29 +21,29 @@
 // Project:      Network.lib, for Commando
 // Author:       Tom Spencer-Smith
 // Date:         Dec 1998
-// Description:  
+// Description:
 //
 
-#include "gamedata.h"
 #include "gamechannel.h"
+#include "gamedata.h"
 #include "wwdebug.h"
 #include <WWOnline\WOLChannel.h>
 
 //-----------------------------------------------------------------------------
-cGameChannel::cGameChannel(cGameData * p_game_data, const RefPtr<WWOnline::ChannelData>& channel)
+cGameChannel::cGameChannel(cGameData* p_game_data, const RefPtr<WWOnline::ChannelData>& channel)
 {
-	WWASSERT(p_game_data != NULL);
-	PGameData = p_game_data;
-	WolChannel = channel;
+    WWASSERT(p_game_data != NULL);
+    PGameData = p_game_data;
+    WolChannel = channel;
 }
 
 //-----------------------------------------------------------------------------
 cGameChannel::~cGameChannel(void)
 {
-	delete PGameData;
+    delete PGameData;
 }
 
 WOL::Channel* cGameChannel::Get_Wol_Channel(void)
 {
-	return &WolChannel->GetData();
+    return &WolChannel->GetData();
 }

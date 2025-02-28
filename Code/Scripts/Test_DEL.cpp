@@ -17,29 +17,29 @@
 */
 
 /******************************************************************************
-*
-* FILE
-*     Test_DEL.cpp
-*
-* DESCRIPTION
-*     Denzil's test scripts
-*
-* PROGRAMMER
-*     Denzil E. Long, Jr.
-*
-* VERSION INFO
-*     $Author: Ryan_v $
-*     $Revision: 4 $
-*     $Modtime: 7/17/00 10:15a $
-*     $Archive: /Commando/Code/Scripts/Test_DEL.cpp $
-*
-******************************************************************************/
+ *
+ * FILE
+ *     Test_DEL.cpp
+ *
+ * DESCRIPTION
+ *     Denzil's test scripts
+ *
+ * PROGRAMMER
+ *     Denzil E. Long, Jr.
+ *
+ * VERSION INFO
+ *     $Author: Ryan_v $
+ *     $Revision: 4 $
+ *     $Modtime: 7/17/00 10:15a $
+ *     $Archive: /Commando/Code/Scripts/Test_DEL.cpp $
+ *
+ ******************************************************************************/
 
-#include "scripts.h"
 #include "common.h"
 #include "dprint.h"
-#include <string.h>
+#include "scripts.h"
 #include <assert.h>
+#include <string.h>
 
 #if 0
 DECLARE_SCRIPT(DEL_VehicleEnterTest, "X:float,Y:float,Z:float")

@@ -30,14 +30,13 @@
 //             shell extensions are called when the user right clicks on a file
 //             (of the type registered for the shell extension--see SHELLEXT.REG
 //             for details on the registry entries.  In this sample, the relevant
-//             files are of type .W3D) in the Explorer, or selects the File menu 
+//             files are of type .W3D) in the Explorer, or selects the File menu
 //             item.
 //
 
 #include "Stdafx.h"
 #include "priv.h"
 #include "shellext.h"
-
 
 //
 //  FUNCTION: CShellExt::QueryContextMenu(HMENU, UINT, UINT, UINT, UINT)
@@ -58,79 +57,76 @@
 //  COMMENTS:
 //
 
-STDMETHODIMP CShellExt::QueryContextMenu(HMENU hMenu,
-                                         UINT indexMenu,
-                                         UINT idCmdFirst,
-                                         UINT idCmdLast,
-                                         UINT uFlags){
+STDMETHODIMP CShellExt::QueryContextMenu(HMENU hMenu, UINT indexMenu, UINT idCmdFirst,
+                                         UINT idCmdLast, UINT uFlags)
+{
     UINT idCmd = idCmdFirst;
     char szMenuText[64];
-    BOOL bAppendItems=TRUE;
-    if ((uFlags & 0x000F) == CMF_NORMAL){  //Check == here, since CMF_NORMAL=0
+    BOOL bAppendItems = TRUE;
+    if ((uFlags & 0x000F) == CMF_NORMAL) { // Check == here, since CMF_NORMAL=0
         lstrcpy(szMenuText, "&Convert to P3D");
-    } else{
-		 if (uFlags & CMF_VERBSONLY){
+    }
+    else {
+        if (uFlags & CMF_VERBSONLY) {
             lstrcpy(szMenuText, "&Convert to P3D");
-		 }else{
-			  if (uFlags & CMF_EXPLORE){
-					lstrcpy(szMenuText, "&Convert to P3D");
-			  }else{
-				  if (uFlags & CMF_DEFAULTONLY){
-						bAppendItems = FALSE;
-				  }else{
-						char szTemp[32];
-						wsprintf(szTemp, "uFlags==>%d\r\n", uFlags);
-						bAppendItems = FALSE;
-				  }
-			  }
-		 }
-	 }
-	if (bAppendItems){
-		InsertMenu(hMenu, indexMenu++, MF_SEPARATOR|MF_BYPOSITION, 0, NULL);
-		InsertMenu(hMenu, indexMenu,MF_STRING|MF_BYPOSITION,idCmd++, szMenuText);
-		return ResultFromShort(idCmd-idCmdFirst); //Must return number of menu items we added.
-   }
-   return NOERROR;
+        }
+        else {
+            if (uFlags & CMF_EXPLORE) {
+                lstrcpy(szMenuText, "&Convert to P3D");
+            }
+            else {
+                if (uFlags & CMF_DEFAULTONLY) {
+                    bAppendItems = FALSE;
+                }
+                else {
+                    char szTemp[32];
+                    wsprintf(szTemp, "uFlags==>%d\r\n", uFlags);
+                    bAppendItems = FALSE;
+                }
+            }
+        }
+    }
+    if (bAppendItems) {
+        InsertMenu(hMenu, indexMenu++, MF_SEPARATOR | MF_BYPOSITION, 0, NULL);
+        InsertMenu(hMenu, indexMenu, MF_STRING | MF_BYPOSITION, idCmd++, szMenuText);
+        return ResultFromShort(idCmd - idCmdFirst); // Must return number of menu items we added.
+    }
+    return NOERROR;
 }
 STDMETHODIMP CShellExt::InvokeCommand(LPCMINVOKECOMMANDINFO lpcmi)
 {
-	HRESULT hr = E_INVALIDARG;
+    HRESULT hr = E_INVALIDARG;
 
-    //If HIWORD(lpcmi->lpVerb) then we have been called programmatically
-    //and lpVerb is a command that should be invoked.  Otherwise, the shell
-    //has called us, and LOWORD(lpcmi->lpVerb) is the menu ID the user has
-    //selected.  Actually, it's (menu ID - idCmdFirst) from QueryContextMenu().
-	if (!HIWORD(lpcmi->lpVerb)){
+    // If HIWORD(lpcmi->lpVerb) then we have been called programmatically
+    // and lpVerb is a command that should be invoked.  Otherwise, the shell
+    // has called us, and LOWORD(lpcmi->lpVerb) is the menu ID the user has
+    // selected.  Actually, it's (menu ID - idCmdFirst) from QueryContextMenu().
+    if (!HIWORD(lpcmi->lpVerb)) {
         UINT idCmd = LOWORD(lpcmi->lpVerb);
-        switch (idCmd){
-				case 0:{
-                hr = DoW3DMenu1(lpcmi->hwnd,lpcmi->lpDirectory,lpcmi->lpVerb,lpcmi->lpParameters, lpcmi->nShow);
-                break;
-				}
+        switch (idCmd) {
+        case 0: {
+            hr = DoW3DMenu1(lpcmi->hwnd, lpcmi->lpDirectory, lpcmi->lpVerb, lpcmi->lpParameters,
+                            lpcmi->nShow);
+            break;
+        }
         }
     }
     return hr;
 }
-STDMETHODIMP CShellExt::GetCommandString(UINT idCmd,
-                                         UINT uFlags,
-                                         UINT FAR *reserved,
-                                         LPSTR pszName,
-                                         UINT cchMax){
-    switch (idCmd){
-        case 0:
-            lstrcpy(pszName, "New menu item number 1");
-            break;
-
-	 }
+STDMETHODIMP CShellExt::GetCommandString(UINT idCmd, UINT uFlags, UINT FAR* reserved, LPSTR pszName,
+                                         UINT cchMax)
+{
+    switch (idCmd) {
+    case 0:
+        lstrcpy(pszName, "New menu item number 1");
+        break;
+    }
     return NOERROR;
 }
 
-STDMETHODIMP CShellExt::DoW3DMenu1(HWND hParent,
-                                   LPCSTR pszWorkingDir,
-                                   LPCSTR pszCmd,
-                                   LPCSTR pszParam,
-                                   int iShowCmd){
+STDMETHODIMP CShellExt::DoW3DMenu1(HWND hParent, LPCSTR pszWorkingDir, LPCSTR pszCmd,
+                                   LPCSTR pszParam, int iShowCmd)
+{
     MessageBox(hParent, "Not Implemented !", "Sorry !", MB_OK);
     return NOERROR;
 }
-

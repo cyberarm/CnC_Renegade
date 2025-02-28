@@ -34,81 +34,76 @@
  * Functions:                                                                                  *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
-
 #include "physdynamicsavesystem.h"
-#include "wwphysids.h"
-#include "pscene.h"
-#include "physcon.h"
 #include "chunkio.h"
-#include "wwmemlog.h"
 #include "pathmgr.h"
-#include "saveload.h"
-#include "rendobj.h"
 #include "phys.h"
+#include "physcon.h"
+#include "pscene.h"
+#include "rendobj.h"
+#include "saveload.h"
+#include "wwmemlog.h"
+#include "wwphysids.h"
 
 /*
 ** Instantiate the Physics Dynamic-Data-Save-System
 */
 PhysDynamicSaveSystemClass _PhysDynamicSaveSystem;
 
-
 uint32 PhysDynamicSaveSystemClass::Chunk_ID(void) const
 {
-	return PHYSICS_CHUNKID_DYNAMIC_DATA_SUBSYSTEM;
+    return PHYSICS_CHUNKID_DYNAMIC_DATA_SUBSYSTEM;
 }
 
 bool PhysDynamicSaveSystemClass::Contains_Data(void) const
 {
-	// TODO: could check if we have anything to save...
-	return true;
+    // TODO: could check if we have anything to save...
+    return true;
 }
 
-bool PhysDynamicSaveSystemClass::Save(ChunkSaveClass &csave)
-{	
-	WWMEMLOG(MEM_GAMEDATA);
-
-	csave.Begin_Chunk(PDSSC_CHUNKID_SCENE);
-	PhysicsSceneClass::Get_Instance()->Save_Level_Dynamic_Data(csave);
-	csave.End_Chunk();
-
-	csave.Begin_Chunk(PDSSC_CHUNKID_CONSTANTS);
-	PhysicsConstants::Save(csave);
-	csave.End_Chunk();
-
-	csave.Begin_Chunk(PDSSC_CHUNKID_PATHMGR);
-	PathMgrClass::Save(csave);
-	csave.End_Chunk();
-
-	return true;
-}
-
-bool PhysDynamicSaveSystemClass::Load(ChunkLoadClass &cload)
+bool PhysDynamicSaveSystemClass::Save(ChunkSaveClass& csave)
 {
-	WWMEMLOG(MEM_GAMEDATA);
+    WWMEMLOG(MEM_GAMEDATA);
 
-	while (cload.Open_Chunk()) {
-		switch (cload.Cur_Chunk_ID()) {
-		case PDSSC_CHUNKID_SCENE:
-			PhysicsSceneClass::Get_Instance()->Load_Level_Dynamic_Data(cload);
-			break;
-		case PDSSC_CHUNKID_CONSTANTS:
-			PhysicsConstants::Load(cload);
-			break;
-		case PDSSC_CHUNKID_PATHMGR:
-			PathMgrClass::Load(cload);
-			break;
-		}
-		cload.Close_Chunk();
-	}
-	
-	SaveLoadSystemClass::Register_Post_Load_Callback(this);
-	return true;
+    csave.Begin_Chunk(PDSSC_CHUNKID_SCENE);
+    PhysicsSceneClass::Get_Instance()->Save_Level_Dynamic_Data(csave);
+    csave.End_Chunk();
+
+    csave.Begin_Chunk(PDSSC_CHUNKID_CONSTANTS);
+    PhysicsConstants::Save(csave);
+    csave.End_Chunk();
+
+    csave.Begin_Chunk(PDSSC_CHUNKID_PATHMGR);
+    PathMgrClass::Save(csave);
+    csave.End_Chunk();
+
+    return true;
 }
 
+bool PhysDynamicSaveSystemClass::Load(ChunkLoadClass& cload)
+{
+    WWMEMLOG(MEM_GAMEDATA);
+
+    while (cload.Open_Chunk()) {
+        switch (cload.Cur_Chunk_ID()) {
+        case PDSSC_CHUNKID_SCENE:
+            PhysicsSceneClass::Get_Instance()->Load_Level_Dynamic_Data(cload);
+            break;
+        case PDSSC_CHUNKID_CONSTANTS:
+            PhysicsConstants::Load(cload);
+            break;
+        case PDSSC_CHUNKID_PATHMGR:
+            PathMgrClass::Load(cload);
+            break;
+        }
+        cload.Close_Chunk();
+    }
+
+    SaveLoadSystemClass::Register_Post_Load_Callback(this);
+    return true;
+}
 
 void PhysDynamicSaveSystemClass::On_Post_Load(void)
 {
-	PhysicsSceneClass::Get_Instance()->Post_Load_Level_Dynamic_Data();
+    PhysicsSceneClass::Get_Instance()->Post_Load_Level_Dynamic_Data();
 }
-
-

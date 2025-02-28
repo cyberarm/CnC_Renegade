@@ -34,165 +34,150 @@
  * Functions:                                                                                  *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
-#include "stdafx.h"
 #include "coverspotdefinition.h"
-#include "simpledefinitionfactory.h"
+#include "coverspotnode.h"
 #include "definitionclassids.h"
 #include "definitionmgr.h"
-#include "persistfactory.h"
 #include "editorchunkids.h"
-#include "coverspotnode.h"
+#include "persistfactory.h"
+#include "simpledefinitionfactory.h"
+#include "stdafx.h"
 
 //////////////////////////////////////////////////////////////////////////////////
 //	Constants
 //////////////////////////////////////////////////////////////////////////////////
 enum
 {
-	CHUNKID_VARIABLES			= 0x00000100,
-	CHUNKID_BASE_CLASS		= 0x00000200,
+    CHUNKID_VARIABLES = 0x00000100,
+    CHUNKID_BASE_CLASS = 0x00000200,
 };
-
 
 //////////////////////////////////////////////////////////////////////////////////
 //
 //	Static factories
 //
 //////////////////////////////////////////////////////////////////////////////////
-DECLARE_DEFINITION_FACTORY(CoverSpotDefinitionClass, CLASSID_COVERSPOT, "Cover Spot")	_CoverSpotDefFactory;
-SimplePersistFactoryClass<CoverSpotDefinitionClass, CHUNKID_COVERSPOT_DEF>					_CoverSpotPersistFactory;
-
+DECLARE_DEFINITION_FACTORY(CoverSpotDefinitionClass, CLASSID_COVERSPOT, "Cover Spot")
+_CoverSpotDefFactory;
+SimplePersistFactoryClass<CoverSpotDefinitionClass, CHUNKID_COVERSPOT_DEF> _CoverSpotPersistFactory;
 
 //////////////////////////////////////////////////////////////////////////////////
 //
 //	CoverSpotDefinitionClass
 //
 //////////////////////////////////////////////////////////////////////////////////
-CoverSpotDefinitionClass::CoverSpotDefinitionClass (void)
-	:	DefinitionClass ()		
+CoverSpotDefinitionClass::CoverSpotDefinitionClass(void)
+    : DefinitionClass()
 {
-	return ;
+    return;
 }
-
 
 //////////////////////////////////////////////////////////////////////////////////
 //
 //	~CoverSpotDefinitionClass
 //
 //////////////////////////////////////////////////////////////////////////////////
-CoverSpotDefinitionClass::~CoverSpotDefinitionClass (void)
+CoverSpotDefinitionClass::~CoverSpotDefinitionClass(void)
 {
-	return ;
+    return;
 }
-
 
 //////////////////////////////////////////////////////////////////////////////////
 //
 //	Get_Factory
 //
 //////////////////////////////////////////////////////////////////////////////////
-const PersistFactoryClass &
-CoverSpotDefinitionClass::Get_Factory (void) const
+const PersistFactoryClass& CoverSpotDefinitionClass::Get_Factory(void) const
 {
-	return _CoverSpotPersistFactory;
+    return _CoverSpotPersistFactory;
 }
-
 
 //////////////////////////////////////////////////////////////////////////////////
 //
 //	Save
 //
 //////////////////////////////////////////////////////////////////////////////////
-bool
-CoverSpotDefinitionClass::Save (ChunkSaveClass &csave)
+bool CoverSpotDefinitionClass::Save(ChunkSaveClass& csave)
 {
-	bool retval = true;
+    bool retval = true;
 
-	csave.Begin_Chunk (CHUNKID_VARIABLES);
-	retval &= Save_Variables (csave);
-	csave.End_Chunk ();
+    csave.Begin_Chunk(CHUNKID_VARIABLES);
+    retval &= Save_Variables(csave);
+    csave.End_Chunk();
 
-	csave.Begin_Chunk (CHUNKID_BASE_CLASS);
-	retval &= DefinitionClass::Save (csave);
-	csave.End_Chunk ();
+    csave.Begin_Chunk(CHUNKID_BASE_CLASS);
+    retval &= DefinitionClass::Save(csave);
+    csave.End_Chunk();
 
-	return retval;
+    return retval;
 }
-
 
 //////////////////////////////////////////////////////////////////////////////////
 //
 //	Load
 //
 //////////////////////////////////////////////////////////////////////////////////
-bool
-CoverSpotDefinitionClass::Load (ChunkLoadClass &cload)
+bool CoverSpotDefinitionClass::Load(ChunkLoadClass& cload)
 {
-	bool retval = true;
+    bool retval = true;
 
-	while (cload.Open_Chunk ()) {
-		switch (cload.Cur_Chunk_ID ()) {
-			
-			case CHUNKID_VARIABLES:
-				retval &= Load_Variables (cload);
-				break;
+    while (cload.Open_Chunk()) {
+        switch (cload.Cur_Chunk_ID()) {
 
-			case CHUNKID_BASE_CLASS:
-				retval &= DefinitionClass::Load (cload);
-				break;
-		}
+        case CHUNKID_VARIABLES:
+            retval &= Load_Variables(cload);
+            break;
 
-		cload.Close_Chunk ();
-	}
+        case CHUNKID_BASE_CLASS:
+            retval &= DefinitionClass::Load(cload);
+            break;
+        }
 
-	return retval;
+        cload.Close_Chunk();
+    }
+
+    return retval;
 }
-
 
 //////////////////////////////////////////////////////////////////////////////////
 //
 //	Save_Variables
 //
 //////////////////////////////////////////////////////////////////////////////////
-bool
-CoverSpotDefinitionClass::Save_Variables (ChunkSaveClass &csave)
+bool CoverSpotDefinitionClass::Save_Variables(ChunkSaveClass& csave)
 {
-	bool retval = true;
-	return retval;
+    bool retval = true;
+    return retval;
 }
-
 
 //////////////////////////////////////////////////////////////////////////////////
 //
 //	Load_Variables
 //
 //////////////////////////////////////////////////////////////////////////////////
-bool
-CoverSpotDefinitionClass::Load_Variables (ChunkLoadClass &cload)
+bool CoverSpotDefinitionClass::Load_Variables(ChunkLoadClass& cload)
 {
-	bool retval = true;
+    bool retval = true;
 
-	//
-	//	Loop through all the microchunks that define the variables
-	//
-	while (cload.Open_Micro_Chunk ()) {
-		/*switch (cload.Cur_Micro_Chunk_ID ()) {
-		}*/
+    //
+    //	Loop through all the microchunks that define the variables
+    //
+    while (cload.Open_Micro_Chunk()) {
+        /*switch (cload.Cur_Micro_Chunk_ID ()) {
+        }*/
 
-		cload.Close_Micro_Chunk ();
-	}
+        cload.Close_Micro_Chunk();
+    }
 
-	return retval;
+    return retval;
 }
-
 
 //////////////////////////////////////////////////////////////////////////////////
 //
 //	Create
 //
 //////////////////////////////////////////////////////////////////////////////////
-PersistClass *
-CoverSpotDefinitionClass::Create (void) const
+PersistClass* CoverSpotDefinitionClass::Create(void) const
 {
-	return new CoverSpotNodeClass ();
+    return new CoverSpotNodeClass();
 }
-

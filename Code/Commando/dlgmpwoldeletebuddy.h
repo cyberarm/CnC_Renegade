@@ -20,7 +20,8 @@
  ***              C O N F I D E N T I A L  ---  W E S T W O O D  S T U D I O S               ***
  ***********************************************************************************************
  *                                                                                             *
- *                 Project Name : Combat																		  *
+ *                 Project Name : Combat
+ **
  *                                                                                             *
  *                     $Archive:: /Commando/Code/Commando/dlgmpwoldeletebuddy.h       $*
  *                                                                                             *
@@ -41,11 +42,9 @@
 #ifndef __DLG_MP_WOL_DELETE_BUDDY_H
 #define __DLG_MP_WOL_DELETE_BUDDY_H
 
-
+#include "WideString.h"
 #include "popupdialog.h"
 #include "resource.h"
-#include "WideString.h"
-
 
 ////////////////////////////////////////////////////////////////
 //
@@ -55,34 +54,31 @@
 class MPWolDeleteBuddyPopupClass : public PopupDialogClass
 {
 public:
-	
-	////////////////////////////////////////////////////////////////
-	//	Public constructors/destructors
-	////////////////////////////////////////////////////////////////	
-	MPWolDeleteBuddyPopupClass (void);
+    ////////////////////////////////////////////////////////////////
+    //	Public constructors/destructors
+    ////////////////////////////////////////////////////////////////
+    MPWolDeleteBuddyPopupClass(void);
 
-	////////////////////////////////////////////////////////////////
-	//	Public methods
-	////////////////////////////////////////////////////////////////
-	void		On_Init_Dialog (void);
-	void		On_Command (int ctrl_id, int mesage_id, DWORD param);
+    ////////////////////////////////////////////////////////////////
+    //	Public methods
+    ////////////////////////////////////////////////////////////////
+    void On_Init_Dialog(void);
+    void On_Command(int ctrl_id, int mesage_id, DWORD param);
 
-	//
-	//	Content control
-	//
-	void		Set_User_Name (const WCHAR *user_name)	{ UserName = user_name; }
+    //
+    //	Content control
+    //
+    void Set_User_Name(const WCHAR* user_name) { UserName = user_name; }
 
 protected:
+    ////////////////////////////////////////////////////////////////
+    //	Protected methods
+    ////////////////////////////////////////////////////////////////
 
-	////////////////////////////////////////////////////////////////
-	//	Protected methods
-	////////////////////////////////////////////////////////////////
-
-	////////////////////////////////////////////////////////////////
-	//	Protected member data
-	////////////////////////////////////////////////////////////////
-	WideStringClass	UserName;
+    ////////////////////////////////////////////////////////////////
+    //	Protected member data
+    ////////////////////////////////////////////////////////////////
+    WideStringClass UserName;
 };
-
 
 #endif //__DLG_MP_WOL_DELETE_BUDDY_H

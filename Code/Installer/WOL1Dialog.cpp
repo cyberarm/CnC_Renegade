@@ -16,30 +16,30 @@
 **	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-/*********************************************************************************************** 
- ***                            Confidential - Westwood Studios                              *** 
- *********************************************************************************************** 
- *                                                                                             * 
- *                 Project Name : Installer                                                    * 
- *                                                                                             * 
- *                     $Archive:: /Commando/Code/Installer/WOL1Dialog.cp $* 
- *                                                                                             * 
- *                      $Author:: Ian_l                   $* 
- *                                                                                             * 
- *                     $Modtime:: 11/09/01 10:41p               $* 
- *                                                                                             * 
- *                    $Revision:: 3                     $* 
- *                                                                                             * 
- *---------------------------------------------------------------------------------------------* 
- * Functions:                                                                                  * 
+/***********************************************************************************************
+ ***                            Confidential - Westwood Studios                              ***
+ ***********************************************************************************************
+ *                                                                                             *
+ *                 Project Name : Installer                                                    *
+ *                                                                                             *
+ *                     $Archive:: /Commando/Code/Installer/WOL1Dialog.cp $*
+ *                                                                                             *
+ *                      $Author:: Ian_l                   $*
+ *                                                                                             *
+ *                     $Modtime:: 11/09/01 10:41p               $*
+ *                                                                                             *
+ *                    $Revision:: 3                     $*
+ *                                                                                             *
+ *---------------------------------------------------------------------------------------------*
+ * Functions:                                                                                  *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
 // Includes.
 #include "WOL1Dialog.h"
 
-
 /***********************************************************************************************
- * WOL1DialogClass::On_Command --																				  *
+ * WOL1DialogClass::On_Command --
+ **
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -48,20 +48,19 @@
  * WARNINGS:                                                                                   *
  *                                                                                             *
  * HISTORY:                                                                                    *
- *   08/22/01    IML : Created.                                                                * 
+ *   08/22/01    IML : Created.                                                                *
  *=============================================================================================*/
-void WOL1DialogClass::On_Command (int ctrl_id, int message_id, DWORD param)
+void WOL1DialogClass::On_Command(int ctrl_id, int message_id, DWORD param)
 {
-	switch (ctrl_id) {
+    switch (ctrl_id) {
 
-		case IDCANCEL:
-			MenuDialogClass::On_Command (ctrl_id, message_id, param);
-			return;
+    case IDCANCEL:
+        MenuDialogClass::On_Command(ctrl_id, message_id, param);
+        return;
 
-		default:
-			break;
-	}
+    default:
+        break;
+    }
 
-	InstallMenuDialogClass::On_Command (ctrl_id, message_id, param);
+    InstallMenuDialogClass::On_Command(ctrl_id, message_id, param);
 }
-

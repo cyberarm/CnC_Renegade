@@ -34,7 +34,6 @@
  * Functions:                                                                                  *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
-
 // MainFrm.h : interface of the CMainFrame class
 //
 /////////////////////////////////////////////////////////////////////////////
@@ -49,63 +48,60 @@
 class CChunkDataView;
 class CChunkTreeView;
 
-
 class CMainFrame : public CFrameWnd
 {
-	
+
 protected: // create from serialization only
-	CMainFrame();
-	DECLARE_DYNCREATE(CMainFrame)
+    CMainFrame();
+    DECLARE_DYNCREATE(CMainFrame)
 
-// Attributes
+    // Attributes
 public:
-
-// Operations
+    // Operations
 public:
-
-// Overrides
-	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CMainFrame)
-	public:
-	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
-	protected:
-	virtual BOOL OnCreateClient(LPCREATESTRUCT lpcs, CCreateContext* pContext);
-	//}}AFX_VIRTUAL
-
-// Implementation
+    // Overrides
+    // ClassWizard generated virtual function overrides
+    //{{AFX_VIRTUAL(CMainFrame)
 public:
-	virtual ~CMainFrame();
+    virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
+
+protected:
+    virtual BOOL OnCreateClient(LPCREATESTRUCT lpcs, CCreateContext* pContext);
+    //}}AFX_VIRTUAL
+
+    // Implementation
+public:
+    virtual ~CMainFrame();
 #ifdef _DEBUG
-	virtual void AssertValid() const;
-	virtual void Dump(CDumpContext& dc) const;
+    virtual void AssertValid() const;
+    virtual void Dump(CDumpContext& dc) const;
 #endif
 
-	CChunkDataView *	Get_Data_View(void);
-	CChunkTreeView *	Get_Tree_View(void);
+    CChunkDataView* Get_Data_View(void);
+    CChunkTreeView* Get_Tree_View(void);
 
-protected:  // control bar embedded members
-	CStatusBar			m_wndStatusBar;
-	CToolBar				m_wndToolBar;
-	CReBar				m_wndReBar;
-	CSplitterWnd		m_wndSplitter;
+protected: // control bar embedded members
+    CStatusBar m_wndStatusBar;
+    CToolBar m_wndToolBar;
+    CReBar m_wndReBar;
+    CSplitterWnd m_wndSplitter;
 
-
-// Generated message map functions
+    // Generated message map functions
 protected:
-	//{{AFX_MSG(CMainFrame)
-	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
-	afx_msg void OnDisplayHex();
-	afx_msg void OnUpdateDisplayHex(CCmdUI* pCmdUI);
-	afx_msg void OnDisplayMicrochunks();
-	afx_msg void OnUpdateDisplayMicrochunks(CCmdUI* pCmdUI);
-	afx_msg void OnWordmodeByte();
-	afx_msg void OnUpdateWordmodeByte(CCmdUI* pCmdUI);
-	afx_msg void OnWordmodeShort();
-	afx_msg void OnUpdateWordmodeShort(CCmdUI* pCmdUI);
-	afx_msg void OnWordmodeLong();
-	afx_msg void OnUpdateWordmodeLong(CCmdUI* pCmdUI);
-	//}}AFX_MSG
-	DECLARE_MESSAGE_MAP()
+    //{{AFX_MSG(CMainFrame)
+    afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
+    afx_msg void OnDisplayHex();
+    afx_msg void OnUpdateDisplayHex(CCmdUI* pCmdUI);
+    afx_msg void OnDisplayMicrochunks();
+    afx_msg void OnUpdateDisplayMicrochunks(CCmdUI* pCmdUI);
+    afx_msg void OnWordmodeByte();
+    afx_msg void OnUpdateWordmodeByte(CCmdUI* pCmdUI);
+    afx_msg void OnWordmodeShort();
+    afx_msg void OnUpdateWordmodeShort(CCmdUI* pCmdUI);
+    afx_msg void OnWordmodeLong();
+    afx_msg void OnUpdateWordmodeLong(CCmdUI* pCmdUI);
+    //}}AFX_MSG
+    DECLARE_MESSAGE_MAP()
 };
 
 /////////////////////////////////////////////////////////////////////////////

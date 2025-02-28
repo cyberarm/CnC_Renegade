@@ -16,10 +16,10 @@
 **	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-const Class_ID Blender_Class_ID (0x15850983, 0x15c65c7b);
+const Class_ID Blender_Class_ID(0x15850983, 0x15c65c7b);
 
 struct Blender_Data_Chunk
 {
-	Point3 position_delta;
-	float  heading_delta;
+    Point3 position_delta;
+    float heading_delta;
 };

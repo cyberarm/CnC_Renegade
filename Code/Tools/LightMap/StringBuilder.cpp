@@ -16,33 +16,33 @@
 **	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-/*********************************************************************************************** 
- ***                            Confidential - Westwood Studios                              *** 
- *********************************************************************************************** 
- *                                                                                             * 
- *                 Project Name : LightMap                                                     * 
- *                                                                                             * 
- *                     $Archive:: /Commando/Code/Tool $* 
- *                                                                                             * 
- *                      $Author:: Ian_l               $* 
- *                                                                                             * 
- *                     $Modtime:: 2/09/00 1:12p       $* 
- *                                                                                             * 
- *                    $Revision:: 5                                                         $* 
- *                                                                                             * 
- *---------------------------------------------------------------------------------------------* 
- * Functions:                                                                                  * 
+/***********************************************************************************************
+ ***                            Confidential - Westwood Studios                              ***
+ ***********************************************************************************************
+ *                                                                                             *
+ *                 Project Name : LightMap                                                     *
+ *                                                                                             *
+ *                     $Archive:: /Commando/Code/Tool $*
+ *                                                                                             *
+ *                      $Author:: Ian_l               $*
+ *                                                                                             *
+ *                     $Modtime:: 2/09/00 1:12p       $*
+ *                                                                                             *
+ *                    $Revision:: 5                                                         $*
+ *                                                                                             *
+ *---------------------------------------------------------------------------------------------*
+ * Functions:                                                                                  *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
 // Includes.
 #include "StdAfx.h"
 #include "StringBuilder.h"
-#include <stdio.h>
 #include <stdarg.h>
-
+#include <stdio.h>
 
 /***********************************************************************************************
- * StringBuilder::StringBuilder --																				  *
+ * StringBuilder::StringBuilder --
+ **
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -51,20 +51,20 @@
  * WARNINGS:                                                                                   *
  *                                                                                             *
  * HISTORY:                                                                                    *
- *   9/27/99    IML : Created.                                                                 * 
+ *   9/27/99    IML : Created.                                                                 *
  *=============================================================================================*/
-StringBuilder::StringBuilder (unsigned buffersize)
+StringBuilder::StringBuilder(unsigned buffersize)
 {
-	Buffer = new char [buffersize];
-	ASSERT (Buffer != NULL);
-	Buffer [0] = '\0';
-	BufferAllocated = true;
-	BufferSize = buffersize;
+    Buffer = new char[buffersize];
+    ASSERT(Buffer != NULL);
+    Buffer[0] = '\0';
+    BufferAllocated = true;
+    BufferSize = buffersize;
 }
 
-
 /***********************************************************************************************
- * StringBuilder::StringBuilder --																				  *
+ * StringBuilder::StringBuilder --
+ **
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -73,19 +73,19 @@ StringBuilder::StringBuilder (unsigned buffersize)
  * WARNINGS:                                                                                   *
  *                                                                                             *
  * HISTORY:                                                                                    *
- *   9/27/99    IML : Created.                                                                 * 
+ *   9/27/99    IML : Created.                                                                 *
  *=============================================================================================*/
-StringBuilder::StringBuilder (char *buffer, unsigned buffersize)
+StringBuilder::StringBuilder(char* buffer, unsigned buffersize)
 {
-	Buffer			 = buffer;
-	Buffer [0]		 = '\0';
-	BufferAllocated = false;
-	BufferSize		 = buffersize;
+    Buffer = buffer;
+    Buffer[0] = '\0';
+    BufferAllocated = false;
+    BufferSize = buffersize;
 }
 
-
 /***********************************************************************************************
- * StringBuilder::~StringBuilder --																				  *
+ * StringBuilder::~StringBuilder --
+ **
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -94,16 +94,18 @@ StringBuilder::StringBuilder (char *buffer, unsigned buffersize)
  * WARNINGS:                                                                                   *
  *                                                                                             *
  * HISTORY:                                                                                    *
- *   9/27/99    IML : Created.                                                                 * 
+ *   9/27/99    IML : Created.                                                                 *
  *=============================================================================================*/
 StringBuilder::~StringBuilder()
 {
-	if (BufferAllocated) delete [] Buffer;
+    if (BufferAllocated) {
+        delete[] Buffer;
+    }
 }
 
-
 /***********************************************************************************************
- * StringBuilder::Copy --																							  *
+ * StringBuilder::Copy --
+ **
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -112,38 +114,38 @@ StringBuilder::~StringBuilder()
  * WARNINGS:                                                                                   *
  *                                                                                             *
  * HISTORY:                                                                                    *
- *   9/27/99    IML : Created.                                                                 * 
+ *   9/27/99    IML : Created.                                                                 *
  *=============================================================================================*/
-char *StringBuilder::Copy (const char *controlstring, ...)
+char* StringBuilder::Copy(const char* controlstring, ...)
 {
-	unsigned  messagebufferlength;
-	char		*messagebuffer;
+    unsigned messagebufferlength;
+    char* messagebuffer;
 
-	// Allocate a workspace buffer.
-	messagebufferlength = BufferSize;
-	messagebuffer = new char [messagebufferlength];
-	ASSERT (messagebuffer != NULL);
+    // Allocate a workspace buffer.
+    messagebufferlength = BufferSize;
+    messagebuffer = new char[messagebufferlength];
+    ASSERT(messagebuffer != NULL);
 
-	va_list args;
+    va_list args;
 
-	va_start (args, controlstring);
+    va_start(args, controlstring);
 
-	_vsnprintf (messagebuffer, messagebufferlength - 1, controlstring, args);
-	messagebuffer [messagebufferlength - 1] = '\0';
-	strncpy (Buffer, messagebuffer, BufferSize - 1);
-	Buffer [BufferSize - 1] = '\0';
+    _vsnprintf(messagebuffer, messagebufferlength - 1, controlstring, args);
+    messagebuffer[messagebufferlength - 1] = '\0';
+    strncpy(Buffer, messagebuffer, BufferSize - 1);
+    Buffer[BufferSize - 1] = '\0';
 
-	va_end (args);
+    va_end(args);
 
-	// Clean-up.
-	delete messagebuffer;
+    // Clean-up.
+    delete messagebuffer;
 
-	return (Buffer);
+    return (Buffer);
 }
 
-
 /***********************************************************************************************
- * StringBuilder::Concatenate --																					  *
+ * StringBuilder::Concatenate --
+ **
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -152,31 +154,31 @@ char *StringBuilder::Copy (const char *controlstring, ...)
  * WARNINGS:                                                                                   *
  *                                                                                             *
  * HISTORY:                                                                                    *
- *   9/27/99    IML : Created.                                                                 * 
+ *   9/27/99    IML : Created.                                                                 *
  *=============================================================================================*/
-char *StringBuilder::Concatenate (const char *controlstring, ...)
+char* StringBuilder::Concatenate(const char* controlstring, ...)
 {
-	unsigned  messagebufferlength;
-	char		*messagebuffer;
+    unsigned messagebufferlength;
+    char* messagebuffer;
 
-	// Allocate a workspace buffer.
-	messagebufferlength = BufferSize;
-	messagebuffer = new char [messagebufferlength];
-	ASSERT (messagebuffer != NULL);
+    // Allocate a workspace buffer.
+    messagebufferlength = BufferSize;
+    messagebuffer = new char[messagebufferlength];
+    ASSERT(messagebuffer != NULL);
 
-	va_list args;
+    va_list args;
 
-	va_start (args, controlstring);
+    va_start(args, controlstring);
 
-	_vsnprintf (messagebuffer, messagebufferlength - 1, controlstring, args);
-	messagebuffer [messagebufferlength - 1] = '\0';
-	strncat (Buffer, messagebuffer, BufferSize - 1 - strlen (Buffer));
-	Buffer [BufferSize - 1] = '\0';
+    _vsnprintf(messagebuffer, messagebufferlength - 1, controlstring, args);
+    messagebuffer[messagebufferlength - 1] = '\0';
+    strncat(Buffer, messagebuffer, BufferSize - 1 - strlen(Buffer));
+    Buffer[BufferSize - 1] = '\0';
 
-	va_end (args);
+    va_end(args);
 
-	// Clean-up.
-	delete messagebuffer;
+    // Clean-up.
+    delete messagebuffer;
 
-	return (Buffer);
+    return (Buffer);
 }

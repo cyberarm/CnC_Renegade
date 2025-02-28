@@ -17,69 +17,68 @@
 */
 
 /******************************************************************************
-*
-* NAME
-*     $Archive: /Commando/Code/Commando/DlgWebPage.h $
-*
-* DESCRIPTION
-*     Web Browser dialog
-*
-* PROGRAMMER
-*     Denzil E. Long, Jr.
-*     $Author: Denzil_l $
-*
-* VERSION INFO
-*     $Revision: 4 $
-*     $Modtime: 10/30/01 4:35p $
-*
-******************************************************************************/
+ *
+ * NAME
+ *     $Archive: /Commando/Code/Commando/DlgWebPage.h $
+ *
+ * DESCRIPTION
+ *     Web Browser dialog
+ *
+ * PROGRAMMER
+ *     Denzil E. Long, Jr.
+ *     $Author: Denzil_l $
+ *
+ * VERSION INFO
+ *     $Revision: 4 $
+ *     $Modtime: 10/30/01 4:35p $
+ *
+ ******************************************************************************/
 
 #ifndef __DLGWEBPAGE_H__
 #define __DLGWEBPAGE_H__
 
 #include "DialogBase.h"
-#include <atlbase.h>
 #include <WWLib\Notify.h>
+#include <atlbase.h>
 
 class WebBrowser;
 class WebEvent;
 class DlgMsgBoxEvent;
 
-class DlgWebPage :
-		public DialogBaseClass,
-		public Observer<WebEvent>,
-		public Observer<DlgMsgBoxEvent>
-	{
-	public:
-		static void DoDialog(char* page);
+class DlgWebPage : public DialogBaseClass,
+                   public Observer<WebEvent>,
+                   public Observer<DlgMsgBoxEvent>
+{
+public:
+    static void DoDialog(char* page);
 
-	protected:
-		DlgWebPage();
-		virtual ~DlgWebPage();
+protected:
+    DlgWebPage();
+    virtual ~DlgWebPage();
 
-		bool FinalizeCreate(void);
+    bool FinalizeCreate(void);
 
-		// Handle web browser events
-		void HandleNotification(WebEvent& event);
+    // Handle web browser events
+    void HandleNotification(WebEvent& event);
 
-		// Handle message box dialog events
-		void HandleNotification(DlgMsgBoxEvent& event);
+    // Handle message box dialog events
+    void HandleNotification(DlgMsgBoxEvent& event);
 
-	// DialogBassClass methods
-	protected:
-		void Start_Dialog(void);
-		void End_Dialog(void);
-		void On_Frame_Update(void);
+    // DialogBassClass methods
+protected:
+    void Start_Dialog(void);
+    void End_Dialog(void);
+    void On_Frame_Update(void);
 
-	private:
-		// Declare private to prevent copy and assignment
-		DlgWebPage(const DlgWebPage&);
-		const DlgWebPage& operator=(const DlgWebPage&);
+private:
+    // Declare private to prevent copy and assignment
+    DlgWebPage(const DlgWebPage&);
+    const DlgWebPage& operator=(const DlgWebPage&);
 
-	private:
-		WebBrowser* mBrowser;
-		char* mPage;
-		unsigned long mTimer;
-	};
+private:
+    WebBrowser* mBrowser;
+    char* mPage;
+    unsigned long mTimer;
+};
 
 #endif // __DLGWEBPAGE_H__

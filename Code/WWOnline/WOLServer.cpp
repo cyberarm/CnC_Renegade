@@ -17,404 +17,381 @@
 */
 
 /******************************************************************************
-*
-* FILE
-*     $Archive: /Commando/Code/WWOnline/WOLServer.cpp $
-*
-* DESCRIPTION
-*     These classes encapsulate a Westwood Online Server.
-*
-*     This is a base class. Derived classes include (but not necessarily limited to)
-*     ChatServer, GameResultsServer, LadderServer, and WDTServer.
-*
-*     Server primarily repackages the WOL Server struct
-*
-* PROGRAMMER
-*     $Author: Denzil_l $
-*
-* VERSION INFO
-*     $Revision: 14 $
-*     $Modtime: 1/12/02 9:42p $
-*
-******************************************************************************/
+ *
+ * FILE
+ *     $Archive: /Commando/Code/WWOnline/WOLServer.cpp $
+ *
+ * DESCRIPTION
+ *     These classes encapsulate a Westwood Online Server.
+ *
+ *     This is a base class. Derived classes include (but not necessarily limited to)
+ *     ChatServer, GameResultsServer, LadderServer, and WDTServer.
+ *
+ *     Server primarily repackages the WOL Server struct
+ *
+ * PROGRAMMER
+ *     $Author: Denzil_l $
+ *
+ * VERSION INFO
+ *     $Revision: 14 $
+ *     $Modtime: 1/12/02 9:42p $
+ *
+ ******************************************************************************/
 
-#include <stdlib.h>
-#include "WOLServer.h"
 #include "WOLProduct.h"
-#include <commando\_globals.h>
-#include <string.h>
+#include "WOLServer.h"
 #include <WWDebug\WWDebug.h>
 #include <WWLib\Registry.h>
+#include <commando\_globals.h>
+#include <stdlib.h>
+#include <string.h>
 
-namespace WWOnline {
+namespace WWOnline
+{
 
-/******************************************************************************
-*
-* NAME
-*     ServerData::ServerData
-*
-* DESCRIPTION
-*     Constructor
-*
-* INPUTS
-*     Server - WOLAPI Server structure representing server.
-*
-* RESULT
-*     NONE
-*
-******************************************************************************/
+    /******************************************************************************
+     *
+     * NAME
+     *     ServerData::ServerData
+     *
+     * DESCRIPTION
+     *     Constructor
+     *
+     * INPUTS
+     *     Server - WOLAPI Server structure representing server.
+     *
+     * RESULT
+     *     NONE
+     *
+     ******************************************************************************/
 
-ServerData::ServerData(const WOL::Server& server)
-	{
-	memcpy(&mData, &server, sizeof(mData));
-	mData.next = NULL;
-	}
+    ServerData::ServerData(const WOL::Server& server)
+    {
+        memcpy(&mData, &server, sizeof(mData));
+        mData.next = NULL;
+    }
 
+    /******************************************************************************
+     *
+     * NAME
+     *     ServerData::~ServerData
+     *
+     * DESCRIPTION
+     *     Destructor
+     *
+     * INPUTS
+     *     NONE
+     *
+     * RESULT
+     *     NONE
+     *
+     ******************************************************************************/
 
-/******************************************************************************
-*
-* NAME
-*     ServerData::~ServerData
-*
-* DESCRIPTION
-*     Destructor
-*
-* INPUTS
-*     NONE
-*
-* RESULT
-*     NONE
-*
-******************************************************************************/
+    ServerData::~ServerData()
+    {
+        WWDEBUG_SAY(("WOL: Destructing ServerData %s:%s\n", mData.connlabel, mData.name));
+    }
 
-ServerData::~ServerData()
-	{
-	WWDEBUG_SAY(("WOL: Destructing ServerData %s:%s\n", mData.connlabel, mData.name));
-	}
+    /******************************************************************************
+     *
+     * NAME
+     *     IRCServerData::Create
+     *
+     * DESCRIPTION
+     *     Create a IRC server instance.
+     *
+     * INPUTS
+     *     Server - WOLAPI server structure
+     *
+     * RESULT
+     *     Instance of IRC server class.
+     *
+     ******************************************************************************/
 
+    RefPtr<IRCServerData> IRCServerData::Create(const WOL::Server& server)
+    {
+        WWASSERT((strcmp((char*)server.connlabel, "IRC") == 0)
+                 || (strcmp((char*)server.connlabel, "IGS") == 0));
+        return new IRCServerData(server);
+    }
 
-/******************************************************************************
-*
-* NAME
-*     IRCServerData::Create
-*
-* DESCRIPTION
-*     Create a IRC server instance.
-*
-* INPUTS
-*     Server - WOLAPI server structure
-*
-* RESULT
-*     Instance of IRC server class.
-*
-******************************************************************************/
+    /******************************************************************************
+     *
+     * NAME
+     *     IRCServerData::IRCServerData
+     *
+     * DESCRIPTION
+     *     Constructor
+     *
+     * INPUTS
+     *     Server - WOLAPI server structure
+     *
+     * RESULT
+     *     NONE
+     *
+     ******************************************************************************/
 
-RefPtr<IRCServerData> IRCServerData::Create(const WOL::Server& server)
-	{
-	WWASSERT((strcmp((char*)server.connlabel, "IRC") == 0) || (strcmp((char*)server.connlabel, "IGS") == 0));
-	return new IRCServerData(server);
-	}
+    IRCServerData::IRCServerData(const WOL::Server& server)
+        : ServerData(server),
+          mMatchesLanguageCode(false),
+          mHasLanguageCode(false)
+    {
+        mIsGameServer = (strcmp((char*)server.connlabel, "IGS") == 0);
 
+        RefPtr<Product> product = Product::Current();
+        WWASSERT(product.IsValid() && "WWOnline product not initialized.");
 
-/******************************************************************************
-*
-* NAME
-*     IRCServerData::IRCServerData
-*
-* DESCRIPTION
-*     Constructor
-*
-* INPUTS
-*     Server - WOLAPI server structure
-*
-* RESULT
-*     NONE
-*
-******************************************************************************/
+        char* namePart = strchr((char*)server.name, ':');
 
-IRCServerData::IRCServerData(const WOL::Server& server) :
-		ServerData(server),
-		mMatchesLanguageCode(false),
-		mHasLanguageCode(false)
-	{
-	mIsGameServer = (strcmp((char*)server.connlabel, "IGS") == 0);
+        if (namePart) {
+            namePart++;
+        }
 
-	RefPtr<Product> product = Product::Current();
-	WWASSERT(product.IsValid() && "WWOnline product not initialized.");
+        char name[sizeof(server.name) + 1];
+        strcpy(name, (char*)server.name);
+        char* langPart = strtok(name, ":");
 
-	char* namePart = strchr((char*)server.name, ':');
+        if (namePart && langPart) {
+            char* token = strtok(langPart, ",");
 
-	if (namePart)
-		{
-		namePart++;
-		}
+            if (token) {
+                long productLangCode = product->GetLanguageCode();
 
-	char name[sizeof(server.name) + 1];
-	strcpy(name, (char*)server.name);
-	char* langPart = strtok(name, ":");
+                do {
+                    long langCode = atol(token);
 
-	if (namePart && langPart)
-		{
-		char* token = strtok(langPart, ",");
+                    if (langCode == productLangCode) {
+                        mMatchesLanguageCode = true;
+                    }
 
-		if (token)
-			{
-			long productLangCode = product->GetLanguageCode();
+                    token = strtok(NULL, ",");
+                } while (token);
+            }
+        }
 
-			do
-				{
-				long langCode = atol(token);
+        if (namePart) {
+            mServerName = namePart;
+            mHasLanguageCode = true;
+        }
+        else {
+            mServerName = (char*)server.name;
+        }
+    }
 
-				if (langCode == productLangCode)
-					{
-					mMatchesLanguageCode = true;
-					}
+    /******************************************************************************
+     *
+     * NAME
+     *     HostPortServerData::HostPortServerData
+     *
+     * DESCRIPTION
+     *
+     * INPUTS
+     *
+     * RESULT
+     *     NONE
+     *
+     ******************************************************************************/
 
-				token = strtok(NULL, ",");
-				} while (token);
-			}
-		}
+    HostPortServerData::HostPortServerData(const WOL::Server& server)
+        : ServerData(server)
+    {
+        char data[sizeof(server.conndata) + 1];
+        strcpy(data, (char*)server.conndata);
 
-	if (namePart)
-		{
-		mServerName = namePart;
-		mHasLanguageCode = true;
-		}
-	else
-		{
-		mServerName = (char*)server.name;
-		}
-	}
+        char* token = strtok(data, ";");
+        WWASSERT(token);
 
+        if (token) {
+            token = strtok(NULL, ";");
+        }
 
-/******************************************************************************
-*
-* NAME
-*     HostPortServerData::HostPortServerData
-*
-* DESCRIPTION
-*
-* INPUTS
-*
-* RESULT
-*     NONE
-*
-******************************************************************************/
+        WWASSERT(token);
 
-HostPortServerData::HostPortServerData(const WOL::Server& server) :
-		ServerData(server)
-	{
-	char data[sizeof(server.conndata) + 1];
-	strcpy(data, (char*)server.conndata);
+        if (token) {
+            mHostAddress = token;
+            token = strtok(NULL, ";");
+        }
 
-	char* token = strtok(data, ";");
-	WWASSERT(token);
+        WWASSERT(token);
 
-	if (token)
-		{
-		token = strtok(NULL, ";");
-		}
+        if (token) {
+            mHostPort = atol(token);
+        }
+    }
 
-	WWASSERT(token);
+    /******************************************************************************
+     *
+     * NAME
+     *     LadderServerData::Create
+     *
+     * DESCRIPTION
+     *
+     * INPUTS
+     *
+     * RESULT
+     *
+     ******************************************************************************/
 
-	if (token)
-		{
-		mHostAddress = token;
-		token = strtok(NULL, ";");
-		}
+    RefPtr<LadderServerData> LadderServerData::Create(const WOL::Server& server)
+    {
+        WWASSERT(strcmp((char*)server.connlabel, "LAD") == 0);
+        return new LadderServerData(server);
+    }
 
-	WWASSERT(token);
+    /******************************************************************************
+     *
+     * NAME
+     *     LadderServerData::LadderServerData
+     *
+     * DESCRIPTION
+     *
+     * INPUTS
+     *
+     * RESULT
+     *     NONE
+     *
+     ******************************************************************************/
 
-	if (token)
-		{
-		mHostPort = atol(token);
-		}
-	}
+    LadderServerData::LadderServerData(const WOL::Server& server)
+        : HostPortServerData(server)
+    {
+    }
 
+    /******************************************************************************
+     *
+     * NAME
+     *     GameResultsServerData::Create
+     *
+     * DESCRIPTION
+     *
+     * INPUTS
+     *
+     * RESULT
+     *
+     ******************************************************************************/
 
-/******************************************************************************
-*
-* NAME
-*     LadderServerData::Create
-*
-* DESCRIPTION
-*
-* INPUTS
-*
-* RESULT
-*
-******************************************************************************/
+    RefPtr<GameResultsServerData> GameResultsServerData::Create(const WOL::Server& server)
+    {
+        WWASSERT(strcmp((char*)server.connlabel, "GAM") == 0);
+        return new GameResultsServerData(server);
+    }
 
-RefPtr<LadderServerData> LadderServerData::Create(const WOL::Server& server)
-	{
-	WWASSERT(strcmp((char*)server.connlabel, "LAD") == 0);
-	return new LadderServerData(server);
-	}
+    /******************************************************************************
+     *
+     * NAME
+     *     GameResultsServerData::GameResultsServerData
+     *
+     * DESCRIPTION
+     *
+     * INPUTS
+     *
+     * RESULT
+     *     NONE
+     *
+     ******************************************************************************/
 
+    GameResultsServerData::GameResultsServerData(const WOL::Server& server)
+        : HostPortServerData(server)
+    {
+    }
 
-/******************************************************************************
-*
-* NAME
-*     LadderServerData::LadderServerData
-*
-* DESCRIPTION
-*
-* INPUTS
-*
-* RESULT
-*     NONE
-*
-******************************************************************************/
+    /******************************************************************************
+     *
+     * NAME
+     *     WDTServerData::Create
+     *
+     * DESCRIPTION
+     *
+     * INPUTS
+     *
+     * RESULT
+     *
+     ******************************************************************************/
 
-LadderServerData::LadderServerData(const WOL::Server& server) :
-		HostPortServerData(server)
-	{
-	}
+    RefPtr<WDTServerData> WDTServerData::Create(const WOL::Server& server)
+    {
+        WWASSERT(strcmp((char*)server.connlabel, "WDT") == 0);
+        return new WDTServerData(server);
+    }
 
+    /******************************************************************************
+     *
+     * NAME
+     *     WDTServerData::WDTServerData
+     *
+     * DESCRIPTION
+     *
+     * INPUTS
+     *
+     * RESULT
+     *     NONE
+     *
+     ******************************************************************************/
 
-/******************************************************************************
-*
-* NAME
-*     GameResultsServerData::Create
-*
-* DESCRIPTION
-*
-* INPUTS
-*
-* RESULT
-*
-******************************************************************************/
+    WDTServerData::WDTServerData(const WOL::Server& server)
+        : HostPortServerData(server)
+    {
+    }
 
-RefPtr<GameResultsServerData> GameResultsServerData::Create(const WOL::Server& server)
-	{
-	WWASSERT(strcmp((char*)server.connlabel, "GAM") == 0);
-	return new GameResultsServerData(server);
-	}
+    /******************************************************************************
+     *
+     * NAME
+     *     MGLServerData::Create
+     *
+     * DESCRIPTION
+     *
+     * INPUTS
+     *
+     * RESULT
+     *
+     ******************************************************************************/
 
+    RefPtr<MGLServerData> MGLServerData::Create(const WOL::Server& server)
+    {
+        WWASSERT(strcmp((char*)server.connlabel, "MGL") == 0);
+        return new MGLServerData(server);
+    }
 
-/******************************************************************************
-*
-* NAME
-*     GameResultsServerData::GameResultsServerData
-*
-* DESCRIPTION
-*
-* INPUTS
-*
-* RESULT
-*     NONE
-*
-******************************************************************************/
+    /******************************************************************************
+     *
+     * NAME
+     *     MGLServerData::MGLServerData
+     *
+     * DESCRIPTION
+     *
+     * INPUTS
+     *
+     * RESULT
+     *     NONE
+     *
+     ******************************************************************************/
 
-GameResultsServerData::GameResultsServerData(const WOL::Server& server) :
-		HostPortServerData(server)
-	{
-	}
+    MGLServerData::MGLServerData(const WOL::Server& server)
+        : HostPortServerData(server)
+    {
+        WWDEBUG_SAY(("WOL: ManglerServer %s:%d\n", GetHostAddress(), GetPort()));
+    }
 
+    RefPtr<PingServerData> PingServerData::Create(const WOL::Server& server)
+    {
+        WWASSERT(strcmp((char*)server.connlabel, "PNG") == 0);
+        return new PingServerData(server);
+    }
 
-/******************************************************************************
-*
-* NAME
-*     WDTServerData::Create
-*
-* DESCRIPTION
-*
-* INPUTS
-*
-* RESULT
-*
-******************************************************************************/
+    PingServerData::PingServerData(const WOL::Server& server)
+        : HostPortServerData(server),
+          mPingTime(-1)
+    {
+        WWDEBUG_SAY(("WOL: PingServer %s:%d\n", GetHostAddress(), GetPort()));
+    }
 
-RefPtr<WDTServerData> WDTServerData::Create(const WOL::Server& server)
-	{
-	WWASSERT(strcmp((char*)server.connlabel, "WDT") == 0);
-	return new WDTServerData(server);
-	}
+    void PingServerData::SetPingTime(int time)
+    {
+        mPingTime = time;
 
-
-/******************************************************************************
-*
-* NAME
-*     WDTServerData::WDTServerData
-*
-* DESCRIPTION
-*
-* INPUTS
-*
-* RESULT
-*     NONE
-*
-******************************************************************************/
-
-WDTServerData::WDTServerData(const WOL::Server& server) :
-		HostPortServerData(server)
-	{
-	}
-
-
-/******************************************************************************
-*
-* NAME
-*     MGLServerData::Create
-*
-* DESCRIPTION
-*
-* INPUTS
-*
-* RESULT
-*
-******************************************************************************/
-
-RefPtr<MGLServerData> MGLServerData::Create(const WOL::Server& server)
-	{
-	WWASSERT(strcmp((char*)server.connlabel, "MGL") == 0);
-	return new MGLServerData(server);
-	}
-
-
-/******************************************************************************
-*
-* NAME
-*     MGLServerData::MGLServerData
-*
-* DESCRIPTION
-*
-* INPUTS
-*
-* RESULT
-*     NONE
-*
-******************************************************************************/
-
-MGLServerData::MGLServerData(const WOL::Server& server) :
-		HostPortServerData(server)
-	{
-	WWDEBUG_SAY(("WOL: ManglerServer %s:%d\n", GetHostAddress(), GetPort()));
-	}
-
-
-RefPtr<PingServerData> PingServerData::Create(const WOL::Server& server)
-	{
-	WWASSERT(strcmp((char*)server.connlabel, "PNG") == 0);
-	return new PingServerData(server);
-	}
-
-
-PingServerData::PingServerData(const WOL::Server& server) :
-		HostPortServerData(server),
-		mPingTime(-1)
-	{
-	WWDEBUG_SAY(("WOL: PingServer %s:%d\n", GetHostAddress(), GetPort()));
-	}
-
-
-void PingServerData::SetPingTime(int time)
-	{
-	mPingTime = time;
-
-	// Save the ping time in the registry.
-	RegistryClass reg(APPLICATION_SUB_KEY_NAME_SERVER_LIST);
-	reg.Set_Int(GetHostAddress(), time);
-	}
+        // Save the ping time in the registry.
+        RegistryClass reg(APPLICATION_SUB_KEY_NAME_SERVER_LIST);
+        reg.Set_Int(GetHostAddress(), time);
+    }
 
 }

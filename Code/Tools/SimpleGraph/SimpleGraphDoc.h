@@ -32,55 +32,50 @@
 class CSimpleGraphDoc : public CDocument
 {
 protected: // create from serialization only
-	CSimpleGraphDoc();
-	DECLARE_DYNCREATE(CSimpleGraphDoc)
+    CSimpleGraphDoc();
+    DECLARE_DYNCREATE(CSimpleGraphDoc)
 
-// Attributes
+    // Attributes
 public:
-
-// Operations
+    // Operations
 public:
-
-// Overrides
-	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CSimpleGraphDoc)
-	public:
-	virtual BOOL OnNewDocument();
-	virtual void Serialize(CArchive& ar);
-	//}}AFX_VIRTUAL
-
-// Implementation
+    // Overrides
+    // ClassWizard generated virtual function overrides
+    //{{AFX_VIRTUAL(CSimpleGraphDoc)
 public:
-	virtual ~CSimpleGraphDoc();
+    virtual BOOL OnNewDocument();
+    virtual void Serialize(CArchive& ar);
+    //}}AFX_VIRTUAL
+
+    // Implementation
+public:
+    virtual ~CSimpleGraphDoc();
 #ifdef _DEBUG
-	virtual void AssertValid() const;
-	virtual void Dump(CDumpContext& dc) const;
+    virtual void AssertValid() const;
+    virtual void Dump(CDumpContext& dc) const;
 #endif
 
 protected:
-
-// Generated message map functions
+    // Generated message map functions
 protected:
-	//{{AFX_MSG(CSimpleGraphDoc)
-		// NOTE - the ClassWizard will add and remove member functions here.
-		//    DO NOT EDIT what you see in these blocks of generated code !
-	//}}AFX_MSG
-	DECLARE_MESSAGE_MAP()
+    //{{AFX_MSG(CSimpleGraphDoc)
+    // NOTE - the ClassWizard will add and remove member functions here.
+    //    DO NOT EDIT what you see in these blocks of generated code !
+    //}}AFX_MSG
+    DECLARE_MESSAGE_MAP()
 
 public:
-
-	//////////////////////////////////////////////////////////
-	//	Public methods
-	//////////////////////////////////////////////////////////	
-	Curve1DClass &				Get_Spline (void) { return *m_Spline; }
+    //////////////////////////////////////////////////////////
+    //	Public methods
+    //////////////////////////////////////////////////////////
+    Curve1DClass& Get_Spline(void) { return *m_Spline; }
 
 protected:
+    //////////////////////////////////////////////////////////
+    //	Protected member data
+    //////////////////////////////////////////////////////////
 
-	//////////////////////////////////////////////////////////
-	//	Protected member data
-	//////////////////////////////////////////////////////////	
-	
-	Curve1DClass *				m_Spline;
+    Curve1DClass* m_Spline;
 };
 
 /////////////////////////////////////////////////////////////////////////////

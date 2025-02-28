@@ -30,45 +30,47 @@
 
 class CMeshPropPage : public CPropertyPage
 {
-	DECLARE_DYNCREATE(CMeshPropPage)
+    DECLARE_DYNCREATE(CMeshPropPage)
 
-// Construction
-public:	
-    CMeshPropPage (const CString &stringMeshName);
-	~CMeshPropPage ();
+    // Construction
+public:
+    CMeshPropPage(const CString& stringMeshName);
+    ~CMeshPropPage();
 
-// Dialog Data
-	//{{AFX_DATA(CMeshPropPage)
-	enum { IDD = IDD_PROP_PAGE_MESH };
-		// NOTE - ClassWizard will add data members here.
-		//    DO NOT EDIT what you see in these blocks of generated code !
-	//}}AFX_DATA
+    // Dialog Data
+    //{{AFX_DATA(CMeshPropPage)
+    enum
+    {
+        IDD = IDD_PROP_PAGE_MESH
+    };
+    // NOTE - ClassWizard will add data members here.
+    //    DO NOT EDIT what you see in these blocks of generated code !
+    //}}AFX_DATA
 
-
-// Overrides
-	// ClassWizard generate virtual function overrides
-	//{{AFX_VIRTUAL(CMeshPropPage)
-	protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
-	//}}AFX_VIRTUAL
-
-// Implementation
+    // Overrides
+    // ClassWizard generate virtual function overrides
+    //{{AFX_VIRTUAL(CMeshPropPage)
 protected:
-	// Generated message map functions
-	//{{AFX_MSG(CMeshPropPage)
-	virtual BOOL OnInitDialog();
-	afx_msg void OnClose();
-	//}}AFX_MSG
-	DECLARE_MESSAGE_MAP()
+    virtual void DoDataExchange(CDataExchange* pDX); // DDX/DDV support
+    //}}AFX_VIRTUAL
 
-    private:
-        CMeshPropPage () {};
+    // Implementation
+protected:
+    // Generated message map functions
+    //{{AFX_MSG(CMeshPropPage)
+    virtual BOOL OnInitDialog();
+    afx_msg void OnClose();
+    //}}AFX_MSG
+    DECLARE_MESSAGE_MAP()
 
-        CString m_stringMeshName;
+private:
+    CMeshPropPage() { };
 
+    CString m_stringMeshName;
 };
 
 //{{AFX_INSERT_LOCATION}}
-// Microsoft Developer Studio will insert additional declarations immediately before the previous line.
+// Microsoft Developer Studio will insert additional declarations immediately before the previous
+// line.
 
 #endif // !defined(AFX_MESHPROPPAGE_H__FB40246F_5DFB_11D2_9FC7_00104B791122__INCLUDED_)

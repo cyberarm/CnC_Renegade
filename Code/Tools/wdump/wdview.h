@@ -30,52 +30,54 @@
 class CWdumpView : public CView
 {
 protected: // create from serialization only
-	CWdumpView();
-	DECLARE_DYNCREATE(CWdumpView)
+    CWdumpView();
+    DECLARE_DYNCREATE(CWdumpView)
 
-// Attributes
+    // Attributes
 public:
-	CWdumpDoc* GetDocument();
+    CWdumpDoc* GetDocument();
 
-// Operations
+    // Operations
 public:
-
-// Overrides
-	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CWdumpView)
-	public:
-	virtual void OnDraw(CDC* pDC);  // overridden to draw this view
-	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
-	protected:
-	//}}AFX_VIRTUAL
-
-// Implementation
+    // Overrides
+    // ClassWizard generated virtual function overrides
+    //{{AFX_VIRTUAL(CWdumpView)
 public:
-	virtual ~CWdumpView();
+    virtual void OnDraw(CDC* pDC); // overridden to draw this view
+    virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
+
+protected:
+    //}}AFX_VIRTUAL
+
+    // Implementation
+public:
+    virtual ~CWdumpView();
 #ifdef _DEBUG
-	virtual void AssertValid() const;
-	virtual void Dump(CDumpContext& dc) const;
+    virtual void AssertValid() const;
+    virtual void Dump(CDumpContext& dc) const;
 #endif
 
 protected:
-
-// Generated message map functions
+    // Generated message map functions
 protected:
-	//{{AFX_MSG(CWdumpView)
-		// NOTE - the ClassWizard will add and remove member functions here.
-		//    DO NOT EDIT what you see in these blocks of generated code !
-	//}}AFX_MSG
-	DECLARE_MESSAGE_MAP()
+    //{{AFX_MSG(CWdumpView)
+    // NOTE - the ClassWizard will add and remove member functions here.
+    //    DO NOT EDIT what you see in these blocks of generated code !
+    //}}AFX_MSG
+    DECLARE_MESSAGE_MAP()
 };
 
-#ifndef _DEBUG  // debug version in wdumpView.cpp
+#ifndef _DEBUG // debug version in wdumpView.cpp
 inline CWdumpDoc* CWdumpView::GetDocument()
-   { return (CWdumpDoc*)m_pDocument; }
+{
+    return (CWdumpDoc*)m_pDocument;
+}
 #endif
 
 /////////////////////////////////////////////////////////////////////////////
 
 //{{AFX_INSERT_LOCATION}}
-// Microsoft Developer Studio will insert additional declarations immediately before the previous line.
+// Microsoft Developer Studio will insert additional declarations immediately before the previous
+// line.
 
 #endif // !defined(AFX_WDUMPVIEW_H__41C157EF_5631_11D1_8CDB_006097C6A583__INCLUDED_)

@@ -20,105 +20,106 @@
 //
 
 // Includes.
-#include "stdafx.h"
 #include "MixFile.h"
-
+#include "stdafx.h"
 
 // Private functions.
-static unsigned Add_Files (const StringClass &basepath, const StringClass &subpath, MixFileCreator &mixfile);
+static unsigned Add_Files(const StringClass& basepath, const StringClass& subpath,
+                          MixFileCreator& mixfile);
 
-int main (int argc, char *argv[])
+int main(int argc, char* argv[])
 {
-	// Must have at least 3 command line arguments - the executable, a full source path, and a mixfile name.
-	if (argc >= 3) {
+    // Must have at least 3 command line arguments - the executable, a full source path, and a
+    // mixfile name.
+    if (argc >= 3) {
 
-		MixFileCreator	mixfile (argv [argc - 1]);
+        MixFileCreator mixfile(argv[argc - 1]);
 
-		for (int c = 1; c < argc - 1; c++) {
+        for (int c = 1; c < argc - 1; c++) {
 
-			unsigned		filecount;
-			StringClass basepath (argv [c]);
-			StringClass subpath;
-			
-			filecount = Add_Files (basepath, subpath, mixfile);
-			if (filecount > 0) {
-				printf ("%u files added\n", filecount);
-			} else {
-				printf ("No files found in source directory\n");
-			}
-		}
+            unsigned filecount;
+            StringClass basepath(argv[c]);
+            StringClass subpath;
 
-	} else {
-		printf ("Usage - MakeMix <source directory0>..<source directory n> <mixfilename>\n");
-	}
+            filecount = Add_Files(basepath, subpath, mixfile);
+            if (filecount > 0) {
+                printf("%u files added\n", filecount);
+            }
+            else {
+                printf("No files found in source directory\n");
+            }
+        }
+    }
+    else {
+        printf("Usage - MakeMix <source directory0>..<source directory n> <mixfilename>\n");
+    }
 
-	return (0);
+    return (0);
 }
 
-
-unsigned Add_Files (const StringClass &basepath, const StringClass &subpath, MixFileCreator &mixfile)
+unsigned Add_Files(const StringClass& basepath, const StringClass& subpath, MixFileCreator& mixfile)
 {
-	const char wildcardname [] = "*.*";
+    const char wildcardname[] = "*.*";
 
-	unsigned			 filecount;
-	StringClass		 findfilepathname;	
-	WIN32_FIND_DATA finddata;	
-	HANDLE			 handle;
+    unsigned filecount;
+    StringClass findfilepathname;
+    WIN32_FIND_DATA finddata;
+    HANDLE handle;
 
-	filecount = 0;
-	if (basepath.Get_Length() > 0) {
-		findfilepathname  = basepath;
-		findfilepathname += "\\";
-	}
-	if (subpath.Get_Length() > 0) {
-		findfilepathname += subpath;
-		findfilepathname += "\\";
-	}
-	findfilepathname += wildcardname;
-	handle = FindFirstFile (findfilepathname, &finddata);
-	if (handle != INVALID_HANDLE_VALUE) {
-		
-		bool done;
+    filecount = 0;
+    if (basepath.Get_Length() > 0) {
+        findfilepathname = basepath;
+        findfilepathname += "\\";
+    }
+    if (subpath.Get_Length() > 0) {
+        findfilepathname += subpath;
+        findfilepathname += "\\";
+    }
+    findfilepathname += wildcardname;
+    handle = FindFirstFile(findfilepathname, &finddata);
+    if (handle != INVALID_HANDLE_VALUE) {
 
-		done = false;
-		while (!done) {
+        bool done;
 
-			// Filter out system files.
-  			if (finddata.cFileName [0] != '.') {
+        done = false;
+        while (!done) {
 
-				StringClass subpathname;
+            // Filter out system files.
+            if (finddata.cFileName[0] != '.') {
 
-				if (subpath.Get_Length() > 0) {
-					subpathname += subpath;
-					subpathname += "\\";
-				}
-				subpathname += finddata.cFileName;
+                StringClass subpathname;
 
-				// Is it a subdirectory?
-	  			if ((finddata.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)) {
-				
-					// Recurse on subdirectory.
-					filecount += Add_Files (basepath, subpathname, mixfile);
+                if (subpath.Get_Length() > 0) {
+                    subpathname += subpath;
+                    subpathname += "\\";
+                }
+                subpathname += finddata.cFileName;
 
-				} else {
+                // Is it a subdirectory?
+                if ((finddata.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)) {
 
-					StringClass fullpathname;
+                    // Recurse on subdirectory.
+                    filecount += Add_Files(basepath, subpathname, mixfile);
+                }
+                else {
 
-					if (basepath.Get_Length() > 0) {
-						fullpathname += basepath;
-						fullpathname += "\\";
-					}
-					if (subpath.Get_Length() > 0) {
-						fullpathname += subpath;
-						fullpathname += "\\";
-					}
-					fullpathname += finddata.cFileName;
-					mixfile.Add_File (fullpathname, subpathname);
-					filecount++;
-				}
-			}
-			done = !FindNextFile (handle, &finddata);
-		}
-	}
-	return (filecount);
+                    StringClass fullpathname;
+
+                    if (basepath.Get_Length() > 0) {
+                        fullpathname += basepath;
+                        fullpathname += "\\";
+                    }
+                    if (subpath.Get_Length() > 0) {
+                        fullpathname += subpath;
+                        fullpathname += "\\";
+                    }
+                    fullpathname += finddata.cFileName;
+                    mixfile.Add_File(fullpathname, subpathname);
+                    filecount++;
+                }
+            }
+            done = !FindNextFile(handle, &finddata);
+        }
+    }
+    return (filecount);
 }

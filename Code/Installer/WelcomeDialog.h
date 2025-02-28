@@ -16,22 +16,22 @@
 **	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-/*********************************************************************************************** 
- ***                            Confidential - Westwood Studios                              *** 
- *********************************************************************************************** 
- *                                                                                             * 
- *                 Project Name : Installer                                                    * 
- *                                                                                             * 
- *                     $Archive:: /Commando/Code/Installer/WelcomeDialog.h $* 
- *                                                                                             * 
- *                      $Author:: Ian_l                   $* 
- *                                                                                             * 
- *                     $Modtime:: 9/25/01 12:06p                $* 
- *                                                                                             * 
- *                    $Revision:: 3                     $* 
- *                                                                                             * 
- *---------------------------------------------------------------------------------------------* 
- * Functions:                                                                                  * 
+/***********************************************************************************************
+ ***                            Confidential - Westwood Studios                              ***
+ ***********************************************************************************************
+ *                                                                                             *
+ *                 Project Name : Installer                                                    *
+ *                                                                                             *
+ *                     $Archive:: /Commando/Code/Installer/WelcomeDialog.h $*
+ *                                                                                             *
+ *                      $Author:: Ian_l                   $*
+ *                                                                                             *
+ *                     $Modtime:: 9/25/01 12:06p                $*
+ *                                                                                             *
+ *                    $Revision:: 3                     $*
+ *                                                                                             *
+ *---------------------------------------------------------------------------------------------*
+ * Functions:                                                                                  *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 #ifndef _WELCOME_DIALOG_H
 #define _WELCOME_DIALOG_H
@@ -39,21 +39,22 @@
 // Includes.
 #include "InstallMenuDialog.h"
 
-
 // Dialog to welcome user to the installation and to display copyright message.
 
 // Classes.
 class WelcomeDialogClass : public InstallMenuDialogClass
 {
-	public:
-		WelcomeDialogClass() : InstallMenuDialogClass (IDD_DIALOG_WELCOME) {}
+public:
+    WelcomeDialogClass()
+        : InstallMenuDialogClass(IDD_DIALOG_WELCOME)
+    {
+    }
 
-		// RTTI.
-		void *As_WelcomeDialogClass()			{return (this);}
+    // RTTI.
+    void* As_WelcomeDialogClass() { return (this); }
 
-	protected:
-		void On_Init_Dialog (void);
+protected:
+    void On_Init_Dialog(void);
 };
-
 
 #endif // _WELCOME_DIALOG_H

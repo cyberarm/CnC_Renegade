@@ -17,91 +17,87 @@
 */
 
 /******************************************************************************
-*
-* FILE
-*     $Archive: /Commando/Code/Launcher/Toolkit/Support/StringConvert.cpp $
-*
-* DESCRIPTION
-*     Perform ANSI <-> Unicode string conversions
-*
-* PROGRAMMER
-*     Denzil E. Long, Jr.
-*     $Author: Denzil_l $
-*
-* VERSION INFO
-*     $Modtime: 9/19/00 5:52p $
-*     $Revision: 1 $
-*
-******************************************************************************/
+ *
+ * FILE
+ *     $Archive: /Commando/Code/Launcher/Toolkit/Support/StringConvert.cpp $
+ *
+ * DESCRIPTION
+ *     Perform ANSI <-> Unicode string conversions
+ *
+ * PROGRAMMER
+ *     Denzil E. Long, Jr.
+ *     $Author: Denzil_l $
+ *
+ * VERSION INFO
+ *     $Modtime: 9/19/00 5:52p $
+ *     $Revision: 1 $
+ *
+ ******************************************************************************/
 
 #include "StringConvert.h"
 #include "UString.h"
-#include <windows.h>
 #include <Debug\DebugPrint.h>
 #include <assert.h>
+#include <windows.h>
 
 /******************************************************************************
-*
-* NAME
-*     UStringToANSI
-*
-* DESCRIPTION
-*     Convert UString to an ANSI string
-*
-* INPUTS
-*     String - String to convert
-*     Buffer - Pointer to buffer to receive conversion.
-*     BufferLength - Length of buffer
-*
-* RESULT
-*     ANSI - Pointer to ANSI string
-*
-******************************************************************************/
+ *
+ * NAME
+ *     UStringToANSI
+ *
+ * DESCRIPTION
+ *     Convert UString to an ANSI string
+ *
+ * INPUTS
+ *     String - String to convert
+ *     Buffer - Pointer to buffer to receive conversion.
+ *     BufferLength - Length of buffer
+ *
+ * RESULT
+ *     ANSI - Pointer to ANSI string
+ *
+ ******************************************************************************/
 
 Char* UStringToANSI(const UString& string, Char* buffer, UInt bufferLength)
-	{
-	return UnicodeToANSI(string.Get(), buffer, bufferLength);
-	}
-
+{
+    return UnicodeToANSI(string.Get(), buffer, bufferLength);
+}
 
 /******************************************************************************
-*
-* NAME
-*     UnicodeToANSI
-*
-* DESCRIPTION
-*     Convert Unicode string to an ANSI string
-*
-* INPUTS
-*     String - Unicode string to convert
-*     Buffer - Pointer to buffer to receive conversion.
-*     BufferLength - Length of buffer
-*
-* RESULT
-*     ANSI - Pointer to ANSI string
-*
-******************************************************************************/
+ *
+ * NAME
+ *     UnicodeToANSI
+ *
+ * DESCRIPTION
+ *     Convert Unicode string to an ANSI string
+ *
+ * INPUTS
+ *     String - Unicode string to convert
+ *     Buffer - Pointer to buffer to receive conversion.
+ *     BufferLength - Length of buffer
+ *
+ * RESULT
+ *     ANSI - Pointer to ANSI string
+ *
+ ******************************************************************************/
 
 Char* UnicodeToANSI(const WChar* string, Char* buffer, UInt bufferLength)
-	{
-	if ((string == NULL) || (buffer == NULL))
-		{
-		return NULL;
-		}
+{
+    if ((string == NULL) || (buffer == NULL)) {
+        return NULL;
+    }
 
-	#ifdef _DEBUG
-	int result = 
-	#endif
-		WideCharToMultiByte(CP_ACP, 0, string, -1, buffer, bufferLength,
-			NULL, NULL);
+#ifdef _DEBUG
+    int result =
+#endif
+        WideCharToMultiByte(CP_ACP, 0, string, -1, buffer, bufferLength, NULL, NULL);
 
-	#ifdef _DEBUG
-	if (result == 0)
-		{
-		PrintWin32Error("ConvertToANSI() Failed");
-		assert(false);
-		}
-	#endif
+#ifdef _DEBUG
+    if (result == 0) {
+        PrintWin32Error("ConvertToANSI() Failed");
+        assert(false);
+    }
+#endif
 
-	return buffer;
-	}
+    return buffer;
+}

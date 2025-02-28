@@ -24,14 +24,12 @@
 // Description:  LAN routines
 //
 
-#include "netutil.h" // I WANNA BE FIRST!
-
-#include <stdio.h>
-
-#include "mmsys.h"	 // for timegettime
-#include "miscutil.h"
-#include "wwpacket.h"
-#include "wwdebug.h"
 #include "fromaddress.h"
+#include "miscutil.h"
+#include "mmsys.h" // for timegettime
+#include "netutil.h" // I WANNA BE FIRST!
+#include "wwdebug.h"
+#include "wwpacket.h"
+#include <stdio.h>
 
 //-------------------------------------------------------------------------------

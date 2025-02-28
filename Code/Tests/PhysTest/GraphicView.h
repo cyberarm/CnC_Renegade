@@ -27,7 +27,6 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-
 class CPhysTestDoc;
 class RenderObjClass;
 class CameraClass;
@@ -38,97 +37,98 @@ class ChunkLoadClass;
 class CGraphicView : public CView
 {
 protected: // create from serialization only
-	CGraphicView();
-	DECLARE_DYNCREATE(CGraphicView)
+    CGraphicView();
+    DECLARE_DYNCREATE(CGraphicView)
 
-// Attributes
+    // Attributes
 public:
-	CPhysTestDoc*					GetDocument();
-	void								Save(ChunkSaveClass & csave);
-	void								Load(ChunkLoadClass & cload);
+    CPhysTestDoc* GetDocument();
+    void Save(ChunkSaveClass& csave);
+    void Load(ChunkLoadClass& cload);
 
-// Operations
+    // Operations
 public:
-
-// Overrides
-	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CGraphicView)
-	public:
-	virtual void OnDraw(CDC* pDC);  // overridden to draw this view
-	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
-	virtual void OnInitialUpdate();
-	protected:
-	virtual LRESULT WindowProc(UINT message, WPARAM wParam, LPARAM lParam);
-	//}}AFX_VIRTUAL
-
-// Implementation
+    // Overrides
+    // ClassWizard generated virtual function overrides
+    //{{AFX_VIRTUAL(CGraphicView)
 public:
-	
-	enum {
-		CAMERA_FLY			= 0,
-		CAMERA_FOLLOW,
-		CAMERA_TETHER,
-		CAMERA_RIGID_TETHER,
-	};
+    virtual void OnDraw(CDC* pDC); // overridden to draw this view
+    virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
+    virtual void OnInitialUpdate();
 
-	virtual ~CGraphicView();
-	BOOL			Initialize_WW3D(int device,int bits);
-	bool			Is_WW3D_Initialized(void)						{ return Initialized; }
+protected:
+    virtual LRESULT WindowProc(UINT message, WPARAM wParam, LPARAM lParam);
+    //}}AFX_VIRTUAL
 
-	void			Repaint_View(void);
-	void			Set_Active(bool onoff);
+    // Implementation
+public:
+    enum
+    {
+        CAMERA_FLY = 0,
+        CAMERA_FOLLOW,
+        CAMERA_TETHER,
+        CAMERA_RIGID_TETHER,
+    };
 
-	bool			Is_Simulation_Enabled(void)					{ return RunSimulation; }
-	void			Enable_Simulation(bool onoff)					{ RunSimulation = onoff; }
-	bool			Is_Collision_Box_Display_Enabled(void);
-	void			Enable_Collision_Box_Display(bool onoff); 
+    virtual ~CGraphicView();
+    BOOL Initialize_WW3D(int device, int bits);
+    bool Is_WW3D_Initialized(void) { return Initialized; }
 
-	void			Set_Camera_Mode(int mode)						{ CameraMode = mode; }
-	int			Get_Camera_Mode(void)							{ return CameraMode; }
+    void Repaint_View(void);
+    void Set_Active(bool onoff);
+
+    bool Is_Simulation_Enabled(void) { return RunSimulation; }
+    void Enable_Simulation(bool onoff) { RunSimulation = onoff; }
+    bool Is_Collision_Box_Display_Enabled(void);
+    void Enable_Collision_Box_Display(bool onoff);
+
+    void Set_Camera_Mode(int mode) { CameraMode = mode; }
+    int Get_Camera_Mode(void) { return CameraMode; }
 
 #ifdef _DEBUG
-	virtual void AssertValid() const;
-	virtual void Dump(CDumpContext& dc) const;
+    virtual void AssertValid() const;
+    virtual void Dump(CDumpContext& dc) const;
 #endif
 
 protected:
+    bool Initialized;
+    bool Active;
+    bool RunSimulation;
+    bool DisplayBoxes;
+    int CameraMode;
+    CameraClass* Camera;
+    int TimerID;
 
-	bool						Initialized;
-	bool						Active;
-	bool						RunSimulation;
-	bool						DisplayBoxes;
-	int						CameraMode;
-	CameraClass *			Camera;
-	int						TimerID;
+    bool LMouseDown;
+    bool RMouseDown;
+    CPoint LastPoint;
 
-	bool						LMouseDown;
-	bool						RMouseDown;
-	CPoint					LastPoint;
+    CameraClass* PipCamera;
+    SceneClass* PipScene;
+    RenderObjClass* Axes;
 
-	CameraClass *			PipCamera;
-	SceneClass *			PipScene;
-	RenderObjClass *		Axes;
+    void Timestep(void);
+    void Update_Pip_Camera(void);
 
-	void						Timestep(void);
-	void						Update_Pip_Camera(void);
-
-// Generated message map functions
+    // Generated message map functions
 protected:
-	//{{AFX_MSG(CGraphicView)
-	afx_msg void OnSize(UINT nType, int cx, int cy);
-	afx_msg void OnDestroy();
-	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
-	afx_msg void OnLButtonUp(UINT nFlags, CPoint point);
-	afx_msg void OnRButtonDown(UINT nFlags, CPoint point);
-	afx_msg void OnRButtonUp(UINT nFlags, CPoint point);
-	afx_msg void OnMouseMove(UINT nFlags, CPoint point);
-	//}}AFX_MSG
-	DECLARE_MESSAGE_MAP()
+    //{{AFX_MSG(CGraphicView)
+    afx_msg void OnSize(UINT nType, int cx, int cy);
+    afx_msg void OnDestroy();
+    afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
+    afx_msg void OnLButtonUp(UINT nFlags, CPoint point);
+    afx_msg void OnRButtonDown(UINT nFlags, CPoint point);
+    afx_msg void OnRButtonUp(UINT nFlags, CPoint point);
+    afx_msg void OnMouseMove(UINT nFlags, CPoint point);
+    //}}AFX_MSG
+    DECLARE_MESSAGE_MAP()
 };
 
-#ifndef _DEBUG  // debug version in PhysTestView.cpp
+#ifndef _DEBUG // debug version in PhysTestView.cpp
 inline CPhysTestDoc* CGraphicView::GetDocument()
-   { return (CPhysTestDoc*)m_pDocument; }
+{
+    return (CPhysTestDoc*)m_pDocument;
+}
 #endif
 
 /////////////////////////////////////////////////////////////////////////////

@@ -34,9 +34,9 @@
  * Functions:                                                                                  *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
-#include "StdAfx.h"
-#include "PhysTestSaveSystem.h"
 #include "MainFrm.h"
+#include "PhysTestSaveSystem.h"
+#include "StdAfx.h"
 #include "chunkio.h"
 
 /*
@@ -44,32 +44,29 @@
 */
 PhysTestSaveSystemClass _PhysTestSaveSystem;
 
-
 uint32 PhysTestSaveSystemClass::Chunk_ID(void) const
 {
-	return PHYSTEST_CHUNKID_SUBSYSTEM;
+    return PHYSTEST_CHUNKID_SUBSYSTEM;
 }
 
-bool PhysTestSaveSystemClass::Save(ChunkSaveClass &csave)
-{	
-	csave.Begin_Chunk(CHUNKID_MAINFRAME);
-	((CMainFrame *)(::AfxGetMainWnd()))->Save(csave);
-	csave.End_Chunk();
-
-	return true;
-}
-
-bool PhysTestSaveSystemClass::Load(ChunkLoadClass &cload)
+bool PhysTestSaveSystemClass::Save(ChunkSaveClass& csave)
 {
-	while (cload.Open_Chunk()) {
-		switch (cload.Cur_Chunk_ID()) {
-		case CHUNKID_MAINFRAME:
-			((CMainFrame *)(::AfxGetMainWnd()))->Load(cload);
-			break;
-		}
-		cload.Close_Chunk();
-	}
-	return true;
+    csave.Begin_Chunk(CHUNKID_MAINFRAME);
+    ((CMainFrame*)(::AfxGetMainWnd()))->Save(csave);
+    csave.End_Chunk();
+
+    return true;
 }
 
-
+bool PhysTestSaveSystemClass::Load(ChunkLoadClass& cload)
+{
+    while (cload.Open_Chunk()) {
+        switch (cload.Cur_Chunk_ID()) {
+        case CHUNKID_MAINFRAME:
+            ((CMainFrame*)(::AfxGetMainWnd()))->Load(cload);
+            break;
+        }
+        cload.Close_Chunk();
+    }
+    return true;
+}

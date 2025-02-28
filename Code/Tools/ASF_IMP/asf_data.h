@@ -22,13 +22,13 @@
 
 enum Axis_Names
 {
-	ROTATE_X,
-	ROTATE_Y,
-	ROTATE_Z,
-	TRANSLATE_X,
-	TRANSLATE_Y,
-	TRANSLATE_Z,
-	TRANSLATE_LENGTH
+    ROTATE_X,
+    ROTATE_Y,
+    ROTATE_Z,
+    TRANSLATE_X,
+    TRANSLATE_Y,
+    TRANSLATE_Z,
+    TRANSLATE_LENGTH
 };
 
 //----------------------------------------------------------------------------
@@ -37,18 +37,20 @@ enum Axis_Names
 
 struct ASF_Data_Chunk
 {
-	ASF_Data_Chunk () : Number_of_axes (0) {}
-	void add_axis ( Axis_Names new_axis )
-	{
-		if ( Number_of_axes < 7 )
-		{
-			Axis [Number_of_axes] = new_axis;
-			++ Number_of_axes;
-		}
-	}
+    ASF_Data_Chunk()
+        : Number_of_axes(0)
+    {
+    }
+    void add_axis(Axis_Names new_axis)
+    {
+        if (Number_of_axes < 7) {
+            Axis[Number_of_axes] = new_axis;
+            ++Number_of_axes;
+        }
+    }
 
-	unsigned	Number_of_axes;
-	Axis_Names	Axis [ 7 ];
+    unsigned Number_of_axes;
+    Axis_Names Axis[7];
 };
 
 //----------------------------------------------------------------------------
@@ -57,5 +59,5 @@ struct ASF_Data_Chunk
 
 struct Position_Key_Scale_Chunk
 {
-	float Position_Key_Scale;
+    float Position_Key_Scale;
 };

@@ -16,22 +16,22 @@
 **	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-/*********************************************************************************************** 
- ***                            Confidential - Westwood Studios                              *** 
- *********************************************************************************************** 
- *                                                                                             * 
- *                 Project Name : Installer                                                    * 
- *                                                                                             * 
- *                     $Archive:: /Commando/Code/Installer/Translator.cpp $*		
- *                                                                                             * 
- *                      $Author:: Ian_l                   $* 
- *                                                                                             * 
- *                     $Modtime:: 12/13/01 5:31p                $* 
- *                                                                                             * 
- *                    $Revision:: 5                     $* 
- *                                                                                             * 
- *---------------------------------------------------------------------------------------------* 
- * Functions:                                                                                  * 
+/***********************************************************************************************
+ ***                            Confidential - Westwood Studios                              ***
+ ***********************************************************************************************
+ *                                                                                             *
+ *                 Project Name : Installer                                                    *
+ *                                                                                             *
+ *                     $Archive:: /Commando/Code/Installer/Translator.cpp $*
+ *                                                                                             *
+ *                      $Author:: Ian_l                   $*
+ *                                                                                             *
+ *                     $Modtime:: 12/13/01 5:31p                $*
+ *                                                                                             *
+ *                    $Revision:: 5                     $*
+ *                                                                                             *
+ *---------------------------------------------------------------------------------------------*
+ * Functions:                                                                                  *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
 // Includes.
@@ -40,14 +40,13 @@
 #include "Win.h"
 #include <stdio.h>
 
-
 // Defines.
-#define RESOURCE_NOT_FOUND_STRING		 "[Resource %d not found]"
+#define RESOURCE_NOT_FOUND_STRING "[Resource %d not found]"
 #define WIDE_RESOURCE_NOT_FOUND_STRING L"[Resource %d not found]"
-	
 
 /***********************************************************************************************
- * RxStringClass::RxStringClass --																				  *
+ * RxStringClass::RxStringClass --
+ **
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -56,25 +55,27 @@
  * WARNINGS:                                                                                   *
  *                                                                                             *
  * HISTORY:                                                                                    *
- *   08/22/01    IML : Created.                                                                * 
+ *   08/22/01    IML : Created.                                                                *
  *=============================================================================================*/
-RxStringClass::RxStringClass (int resourceid)
-	: StringClass()
+RxStringClass::RxStringClass(int resourceid)
+    : StringClass()
 {
-	int	charactercount;
-	TCHAR stringbuffer [1024];
+    int charactercount;
+    TCHAR stringbuffer[1024];
 
-	charactercount = LoadString (ProgramInstance, resourceid, stringbuffer, sizeof (stringbuffer) / sizeof (TCHAR));
-	if (charactercount == 0) {
-		Format (RESOURCE_NOT_FOUND_STRING, resourceid);
-	} else {
-		*((StringClass*) this) = stringbuffer;
-	}
+    charactercount = LoadString(ProgramInstance, resourceid, stringbuffer,
+                                sizeof(stringbuffer) / sizeof(TCHAR));
+    if (charactercount == 0) {
+        Format(RESOURCE_NOT_FOUND_STRING, resourceid);
+    }
+    else {
+        *((StringClass*)this) = stringbuffer;
+    }
 }
 
-
 /***********************************************************************************************
- * RxWideStringClass::RxWideStringClass --																	  *
+ * RxWideStringClass::RxWideStringClass --
+ **
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -83,25 +84,27 @@ RxStringClass::RxStringClass (int resourceid)
  * WARNINGS:                                                                                   *
  *                                                                                             *
  * HISTORY:                                                                                    *
- *   08/22/01    IML : Created.                                                                * 
+ *   08/22/01    IML : Created.                                                                *
  *=============================================================================================*/
-RxWideStringClass::RxWideStringClass (int resourceid)
-	: WideStringClass()
+RxWideStringClass::RxWideStringClass(int resourceid)
+    : WideStringClass()
 {
-	int   charactercount;
-	TCHAR stringbuffer [1024];
+    int charactercount;
+    TCHAR stringbuffer[1024];
 
-	charactercount = LoadString (ProgramInstance, resourceid, stringbuffer, sizeof (stringbuffer) / sizeof (TCHAR));
-	if (charactercount == 0) {
-		Format (WIDE_RESOURCE_NOT_FOUND_STRING, resourceid);
-	} else {
-		*((WideStringClass*) this) = stringbuffer;
-	}
+    charactercount = LoadString(ProgramInstance, resourceid, stringbuffer,
+                                sizeof(stringbuffer) / sizeof(TCHAR));
+    if (charactercount == 0) {
+        Format(WIDE_RESOURCE_NOT_FOUND_STRING, resourceid);
+    }
+    else {
+        *((WideStringClass*)this) = stringbuffer;
+    }
 }
 
-
 /***********************************************************************************************
- * TxWideStringClass::TxWideStringClass --																	  *
+ * TxWideStringClass::TxWideStringClass --
+ **
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -110,39 +113,41 @@ RxWideStringClass::RxWideStringClass (int resourceid)
  * WARNINGS:                                                                                   *
  *                                                                                             *
  * HISTORY:                                                                                    *
- *   08/22/01    IML : Created.                                                                * 
+ *   08/22/01    IML : Created.                                                                *
  *=============================================================================================*/
-TxWideStringClass::TxWideStringClass (int databaseid, int resourceid)
-	: WideStringClass()
+TxWideStringClass::TxWideStringClass(int databaseid, int resourceid)
+    : WideStringClass()
 {
-	// In the event that the translation database has not been loaded see if there is a substitute in the resource.
-	if (!TranslateDBClass::Is_Loaded()) {
+    // In the event that the translation database has not been loaded see if there is a substitute
+    // in the resource.
+    if (!TranslateDBClass::Is_Loaded()) {
 
-		switch (databaseid) {
+        switch (databaseid) {
 
-			case IDS_APPLICATION_ERROR:
-				*((WideStringClass*) this) = RxStringClass (IDS_RESOURCE_APPLICATION_ERROR);
-				break;
+        case IDS_APPLICATION_ERROR:
+            *((WideStringClass*)this) = RxStringClass(IDS_RESOURCE_APPLICATION_ERROR);
+            break;
 
-			default:
-				*((WideStringClass*) this) = TRANSLATE (databaseid);
-				break;
-		}
-	
-	} else {
-	
-		if (resourceid != -1) {
+        default:
+            *((WideStringClass*)this) = TRANSLATE(databaseid);
+            break;
+        }
+    }
+    else {
 
-			StringClass multibytestring;
+        if (resourceid != -1) {
 
-			// If the translation cannot be converted to multi-byte format then substitute the resource.
-			*((WideStringClass*) this) = TRANSLATE (databaseid);
-			if (!multibytestring.Copy_Wide (*this)) {
-				*((WideStringClass*) this) = RxStringClass (resourceid);
-			}
+            StringClass multibytestring;
 
-		} else {
-			*((WideStringClass*) this) = TRANSLATE (databaseid);
-		}
-	}
+            // If the translation cannot be converted to multi-byte format then substitute the
+            // resource.
+            *((WideStringClass*)this) = TRANSLATE(databaseid);
+            if (!multibytestring.Copy_Wide(*this)) {
+                *((WideStringClass*)this) = RxStringClass(resourceid);
+            }
+        }
+        else {
+            *((WideStringClass*)this) = TRANSLATE(databaseid);
+        }
+    }
 }

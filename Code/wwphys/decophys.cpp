@@ -34,16 +34,14 @@
  * Functions:                                                                                  *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
-
 #include "decophys.h"
-#include "rendobj.h"
-#include "persistfactory.h"
-#include "simpledefinitionfactory.h"
-#include "wwphysids.h"
-#include "wwhack.h"
 #include "part_emt.h"
+#include "persistfactory.h"
 #include "physinttest.h"
-
+#include "rendobj.h"
+#include "simpledefinitionfactory.h"
+#include "wwhack.h"
+#include "wwphysids.h"
 
 DECLARE_FORCE_LINK(decophys);
 
@@ -56,187 +54,185 @@ DECLARE_FORCE_LINK(decophys);
 /*
 ** Persist factory for DecorationPhysClass
 */
-SimplePersistFactoryClass<DecorationPhysClass,PHYSICS_CHUNKID_DECORATIONPHYS>	_DecoPhysFactory;
-
+SimplePersistFactoryClass<DecorationPhysClass, PHYSICS_CHUNKID_DECORATIONPHYS> _DecoPhysFactory;
 
 /*
 ** Chunk-ID's used by DecoPhys
 */
-enum 
+enum
 {
-	DECOPHYS_CHUNK_PHYS				=	0x005060000,			// old parent class data
-	DECOPHYS_CHUNK_DYNAMICPHYS,									// current parent class data
+    DECOPHYS_CHUNK_PHYS = 0x005060000, // old parent class data
+    DECOPHYS_CHUNK_DYNAMICPHYS, // current parent class data
 };
 
 DecorationPhysClass::DecorationPhysClass(void)
-{ 
-	ObjSpaceWorldBox.Center.Set(0,0,0);
-	ObjSpaceWorldBox.Extent.Set(1,1,1);
-}
-
-void DecorationPhysClass::Init(const DecorationPhysDefClass & def)
 {
-	DynamicPhysClass::Init(def);
+    ObjSpaceWorldBox.Center.Set(0, 0, 0);
+    ObjSpaceWorldBox.Extent.Set(1, 1, 1);
 }
 
-void DecorationPhysClass::Set_Model(RenderObjClass * model)
+void DecorationPhysClass::Init(const DecorationPhysDefClass& def)
 {
-	DynamicPhysClass::Set_Model(model);
-
-	// Initialize our copy of the world box
-	if (Model != NULL) {
-	
-		RenderObjClass * box = Model->Get_Sub_Object_By_Name("WORLDBOX");
-		if (box) {
-	
-			// Get the box when the model has an identity transform
-			Matrix3D old_transform = Model->Get_Transform();
-			Model->Set_Transform(Matrix3D(1));
-			ObjSpaceWorldBox = box->Get_Bounding_Box();
-			Model->Set_Transform(old_transform);
-
-			box->Release_Ref();
-
-		} else {
-			Model->Get_Obj_Space_Bounding_Box(ObjSpaceWorldBox);
-		} 
-	}
+    DynamicPhysClass::Init(def);
 }
 
-const AABoxClass & DecorationPhysClass::Get_Bounding_Box(void) const
+void DecorationPhysClass::Set_Model(RenderObjClass* model)
 {
-	assert(Model);
-	return Model->Get_Bounding_Box();
+    DynamicPhysClass::Set_Model(model);
+
+    // Initialize our copy of the world box
+    if (Model != NULL) {
+
+        RenderObjClass* box = Model->Get_Sub_Object_By_Name("WORLDBOX");
+        if (box) {
+
+            // Get the box when the model has an identity transform
+            Matrix3D old_transform = Model->Get_Transform();
+            Model->Set_Transform(Matrix3D(1));
+            ObjSpaceWorldBox = box->Get_Bounding_Box();
+            Model->Set_Transform(old_transform);
+
+            box->Release_Ref();
+        }
+        else {
+            Model->Get_Obj_Space_Bounding_Box(ObjSpaceWorldBox);
+        }
+    }
 }
 
-const Matrix3D & DecorationPhysClass::Get_Transform(void) const
+const AABoxClass& DecorationPhysClass::Get_Bounding_Box(void) const
 {
-	assert(Model);
-	return Model->Get_Transform();
+    assert(Model);
+    return Model->Get_Bounding_Box();
 }
 
-void DecorationPhysClass::Set_Transform(const Matrix3D & m)
+const Matrix3D& DecorationPhysClass::Get_Transform(void) const
 {
-	// Note: this kind of object never causes collisions so we
-	// can just warp it to the users desired position.  However,
-	// we do need to tell the scene that we moved so that
-	// it can update us in the culling system
-	WWASSERT(Model);
-	Model->Set_Transform(m);
-	Update_Cull_Box();
-	Update_Visibility_Status();
+    assert(Model);
+    return Model->Get_Transform();
 }
 
-void DecorationPhysClass::Get_Shadow_Blob_Box(AABoxClass * set_obj_space_box)
+void DecorationPhysClass::Set_Transform(const Matrix3D& m)
 {
-	if (set_obj_space_box != NULL) {
-		*set_obj_space_box = ObjSpaceWorldBox;
-	}
+    // Note: this kind of object never causes collisions so we
+    // can just warp it to the users desired position.  However,
+    // we do need to tell the scene that we moved so that
+    // it can update us in the culling system
+    WWASSERT(Model);
+    Model->Set_Transform(m);
+    Update_Cull_Box();
+    Update_Visibility_Status();
 }
 
-bool DecorationPhysClass::Intersection_Test(PhysAABoxIntersectionTestClass & test)		
-{ 
-	WWASSERT(Model);
-	if (Model->Intersect_AABox(test)) {
-		test.Add_Intersected_Object(this);
-		return true;
-	}
-	return false; 
-}
-
-bool DecorationPhysClass::Intersection_Test(PhysOBBoxIntersectionTestClass & test)		
-{ 
-	WWASSERT(Model);
-	if (Model->Intersect_OBBox(test)) {
-		test.Add_Intersected_Object(this);
-		return true;
-	}
-	return false; 
-}
-
-bool DecorationPhysClass::Cast_Ray(PhysRayCollisionTestClass & raytest)
+void DecorationPhysClass::Get_Shadow_Blob_Box(AABoxClass* set_obj_space_box)
 {
-	WWASSERT(Model);
-	if (Model->Cast_Ray(raytest)) {
-		raytest.CollidedPhysObj = this;
-		return true;
-	}
-	return false;
+    if (set_obj_space_box != NULL) {
+        *set_obj_space_box = ObjSpaceWorldBox;
+    }
 }
 
-bool DecorationPhysClass::Cast_AABox(PhysAABoxCollisionTestClass & boxtest)
+bool DecorationPhysClass::Intersection_Test(PhysAABoxIntersectionTestClass& test)
 {
-	WWASSERT(Model);
-	if (Model->Cast_AABox(boxtest)) {
-		boxtest.CollidedPhysObj = this;
-		return true;
-	}
-	return false;
+    WWASSERT(Model);
+    if (Model->Intersect_AABox(test)) {
+        test.Add_Intersected_Object(this);
+        return true;
+    }
+    return false;
 }
 
-bool DecorationPhysClass::Cast_OBBox(PhysOBBoxCollisionTestClass & boxtest)
+bool DecorationPhysClass::Intersection_Test(PhysOBBoxIntersectionTestClass& test)
 {
-	WWASSERT(Model);
-	if (Model->Cast_OBBox(boxtest)) {
-		boxtest.CollidedPhysObj = this;
-		return true;
-	}
-	return false;
+    WWASSERT(Model);
+    if (Model->Intersect_OBBox(test)) {
+        test.Add_Intersected_Object(this);
+        return true;
+    }
+    return false;
 }
 
-
-const PersistFactoryClass & DecorationPhysClass::Get_Factory (void) const
+bool DecorationPhysClass::Cast_Ray(PhysRayCollisionTestClass& raytest)
 {
-	return _DecoPhysFactory;
+    WWASSERT(Model);
+    if (Model->Cast_Ray(raytest)) {
+        raytest.CollidedPhysObj = this;
+        return true;
+    }
+    return false;
 }
 
-bool DecorationPhysClass::Save (ChunkSaveClass &csave)
+bool DecorationPhysClass::Cast_AABox(PhysAABoxCollisionTestClass& boxtest)
 {
-	csave.Begin_Chunk(DECOPHYS_CHUNK_DYNAMICPHYS);
-	DynamicPhysClass::Save(csave);
-	csave.End_Chunk();
-
-	return true;
+    WWASSERT(Model);
+    if (Model->Cast_AABox(boxtest)) {
+        boxtest.CollidedPhysObj = this;
+        return true;
+    }
+    return false;
 }
 
-bool DecorationPhysClass::Load (ChunkLoadClass &cload)
+bool DecorationPhysClass::Cast_OBBox(PhysOBBoxCollisionTestClass& boxtest)
 {
-	while (cload.Open_Chunk()) {
-		
-		switch(cload.Cur_Chunk_ID()) 
-		{
-			case DECOPHYS_CHUNK_PHYS:
-				PhysClass::Load(cload);
-				break;
+    WWASSERT(Model);
+    if (Model->Cast_OBBox(boxtest)) {
+        boxtest.CollidedPhysObj = this;
+        return true;
+    }
+    return false;
+}
 
-			case DECOPHYS_CHUNK_DYNAMICPHYS:
-				DynamicPhysClass::Load(cload);
-				break;
+const PersistFactoryClass& DecorationPhysClass::Get_Factory(void) const
+{
+    return _DecoPhysFactory;
+}
 
-			default:
-				WWDEBUG_SAY(("Unhandled Chunk: 0x%X File: %s Line: %d\r\n",cload.Cur_Chunk_ID(),__FILE__,__LINE__));
-				break;
-		}
-		
-		cload.Close_Chunk();
-	}
-	SaveLoadSystemClass::Register_Post_Load_Callback(this);
-	return true;
+bool DecorationPhysClass::Save(ChunkSaveClass& csave)
+{
+    csave.Begin_Chunk(DECOPHYS_CHUNK_DYNAMICPHYS);
+    DynamicPhysClass::Save(csave);
+    csave.End_Chunk();
+
+    return true;
+}
+
+bool DecorationPhysClass::Load(ChunkLoadClass& cload)
+{
+    while (cload.Open_Chunk()) {
+
+        switch (cload.Cur_Chunk_ID()) {
+        case DECOPHYS_CHUNK_PHYS:
+            PhysClass::Load(cload);
+            break;
+
+        case DECOPHYS_CHUNK_DYNAMICPHYS:
+            DynamicPhysClass::Load(cload);
+            break;
+
+        default:
+            WWDEBUG_SAY(("Unhandled Chunk: 0x%X File: %s Line: %d\r\n", cload.Cur_Chunk_ID(),
+                         __FILE__, __LINE__));
+            break;
+        }
+
+        cload.Close_Chunk();
+    }
+    SaveLoadSystemClass::Register_Post_Load_Callback(this);
+    return true;
 }
 
 void DecorationPhysClass::On_Post_Load(void)
 {
-	DynamicPhysClass::On_Post_Load();
-	WWASSERT(Model);
+    DynamicPhysClass::On_Post_Load();
+    WWASSERT(Model);
 
-	if (Model) {
-		Set_Cull_Box(Model->Get_Bounding_Box());
+    if (Model) {
+        Set_Cull_Box(Model->Get_Bounding_Box());
 
-		if (Model->Class_ID () == RenderObjClass::CLASSID_PARTICLEEMITTER) {
-			Model->Set_User_Data (this);
-			((ParticleEmitterClass *)Model)->Start ();
-		}
-	}
+        if (Model->Class_ID() == RenderObjClass::CLASSID_PARTICLEEMITTER) {
+            Model->Set_User_Data(this);
+            ((ParticleEmitterClass*)Model)->Start();
+        }
+    }
 }
 
 /****************************************************************************************************
@@ -248,88 +244,90 @@ void DecorationPhysClass::On_Post_Load(void)
 /*
 ** Persist factory for DecorationPhysDefClass's
 */
-SimplePersistFactoryClass<DecorationPhysDefClass,PHYSICS_CHUNKID_DECOPHYSDEF>	_DecorationPhysDefFactory;
+SimplePersistFactoryClass<DecorationPhysDefClass, PHYSICS_CHUNKID_DECOPHYSDEF>
+    _DecorationPhysDefFactory;
 
 /*
 ** Definition factory for DecorationPhysDefClass.  This makes it show up in the editor
 */
-DECLARE_DEFINITION_FACTORY(DecorationPhysDefClass, CLASSID_DECOPHYSDEF, "DecorationPhys") _DecorationPhysDefDefFactory;
+DECLARE_DEFINITION_FACTORY(DecorationPhysDefClass, CLASSID_DECOPHYSDEF, "DecorationPhys")
+_DecorationPhysDefDefFactory;
 
 /*
 ** Chunk ID's used by DecorationPhysDefClass
 */
-enum 
+enum
 {
-	DECORATIONPHYSDEF_CHUNK_PHYSDEF						= 0x01070003,			// old parent class
-	DECORATIONPHYSDEF_CHUNK_DYNAMICPHYSDEF,										// current parent class
+    DECORATIONPHYSDEF_CHUNK_PHYSDEF = 0x01070003, // old parent class
+    DECORATIONPHYSDEF_CHUNK_DYNAMICPHYSDEF, // current parent class
 };
-
 
 DecorationPhysDefClass::DecorationPhysDefClass(void)
 {
 }
 
-uint32 DecorationPhysDefClass::Get_Class_ID (void) const
+uint32 DecorationPhysDefClass::Get_Class_ID(void) const
 {
-	return CLASSID_DECOPHYSDEF; 
+    return CLASSID_DECOPHYSDEF;
 }
 
-PersistClass * DecorationPhysDefClass::Create(void) const
+PersistClass* DecorationPhysDefClass::Create(void) const
 {
-	DecorationPhysClass * new_obj = NEW_REF(DecorationPhysClass,());
-	new_obj->Init(*this);
-	return new_obj;
+    DecorationPhysClass* new_obj = NEW_REF(DecorationPhysClass, ());
+    new_obj->Init(*this);
+    return new_obj;
 }
 
-const char * DecorationPhysDefClass::Get_Type_Name(void)
-{ 
-	return "DecorationPhysDef"; 
-}
-
-bool DecorationPhysDefClass::Is_Type(const char * type_name)
+const char* DecorationPhysDefClass::Get_Type_Name(void)
 {
-	if (stricmp(type_name,DecorationPhysDefClass::Get_Type_Name()) == 0) {
-		return true;
-	} else {
-		return DynamicPhysDefClass::Is_Type(type_name);
-	}
+    return "DecorationPhysDef";
 }
 
-const PersistFactoryClass & DecorationPhysDefClass::Get_Factory (void) const
+bool DecorationPhysDefClass::Is_Type(const char* type_name)
 {
-	return _DecorationPhysDefFactory;
+    if (stricmp(type_name, DecorationPhysDefClass::Get_Type_Name()) == 0) {
+        return true;
+    }
+    else {
+        return DynamicPhysDefClass::Is_Type(type_name);
+    }
 }
 
-bool DecorationPhysDefClass::Save(ChunkSaveClass &csave)
+const PersistFactoryClass& DecorationPhysDefClass::Get_Factory(void) const
 {
-	csave.Begin_Chunk(DECORATIONPHYSDEF_CHUNK_DYNAMICPHYSDEF);
-	DynamicPhysDefClass::Save(csave);
-	csave.End_Chunk();
-	
-	return true;
+    return _DecorationPhysDefFactory;
 }
 
-bool DecorationPhysDefClass::Load(ChunkLoadClass &cload)
+bool DecorationPhysDefClass::Save(ChunkSaveClass& csave)
 {
-	while (cload.Open_Chunk()) {
+    csave.Begin_Chunk(DECORATIONPHYSDEF_CHUNK_DYNAMICPHYSDEF);
+    DynamicPhysDefClass::Save(csave);
+    csave.End_Chunk();
 
-		switch(cload.Cur_Chunk_ID()) {
-
-			case DECORATIONPHYSDEF_CHUNK_PHYSDEF:
-				PhysDefClass::Load(cload);
-				break;
-
-			case DECORATIONPHYSDEF_CHUNK_DYNAMICPHYSDEF:
-				DynamicPhysDefClass::Load(cload);
-				break;
-
-			default:
-				WWDEBUG_SAY(("Unhandled Chunk: 0x%X File: %s Line: %d\r\n",cload.Cur_Chunk_ID(),__FILE__,__LINE__));
-				break;
-		}
-
-		cload.Close_Chunk();
-	}
-	return true;
+    return true;
 }
 
+bool DecorationPhysDefClass::Load(ChunkLoadClass& cload)
+{
+    while (cload.Open_Chunk()) {
+
+        switch (cload.Cur_Chunk_ID()) {
+
+        case DECORATIONPHYSDEF_CHUNK_PHYSDEF:
+            PhysDefClass::Load(cload);
+            break;
+
+        case DECORATIONPHYSDEF_CHUNK_DYNAMICPHYSDEF:
+            DynamicPhysDefClass::Load(cload);
+            break;
+
+        default:
+            WWDEBUG_SAY(("Unhandled Chunk: 0x%X File: %s Line: %d\r\n", cload.Cur_Chunk_ID(),
+                         __FILE__, __LINE__));
+            break;
+        }
+
+        cload.Close_Chunk();
+    }
+    return true;
+}

@@ -17,241 +17,227 @@
 */
 
 /******************************************************************************
-*
-* FILE
-*     $Archive: /Commando/Code/WWOnline/WOLGame.cpp $
-*
-* DESCRIPTION
-*
-* PROGRAMMER
-*     $Author: Steve_t $
-*
-* VERSION INFO
-*     $Revision: 10 $
-*     $Modtime: 8/21/02 12:30p $
-*
-******************************************************************************/
+ *
+ * FILE
+ *     $Archive: /Commando/Code/WWOnline/WOLGame.cpp $
+ *
+ * DESCRIPTION
+ *
+ * PROGRAMMER
+ *     $Author: Steve_t $
+ *
+ * VERSION INFO
+ *     $Revision: 10 $
+ *     $Modtime: 8/21/02 12:30p $
+ *
+ ******************************************************************************/
 
-#include "always.h"
+#include "WOLChannel.h"
+#include "WOLErrorUtil.h"
 #include "WOLGame.h"
 #include "WOLSession.h"
-#include "WOLChannel.h"
 #include "WOLString.h"
-#include "WOLErrorUtil.h"
+#include "always.h"
 
-namespace WWOnline {
+namespace WWOnline
+{
 
-/******************************************************************************
-*
-* NAME
-*     GameStartEvent::GameStartEvent
-*
-* DESCRIPTION
-*     Constructor
-*
-* INPUTS
-*     Channel  - Channel game is in.
-*     UserList - List of users in game.
-*     GameID   - Game ID for this game.
-*
-* RESULT
-*     NONE
-*
-******************************************************************************/
+    /******************************************************************************
+     *
+     * NAME
+     *     GameStartEvent::GameStartEvent
+     *
+     * DESCRIPTION
+     *     Constructor
+     *
+     * INPUTS
+     *     Channel  - Channel game is in.
+     *     UserList - List of users in game.
+     *     GameID   - Game ID for this game.
+     *
+     * RESULT
+     *     NONE
+     *
+     ******************************************************************************/
 
-GameStartEvent::GameStartEvent(const RefPtr<ChannelData>& channel, const UserList& users, unsigned long gameID) :
-		mResult(S_OK),
-		mChannel(channel),
-		mGameID(gameID)
-	{
-	for (unsigned int index = 0; index < users.size(); index++)
-		{
-		mPlayers.push_back(users[index]);
-		}
-	}
+    GameStartEvent::GameStartEvent(const RefPtr<ChannelData>& channel, const UserList& users,
+                                   unsigned long gameID)
+        : mResult(S_OK),
+          mChannel(channel),
+          mGameID(gameID)
+    {
+        for (unsigned int index = 0; index < users.size(); index++) {
+            mPlayers.push_back(users[index]);
+        }
+    }
 
+    /******************************************************************************
+     *
+     * NAME
+     *     GameStartEvent::GetErrorDescription
+     *
+     * DESCRIPTION
+     *     Get text description of error condition.
+     *
+     * INPUTS
+     *     NONE
+     *
+     * RESULT
+     *     ErrorText - Error text description.
+     *
+     ******************************************************************************/
 
-/******************************************************************************
-*
-* NAME
-*     GameStartEvent::GetErrorDescription
-*
-* DESCRIPTION
-*     Get text description of error condition.
-*
-* INPUTS
-*     NONE
-*
-* RESULT
-*     ErrorText - Error text description.
-*
-******************************************************************************/
+    const char* GameStartEvent::GetErrorDescription(void) const
+    {
+        return GetChatErrorString(mResult);
+    }
 
-const char* GameStartEvent::GetErrorDescription(void) const
-	{
-	return GetChatErrorString(mResult);
-	}
+    /******************************************************************************
+     *
+     * NAME
+     *     GameStartWait::Create
+     *
+     * DESCRIPTION
+     *     Create a game start wait condition.
+     *
+     * INPUTS
+     *     Players - Players in game.
+     *
+     * RESULT
+     *     Wait - Wait condition to process for game start.
+     *
+     ******************************************************************************/
 
+    RefPtr<GameStartWait> GameStartWait::Create(const UserList& players,
+                                                void (*timeout_callback)(void))
+    {
+        return new GameStartWait(players, timeout_callback);
+    }
 
-/******************************************************************************
-*
-* NAME
-*     GameStartWait::Create
-*
-* DESCRIPTION
-*     Create a game start wait condition.
-*
-* INPUTS
-*     Players - Players in game.
-*
-* RESULT
-*     Wait - Wait condition to process for game start.
-*
-******************************************************************************/
+    /******************************************************************************
+     *
+     * NAME
+     *     GameStartWait::GameStartWait
+     *
+     * DESCRIPTION
+     *     Constructor
+     *
+     * INPUTS
+     *     Players -
+     *
+     * RESULT
+     *     NONE
+     *
+     ******************************************************************************/
 
-RefPtr<GameStartWait> GameStartWait::Create(const UserList& players, void(*timeout_callback)(void))
-	{
-	return new GameStartWait(players, timeout_callback);
-	}
+    GameStartWait::GameStartWait(const UserList& players, void (*timeout_callback)(void))
+        : SingleWait(WOLSTRING("WOL_GAMEIDFETCH")),
+          mPlayers(players)
+    {
+        mTimeoutCallback = timeout_callback;
+        WWDEBUG_SAY(("WOL: GameStartWait Create\n"));
+    }
 
+    /******************************************************************************
+     *
+     * NAME
+     *     GameStartWait::~GameStartWait
+     *
+     * DESCRIPTION
+     *     Destructor
+     *
+     * INPUTS
+     *     NONE
+     *
+     * RESULT
+     *     NONE
+     *
+     ******************************************************************************/
 
-/******************************************************************************
-*
-* NAME
-*     GameStartWait::GameStartWait
-*
-* DESCRIPTION
-*     Constructor
-*
-* INPUTS
-*     Players - 
-*
-* RESULT
-*     NONE
-*
-******************************************************************************/
+    GameStartWait::~GameStartWait()
+    {
+        WWDEBUG_SAY(("WOL: GameStartWait End %S\n", mEndText));
+    }
 
-GameStartWait::GameStartWait(const UserList& players, void(*timeout_callback)(void)) :
-		SingleWait(WOLSTRING("WOL_GAMEIDFETCH")),
-		mPlayers(players)
-	{
-	mTimeoutCallback = timeout_callback;
-	WWDEBUG_SAY(("WOL: GameStartWait Create\n"));
-	}
+    /******************************************************************************
+     *
+     * NAME
+     *     GameStartWait::WaitBeginning
+     *
+     * DESCRIPTION
+     *     Begin game start wait condition.
+     *
+     * INPUTS
+     *     NONE
+     *
+     * RESULT
+     *     NONE
+     *
+     ******************************************************************************/
 
+    void GameStartWait::WaitBeginning(void)
+    {
+        WWDEBUG_SAY(("WOL: GameStartWait Begin\n"));
 
-/******************************************************************************
-*
-* NAME
-*     GameStartWait::~GameStartWait
-*
-* DESCRIPTION
-*     Destructor
-*
-* INPUTS
-*     NONE
-*
-* RESULT
-*     NONE
-*
-******************************************************************************/
+        RefPtr<Session> session = Session::GetInstance(false);
 
-GameStartWait::~GameStartWait()
-	{
-	WWDEBUG_SAY(("WOL: GameStartWait End %S\n", mEndText));
-	}
+        if (!session.IsValid()) {
+            WWDEBUG_SAY(("WOLERROR: WOLSession not initialized\n"));
+            EndWait(Error, WOLSTRING("WOL_NOTINITIALIZED"));
+        }
 
+        Observer<GameStartEvent>::NotifyMe(*session);
 
-/******************************************************************************
-*
-* NAME
-*     GameStartWait::WaitBeginning
-*
-* DESCRIPTION
-*     Begin game start wait condition.
-*
-* INPUTS
-*     NONE
-*
-* RESULT
-*     NONE
-*
-******************************************************************************/
+        HRESULT hr = session->GetChatObject()->RequestGameStart(mPlayers);
 
-void GameStartWait::WaitBeginning(void)
-	{
-	WWDEBUG_SAY(("WOL: GameStartWait Begin\n"));
+        if (FAILED(hr)) {
+            WWDEBUG_SAY(("WOLERROR: GameStartWait %s\n", GetChatErrorString(hr)));
+            EndWait(Error, WOLSTRING("WOL_GAMEIDERROR"));
+        }
+    }
 
-	RefPtr<Session> session = Session::GetInstance(false);
+    /******************************************************************************
+     *
+     * NAME
+     *     GameStartWait::HandleNotification(GameStartEvent)
+     *
+     * DESCRIPTION
+     *     Handle game start.
+     *
+     * INPUTS
+     *     Event - Game start event.
+     *
+     * RESULT
+     *     NONE
+     *
+     ******************************************************************************/
 
-	if (!session.IsValid())
-		{
-		WWDEBUG_SAY(("WOLERROR: WOLSession not initialized\n"));
-		EndWait(Error, WOLSTRING("WOL_NOTINITIALIZED"));
-		}
+    void GameStartWait::HandleNotification(GameStartEvent& start)
+    {
+        if (mEndResult == Waiting) {
+            if (start.IsSuccess()) {
+                EndWait(ConditionMet, WOLSTRING("WOL_GAMEIDRECEIVED"));
+            }
+            else {
+                const char* text = start.GetErrorDescription();
+                WWDEBUG_SAY(("WOLERROR: GameStartWait %s\n", text));
+                EndWait(Error, WOLSTRING(text));
+            }
+        }
+    }
 
-	Observer<GameStartEvent>::NotifyMe(*session);
+    //
+    // Override base class to check for timeout
+    //
+    void GameStartWait::EndWait(WaitResult result, const wchar_t* endText)
+    {
+        WWDEBUG_SAY(("GameStartWait::EndWait\n"));
 
-	HRESULT hr = session->GetChatObject()->RequestGameStart(mPlayers);
+        if (result == TimeOut && mTimeoutCallback) {
+            mTimeoutCallback();
+        }
 
-	if (FAILED(hr))
-		{
-		WWDEBUG_SAY(("WOLERROR: GameStartWait %s\n", GetChatErrorString(hr)));
-		EndWait(Error, WOLSTRING("WOL_GAMEIDERROR"));
-		}
-	}
-
-
-/******************************************************************************
-*
-* NAME
-*     GameStartWait::HandleNotification(GameStartEvent)
-*
-* DESCRIPTION
-*     Handle game start.
-*
-* INPUTS
-*     Event - Game start event.
-*
-* RESULT
-*     NONE
-*
-******************************************************************************/
-
-void GameStartWait::HandleNotification(GameStartEvent& start)
-	{
-	if (mEndResult == Waiting)
-		{
-		if (start.IsSuccess())
-			{
-			EndWait(ConditionMet, WOLSTRING("WOL_GAMEIDRECEIVED"));
-			}
-		else
-			{
-			const char* text = start.GetErrorDescription();
-			WWDEBUG_SAY(("WOLERROR: GameStartWait %s\n", text));
-			EndWait(Error, WOLSTRING(text));
-			}
-		}
-	}
-
-
-
-//
-// Override base class to check for timeout
-//
-void GameStartWait::EndWait(WaitResult result, const wchar_t* endText)
-	{
-	WWDEBUG_SAY(("GameStartWait::EndWait\n"));
-
-	if (result == TimeOut && mTimeoutCallback) {
-		mTimeoutCallback();
-	}	
-
-	SingleWait::EndWait(result, endText);
-}
-
-
-
+        SingleWait::EndWait(result, endText);
+    }
 
 } // namespace WWOnline

@@ -34,8 +34,7 @@
  * Functions:                                                                                  *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
-
 #include "_world.h"
 
-//WorldClass				TheWorld;
-SimpleSceneClass *		TheScene;
+// WorldClass				TheWorld;
+SimpleSceneClass* TheScene;

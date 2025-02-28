@@ -34,7 +34,6 @@
  * Functions:                                                                                  *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
-
 #if defined(_MSC_VER)
 #pragma once
 #endif
@@ -43,31 +42,30 @@
 #define __WWCTRL_H
 
 #ifdef WWCTRL_LIB
-	#define LINKAGE_SPEC	__declspec (dllexport) 
+#define LINKAGE_SPEC __declspec(dllexport)
 #else
-	#define LINKAGE_SPEC
+#define LINKAGE_SPEC
 #endif
 
-typedef void (*WWCTRL_COLORCALLBACK)(int,int,int,void*);
+typedef void (*WWCTRL_COLORCALLBACK)(int, int, int, void*);
 
 //////////////////////////////////////////////////////////////////////
 //
 //	Prototypes
 //
 //////////////////////////////////////////////////////////////////////
-extern "C"
-{
-	LINKAGE_SPEC void	Initialize_WWCtrl (void);
+extern "C" {
+LINKAGE_SPEC void Initialize_WWCtrl(void);
 
-	LINKAGE_SPEC BOOL Show_Color_Picker (int *red, int *green, int *blue);
-	
-	LINKAGE_SPEC HWND Create_Color_Picker_Form (HWND parent, int red, int green, int blue);
-	LINKAGE_SPEC BOOL Get_Form_Color (HWND form_wnd, int *red, int *green, int *blue);
-	LINKAGE_SPEC BOOL Set_Form_Color (HWND form_wnd, int red, int green, int blue);
-	LINKAGE_SPEC BOOL Set_Form_Original_Color (HWND form_wnd, int red, int green, int blue);
-	
-	LINKAGE_SPEC BOOL Set_Update_Callback (HWND form_wnd, WWCTRL_COLORCALLBACK callback, void *arg=NULL);
+LINKAGE_SPEC BOOL Show_Color_Picker(int* red, int* green, int* blue);
+
+LINKAGE_SPEC HWND Create_Color_Picker_Form(HWND parent, int red, int green, int blue);
+LINKAGE_SPEC BOOL Get_Form_Color(HWND form_wnd, int* red, int* green, int* blue);
+LINKAGE_SPEC BOOL Set_Form_Color(HWND form_wnd, int red, int green, int blue);
+LINKAGE_SPEC BOOL Set_Form_Original_Color(HWND form_wnd, int red, int green, int blue);
+
+LINKAGE_SPEC BOOL Set_Update_Callback(HWND form_wnd, WWCTRL_COLORCALLBACK callback,
+                                      void* arg = NULL);
 }
 
 #endif //__WWCTRL_H
-

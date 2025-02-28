@@ -19,15 +19,14 @@
 // SimpleGraphDoc.cpp : implementation of the CSimpleGraphDoc class
 //
 
-#include "stdafx.h"
 #include "SimpleGraph.h"
-
 #include "SimpleGraphDoc.h"
 #include "SimpleGraphView.h"
+#include "catmullromspline.h"
+#include "chunkio.h"
 #include "lookuptable.h"
 #include "rawfile.h"
-#include "chunkio.h"
-#include "catmullromspline.h"
+#include "stdafx.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -41,93 +40,89 @@ static char THIS_FILE[] = __FILE__;
 IMPLEMENT_DYNCREATE(CSimpleGraphDoc, CDocument)
 
 BEGIN_MESSAGE_MAP(CSimpleGraphDoc, CDocument)
-	//{{AFX_MSG_MAP(CSimpleGraphDoc)
-		// NOTE - the ClassWizard will add and remove mapping macros here.
-		//    DO NOT EDIT what you see in these blocks of generated code!
-	//}}AFX_MSG_MAP
+//{{AFX_MSG_MAP(CSimpleGraphDoc)
+// NOTE - the ClassWizard will add and remove mapping macros here.
+//    DO NOT EDIT what you see in these blocks of generated code!
+//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
 // CSimpleGraphDoc construction/destruction
 
-CSimpleGraphDoc::CSimpleGraphDoc() :
-	m_Spline(NULL)
+CSimpleGraphDoc::CSimpleGraphDoc()
+    : m_Spline(NULL)
 {
-	// TODO: add one-time construction code here
-	m_Spline = new CatmullRomSpline1DClass;
+    // TODO: add one-time construction code here
+    m_Spline = new CatmullRomSpline1DClass;
 }
 
 CSimpleGraphDoc::~CSimpleGraphDoc()
 {
-	delete m_Spline;
+    delete m_Spline;
 }
 
 BOOL CSimpleGraphDoc::OnNewDocument()
 {
-	if (!CDocument::OnNewDocument())
-		return FALSE;
+    if (!CDocument::OnNewDocument()) {
+        return FALSE;
+    }
 
-	// TODO: add reinitialization code here
-	// (SDI documents will reuse this document)
+    // TODO: add reinitialization code here
+    // (SDI documents will reuse this document)
 
-	int count = m_Spline->Key_Count ();
-	while (count --) {
-		m_Spline->Remove_Key (0);
-	}
+    int count = m_Spline->Key_Count();
+    while (count--) {
+        m_Spline->Remove_Key(0);
+    }
 
-	POSITION pos = GetFirstViewPosition ();
-	CSimpleGraphView *view = (CSimpleGraphView *)GetNextView (pos);
-	view->Set_Ranges (Vector2 (0, 0), Vector2 (100, 100));
-	view->InvalidateRect (NULL, TRUE);
-	view->UpdateWindow ();	
+    POSITION pos = GetFirstViewPosition();
+    CSimpleGraphView* view = (CSimpleGraphView*)GetNextView(pos);
+    view->Set_Ranges(Vector2(0, 0), Vector2(100, 100));
+    view->InvalidateRect(NULL, TRUE);
+    view->UpdateWindow();
 
-	return TRUE;
+    return TRUE;
 }
-
-
 
 /////////////////////////////////////////////////////////////////////////////
 // CSimpleGraphDoc serialization
 
 void CSimpleGraphDoc::Serialize(CArchive& ar)
 {
-	POSITION pos = GetFirstViewPosition ();
-	CSimpleGraphView *view = (CSimpleGraphView *)GetNextView (pos);
+    POSITION pos = GetFirstViewPosition();
+    CSimpleGraphView* view = (CSimpleGraphView*)GetNextView(pos);
 
-	if (ar.IsStoring())
-	{
-		RawFileClass file;
-		file.Attach ((void *)ar.GetFile ()->m_hFile);
-		ChunkSaveClass csave (&file);
+    if (ar.IsStoring()) {
+        RawFileClass file;
+        file.Attach((void*)ar.GetFile()->m_hFile);
+        ChunkSaveClass csave(&file);
 
-		Vector2 range_min,range_max;		
-		view->Get_Ranges(range_min,range_max);
-		_TheLookupTableManager.Save_Table_Desc(csave, m_Spline, range_min, range_max);
+        Vector2 range_min, range_max;
+        view->Get_Ranges(range_min, range_max);
+        _TheLookupTableManager.Save_Table_Desc(csave, m_Spline, range_min, range_max);
 
-		file.Detach ();
-	}
-	else
-	{
-		RawFileClass file;
-		file.Attach ((void *)ar.GetFile ()->m_hFile);
-		ChunkLoadClass cload (&file);
+        file.Detach();
+    }
+    else {
+        RawFileClass file;
+        file.Attach((void*)ar.GetFile()->m_hFile);
+        ChunkLoadClass cload(&file);
 
-		// Load the curve from the file
-		Vector2 range_min,range_max;
-		Curve1DClass * curve = NULL;
-		_TheLookupTableManager.Load_Table_Desc (cload, &curve, &range_min, &range_max);
-		view->Set_Ranges(range_min,range_max);
+        // Load the curve from the file
+        Vector2 range_min, range_max;
+        Curve1DClass* curve = NULL;
+        _TheLookupTableManager.Load_Table_Desc(cload, &curve, &range_min, &range_max);
+        view->Set_Ranges(range_min, range_max);
 
-		// If we successfully loaded a new curve, delete the old one
-		// and install this one.
-		WWASSERT(m_Spline != NULL);
-		delete m_Spline;
-		m_Spline = curve;
+        // If we successfully loaded a new curve, delete the old one
+        // and install this one.
+        WWASSERT(m_Spline != NULL);
+        delete m_Spline;
+        m_Spline = curve;
 
-		file.Detach ();
-	}
+        file.Detach();
+    }
 }
-
 
 /////////////////////////////////////////////////////////////////////////////
 // CSimpleGraphDoc diagnostics
@@ -135,12 +130,12 @@ void CSimpleGraphDoc::Serialize(CArchive& ar)
 #ifdef _DEBUG
 void CSimpleGraphDoc::AssertValid() const
 {
-	CDocument::AssertValid();
+    CDocument::AssertValid();
 }
 
 void CSimpleGraphDoc::Dump(CDumpContext& dc) const
 {
-	CDocument::Dump(dc);
+    CDocument::Dump(dc);
 }
 #endif //_DEBUG
 

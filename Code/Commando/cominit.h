@@ -37,7 +37,7 @@
 class cComInit
 {
 public:
-	cComInit(void);
+    cComInit(void);
     ~cComInit(void);
 };
 

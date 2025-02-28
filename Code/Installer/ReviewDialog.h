@@ -16,22 +16,22 @@
 **	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-/*********************************************************************************************** 
- ***                            Confidential - Westwood Studios                              *** 
- *********************************************************************************************** 
- *                                                                                             * 
- *                 Project Name : Installer                                                    * 
- *                                                                                             * 
- *                     $Archive:: /Commando/Code/Installer/ReviewDialog.h $* 
- *                                                                                             * 
- *                      $Author:: Ian_l                   $* 
- *                                                                                             * 
- *                     $Modtime:: 11/03/01 5:53p                $* 
- *                                                                                             * 
- *                    $Revision:: 4                     $* 
- *                                                                                             * 
- *---------------------------------------------------------------------------------------------* 
- * Functions:                                                                                  * 
+/***********************************************************************************************
+ ***                            Confidential - Westwood Studios                              ***
+ ***********************************************************************************************
+ *                                                                                             *
+ *                 Project Name : Installer                                                    *
+ *                                                                                             *
+ *                     $Archive:: /Commando/Code/Installer/ReviewDialog.h $*
+ *                                                                                             *
+ *                      $Author:: Ian_l                   $*
+ *                                                                                             *
+ *                     $Modtime:: 11/03/01 5:53p                $*
+ *                                                                                             *
+ *                    $Revision:: 4                     $*
+ *                                                                                             *
+ *---------------------------------------------------------------------------------------------*
+ * Functions:                                                                                  *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 #ifndef _REVIEW_DIALOG_H
 #define _REVIEW_DIALOG_H
@@ -39,24 +39,25 @@
 // Includes.
 #include "InstallMenuDialog.h"
 
-
 // Dialog to confirm user's settings.
 
 // Classes.
 class ReviewDialogClass : public InstallMenuDialogClass
 {
-	public:
-		ReviewDialogClass() : InstallMenuDialogClass (IDD_DIALOG_REVIEW) {}
+public:
+    ReviewDialogClass()
+        : InstallMenuDialogClass(IDD_DIALOG_REVIEW)
+    {
+    }
 
-		void On_Command (int ctrl_id, int message_id, DWORD param);
+    void On_Command(int ctrl_id, int message_id, DWORD param);
 
-		// RTTI.
-		void *As_ReviewDialogClass()		{return (this);}
+    // RTTI.
+    void* As_ReviewDialogClass() { return (this); }
 
-	protected:
-		void On_Init_Dialog (void);
-		void On_Activate (bool onoff);
+protected:
+    void On_Init_Dialog(void);
+    void On_Activate(bool onoff);
 };
-
 
 #endif // _REVIEW_DIALOG_H

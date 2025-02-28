@@ -19,15 +19,14 @@
 // CardinalDialog.cpp : implementation file
 //
 
-#include "stdafx.h"
-#include "SplineTest.h"
 #include "CardinalDialog.h"
+#include "SplineTest.h"
+#include "cardinalspline.h"
+#include "catmullromspline.h"
 #include "curve.h"
 #include "hermitespline.h"
-#include "catmullromspline.h"
-#include "cardinalspline.h"
+#include "stdafx.h"
 #include "tcbspline.h"
-
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -38,60 +37,57 @@ static char THIS_FILE[] = __FILE__;
 /////////////////////////////////////////////////////////////////////////////
 // CCardinalDialog dialog
 
-
-CCardinalDialog::CCardinalDialog(CWnd* pParent /*=NULL*/,CardinalSpline3DClass * curve,int key)
-	: CDialog(CCardinalDialog::IDD, pParent)
+CCardinalDialog::CCardinalDialog(CWnd* pParent /*=NULL*/, CardinalSpline3DClass* curve, int key)
+    : CDialog(CCardinalDialog::IDD, pParent)
 {
-	//{{AFX_DATA_INIT(CCardinalDialog)
-		// NOTE: the ClassWizard will add member initialization here
-	//}}AFX_DATA_INIT
-	Curve = curve;
-	Key = key;
+    //{{AFX_DATA_INIT(CCardinalDialog)
+    // NOTE: the ClassWizard will add member initialization here
+    //}}AFX_DATA_INIT
+    Curve = curve;
+    Key = key;
 }
-
 
 void CCardinalDialog::DoDataExchange(CDataExchange* pDX)
 {
-	CDialog::DoDataExchange(pDX);
-	//{{AFX_DATA_MAP(CCardinalDialog)
-		// NOTE: the ClassWizard will add DDX and DDV calls here
-	//}}AFX_DATA_MAP
+    CDialog::DoDataExchange(pDX);
+    //{{AFX_DATA_MAP(CCardinalDialog)
+    // NOTE: the ClassWizard will add DDX and DDV calls here
+    //}}AFX_DATA_MAP
 }
 
-
 BEGIN_MESSAGE_MAP(CCardinalDialog, CDialog)
-	//{{AFX_MSG_MAP(CCardinalDialog)
-	//}}AFX_MSG_MAP
+//{{AFX_MSG_MAP(CCardinalDialog)
+//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
 // CCardinalDialog message handlers
 
-BOOL CCardinalDialog::OnInitDialog() 
+BOOL CCardinalDialog::OnInitDialog()
 {
-	CDialog::OnInitDialog();
-	
-	SetDlgItemFloat(IDC_TIGHTNESS_EDIT,Curve->Get_Tightness(Key));
-	
-	return TRUE;
+    CDialog::OnInitDialog();
+
+    SetDlgItemFloat(IDC_TIGHTNESS_EDIT, Curve->Get_Tightness(Key));
+
+    return TRUE;
 }
 
-void CCardinalDialog::OnOK() 
+void CCardinalDialog::OnOK()
 {
-	Curve->Set_Tightness(Key,GetDlgItemFloat(IDC_TIGHTNESS_EDIT));
-	CDialog::OnOK();
+    Curve->Set_Tightness(Key, GetDlgItemFloat(IDC_TIGHTNESS_EDIT));
+    CDialog::OnOK();
 }
 
 float CCardinalDialog::GetDlgItemFloat(int controlid)
 {
-	CString string;
-	GetDlgItemText(controlid,string);
-	return atof(string);
+    CString string;
+    GetDlgItemText(controlid, string);
+    return atof(string);
 }
 
-void CCardinalDialog::SetDlgItemFloat(int controlid,float val)
+void CCardinalDialog::SetDlgItemFloat(int controlid, float val)
 {
-	CString string;
-	string.Format("%.2f",val);
-	SetDlgItemText(controlid,string);
+    CString string;
+    string.Format("%.2f", val);
+    SetDlgItemText(controlid, string);
 }

@@ -34,76 +34,65 @@
  * Functions:                                                                                  *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
-
 #ifndef HEXTOSTRING_H
 #define HEXTOSTRING_H
 
-
-#include "stdafx.h"
 #include "bittype.h"
-
+#include "stdafx.h"
 
 class HexToStringClass
 {
 public:
+    HexToStringClass(const uint8* data, uint32 size);
 
-	HexToStringClass(const uint8 * data,uint32 size);
-
-	virtual bool		Is_Done(void) = 0;
-	virtual CString	Get_Next_Line(void) = 0;
+    virtual bool Is_Done(void) = 0;
+    virtual CString Get_Next_Line(void) = 0;
 
 protected:
-
-	const uint8 *	Data;
-	uint32			Size;
-
+    const uint8* Data;
+    uint32 Size;
 };
-
 
 class HexToStringByteClass : public HexToStringClass
 {
 public:
-	HexToStringByteClass(const uint8 * data,uint32 size);
-	
-	bool				Is_Done(void);
-	CString			Get_Next_Line(void);
+    HexToStringByteClass(const uint8* data, uint32 size);
+
+    bool Is_Done(void);
+    CString Get_Next_Line(void);
 
 private:
-	
-	void				Reset(void);
+    void Reset(void);
 
-	const uint8 *	CurPos;
+    const uint8* CurPos;
 };
 
 class HexToStringShortClass : public HexToStringClass
 {
 public:
-	HexToStringShortClass(const uint8 * data,uint32 size);
-	
-	bool				Is_Done(void);
-	CString			Get_Next_Line(void);
+    HexToStringShortClass(const uint8* data, uint32 size);
+
+    bool Is_Done(void);
+    CString Get_Next_Line(void);
 
 private:
-	
-	void				Reset(void);
+    void Reset(void);
 
-	const uint16 *	CurPos;
+    const uint16* CurPos;
 };
 
 class HexToStringLongClass : public HexToStringClass
 {
 public:
-	HexToStringLongClass(const uint8 * data,uint32 size);
-	
-	bool				Is_Done(void);
-	CString			Get_Next_Line(void);
+    HexToStringLongClass(const uint8* data, uint32 size);
+
+    bool Is_Done(void);
+    CString Get_Next_Line(void);
 
 private:
-	
-	void				Reset(void);
+    void Reset(void);
 
-	const uint32 *	CurPos;
+    const uint32* CurPos;
 };
-
 
 #endif

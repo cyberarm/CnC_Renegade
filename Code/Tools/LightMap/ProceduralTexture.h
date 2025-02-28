@@ -16,22 +16,22 @@
 **	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-/*********************************************************************************************** 
- ***                            Confidential - Westwood Studios                              *** 
- *********************************************************************************************** 
- *                                                                                             * 
- *                 Project Name : LightMap                                                     * 
- *                                                                                             * 
- *                     $Archive:: /Commando/Code/Tool $* 
- *                                                                                             * 
- *                      $Author:: Ian_l               $* 
- *                                                                                             * 
- *                     $Modtime:: 9/08/00 5:17p       $* 
- *                                                                                             * 
- *                    $Revision:: 2                                                         $* 
- *                                                                                             * 
- *---------------------------------------------------------------------------------------------* 
- * Functions:                                                                                  * 
+/***********************************************************************************************
+ ***                            Confidential - Westwood Studios                              ***
+ ***********************************************************************************************
+ *                                                                                             *
+ *                 Project Name : LightMap                                                     *
+ *                                                                                             *
+ *                     $Archive:: /Commando/Code/Tool $*
+ *                                                                                             *
+ *                      $Author:: Ian_l               $*
+ *                                                                                             *
+ *                     $Modtime:: 9/08/00 5:17p       $*
+ *                                                                                             *
+ *                    $Revision:: 2                                                         $*
+ *                                                                                             *
+ *---------------------------------------------------------------------------------------------*
+ * Functions:                                                                                  *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
 #ifndef PROCEDURAL_TEXTURE_H
@@ -40,15 +40,14 @@
 // Includes.
 #include "Vector3.h"
 
-
 // This is an interface class for all procedural textures. All procedural textures that
 // inherit this class must define the Value() function.
 
-class ProceduralTexture {
+class ProceduralTexture
+{
 
-	public:
-		virtual float Value (const Vector3 &point) = 0;
+public:
+    virtual float Value(const Vector3& point) = 0;
 };
-
 
 #endif // PROCEDURAL_TEXTURE

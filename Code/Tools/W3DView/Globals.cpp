@@ -24,17 +24,15 @@
 //
 //
 
-#include "stdafx.h"
-
-#include "globals.h"
 #include "assetmgr.h"
+#include "globals.h"
+#include "stdafx.h"
 #include "viewerassetmgr.h"
 
 // Main asset manager for the application.
-ViewerAssetMgrClass *_TheAssetMgr = NULL;
+ViewerAssetMgrClass* _TheAssetMgr = NULL;
 
-
-int g_iDeviceIndex      = -1;//DEFAULT_DEVICEINDEX;
-int g_iBitsPerPixel     = -1;//DEFAULT_BITSPERPIX;
-int g_iWidth				= 640;
-int g_iHeight				= 480;
+int g_iDeviceIndex = -1; // DEFAULT_DEVICEINDEX;
+int g_iBitsPerPixel = -1; // DEFAULT_BITSPERPIX;
+int g_iWidth = 640;
+int g_iHeight = 480;

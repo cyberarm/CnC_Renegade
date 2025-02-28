@@ -19,11 +19,11 @@
 // VisualOptionsDialog.cpp : implementation file
 //
 
-#include "stdafx.h"
-#include "leveledit.h"
-#include "VisualOptionsDialog.h"
 #include "Utils.H"
+#include "VisualOptionsDialog.h"
 #include "WW3D.H"
+#include "leveledit.h"
+#include "stdafx.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -36,8 +36,7 @@ static char THIS_FILE[] = __FILE__;
 //	Constants
 //
 /////////////////////////////////////////////////////////////////////////////
-const int MAX_REDUCTION		= 5;
-
+const int MAX_REDUCTION = 5;
 
 //////////////////////////////////////////////////////////////
 //
@@ -45,71 +44,67 @@ const int MAX_REDUCTION		= 5;
 //
 //////////////////////////////////////////////////////////////
 VisualOptionsDialogClass::VisualOptionsDialogClass(CWnd* pParent /*=NULL*/)
-	: CDialog(VisualOptionsDialogClass::IDD, pParent)
+    : CDialog(VisualOptionsDialogClass::IDD, pParent)
 {
-	//{{AFX_DATA_INIT(VisualOptionsDialogClass)
-		// NOTE: the ClassWizard will add member initialization here
-	//}}AFX_DATA_INIT
+    //{{AFX_DATA_INIT(VisualOptionsDialogClass)
+    // NOTE: the ClassWizard will add member initialization here
+    //}}AFX_DATA_INIT
 }
-
 
 void VisualOptionsDialogClass::DoDataExchange(CDataExchange* pDX)
 {
-	CDialog::DoDataExchange(pDX);
-	//{{AFX_DATA_MAP(VisualOptionsDialogClass)
-	DDX_Control(pDX, IDC_TEXTURE_SIZE_SLIDER, m_SizeSlider);
-	//}}AFX_DATA_MAP
+    CDialog::DoDataExchange(pDX);
+    //{{AFX_DATA_MAP(VisualOptionsDialogClass)
+    DDX_Control(pDX, IDC_TEXTURE_SIZE_SLIDER, m_SizeSlider);
+    //}}AFX_DATA_MAP
 }
 
-
 BEGIN_MESSAGE_MAP(VisualOptionsDialogClass, CDialog)
-	//{{AFX_MSG_MAP(VisualOptionsDialogClass)
-	//}}AFX_MSG_MAP
+//{{AFX_MSG_MAP(VisualOptionsDialogClass)
+//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
-
 
 //////////////////////////////////////////////////////////////
 //
 //	OnInitDialog
 //
 //////////////////////////////////////////////////////////////
-BOOL
-VisualOptionsDialogClass::OnInitDialog (void)
+BOOL VisualOptionsDialogClass::OnInitDialog(void)
 {
-	CDialog::OnInitDialog ();
-	m_SizeSlider.SetRange (0, MAX_REDUCTION);
+    CDialog::OnInitDialog();
+    m_SizeSlider.SetRange(0, MAX_REDUCTION);
 
-	// Set the current texture resolution
-	int reduction = WW3D::Get_Texture_Reduction ();
-	m_SizeSlider.SetPos (MAX_REDUCTION - reduction);
+    // Set the current texture resolution
+    int reduction = WW3D::Get_Texture_Reduction();
+    m_SizeSlider.SetPos(MAX_REDUCTION - reduction);
 
-	// Set the wireframe check state
-	//SendDlgItemMessage (IDC_WIREFRAME_CHECK, BM_SETCHECK, (WPARAM) WW3D::Get_Polygon_Mode () == WW3D::LINE);	
-	return TRUE;
+    // Set the wireframe check state
+    // SendDlgItemMessage (IDC_WIREFRAME_CHECK, BM_SETCHECK, (WPARAM) WW3D::Get_Polygon_Mode () ==
+    // WW3D::LINE);
+    return TRUE;
 }
-
 
 //////////////////////////////////////////////////////////////
 //
 //	OnOK
 //
 //////////////////////////////////////////////////////////////
-void
-VisualOptionsDialogClass::OnOK (void)
+void VisualOptionsDialogClass::OnOK(void)
 {
-	CWaitCursor wait_cursor;
+    CWaitCursor wait_cursor;
 
-	// Reduce textures
-	int reduction = MAX_REDUCTION - m_SizeSlider.GetPos ();
-	WW3D::Set_Texture_Reduction (reduction);
+    // Reduce textures
+    int reduction = MAX_REDUCTION - m_SizeSlider.GetPos();
+    WW3D::Set_Texture_Reduction(reduction);
 
-	// Switch between wireframe
-	if (SendDlgItemMessage (IDC_WIREFRAME_CHECK, BM_GETCHECK)) {
-		//WW3D::Set_Polygon_Mode (WW3D::LINE);
-	} else {
-		//WW3D::Set_Polygon_Mode (WW3D::FILL);
-	}
+    // Switch between wireframe
+    if (SendDlgItemMessage(IDC_WIREFRAME_CHECK, BM_GETCHECK)) {
+        // WW3D::Set_Polygon_Mode (WW3D::LINE);
+    }
+    else {
+        // WW3D::Set_Polygon_Mode (WW3D::FILL);
+    }
 
-	CDialog::OnOK ();
-	return ;
+    CDialog::OnOK();
+    return;
 }

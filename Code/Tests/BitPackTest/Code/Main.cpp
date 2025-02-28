@@ -17,69 +17,68 @@
 */
 
 /****************************************************************************
-*
-* FILE
-*     Main.cpp
-*
-* DESCRIPTION
-*     Main entry point for console application
-*
-* PROGRAMMER
-*     Denzil E. Long, Jr.
-*
-* VERSION INFO
-*     $Author: Denzil_l $
-*     $Revision: 3 $
-*     $Modtime: 6/19/00 2:37p $
-*     $Archive: /Commando/Code/Tests/BitPackTest/Code/Main.cpp $
-*
-****************************************************************************/
+ *
+ * FILE
+ *     Main.cpp
+ *
+ * DESCRIPTION
+ *     Main entry point for console application
+ *
+ * PROGRAMMER
+ *     Denzil E. Long, Jr.
+ *
+ * VERSION INFO
+ *     $Author: Denzil_l $
+ *     $Revision: 3 $
+ *     $Modtime: 6/19/00 2:37p $
+ *     $Archive: /Commando/Code/Tests/BitPackTest/Code/Main.cpp $
+ *
+ ****************************************************************************/
 
-#include "typeencoder.h"
 #include "bitpacker.h"
-#include <stdio.h>
+#include "typeencoder.h"
 #include <assert.h>
+#include <stdio.h>
 
 #define BUFFER_SIZE 2048
 
 void main(int, void**)
 {
-	void* buffer = new unsigned char[BUFFER_SIZE];
+    void* buffer = new unsigned char[BUFFER_SIZE];
 
-	if (buffer == NULL) {
-		printf("Failed to allocate buffer\n");
-	}
+    if (buffer == NULL) {
+        printf("Failed to allocate buffer\n");
+    }
 
-	TypeEncoder::SetTypePrecision(TypeEncoder::X_POSITION, 0.0f, 1000.0f, 0.1f);
+    TypeEncoder::SetTypePrecision(TypeEncoder::X_POSITION, 0.0f, 1000.0f, 0.1f);
 
-	TypeEncoder encoder(buffer, BUFFER_SIZE);
+    TypeEncoder encoder(buffer, BUFFER_SIZE);
 
-	encoder.PutBool(true);	
-	encoder.PutBool(true);
-	encoder.PutBool(false);
-	encoder.PutInt(5, 3);
-	encoder.PutInt(1000, 12);
-	encoder.PutInt(-67, 7);
-	encoder.PutBool(true);
-	encoder.PutType(TypeEncoder::X_POSITION, 99.9f);
-	encoder.Flush();
+    encoder.PutBool(true);
+    encoder.PutBool(true);
+    encoder.PutBool(false);
+    encoder.PutInt(5, 3);
+    encoder.PutInt(1000, 12);
+    encoder.PutInt(-67, 7);
+    encoder.PutBool(true);
+    encoder.PutType(TypeEncoder::X_POSITION, 99.9f);
+    encoder.Flush();
 
+    printf("Finished : %d\n", encoder.GetPackedSize());
 
-	printf("Finished : %d\n", encoder.GetPackedSize());
+    bool b;
+    int i;
+    float f;
 
-	bool b;
-	int i;
-	float f;
+    encoder.Reset();
+    b = encoder.GetBool();
+    b = encoder.GetBool();
+    b = encoder.GetBool();
+    i = encoder.GetInt(3);
+    i = encoder.GetInt(12);
+    i = encoder.GetInt(7);
+    b = encoder.GetBool();
+    f = encoder.GetType(TypeEncoder::X_POSITION);
 
-	encoder.Reset();
-	b = encoder.GetBool();
-	b = encoder.GetBool();
-	b = encoder.GetBool();
-	i = encoder.GetInt(3);
-	i = encoder.GetInt(12);
-	i = encoder.GetInt(7);
-	b = encoder.GetBool();
-	f = encoder.GetType(TypeEncoder::X_POSITION);
-
-	delete[] buffer;
+    delete[] buffer;
 }

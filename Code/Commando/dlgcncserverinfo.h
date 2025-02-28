@@ -22,7 +22,7 @@
  *                                                                                             *
  *                 Project Name : commando                                                    *
  *                                                                                             *
- *                     $Archive:: /Commando/Code/commando/dlgcncserverinfo.h                                     $*
+ *                     $Archive:: /Commando/Code/commando/dlgcncserverinfo.h $*
  *                                                                                             *
  *                       Author:: Patrick Smith                                                *
  *                                                                                             *
@@ -43,13 +43,11 @@
 
 #include "menudialog.h"
 
-
 //////////////////////////////////////////////////////////////////////
 //	Forward declarations
 //////////////////////////////////////////////////////////////////////
 class ListCtrlClass;
 class cPlayer;
-
 
 //////////////////////////////////////////////////////////////////////
 //
@@ -59,36 +57,33 @@ class cPlayer;
 class CNCServerInfoDialogClass : public MenuDialogClass
 {
 public:
+    ///////////////////////////////////////////////////////////////////
+    //	Public constructors/destructors
+    ///////////////////////////////////////////////////////////////////
+    CNCServerInfoDialogClass(void);
+    ~CNCServerInfoDialogClass(void);
 
-	///////////////////////////////////////////////////////////////////
-	//	Public constructors/destructors
-	///////////////////////////////////////////////////////////////////
-	CNCServerInfoDialogClass  (void);
-	~CNCServerInfoDialogClass (void);
+    ///////////////////////////////////////////////////////////////////
+    //	Public methods
+    ///////////////////////////////////////////////////////////////////
 
-	///////////////////////////////////////////////////////////////////
-	//	Public methods
-	///////////////////////////////////////////////////////////////////
+    //
+    //	Inherited
+    //
+    void On_Init_Dialog(void);
+    void On_Frame_Update(void);
 
-	//
-	//	Inherited
-	//
-	void		On_Init_Dialog (void);
-	void		On_Frame_Update (void);
-	
 private:
-	
-	///////////////////////////////////////////////////////////////////
-	//	Private methods
-	///////////////////////////////////////////////////////////////////
-	void		Configure_Icons (void);
-	void		Populate_Player_List (ListCtrlClass *list_ctrl, int team_id);
-	void		Build_Player_Display_Name(const cPlayer* player, WideStringClass& outName);
-	
-	///////////////////////////////////////////////////////////////////
-	//	Private member data
-	///////////////////////////////////////////////////////////////////
-};
+    ///////////////////////////////////////////////////////////////////
+    //	Private methods
+    ///////////////////////////////////////////////////////////////////
+    void Configure_Icons(void);
+    void Populate_Player_List(ListCtrlClass* list_ctrl, int team_id);
+    void Build_Player_Display_Name(const cPlayer* player, WideStringClass& outName);
 
+    ///////////////////////////////////////////////////////////////////
+    //	Private member data
+    ///////////////////////////////////////////////////////////////////
+};
 
 #endif //__DLGCNCSERVERINFO_H

@@ -34,7 +34,6 @@
  * Functions:                                                                                  *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
-
 #include "_scenes.h"
 
-SimpleSceneClass * TheScene = NULL;
+SimpleSceneClass* TheScene = NULL;

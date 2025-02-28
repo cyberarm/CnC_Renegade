@@ -17,40 +17,37 @@
 */
 
 /* $Header: /Commando/Code/Tools/max2w3d/w3dutil.h 29    10/26/00 5:59p Greg_h $ */
-/*********************************************************************************************** 
- ***                            Confidential - Westwood Studios                              *** 
- *********************************************************************************************** 
- *                                                                                             * 
- *                 Project Name : Commando Tools - W3D export                                  * 
- *                                                                                             * 
- *                     $Archive:: /Commando/Code/Tools/max2w3d/w3dutil.h                      $* 
- *                                                                                             * 
- *                      $Author:: Greg_h                                                      $* 
- *                                                                                             * 
- *                     $Modtime:: 10/26/00 4:40p                                              $* 
- *                                                                                             * 
- *                    $Revision:: 29                                                          $* 
- *                                                                                             * 
- *---------------------------------------------------------------------------------------------* 
- * Functions:                                                                                  * 
+/***********************************************************************************************
+ ***                            Confidential - Westwood Studios                              ***
+ ***********************************************************************************************
+ *                                                                                             *
+ *                 Project Name : Commando Tools - W3D export                                  *
+ *                                                                                             *
+ *                     $Archive:: /Commando/Code/Tools/max2w3d/w3dutil.h                      $*
+ *                                                                                             *
+ *                      $Author:: Greg_h                                                      $*
+ *                                                                                             *
+ *                     $Modtime:: 10/26/00 4:40p                                              $*
+ *                                                                                             *
+ *                    $Revision:: 29                                                          $*
+ *                                                                                             *
+ *---------------------------------------------------------------------------------------------*
+ * Functions:                                                                                  *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
-
 
 #ifndef W3DUTIL_H
 #define W3DUTIL_H
 
-#include <Max.h>
-#include "utilapi.h"
 #include "dllmain.h"
 #include "resource.h"
 #include "util.h"
+#include "utilapi.h"
 #include "w3dappdata.h"
+#include <Max.h>
 
 #define W3DUtilityClassID Class_ID(0x3c362c97, 0x5fc73ab0)
 
-ClassDesc * Get_W3D_Utility_Desc(void);
-
-
+ClassDesc* Get_W3D_Utility_Desc(void);
 
 /*
 ** W3dExportOptionsStruct - This structure is AppData that is attached
@@ -63,54 +60,50 @@ ClassDesc * Get_W3D_Utility_Desc(void);
 */
 struct W3dExportOptionsStruct
 {
-	bool		ExportHierarchy;
-	bool		LoadHierarchy;
-	bool		ExportAnimation;
-	bool		ExportGeometry;	
+    bool ExportHierarchy;
+    bool LoadHierarchy;
+    bool ExportAnimation;
+    bool ExportGeometry;
 
-	// Hierarchy Export options:
-	bool		TranslationOnly;
-	char		HierarchyFilename[_MAX_PATH];
-	char		RelativeHierarchyFilename[_MAX_PATH];	// For storing in MAX file
+    // Hierarchy Export options:
+    bool TranslationOnly;
+    char HierarchyFilename[_MAX_PATH];
+    char RelativeHierarchyFilename[_MAX_PATH]; // For storing in MAX file
 
-	// Animation Export options:
-	int		StartFrame;
-	int		EndFrame;
-	
-	// Geometry Export options;
-	bool		UseVoxelizer;
+    // Animation Export options:
+    int StartFrame;
+    int EndFrame;
 
-	// Option to apply smoothing between mesh boundaries
-	bool		SmoothBetweenMeshes;
+    // Geometry Export options;
+    bool UseVoxelizer;
 
-	int		space[10];		// blank space, so compression options default proper
+    // Option to apply smoothing between mesh boundaries
+    bool SmoothBetweenMeshes;
 
-	// More Animation Options
-	bool		CompressAnimation;
-	bool		ReduceAnimation;
-	int		ReduceAnimationPercent;
-	int		CompressAnimationFlavor;
-	float		CompressAnimationTranslationError;
-	float		CompressAnimationRotationError;
-	bool		ReviewLog;
+    int space[10]; // blank space, so compression options default proper
 
-	// Option to prevent the exporter from exporting AABTrees with the meshes
-	// Defined with the "inverse" sense so that older Max files default to having
-	// AABTrees exported with their meshes.
-	bool		DisableExportAABTrees;
+    // More Animation Options
+    bool CompressAnimation;
+    bool ReduceAnimation;
+    int ReduceAnimationPercent;
+    int CompressAnimationFlavor;
+    float CompressAnimationTranslationError;
+    float CompressAnimationRotationError;
+    bool ReviewLog;
 
-	// Option to cause the exporter to optimize mesh data.  Defaulting to zero
-	// causes older Max files to default to not messing with their mesh data.
-	bool		EnableOptimizeMeshData;
+    // Option to prevent the exporter from exporting AABTrees with the meshes
+    // Defined with the "inverse" sense so that older Max files default to having
+    // AABTrees exported with their meshes.
+    bool DisableExportAABTrees;
 
-	// Option to cause the exporter to ignore the Export_Transform setting for
-	// all meshes.  Terrains should have all meshes exported in world space.
-	bool		EnableTerrainMode;
+    // Option to cause the exporter to optimize mesh data.  Defaulting to zero
+    // causes older Max files to default to not messing with their mesh data.
+    bool EnableOptimizeMeshData;
 
+    // Option to cause the exporter to ignore the Export_Transform setting for
+    // all meshes.  Terrains should have all meshes exported in world space.
+    bool EnableTerrainMode;
 };
-
-
-
 
 /*
 ** Functions to access the W3D AppData of any INode.
@@ -118,9 +111,9 @@ struct W3dExportOptionsStruct
 ** Our extensions to the MAXScript language (wwCopyAppData)
 ** uses these accessors.
 */
-W3DAppData0Struct *			GetW3DAppData0 (INode *node);
-W3DAppData1Struct *			GetW3DAppData1 (INode *node);
-W3DAppData2Struct *			GetW3DAppData2 (INode *node);
-W3DDazzleAppDataStruct *	GetW3DDazzleAppData(INode *node);
+W3DAppData0Struct* GetW3DAppData0(INode* node);
+W3DAppData1Struct* GetW3DAppData1(INode* node);
+W3DAppData2Struct* GetW3DAppData2(INode* node);
+W3DDazzleAppDataStruct* GetW3DDazzleAppData(INode* node);
 
 #endif

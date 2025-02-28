@@ -36,53 +36,42 @@
  * Functions:                                                                                  *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
-
-#include "pscene.h"
-#include "colmathaabox.h"
 #include "assetmgr.h"
-#include "vertmaterial.h"
 #include "camera.h"
-#include "physdecalsys.h"
+#include "colmathaabox.h"
 #include "phys.h"
-
-
-
+#include "physdecalsys.h"
+#include "pscene.h"
+#include "vertmaterial.h"
 
 /*
-** PhysicsSceneClass Decal Methods 
+** PhysicsSceneClass Decal Methods
 */
 
 void PhysicsSceneClass::Allocate_Decal_Resources(void)
 {
-	WWASSERT(DecalSystem == NULL);
-	DecalSystem = new PhysDecalSysClass(this);
-}	
+    WWASSERT(DecalSystem == NULL);
+    DecalSystem = new PhysDecalSysClass(this);
+}
 
 void PhysicsSceneClass::Release_Decal_Resources(void)
 {
-	if (DecalSystem != NULL) {
-		delete DecalSystem;
-	}
+    if (DecalSystem != NULL) {
+        delete DecalSystem;
+    }
 }
 
-int PhysicsSceneClass::Create_Decal
-(	
-	const Matrix3D &	tm,
-	const char *		texture_name,
-	float					radius,
-	bool					is_permanent,
-	bool					apply_to_translucent_meshes,
-	PhysClass *			only_this_obj
-)
+int PhysicsSceneClass::Create_Decal(const Matrix3D& tm, const char* texture_name, float radius,
+                                    bool is_permanent, bool apply_to_translucent_meshes,
+                                    PhysClass* only_this_obj)
 {
-	WWASSERT(DecalSystem != NULL);
-	return DecalSystem->Create_Decal(tm,texture_name,radius,is_permanent,apply_to_translucent_meshes,only_this_obj);
+    WWASSERT(DecalSystem != NULL);
+    return DecalSystem->Create_Decal(tm, texture_name, radius, is_permanent,
+                                     apply_to_translucent_meshes, only_this_obj);
 }
 
 bool PhysicsSceneClass::Remove_Decal(uint32 id)
 {
-	WWASSERT(DecalSystem != NULL);
-	return DecalSystem->Remove_Decal(id);
+    WWASSERT(DecalSystem != NULL);
+    return DecalSystem->Remove_Decal(id);
 }
-
-

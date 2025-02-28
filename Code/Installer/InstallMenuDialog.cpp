@@ -16,22 +16,22 @@
 **	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-/*********************************************************************************************** 
- ***                            Confidential - Westwood Studios                              *** 
- *********************************************************************************************** 
- *                                                                                             * 
- *                 Project Name : Installer                                                    * 
- *                                                                                             * 
- *                     $Archive:: /Commando/Code/Installer/InstallMenuDialog.c $* 
- *                                                                                             * 
- *                      $Author:: Ian_l                   $* 
- *                                                                                             * 
- *                     $Modtime:: 12/14/01 11:05a               $* 
- *                                                                                             * 
- *                    $Revision:: 5                     $* 
- *                                                                                             * 
- *---------------------------------------------------------------------------------------------* 
- * Functions:                                                                                  * 
+/***********************************************************************************************
+ ***                            Confidential - Westwood Studios                              ***
+ ***********************************************************************************************
+ *                                                                                             *
+ *                 Project Name : Installer                                                    *
+ *                                                                                             *
+ *                     $Archive:: /Commando/Code/Installer/InstallMenuDialog.c $*
+ *                                                                                             *
+ *                      $Author:: Ian_l                   $*
+ *                                                                                             *
+ *                     $Modtime:: 12/14/01 11:05a               $*
+ *                                                                                             *
+ *                    $Revision:: 5                     $*
+ *                                                                                             *
+ *---------------------------------------------------------------------------------------------*
+ * Functions:                                                                                  *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
 // Includes.
@@ -41,10 +41,10 @@
 #include "MenuBackDrop.h"
 #include "Scene.h"
 #include "Translator.h"
- 
 
 /***********************************************************************************************
- * InstallMenuDialogClass::InstallMenuDialogClass -- Constructor										  *
+ * InstallMenuDialogClass::InstallMenuDialogClass -- Constructor
+ **
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -53,46 +53,49 @@
  * WARNINGS:                                                                                   *
  *                                                                                             *
  * HISTORY:                                                                                    *
- *   08/22/01    IML : Created.                                                                * 
+ *   08/22/01    IML : Created.                                                                *
  *=============================================================================================*/
-InstallMenuDialogClass::InstallMenuDialogClass (int resourceid)
-	: 	CallbackMenuDialogClass (resourceid)
+InstallMenuDialogClass::InstallMenuDialogClass(int resourceid)
+    : CallbackMenuDialogClass(resourceid)
 {
-	// If a model has not yet been specified...
-	if (Get_BackDrop()->Peek_Model() == NULL) {
+    // If a model has not yet been specified...
+    if (Get_BackDrop()->Peek_Model() == NULL) {
 
-		const char		*basemodelname												= "IF_BACK01";
-		const char		*baseanimname												= "IF_BACK01.IF_BACK01";
-		const unsigned  supplementalmodelcount									= 2;
-		const char		*supplementalmodelname [supplementalmodelcount]	= {"IN_EVA", "IN_RENLOGO"};
-		const char		*supplementalanimname  [supplementalmodelcount] = {"IN_EVA.IN_EVA", "IN_RENLOGO.IN_RENLOGO"};
-		
-		Get_BackDrop()->Set_Model (basemodelname);
-		Get_BackDrop()->Set_Animation (baseanimname);
+        const char* basemodelname = "IF_BACK01";
+        const char* baseanimname = "IF_BACK01.IF_BACK01";
+        const unsigned supplementalmodelcount = 2;
+        const char* supplementalmodelname[supplementalmodelcount] = { "IN_EVA", "IN_RENLOGO" };
+        const char* supplementalanimname[supplementalmodelcount]
+            = { "IN_EVA.IN_EVA", "IN_RENLOGO.IN_RENLOGO" };
 
-		for (unsigned m = 0; m < supplementalmodelcount; m++) {
+        Get_BackDrop()->Set_Model(basemodelname);
+        Get_BackDrop()->Set_Animation(baseanimname);
 
-			RenderObjClass *supplementalmodel;
-			HAnimClass		*supplementalanim;
+        for (unsigned m = 0; m < supplementalmodelcount; m++) {
 
-			supplementalmodel = WW3DAssetManager::Get_Instance()->Create_Render_Obj (supplementalmodelname [m]);
-			if (supplementalmodel != NULL) {
-				Get_BackDrop()->Peek_Scene()->Add_Render_Object (supplementalmodel);
-			}
+            RenderObjClass* supplementalmodel;
+            HAnimClass* supplementalanim;
 
-			supplementalanim = WW3DAssetManager::Get_Instance()->Get_HAnim (supplementalanimname [m]);
-			if (supplementalanim != NULL) {
-				supplementalmodel->Set_Animation (supplementalanim, 0, RenderObjClass::ANIM_MODE_LOOP);
-				REF_PTR_RELEASE (supplementalanim);
-			}
-			REF_PTR_RELEASE (supplementalmodel);
-		}
-	}
+            supplementalmodel
+                = WW3DAssetManager::Get_Instance()->Create_Render_Obj(supplementalmodelname[m]);
+            if (supplementalmodel != NULL) {
+                Get_BackDrop()->Peek_Scene()->Add_Render_Object(supplementalmodel);
+            }
+
+            supplementalanim = WW3DAssetManager::Get_Instance()->Get_HAnim(supplementalanimname[m]);
+            if (supplementalanim != NULL) {
+                supplementalmodel->Set_Animation(supplementalanim, 0,
+                                                 RenderObjClass::ANIM_MODE_LOOP);
+                REF_PTR_RELEASE(supplementalanim);
+            }
+            REF_PTR_RELEASE(supplementalmodel);
+        }
+    }
 }
 
-
 /***********************************************************************************************
- * InstallMenuDialogClass::~InstallMenuDialogClass -- Destructor										  *
+ * InstallMenuDialogClass::~InstallMenuDialogClass -- Destructor
+ **
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -101,15 +104,15 @@ InstallMenuDialogClass::InstallMenuDialogClass (int resourceid)
  * WARNINGS:                                                                                   *
  *                                                                                             *
  * HISTORY:                                                                                    *
- *   08/22/01    IML : Created.                                                                * 
+ *   08/22/01    IML : Created.                                                                *
  *=============================================================================================*/
 InstallMenuDialogClass::~InstallMenuDialogClass()
 {
 }
 
-
 /***********************************************************************************************
- * InstallMenuDialogClass::On_Command --																		  *
+ * InstallMenuDialogClass::On_Command --
+ **
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -118,25 +121,25 @@ InstallMenuDialogClass::~InstallMenuDialogClass()
  * WARNINGS:                                                                                   *
  *                                                                                             *
  * HISTORY:                                                                                    *
- *   08/22/01    IML : Created.                                                                * 
+ *   08/22/01    IML : Created.                                                                *
  *=============================================================================================*/
-void InstallMenuDialogClass::On_Command (int ctrl_id, int message_id, DWORD param)
+void InstallMenuDialogClass::On_Command(int ctrl_id, int message_id, DWORD param)
 {
-	switch (ctrl_id)
-	{
-		case IDCANCEL:
-	  	{
-			MessageBoxClass::Do_Dialog (TxWideStringClass (IDS_EXIT_SETUP), TxWideStringClass (IDS_PROMPT_EXIT_SETUP), MessageBoxClass::MESSAGE_BOX_TYPE_YES_NO, this);
-			return;
-		}
+    switch (ctrl_id) {
+    case IDCANCEL: {
+        MessageBoxClass::Do_Dialog(TxWideStringClass(IDS_EXIT_SETUP),
+                                   TxWideStringClass(IDS_PROMPT_EXIT_SETUP),
+                                   MessageBoxClass::MESSAGE_BOX_TYPE_YES_NO, this);
+        return;
+    }
 
-		case IDOK:
-		case IDC_BUTTON_BACK:
-			break;
+    case IDOK:
+    case IDC_BUTTON_BACK:
+        break;
 
-		default:
-			break;
-	}
+    default:
+        break;
+    }
 
-	MenuDialogClass::On_Command (ctrl_id, message_id, param);
+    MenuDialogClass::On_Command(ctrl_id, message_id, param);
 }

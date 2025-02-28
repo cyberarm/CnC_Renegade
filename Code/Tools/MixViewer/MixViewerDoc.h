@@ -27,48 +27,44 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-
 class CMixViewerDoc : public CDocument
 {
 protected: // create from serialization only
-	CMixViewerDoc();
-	DECLARE_DYNCREATE(CMixViewerDoc)
+    CMixViewerDoc();
+    DECLARE_DYNCREATE(CMixViewerDoc)
 
-// Attributes
+    // Attributes
 public:
-
-// Operations
+    // Operations
 public:
-
-// Overrides
-	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CMixViewerDoc)
-	public:
-	virtual BOOL OnNewDocument();
-	virtual void Serialize(CArchive& ar);
-	virtual BOOL OnOpenDocument(LPCTSTR lpszPathName);
-	//}}AFX_VIRTUAL
-
-// Implementation
+    // Overrides
+    // ClassWizard generated virtual function overrides
+    //{{AFX_VIRTUAL(CMixViewerDoc)
 public:
-	virtual ~CMixViewerDoc();
+    virtual BOOL OnNewDocument();
+    virtual void Serialize(CArchive& ar);
+    virtual BOOL OnOpenDocument(LPCTSTR lpszPathName);
+    //}}AFX_VIRTUAL
+
+    // Implementation
+public:
+    virtual ~CMixViewerDoc();
 #ifdef _DEBUG
-	virtual void AssertValid() const;
-	virtual void Dump(CDumpContext& dc) const;
+    virtual void AssertValid() const;
+    virtual void Dump(CDumpContext& dc) const;
 #endif
 
 protected:
-
-// Generated message map functions
+    // Generated message map functions
 protected:
-	//{{AFX_MSG(CMixViewerDoc)
-		// NOTE - the ClassWizard will add and remove member functions here.
-		//    DO NOT EDIT what you see in these blocks of generated code !
-	//}}AFX_MSG
-	DECLARE_MESSAGE_MAP()
+    //{{AFX_MSG(CMixViewerDoc)
+    // NOTE - the ClassWizard will add and remove member functions here.
+    //    DO NOT EDIT what you see in these blocks of generated code !
+    //}}AFX_MSG
+    DECLARE_MESSAGE_MAP()
 
 public:
-	void		Reload_Views (void);
+    void Reload_Views(void);
 };
 
 /////////////////////////////////////////////////////////////////////////////

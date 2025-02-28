@@ -18,8 +18,8 @@
 
 #ifndef CURVEPOINTS_H
 
-const int			CONTROL_POINT_COUNT = 5;
-extern float		_ControlPoints[CONTROL_POINT_COUNT][4];
-extern float		_TCBParams[CONTROL_POINT_COUNT][3];
+const int CONTROL_POINT_COUNT = 5;
+extern float _ControlPoints[CONTROL_POINT_COUNT][4];
+extern float _TCBParams[CONTROL_POINT_COUNT][3];
 
 #endif

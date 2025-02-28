@@ -16,52 +16,50 @@
 **	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-/*********************************************************************************************** 
- ***                            Confidential - Westwood Studios                              *** 
- *********************************************************************************************** 
- *                                                                                             * 
- *                 Project Name : Commando                                                     * 
- *                                                                                             * 
- *                     $Archive:: /Commando/Code/Commando/netevent.h                      $* 
- *                                                                                             * 
- *                      $Author:: Tom_s                                                       $* 
- *                                                                                             * 
- *                     $Modtime:: 9/21/01 2:42p                                               $* 
- *                                                                                             * 
- *                    $Revision:: 4                                                          $* 
- *                                                                                             * 
- *---------------------------------------------------------------------------------------------* 
- * Functions:                                                                                  * 
+/***********************************************************************************************
+ ***                            Confidential - Westwood Studios                              ***
+ ***********************************************************************************************
+ *                                                                                             *
+ *                 Project Name : Commando                                                     *
+ *                                                                                             *
+ *                     $Archive:: /Commando/Code/Commando/netevent.h                      $*
+ *                                                                                             *
+ *                      $Author:: Tom_s                                                       $*
+ *                                                                                             *
+ *                     $Modtime:: 9/21/01 2:42p                                               $*
+ *                                                                                             *
+ *                    $Revision:: 4                                                          $*
+ *                                                                                             *
+ *---------------------------------------------------------------------------------------------*
+ * Functions:                                                                                  *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
 #ifndef __NETEVENT_H__
 #define __NETEVENT_H__
 
-#include "networkobject.h"
 #include "netclassids.h"
+#include "networkobject.h"
 
 //-----------------------------------------------------------------------------
 //
 // A S->C mirrored object to represent network events
 //
-class	cNetEvent : public NetworkObjectClass
+class cNetEvent : public NetworkObjectClass
 {
 public:
+    void Init(void);
 
-	void						Init(void);
+    virtual void Export_Creation(BitStreamClass& packet);
+    virtual void Import_Creation(BitStreamClass& packet);
+    virtual uint32 Get_Network_Class_ID(void) const = 0;
+    virtual void Delete(void) { delete this; }
 
-	virtual void			Export_Creation(BitStreamClass &packet);
-	virtual void			Import_Creation(BitStreamClass &packet);
-	virtual uint32			Get_Network_Class_ID(void) const				= 0;
-	virtual void			Delete(void)										{delete this;}
-
-	//void						Send_Immediately(void);//TSS2001e
+    // void						Send_Immediately(void);//TSS2001e
 
 private:
-
-	virtual void			Act(void) = 0;
+    virtual void Act(void) = 0;
 };
 
 //-----------------------------------------------------------------------------
 
-#endif	// __NETEVENT_H__
+#endif // __NETEVENT_H__

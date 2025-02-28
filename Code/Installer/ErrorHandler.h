@@ -16,22 +16,22 @@
 **	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-/*********************************************************************************************** 
- ***                            Confidential - Westwood Studios                              *** 
- *********************************************************************************************** 
- *                                                                                             * 
- *                 Project Name : Installer                                                    * 
- *                                                                                             * 
- *                     $Archive:: /Commando/Code/Installer/ErrorHandler.h  $* 
- *                                                                                             * 
- *                      $Author:: Ian_l                   $* 
- *                                                                                             * 
- *                     $Modtime:: 10/25/01 10:07p               $* 
- *                                                                                             * 
- *                    $Revision:: 4                     $* 
- *                                                                                             * 
- *---------------------------------------------------------------------------------------------* 
- * Functions:                                                                                  * 
+/***********************************************************************************************
+ ***                            Confidential - Westwood Studios                              ***
+ ***********************************************************************************************
+ *                                                                                             *
+ *                 Project Name : Installer                                                    *
+ *                                                                                             *
+ *                     $Archive:: /Commando/Code/Installer/ErrorHandler.h  $*
+ *                                                                                             *
+ *                      $Author:: Ian_l                   $*
+ *                                                                                             *
+ *                     $Modtime:: 10/25/01 10:07p               $*
+ *                                                                                             *
+ *                    $Revision:: 4                     $*
+ *                                                                                             *
+ *---------------------------------------------------------------------------------------------*
+ * Functions:                                                                                  *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 #ifndef _ERROR_HANDLER_H
 #define _ERROR_HANDLER_H
@@ -39,12 +39,12 @@
 // Includes.
 #include "Resource.h"
 
-#define FATAL_SYSTEM_ERROR				Handle_Fatal_System_Error (GetLastError(), __FILE__, __LINE__)
-#define FATAL_APP_ERROR(errorcode)	Handle_Fatal_Application_Error (errorcode, __FILE__, __LINE__)
-#define FATAL_CAB_ERROR(errorcode) 	Handle_Fatal_Cab_Error (errorcode, __FILE__, __LINE__)
+#define FATAL_SYSTEM_ERROR Handle_Fatal_System_Error(GetLastError(), __FILE__, __LINE__)
+#define FATAL_APP_ERROR(errorcode) Handle_Fatal_Application_Error(errorcode, __FILE__, __LINE__)
+#define FATAL_CAB_ERROR(errorcode) Handle_Fatal_Cab_Error(errorcode, __FILE__, __LINE__)
 
-void Handle_Fatal_System_Error (int errorcode, const char *filename, int sourceline);
-void Handle_Fatal_Application_Error (int errorcode, const char *filename, int sourceline);
-void Handle_Fatal_Cab_Error (int errorcode, const char *filename, int sourceline);
+void Handle_Fatal_System_Error(int errorcode, const char* filename, int sourceline);
+void Handle_Fatal_Application_Error(int errorcode, const char* filename, int sourceline);
+void Handle_Fatal_Cab_Error(int errorcode, const char* filename, int sourceline);
 
 #endif // _ERROR_HANDLER_H

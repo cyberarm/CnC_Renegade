@@ -16,107 +16,88 @@
 **	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-/*********************************************************************************************** 
- ***                            Confidential - Westwood Studios                              *** 
- *********************************************************************************************** 
- *                                                                                             * 
- *                 Project Name : Commando                                                     * 
- *                                                                                             * 
- *                     $Archive:: /Commando/Code/Commando/serverfps.cpp               $* 
- *                                                                                             * 
- *                      $Author:: Tom_s                                                       $* 
- *                                                                                             * 
- *                     $Modtime:: 11/10/01 1:06p                                              $* 
- *                                                                                             * 
- *                    $Revision:: 6                                                           $* 
- *                                                                                             * 
- *---------------------------------------------------------------------------------------------* 
- * Functions:                                                                                  * 
+/***********************************************************************************************
+ ***                            Confidential - Westwood Studios                              ***
+ ***********************************************************************************************
+ *                                                                                             *
+ *                 Project Name : Commando                                                     *
+ *                                                                                             *
+ *                     $Archive:: /Commando/Code/Commando/serverfps.cpp               $*
+ *                                                                                             *
+ *                      $Author:: Tom_s                                                       $*
+ *                                                                                             *
+ *                     $Modtime:: 11/10/01 1:06p                                              $*
+ *                                                                                             *
+ *                    $Revision:: 6                                                           $*
+ *                                                                                             *
+ *---------------------------------------------------------------------------------------------*
+ * Functions:                                                                                  *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
 #include "serverfps.h"
-
+#include "apppackettypes.h"
 #include "cnetwork.h"
 #include "gameobjmanager.h"
-#include "apppackettypes.h"
 
 //
 // Class statics
 //
-cServerFps *	cServerFps::TheInstance	= NULL;
+cServerFps* cServerFps::TheInstance = NULL;
 
 //-----------------------------------------------------------------------------
 cServerFps::cServerFps(void)
 {
-	Set_Network_ID(NETID_SERVER_FPS);
+    Set_Network_ID(NETID_SERVER_FPS);
 
-	Fps = 0;
+    Fps = 0;
 
-	Set_App_Packet_Type(APPPACKETTYPE_SERVERFPS);
+    Set_App_Packet_Type(APPPACKETTYPE_SERVERFPS);
 }
 
 //-----------------------------------------------------------------------------
-void
-cServerFps::Set_Fps(int fps)
+void cServerFps::Set_Fps(int fps)
 {
-	WWASSERT(fps >= 0);
-	WWASSERT(cNetwork::I_Am_Server());
+    WWASSERT(fps >= 0);
+    WWASSERT(cNetwork::I_Am_Server());
 
-	Fps = fps;
+    Fps = fps;
 
-	Set_Object_Dirty_Bit(NetworkObjectClass::BIT_FREQUENT, true);
+    Set_Object_Dirty_Bit(NetworkObjectClass::BIT_FREQUENT, true);
 }
 
 //-----------------------------------------------------------------------------
-void
-cServerFps::Export_Frequent(BitStreamClass &packet)
+void cServerFps::Export_Frequent(BitStreamClass& packet)
 {
-	WWASSERT(cNetwork::I_Am_Server());
+    WWASSERT(cNetwork::I_Am_Server());
 
-	packet.Add(Fps);
+    packet.Add(Fps);
 }
 
 //-----------------------------------------------------------------------------
-void
-cServerFps::Import_Frequent(BitStreamClass &packet)
+void cServerFps::Import_Frequent(BitStreamClass& packet)
 {
-	WWASSERT(cNetwork::I_Am_Client());
+    WWASSERT(cNetwork::I_Am_Client());
 
-	packet.Get(Fps);
+    packet.Get(Fps);
 }
 
 //-----------------------------------------------------------------------------
-void
-cServerFps::Create_Instance
-(
-	void
-)
+void cServerFps::Create_Instance(void)
 {
-	WWASSERT(TheInstance == NULL);
-	TheInstance = new cServerFps;
+    WWASSERT(TheInstance == NULL);
+    TheInstance = new cServerFps;
 }
 
 //-----------------------------------------------------------------------------
-void
-cServerFps::Destroy_Instance
-(
-	void
-)
+void cServerFps::Destroy_Instance(void)
 {
-	WWASSERT(TheInstance != NULL);
-	delete TheInstance;
-	TheInstance = NULL;
+    WWASSERT(TheInstance != NULL);
+    delete TheInstance;
+    TheInstance = NULL;
 }
 
 //-----------------------------------------------------------------------------
-cServerFps *
-cServerFps::Get_Instance
-(
-	void
-)
+cServerFps* cServerFps::Get_Instance(void)
 {
-	return TheInstance;
+    return TheInstance;
 }
-
-
-

@@ -16,156 +16,146 @@
 **	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "stdafx.h"
 #include "avassetsuck.h"
+#include "bittype.h"
 #include "ffactory.h"
+#include "mixcombiningdialog.h"
 #include "mixfile.h"
 #include "rawfile.h"
-#include "bittype.h"
-#include "mixcombiningdialog.h"
+#include "stdafx.h"
 
-
-
-
-AVAssetSuckerClass::AVAssetSuckerClass(void) :
-	Dialog(NULL)
+AVAssetSuckerClass::AVAssetSuckerClass(void)
+    : Dialog(NULL)
 {
 }
 
-
-
-void AVAssetSuckerClass::Suck(char *input_file, char *output_file)
+void AVAssetSuckerClass::Suck(char* input_file, char* output_file)
 {
-	strcpy(InputFile, input_file);
-	strcpy(OutputFile, output_file);
+    strcpy(InputFile, input_file);
+    strcpy(OutputFile, output_file);
 
-	//
-	//	Kick off the worker thread...
-	//
-	::AfxBeginThread (Do_Stuff, (LPVOID)this);
+    //
+    //	Kick off the worker thread...
+    //
+    ::AfxBeginThread(Do_Stuff, (LPVOID)this);
 
-	//
-	//	Show the UI
-	//
-	MixCombiningDialogClass dialog;
-	Dialog = &dialog;
-	dialog.DoModal();
+    //
+    //	Show the UI
+    //
+    MixCombiningDialogClass dialog;
+    Dialog = &dialog;
+    dialog.DoModal();
 }
 
-
-
-
-unsigned int AVAssetSuckerClass::Do_Stuff(void *param)
+unsigned int AVAssetSuckerClass::Do_Stuff(void* param)
 {
-	((AVAssetSuckerClass*)param)->Thread_Suck();
-	return(1);
+    ((AVAssetSuckerClass*)param)->Thread_Suck();
+    return (1);
 }
-
 
 void AVAssetSuckerClass::Thread_Suck(void)
 {
-	char name[_MAX_PATH];
+    char name[_MAX_PATH];
 
-	while (Dialog == NULL) {
-		Sleep(0);
-	}
+    while (Dialog == NULL) {
+        Sleep(0);
+    }
 
-	/*
-	** Get just the file name.
-	*/
-	char justname[_MAX_PATH];
-	_splitpath(InputFile, NULL, NULL, justname, NULL);
-	char text[_MAX_PATH + 128];
-	sprintf(text, "Copying files from %s...", justname);
+    /*
+    ** Get just the file name.
+    */
+    char justname[_MAX_PATH];
+    _splitpath(InputFile, NULL, NULL, justname, NULL);
+    char text[_MAX_PATH + 128];
+    sprintf(text, "Copying files from %s...", justname);
 
-	Dialog->Set_Title("Stripping AV assets...");
-	Dialog->Set_Status_Text(text);
-	Dialog->Set_Progress_Percent (0);
+    Dialog->Set_Title("Stripping AV assets...");
+    Dialog->Set_Status_Text(text);
+    Dialog->Set_Progress_Percent(0);
 
-	MixFileFactoryClass mix_in(InputFile, _TheFileFactory);
-	if (mix_in.Is_Valid() && mix_in.Build_Internal_Filename_List()) {
+    MixFileFactoryClass mix_in(InputFile, _TheFileFactory);
+    if (mix_in.Is_Valid() && mix_in.Build_Internal_Filename_List()) {
 
-		/*
-		** Get the list of files in the source mix file.
-		*/
-		DynamicVectorClass<StringClass> filename_list;
-		mix_in.Get_Filename_List(filename_list);
+        /*
+        ** Get the list of files in the source mix file.
+        */
+        DynamicVectorClass<StringClass> filename_list;
+        mix_in.Get_Filename_List(filename_list);
 
-		/*
-		** Create the output mix file.
-		*/
-		MixFileCreator mix_out(OutputFile);
+        /*
+        ** Create the output mix file.
+        */
+        MixFileCreator mix_out(OutputFile);
 
-		/*
-		** Loop through all the files copying anything that isn't audio or texture.
-		*/
-		for (int i=0 ; i<filename_list.Count() ; i++) {
+        /*
+        ** Loop through all the files copying anything that isn't audio or texture.
+        */
+        for (int i = 0; i < filename_list.Count(); i++) {
 
-			strcpy(name, filename_list[i].Peek_Buffer());
-			strupr(name);
+            strcpy(name, filename_list[i].Peek_Buffer());
+            strupr(name);
 
-			if (strstr(name, ".WAV") == 0) {
-				if (strstr(name, ".TGA") == 0) {
-					if (strstr(name, ".DDS") == 0) {
-						if (strstr(name, ".MP3") == 0) {
-							Copy_File(&mix_in, &mix_out, filename_list[i].Peek_Buffer());
-						}
-					}
-				}
-			}
+            if (strstr(name, ".WAV") == 0) {
+                if (strstr(name, ".TGA") == 0) {
+                    if (strstr(name, ".DDS") == 0) {
+                        if (strstr(name, ".MP3") == 0) {
+                            Copy_File(&mix_in, &mix_out, filename_list[i].Peek_Buffer());
+                        }
+                    }
+                }
+            }
 
-			Dialog->Set_Progress_Percent((float)i / float(filename_list.Count() + 1));
-		}
-	}
-	Dialog->PostMessage(WM_COMMAND, MAKELPARAM(IDOK, BN_CLICKED));
+            Dialog->Set_Progress_Percent((float)i / float(filename_list.Count() + 1));
+        }
+    }
+    Dialog->PostMessage(WM_COMMAND, MAKELPARAM(IDOK, BN_CLICKED));
 }
 
-
-
-
-void AVAssetSuckerClass::Copy_File(MixFileFactoryClass *src_mix, MixFileCreator *dest_mix, char *filename)
+void AVAssetSuckerClass::Copy_File(MixFileFactoryClass* src_mix, MixFileCreator* dest_mix,
+                                   char* filename)
 {
-	//
-	//	Get the file data from the source mix
-	//
-	FileClass *src_file = src_mix->Get_File (filename);
-	src_file->Open ();
-	int size = src_file->Size();
+    //
+    //	Get the file data from the source mix
+    //
+    FileClass* src_file = src_mix->Get_File(filename);
+    src_file->Open();
+    int size = src_file->Size();
 
-	//
-	//	Create a temporary destination file for the data
-	//
-	char temp_file_name[_MAX_PATH];
-	char temp_path[_MAX_PATH];
-	int chars = GetTempPath(_MAX_PATH, temp_path);
-	if (chars) {
-		int res = GetTempFileName(temp_path, "MIX", 0, temp_file_name);
-		if (res == 0) {
-			WWDEBUG_SAY(("GetTempFileName failed with error code %d\n", GetLastError()));
-		} else {
-			RawFileClass temp_file(temp_file_name);
-			if (temp_file.Open(RawFileClass::WRITE)) {
+    //
+    //	Create a temporary destination file for the data
+    //
+    char temp_file_name[_MAX_PATH];
+    char temp_path[_MAX_PATH];
+    int chars = GetTempPath(_MAX_PATH, temp_path);
+    if (chars) {
+        int res = GetTempFileName(temp_path, "MIX", 0, temp_file_name);
+        if (res == 0) {
+            WWDEBUG_SAY(("GetTempFileName failed with error code %d\n", GetLastError()));
+        }
+        else {
+            RawFileClass temp_file(temp_file_name);
+            if (temp_file.Open(RawFileClass::WRITE)) {
 
-				//
-				// Save the data in the temp file.
-				//
-				void *bigbuf = new char [size + 1024];
-				src_file->Read(bigbuf, size);
-				temp_file.Write(bigbuf, size);
-				temp_file.Close();
+                //
+                // Save the data in the temp file.
+                //
+                void* bigbuf = new char[size + 1024];
+                src_file->Read(bigbuf, size);
+                temp_file.Write(bigbuf, size);
+                temp_file.Close();
 
-				//
-				// Add the temp file to the mix file.
-				//
-				dest_mix->Add_File(temp_file_name, filename);
+                //
+                // Add the temp file to the mix file.
+                //
+                dest_mix->Add_File(temp_file_name, filename);
 
-				//
-				// Delete the temp file.
-				//
-				DeleteFile(temp_file_name);
-			}
-		}
-	}
+                //
+                // Delete the temp file.
+                //
+                DeleteFile(temp_file_name);
+            }
+        }
+    }
 
-	src_mix->Return_File(src_file);
+    src_mix->Return_File(src_file);
 }

@@ -34,7 +34,6 @@
  * Functions:                                                                                  *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
-
 // ChunkViewDoc.h : interface of the CChunkViewDoc class
 //
 /////////////////////////////////////////////////////////////////////////////
@@ -48,51 +47,47 @@
 
 #include "ChunkFileImage.h"
 
-
 class CChunkViewDoc : public CDocument
 {
 protected: // create from serialization only
-	CChunkViewDoc();
-	DECLARE_DYNCREATE(CChunkViewDoc)
+    CChunkViewDoc();
+    DECLARE_DYNCREATE(CChunkViewDoc)
 
-// Attributes
+    // Attributes
 public:
-
-// Operations
+    // Operations
 public:
-	
-	const ChunkFileImageClass &	Get_File_Image(void);
-	const ChunkImageClass *			Get_Cur_Chunk(void);
-	void									Set_Cur_Chunk(ChunkImageClass * cur_chunk);
+    const ChunkFileImageClass& Get_File_Image(void);
+    const ChunkImageClass* Get_Cur_Chunk(void);
+    void Set_Cur_Chunk(ChunkImageClass* cur_chunk);
 
-// Overrides
-	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CChunkViewDoc)
-	public:
-	virtual BOOL OnNewDocument();
-	virtual void Serialize(CArchive& ar);
-	//}}AFX_VIRTUAL
-
-// Implementation
+    // Overrides
+    // ClassWizard generated virtual function overrides
+    //{{AFX_VIRTUAL(CChunkViewDoc)
 public:
-	virtual ~CChunkViewDoc();
+    virtual BOOL OnNewDocument();
+    virtual void Serialize(CArchive& ar);
+    //}}AFX_VIRTUAL
+
+    // Implementation
+public:
+    virtual ~CChunkViewDoc();
 #ifdef _DEBUG
-	virtual void AssertValid() const;
-	virtual void Dump(CDumpContext& dc) const;
+    virtual void AssertValid() const;
+    virtual void Dump(CDumpContext& dc) const;
 #endif
 
 protected:
+    ChunkFileImageClass m_ChunkFileImage;
+    ChunkImageClass* m_pCurChunk;
 
-	ChunkFileImageClass		m_ChunkFileImage;
-	ChunkImageClass *			m_pCurChunk;
-
-// Generated message map functions
+    // Generated message map functions
 protected:
-	//{{AFX_MSG(CChunkViewDoc)
-		// NOTE - the ClassWizard will add and remove member functions here.
-		//    DO NOT EDIT what you see in these blocks of generated code !
-	//}}AFX_MSG
-	DECLARE_MESSAGE_MAP()
+    //{{AFX_MSG(CChunkViewDoc)
+    // NOTE - the ClassWizard will add and remove member functions here.
+    //    DO NOT EDIT what you see in these blocks of generated code !
+    //}}AFX_MSG
+    DECLARE_MESSAGE_MAP()
 };
 
 /////////////////////////////////////////////////////////////////////////////

@@ -16,24 +16,15 @@
 **	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "stdafx.h"
 #include "CurvePoints.h"
+#include "stdafx.h"
 
-
-float _ControlPoints[CONTROL_POINT_COUNT][4] =
-{
-	{ 0.0f,0.0f,0.0f,0.0f },
-	{ 2.0f,1.0f,0.0f,1.0f },
-	{ 4.0f,3.0f,0.0f,2.0f },
-	{ 5.0f,5.0f,0.0f,3.0f },
-	{ 7.0f,2.0f,0.0f,4.0f },
+float _ControlPoints[CONTROL_POINT_COUNT][4] = {
+    { 0.0f, 0.0f, 0.0f, 0.0f }, { 2.0f, 1.0f, 0.0f, 1.0f }, { 4.0f, 3.0f, 0.0f, 2.0f },
+    { 5.0f, 5.0f, 0.0f, 3.0f }, { 7.0f, 2.0f, 0.0f, 4.0f },
 };
 
-float _TCBParams[CONTROL_POINT_COUNT][3] = 
-{
-	{ 0.0f,1.0f,0.0f },
-	{ 0.0f,1.0f,0.0f },
-	{ 0.0f,1.0f,0.0f },
-	{ 0.0f,1.0f,0.0f },
-	{ 0.0f,1.0f,0.0f },
+float _TCBParams[CONTROL_POINT_COUNT][3] = {
+    { 0.0f, 1.0f, 0.0f }, { 0.0f, 1.0f, 0.0f }, { 0.0f, 1.0f, 0.0f },
+    { 0.0f, 1.0f, 0.0f }, { 0.0f, 1.0f, 0.0f },
 };

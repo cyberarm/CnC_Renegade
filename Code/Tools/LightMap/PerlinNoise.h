@@ -16,22 +16,22 @@
 **	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-/*********************************************************************************************** 
- ***                            Confidential - Westwood Studios                              *** 
- *********************************************************************************************** 
- *                                                                                             * 
- *                 Project Name : LightMap                                                     * 
- *                                                                                             * 
- *                     $Archive:: /Commando/Code/Tool $* 
- *                                                                                             * 
- *                      $Author:: Ian_l               $* 
- *                                                                                             * 
- *                     $Modtime:: 9/08/00 5:09p       $* 
- *                                                                                             * 
- *                    $Revision:: 2                                                         $* 
- *                                                                                             * 
- *---------------------------------------------------------------------------------------------* 
- * Functions:                                                                                  * 
+/***********************************************************************************************
+ ***                            Confidential - Westwood Studios                              ***
+ ***********************************************************************************************
+ *                                                                                             *
+ *                 Project Name : LightMap                                                     *
+ *                                                                                             *
+ *                     $Archive:: /Commando/Code/Tool $*
+ *                                                                                             *
+ *                      $Author:: Ian_l               $*
+ *                                                                                             *
+ *                     $Modtime:: 9/08/00 5:09p       $*
+ *                                                                                             *
+ *                    $Revision:: 2                                                         $*
+ *                                                                                             *
+ *---------------------------------------------------------------------------------------------*
+ * Functions:                                                                                  *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
 #ifndef PERLIN_NOISE_H
@@ -42,27 +42,23 @@
 #include "Vector3.h"
 
 // Defines.
-#define NOISE_TABLE_SIZE	256					  	  // NOTE: Must be a power of 2.	
-#define NOISE_TABLE_MASK	NOISE_TABLE_SIZE - 1
+#define NOISE_TABLE_SIZE 256 // NOTE: Must be a power of 2.
+#define NOISE_TABLE_MASK NOISE_TABLE_SIZE - 1
 
-class PerlinNoise : public ProceduralTexture {
+class PerlinNoise : public ProceduralTexture
+{
 
-	public:
+public:
+    PerlinNoise();
+    float Value(const Vector3& point);
 
-		PerlinNoise();
-		float Value (const Vector3 &point);
+protected:
+    float SmoothStep(float x) { return (x * x * (3.0f - (2.0f * x))); }
+    float Noise(int x, int y, int z);
+    float Noise(const Vector3& point);
 
-	protected:
-
-		float SmoothStep (float x) {return (x * x * (3.0f - (2.0f * x)));}
-		float Noise (int x, int y, int z);	
-		float Noise (const Vector3 &point);
-
-	private:
-
-		static float _NoiseTable [NOISE_TABLE_SIZE];
+private:
+    static float _NoiseTable[NOISE_TABLE_SIZE];
 };
 
-
 #endif // PERLIN_NOISE_H
-

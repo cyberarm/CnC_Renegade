@@ -37,78 +37,70 @@
 #include "audioevents.h"
 #include "soundsceneobj.h"
 
-
 /////////////////////////////////////////////////////////////////////////////////
 //
 //	AudioCallbackClass
 //
 /////////////////////////////////////////////////////////////////////////////////
-AudioCallbackClass::AudioCallbackClass (void)
+AudioCallbackClass::AudioCallbackClass(void)
 {
-	return ;
+    return;
 }
-
 
 /////////////////////////////////////////////////////////////////////////////////
 //
 //	~AudioCallbackClass
 //
 /////////////////////////////////////////////////////////////////////////////////
-AudioCallbackClass::~AudioCallbackClass (void)
+AudioCallbackClass::~AudioCallbackClass(void)
 {
-	Remove_All_Callbacks ();
-	return ;
+    Remove_All_Callbacks();
+    return;
 }
-
 
 /////////////////////////////////////////////////////////////////////////////////
 //
 //	On_Registered
 //
 /////////////////////////////////////////////////////////////////////////////////
-void
-AudioCallbackClass::On_Registered (SoundSceneObjClass *sound)
+void AudioCallbackClass::On_Registered(SoundSceneObjClass* sound)
 {
-	if (SoundList.ID (sound) == -1) {
-		SoundList.Add (sound);
-	}
+    if (SoundList.ID(sound) == -1) {
+        SoundList.Add(sound);
+    }
 
-	return ;
+    return;
 }
-
 
 /////////////////////////////////////////////////////////////////////////////////
 //
 //	On_UnRegistered
 //
 /////////////////////////////////////////////////////////////////////////////////
-void
-AudioCallbackClass::On_UnRegistered (SoundSceneObjClass *sound)
+void AudioCallbackClass::On_UnRegistered(SoundSceneObjClass* sound)
 {
-	int index = SoundList.ID (sound);
-	if (index != -1) {
-		SoundList.Delete (index);
-	}
+    int index = SoundList.ID(sound);
+    if (index != -1) {
+        SoundList.Delete(index);
+    }
 
-	return ;
+    return;
 }
-
 
 /////////////////////////////////////////////////////////////////////////////////
 //
 //	Remove_All_Callbacks
 //
 /////////////////////////////////////////////////////////////////////////////////
-void
-AudioCallbackClass::Remove_All_Callbacks (void)
+void AudioCallbackClass::Remove_All_Callbacks(void)
 {
-	//
-	//	Simply remove ourselves from the sound object
-	//
-	for (int index = 0; index < SoundList.Count (); index ++) {
-		SoundList[index]->Remove_Callback ();
-	}
+    //
+    //	Simply remove ourselves from the sound object
+    //
+    for (int index = 0; index < SoundList.Count(); index++) {
+        SoundList[index]->Remove_Callback();
+    }
 
-	SoundList.Delete_All ();
-	return ;
+    SoundList.Delete_All();
+    return;
 }

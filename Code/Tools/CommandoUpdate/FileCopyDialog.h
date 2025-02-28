@@ -30,40 +30,46 @@
 
 class FileCopyDialogClass : public CDialog
 {
-// Construction
+    // Construction
 public:
-	FileCopyDialogClass(CWnd* pParent = NULL);   // standard constructor
+    FileCopyDialogClass(CWnd* pParent = NULL); // standard constructor
 
-// Dialog Data
-	//{{AFX_DATA(FileCopyDialogClass)
-	enum { IDD = IDD_FILE_COPY };
-	CAnimateCtrl	m_AnimateCtrl;
-	//}}AFX_DATA
+    // Dialog Data
+    //{{AFX_DATA(FileCopyDialogClass)
+    enum
+    {
+        IDD = IDD_FILE_COPY
+    };
+    CAnimateCtrl m_AnimateCtrl;
+    //}}AFX_DATA
 
-
-// Overrides
-	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(FileCopyDialogClass)
-	protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
-	virtual LRESULT WindowProc(UINT message, WPARAM wParam, LPARAM lParam);
-	//}}AFX_VIRTUAL
-
-// Implementation
+    // Overrides
+    // ClassWizard generated virtual function overrides
+    //{{AFX_VIRTUAL(FileCopyDialogClass)
 protected:
+    virtual void DoDataExchange(CDataExchange* pDX); // DDX/DDV support
+    virtual LRESULT WindowProc(UINT message, WPARAM wParam, LPARAM lParam);
+    //}}AFX_VIRTUAL
 
-	// Generated message map functions
-	//{{AFX_MSG(FileCopyDialogClass)
-	virtual BOOL OnInitDialog();
-	//}}AFX_MSG
-	DECLARE_MESSAGE_MAP()
+    // Implementation
+protected:
+    // Generated message map functions
+    //{{AFX_MSG(FileCopyDialogClass)
+    virtual BOOL OnInitDialog();
+    //}}AFX_MSG
+    DECLARE_MESSAGE_MAP()
 
-	public:
-		void			Set_Current_File (LPCTSTR filename)				{ if (m_hWnd != NULL) SetDlgItemText (IDC_FILENAME_TEXT, filename); }
-		void			Set_Current_Application (LPCTSTR filename)	{ m_AppTitle = filename; }
+public:
+    void Set_Current_File(LPCTSTR filename)
+    {
+        if (m_hWnd != NULL) {
+            SetDlgItemText(IDC_FILENAME_TEXT, filename);
+        }
+    }
+    void Set_Current_Application(LPCTSTR filename) { m_AppTitle = filename; }
 
-	private:
-		CString		m_AppTitle;
+private:
+    CString m_AppTitle;
 };
 
 //{{AFX_INSERT_LOCATION}}

@@ -34,15 +34,12 @@
  * Functions:                                                                                  *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
-
 #if defined(_MSC_VER)
 #pragma once
 #endif
 
-
 #ifndef __NODEFUNCTION_H
 #define __NODEFUNCTION_H
-
 
 //////////////////////////////////////////////////////////////////////////////
 //
@@ -51,25 +48,23 @@
 //////////////////////////////////////////////////////////////////////////////
 class NodeFunctionClass
 {
-	public:
+public:
+    //////////////////////////////////////////////////////////
+    //
+    //	Public constructors/destructors
+    //
+    NodeFunctionClass(void) { }
+    virtual ~NodeFunctionClass(void) { }
 
-		//////////////////////////////////////////////////////////
-		//
-		//	Public constructors/destructors
-		//
-		NodeFunctionClass (void) {}
-		virtual ~NodeFunctionClass (void) {}
+    //////////////////////////////////////////////////////////
+    //
+    //	Public operators/methods
+    //
 
-		//////////////////////////////////////////////////////////
-		//
-		//	Public operators/methods
-		//
-		
-		//
-		//	Overrides
-		//
-		virtual void				On_Click (void) {}
+    //
+    //	Overrides
+    //
+    virtual void On_Click(void) { }
 };
-
 
 #endif //__NODEFUNCTION_H

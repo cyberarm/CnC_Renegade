@@ -17,26 +17,26 @@
 */
 
 /******************************************************************************
-*
-* FILE
-*     $Archive: /Commando/Code/WWOnline/WOLServer.h $
-*
-* DESCRIPTION
-*     These classes encapsulate a Westwood Online Server.
-*
-*     This is a base class. Derived classes include (but not necessarily limited to) 
-*     ChatServer, GameResultsServer, LadderServer, and WDTServer.
-*
-*     Server primarily repackages the WOL Server struct
-*
-* PROGRAMMER
-*     $Author: Denzil_l $
-*
-* VERSION INFO
-*     $Revision: 11 $
-*     $Modtime: 1/11/02 5:40p $
-*
-******************************************************************************/
+ *
+ * FILE
+ *     $Archive: /Commando/Code/WWOnline/WOLServer.h $
+ *
+ * DESCRIPTION
+ *     These classes encapsulate a Westwood Online Server.
+ *
+ *     This is a base class. Derived classes include (but not necessarily limited to)
+ *     ChatServer, GameResultsServer, LadderServer, and WDTServer.
+ *
+ *     Server primarily repackages the WOL Server struct
+ *
+ * PROGRAMMER
+ *     $Author: Denzil_l $
+ *
+ * VERSION INFO
+ *     $Revision: 11 $
+ *     $Modtime: 1/11/02 5:40p $
+ *
+ ******************************************************************************/
 
 #ifndef __WOLSERVER_H__
 #define __WOLSERVER_H__
@@ -51,204 +51,168 @@ namespace WOL
 #include <WOLAPI\wolapi.h>
 }
 
-namespace WWOnline {
+namespace WWOnline
+{
 
-class ServerData :
-		public RefCounted
-	{
-	public:
-		inline WOL::Server& GetData(void)
-			{return mData;}
+    class ServerData : public RefCounted
+    {
+    public:
+        inline WOL::Server& GetData(void) { return mData; }
 
-		inline const int GetTimeZone(void) const
-			{return mData.timezone;}
+        inline const int GetTimeZone(void) const { return mData.timezone; }
 
-		inline const float GetLongitude(void) const
-			{return mData.longitude;}
+        inline const float GetLongitude(void) const { return mData.longitude; }
 
-		inline const float GetLattitude(void) const
-			{return mData.lattitude;}
+        inline const float GetLattitude(void) const { return mData.lattitude; }
 
-	protected:
-		ServerData(const WOL::Server&);
-		virtual ~ServerData();
+    protected:
+        ServerData(const WOL::Server&);
+        virtual ~ServerData();
 
-		WOL::Server mData;
-	};
+        WOL::Server mData;
+    };
 
+    // base class for chat and game servers
+    class IRCServerData : public ServerData
+    {
+    public:
+        static RefPtr<IRCServerData> Create(const WOL::Server&);
 
-// base class for chat and game servers
-class IRCServerData :
-		public ServerData
-	{
-	public:
-		static RefPtr<IRCServerData> Create(const WOL::Server&);
+        inline const char* GetName(void) const { return mServerName; }
 
-		inline const char* GetName(void) const
-			{return mServerName;}
+        inline bool IsGameServer(void) const { return mIsGameServer; }
 
-		inline bool IsGameServer(void) const
-			{return mIsGameServer;}
+        inline bool HasLanguageCode(void) const { return mHasLanguageCode; }
 
-		inline bool HasLanguageCode(void) const
-			{return mHasLanguageCode;}
+        inline bool MatchesLanguageCode(void) const { return mMatchesLanguageCode; }
 
-		inline bool MatchesLanguageCode(void) const
-			{return mMatchesLanguageCode;}
+    protected:
+        IRCServerData(const WOL::Server&);
+        virtual ~IRCServerData() { }
 
-	protected:
-		IRCServerData(const WOL::Server&);
-		virtual ~IRCServerData()
-			{}
+    private:
+        StringClass mServerName;
+        bool mIsGameServer;
+        bool mMatchesLanguageCode;
+        bool mHasLanguageCode;
+    };
 
-	private:
-		StringClass mServerName;
-		bool mIsGameServer;
-		bool mMatchesLanguageCode;
-		bool mHasLanguageCode;
-	};
+    // base class for non-chat/non-game servers
+    class HostPortServerData : public ServerData
+    {
+    public:
+        inline const char* GetName(void) const { return (const char*)mData.name; }
 
+        inline const char* GetHostAddress(void) const { return mHostAddress; }
 
-// base class for non-chat/non-game servers
-class HostPortServerData :
-		public ServerData
-	{
-	public:
-		inline const char* GetName(void) const
-			{return (const char*)mData.name;}
+        inline unsigned int GetPort(void) const { return mHostPort; }
 
-		inline const char* GetHostAddress(void) const
-			{return mHostAddress;}
+    protected:
+        HostPortServerData(const WOL::Server&);
+        virtual ~HostPortServerData() { }
 
-		inline unsigned int GetPort(void) const
-			{return mHostPort;}
+    private:
+        StringClass mHostAddress;
+        unsigned int mHostPort;
+    };
 
-	protected:
-		HostPortServerData(const WOL::Server&);
-		virtual ~HostPortServerData()
-			{}
+    class LadderServerData : public HostPortServerData
+    {
+    public:
+        static RefPtr<LadderServerData> Create(const WOL::Server&);
 
-	private:
-		StringClass mHostAddress;
-		unsigned int mHostPort;
-	};
+    private:
+        LadderServerData(const WOL::Server&);
+        virtual ~LadderServerData() { }
 
+        LadderServerData(const LadderServerData&);
+        const LadderServerData& operator=(const LadderServerData&);
+    };
 
-class LadderServerData :
-		public HostPortServerData
-	{
-	public:
-		static RefPtr<LadderServerData> Create(const WOL::Server&);
+    class GameResultsServerData : public HostPortServerData
+    {
+    public:
+        static RefPtr<GameResultsServerData> Create(const WOL::Server&);
 
-	private:
-		LadderServerData(const WOL::Server&);
-		virtual ~LadderServerData()
-			{}
+    private:
+        GameResultsServerData(const WOL::Server&);
+        virtual ~GameResultsServerData() { }
 
-		LadderServerData(const LadderServerData&);
-		const LadderServerData& operator=(const LadderServerData&);
-	};
+        GameResultsServerData(const GameResultsServerData&);
+        const GameResultsServerData& operator=(const GameResultsServerData&);
+    };
 
+    class WDTServerData : public HostPortServerData
+    {
+    public:
+        static RefPtr<WDTServerData> Create(const WOL::Server&);
 
-class GameResultsServerData :
-		public HostPortServerData
-	{
-	public:
-		static RefPtr<GameResultsServerData> Create(const WOL::Server&);
+    private:
+        WDTServerData(const WOL::Server&);
+        virtual ~WDTServerData() { }
 
-	private:
-		GameResultsServerData(const WOL::Server&);
-		virtual ~GameResultsServerData()
-			{}
+        WDTServerData(const WDTServerData&);
+        const WDTServerData& operator=(const WDTServerData&);
+    };
 
-		GameResultsServerData(const GameResultsServerData&);
-		const GameResultsServerData& operator=(const GameResultsServerData&);
-	};
+    class MGLServerData : public HostPortServerData
+    {
+    public:
+        static RefPtr<MGLServerData> Create(const WOL::Server&);
 
+    private:
+        MGLServerData(const WOL::Server&);
+        virtual ~MGLServerData() { }
 
-class WDTServerData :
-		public HostPortServerData
-	{
-	public:
-		static RefPtr<WDTServerData> Create(const WOL::Server&);
+        MGLServerData(const MGLServerData&);
+        const MGLServerData& operator=(const MGLServerData&);
+    };
 
-	private:
-		WDTServerData(const WOL::Server&);
-		virtual ~WDTServerData()
-			{}
+    class PingServerData : public HostPortServerData
+    {
+    public:
+        static RefPtr<PingServerData> Create(const WOL::Server&);
 
-		WDTServerData(const WDTServerData&);
-		const WDTServerData& operator=(const WDTServerData&);
-	};
+        void SetPingTime(int time);
 
+        inline int GetPingTime(void) const { return mPingTime; }
 
-class MGLServerData :
-		public HostPortServerData
-	{
-	public:
-		static RefPtr<MGLServerData> Create(const WOL::Server&);
+    protected:
+        PingServerData(const WOL::Server&);
+        virtual ~PingServerData() { }
 
-	private:
-		MGLServerData(const WOL::Server&);
-		virtual ~MGLServerData()
-			{}
+        // Prevent copy and assignment
+        PingServerData(const PingServerData&);
+        const PingServerData& operator=(const PingServerData&);
 
-		MGLServerData(const MGLServerData&);
-		const MGLServerData& operator=(const MGLServerData&);
-	};
+    private:
+        int mPingTime;
+    };
 
+    class ServerError
+    {
+    public:
+        ServerError(int code, const char* description, unsigned long data = 0)
+            : mCode(code),
+              mDescription(description),
+              mData(data)
+        {
+        }
 
-class PingServerData :
-		public HostPortServerData
-	{
-	public:
-		static RefPtr<PingServerData> Create(const WOL::Server&);
+        inline int GetErrorCode(void) { return mCode; }
 
-		void SetPingTime(int time);
+        inline const wchar_t* GetDescription(void) const { return WOLSTRING(mDescription); }
 
-		inline int GetPingTime(void) const
-			{return mPingTime;}
+        inline unsigned int GetData(void) const { return mData; }
 
-	protected:
-		PingServerData(const WOL::Server&);
-		virtual ~PingServerData()
-			{}
+    private:
+        ServerError(const ServerError&);
+        const ServerError& operator=(const ServerError&);
 
-		// Prevent copy and assignment
-		PingServerData(const PingServerData&);
-		const PingServerData& operator=(const PingServerData&);
-
-	private:
-		int mPingTime;
-	};
-
-
-class ServerError
-	{
-	public:
-		ServerError(int code, const char* description, unsigned long data = 0) :
-				mCode(code),
-				mDescription(description),
-				mData(data)
-			{}
-
-		inline int GetErrorCode(void)
-			{return mCode;}
-
-		inline const wchar_t* GetDescription(void) const
-	 		{return WOLSTRING(mDescription);}
-
-		inline unsigned int GetData(void) const
-			{return mData;}
-
-	private:
-		ServerError(const ServerError&);
-		const ServerError& operator=(const ServerError&);
-
-		int mCode;
-		StringClass mDescription;
-		unsigned long mData;
-	};
+        int mCode;
+        StringClass mDescription;
+        unsigned long mData;
+    };
 
 } // namespace WWOnline
 

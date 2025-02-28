@@ -44,29 +44,26 @@
  *   GameMtlPassDlg::SetTime -- set the current time                                           *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
-
 #include "GameMtlPassDlg.h"
-#include "dllmain.h"
-#include "resource.h"
+#include "GMaxMtlDlg.h"
 #include "GameMtl.h"
 #include "GameMtlDlg.h"
-#include "GMaxMtlDlg.h"
 #include "GameMtlShaderDlg.h"
-#include "PS2GameMtlShaderDlg.h"
 #include "GameMtlTextureDlg.h"
 #include "GameMtlVertexMaterialDlg.h"
+#include "PS2GameMtlShaderDlg.h"
+#include "dllmain.h"
+#include "resource.h"
 #include "w3d_file.h"
 
-
-static int _Pass_Index_To_Flag[] = 
-{
-	GAMEMTL_PASS0_ROLLUP_OPEN,
-	GAMEMTL_PASS1_ROLLUP_OPEN,
-	GAMEMTL_PASS2_ROLLUP_OPEN,
-	GAMEMTL_PASS3_ROLLUP_OPEN,
+static int _Pass_Index_To_Flag[] = {
+    GAMEMTL_PASS0_ROLLUP_OPEN,
+    GAMEMTL_PASS1_ROLLUP_OPEN,
+    GAMEMTL_PASS2_ROLLUP_OPEN,
+    GAMEMTL_PASS3_ROLLUP_OPEN,
 };
 
-extern GMaxMtlDlg * GMaxMaterialDialog;
+extern GMaxMtlDlg* GMaxMaterialDialog;
 extern bool _UsingLargeFonts;
 
 /***********************************************************************************************
@@ -81,25 +78,25 @@ extern bool _UsingLargeFonts;
  * HISTORY:                                                                                    *
  *   11/23/98   GTH : Created.                                                                 *
  *=============================================================================================*/
-static BOOL CALLBACK PassDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam) 
+static BOOL CALLBACK PassDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	GameMtlPassDlg *theDlg;
+    GameMtlPassDlg* theDlg;
 
-	if (msg==WM_INITDIALOG) {
+    if (msg == WM_INITDIALOG) {
 #if defined W3D_GMAXDEV
-		lParam = ((PROPSHEETPAGE*)lParam)->lParam;
+        lParam = ((PROPSHEETPAGE*)lParam)->lParam;
 #endif
-		theDlg = (GameMtlPassDlg*)lParam;
-		theDlg->HwndPanel = hwndDlg;
-		SetWindowLong(hwndDlg, GWL_USERDATA,lParam);
-	} else {
-		if ((theDlg = (GameMtlPassDlg *)GetWindowLong(hwndDlg, GWL_USERDATA) ) == NULL) {
-			return FALSE; 
-		}
-	}
-	return theDlg->DialogProc(hwndDlg,msg,wParam,lParam);
+        theDlg = (GameMtlPassDlg*)lParam;
+        theDlg->HwndPanel = hwndDlg;
+        SetWindowLong(hwndDlg, GWL_USERDATA, lParam);
+    }
+    else {
+        if ((theDlg = (GameMtlPassDlg*)GetWindowLong(hwndDlg, GWL_USERDATA)) == NULL) {
+            return FALSE;
+        }
+    }
+    return theDlg->DialogProc(hwndDlg, msg, wParam, lParam);
 }
-
 
 /***********************************************************************************************
  * GameMtlPassDlg::GameMtlPassDlg -- constructor                                               *
@@ -113,46 +110,41 @@ static BOOL CALLBACK PassDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
  * HISTORY:                                                                                    *
  *   11/23/98   GTH : Created.                                                                 *
  *=============================================================================================*/
-GameMtlPassDlg::GameMtlPassDlg(HWND hwMtlEdit, IMtlParams *imp, GameMtl *m,int pass)
+GameMtlPassDlg::GameMtlPassDlg(HWND hwMtlEdit, IMtlParams* imp, GameMtl* m, int pass)
 {
-	HwndEdit = hwMtlEdit;
-	TheMtl = m;
-	IParams = imp;
-	PassIndex = pass;
+    HwndEdit = hwMtlEdit;
+    TheMtl = m;
+    IParams = imp;
+    PassIndex = pass;
 
-	char title[200];
-	sprintf(title, "Pass %d", pass + 1);
+    char title[200];
+    sprintf(title, "Pass %d", pass + 1);
 
 #if !defined W3D_GMAXDEV
-	HwndPanel = IParams->AddRollupPage( 
-		AppInstance,
-		MAKEINTRESOURCE(IDD_GAMEMTL_PASS),
-		PassDlgProc,
-		title,
-		(LPARAM)this,
-		TheMtl->Get_Flag(_Pass_Index_To_Flag[PassIndex]) ? 0 : APPENDROLL_CLOSED
-	);
+    HwndPanel = IParams->AddRollupPage(
+        AppInstance, MAKEINTRESOURCE(IDD_GAMEMTL_PASS), PassDlgProc, title, (LPARAM)this,
+        TheMtl->Get_Flag(_Pass_Index_To_Flag[PassIndex]) ? 0 : APPENDROLL_CLOSED);
 #else
-	PROPSHEETPAGE ps_Page;
-	ps_Page.dwSize		= sizeof(PROPSHEETPAGE);
-	ps_Page.dwFlags		= PSP_USEICONID | PSP_USETITLE;
-	ps_Page.hInstance	= AppInstance;
-	 if(_UsingLargeFonts){
-		ps_Page.pszTemplate= MAKEINTRESOURCE(IDD_GMAXMTL_PASS);
-	 }else{
-		ps_Page.pszTemplate= MAKEINTRESOURCE(IDD_GMAXMTL_PASS_SMALL);
-	 }
-	ps_Page.pszIcon		= MAKEINTRESOURCE(IDI_ICONW3D);
-	ps_Page.pfnDlgProc	= PassDlgProc;
-	ps_Page.pszTitle	= title;
-	ps_Page.lParam		= (LPARAM)this;
-	ps_Page.pfnCallback= NULL;
-	HPROPSHEETPAGE hPage = CreatePropertySheetPage(&ps_Page);
-	PropSheet_AddPage(HwndEdit,hPage);
-	HwndPanel = HwndEdit;
+    PROPSHEETPAGE ps_Page;
+    ps_Page.dwSize = sizeof(PROPSHEETPAGE);
+    ps_Page.dwFlags = PSP_USEICONID | PSP_USETITLE;
+    ps_Page.hInstance = AppInstance;
+    if (_UsingLargeFonts) {
+        ps_Page.pszTemplate = MAKEINTRESOURCE(IDD_GMAXMTL_PASS);
+    }
+    else {
+        ps_Page.pszTemplate = MAKEINTRESOURCE(IDD_GMAXMTL_PASS_SMALL);
+    }
+    ps_Page.pszIcon = MAKEINTRESOURCE(IDI_ICONW3D);
+    ps_Page.pfnDlgProc = PassDlgProc;
+    ps_Page.pszTitle = title;
+    ps_Page.lParam = (LPARAM)this;
+    ps_Page.pfnCallback = NULL;
+    HPROPSHEETPAGE hPage = CreatePropertySheetPage(&ps_Page);
+    PropSheet_AddPage(HwndEdit, hPage);
+    HwndPanel = HwndEdit;
 #endif
 }
-
 
 /***********************************************************************************************
  * GameMtlPassDlg::~GameMtlPassDlg -- destructor                                               *
@@ -168,13 +160,12 @@ GameMtlPassDlg::GameMtlPassDlg(HWND hwMtlEdit, IMtlParams *imp, GameMtl *m,int p
  *=============================================================================================*/
 GameMtlPassDlg::~GameMtlPassDlg()
 {
-#if ! defined W3D_GMAXDEV
-	TheMtl->Set_Flag(_Pass_Index_To_Flag[PassIndex],IParams->IsRollupPanelOpen(HwndPanel));
-	IParams->DeleteRollupPage(HwndPanel);
+#if !defined W3D_GMAXDEV
+    TheMtl->Set_Flag(_Pass_Index_To_Flag[PassIndex], IParams->IsRollupPanelOpen(HwndPanel));
+    IParams->DeleteRollupPage(HwndPanel);
 #endif
-	SetWindowLong(HwndPanel, GWL_USERDATA, NULL);
+    SetWindowLong(HwndPanel, GWL_USERDATA, NULL);
 }
-
 
 /***********************************************************************************************
  * GameMtlPassDlg::DialogProc -- windows message handler                                       *
@@ -190,158 +181,157 @@ GameMtlPassDlg::~GameMtlPassDlg()
  *=============================================================================================*/
 BOOL GameMtlPassDlg::DialogProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	int i=0;
-	int id = LOWORD(wParam);
-	int code = HIWORD(wParam);
+    int i = 0;
+    int id = LOWORD(wParam);
+    int code = HIWORD(wParam);
 
-	switch (message) {
-		case WM_INITDIALOG:{
+    switch (message) {
+    case WM_INITDIALOG: {
 #if defined W3D_GMAXDEV
-			GMaxMaterialDialog->LoadButtonBitmaps(hDlg);
+        GMaxMaterialDialog->LoadButtonBitmaps(hDlg);
 #endif
-			Page[0] = new GameMtlVertexMaterialDlg(HwndPanel,IParams,TheMtl,PassIndex);
-			if (TheMtl->Get_Shader_Type() == GameMtl::STE_PC_SHADER)	{
-				Page[1] = new GameMtlShaderDlg(HwndPanel,IParams,TheMtl,PassIndex);
-			} else {
-				// The PS2 shader is different.
-				Page[1] = new PS2GameMtlShaderDlg(HwndPanel,IParams,TheMtl,PassIndex);
-			}
+        Page[0] = new GameMtlVertexMaterialDlg(HwndPanel, IParams, TheMtl, PassIndex);
+        if (TheMtl->Get_Shader_Type() == GameMtl::STE_PC_SHADER) {
+            Page[1] = new GameMtlShaderDlg(HwndPanel, IParams, TheMtl, PassIndex);
+        }
+        else {
+            // The PS2 shader is different.
+            Page[1] = new PS2GameMtlShaderDlg(HwndPanel, IParams, TheMtl, PassIndex);
+        }
 
-			Page[2] = new GameMtlTextureDlg(HwndPanel,IParams,TheMtl,PassIndex);
+        Page[2] = new GameMtlTextureDlg(HwndPanel, IParams, TheMtl, PassIndex);
 
-			for (i=0; i<PAGE_COUNT; i++) {
+        for (i = 0; i < PAGE_COUNT; i++) {
 
-				HWND hwnd = Page[i]->Get_Hwnd();
-			
-				// set the tab names
-				char name[64];
-				::GetWindowText(hwnd,name,sizeof(name));
-				TC_ITEM tcitem = { TCIF_TEXT,0,0,name,0 };
-				TabCtrl_InsertItem(GetDlgItem(HwndPanel,IDC_GAMEMTL_TAB),i,&tcitem);
-			}
+            HWND hwnd = Page[i]->Get_Hwnd();
 
-			// Get the display rectangle of the tab control
-			RECT rect;
-			::GetWindowRect(GetDlgItem(HwndPanel,IDC_GAMEMTL_TAB),&rect);
-			TabCtrl_AdjustRect(GetDlgItem(HwndPanel,IDC_GAMEMTL_TAB),FALSE, &rect);
-  
-			// Convert the display rectangle from screen to client coords
-			ScreenToClient(HwndPanel,(POINT *)(&rect));
-			ScreenToClient(HwndPanel, ((LPPOINT)&rect) + 1);
+            // set the tab names
+            char name[64];
+            ::GetWindowText(hwnd, name, sizeof(name));
+            TC_ITEM tcitem = { TCIF_TEXT, 0, 0, name, 0 };
+            TabCtrl_InsertItem(GetDlgItem(HwndPanel, IDC_GAMEMTL_TAB), i, &tcitem);
+        }
 
-			for (i=0; i<PAGE_COUNT; i++) {
+        // Get the display rectangle of the tab control
+        RECT rect;
+        ::GetWindowRect(GetDlgItem(HwndPanel, IDC_GAMEMTL_TAB), &rect);
+        TabCtrl_AdjustRect(GetDlgItem(HwndPanel, IDC_GAMEMTL_TAB), FALSE, &rect);
 
-				HWND hwnd = Page[i]->Get_Hwnd();
+        // Convert the display rectangle from screen to client coords
+        ScreenToClient(HwndPanel, (POINT*)(&rect));
+        ScreenToClient(HwndPanel, ((LPPOINT)&rect) + 1);
 
-				// Loop through all the tabs in the property sheet
-				// Get a pointer to this tab				
-				SetWindowPos(	hwnd, 
-									NULL, 
-									rect.left, rect.top, 
-									rect.right - rect.left, rect.bottom - rect.top, 
-									SWP_NOZORDER);				
-			}
-			
- 			CurPage = 0;
-			TabCtrl_SetCurSel(GetDlgItem(HwndPanel,IDC_GAMEMTL_TAB),CurPage); 
-			Page[CurPage]->Show();
+        for (i = 0; i < PAGE_COUNT; i++) {
 
-			break;
-		}
-	
-		case WM_PAINT: 
-		{
+            HWND hwnd = Page[i]->Get_Hwnd();
+
+            // Loop through all the tabs in the property sheet
+            // Get a pointer to this tab
+            SetWindowPos(hwnd, NULL, rect.left, rect.top, rect.right - rect.left,
+                         rect.bottom - rect.top, SWP_NOZORDER);
+        }
+
+        CurPage = 0;
+        TabCtrl_SetCurSel(GetDlgItem(HwndPanel, IDC_GAMEMTL_TAB), CurPage);
+        Page[CurPage]->Show();
+
+        break;
+    }
+
+    case WM_PAINT: {
 #if defined W3D_GMAXDEV
-			if (!Valid) {
-				Valid = TRUE;
-			}
-			ReloadDialog();
+        if (!Valid) {
+            Valid = TRUE;
+        }
+        ReloadDialog();
 #else
-			if (!Valid) {
-				Valid = TRUE;
-				ReloadDialog();
-			}
+        if (!Valid) {
+            Valid = TRUE;
+            ReloadDialog();
+        }
 #endif
-			return FALSE;
-		}
-		
-		case WM_NOTIFY:{
-			NMHDR * header = (NMHDR *)lParam;
-			switch(header->code) { 
-				case TCN_SELCHANGE:{
-					int sel = TabCtrl_GetCurSel(GetDlgItem(HwndPanel,IDC_GAMEMTL_TAB)); 
-					Page[sel]->Show();
-					for (int i=0; i < PAGE_COUNT; i++) {
-						if (i != sel) Page[i]->Show(false);
-					} 
-					CurPage = sel;
-					TheMtl->Set_Current_Page(PassIndex,CurPage);
-					break;
-				}
-#if defined W3D_GMAXDEV
-				case PSN_RESET:{
-					SetWindowLong(hDlg,DWL_MSGRESULT,FALSE);
-					::SendMessage(hDlg, WM_USER+140,0,0);
-					return FALSE;
-				}
-				case PSN_SETACTIVE:{
-					GMaxMaterialDialog->SetCurrentPage(PassIndex+1);
-					if(GMaxMaterialDialog->HasMultiMtl()){
-						ShowWindow(GetDlgItem(hDlg,IDC_NEXTSIBLING),SW_SHOW);
-						ShowWindow(GetDlgItem(hDlg,IDC_PREVIOUSSIBLING),SW_SHOW);
-					}else{
-						ShowWindow(GetDlgItem(hDlg,IDC_NEXTSIBLING),SW_HIDE);
-						ShowWindow(GetDlgItem(hDlg,IDC_PREVIOUSSIBLING),SW_HIDE);
-					}
-					return TRUE;
-				}
-#endif
-			}
-			break;
-		}
-#if defined W3D_GMAXDEV
-		case WM_USER+140:{
-			ShowWindow(HwndEdit, SW_HIDE);
-			return FALSE;
-		}
-		case WM_COMMAND:{
-			switch(LOWORD(wParam)){
-				case IDC_GETMTL:{
-					GMaxMaterialDialog->DoGetMaterial();
-					break;
-				}
-				case IDC_NEWMTL:{
-					GMaxMaterialDialog->DoNewMaterial();
-					break;
-				}
-				case IDC_NAVIGATOR:{
-					GMaxMaterialDialog->DoMaterialNavigator();
-					break;
-				}
-				case IDC_ASSIGN:{
-					GMaxMaterialDialog->ApplyToSelection(TheMtl);
-					break;
-				}
-				case IDC_DELETEMTL:{
-					GMaxMaterialDialog->DeleteMtl();
-					break;
-				}
-				case IDC_NEXTSIBLING:{
-					GMaxMaterialDialog->NextSibling();
-					break;
-				}
-				case IDC_PREVIOUSSIBLING:{
-					GMaxMaterialDialog->PreviousSibling();
-					break;
-				}
-			}
-			break;
-		}
-#endif
-	}
-	return FALSE;
-}
+        return FALSE;
+    }
 
+    case WM_NOTIFY: {
+        NMHDR* header = (NMHDR*)lParam;
+        switch (header->code) {
+        case TCN_SELCHANGE: {
+            int sel = TabCtrl_GetCurSel(GetDlgItem(HwndPanel, IDC_GAMEMTL_TAB));
+            Page[sel]->Show();
+            for (int i = 0; i < PAGE_COUNT; i++) {
+                if (i != sel) {
+                    Page[i]->Show(false);
+                }
+            }
+            CurPage = sel;
+            TheMtl->Set_Current_Page(PassIndex, CurPage);
+            break;
+        }
+#if defined W3D_GMAXDEV
+        case PSN_RESET: {
+            SetWindowLong(hDlg, DWL_MSGRESULT, FALSE);
+            ::SendMessage(hDlg, WM_USER + 140, 0, 0);
+            return FALSE;
+        }
+        case PSN_SETACTIVE: {
+            GMaxMaterialDialog->SetCurrentPage(PassIndex + 1);
+            if (GMaxMaterialDialog->HasMultiMtl()) {
+                ShowWindow(GetDlgItem(hDlg, IDC_NEXTSIBLING), SW_SHOW);
+                ShowWindow(GetDlgItem(hDlg, IDC_PREVIOUSSIBLING), SW_SHOW);
+            }
+            else {
+                ShowWindow(GetDlgItem(hDlg, IDC_NEXTSIBLING), SW_HIDE);
+                ShowWindow(GetDlgItem(hDlg, IDC_PREVIOUSSIBLING), SW_HIDE);
+            }
+            return TRUE;
+        }
+#endif
+        }
+        break;
+    }
+#if defined W3D_GMAXDEV
+    case WM_USER + 140: {
+        ShowWindow(HwndEdit, SW_HIDE);
+        return FALSE;
+    }
+    case WM_COMMAND: {
+        switch (LOWORD(wParam)) {
+        case IDC_GETMTL: {
+            GMaxMaterialDialog->DoGetMaterial();
+            break;
+        }
+        case IDC_NEWMTL: {
+            GMaxMaterialDialog->DoNewMaterial();
+            break;
+        }
+        case IDC_NAVIGATOR: {
+            GMaxMaterialDialog->DoMaterialNavigator();
+            break;
+        }
+        case IDC_ASSIGN: {
+            GMaxMaterialDialog->ApplyToSelection(TheMtl);
+            break;
+        }
+        case IDC_DELETEMTL: {
+            GMaxMaterialDialog->DeleteMtl();
+            break;
+        }
+        case IDC_NEXTSIBLING: {
+            GMaxMaterialDialog->NextSibling();
+            break;
+        }
+        case IDC_PREVIOUSSIBLING: {
+            GMaxMaterialDialog->PreviousSibling();
+            break;
+        }
+        }
+        break;
+    }
+#endif
+    }
+    return FALSE;
+}
 
 /***********************************************************************************************
  * GameMtlPassDlg::Invalidate -- invalidate the dialog                                         *
@@ -357,10 +347,9 @@ BOOL GameMtlPassDlg::DialogProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM l
  *=============================================================================================*/
 void GameMtlPassDlg::Invalidate()
 {
-	Valid = FALSE;
-	InvalidateRect(HwndPanel,NULL,0);
+    Valid = FALSE;
+    InvalidateRect(HwndPanel, NULL, 0);
 }
-
 
 /***********************************************************************************************
  * GameMtlPassDlg::ReloadDialog -- update the contents of all of the controls                  *
@@ -376,29 +365,30 @@ void GameMtlPassDlg::Invalidate()
  *=============================================================================================*/
 void GameMtlPassDlg::ReloadDialog()
 {
-	int i;
+    int i;
 
-	DebugPrint("GameMtlPassDlg::ReloadDialog\n");
-	Interval v;
-#if ! defined W3D_GMAXDEV
-	TheMtl->Update(IParams->GetTime(),v);
+    DebugPrint("GameMtlPassDlg::ReloadDialog\n");
+    Interval v;
+#if !defined W3D_GMAXDEV
+    TheMtl->Update(IParams->GetTime(), v);
 #else
-	TheMtl->Update(GetCOREInterface()->GetTime(),v);
-#endif	
-	for (i=0; i<PAGE_COUNT; i++) {
-		if(Page[i]){
-			Page[i]->ReloadDialog();
-		}
-	}
+    TheMtl->Update(GetCOREInterface()->GetTime(), v);
+#endif
+    for (i = 0; i < PAGE_COUNT; i++) {
+        if (Page[i]) {
+            Page[i]->ReloadDialog();
+        }
+    }
 
-	CurPage = TheMtl->Get_Current_Page(PassIndex);
-	TabCtrl_SetCurSel(GetDlgItem(HwndPanel,IDC_GAMEMTL_TAB),CurPage);
-	Page[CurPage]->Show();
-	for (i=0; i < PAGE_COUNT; i++) {
-		if (i != CurPage) Page[i]->Show(false);
-	} 
+    CurPage = TheMtl->Get_Current_Page(PassIndex);
+    TabCtrl_SetCurSel(GetDlgItem(HwndPanel, IDC_GAMEMTL_TAB), CurPage);
+    Page[CurPage]->Show();
+    for (i = 0; i < PAGE_COUNT; i++) {
+        if (i != CurPage) {
+            Page[i]->Show(false);
+        }
+    }
 }
-
 
 /***********************************************************************************************
  * GameMtlPassDlg::ClassID -- returns classID of the object being edited                       *
@@ -412,11 +402,10 @@ void GameMtlPassDlg::ReloadDialog()
  * HISTORY:                                                                                    *
  *   11/23/98   GTH : Created.                                                                 *
  *=============================================================================================*/
-Class_ID	GameMtlPassDlg::ClassID()
+Class_ID GameMtlPassDlg::ClassID()
 {
-	return GameMaterialClassID;  
+    return GameMaterialClassID;
 }
-
 
 /***********************************************************************************************
  * GameMtlPassDlg::SetThing -- set the material being edited                                   *
@@ -432,17 +421,16 @@ Class_ID	GameMtlPassDlg::ClassID()
  *=============================================================================================*/
 void GameMtlPassDlg::SetThing(ReferenceTarget* target)
 {
-	// Note, parent will "reload" when our "thing" changes :-)
-	assert (target->SuperClassID()==MATERIAL_CLASS_ID);
-	assert (target->ClassID()==GameMaterialClassID);
+    // Note, parent will "reload" when our "thing" changes :-)
+    assert(target->SuperClassID() == MATERIAL_CLASS_ID);
+    assert(target->ClassID() == GameMaterialClassID);
 
-	TheMtl = (GameMtl *)target;
-	
-	for (int i=0; i<PAGE_COUNT; i++) {
-		Page[i]->SetThing(target);
-	}
+    TheMtl = (GameMtl*)target;
+
+    for (int i = 0; i < PAGE_COUNT; i++) {
+        Page[i]->SetThing(target);
+    }
 }
-
 
 /***********************************************************************************************
  * GameMtlPassDlg::ActivateDlg -- activate or deactivate the dialog                            *
@@ -460,11 +448,10 @@ void GameMtlPassDlg::SetThing(ReferenceTarget* target)
  *=============================================================================================*/
 void GameMtlPassDlg::ActivateDlg(BOOL onoff)
 {
-	for (int i=0; i<PAGE_COUNT; i++) {
-		Page[i]->ActivateDlg(onoff);
-	}
+    for (int i = 0; i < PAGE_COUNT; i++) {
+        Page[i]->ActivateDlg(onoff);
+    }
 }
-
 
 /***********************************************************************************************
  * GameMtlPassDlg::SetTime -- set the current time                                             *
@@ -480,8 +467,7 @@ void GameMtlPassDlg::ActivateDlg(BOOL onoff)
  *=============================================================================================*/
 void GameMtlPassDlg::SetTime(TimeValue t)
 {
-	// parent dialog class keeps track of the validty and we 
-	// don't have to do anything in this function (it will never
-	// be called in fact)
+    // parent dialog class keeps track of the validty and we
+    // don't have to do anything in this function (it will never
+    // be called in fact)
 }
-

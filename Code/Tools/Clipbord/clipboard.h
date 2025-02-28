@@ -22,7 +22,7 @@
 #include "Max.h"
 #include "resource.h"
 
-extern ClassDesc* ClipboardDesc ();
+extern ClassDesc* ClipboardDesc();
 
 extern HINSTANCE hInstance;
 

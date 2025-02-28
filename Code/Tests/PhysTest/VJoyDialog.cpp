@@ -19,9 +19,9 @@
 // VJoyDialog.cpp : implementation file
 //
 
-#include "stdafx.h"
-#include "phystest.h"
 #include "VJoyDialog.h"
+#include "phystest.h"
+#include "stdafx.h"
 #include "vector2.h"
 #include "vector3.h"
 
@@ -31,23 +31,20 @@
 static char THIS_FILE[] = __FILE__;
 #endif
 
-
-#define JOYSTICK_UPDATE_COMMAND	WM_USER+101
-#define SLIDER_RESOLUTION			255
-
+#define JOYSTICK_UPDATE_COMMAND WM_USER + 101
+#define SLIDER_RESOLUTION 255
 
 /////////////////////////////////////////////////////////////////////////////
 // CVJoyDialog dialog
 
-
 CVJoyDialog::CVJoyDialog(CWnd* pParent /*=NULL*/)
-	: CDialog(CVJoyDialog::IDD, pParent)
+    : CDialog(CVJoyDialog::IDD, pParent)
 {
-	//{{AFX_DATA_INIT(CVJoyDialog)
-		// NOTE: the ClassWizard will add member initialization here
-	//}}AFX_DATA_INIT
+    //{{AFX_DATA_INIT(CVJoyDialog)
+    // NOTE: the ClassWizard will add member initialization here
+    //}}AFX_DATA_INIT
 
-	Controller.Reset();
+    Controller.Reset();
 }
 
 CVJoyDialog::~CVJoyDialog(void)
@@ -56,179 +53,191 @@ CVJoyDialog::~CVJoyDialog(void)
 
 void CVJoyDialog::DoDataExchange(CDataExchange* pDX)
 {
-	CDialog::DoDataExchange(pDX);
-	//{{AFX_DATA_MAP(CVJoyDialog)
-	DDX_Control(pDX, IDC_TURNZ_SLIDER, m_TurnZSlider);
-	DDX_Control(pDX, IDC_MOVEZ_SLIDER, m_MoveZSlider);
-	//}}AFX_DATA_MAP
+    CDialog::DoDataExchange(pDX);
+    //{{AFX_DATA_MAP(CVJoyDialog)
+    DDX_Control(pDX, IDC_TURNZ_SLIDER, m_TurnZSlider);
+    DDX_Control(pDX, IDC_MOVEZ_SLIDER, m_MoveZSlider);
+    //}}AFX_DATA_MAP
 }
 
-
 BEGIN_MESSAGE_MAP(CVJoyDialog, CDialog)
-	//{{AFX_MSG_MAP(CVJoyDialog)
-	ON_WM_VSCROLL()
-	ON_WM_DESTROY()
-	//}}AFX_MSG_MAP
+//{{AFX_MSG_MAP(CVJoyDialog)
+ON_WM_VSCROLL()
+ON_WM_DESTROY()
+//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
-
-
 
 /*
 ** Joystick Window Proc
 */
 
-LRESULT CALLBACK JoystickWndProc(HWND hwnd,unsigned int message,WPARAM wparam,LPARAM lparam)
+LRESULT CALLBACK JoystickWndProc(HWND hwnd, unsigned int message, WPARAM wparam, LPARAM lparam)
 {
-	Vector2 point;
-	const int RADIUS = 4;
-	
-	switch (message)
-	{
-	
-	case WM_LBUTTONDOWN:
-		::SetCapture(hwnd);
-		break;
+    Vector2 point;
+    const int RADIUS = 4;
 
-	case WM_LBUTTONUP:
-		::ReleaseCapture();
-		break;
+    switch (message) {
 
-	case WM_MOUSEMOVE:
+    case WM_LBUTTONDOWN:
+        ::SetCapture(hwnd);
+        break;
 
-		if (wparam & MK_LBUTTON) {
-			
-			float ex,ey,cx,cy;
-			short x = LOWORD(lparam);
-			short y = HIWORD(lparam);
+    case WM_LBUTTONUP:
+        ::ReleaseCapture();
+        break;
 
-			RECT rect;
-			GetClientRect(hwnd,&rect);
-			if (x > rect.right) x = rect.right;
-			if (x < rect.left) x = rect.left;
-			if (y > rect.bottom) y = rect.bottom;
-			if (y < rect.top) y = rect.top;
+    case WM_MOUSEMOVE:
 
-			ex = (float)(rect.right - rect.left) / 2.0f;
-			cx = (float)(rect.right + rect.left) / 2.0f;
-			ey = (float)(rect.bottom - rect.top) / 2.0f;
-			cy = (float)(rect.bottom + rect.top) / 2.0f;
+        if (wparam & MK_LBUTTON) {
 
-			point.X = ((float)x - cx) / ex;
-			point.Y = ((float)y - cy) / ey;
-			
-			::SendMessage(GetParent(hwnd),JOYSTICK_UPDATE_COMMAND,GetWindowLong(hwnd,GWL_ID),(long)&point);
-			::InvalidateRect(hwnd,NULL,FALSE);
-			::UpdateWindow(hwnd);
+            float ex, ey, cx, cy;
+            short x = LOWORD(lparam);
+            short y = HIWORD(lparam);
 
-			SetProp(hwnd,"XCOORD",(HANDLE)x);
-			SetProp(hwnd,"YCOORD",(HANDLE)y);
-		}	
-		break;
+            RECT rect;
+            GetClientRect(hwnd, &rect);
+            if (x > rect.right) {
+                x = rect.right;
+            }
+            if (x < rect.left) {
+                x = rect.left;
+            }
+            if (y > rect.bottom) {
+                y = rect.bottom;
+            }
+            if (y < rect.top) {
+                y = rect.top;
+            }
 
-	case WM_PAINT:
-		{
-			RECT rect;
-			GetClientRect(hwnd,&rect);
-			HDC hdc = GetDC(hwnd);
-			FillRect(hdc,&rect,(HBRUSH)GetStockObject(WHITE_BRUSH));
-			FrameRect(hdc,&rect,(HBRUSH)GetStockObject(BLACK_BRUSH));
-			
-			MoveToEx(hdc,rect.right/2,0,NULL);
-			LineTo(hdc,rect.right/2,rect.bottom);
-			MoveToEx(hdc,0,rect.bottom/2,NULL);
-			LineTo(hdc,rect.right,rect.bottom/2);
+            ex = (float)(rect.right - rect.left) / 2.0f;
+            cx = (float)(rect.right + rect.left) / 2.0f;
+            ey = (float)(rect.bottom - rect.top) / 2.0f;
+            cy = (float)(rect.bottom + rect.top) / 2.0f;
 
-			int x = (int)GetProp(hwnd,"XCOORD");
-			int y = (int)GetProp(hwnd,"YCOORD");
-			if (x < RADIUS) x = RADIUS;
-			if (x > rect.right-RADIUS) x = rect.right-RADIUS;
-			if (y < RADIUS) y = RADIUS;
-			if (y > rect.bottom-RADIUS) y = rect.bottom-RADIUS;
+            point.X = ((float)x - cx) / ex;
+            point.Y = ((float)y - cy) / ey;
 
-			MoveToEx(hdc,rect.bottom/2,rect.right/2,NULL);
-			LineTo(hdc,x,y);
-			Ellipse(hdc,x-RADIUS,y-RADIUS,x+RADIUS,y+RADIUS);
+            ::SendMessage(GetParent(hwnd), JOYSTICK_UPDATE_COMMAND, GetWindowLong(hwnd, GWL_ID),
+                          (long)&point);
+            ::InvalidateRect(hwnd, NULL, FALSE);
+            ::UpdateWindow(hwnd);
 
-			ReleaseDC(hwnd,hdc);
-		}
-		break;
-	}
-	
-	WNDPROC oldwndproc = (WNDPROC)GetProp(hwnd,"OldWndProc");
-	//return CallWindowProc(oldwndproc,hwnd,message,wparam,lparam);
-	return DefWindowProc (hwnd, message, wparam, lparam);
+            SetProp(hwnd, "XCOORD", (HANDLE)x);
+            SetProp(hwnd, "YCOORD", (HANDLE)y);
+        }
+        break;
+
+    case WM_PAINT: {
+        RECT rect;
+        GetClientRect(hwnd, &rect);
+        HDC hdc = GetDC(hwnd);
+        FillRect(hdc, &rect, (HBRUSH)GetStockObject(WHITE_BRUSH));
+        FrameRect(hdc, &rect, (HBRUSH)GetStockObject(BLACK_BRUSH));
+
+        MoveToEx(hdc, rect.right / 2, 0, NULL);
+        LineTo(hdc, rect.right / 2, rect.bottom);
+        MoveToEx(hdc, 0, rect.bottom / 2, NULL);
+        LineTo(hdc, rect.right, rect.bottom / 2);
+
+        int x = (int)GetProp(hwnd, "XCOORD");
+        int y = (int)GetProp(hwnd, "YCOORD");
+        if (x < RADIUS) {
+            x = RADIUS;
+        }
+        if (x > rect.right - RADIUS) {
+            x = rect.right - RADIUS;
+        }
+        if (y < RADIUS) {
+            y = RADIUS;
+        }
+        if (y > rect.bottom - RADIUS) {
+            y = rect.bottom - RADIUS;
+        }
+
+        MoveToEx(hdc, rect.bottom / 2, rect.right / 2, NULL);
+        LineTo(hdc, x, y);
+        Ellipse(hdc, x - RADIUS, y - RADIUS, x + RADIUS, y + RADIUS);
+
+        ReleaseDC(hwnd, hdc);
+    } break;
+    }
+
+    WNDPROC oldwndproc = (WNDPROC)GetProp(hwnd, "OldWndProc");
+    // return CallWindowProc(oldwndproc,hwnd,message,wparam,lparam);
+    return DefWindowProc(hwnd, message, wparam, lparam);
 }
 
 /////////////////////////////////////////////////////////////////////////////
 // CVJoyDialog message handlers
 
-BOOL CVJoyDialog::OnInitDialog() 
+BOOL CVJoyDialog::OnInitDialog()
 {
-	CDialog::OnInitDialog();
-	RECT rect;
-	
-	HWND movexy_wnd = ::GetDlgItem(m_hWnd,IDC_MOVEXY_STATIC);	
-	long oldproc = SetWindowLong(movexy_wnd,GWL_WNDPROC,(long)JoystickWndProc);
-	SetProp(movexy_wnd,"OldWndProc",(void*)oldproc);
-	
-	::GetClientRect(movexy_wnd,&rect);
-	SetProp(movexy_wnd,"XCOORD",(HANDLE)(rect.right/2));
-	SetProp(movexy_wnd,"YCOORD",(HANDLE)(rect.bottom/2));
+    CDialog::OnInitDialog();
+    RECT rect;
 
-	HWND turnxy_wnd = ::GetDlgItem(m_hWnd,IDC_TURNXY_STATIC);
-	oldproc = SetWindowLong(turnxy_wnd,GWL_WNDPROC,(long)JoystickWndProc);
-	SetProp(turnxy_wnd,"OldWndProc",(void*)oldproc);
+    HWND movexy_wnd = ::GetDlgItem(m_hWnd, IDC_MOVEXY_STATIC);
+    long oldproc = SetWindowLong(movexy_wnd, GWL_WNDPROC, (long)JoystickWndProc);
+    SetProp(movexy_wnd, "OldWndProc", (void*)oldproc);
 
-	::GetClientRect(movexy_wnd,&rect);
-	SetProp(turnxy_wnd,"XCOORD",(HANDLE)(rect.right/2));
-	SetProp(turnxy_wnd,"YCOORD",(HANDLE)(rect.bottom/2));
+    ::GetClientRect(movexy_wnd, &rect);
+    SetProp(movexy_wnd, "XCOORD", (HANDLE)(rect.right / 2));
+    SetProp(movexy_wnd, "YCOORD", (HANDLE)(rect.bottom / 2));
 
-	m_MoveZSlider.SetRange(0,SLIDER_RESOLUTION);
-	m_TurnZSlider.SetRange(0,SLIDER_RESOLUTION);
+    HWND turnxy_wnd = ::GetDlgItem(m_hWnd, IDC_TURNXY_STATIC);
+    oldproc = SetWindowLong(turnxy_wnd, GWL_WNDPROC, (long)JoystickWndProc);
+    SetProp(turnxy_wnd, "OldWndProc", (void*)oldproc);
 
-	return TRUE;
+    ::GetClientRect(movexy_wnd, &rect);
+    SetProp(turnxy_wnd, "XCOORD", (HANDLE)(rect.right / 2));
+    SetProp(turnxy_wnd, "YCOORD", (HANDLE)(rect.bottom / 2));
+
+    m_MoveZSlider.SetRange(0, SLIDER_RESOLUTION);
+    m_TurnZSlider.SetRange(0, SLIDER_RESOLUTION);
+
+    return TRUE;
 }
 
-
-LRESULT CVJoyDialog::WindowProc(UINT message, WPARAM wParam, LPARAM lParam) 
+LRESULT CVJoyDialog::WindowProc(UINT message, WPARAM wParam, LPARAM lParam)
 {
-	if (message == JOYSTICK_UPDATE_COMMAND) {
-		Vector2 * point = (Vector2*)lParam;
-		if (wParam == IDC_MOVEXY_STATIC) {
-			Controller.Set_Move_Forward(-point->Y);
-			Controller.Set_Turn_Left(-point->X);
-		} else if (wParam == IDC_TURNXY_STATIC) {
-			// Nothing to do here anymore...
-		}
-	}
-	
-	return CDialog::WindowProc(message, wParam, lParam);
+    if (message == JOYSTICK_UPDATE_COMMAND) {
+        Vector2* point = (Vector2*)lParam;
+        if (wParam == IDC_MOVEXY_STATIC) {
+            Controller.Set_Move_Forward(-point->Y);
+            Controller.Set_Turn_Left(-point->X);
+        }
+        else if (wParam == IDC_TURNXY_STATIC) {
+            // Nothing to do here anymore...
+        }
+    }
+
+    return CDialog::WindowProc(message, wParam, lParam);
 }
 
-void CVJoyDialog::OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar) 
+void CVJoyDialog::OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
 {
-	if (pScrollBar == GetDlgItem(IDC_MOVEZ_SLIDER)) {
-		Controller.Set_Move_Up(1.0f - 2.0f * (float)m_MoveZSlider.GetPos() / (float)SLIDER_RESOLUTION);
-	} 
+    if (pScrollBar == GetDlgItem(IDC_MOVEZ_SLIDER)) {
+        Controller.Set_Move_Up(1.0f
+                               - 2.0f * (float)m_MoveZSlider.GetPos() / (float)SLIDER_RESOLUTION);
+    }
 #if 0
 	else if (pScrollBar == GetDlgItem(IDC_TURNZ_SLIDER)) {
 		Controller.Set_Turn_Left(1.0f - 2.0f * (float)m_TurnZSlider.GetPos() / (float)SLIDER_RESOLUTION);
 	}
 #endif
-	
-	CDialog::OnVScroll(nSBCode, nPos, pScrollBar);
+
+    CDialog::OnVScroll(nSBCode, nPos, pScrollBar);
 }
 
-void CVJoyDialog::OnDestroy() 
+void CVJoyDialog::OnDestroy()
 {
-	HWND movexy_wnd = ::GetDlgItem(m_hWnd,IDC_MOVEXY_STATIC);	
-	RemoveProp(movexy_wnd,"OldWndProc");
-	RemoveProp(movexy_wnd,"XCOORD");
-	RemoveProp(movexy_wnd,"YCOORD");
-	HWND turnxy_wnd = ::GetDlgItem(m_hWnd,IDC_TURNXY_STATIC);
-	RemoveProp(turnxy_wnd,"OldWndProc");
-	RemoveProp(turnxy_wnd,"XCOORD");
-	RemoveProp(turnxy_wnd,"YCOORD");
+    HWND movexy_wnd = ::GetDlgItem(m_hWnd, IDC_MOVEXY_STATIC);
+    RemoveProp(movexy_wnd, "OldWndProc");
+    RemoveProp(movexy_wnd, "XCOORD");
+    RemoveProp(movexy_wnd, "YCOORD");
+    HWND turnxy_wnd = ::GetDlgItem(m_hWnd, IDC_TURNXY_STATIC);
+    RemoveProp(turnxy_wnd, "OldWndProc");
+    RemoveProp(turnxy_wnd, "XCOORD");
+    RemoveProp(turnxy_wnd, "YCOORD");
 
-	CDialog::OnDestroy();
+    CDialog::OnDestroy();
 }

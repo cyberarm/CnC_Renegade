@@ -34,13 +34,9 @@
  * Functions:                                                                                  *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
-
 #ifndef AABOXTEST_H
 #define AABOXTEST_H
 
 void Test_AABoxes(void);
 
 #endif
-
-
-

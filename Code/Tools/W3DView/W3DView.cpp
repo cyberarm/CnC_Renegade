@@ -19,26 +19,24 @@
 // W3DView.cpp : Defines the class behaviors for the application.
 //
 
-#include "stdafx.h"
-#include "w3dview.h"
-
+#include "animatedsoundmgr.h"
+#include "animatedsoundoptionsdialog.h"
+#include "colorutils.h"
+#include "globals.h"
 #include "mainfrm.h"
+#include "stdafx.h"
+#include "utils.h"
+#include "verchk.h"
+#include "viewerassetmgr.h"
+#include "w3dview.h"
 #include "w3dviewdoc.h"
 #include "w3dviewview.h"
-#include "utils.h"
-#include "colorutils.h"
-#include "verchk.h"
-#include "wwmath.h"
 #include "wwaudio.h"
-#include "viewerassetmgr.h"
-#include "globals.h"
-#include "animatedsoundoptionsdialog.h"
-#include "animatedsoundmgr.h"
-
+#include "wwmath.h"
 
 #undef STRICT
-#include "ww3d.h"
 #include "AssetMgr.H"
+#include "ww3d.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -46,38 +44,36 @@
 static char THIS_FILE[] = __FILE__;
 #endif
 
-
 /////////////////////////////////////////////////////////////////////////////
 //
 //	Local prototypes
 //
-BOOL CALLBACK fnTopLevelWindowSearch (HWND hwnd, LPARAM lParam);
-
+BOOL CALLBACK fnTopLevelWindowSearch(HWND hwnd, LPARAM lParam);
 
 /////////////////////////////////////////////////////////////////////////////
 //
 // CW3DViewApp
 //
 BEGIN_MESSAGE_MAP(CW3DViewApp, CWinApp)
-	//{{AFX_MSG_MAP(CW3DViewApp)
-	ON_COMMAND(ID_APP_ABOUT, OnAppAbout)
-		// NOTE - the ClassWizard will add and remove mapping macros here.
-		//    DO NOT EDIT what you see in these blocks of generated code!
-	//}}AFX_MSG_MAP
-	// Standard file based document commands
-	ON_COMMAND(ID_FILE_NEW, CWinApp::OnFileNew)
-	ON_COMMAND(ID_FILE_OPEN, CWinApp::OnFileOpen)
+//{{AFX_MSG_MAP(CW3DViewApp)
+ON_COMMAND(ID_APP_ABOUT, OnAppAbout)
+// NOTE - the ClassWizard will add and remove mapping macros here.
+//    DO NOT EDIT what you see in these blocks of generated code!
+//}}AFX_MSG_MAP
+// Standard file based document commands
+ON_COMMAND(ID_FILE_NEW, CWinApp::OnFileNew)
+ON_COMMAND(ID_FILE_OPEN, CWinApp::OnFileOpen)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
 //
 // CW3DViewApp construction
 //
-CW3DViewApp::CW3DViewApp (void)
-	: m_bInitialized (false)
+CW3DViewApp::CW3DViewApp(void)
+    : m_bInitialized(false)
 {
-	// TODO: add construction code here,
-	// Place all significant initialization in InitInstance
+    // TODO: add construction code here,
+    // Place all significant initialization in InitInstance
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -85,169 +81,161 @@ CW3DViewApp::CW3DViewApp (void)
 
 CW3DViewApp theApp;
 
-extern int AFXAPI AfxWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdLine, int nCmdShow);
+extern int AFXAPI AfxWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdLine,
+                             int nCmdShow);
 
-
-int WINAPI
-WinMain
-(
-	HINSTANCE hInstance,
-	HINSTANCE hPrevInstance,
-	LPTSTR lpCmdLine,
-	int nCmdShow
-)
+int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdLine, int nCmdShow)
 {
-	int retcode = 0;
+    int retcode = 0;
 
 #ifndef _DEBUG
-	try
-	{
+    try {
 #endif //_DEBUG
 
-		//::AfxWinInit (hInstance, hPrevInstance, lpCmdLine, nCmdShow);
-		//::AfxInitialize (FALSE, _MFC_VER);
+        //::AfxWinInit (hInstance, hPrevInstance, lpCmdLine, nCmdShow);
+        //::AfxInitialize (FALSE, _MFC_VER);
 
-		AFX_MODULE_STATE* pModuleState = AfxGetModuleState();
-		pModuleState->m_bDLL = (BYTE)FALSE;
-	#ifdef _MBCS
-		// set correct multi-byte code-page for Win32 apps
-		_setmbcp(_MB_CP_ANSI);
-	#endif //_MBCS
+        AFX_MODULE_STATE* pModuleState = AfxGetModuleState();
+        pModuleState->m_bDLL = (BYTE)FALSE;
+#ifdef _MBCS
+        // set correct multi-byte code-page for Win32 apps
+        _setmbcp(_MB_CP_ANSI);
+#endif //_MBCS
 
-		retcode = ::AfxWinMain (hInstance, hPrevInstance, lpCmdLine, nCmdShow);
+        retcode = ::AfxWinMain(hInstance, hPrevInstance, lpCmdLine, nCmdShow);
 
 #ifndef _DEBUG
-	}
-	catch (...)
-	{
+    } catch (...) {
 
-		::MessageBox (NULL, "Internal Application Error", "Unrecoverable Error", MB_ICONERROR | MB_OK);
-	}
+        ::MessageBox(NULL, "Internal Application Error", "Unrecoverable Error",
+                     MB_ICONERROR | MB_OK);
+    }
 #endif //_DEBUG
 
-	return retcode;
+    return retcode;
 }
-
 
 ///////////////////////////////////////////////////////////////
 //
 //  Do_Version_Check
 //
 ////////////////////////////////////////////////////////////
-void
-Do_Version_Check (void)
-{	
-	char curr_filename[MAX_PATH];
-	::GetModuleFileName (NULL, curr_filename, MAX_PATH);
+void Do_Version_Check(void)
+{
+    char curr_filename[MAX_PATH];
+    ::GetModuleFileName(NULL, curr_filename, MAX_PATH);
 
-	CString filename = "\\\\cabal\\mis\\r&d\\w3d\\w3dview\\";
-	filename += ::Get_Filename_From_Path (curr_filename);
+    CString filename = "\\\\cabal\\mis\\r&d\\w3d\\w3dview\\";
+    filename += ::Get_Filename_From_Path(curr_filename);
 
-	//
-	//	Check the version of the viewer that is out on the network
-	// against the version we are running.
-	//
-	if (Compare_EXE_Version ((int)::AfxGetInstanceHandle (), filename) < 0) {
-		::MessageBox (NULL, "There is a newer version of the W3DViewer, please run W3DUpdate to upgrade your local copy.", "Version Info", MB_ICONEXCLAMATION | MB_OK | MB_SETFOREGROUND | MB_SYSTEMMODAL);
-	}
+    //
+    //	Check the version of the viewer that is out on the network
+    // against the version we are running.
+    //
+    if (Compare_EXE_Version((int)::AfxGetInstanceHandle(), filename) < 0) {
+        ::MessageBox(NULL,
+                     "There is a newer version of the W3DViewer, please run W3DUpdate to upgrade "
+                     "your local copy.",
+                     "Version Info",
+                     MB_ICONEXCLAMATION | MB_OK | MB_SETFOREGROUND | MB_SYSTEMMODAL);
+    }
 
-	return ;
+    return;
 }
-
 
 /////////////////////////////////////////////////////////////////////////////
 //
 // InitInstance
 //
-BOOL CW3DViewApp::InitInstance (void)
+BOOL CW3DViewApp::InitInstance(void)
 {
-	// Standard initialization
-	// If you are not using these features and wish to reduce the size
-	//  of your final executable, you should remove from the following
-	//  the specific initialization routines you do not need.
+    // Standard initialization
+    // If you are not using these features and wish to reduce the size
+    //  of your final executable, you should remove from the following
+    //  the specific initialization routines you do not need.
 
 #ifdef _AFXDLL
-	Enable3dControls();			// Call this when using MFC in a shared DLL
+    Enable3dControls(); // Call this when using MFC in a shared DLL
 #else
-	Enable3dControlsStatic();	// Call this when linking to MFC statically
+    Enable3dControlsStatic(); // Call this when linking to MFC statically
 #endif
 
-	Do_Version_Check ();
+    Do_Version_Check();
 
-	RegisterColorPicker (::AfxGetInstanceHandle ());
-	RegisterColorBar (::AfxGetInstanceHandle ());
+    RegisterColorPicker(::AfxGetInstanceHandle());
+    RegisterColorBar(::AfxGetInstanceHandle());
 
-	// Is there already an instance of the viewer running?
-	HWND hprev_instance = NULL;
-	::EnumWindows (fnTopLevelWindowSearch, (LPARAM)&hprev_instance);
-	if (hprev_instance == NULL) {
+    // Is there already an instance of the viewer running?
+    HWND hprev_instance = NULL;
+    ::EnumWindows(fnTopLevelWindowSearch, (LPARAM)&hprev_instance);
+    if (hprev_instance == NULL) {
 
-		// Change the registry key under which our settings are stored.
-		// You should modify this string to be something appropriate
-		// such as the name of your company or organization.
-		SetRegistryKey(_T("Westwood Studios"));
-		
-		//
-		// Load standard INI file options (including MRU)
-		//
-		LoadStdProfileSettings (9);
+        // Change the registry key under which our settings are stored.
+        // You should modify this string to be something appropriate
+        // such as the name of your company or organization.
+        SetRegistryKey(_T("Westwood Studios"));
 
-		//
-		//	Initialize the libraries
-		//
-		WWMath::Init ();
-		AnimatedSoundOptionsDialogClass::Load_Animated_Sound_Settings ();
+        //
+        // Load standard INI file options (including MRU)
+        //
+        LoadStdProfileSettings(9);
 
-		//
-		//	Disable the 3DFX logo
-		//
-		_putenv ("FX_GLIDE_NO_SPLASH=1");
+        //
+        //	Initialize the libraries
+        //
+        WWMath::Init();
+        AnimatedSoundOptionsDialogClass::Load_Animated_Sound_Settings();
 
-		// Register the application's document templates.  Document templates
-		//  serve as the connection between documents, frame windows and views.
+        //
+        //	Disable the 3DFX logo
+        //
+        _putenv("FX_GLIDE_NO_SPLASH=1");
 
-		CSingleDocTemplate* pDocTemplate;
-		pDocTemplate = new CSingleDocTemplate(
-			IDR_MAINFRAME,
-			RUNTIME_CLASS(CW3DViewDoc),
-			RUNTIME_CLASS(CMainFrame),       // main SDI frame window
-			RUNTIME_CLASS(CW3DViewView));
-		AddDocTemplate(pDocTemplate);
+        // Register the application's document templates.  Document templates
+        //  serve as the connection between documents, frame windows and views.
 
-		// Enable DDE Execute open
-		EnableShellOpen();
-		RegisterShellFileTypes(TRUE);
+        CSingleDocTemplate* pDocTemplate;
+        pDocTemplate = new CSingleDocTemplate(IDR_MAINFRAME, RUNTIME_CLASS(CW3DViewDoc),
+                                              RUNTIME_CLASS(CMainFrame), // main SDI frame window
+                                              RUNTIME_CLASS(CW3DViewView));
+        AddDocTemplate(pDocTemplate);
 
-		 // Parse command line for standard shell commands, DDE, file open
-		CCommandLineInfo cmdInfo;
-		ParseCommandLine(cmdInfo);
+        // Enable DDE Execute open
+        EnableShellOpen();
+        RegisterShellFileTypes(TRUE);
 
-		//
-		//	Allocate an asset manager
-		//
-		_TheAssetMgr = new ViewerAssetMgrClass;
+        // Parse command line for standard shell commands, DDE, file open
+        CCommandLineInfo cmdInfo;
+        ParseCommandLine(cmdInfo);
 
-		// Dispatch commands specified on the command line
-		if (!ProcessShellCommand(cmdInfo))
-			return FALSE;
+        //
+        //	Allocate an asset manager
+        //
+        _TheAssetMgr = new ViewerAssetMgrClass;
 
-		// The one and only window has been initialized, so show and update it.
-		m_pMainWnd->ShowWindow(SW_SHOW);
-		m_pMainWnd->UpdateWindow();
-		::SetProp (*m_pMainWnd, "WW3DVIEWER", (HANDLE)1);
+        // Dispatch commands specified on the command line
+        if (!ProcessShellCommand(cmdInfo)) {
+            return FALSE;
+        }
 
-		// Enable drag/drop open
-		m_pMainWnd->DragAcceptFiles();
-		m_bInitialized = true;
-	} else {
+        // The one and only window has been initialized, so show and update it.
+        m_pMainWnd->ShowWindow(SW_SHOW);
+        m_pMainWnd->UpdateWindow();
+        ::SetProp(*m_pMainWnd, "WW3DVIEWER", (HANDLE)1);
 
-		// Make the previous instance in the foreground
-		::ShowWindow (hprev_instance, SW_NORMAL);
-		::BringWindowToTop (hprev_instance);
-		::SetForegroundWindow (hprev_instance);
-	}
+        // Enable drag/drop open
+        m_pMainWnd->DragAcceptFiles();
+        m_bInitialized = true;
+    }
+    else {
 
-	return (hprev_instance == NULL);
+        // Make the previous instance in the foreground
+        ::ShowWindow(hprev_instance, SW_NORMAL);
+        ::BringWindowToTop(hprev_instance);
+        ::SetForegroundWindow(hprev_instance);
+    }
+
+    return (hprev_instance == NULL);
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -256,50 +244,54 @@ BOOL CW3DViewApp::InitInstance (void)
 class CAboutDlg : public CDialog
 {
 public:
-	CAboutDlg();
+    CAboutDlg();
 
-// Dialog Data
-	//{{AFX_DATA(CAboutDlg)
-	enum { IDD = IDD_ABOUTBOX };
-	//}}AFX_DATA
+    // Dialog Data
+    //{{AFX_DATA(CAboutDlg)
+    enum
+    {
+        IDD = IDD_ABOUTBOX
+    };
+    //}}AFX_DATA
 
-	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CAboutDlg)
-	protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
-	//}}AFX_VIRTUAL
-
-// Implementation
+    // ClassWizard generated virtual function overrides
+    //{{AFX_VIRTUAL(CAboutDlg)
 protected:
-	//{{AFX_MSG(CAboutDlg)
-	virtual BOOL OnInitDialog();
-	//}}AFX_MSG
-	DECLARE_MESSAGE_MAP()
+    virtual void DoDataExchange(CDataExchange* pDX); // DDX/DDV support
+    //}}AFX_VIRTUAL
+
+    // Implementation
+protected:
+    //{{AFX_MSG(CAboutDlg)
+    virtual BOOL OnInitDialog();
+    //}}AFX_MSG
+    DECLARE_MESSAGE_MAP()
 };
 
-CAboutDlg::CAboutDlg() : CDialog(CAboutDlg::IDD)
+CAboutDlg::CAboutDlg()
+    : CDialog(CAboutDlg::IDD)
 {
-	//{{AFX_DATA_INIT(CAboutDlg)
-	//}}AFX_DATA_INIT
+    //{{AFX_DATA_INIT(CAboutDlg)
+    //}}AFX_DATA_INIT
 }
 
 void CAboutDlg::DoDataExchange(CDataExchange* pDX)
 {
-	CDialog::DoDataExchange(pDX);
-	//{{AFX_DATA_MAP(CAboutDlg)
-	//}}AFX_DATA_MAP
+    CDialog::DoDataExchange(pDX);
+    //{{AFX_DATA_MAP(CAboutDlg)
+    //}}AFX_DATA_MAP
 }
 
 BEGIN_MESSAGE_MAP(CAboutDlg, CDialog)
-	//{{AFX_MSG_MAP(CAboutDlg)
-	//}}AFX_MSG_MAP
+//{{AFX_MSG_MAP(CAboutDlg)
+//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
 // App command to run the dialog
 void CW3DViewApp::OnAppAbout()
 {
-	CAboutDlg aboutDlg;
-	aboutDlg.DoModal();
+    CAboutDlg aboutDlg;
+    aboutDlg.DoModal();
 }
 
 /*
@@ -308,166 +300,154 @@ void CW3DViewApp::OnAppAbout()
 void Debug_Refs(void)
 {
 #ifndef NDEBUG
-	TRACE("Detecting Active Refs...\r\n");
-   //ODS("At time %s", cMiscUtil::Get_Text_Time());
-	RefCountNodeClass * first = RefCountClass::ActiveRefList.First();
-	RefCountNodeClass * node = first;
-	while (node->Is_Valid())
-	{
-		RefCountClass * obj = node->Get();
-		ActiveRefStruct * ref = &(obj->ActiveRefInfo);
+    TRACE("Detecting Active Refs...\r\n");
+    // ODS("At time %s", cMiscUtil::Get_Text_Time());
+    RefCountNodeClass* first = RefCountClass::ActiveRefList.First();
+    RefCountNodeClass* node = first;
+    while (node->Is_Valid()) {
+        RefCountClass* obj = node->Get();
+        ActiveRefStruct* ref = &(obj->ActiveRefInfo);
 
-		bool display = true;
-		int	count = 0;
-		RefCountNodeClass * search = first;
-		while (search->Is_Valid()) {
+        bool display = true;
+        int count = 0;
+        RefCountNodeClass* search = first;
+        while (search->Is_Valid()) {
 
-			if (search == node) {	// if this is not the first one
-				if (count != 0) {
-					display = false;
-					break;
-				}
-			}
+            if (search == node) { // if this is not the first one
+                if (count != 0) {
+                    display = false;
+                    break;
+                }
+            }
 
-			RefCountClass * search_obj = search->Get();
-			ActiveRefStruct * search_ref = &(search_obj->ActiveRefInfo);
+            RefCountClass* search_obj = search->Get();
+            ActiveRefStruct* search_ref = &(search_obj->ActiveRefInfo);
 
-			if ( ref->File && search_ref->File &&
-				  !strcmp(search_ref->File, ref->File) &&
-				  (search_ref->Line == ref->Line) ) {
-				count++;
-			} else if ( (ref->File == NULL) &&  (search_ref->File == NULL) ) {
-				count++;
-			}
+            if (ref->File && search_ref->File && !strcmp(search_ref->File, ref->File)
+                && (search_ref->Line == ref->Line)) {
+                count++;
+            }
+            else if ((ref->File == NULL) && (search_ref->File == NULL)) {
+                count++;
+            }
 
-			search = search->Next();
-		}
+            search = search->Next();
+        }
 
-		if ( display ) {
-			TRACE ( "%d Active Ref: %s %d %p\n", count, ref->File,ref->Line,obj);
+        if (display) {
+            TRACE("%d Active Ref: %s %d %p\n", count, ref->File, ref->Line, obj);
 
-			static int num_printed = 0;
-			if (++num_printed > 20) {
-				TRACE( "And Many More......\n");
-				break;
-			}
-		}
+            static int num_printed = 0;
+            if (++num_printed > 20) {
+                TRACE("And Many More......\n");
+                break;
+            }
+        }
 
-		node = node->Next();
-	}
-	TRACE("Done.\r\n");
-   //ODS("At time %s", cMiscUtil::Get_Text_Time());
+        node = node->Next();
+    }
+    TRACE("Done.\r\n");
+    // ODS("At time %s", cMiscUtil::Get_Text_Time());
 #endif
 }
-
 
 /////////////////////////////////////////////////////////////////////////////
 //
 // CW3DViewApp
 //
-int
-CW3DViewApp::ExitInstance() 
+int CW3DViewApp::ExitInstance()
 {
-	//
-	// Free any resources the WW3D engine allocated
-	//
-	if (m_bInitialized) {
+    //
+    // Free any resources the WW3D engine allocated
+    //
+    if (m_bInitialized) {
 
-	//
-		//	Shutdown the audio system
-		//
-		WWAudioClass::Get_Instance ()->Shutdown ();
+        //
+        //	Shutdown the audio system
+        //
+        WWAudioClass::Get_Instance()->Shutdown();
 
-		//
-		//	Shutdown W3D
-		//
-		WW3DAssetManager::Get_Instance()->Free_Assets ();
-		WW3D::Shutdown ();
+        //
+        //	Shutdown W3D
+        //
+        WW3DAssetManager::Get_Instance()->Free_Assets();
+        WW3D::Shutdown();
 
-		//
-		//	Shutdown the libraries
-		//
-		WWMath::Shutdown ();
-		AnimatedSoundMgrClass::Shutdown ();
+        //
+        //	Shutdown the libraries
+        //
+        WWMath::Shutdown();
+        AnimatedSoundMgrClass::Shutdown();
 
-		//
-		//	Free the asset manager
-		//
-		delete _TheAssetMgr;
-		_TheAssetMgr = NULL;
-	}
+        //
+        //	Free the asset manager
+        //
+        delete _TheAssetMgr;
+        _TheAssetMgr = NULL;
+    }
 
-	Debug_Refs ();
-	return CWinApp::ExitInstance ();
+    Debug_Refs();
+    return CWinApp::ExitInstance();
 }
-
 
 //////////////////////////////////////////////////////////////////////////////
 //
 //	fnTopLevelWindowSearch
 //
-BOOL CALLBACK
-fnTopLevelWindowSearch
-(
-	HWND hwnd,
-	LPARAM lParam
-)
+BOOL CALLBACK fnTopLevelWindowSearch(HWND hwnd, LPARAM lParam)
 {
-	BOOL bcontinue = TRUE;
+    BOOL bcontinue = TRUE;
 
-	// Is this a viewer window?
-	if (::GetProp (hwnd, "WW3DVIEWER") != 0) {
-		bcontinue = false;
-		(*((HWND *)lParam)) = hwnd;
-	}
+    // Is this a viewer window?
+    if (::GetProp(hwnd, "WW3DVIEWER") != 0) {
+        bcontinue = false;
+        (*((HWND*)lParam)) = hwnd;
+    }
 
-	// Return the TRUE/FALSE result code
-	return bcontinue;
+    // Return the TRUE/FALSE result code
+    return bcontinue;
 }
-
 
 //////////////////////////////////////////////////////////////////////////////
 //
 //	OnInitDialog
 //
-BOOL
-CAboutDlg::OnInitDialog (void)
+BOOL CAboutDlg::OnInitDialog(void)
 {
-	// Allow the base class to process this message
-	CDialog::OnInitDialog ();
+    // Allow the base class to process this message
+    CDialog::OnInitDialog();
 
-	// Version 1.0 by default
-	DWORD version_major = 1;
-	DWORD version_minor = 0;
+    // Version 1.0 by default
+    DWORD version_major = 1;
+    DWORD version_minor = 0;
 
-	// Get the name and path of the currently executing application
-	TCHAR filename[MAX_PATH];
-	::GetModuleFileName (NULL, filename, sizeof (filename));
+    // Get the name and path of the currently executing application
+    TCHAR filename[MAX_PATH];
+    ::GetModuleFileName(NULL, filename, sizeof(filename));
 
-	// Get the version information for this file
-	DWORD dummy_var = 0;
-	DWORD version_size = ::GetFileVersionInfoSize (filename, &dummy_var);
-	if (version_size > 0) {
+    // Get the version information for this file
+    DWORD dummy_var = 0;
+    DWORD version_size = ::GetFileVersionInfoSize(filename, &dummy_var);
+    if (version_size > 0) {
 
-		// Get the file version block
-		LPBYTE pblock = new BYTE[version_size];
-		if (::GetFileVersionInfo (filename, 0L, version_size, pblock)) {
+        // Get the file version block
+        LPBYTE pblock = new BYTE[version_size];
+        if (::GetFileVersionInfo(filename, 0L, version_size, pblock)) {
 
-			// Query the block for the file version information
-			UINT version_len = 0;
-			VS_FIXEDFILEINFO *pversion_info = NULL;
-			if (::VerQueryValue (pblock, "\\", (LPVOID *)&pversion_info, &version_len)) {
-				version_major = pversion_info->dwFileVersionMS;
-				version_minor = pversion_info->dwFileVersionLS;
-			}
-		}
-		SAFE_DELETE (pblock);
-	}
-	
-	// Put the version string into the dialog
-	CString version_string;
-	version_string.Format (IDS_VERSION, (version_major >> 16), (version_major & 0xFFFF));
-	SetDlgItemText (IDC_VERSION, version_string);
-	return TRUE;
+            // Query the block for the file version information
+            UINT version_len = 0;
+            VS_FIXEDFILEINFO* pversion_info = NULL;
+            if (::VerQueryValue(pblock, "\\", (LPVOID*)&pversion_info, &version_len)) {
+                version_major = pversion_info->dwFileVersionMS;
+                version_minor = pversion_info->dwFileVersionLS;
+            }
+        }
+        SAFE_DELETE(pblock);
+    }
+
+    // Put the version string into the dialog
+    CString version_string;
+    version_string.Format(IDS_VERSION, (version_major >> 16), (version_major & 0xFFFF));
+    SetDlgItemText(IDC_VERSION, version_string);
+    return TRUE;
 }
-

@@ -17,52 +17,51 @@
 */
 
 /* $Header: /Commando/Code/Tests/MeshTest/mainloop.cpp 47    12/10/98 5:53p Greg_h $ */
-/*********************************************************************************************** 
- ***                            Confidential - Westwood Studios                              *** 
- *********************************************************************************************** 
- *                                                                                             * 
- *                 Project Name : Commando                                                     * 
- *                                                                                             * 
- *                     $Archive:: /Commando/Code/Tests/MeshTest/mainloop.cpp                  $* 
- *                                                                                             * 
- *                      $Author:: Greg_h                                                      $* 
- *                                                                                             * 
- *                     $Modtime:: 12/07/98 1:30p                                              $* 
- *                                                                                             * 
- *                    $Revision:: 47                                                          $* 
- *                                                                                             * 
- *---------------------------------------------------------------------------------------------* 
- * Functions:                                                                                  * 
+/***********************************************************************************************
+ ***                            Confidential - Westwood Studios                              ***
+ ***********************************************************************************************
+ *                                                                                             *
+ *                 Project Name : Commando                                                     *
+ *                                                                                             *
+ *                     $Archive:: /Commando/Code/Tests/MeshTest/mainloop.cpp                  $*
+ *                                                                                             *
+ *                      $Author:: Greg_h                                                      $*
+ *                                                                                             *
+ *                     $Modtime:: 12/07/98 1:30p                                              $*
+ *                                                                                             *
+ *                    $Revision:: 47                                                          $*
+ *                                                                                             *
+ *---------------------------------------------------------------------------------------------*
+ * Functions:                                                                                  *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
 #define NOMINMAX
 
 #include "mainloop.h"
-#include "mono.h"
-#include "msgloop.h"
-#include "wwfile.h"
-#include "rawfile.h"
 #include "_globals.h"
-#include "_viewpt.h"
-#include <sr.hpp>
-#include <assert.h>
-#include "assetmgr.h"
-#include "sr_util.h"
 #include "_scenes.h"
-#include "rendobj.h"
-#include "r3dobj.h"
-#include "mesh.h"
+#include "_viewpt.h"
+#include "assetmgr.h"
 #include "hmodel.h"
 #include "light.h"
-#include "wwdebug.h"
+#include "mesh.h"
+#include "mono.h"
+#include "msgloop.h"
+#include "r3dobj.h"
+#include "rawfile.h"
+#include "rendobj.h"
+#include "sr_util.h"
 #include "ww3d.h"
-
+#include "wwdebug.h"
+#include "wwfile.h"
+#include <assert.h>
+#include <sr.hpp>
 
 #define SPIN_MODEL
 #define SPIN_LIGHT
-//#define CAPTURE_BONE
-//#define TEST_DAMAGE
-//#define TEST_TEXTURE_ANIMATION
+// #define CAPTURE_BONE
+// #define TEST_DAMAGE
+// #define TEST_TEXTURE_ANIMATION
 
 /*
 ** Globals
@@ -70,109 +69,109 @@
 
 WW3DAssetManager The3DAssetManager;
 
-CameraClass *			Camera;
-LightClass *			Light;
-LightClass *			Light2;
+CameraClass* Camera;
+LightClass* Light;
+LightClass* Light2;
 
-RenderObjClass *		TestModel = NULL;
-HAnimClass *			TestAnim = NULL;
+RenderObjClass* TestModel = NULL;
+HAnimClass* TestAnim = NULL;
 
-float						CameraDist = 10.0f;
-float						CameraDir = 0.0f;
+float CameraDist = 10.0f;
+float CameraDir = 0.0f;
 
-Quaternion				ModelOrientation(1);
+Quaternion ModelOrientation(1);
 #ifdef SPIN_MODEL
-Quaternion				ModelRotation(Vector3(0,0,1),DEG_TO_RAD(1.5f));
+Quaternion ModelRotation(Vector3(0, 0, 1), DEG_TO_RAD(1.5f));
 #else
-Quaternion				ModelRotation(1);
+Quaternion ModelRotation(1);
 #endif
 
-Quaternion				LightOrientation(1);
-Quaternion				LightRotation(Vector3(.2,1,.1),DEG_TO_RAD(3.0f));
+Quaternion LightOrientation(1);
+Quaternion LightRotation(Vector3(.2, 1, .1), DEG_TO_RAD(3.0f));
 
 /*
 ** Local functions
 */
 
-void	Render(void);
-void	Create_Scene(void);
-void	Create_Objects(void);
-void	Destroy_Scene(void);
-void	Destroy_Objects(void);
-void	Load_Data(void);
-void	Render_Scene(void);
-void	Time_Step(void);
-void	Init_Debug(void);
-void	Shutdown_Debug(void);
-void	wwdebug_message_handler(const char * message);
-void	wwdebug_assert_handler(const char * message);
-bool	wwdebug_trigger_handler(int trigger_num);
-void	Debug_Refs(void);
-
+void Render(void);
+void Create_Scene(void);
+void Create_Objects(void);
+void Destroy_Scene(void);
+void Destroy_Objects(void);
+void Load_Data(void);
+void Render_Scene(void);
+void Time_Step(void);
+void Init_Debug(void);
+void Shutdown_Debug(void);
+void wwdebug_message_handler(const char* message);
+void wwdebug_assert_handler(const char* message);
+bool wwdebug_trigger_handler(int trigger_num);
+void Debug_Refs(void);
 
 /*
 ** delay for time milliseconds
 */
-void	Wait( int time )
+void Wait(int time)
 {
-	int start = SystemTimer();
-	while ( 1000 * ( SystemTimer() - start ) < ( time * SYSTEM_TIMER_RATE ) ) ;
+    int start = SystemTimer();
+    while (1000 * (SystemTimer() - start) < (time * SYSTEM_TIMER_RATE))
+        ;
 }
-
 
 /*
 ** MAIN GAME LOOP
 */
 void Main_Loop(void)
 {
-	Init_Debug();
-	Create_Scene();
-	Load_Data();
-	Create_Objects();
+    Init_Debug();
+    Create_Scene();
+    Load_Data();
+    Create_Objects();
 
-	while (!Keyboard->Down(VK_ESCAPE)) {
+    while (!Keyboard->Down(VK_ESCAPE)) {
 
-		Time_Step();
-		Render();
-		Windows_Message_Handler();
+        Time_Step();
+        Render();
+        Windows_Message_Handler();
 
-		if (Keyboard->Down(VK_F1)) {
-			while(Keyboard->Down(VK_F1));
-			WW3D::Set_Next_Render_Device();
-		}
-		if (Keyboard->Down(VK_F2)) {
-			while(Keyboard->Down(VK_F2));
-		}
-	}
+        if (Keyboard->Down(VK_F1)) {
+            while (Keyboard->Down(VK_F1))
+                ;
+            WW3D::Set_Next_Render_Device();
+        }
+        if (Keyboard->Down(VK_F2)) {
+            while (Keyboard->Down(VK_F2))
+                ;
+        }
+    }
 
-	Destroy_Objects();
-	WW3DAssetManager::Get_Instance()->Free_Assets();
-	Destroy_Scene();
-	Shutdown_Debug();
-	Debug_Refs();
+    Destroy_Objects();
+    WW3DAssetManager::Get_Instance()->Free_Assets();
+    Destroy_Scene();
+    Shutdown_Debug();
+    Debug_Refs();
 }
 
 void Render(void)
 {
-	ViewportClass view(Vector2(-1,-1),Vector2(1,1));
-	Light->Set_Diffuse(Vector3(1.0f,1.0f,1.0f));
-	TheScene->Set_Ambient_Light(Vector3(0.8f,0.8f,0.8f));
-	WW3D::Begin_Render(true,true,Vector3(0.2f,0.2f,0.5f));
-	WW3D::Gerd_Render(TheScene,Camera);
-	WW3D::End_Render();
+    ViewportClass view(Vector2(-1, -1), Vector2(1, 1));
+    Light->Set_Diffuse(Vector3(1.0f, 1.0f, 1.0f));
+    TheScene->Set_Ambient_Light(Vector3(0.8f, 0.8f, 0.8f));
+    WW3D::Begin_Render(true, true, Vector3(0.2f, 0.2f, 0.5f));
+    WW3D::Gerd_Render(TheScene, Camera);
+    WW3D::End_Render();
 }
-
 
 void Create_Scene(void)
 {
-	int rd_index = 0;
-	int width = 640;
-	int height = 480;
-	int color_depth = 16;
-	bool windowed = true;
+    int rd_index = 0;
+    int width = 640;
+    int height = 480;
+    int color_depth = 16;
+    bool windowed = true;
 
-	WW3D::Set_Render_Device(rd_index,width,height,color_depth,windowed);
-	TheScene = new SimpleSceneClass();
+    WW3D::Set_Render_Device(rd_index, width, height, color_depth, windowed);
+    TheScene = new SimpleSceneClass();
 }
 
 /*
@@ -180,124 +179,120 @@ void Create_Scene(void)
 */
 void Load_Data(void)
 {
-//	WW3DAssetManager::Get_Instance()->Load_3D_Assets(RawFileClass("crap.W3D"));
-//	WW3DAssetManager::Get_Instance()->Load_3D_Assets(RawFileClass("HUMAN.W3D"));
-//	WW3DAssetManager::Get_Instance()->Load_3D_Assets(RawFileClass("COMMANDO.W3D"));
-//	WW3DAssetManager::Get_Instance()->Load_3D_Assets(RawFileClass("Mtankl1.W3D"));
-	WW3DAssetManager::Get_Instance()->Load_3D_Assets(RawFileClass("Triangle.W3D"));
-//	WW3DAssetManager::Get_Instance()->Load_3D_Assets(RawFileClass("Sphere.W3D"));
-//	WW3DAssetManager::Get_Instance()->Load_3D_Assets(RawFileClass("new_mtl_test.W3D"));
+    //	WW3DAssetManager::Get_Instance()->Load_3D_Assets(RawFileClass("crap.W3D"));
+    //	WW3DAssetManager::Get_Instance()->Load_3D_Assets(RawFileClass("HUMAN.W3D"));
+    //	WW3DAssetManager::Get_Instance()->Load_3D_Assets(RawFileClass("COMMANDO.W3D"));
+    //	WW3DAssetManager::Get_Instance()->Load_3D_Assets(RawFileClass("Mtankl1.W3D"));
+    WW3DAssetManager::Get_Instance()->Load_3D_Assets(RawFileClass("Triangle.W3D"));
+    //	WW3DAssetManager::Get_Instance()->Load_3D_Assets(RawFileClass("Sphere.W3D"));
+    //	WW3DAssetManager::Get_Instance()->Load_3D_Assets(RawFileClass("new_mtl_test.W3D"));
 }
 
-
-/*			  
-**  
-*/			   
+/*
+**
+*/
 void Create_Objects(void)
 {
-	Camera = NEW_REF(CameraClass,());
-	Camera->Set_Viewport(Vector2(0,0),Vector2(640,480));
-	Camera->Set_Clip_Planes(1.0f, 200.0f);
-	Camera->Set_Environment_Range(1.0f, 200.0f);
+    Camera = NEW_REF(CameraClass, ());
+    Camera->Set_Viewport(Vector2(0, 0), Vector2(640, 480));
+    Camera->Set_Clip_Planes(1.0f, 200.0f);
+    Camera->Set_Environment_Range(1.0f, 200.0f);
 
-//	TestModel = WW3DAssetManager::Get_Instance()->Create_Render_Obj("Mtankl1");
-//	TestModel = WW3DAssetManager::Get_Instance()->Create_Render_Obj("Crap");
-	TestModel = WW3DAssetManager::Get_Instance()->Create_Render_Obj("triangle");
-//	TestModel = WW3DAssetManager::Get_Instance()->Create_Render_Obj("new_mtl_test");
-	assert(TestModel);
-	TestModel->Add(TheScene);
+    //	TestModel = WW3DAssetManager::Get_Instance()->Create_Render_Obj("Mtankl1");
+    //	TestModel = WW3DAssetManager::Get_Instance()->Create_Render_Obj("Crap");
+    TestModel = WW3DAssetManager::Get_Instance()->Create_Render_Obj("triangle");
+    //	TestModel = WW3DAssetManager::Get_Instance()->Create_Render_Obj("new_mtl_test");
+    assert(TestModel);
+    TestModel->Add(TheScene);
 
-	Light = NEW_REF(LightClass,());
-	Matrix3D lighttm(1);
-	lighttm.Set_Translation(Vector3(5,0,0));
-	Light->Set_Transform(lighttm);
-	Light->Add(TheScene);
-
-}	
-
+    Light = NEW_REF(LightClass, ());
+    Matrix3D lighttm(1);
+    lighttm.Set_Translation(Vector3(5, 0, 0));
+    Light->Set_Transform(lighttm);
+    Light->Add(TheScene);
+}
 
 /*
 **
 */
 void Destroy_Scene(void)
 {
-	TheScene->Release_Ref();
-	TheScene = NULL;
+    TheScene->Release_Ref();
+    TheScene = NULL;
 }
-
 
 /*
 **
 */
-void	Destroy_Objects(void)
+void Destroy_Objects(void)
 {
-	if (TestModel) {
-		TestModel->Remove();
-		TestModel->Release_Ref();
-		TestModel = NULL;
-	}
-	
-	if (Camera) {
-		Camera->Release_Ref();
-		Camera = NULL;
-	}
-	
-	if (Light) {
-		Light->Remove();
-		Light->Release_Ref();
-		Light = NULL;
-	}
+    if (TestModel) {
+        TestModel->Remove();
+        TestModel->Release_Ref();
+        TestModel = NULL;
+    }
 
-	if (Light2) {
-		Light2->Remove();
-		Light2->Release_Ref();
-		Light2 = NULL;
-	}
+    if (Camera) {
+        Camera->Release_Ref();
+        Camera = NULL;
+    }
 
-	WW3DAssetManager::Get_Instance()->Free_Assets();
+    if (Light) {
+        Light->Remove();
+        Light->Release_Ref();
+        Light = NULL;
+    }
 
+    if (Light2) {
+        Light2->Remove();
+        Light2->Release_Ref();
+        Light2 = NULL;
+    }
+
+    WW3DAssetManager::Get_Instance()->Free_Assets();
 }
-
 
 void Time_Step(void)
 {
-	if (Keyboard->Down(VK_UP)) {
-		CameraDist = CameraDist * 0.9f;
-	}
-	if (Keyboard->Down(VK_DOWN)) {
-		CameraDist = CameraDist * 1.1f;
-	}
-	if (Keyboard->Down(VK_LEFT)) {
-		CameraDir -= (float)DEG_TO_RAD(10.0f);
-	}
-	if (Keyboard->Down(VK_RIGHT)) {
-		CameraDir += (float)DEG_TO_RAD(10.0f);
-	}
-	
-	Matrix3D camtm(1);
-	camtm.Rotate_Z(CameraDir);
-	camtm.Rotate_X(DEG_TO_RAD(35.0f));
-	camtm.Translate(Vector3(0,0,CameraDist));
+    if (Keyboard->Down(VK_UP)) {
+        CameraDist = CameraDist * 0.9f;
+    }
+    if (Keyboard->Down(VK_DOWN)) {
+        CameraDist = CameraDist * 1.1f;
+    }
+    if (Keyboard->Down(VK_LEFT)) {
+        CameraDir -= (float)DEG_TO_RAD(10.0f);
+    }
+    if (Keyboard->Down(VK_RIGHT)) {
+        CameraDir += (float)DEG_TO_RAD(10.0f);
+    }
 
-	Camera->Set_Transform(camtm);
+    Matrix3D camtm(1);
+    camtm.Rotate_Z(CameraDir);
+    camtm.Rotate_X(DEG_TO_RAD(35.0f));
+    camtm.Translate(Vector3(0, 0, CameraDist));
+
+    Camera->Set_Transform(camtm);
 
 #ifdef SPIN_MODEL
-	ModelOrientation = ModelOrientation * ModelRotation;
-	ModelOrientation.Normalize();
-	if (TestModel)	TestModel->Set_Transform(Build_Matrix3D(ModelOrientation));
+    ModelOrientation = ModelOrientation * ModelRotation;
+    ModelOrientation.Normalize();
+    if (TestModel) {
+        TestModel->Set_Transform(Build_Matrix3D(ModelOrientation));
+    }
 #else
-	if (TestModel) TestModel->Set_Transform(Matrix3D(1));
+    if (TestModel) {
+        TestModel->Set_Transform(Matrix3D(1));
+    }
 #endif
 
 #ifdef SPIN_LIGHT
-	LightOrientation = LightOrientation * LightRotation;
-	LightOrientation.Normalize();
-	Matrix3D ltm = Build_Matrix3D(LightOrientation);
-	ltm.Translate(Vector3(5.0f,0.0f,0.0f));
-	Light->Set_Transform(ltm);
+    LightOrientation = LightOrientation * LightRotation;
+    LightOrientation.Normalize();
+    Matrix3D ltm = Build_Matrix3D(LightOrientation);
+    ltm.Translate(Vector3(5.0f, 0.0f, 0.0f));
+    Light->Set_Transform(ltm);
 #endif
-
-
 
 #if 0
 	MeshClass * mesh = NULL;
@@ -392,7 +387,7 @@ void Time_Step(void)
 			MaterialClass * mtl = matinfo->Get_Material(0);
 			
 			if (mtl && (stricmp(mtl->Get_Name(),"Explosion Material") == 0)) {
-			
+
 #if 1
 				int curframe = mtl->Get_Channel_Anim_Frame(MaterialClass::DIFFUSE_COLOR);
 				curframe = (curframe+1) % mtl->Get_Channel_Anim_Frame_Count(MaterialClass::DIFFUSE_COLOR);
@@ -420,84 +415,80 @@ void Time_Step(void)
 
 #endif
 #endif
-
 }
 
-
-void	Init_Debug(void)
+void Init_Debug(void)
 {
-	/*
-	** Install message handler functions for the WWDebug messages
-	** and assertion failures.
-	*/
-	WWDebug_Install_Message_Handler(wwdebug_message_handler);
-	WWDebug_Install_Assert_Handler(wwdebug_assert_handler);
-	WWDebug_Install_Trigger_Handler(wwdebug_trigger_handler);
-	
+    /*
+    ** Install message handler functions for the WWDebug messages
+    ** and assertion failures.
+    */
+    WWDebug_Install_Message_Handler(wwdebug_message_handler);
+    WWDebug_Install_Assert_Handler(wwdebug_assert_handler);
+    WWDebug_Install_Trigger_Handler(wwdebug_trigger_handler);
 }
 
-void	Shutdown_Debug(void)
+void Shutdown_Debug(void)
 {
-	/*
-	** Remove message handler functions for the WWDebug messages
-	** and assertion failures.
-	*/
-	WWDebug_Install_Message_Handler(NULL);
-	WWDebug_Install_Assert_Handler(NULL);
-	WWDebug_Install_Trigger_Handler(NULL);
+    /*
+    ** Remove message handler functions for the WWDebug messages
+    ** and assertion failures.
+    */
+    WWDebug_Install_Message_Handler(NULL);
+    WWDebug_Install_Assert_Handler(NULL);
+    WWDebug_Install_Trigger_Handler(NULL);
 }
 
-void wwdebug_message_handler(const char * message)
+void wwdebug_message_handler(const char* message)
 {
-	/*
-	** Hand the message off to the scrolling debug screen
-	*/
-//	Debug_Say((message));
+    /*
+    ** Hand the message off to the scrolling debug screen
+    */
+    //	Debug_Say((message));
 }
 
-void wwdebug_assert_handler(const char * message)
+void wwdebug_assert_handler(const char* message)
 {
-	/*
-	** Hand the message off to the scrolling debug screen
-	*/
-//	Debug_Say((message));
+    /*
+    ** Hand the message off to the scrolling debug screen
+    */
+    //	Debug_Say((message));
 
-	/*
-	** break into the debugger
-	*/
-	_asm int 0x03;
+    /*
+    ** break into the debugger
+    */
+    _asm int 0x03;
 }
 
 bool wwdebug_trigger_handler(int trigger_num)
 {
-	return Keyboard->Down(trigger_num);
+    return Keyboard->Down(trigger_num);
 }
 
 void Debug_Refs(void)
 {
 #ifndef NDEBUG
-	char buf[1024];
+    char buf[1024];
 
-	if (RefCountClass::Total_Refs() != 0) {
-		sprintf(buf,"Main Loop End %d refs\n", RefCountClass::Total_Refs() );
-		MessageBox(NULL,buf,"Ref Debugging",MB_OK);
-	}
+    if (RefCountClass::Total_Refs() != 0) {
+        sprintf(buf, "Main Loop End %d refs\n", RefCountClass::Total_Refs());
+        MessageBox(NULL, buf, "Ref Debugging", MB_OK);
+    }
 
-	RefBaseNodeClass * node = RefBaseClass::ActiveRefList.First();
-	
-	while (node->Is_Valid())
-	{
-		RefBaseClass * obj = node->Get();
+    RefBaseNodeClass* node = RefBaseClass::ActiveRefList.First();
 
-		ActiveRefStruct * ref = &(obj->ActiveRefInfo);
-		
-		sprintf(buf,"Active Ref: %s\nLine: %d\nPointer %p\n", ref->File,ref->Line,obj);
-		if (MessageBox(NULL,buf,"Ref Debugging",MB_OKCANCEL) == IDCANCEL) {
-			break;
-		}
-		
-		node = node->Next();
-	}
+    while (node->Is_Valid()) {
+        RefBaseClass* obj = node->Get();
+
+        ActiveRefStruct* ref = &(obj->ActiveRefInfo);
+
+        sprintf(buf, "Active Ref: %s\nLine: %d\nPointer %p\n", ref->File, ref->Line, obj);
+        if (MessageBox(NULL, buf, "Ref Debugging", MB_OKCANCEL) == IDCANCEL) {
+            break;
+        }
+
+        node = node->Next();
+    }
 
 #endif
 }

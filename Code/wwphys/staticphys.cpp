@@ -52,61 +52,56 @@
  *   StaticPhysClass::On_Post_Load -- Post-Load callback                                       *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
-
 #include "staticphys.h"
-#include "colmathaabox.h"
-#include "vistable.h"
-#include "chunkio.h"
 #include "assetmgr.h"
-#include "progcall.h"
+#include "chunkio.h"
+#include "colmathaabox.h"
+#include "lightexclude.h"
 #include "matrix3.h"
-#include "persistfactory.h"
-#include "simpledefinitionfactory.h"
-#include "wwphysids.h"
-#include "wwhack.h"
 #include "mesh.h"
 #include "meshmdl.h"
-#include "lightexclude.h"
-#include <memory.h>
 #include "part_emt.h"
+#include "persistfactory.h"
+#include "progcall.h"
 #include "renegadeterrainpatch.h"
+#include "simpledefinitionfactory.h"
+#include "vistable.h"
+#include "wwhack.h"
+#include "wwphysids.h"
+#include <memory.h>
 
 #if UMBRASUPPORT
-#include <umbra.hpp>
 #include "umbrasupport.h"
+#include <umbra.hpp>
 #endif
 
 DECLARE_FORCE_LINK(staticphys);
 
- 
 /***********************************************************************************************
 **
 ** StaticPhysClass Implementation
 **
 ***********************************************************************************************/
 
-bool StaticPhysClass::_DisableStaticPhysSimulation			= false;
-bool StaticPhysClass::_DisableStaticPhysRendering			= false;
-
+bool StaticPhysClass::_DisableStaticPhysSimulation = false;
+bool StaticPhysClass::_DisableStaticPhysRendering = false;
 
 /*
 ** Declare a PersistFactory for StaticPhysClasses
 */
-SimplePersistFactoryClass<StaticPhysClass,PHYSICS_CHUNKID_STATICPHYS>	_StaticPhysFactory;
-
+SimplePersistFactoryClass<StaticPhysClass, PHYSICS_CHUNKID_STATICPHYS> _StaticPhysFactory;
 
 /*
 ** Chunk-ID's used by StaticPhysClass
 */
-enum 
+enum
 {
-	STATICPHYS_CHUNK_PHYS				= 14430100,
-	STATICPHYS_CHUNK_VARIABLES,
+    STATICPHYS_CHUNK_PHYS = 14430100,
+    STATICPHYS_CHUNK_VARIABLES,
 
-	STATICPHYS_VARIABLE_VISOBJECTID	= 0x00,
-	STATICPHYS_VARIABLE_VISSECTORID,
+    STATICPHYS_VARIABLE_VISOBJECTID = 0x00,
+    STATICPHYS_VARIABLE_VISSECTORID,
 };
-
 
 /***********************************************************************************************
  * StaticPhysClass::StaticPhysClass -- Constructor                                             *
@@ -122,12 +117,11 @@ enum
  * HISTORY:                                                                                    *
  *   1/10/00    gth : Created.                                                                 *
  *=============================================================================================*/
-StaticPhysClass::StaticPhysClass(void) :
-	VisSectorID(0xFFFFFFFF)
+StaticPhysClass::StaticPhysClass(void)
+    : VisSectorID(0xFFFFFFFF)
 {
-	Set_Collision_Group( 15 );	// HACK?  All terrain should be group 15?	
+    Set_Collision_Group(15); // HACK?  All terrain should be group 15?
 }
-
 
 /***********************************************************************************************
  * StaticPhysClass::~StaticPhysClass -- Destructor                                             *
@@ -145,7 +139,6 @@ StaticPhysClass::~StaticPhysClass(void)
 {
 }
 
-
 /***********************************************************************************************
  * StaticPhysClass::Init -- Initialize this object from a definition                           *
  *                                                                                             *
@@ -158,14 +151,13 @@ StaticPhysClass::~StaticPhysClass(void)
  * HISTORY:                                                                                    *
  *   1/10/00    gth : Created.                                                                 *
  *=============================================================================================*/
-void StaticPhysClass::Init(const StaticPhysDefClass & def)
+void StaticPhysClass::Init(const StaticPhysDefClass& def)
 {
-	PhysClass::Init(def);
-	if (Model != NULL && Model->Class_ID () == RenderObjClass::CLASSID_PARTICLEEMITTER) {
-		((ParticleEmitterClass *)Model)->Start ();
-	}
+    PhysClass::Init(def);
+    if (Model != NULL && Model->Class_ID() == RenderObjClass::CLASSID_PARTICLEEMITTER) {
+        ((ParticleEmitterClass*)Model)->Start();
+    }
 }
-
 
 /***********************************************************************************************
  * StaticPhysClass::Set_Vis_Sector_ID -- Sets the vis sector ID for this object                *
@@ -184,8 +176,8 @@ void StaticPhysClass::Init(const StaticPhysDefClass & def)
  *   6/27/2000  gth : Created.                                                                 *
  *=============================================================================================*/
 void StaticPhysClass::Set_Vis_Sector_ID(int new_id)
-{ 
-	VisSectorID = new_id;
+{
+    VisSectorID = new_id;
 }
 
 /***********************************************************************************************
@@ -200,14 +192,13 @@ void StaticPhysClass::Set_Vis_Sector_ID(int new_id)
  * HISTORY:                                                                                    *
  *   1/10/00    gth : Created.                                                                 *
  *=============================================================================================*/
-void StaticPhysClass::Set_Model(RenderObjClass * model)
+void StaticPhysClass::Set_Model(RenderObjClass* model)
 {
-	// call parent class
-	PhysClass::Set_Model(model);
-	
-	Update_Cached_Model_Parameters();
-}
+    // call parent class
+    PhysClass::Set_Model(model);
 
+    Update_Cached_Model_Parameters();
+}
 
 /***********************************************************************************************
  * StaticPhysClass::Update_Cached_Model_Parameters -- update our state                         *
@@ -226,41 +217,44 @@ void StaticPhysClass::Set_Model(RenderObjClass * model)
  *=============================================================================================*/
 void StaticPhysClass::Update_Cached_Model_Parameters(void)
 {
-	if (Model == NULL) return;
+    if (Model == NULL) {
+        return;
+    }
 
-	// if the model is a light-mapped mesh, we want to exclude it from the static lights
-	Enable_Is_Pre_Lit(Is_Model_Pre_Lit());
+    // if the model is a light-mapped mesh, we want to exclude it from the static lights
+    Enable_Is_Pre_Lit(Is_Model_Pre_Lit());
 
-	// if our model is a mesh and its in world space, enable the world-space-mesh optimizations
-	if ((Model->Class_ID() == RenderObjClass::CLASSID_MESH) && (Get_Transform() == Matrix3D::Identity)) {
-		Enable_Is_World_Space_Mesh(true);
-	} else {
-		Enable_Is_World_Space_Mesh(false);
-	}
+    // if our model is a mesh and its in world space, enable the world-space-mesh optimizations
+    if ((Model->Class_ID() == RenderObjClass::CLASSID_MESH)
+        && (Get_Transform() == Matrix3D::Identity)) {
+        Enable_Is_World_Space_Mesh(true);
+    }
+    else {
+        Enable_Is_World_Space_Mesh(false);
+    }
 
 #if (UMBRASUPPORT)
-	// update the umbra model(s)
-	Umbra::Model * test_model = NULL;
-	
-	if (Model->Class_ID() == RenderObjClass::CLASSID_MESH) {
-		MeshClass & mesh = *((MeshClass *)Model);
-		test_model = UmbraSupport::Create_Mesh_Model(mesh);		
-	} else {
-		AABoxClass obj_box;
-		Model->Get_Obj_Space_Bounding_Box(obj_box);
-		test_model = UmbraSupport::Create_Box_Model(obj_box);
-	}
+    // update the umbra model(s)
+    Umbra::Model* test_model = NULL;
 
-	UmbraObject->setTestModel(test_model);
-	if ((Model->Class_ID() == RenderObjClass::CLASSID_MESH) && (Is_Occluder())) {
-		test_model->set(Umbra::Model::WRITABLE,true);
-		UmbraObject->setWriteModel(test_model);
-	}
-	//UmbraObject->setCost(100000,100000,5);
-#endif //UMBRASUPPORT
+    if (Model->Class_ID() == RenderObjClass::CLASSID_MESH) {
+        MeshClass& mesh = *((MeshClass*)Model);
+        test_model = UmbraSupport::Create_Mesh_Model(mesh);
+    }
+    else {
+        AABoxClass obj_box;
+        Model->Get_Obj_Space_Bounding_Box(obj_box);
+        test_model = UmbraSupport::Create_Box_Model(obj_box);
+    }
 
+    UmbraObject->setTestModel(test_model);
+    if ((Model->Class_ID() == RenderObjClass::CLASSID_MESH) && (Is_Occluder())) {
+        test_model->set(Umbra::Model::WRITABLE, true);
+        UmbraObject->setWriteModel(test_model);
+    }
+    // UmbraObject->setCost(100000,100000,5);
+#endif // UMBRASUPPORT
 }
-
 
 /***********************************************************************************************
  * StaticPhysClass::Render_Vis_Meshes -- renders any vis meshes in this model                  *
@@ -274,27 +268,28 @@ void StaticPhysClass::Update_Cached_Model_Parameters(void)
  * HISTORY:                                                                                    *
  *   3/17/2000  gth : Created.                                                                 *
  *=============================================================================================*/
-void StaticPhysClass::Render_Vis_Meshes(RenderInfoClass & rinfo)
+void StaticPhysClass::Render_Vis_Meshes(RenderInfoClass& rinfo)
 {
-	if (Model == NULL) return;
-	
-	// Note, this only works with Mesh vis sectors.  Theoretically vis sectors could
-	// be embedded in a hierarchical model as well...
-	if (Model->Get_Collision_Type() & COLLISION_TYPE_VIS) { 
+    if (Model == NULL) {
+        return;
+    }
 
-		// Force hidden meshes to render...
-		int is_hidden = Model->Is_Hidden();
-		int is_anim_hidden = Model->Is_Animation_Hidden();
-		Model->Set_Hidden(false);
-		Model->Set_Animation_Hidden(false);
+    // Note, this only works with Mesh vis sectors.  Theoretically vis sectors could
+    // be embedded in a hierarchical model as well...
+    if (Model->Get_Collision_Type() & COLLISION_TYPE_VIS) {
 
-		Model->Render(rinfo);
+        // Force hidden meshes to render...
+        int is_hidden = Model->Is_Hidden();
+        int is_anim_hidden = Model->Is_Animation_Hidden();
+        Model->Set_Hidden(false);
+        Model->Set_Animation_Hidden(false);
 
-		Model->Set_Hidden(is_hidden);
-		Model->Set_Animation_Hidden(is_anim_hidden);
-	}
+        Model->Render(rinfo);
+
+        Model->Set_Hidden(is_hidden);
+        Model->Set_Animation_Hidden(is_anim_hidden);
+    }
 }
-
 
 /***********************************************************************************************
  * StaticPhysClass::Get_Bounding_Box -- Returns the bounding box of this object                *
@@ -308,12 +303,11 @@ void StaticPhysClass::Render_Vis_Meshes(RenderInfoClass & rinfo)
  * HISTORY:                                                                                    *
  *   1/10/00    gth : Created.                                                                 *
  *=============================================================================================*/
-const AABoxClass & StaticPhysClass::Get_Bounding_Box(void) const
+const AABoxClass& StaticPhysClass::Get_Bounding_Box(void) const
 {
-	assert(Model);
-	return Model->Get_Bounding_Box();
+    assert(Model);
+    return Model->Get_Bounding_Box();
 }
-
 
 /***********************************************************************************************
  * StaticPhysClass::Get_Transform -- Returns the transform of this object                      *
@@ -327,12 +321,11 @@ const AABoxClass & StaticPhysClass::Get_Bounding_Box(void) const
  * HISTORY:                                                                                    *
  *   1/10/00    gth : Created.                                                                 *
  *=============================================================================================*/
-const Matrix3D & StaticPhysClass::Get_Transform(void) const
+const Matrix3D& StaticPhysClass::Get_Transform(void) const
 {
-	assert(Model);
-	return Model->Get_Transform();
+    assert(Model);
+    return Model->Get_Transform();
 }
-
 
 /***********************************************************************************************
  * StaticPhysClass::Set_Transform -- Set the transform for this object                         *
@@ -347,31 +340,31 @@ const Matrix3D & StaticPhysClass::Get_Transform(void) const
  * HISTORY:                                                                                    *
  *   1/10/00    gth : Created.                                                                 *
  *=============================================================================================*/
-void StaticPhysClass::Set_Transform(const Matrix3D & m)
+void StaticPhysClass::Set_Transform(const Matrix3D& m)
 {
-	// Note: this kind of object never collides with others so we
-	// can just warp it to the users desired position.  However,
-	// we do need to tell the scene so that it can update us in 
-	// the culling system
+    // Note: this kind of object never collides with others so we
+    // can just warp it to the users desired position.  However,
+    // we do need to tell the scene so that it can update us in
+    // the culling system
 
-	// Note #2: In-Game, these objects should never move!!! this
-	// feature is used in the editor.  Moving one of these will
-	// invalidate some or all of the nice pre-calculated lighting 
-	// and culling data!
+    // Note #2: In-Game, these objects should never move!!! this
+    // feature is used in the editor.  Moving one of these will
+    // invalidate some or all of the nice pre-calculated lighting
+    // and culling data!
 
-	assert(Model);
-	Model->Set_Transform(m);
-	Update_Cull_Box();
-	Invalidate_Static_Lighting_Cache();
+    assert(Model);
+    Model->Set_Transform(m);
+    Update_Cull_Box();
+    Invalidate_Static_Lighting_Cache();
 
-	// if our model is a mesh and its in world space, enable the world-space-mesh optimizations
-	if ((Model->Class_ID() == RenderObjClass::CLASSID_MESH) && (m == Matrix3D::Identity)) {
-		Enable_Is_World_Space_Mesh(true);
-	} else {
-		Enable_Is_World_Space_Mesh(false);
-	}
+    // if our model is a mesh and its in world space, enable the world-space-mesh optimizations
+    if ((Model->Class_ID() == RenderObjClass::CLASSID_MESH) && (m == Matrix3D::Identity)) {
+        Enable_Is_World_Space_Mesh(true);
+    }
+    else {
+        Enable_Is_World_Space_Mesh(false);
+    }
 }
-
 
 /***********************************************************************************************
  * StaticPhysClass::Is_Occluder -- Returns whether this static object is an occluder           *
@@ -387,21 +380,21 @@ void StaticPhysClass::Set_Transform(const Matrix3D & m)
  *=============================================================================================*/
 int StaticPhysClass::Is_Occluder(void)
 {
-	StaticPhysDefClass * def = Get_StaticPhysDef();
-	
-	if ((def != NULL) && (def->IsNonOccluder)) {
-		return false;
-	} else if (Model) {
-		if (Model->Is_Translucent()) {
-			return false;
-		}
-		if (Model->Class_ID() == RenderObjClass::CLASSID_DAZZLE) {
-			return false;
-		}
-	} 
-	return true;
-}
+    StaticPhysDefClass* def = Get_StaticPhysDef();
 
+    if ((def != NULL) && (def->IsNonOccluder)) {
+        return false;
+    }
+    else if (Model) {
+        if (Model->Is_Translucent()) {
+            return false;
+        }
+        if (Model->Class_ID() == RenderObjClass::CLASSID_DAZZLE) {
+            return false;
+        }
+    }
+    return true;
+}
 
 /***********************************************************************************************
  * StaticPhysClass::Is_Model_Pre_Lit -- determines if the render object is pre-lit             *
@@ -417,30 +410,30 @@ int StaticPhysClass::Is_Occluder(void)
  *=============================================================================================*/
 bool StaticPhysClass::Is_Model_Pre_Lit(void)
 {
-	// if the model is a light-mapped mesh, we want to exclude it from the static lights
-	if (Model->Class_ID() == RenderObjClass::CLASSID_MESH) {
-		MeshModelClass * mesh_model = ((MeshClass *)Model)->Get_Model();
-		WWASSERT(mesh_model != NULL);
-		if (mesh_model) {
-			bool isprelit = (mesh_model->Get_Flag(MeshModelClass::PRELIT_MASK) != 0);
-			mesh_model->Release_Ref();
-			return isprelit;
-		}
-	} else if (Model->Class_ID() == RenderObjClass::CLASSID_RENEGADE_TERRAIN) {
-		//return ((RenegadeTerrainPatchClass *)Model)->Is_Prelit ();
-	}
+    // if the model is a light-mapped mesh, we want to exclude it from the static lights
+    if (Model->Class_ID() == RenderObjClass::CLASSID_MESH) {
+        MeshModelClass* mesh_model = ((MeshClass*)Model)->Get_Model();
+        WWASSERT(mesh_model != NULL);
+        if (mesh_model) {
+            bool isprelit = (mesh_model->Get_Flag(MeshModelClass::PRELIT_MASK) != 0);
+            mesh_model->Release_Ref();
+            return isprelit;
+        }
+    }
+    else if (Model->Class_ID() == RenderObjClass::CLASSID_RENEGADE_TERRAIN) {
+        // return ((RenegadeTerrainPatchClass *)Model)->Is_Prelit ();
+    }
 
-	return false;
+    return false;
 }
 
 bool StaticPhysClass::Is_Model_User_Lit(void)
 {
-	if (Model != NULL) {
-		return !!(Model->Has_User_Lighting());
-	}
-	return false;
+    if (Model != NULL) {
+        return !!(Model->Has_User_Lighting());
+    }
+    return false;
 }
-
 
 /***********************************************************************************************
  * StaticPhysClass::Is_Vis_Sector -- Is_Vis_Sector                                             *
@@ -459,50 +452,47 @@ bool StaticPhysClass::Is_Model_User_Lit(void)
  * HISTORY:                                                                                    *
  *   6/5/2000   gth : Created.                                                                 *
  *=============================================================================================*/
-bool StaticPhysClass::Is_Vis_Sector(RenderObjClass * model) const
+bool StaticPhysClass::Is_Vis_Sector(RenderObjClass* model) const
 {
-	bool retval = false;
+    bool retval = false;
 
-	/*
-	** If NULL was passed in, start with the render object for this StaticPhysClass.
-	*/
-	if (model == NULL) {
-		model = Model;
-	}
+    /*
+    ** If NULL was passed in, start with the render object for this StaticPhysClass.
+    */
+    if (model == NULL) {
+        model = Model;
+    }
 
+    /*
+    ** If we have a valid model to check; either recurse into its sub objects or
+    ** check if it is a vis-collideable mesh
+    */
+    if (model != NULL) {
 
-	/*
-	** If we have a valid model to check; either recurse into its sub objects or 
-	** check if it is a vis-collideable mesh
-	*/
-	if (model != NULL) {
+        /*
+        ** Check each sub-object
+        */
+        int count = model->Get_Num_Sub_Objects();
+        for (int index = 0; (index < count) && !retval; index++) {
 
-		/*
-		** Check each sub-object
-		*/
-		int count = model->Get_Num_Sub_Objects ();
-		for (int index = 0; (index < count) && !retval; index ++) {
-			
-			RenderObjClass *sub_object = model->Get_Sub_Object (index);
-			if (sub_object != NULL) {
-				retval |= Is_Vis_Sector(sub_object);
-				REF_PTR_RELEASE(sub_object);
-			}
-		}	
+            RenderObjClass* sub_object = model->Get_Sub_Object(index);
+            if (sub_object != NULL) {
+                retval |= Is_Vis_Sector(sub_object);
+                REF_PTR_RELEASE(sub_object);
+            }
+        }
 
-		/*
-		** Check the model itself
-		*/
-		if ((model->Class_ID () == RenderObjClass::CLASSID_MESH) &&
-			 (model->Get_Collision_Type () & COLLISION_TYPE_VIS))
-		{
-			retval = true;
-		}
-	}
+        /*
+        ** Check the model itself
+        */
+        if ((model->Class_ID() == RenderObjClass::CLASSID_MESH)
+            && (model->Get_Collision_Type() & COLLISION_TYPE_VIS)) {
+            retval = true;
+        }
+    }
 
-	return retval;	
+    return retval;
 }
-
 
 /***********************************************************************************************
  * StaticPhysClass::Update_Sun_Status -- determine if this object is in the sun                *
@@ -520,13 +510,12 @@ bool StaticPhysClass::Is_Vis_Sector(RenderObjClass * model) const
  *=============================================================================================*/
 void StaticPhysClass::Update_Sun_Status(void)
 {
-	/*
-	** Cant do sun occlusion very well for static objects... 
-	** Just let the sun always apply?  
-	*/
-	Set_Flag(IS_IN_THE_SUN,true);
+    /*
+    ** Cant do sun occlusion very well for static objects...
+    ** Just let the sun always apply?
+    */
+    Set_Flag(IS_IN_THE_SUN, true);
 }
-
 
 /***********************************************************************************************
  * StaticPhysClass::Get_Factory -- Returns the persist factory for StaticPhysClass             *
@@ -543,11 +532,10 @@ void StaticPhysClass::Update_Sun_Status(void)
  * HISTORY:                                                                                    *
  *   1/10/00    gth : Created.                                                                 *
  *=============================================================================================*/
-const PersistFactoryClass & StaticPhysClass::Get_Factory(void) const
+const PersistFactoryClass& StaticPhysClass::Get_Factory(void) const
 {
-	return _StaticPhysFactory;
+    return _StaticPhysFactory;
 }
-
 
 /***********************************************************************************************
  * StaticPhysClass::Save -- Save method, persistant object support                             *
@@ -561,20 +549,19 @@ const PersistFactoryClass & StaticPhysClass::Get_Factory(void) const
  * HISTORY:                                                                                    *
  *   1/10/00    gth : Created.                                                                 *
  *=============================================================================================*/
-bool StaticPhysClass::Save(ChunkSaveClass &csave)
+bool StaticPhysClass::Save(ChunkSaveClass& csave)
 {
-	csave.Begin_Chunk(STATICPHYS_CHUNK_PHYS);
-	PhysClass::Save(csave);
-	csave.End_Chunk();
+    csave.Begin_Chunk(STATICPHYS_CHUNK_PHYS);
+    PhysClass::Save(csave);
+    csave.End_Chunk();
 
-	csave.Begin_Chunk(STATICPHYS_CHUNK_VARIABLES);
-	WRITE_MICRO_CHUNK(csave,STATICPHYS_VARIABLE_VISOBJECTID,VisObjectID);
-	WRITE_MICRO_CHUNK(csave,STATICPHYS_VARIABLE_VISSECTORID,VisSectorID);
-	csave.End_Chunk();
+    csave.Begin_Chunk(STATICPHYS_CHUNK_VARIABLES);
+    WRITE_MICRO_CHUNK(csave, STATICPHYS_VARIABLE_VISOBJECTID, VisObjectID);
+    WRITE_MICRO_CHUNK(csave, STATICPHYS_VARIABLE_VISSECTORID, VisSectorID);
+    csave.End_Chunk();
 
-	return true;
+    return true;
 }
-
 
 /***********************************************************************************************
  * StaticPhysClass::Load -- Load method, persistant object support                             *
@@ -588,38 +575,37 @@ bool StaticPhysClass::Save(ChunkSaveClass &csave)
  * HISTORY:                                                                                    *
  *   1/10/00    gth : Created.                                                                 *
  *=============================================================================================*/
-bool StaticPhysClass::Load(ChunkLoadClass &cload)
+bool StaticPhysClass::Load(ChunkLoadClass& cload)
 {
-	while (cload.Open_Chunk()) {
-		
-		switch(cload.Cur_Chunk_ID()) 
-		{
-			case STATICPHYS_CHUNK_PHYS:
-				PhysClass::Load(cload);
-				break;
+    while (cload.Open_Chunk()) {
 
-			case STATICPHYS_CHUNK_VARIABLES:
-				while (cload.Open_Micro_Chunk()) {
-					switch(cload.Cur_Micro_Chunk_ID()) {
-						READ_MICRO_CHUNK(cload,STATICPHYS_VARIABLE_VISOBJECTID,VisObjectID);
-						READ_MICRO_CHUNK(cload,STATICPHYS_VARIABLE_VISSECTORID,VisSectorID);
-					}
-					cload.Close_Micro_Chunk();
-				}
-				break;
+        switch (cload.Cur_Chunk_ID()) {
+        case STATICPHYS_CHUNK_PHYS:
+            PhysClass::Load(cload);
+            break;
 
-			default:
-				WWDEBUG_SAY(("Unhandled Chunk: 0x%X File: %s Line: %d\r\n",cload.Cur_Chunk_ID(),__FILE__,__LINE__));
-				break;
-		}
-		
-		cload.Close_Chunk();
-	}
+        case STATICPHYS_CHUNK_VARIABLES:
+            while (cload.Open_Micro_Chunk()) {
+                switch (cload.Cur_Micro_Chunk_ID()) {
+                    READ_MICRO_CHUNK(cload, STATICPHYS_VARIABLE_VISOBJECTID, VisObjectID);
+                    READ_MICRO_CHUNK(cload, STATICPHYS_VARIABLE_VISSECTORID, VisSectorID);
+                }
+                cload.Close_Micro_Chunk();
+            }
+            break;
 
-	SaveLoadSystemClass::Register_Post_Load_Callback(this);
-	return true;
+        default:
+            WWDEBUG_SAY(("Unhandled Chunk: 0x%X File: %s Line: %d\r\n", cload.Cur_Chunk_ID(),
+                         __FILE__, __LINE__));
+            break;
+        }
+
+        cload.Close_Chunk();
+    }
+
+    SaveLoadSystemClass::Register_Post_Load_Callback(this);
+    return true;
 }
-
 
 /***********************************************************************************************
  * StaticPhysClass::On_Post_Load -- Post-Load callback                                         *
@@ -635,60 +621,58 @@ bool StaticPhysClass::Load(ChunkLoadClass &cload)
  *=============================================================================================*/
 void StaticPhysClass::On_Post_Load(void)
 {
-	PhysClass::On_Post_Load();
-	WWASSERT(Model);
-	if (Model) {
+    PhysClass::On_Post_Load();
+    WWASSERT(Model);
+    if (Model) {
 
-		// Set our cull box but don't let the culling system re-insert us.
-		Set_Cull_Box(Model->Get_Bounding_Box(),true);
+        // Set our cull box but don't let the culling system re-insert us.
+        Set_Cull_Box(Model->Get_Bounding_Box(), true);
 
-		// If this is a light-mapped mesh, exclude ourselves from the static lights
-		Update_Cached_Model_Parameters();
+        // If this is a light-mapped mesh, exclude ourselves from the static lights
+        Update_Cached_Model_Parameters();
 
-		// If this is a particle emitter, start it emitting
-		if (Model->Class_ID () == RenderObjClass::CLASSID_PARTICLEEMITTER) {
-			((ParticleEmitterClass *)Model)->Start ();
-		}
-	}
+        // If this is a particle emitter, start it emitting
+        if (Model->Class_ID() == RenderObjClass::CLASSID_PARTICLEEMITTER) {
+            ((ParticleEmitterClass*)Model)->Start();
+        }
+    }
 }
 
-
-float	StaticPhysClass::Compute_Vis_Mesh_Ram(RenderObjClass * model)
+float StaticPhysClass::Compute_Vis_Mesh_Ram(RenderObjClass* model)
 {
-	float total = 0.0f;
+    float total = 0.0f;
 
-	if (model == NULL) {
-		model = Model;
-	}
+    if (model == NULL) {
+        model = Model;
+    }
 
-	if (model != NULL) {
-		if (model->Class_ID() == RenderObjClass::CLASSID_MESH) {
+    if (model != NULL) {
+        if (model->Class_ID() == RenderObjClass::CLASSID_MESH) {
 
-			if (model->Get_Collision_Type() & COLLISION_TYPE_VIS) {
-				MeshModelClass * mdl = ((MeshClass *)model)->Get_Model();
-				if (mdl != NULL) {
-					total += sizeof(MeshClass) + sizeof(MeshModelClass);
-					total += sizeof(Vector3) * mdl->Get_Vertex_Count();
-					total += sizeof(TriIndex) * mdl->Get_Polygon_Count();
-					total += sizeof(PlaneClass) * mdl->Get_Polygon_Count();
-					mdl->Release_Ref();
-				}
-			}
+            if (model->Get_Collision_Type() & COLLISION_TYPE_VIS) {
+                MeshModelClass* mdl = ((MeshClass*)model)->Get_Model();
+                if (mdl != NULL) {
+                    total += sizeof(MeshClass) + sizeof(MeshModelClass);
+                    total += sizeof(Vector3) * mdl->Get_Vertex_Count();
+                    total += sizeof(TriIndex) * mdl->Get_Polygon_Count();
+                    total += sizeof(PlaneClass) * mdl->Get_Polygon_Count();
+                    mdl->Release_Ref();
+                }
+            }
+        }
+        else {
+            for (int i = 0; i < model->Get_Num_Sub_Objects(); i++) {
+                RenderObjClass* sub_obj = model->Get_Sub_Object(i);
+                if (sub_obj != NULL) {
+                    total += Compute_Vis_Mesh_Ram(sub_obj);
+                    REF_PTR_RELEASE(sub_obj);
+                }
+            }
+        }
+    }
 
-		} else {
-			for (int i=0; i<model->Get_Num_Sub_Objects(); i++) {
-				RenderObjClass * sub_obj = model->Get_Sub_Object(i);
-				if (sub_obj != NULL) {
-					total += Compute_Vis_Mesh_Ram(sub_obj);
-					REF_PTR_RELEASE(sub_obj);
-				}
-			}
-		}
-	}
-
-	return total;
+    return total;
 }
-
 
 /**************************************************************************************
 **
@@ -699,99 +683,101 @@ float	StaticPhysClass::Compute_Vis_Mesh_Ram(RenderObjClass * model)
 /*
 ** Persist factory for StaticPhysDefClass's
 */
-SimplePersistFactoryClass<StaticPhysDefClass,PHYSICS_CHUNKID_STATICPHYSDEF>	_StaticPhysDefFactory;
+SimplePersistFactoryClass<StaticPhysDefClass, PHYSICS_CHUNKID_STATICPHYSDEF> _StaticPhysDefFactory;
 
 /*
 ** Definition factory for StaticPhysDefClass.  This makes it show up in the editor
 */
-DECLARE_DEFINITION_FACTORY(StaticPhysDefClass, CLASSID_STATICPHYSDEF, "StaticPhys") _StaticPhysDefDefFactory;
+DECLARE_DEFINITION_FACTORY(StaticPhysDefClass, CLASSID_STATICPHYSDEF, "StaticPhys")
+_StaticPhysDefDefFactory;
 
 /*
 ** Chunk ID's used by StaticPhysDefClass
 */
-enum 
+enum
 {
-	STATICPHYSDEF_CHUNK_PHYSDEF						= 0x01070002,			// (parent class)
-	STATICPHYSDEF_CHUNK_VARIABLES,
+    STATICPHYSDEF_CHUNK_PHYSDEF = 0x01070002, // (parent class)
+    STATICPHYSDEF_CHUNK_VARIABLES,
 
-	STATICPHYSDEF_VARIABLE_ISNONOCCLUDER			= 0,
+    STATICPHYSDEF_VARIABLE_ISNONOCCLUDER = 0,
 };
 
-
-StaticPhysDefClass::StaticPhysDefClass(void) :
-	IsNonOccluder(true)
+StaticPhysDefClass::StaticPhysDefClass(void)
+    : IsNonOccluder(true)
 {
-	EDITABLE_PARAM(StaticPhysDefClass, ParameterClass::TYPE_BOOL, IsNonOccluder);
+    EDITABLE_PARAM(StaticPhysDefClass, ParameterClass::TYPE_BOOL, IsNonOccluder);
 }
 
-uint32 StaticPhysDefClass::Get_Class_ID (void) const
+uint32 StaticPhysDefClass::Get_Class_ID(void) const
 {
-	return CLASSID_STATICPHYSDEF; 
+    return CLASSID_STATICPHYSDEF;
 }
 
-PersistClass * StaticPhysDefClass::Create(void) const
+PersistClass* StaticPhysDefClass::Create(void) const
 {
-	StaticPhysClass * new_obj = NEW_REF(StaticPhysClass,());
-	new_obj->Init(*this);
-	return new_obj;
+    StaticPhysClass* new_obj = NEW_REF(StaticPhysClass, ());
+    new_obj->Init(*this);
+    return new_obj;
 }
 
-const char * StaticPhysDefClass::Get_Type_Name(void)
-{ 
-	return "StaticPhysDef"; 
+const char* StaticPhysDefClass::Get_Type_Name(void)
+{
+    return "StaticPhysDef";
 }
 
-bool StaticPhysDefClass::Is_Type(const char * type_name)
+bool StaticPhysDefClass::Is_Type(const char* type_name)
 {
-	if (stricmp(type_name,StaticPhysDefClass::Get_Type_Name()) == 0) {
-		return true;
-	} else {
-		return PhysDefClass::Is_Type(type_name);
-	}
+    if (stricmp(type_name, StaticPhysDefClass::Get_Type_Name()) == 0) {
+        return true;
+    }
+    else {
+        return PhysDefClass::Is_Type(type_name);
+    }
 }
 
-const PersistFactoryClass & StaticPhysDefClass::Get_Factory (void) const
+const PersistFactoryClass& StaticPhysDefClass::Get_Factory(void) const
 {
-	return _StaticPhysDefFactory;
+    return _StaticPhysDefFactory;
 }
 
-bool StaticPhysDefClass::Save(ChunkSaveClass &csave)
+bool StaticPhysDefClass::Save(ChunkSaveClass& csave)
 {
-	csave.Begin_Chunk(STATICPHYSDEF_CHUNK_PHYSDEF);
-	PhysDefClass::Save(csave);
-	csave.End_Chunk();
+    csave.Begin_Chunk(STATICPHYSDEF_CHUNK_PHYSDEF);
+    PhysDefClass::Save(csave);
+    csave.End_Chunk();
 
-	csave.Begin_Chunk(STATICPHYSDEF_CHUNK_VARIABLES);
-	WRITE_MICRO_CHUNK(csave,STATICPHYSDEF_VARIABLE_ISNONOCCLUDER,IsNonOccluder);	
-	csave.End_Chunk();
-	return true;
+    csave.Begin_Chunk(STATICPHYSDEF_CHUNK_VARIABLES);
+    WRITE_MICRO_CHUNK(csave, STATICPHYSDEF_VARIABLE_ISNONOCCLUDER, IsNonOccluder);
+    csave.End_Chunk();
+    return true;
 }
 
-bool StaticPhysDefClass::Load(ChunkLoadClass &cload)
+bool StaticPhysDefClass::Load(ChunkLoadClass& cload)
 {
-	while (cload.Open_Chunk()) {
+    while (cload.Open_Chunk()) {
 
-		switch(cload.Cur_Chunk_ID()) {
+        switch (cload.Cur_Chunk_ID()) {
 
-			case STATICPHYSDEF_CHUNK_PHYSDEF:
-				PhysDefClass::Load(cload);
-				break;
+        case STATICPHYSDEF_CHUNK_PHYSDEF:
+            PhysDefClass::Load(cload);
+            break;
 
-			case STATICPHYSDEF_CHUNK_VARIABLES:				
-				while (cload.Open_Micro_Chunk()) {
-					switch(cload.Cur_Micro_Chunk_ID()) {
-						READ_MICRO_CHUNK(cload,STATICPHYSDEF_VARIABLE_ISNONOCCLUDER,IsNonOccluder);	
-					}
-					cload.Close_Micro_Chunk();	
-				}
-				break;
+        case STATICPHYSDEF_CHUNK_VARIABLES:
+            while (cload.Open_Micro_Chunk()) {
+                switch (cload.Cur_Micro_Chunk_ID()) {
+                    READ_MICRO_CHUNK(cload, STATICPHYSDEF_VARIABLE_ISNONOCCLUDER, IsNonOccluder);
+                }
+                cload.Close_Micro_Chunk();
+            }
+            break;
 
-			default:
-				WWDEBUG_SAY(("Unhandled Chunk: 0x%X File: %s Line: %d\r\n",cload.Cur_Chunk_ID(),__FILE__,__LINE__));
-				break;
-		}
+        default:
+            WWDEBUG_SAY(("Unhandled Chunk: 0x%X File: %s Line: %d\r\n", cload.Cur_Chunk_ID(),
+                         __FILE__, __LINE__));
+            break;
+        }
 
-		cload.Close_Chunk();
-	}
-	return true;
+        cload.Close_Chunk();
+    }
+    return true;
 }

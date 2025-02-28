@@ -16,28 +16,28 @@
 **	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-/*********************************************************************************************** 
- ***                            Confidential - Westwood Studios                              *** 
- *********************************************************************************************** 
- *                                                                                             * 
- *                 Project Name : LightMap                                                     * 
- *                                                                                             * 
- *                     $Archive:: /Commando/Code/Tool $* 
- *                                                                                             * 
- *                      $Author:: Ian_l               $* 
- *                                                                                             * 
- *                     $Modtime:: 9/08/00 6:37p       $* 
- *                                                                                             * 
- *                    $Revision:: 7                                                         $* 
- *                                                                                             * 
- *---------------------------------------------------------------------------------------------* 
- * Functions:                                                                                  * 
+/***********************************************************************************************
+ ***                            Confidential - Westwood Studios                              ***
+ ***********************************************************************************************
+ *                                                                                             *
+ *                 Project Name : LightMap                                                     *
+ *                                                                                             *
+ *                     $Archive:: /Commando/Code/Tool $*
+ *                                                                                             *
+ *                      $Author:: Ian_l               $*
+ *                                                                                             *
+ *                     $Modtime:: 9/08/00 6:37p       $*
+ *                                                                                             *
+ *                    $Revision:: 7                                                         $*
+ *                                                                                             *
+ *---------------------------------------------------------------------------------------------*
+ * Functions:                                                                                  *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
 // Includes.
-#include "StdAfx.h"
 #include "LightMap.h"
 #include "OptionsDialog.h"
+#include "StdAfx.h"
 #include "StringBuilder.h"
 
 // The following is maintained by MFC tools.
@@ -48,28 +48,28 @@ static char THIS_FILE[] = __FILE__;
 #endif
 
 // Defines.
-#define OPTIONS_SECTION_NAME					"Options"
-#define SPATIAL_TOLERANCE_NAME				"Spatial Tolerance"
-#define SMOOTHING_ANGLE_NAME					"Smoothing Angle"
-#define FILTER_SHARPNESS_NAME					"Filter Sharpness"
-#define FILL_COLOR_RED_NAME					"Fill Color Red"
-#define FILL_COLOR_GREEN_NAME					"Fill Color Green"
-#define FILL_COLOR_BLUE_NAME					"Fill Color Blue"
-#define SCALE_FACTOR_NAME						"Scale Factor"
-#define SAMPLE_RATE_NAME						"Sample Rate"
-#define FILTER_ERROR_NAME						"Filter Error"
-#define BIT_DEPTH_NAME							"Bit Depth"
-#define LIGHT_EXPORT_SELECTIVE_NAME			"Light Export Selective"
-#define LIGHT_EXCLUSION_STRING_NAME			"Light Exclusion String"
-#define PERCENT_SLIDER_TICK_COUNT			101
-#define SMOOTHING_ANGLE_TICK_COUNT			181
-#define MIN_SAMPLE_RATE							1
-#define MAX_SAMPLE_RATE							9999	
-#define SAMPLE_RATE_VALUE_CONTROL_STRING	"%4.1f"	
-
+#define OPTIONS_SECTION_NAME "Options"
+#define SPATIAL_TOLERANCE_NAME "Spatial Tolerance"
+#define SMOOTHING_ANGLE_NAME "Smoothing Angle"
+#define FILTER_SHARPNESS_NAME "Filter Sharpness"
+#define FILL_COLOR_RED_NAME "Fill Color Red"
+#define FILL_COLOR_GREEN_NAME "Fill Color Green"
+#define FILL_COLOR_BLUE_NAME "Fill Color Blue"
+#define SCALE_FACTOR_NAME "Scale Factor"
+#define SAMPLE_RATE_NAME "Sample Rate"
+#define FILTER_ERROR_NAME "Filter Error"
+#define BIT_DEPTH_NAME "Bit Depth"
+#define LIGHT_EXPORT_SELECTIVE_NAME "Light Export Selective"
+#define LIGHT_EXCLUSION_STRING_NAME "Light Exclusion String"
+#define PERCENT_SLIDER_TICK_COUNT 101
+#define SMOOTHING_ANGLE_TICK_COUNT 181
+#define MIN_SAMPLE_RATE 1
+#define MAX_SAMPLE_RATE 9999
+#define SAMPLE_RATE_VALUE_CONTROL_STRING "%4.1f"
 
 /***********************************************************************************************
- * OptionsDialog::OptionsDialog -- Constructor																  *
+ * OptionsDialog::OptionsDialog -- Constructor
+ **
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -78,56 +78,58 @@ static char THIS_FILE[] = __FILE__;
  * WARNINGS:                                                                                   *
  *                                                                                             *
  * HISTORY:                                                                                    *
- *   6/1/99    IML : Created.                                                                  * 
+ *   6/1/99    IML : Created.                                                                  *
  *=============================================================================================*/
-OptionsDialog::OptionsDialog (CWnd *parent)
-	: CDialog (OptionsDialog::IDD, parent)
+OptionsDialog::OptionsDialog(CWnd* parent)
+    : CDialog(OptionsDialog::IDD, parent)
 {
-	SpatialTolerance		= AfxGetApp()->GetProfileInt (OPTIONS_SECTION_NAME, SPATIAL_TOLERANCE_NAME, 1);
-	SmoothingAngle			= AfxGetApp()->GetProfileInt (OPTIONS_SECTION_NAME, SMOOTHING_ANGLE_NAME, 89);
-	FilterSharpness		= AfxGetApp()->GetProfileInt (OPTIONS_SECTION_NAME, FILTER_SHARPNESS_NAME, 50);
-	FillColor.R				= AfxGetApp()->GetProfileInt (OPTIONS_SECTION_NAME, FILL_COLOR_RED_NAME, 0);
-	FillColor.G				= AfxGetApp()->GetProfileInt (OPTIONS_SECTION_NAME, FILL_COLOR_GREEN_NAME, _UI8_MAX);
-	FillColor.B				= AfxGetApp()->GetProfileInt (OPTIONS_SECTION_NAME, FILL_COLOR_BLUE_NAME, 0);
-	SampleRate				= AfxGetApp()->GetProfileInt (OPTIONS_SECTION_NAME, SAMPLE_RATE_NAME,	50);
-	FilterError				= AfxGetApp()->GetProfileInt (OPTIONS_SECTION_NAME, FILTER_ERROR_NAME, 50);
-	BitDepth					= AfxGetApp()->GetProfileInt (OPTIONS_SECTION_NAME, BIT_DEPTH_NAME, 16);
-	LightExportSelective = AfxGetApp()->GetProfileInt (OPTIONS_SECTION_NAME, LIGHT_EXPORT_SELECTIVE_NAME, 1) > 0 ? true : false;
-	LightExclusionString = AfxGetApp()->GetProfileString (OPTIONS_SECTION_NAME, LIGHT_EXCLUSION_STRING_NAME, "@");
+    SpatialTolerance = AfxGetApp()->GetProfileInt(OPTIONS_SECTION_NAME, SPATIAL_TOLERANCE_NAME, 1);
+    SmoothingAngle = AfxGetApp()->GetProfileInt(OPTIONS_SECTION_NAME, SMOOTHING_ANGLE_NAME, 89);
+    FilterSharpness = AfxGetApp()->GetProfileInt(OPTIONS_SECTION_NAME, FILTER_SHARPNESS_NAME, 50);
+    FillColor.R = AfxGetApp()->GetProfileInt(OPTIONS_SECTION_NAME, FILL_COLOR_RED_NAME, 0);
+    FillColor.G = AfxGetApp()->GetProfileInt(OPTIONS_SECTION_NAME, FILL_COLOR_GREEN_NAME, _UI8_MAX);
+    FillColor.B = AfxGetApp()->GetProfileInt(OPTIONS_SECTION_NAME, FILL_COLOR_BLUE_NAME, 0);
+    SampleRate = AfxGetApp()->GetProfileInt(OPTIONS_SECTION_NAME, SAMPLE_RATE_NAME, 50);
+    FilterError = AfxGetApp()->GetProfileInt(OPTIONS_SECTION_NAME, FILTER_ERROR_NAME, 50);
+    BitDepth = AfxGetApp()->GetProfileInt(OPTIONS_SECTION_NAME, BIT_DEPTH_NAME, 16);
+    LightExportSelective
+        = AfxGetApp()->GetProfileInt(OPTIONS_SECTION_NAME, LIGHT_EXPORT_SELECTIVE_NAME, 1) > 0
+        ? true
+        : false;
+    LightExclusionString
+        = AfxGetApp()->GetProfileString(OPTIONS_SECTION_NAME, LIGHT_EXCLUSION_STRING_NAME, "@");
 }
-
 
 void OptionsDialog::DoDataExchange(CDataExchange* pDX)
 {
-	CDialog::DoDataExchange(pDX);
-	//{{AFX_DATA_MAP(OptionsDialog)
-		// NOTE: the ClassWizard will add DDX and DDV calls here
-	//}}AFX_DATA_MAP
+    CDialog::DoDataExchange(pDX);
+    //{{AFX_DATA_MAP(OptionsDialog)
+    // NOTE: the ClassWizard will add DDX and DDV calls here
+    //}}AFX_DATA_MAP
 }
-
 
 BEGIN_MESSAGE_MAP(OptionsDialog, CDialog)
-	//{{AFX_MSG_MAP(OptionsDialog)
-	ON_WM_HSCROLL()
-	ON_EN_CHANGE(IDC_SPATIAL_TOLERANCE, OnChangeSpatialTolerance)
-	ON_EN_UPDATE(IDC_SPATIAL_TOLERANCE, OnUpdateSpatialTolerance)
-	ON_EN_CHANGE(IDC_FILL_COLOR_RED, OnChangeFillColorRed)
-	ON_EN_CHANGE(IDC_FILL_COLOR_GREEN, OnChangeFillColorGreen)
-	ON_EN_CHANGE(IDC_FILL_COLOR_BLUE, OnChangeFillColorBlue)
-	ON_EN_UPDATE(IDC_FILL_COLOR_RED, OnUpdateFillColorRed)
-	ON_EN_UPDATE(IDC_FILL_COLOR_GREEN, OnUpdateFillColorGreen)
-	ON_EN_UPDATE(IDC_FILL_COLOR_BLUE, OnUpdateFillColorBlue)
-	ON_BN_CLICKED(IDC_16_BITS_PER_PIXEL, On16BitsPerPixel)
-	ON_BN_CLICKED(IDC_24_BITS_PER_PIXEL, On24BitsPerPixel)
-	ON_WM_VSCROLL()
-	ON_BN_CLICKED(IDC_LIGHT_EXPORT_SELECTIVE, OnLightExportSelective)
-	ON_EN_CHANGE(IDC_LIGHT_EXCLUSION_STRING, OnChangeLightExclusionString)
-	//}}AFX_MSG_MAP
+//{{AFX_MSG_MAP(OptionsDialog)
+ON_WM_HSCROLL()
+ON_EN_CHANGE(IDC_SPATIAL_TOLERANCE, OnChangeSpatialTolerance)
+ON_EN_UPDATE(IDC_SPATIAL_TOLERANCE, OnUpdateSpatialTolerance)
+ON_EN_CHANGE(IDC_FILL_COLOR_RED, OnChangeFillColorRed)
+ON_EN_CHANGE(IDC_FILL_COLOR_GREEN, OnChangeFillColorGreen)
+ON_EN_CHANGE(IDC_FILL_COLOR_BLUE, OnChangeFillColorBlue)
+ON_EN_UPDATE(IDC_FILL_COLOR_RED, OnUpdateFillColorRed)
+ON_EN_UPDATE(IDC_FILL_COLOR_GREEN, OnUpdateFillColorGreen)
+ON_EN_UPDATE(IDC_FILL_COLOR_BLUE, OnUpdateFillColorBlue)
+ON_BN_CLICKED(IDC_16_BITS_PER_PIXEL, On16BitsPerPixel)
+ON_BN_CLICKED(IDC_24_BITS_PER_PIXEL, On24BitsPerPixel)
+ON_WM_VSCROLL()
+ON_BN_CLICKED(IDC_LIGHT_EXPORT_SELECTIVE, OnLightExportSelective)
+ON_EN_CHANGE(IDC_LIGHT_EXCLUSION_STRING, OnChangeLightExclusionString)
+//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
-
 /***********************************************************************************************
- * OptionsDialog::OnInitDialog --																				  *
+ * OptionsDialog::OnInitDialog --
+ **
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -136,52 +138,52 @@ END_MESSAGE_MAP()
  * WARNINGS:                                                                                   *
  *                                                                                             *
  * HISTORY:                                                                                    *
- *   11/2/99    IML : Created.                                                                 * 
+ *   11/2/99    IML : Created.                                                                 *
  *=============================================================================================*/
-BOOL OptionsDialog::OnInitDialog() 
+BOOL OptionsDialog::OnInitDialog()
 {
-	CDialog::OnInitDialog();
+    CDialog::OnInitDialog();
 
-	// Initialize.
-	SetDlgItemInt (IDC_SPATIAL_TOLERANCE, SpatialTolerance, FALSE);
-  	Initialize_Slider (IDC_SMOOTHING_ANGLE, 0, SMOOTHING_ANGLE_TICK_COUNT - 1, SmoothingAngle);
-	Set_Text (IDC_SMOOTHING_ANGLE_VALUE, "%d", (int) SmoothingAngle);
-  	Initialize_Slider (IDC_FILTER_SHARPNESS, 0, PERCENT_SLIDER_TICK_COUNT - 1, FilterSharpness);
-	Set_Text (IDC_FILTER_SHARPNESS_VALUE, "%d", (int) FilterSharpness);
-	SetDlgItemInt (IDC_FILL_COLOR_RED,   FillColor.R, FALSE);
-	SetDlgItemInt (IDC_FILL_COLOR_GREEN, FillColor.G, FALSE);
-	SetDlgItemInt (IDC_FILL_COLOR_BLUE,  FillColor.B, FALSE);
-	Initialize_Spinner (IDC_SAMPLE_RATE, MIN_SAMPLE_RATE, MAX_SAMPLE_RATE, SampleRate); 
-	Set_Text (IDC_SAMPLE_RATE_VALUE, SAMPLE_RATE_VALUE_CONTROL_STRING, Get_Sample_Rate());
-  	Initialize_Slider (IDC_FILTER_ERROR, 0, PERCENT_SLIDER_TICK_COUNT - 1, FilterError);
-	Set_Text (IDC_FILTER_ERROR_VALUE, "%d", (int) FilterError);
+    // Initialize.
+    SetDlgItemInt(IDC_SPATIAL_TOLERANCE, SpatialTolerance, FALSE);
+    Initialize_Slider(IDC_SMOOTHING_ANGLE, 0, SMOOTHING_ANGLE_TICK_COUNT - 1, SmoothingAngle);
+    Set_Text(IDC_SMOOTHING_ANGLE_VALUE, "%d", (int)SmoothingAngle);
+    Initialize_Slider(IDC_FILTER_SHARPNESS, 0, PERCENT_SLIDER_TICK_COUNT - 1, FilterSharpness);
+    Set_Text(IDC_FILTER_SHARPNESS_VALUE, "%d", (int)FilterSharpness);
+    SetDlgItemInt(IDC_FILL_COLOR_RED, FillColor.R, FALSE);
+    SetDlgItemInt(IDC_FILL_COLOR_GREEN, FillColor.G, FALSE);
+    SetDlgItemInt(IDC_FILL_COLOR_BLUE, FillColor.B, FALSE);
+    Initialize_Spinner(IDC_SAMPLE_RATE, MIN_SAMPLE_RATE, MAX_SAMPLE_RATE, SampleRate);
+    Set_Text(IDC_SAMPLE_RATE_VALUE, SAMPLE_RATE_VALUE_CONTROL_STRING, Get_Sample_Rate());
+    Initialize_Slider(IDC_FILTER_ERROR, 0, PERCENT_SLIDER_TICK_COUNT - 1, FilterError);
+    Set_Text(IDC_FILTER_ERROR_VALUE, "%d", (int)FilterError);
 
-	// Initialize bit depth option.
-	switch (BitDepth) {
+    // Initialize bit depth option.
+    switch (BitDepth) {
 
-		case 16:
-			CheckDlgButton (IDC_16_BITS_PER_PIXEL, 1);
-			break;
+    case 16:
+        CheckDlgButton(IDC_16_BITS_PER_PIXEL, 1);
+        break;
 
-		case 24:
-			CheckDlgButton (IDC_24_BITS_PER_PIXEL, 1);
-			break;
-			
-		default:
-			ASSERT (FALSE);
-			break;
-	}
-	CheckDlgButton (IDC_LIGHT_EXPORT_SELECTIVE, LightExportSelective);
-	GetDlgItem (IDC_LIGHT_EXCLUSION_STRING)->SetWindowText (LightExclusionString);
-	GetDlgItem (IDC_LIGHT_EXCLUSION_STRING)->EnableWindow (LightExportSelective);
+    case 24:
+        CheckDlgButton(IDC_24_BITS_PER_PIXEL, 1);
+        break;
 
-	return TRUE;  // return TRUE unless you set the focus to a control
-	              // EXCEPTION: OCX Property Pages should return FALSE
+    default:
+        ASSERT(FALSE);
+        break;
+    }
+    CheckDlgButton(IDC_LIGHT_EXPORT_SELECTIVE, LightExportSelective);
+    GetDlgItem(IDC_LIGHT_EXCLUSION_STRING)->SetWindowText(LightExclusionString);
+    GetDlgItem(IDC_LIGHT_EXCLUSION_STRING)->EnableWindow(LightExportSelective);
+
+    return TRUE; // return TRUE unless you set the focus to a control
+                 // EXCEPTION: OCX Property Pages should return FALSE
 }
 
-
 /***********************************************************************************************
- * OptionsDialog::DoModal --																						  *
+ * OptionsDialog::DoModal --
+ **
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -190,32 +192,35 @@ BOOL OptionsDialog::OnInitDialog()
  * WARNINGS:                                                                                   *
  *                                                                                             *
  * HISTORY:                                                                                    *
- *   11/2/99    IML : Created.                                                                 * 
+ *   11/2/99    IML : Created.                                                                 *
  *=============================================================================================*/
 int OptionsDialog::DoModal()
 {
-	int result;
+    int result;
 
-	result = CDialog::DoModal();
-	if (result == IDOK) {
-		AfxGetApp()->WriteProfileInt (OPTIONS_SECTION_NAME, SPATIAL_TOLERANCE_NAME, SpatialTolerance);
-		AfxGetApp()->WriteProfileInt (OPTIONS_SECTION_NAME, SMOOTHING_ANGLE_NAME, SmoothingAngle);
-		AfxGetApp()->WriteProfileInt (OPTIONS_SECTION_NAME, FILTER_SHARPNESS_NAME, FilterSharpness);
-		AfxGetApp()->WriteProfileInt (OPTIONS_SECTION_NAME, FILL_COLOR_RED_NAME, FillColor.R);
-		AfxGetApp()->WriteProfileInt (OPTIONS_SECTION_NAME, FILL_COLOR_GREEN_NAME, FillColor.G);
-		AfxGetApp()->WriteProfileInt (OPTIONS_SECTION_NAME, FILL_COLOR_BLUE_NAME, FillColor.B);
-		AfxGetApp()->WriteProfileInt (OPTIONS_SECTION_NAME, SAMPLE_RATE_NAME, SampleRate);
-		AfxGetApp()->WriteProfileInt (OPTIONS_SECTION_NAME, FILTER_ERROR_NAME, FilterError);
-		AfxGetApp()->WriteProfileInt (OPTIONS_SECTION_NAME, BIT_DEPTH_NAME, BitDepth);
-		AfxGetApp()->WriteProfileInt (OPTIONS_SECTION_NAME, LIGHT_EXPORT_SELECTIVE_NAME, LightExportSelective);
-		AfxGetApp()->WriteProfileString (OPTIONS_SECTION_NAME, LIGHT_EXCLUSION_STRING_NAME, LightExclusionString);
-	}
-	return (result);
+    result = CDialog::DoModal();
+    if (result == IDOK) {
+        AfxGetApp()->WriteProfileInt(OPTIONS_SECTION_NAME, SPATIAL_TOLERANCE_NAME,
+                                     SpatialTolerance);
+        AfxGetApp()->WriteProfileInt(OPTIONS_SECTION_NAME, SMOOTHING_ANGLE_NAME, SmoothingAngle);
+        AfxGetApp()->WriteProfileInt(OPTIONS_SECTION_NAME, FILTER_SHARPNESS_NAME, FilterSharpness);
+        AfxGetApp()->WriteProfileInt(OPTIONS_SECTION_NAME, FILL_COLOR_RED_NAME, FillColor.R);
+        AfxGetApp()->WriteProfileInt(OPTIONS_SECTION_NAME, FILL_COLOR_GREEN_NAME, FillColor.G);
+        AfxGetApp()->WriteProfileInt(OPTIONS_SECTION_NAME, FILL_COLOR_BLUE_NAME, FillColor.B);
+        AfxGetApp()->WriteProfileInt(OPTIONS_SECTION_NAME, SAMPLE_RATE_NAME, SampleRate);
+        AfxGetApp()->WriteProfileInt(OPTIONS_SECTION_NAME, FILTER_ERROR_NAME, FilterError);
+        AfxGetApp()->WriteProfileInt(OPTIONS_SECTION_NAME, BIT_DEPTH_NAME, BitDepth);
+        AfxGetApp()->WriteProfileInt(OPTIONS_SECTION_NAME, LIGHT_EXPORT_SELECTIVE_NAME,
+                                     LightExportSelective);
+        AfxGetApp()->WriteProfileString(OPTIONS_SECTION_NAME, LIGHT_EXCLUSION_STRING_NAME,
+                                        LightExclusionString);
+    }
+    return (result);
 }
 
-
 /***********************************************************************************************
- * OptionsDialog::OnChangeSpatialTolerance --																  *
+ * OptionsDialog::OnChangeSpatialTolerance --
+ **
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -224,24 +229,26 @@ int OptionsDialog::DoModal()
  * WARNINGS:                                                                                   *
  *                                                                                             *
  * HISTORY:                                                                                    *
- *   02/03/00    IML : Created.                                                                * 
+ *   02/03/00    IML : Created.                                                                *
  *=============================================================================================*/
-void OptionsDialog::OnChangeSpatialTolerance() 
+void OptionsDialog::OnChangeSpatialTolerance()
 {
-	SpatialTolerance = GetDlgItemInt (IDC_SPATIAL_TOLERANCE, NULL, FALSE);
+    SpatialTolerance = GetDlgItemInt(IDC_SPATIAL_TOLERANCE, NULL, FALSE);
 }
 
-void OptionsDialog::OnUpdateSpatialTolerance() 
+void OptionsDialog::OnUpdateSpatialTolerance()
 {
-	const unsigned maxtolerance = 10000;
+    const unsigned maxtolerance = 10000;
 
-	unsigned v = GetDlgItemInt (IDC_SPATIAL_TOLERANCE, NULL, FALSE);
-	if (v > maxtolerance) SetDlgItemInt (IDC_SPATIAL_TOLERANCE, maxtolerance, FALSE);
+    unsigned v = GetDlgItemInt(IDC_SPATIAL_TOLERANCE, NULL, FALSE);
+    if (v > maxtolerance) {
+        SetDlgItemInt(IDC_SPATIAL_TOLERANCE, maxtolerance, FALSE);
+    }
 }
-
 
 /***********************************************************************************************
- * OptionsDialog::OnChangeFillColorRed --																		  *
+ * OptionsDialog::OnChangeFillColorRed --
+ **
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -250,22 +257,24 @@ void OptionsDialog::OnUpdateSpatialTolerance()
  * WARNINGS:                                                                                   *
  *                                                                                             *
  * HISTORY:                                                                                    *
- *   11/16/99    IML : Created.                                                                * 
+ *   11/16/99    IML : Created.                                                                *
  *=============================================================================================*/
-void OptionsDialog::OnChangeFillColorRed() 
+void OptionsDialog::OnChangeFillColorRed()
 {
-	FillColor.R = GetDlgItemInt (IDC_FILL_COLOR_RED, NULL, FALSE);
+    FillColor.R = GetDlgItemInt(IDC_FILL_COLOR_RED, NULL, FALSE);
 }
 
-void OptionsDialog::OnUpdateFillColorRed() 
+void OptionsDialog::OnUpdateFillColorRed()
 {
-	unsigned v = GetDlgItemInt (IDC_FILL_COLOR_RED, NULL, FALSE);
-	if (v > _UI8_MAX) SetDlgItemInt (IDC_FILL_COLOR_RED, _UI8_MAX, FALSE);
+    unsigned v = GetDlgItemInt(IDC_FILL_COLOR_RED, NULL, FALSE);
+    if (v > _UI8_MAX) {
+        SetDlgItemInt(IDC_FILL_COLOR_RED, _UI8_MAX, FALSE);
+    }
 }
-
 
 /***********************************************************************************************
- * OptionsDialog::OnChangeFillColorGreen --																	  *
+ * OptionsDialog::OnChangeFillColorGreen --
+ **
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -274,23 +283,24 @@ void OptionsDialog::OnUpdateFillColorRed()
  * WARNINGS:                                                                                   *
  *                                                                                             *
  * HISTORY:                                                                                    *
- *   11/16/99    IML : Created.                                                                * 
+ *   11/16/99    IML : Created.                                                                *
  *=============================================================================================*/
-void OptionsDialog::OnChangeFillColorGreen() 
+void OptionsDialog::OnChangeFillColorGreen()
 {
-	FillColor.G = GetDlgItemInt (IDC_FILL_COLOR_GREEN, NULL, FALSE);
+    FillColor.G = GetDlgItemInt(IDC_FILL_COLOR_GREEN, NULL, FALSE);
 }
 
-void OptionsDialog::OnUpdateFillColorGreen() 
+void OptionsDialog::OnUpdateFillColorGreen()
 {
-	unsigned v = GetDlgItemInt (IDC_FILL_COLOR_GREEN, NULL, FALSE);
-	if (v > _UI8_MAX) SetDlgItemInt (IDC_FILL_COLOR_GREEN, _UI8_MAX, FALSE);
+    unsigned v = GetDlgItemInt(IDC_FILL_COLOR_GREEN, NULL, FALSE);
+    if (v > _UI8_MAX) {
+        SetDlgItemInt(IDC_FILL_COLOR_GREEN, _UI8_MAX, FALSE);
+    }
 }
-
-
 
 /***********************************************************************************************
- * OptionsDialog::OnChangeFillColorBlue --																	  *
+ * OptionsDialog::OnChangeFillColorBlue --
+ **
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -299,22 +309,24 @@ void OptionsDialog::OnUpdateFillColorGreen()
  * WARNINGS:                                                                                   *
  *                                                                                             *
  * HISTORY:                                                                                    *
- *   11/16/99    IML : Created.                                                                * 
+ *   11/16/99    IML : Created.                                                                *
  *=============================================================================================*/
-void OptionsDialog::OnChangeFillColorBlue() 
+void OptionsDialog::OnChangeFillColorBlue()
 {
-	FillColor.B = GetDlgItemInt (IDC_FILL_COLOR_BLUE, NULL, FALSE);
+    FillColor.B = GetDlgItemInt(IDC_FILL_COLOR_BLUE, NULL, FALSE);
 }
 
-void OptionsDialog::OnUpdateFillColorBlue() 
+void OptionsDialog::OnUpdateFillColorBlue()
 {
-	unsigned v = GetDlgItemInt (IDC_FILL_COLOR_BLUE, NULL, FALSE);
-	if (v > _UI8_MAX) SetDlgItemInt (IDC_FILL_COLOR_BLUE, _UI8_MAX, FALSE);
+    unsigned v = GetDlgItemInt(IDC_FILL_COLOR_BLUE, NULL, FALSE);
+    if (v > _UI8_MAX) {
+        SetDlgItemInt(IDC_FILL_COLOR_BLUE, _UI8_MAX, FALSE);
+    }
 }
-
 
 /***********************************************************************************************
- * OptionsDialog::On16BitsPerPixel --																			  *
+ * OptionsDialog::On16BitsPerPixel --
+ **
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -323,16 +335,16 @@ void OptionsDialog::OnUpdateFillColorBlue()
  * WARNINGS:                                                                                   *
  *                                                                                             *
  * HISTORY:                                                                                    *
- *   11/2/99    IML : Created.                                                                 * 
+ *   11/2/99    IML : Created.                                                                 *
  *=============================================================================================*/
-void OptionsDialog::On16BitsPerPixel() 
+void OptionsDialog::On16BitsPerPixel()
 {
-	BitDepth = 16;
+    BitDepth = 16;
 }
 
-
 /***********************************************************************************************
- * OptionsDialog::On24BitsPerPixel --																			  *
+ * OptionsDialog::On24BitsPerPixel --
+ **
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -341,16 +353,16 @@ void OptionsDialog::On16BitsPerPixel()
  * WARNINGS:                                                                                   *
  *                                                                                             *
  * HISTORY:                                                                                    *
- *   11/2/99    IML : Created.                                                                 * 
+ *   11/2/99    IML : Created.                                                                 *
  *=============================================================================================*/
-void OptionsDialog::On24BitsPerPixel() 
+void OptionsDialog::On24BitsPerPixel()
 {
-	BitDepth = 24;
+    BitDepth = 24;
 }
 
-
 /***********************************************************************************************
- * OptionsDialog::OnHScroll --																					  *
+ * OptionsDialog::OnHScroll --
+ **
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -359,41 +371,41 @@ void OptionsDialog::On24BitsPerPixel()
  * WARNINGS:                                                                                   *
  *                                                                                             *
  * HISTORY:                                                                                    *
- *   11/2/99    IML : Created.                                                                 * 
+ *   11/2/99    IML : Created.                                                                 *
  *=============================================================================================*/
-void OptionsDialog::OnHScroll (UINT sbcode, UINT pos, CScrollBar *scrollbar) 
+void OptionsDialog::OnHScroll(UINT sbcode, UINT pos, CScrollBar* scrollbar)
 {
-	int controlid = scrollbar->GetDlgCtrlID();
+    int controlid = scrollbar->GetDlgCtrlID();
 
-	CSliderCtrl *slider = (CSliderCtrl*) GetDlgItem (controlid);
-	ASSERT (slider != NULL);
-	switch (controlid) {
+    CSliderCtrl* slider = (CSliderCtrl*)GetDlgItem(controlid);
+    ASSERT(slider != NULL);
+    switch (controlid) {
 
-		case IDC_SMOOTHING_ANGLE:
-			SmoothingAngle = slider->GetPos();
-			Set_Text (IDC_SMOOTHING_ANGLE_VALUE, "%d", (int) SmoothingAngle);
-			break;
+    case IDC_SMOOTHING_ANGLE:
+        SmoothingAngle = slider->GetPos();
+        Set_Text(IDC_SMOOTHING_ANGLE_VALUE, "%d", (int)SmoothingAngle);
+        break;
 
-		case IDC_FILTER_SHARPNESS:
-			FilterSharpness = slider->GetPos();
-			Set_Text (IDC_FILTER_SHARPNESS_VALUE, "%d", (int) FilterSharpness);
-			break;
+    case IDC_FILTER_SHARPNESS:
+        FilterSharpness = slider->GetPos();
+        Set_Text(IDC_FILTER_SHARPNESS_VALUE, "%d", (int)FilterSharpness);
+        break;
 
-		case IDC_FILTER_ERROR:
-			FilterError = slider->GetPos();
-			Set_Text (IDC_FILTER_ERROR_VALUE, "%d", (int) FilterError);
-			break;
+    case IDC_FILTER_ERROR:
+        FilterError = slider->GetPos();
+        Set_Text(IDC_FILTER_ERROR_VALUE, "%d", (int)FilterError);
+        break;
 
-		default:
-			break;
-	}
-	
-	CDialog::OnHScroll (sbcode, pos, scrollbar);
+    default:
+        break;
+    }
+
+    CDialog::OnHScroll(sbcode, pos, scrollbar);
 }
 
-
 /***********************************************************************************************
- * OptionsDialog::OnVScroll --																					  *
+ * OptionsDialog::OnVScroll --
+ **
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -402,31 +414,31 @@ void OptionsDialog::OnHScroll (UINT sbcode, UINT pos, CScrollBar *scrollbar)
  * WARNINGS:                                                                                   *
  *                                                                                             *
  * HISTORY:                                                                                    *
- *   08/16/00    IML : Created.                                                                * 
+ *   08/16/00    IML : Created.                                                                *
  *=============================================================================================*/
-void OptionsDialog::OnVScroll (UINT sbcode, UINT pos, CScrollBar *scrollbar) 
+void OptionsDialog::OnVScroll(UINT sbcode, UINT pos, CScrollBar* scrollbar)
 {
-	int controlid = scrollbar->GetDlgCtrlID();
+    int controlid = scrollbar->GetDlgCtrlID();
 
-	CSpinButtonCtrl *spinner = (CSpinButtonCtrl*) GetDlgItem (controlid);
-	ASSERT (spinner != NULL);
-	switch (controlid) {
+    CSpinButtonCtrl* spinner = (CSpinButtonCtrl*)GetDlgItem(controlid);
+    ASSERT(spinner != NULL);
+    switch (controlid) {
 
-		case IDC_SAMPLE_RATE:
-			SampleRate = spinner->GetPos() & 0xffff;
-			Set_Text (IDC_SAMPLE_RATE_VALUE, SAMPLE_RATE_VALUE_CONTROL_STRING, Get_Sample_Rate());
-			break;
+    case IDC_SAMPLE_RATE:
+        SampleRate = spinner->GetPos() & 0xffff;
+        Set_Text(IDC_SAMPLE_RATE_VALUE, SAMPLE_RATE_VALUE_CONTROL_STRING, Get_Sample_Rate());
+        break;
 
-		default:
-			break;
-	}
+    default:
+        break;
+    }
 
-	CDialog::OnVScroll (sbcode, pos, scrollbar);
+    CDialog::OnVScroll(sbcode, pos, scrollbar);
 }
 
-
 /***********************************************************************************************
- * OptionsDialog::OnLightExportSelective --																	  *
+ * OptionsDialog::OnLightExportSelective --
+ **
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -435,17 +447,17 @@ void OptionsDialog::OnVScroll (UINT sbcode, UINT pos, CScrollBar *scrollbar)
  * WARNINGS:                                                                                   *
  *                                                                                             *
  * HISTORY:                                                                                    *
- *   08/16/00    IML : Created.                                                                * 
+ *   08/16/00    IML : Created.                                                                *
  *=============================================================================================*/
-void OptionsDialog::OnLightExportSelective() 
+void OptionsDialog::OnLightExportSelective()
 {
-	LightExportSelective = !LightExportSelective;
-	GetDlgItem (IDC_LIGHT_EXCLUSION_STRING)->EnableWindow (LightExportSelective);
+    LightExportSelective = !LightExportSelective;
+    GetDlgItem(IDC_LIGHT_EXCLUSION_STRING)->EnableWindow(LightExportSelective);
 }
 
-
 /***********************************************************************************************
- * OptionsDialog::OnChangeLightExclusionString --															  *
+ * OptionsDialog::OnChangeLightExclusionString --
+ **
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -454,16 +466,16 @@ void OptionsDialog::OnLightExportSelective()
  * WARNINGS:                                                                                   *
  *                                                                                             *
  * HISTORY:                                                                                    *
- *   08/16/00    IML : Created.                                                                * 
+ *   08/16/00    IML : Created.                                                                *
  *=============================================================================================*/
-void OptionsDialog::OnChangeLightExclusionString() 
+void OptionsDialog::OnChangeLightExclusionString()
 {
-	GetDlgItem (IDC_LIGHT_EXCLUSION_STRING)->GetWindowText (LightExclusionString);
+    GetDlgItem(IDC_LIGHT_EXCLUSION_STRING)->GetWindowText(LightExclusionString);
 }
 
-
 /***********************************************************************************************
- * OptionsDialog::Initialize_Slider --																			  *
+ * OptionsDialog::Initialize_Slider --
+ **
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -472,44 +484,21 @@ void OptionsDialog::OnChangeLightExclusionString()
  * WARNINGS:                                                                                   *
  *                                                                                             *
  * HISTORY:                                                                                    *
- *   11/2/99    IML : Created.                                                                 * 
+ *   11/2/99    IML : Created.                                                                 *
  *=============================================================================================*/
-void OptionsDialog::Initialize_Slider (int sliderid, int start, int end, int value)
+void OptionsDialog::Initialize_Slider(int sliderid, int start, int end, int value)
 {
-	CSliderCtrl *slider;
+    CSliderCtrl* slider;
 
-	slider = (CSliderCtrl*) GetDlgItem (sliderid);
-	ASSERT (slider != NULL);
-	slider->SetRange (start, end);
-	slider->SetPos (value);
-}	
-
-
-/***********************************************************************************************
- * OptionsDialog::Initialize_Spinner --																		  *
- *                                                                                             *
- * INPUT:                                                                                      *
- *                                                                                             *
- * OUTPUT:                                                                                     *
- *                                                                                             *
- * WARNINGS:                                                                                   *
- *                                                                                             *
- * HISTORY:                                                                                    *
- *   11/2/99    IML : Created.                                                                 * 
- *=============================================================================================*/
-void OptionsDialog::Initialize_Spinner (int spinnerid, int start, int end, int value)
-{
-	CSpinButtonCtrl *spinner;
-	
-	spinner = (CSpinButtonCtrl*) GetDlgItem (spinnerid);
-	ASSERT (spinner != NULL);
-	spinner->SetRange (start, end);
-	spinner->SetPos (value);
+    slider = (CSliderCtrl*)GetDlgItem(sliderid);
+    ASSERT(slider != NULL);
+    slider->SetRange(start, end);
+    slider->SetPos(value);
 }
 
-
 /***********************************************************************************************
- * OptionsDialog::Set_Text --																						  *
+ * OptionsDialog::Initialize_Spinner --
+ **
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -518,19 +507,21 @@ void OptionsDialog::Initialize_Spinner (int spinnerid, int start, int end, int v
  * WARNINGS:                                                                                   *
  *                                                                                             *
  * HISTORY:                                                                                    *
- *   11/2/99    IML : Created.                                                                 * 
+ *   11/2/99    IML : Created.                                                                 *
  *=============================================================================================*/
-void OptionsDialog::Set_Text (int textid, const char *controlstring, int value)
+void OptionsDialog::Initialize_Spinner(int spinnerid, int start, int end, int value)
 {
-	StringBuilder text (32);
+    CSpinButtonCtrl* spinner;
 
-	text.Copy (controlstring, value);
-	GetDlgItem (textid)->SetWindowText (text.String());
+    spinner = (CSpinButtonCtrl*)GetDlgItem(spinnerid);
+    ASSERT(spinner != NULL);
+    spinner->SetRange(start, end);
+    spinner->SetPos(value);
 }
 
-
 /***********************************************************************************************
- * OptionsDialog::Set_Text --																						  *
+ * OptionsDialog::Set_Text --
+ **
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -539,12 +530,33 @@ void OptionsDialog::Set_Text (int textid, const char *controlstring, int value)
  * WARNINGS:                                                                                   *
  *                                                                                             *
  * HISTORY:                                                                                    *
- *   11/2/99    IML : Created.                                                                 * 
+ *   11/2/99    IML : Created.                                                                 *
  *=============================================================================================*/
-void OptionsDialog::Set_Text (int textid, const char *controlstring, float value)
+void OptionsDialog::Set_Text(int textid, const char* controlstring, int value)
 {
-	StringBuilder text (32);
+    StringBuilder text(32);
 
-	text.Copy (controlstring, value);
-	GetDlgItem (textid)->SetWindowText (text.String());
+    text.Copy(controlstring, value);
+    GetDlgItem(textid)->SetWindowText(text.String());
+}
+
+/***********************************************************************************************
+ * OptionsDialog::Set_Text --
+ **
+ *                                                                                             *
+ * INPUT:                                                                                      *
+ *                                                                                             *
+ * OUTPUT:                                                                                     *
+ *                                                                                             *
+ * WARNINGS:                                                                                   *
+ *                                                                                             *
+ * HISTORY:                                                                                    *
+ *   11/2/99    IML : Created.                                                                 *
+ *=============================================================================================*/
+void OptionsDialog::Set_Text(int textid, const char* controlstring, float value)
+{
+    StringBuilder text(32);
+
+    text.Copy(controlstring, value);
+    GetDlgItem(textid)->SetWindowText(text.String());
 }

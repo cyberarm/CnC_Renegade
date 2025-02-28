@@ -19,13 +19,13 @@
 // TCBDialog.cpp : implementation file
 //
 
-#include "stdafx.h"
 #include "SplineTest.h"
 #include "TCBDialog.h"
+#include "cardinalspline.h"
+#include "catmullromspline.h"
 #include "curve.h"
 #include "hermitespline.h"
-#include "catmullromspline.h"
-#include "cardinalspline.h"
+#include "stdafx.h"
 #include "tcbspline.h"
 
 #ifdef _DEBUG
@@ -37,69 +37,66 @@ static char THIS_FILE[] = __FILE__;
 /////////////////////////////////////////////////////////////////////////////
 // CTCBDialog dialog
 
-
-CTCBDialog::CTCBDialog(CWnd* pParent,TCBSpline3DClass * curve,int key)
-	: CDialog(CTCBDialog::IDD, pParent)
+CTCBDialog::CTCBDialog(CWnd* pParent, TCBSpline3DClass* curve, int key)
+    : CDialog(CTCBDialog::IDD, pParent)
 {
-	//{{AFX_DATA_INIT(CTCBDialog)
-		// NOTE: the ClassWizard will add member initialization here
-	//}}AFX_DATA_INIT
-	Curve = curve;
-	Key = key;
+    //{{AFX_DATA_INIT(CTCBDialog)
+    // NOTE: the ClassWizard will add member initialization here
+    //}}AFX_DATA_INIT
+    Curve = curve;
+    Key = key;
 }
-
 
 void CTCBDialog::DoDataExchange(CDataExchange* pDX)
 {
-	CDialog::DoDataExchange(pDX);
-	//{{AFX_DATA_MAP(CTCBDialog)
-		// NOTE: the ClassWizard will add DDX and DDV calls here
-	//}}AFX_DATA_MAP
+    CDialog::DoDataExchange(pDX);
+    //{{AFX_DATA_MAP(CTCBDialog)
+    // NOTE: the ClassWizard will add DDX and DDV calls here
+    //}}AFX_DATA_MAP
 }
 
-
 BEGIN_MESSAGE_MAP(CTCBDialog, CDialog)
-	//{{AFX_MSG_MAP(CTCBDialog)
-	//}}AFX_MSG_MAP
+//{{AFX_MSG_MAP(CTCBDialog)
+//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
 // CTCBDialog message handlers
 
-BOOL CTCBDialog::OnInitDialog() 
+BOOL CTCBDialog::OnInitDialog()
 {
-	CDialog::OnInitDialog();
-	
-	float t,c,b;
-	Curve->Get_TCB_Params(Key,&t,&c,&b);
-	SetDlgItemFloat(IDC_TENSION_EDIT,t);
-	SetDlgItemFloat(IDC_CONTINUITY_EDIT,c);
-	SetDlgItemFloat(IDC_BIAS_EDIT,b);
+    CDialog::OnInitDialog();
 
-	return TRUE;  
+    float t, c, b;
+    Curve->Get_TCB_Params(Key, &t, &c, &b);
+    SetDlgItemFloat(IDC_TENSION_EDIT, t);
+    SetDlgItemFloat(IDC_CONTINUITY_EDIT, c);
+    SetDlgItemFloat(IDC_BIAS_EDIT, b);
+
+    return TRUE;
 }
 
-void CTCBDialog::OnOK() 
+void CTCBDialog::OnOK()
 {
-	float t,c,b;
-	t = GetDlgItemFloat(IDC_TENSION_EDIT);
-	c = GetDlgItemFloat(IDC_CONTINUITY_EDIT);
-	b = GetDlgItemFloat(IDC_BIAS_EDIT);
-	Curve->Set_TCB_Params(Key,t,c,b);
+    float t, c, b;
+    t = GetDlgItemFloat(IDC_TENSION_EDIT);
+    c = GetDlgItemFloat(IDC_CONTINUITY_EDIT);
+    b = GetDlgItemFloat(IDC_BIAS_EDIT);
+    Curve->Set_TCB_Params(Key, t, c, b);
 
-	CDialog::OnOK();
+    CDialog::OnOK();
 }
 
 float CTCBDialog::GetDlgItemFloat(int controlid)
 {
-	CString string;
-	GetDlgItemText(controlid,string);
-	return atof(string);
+    CString string;
+    GetDlgItemText(controlid, string);
+    return atof(string);
 }
 
-void CTCBDialog::SetDlgItemFloat(int controlid,float val)
+void CTCBDialog::SetDlgItemFloat(int controlid, float val)
 {
-	CString string;
-	string.Format("%.2f",val);
-	SetDlgItemText(controlid,string);
+    CString string;
+    string.Format("%.2f", val);
+    SetDlgItemText(controlid, string);
 }

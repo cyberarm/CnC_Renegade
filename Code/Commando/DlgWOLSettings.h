@@ -17,83 +17,81 @@
 */
 
 /******************************************************************************
-*
-* FILE
-*     $Archive: /Commando/Code/Commando/DlgWOLSettings.h $
-*
-* DESCRIPTION
-*     Quick match dialog
-*
-* PROGRAMMER
-*     Denzil E. Long, Jr.
-*     $Author: Denzil_l $
-*
-* VERSION INFO
-*     $Revision: 14 $
-*     $Modtime: 1/19/02 2:29p $
-*
-******************************************************************************/
+ *
+ * FILE
+ *     $Archive: /Commando/Code/Commando/DlgWOLSettings.h $
+ *
+ * DESCRIPTION
+ *     Quick match dialog
+ *
+ * PROGRAMMER
+ *     Denzil E. Long, Jr.
+ *     $Author: Denzil_l $
+ *
+ * VERSION INFO
+ *     $Revision: 14 $
+ *     $Modtime: 1/19/02 2:29p $
+ *
+ ******************************************************************************/
 
 #ifndef __DLGWOLSETTINGS_H__
 #define __DLGWOLSETTINGS_H__
 
 #include "DlgWOLWait.h"
-#include <WWUI\MenuDialog.h>
 #include <WWLib\Notify.h>
 #include <WWOnline\RefPtr.h>
 #include <WWOnline\WOLSession.h>
+#include <WWUI\MenuDialog.h>
 
 class LoginProfile;
 
-class DlgWOLSettings :
-		public MenuDialogClass,
-		public Observer<DlgWOLWaitEvent>
-	{
-	public:
-		static bool DoDialog(void);
+class DlgWOLSettings : public MenuDialogClass, public Observer<DlgWOLWaitEvent>
+{
+public:
+    static bool DoDialog(void);
 
-	protected:
-		DlgWOLSettings();
-		virtual ~DlgWOLSettings();
+protected:
+    DlgWOLSettings();
+    virtual ~DlgWOLSettings();
 
-		bool FinalizeCreate(void);
+    bool FinalizeCreate(void);
 
-		void On_Init_Dialog(void);
-		void On_Destroy(void);
-		void On_Command(int ctrl, int message, DWORD param);
+    void On_Init_Dialog(void);
+    void On_Destroy(void);
+    void On_Command(int ctrl, int message, DWORD param);
 
-		bool SaveSettings(void);
+    bool SaveSettings(void);
 
-		void InitPersonaCombo(void);
-		void ClearPersonaCombo(void);
-		void DeleteSelectedPersona(void);
-		void UpdateForPersona(void);
+    void InitPersonaCombo(void);
+    void ClearPersonaCombo(void);
+    void DeleteSelectedPersona(void);
+    void UpdateForPersona(void);
 
-		void InitServersCombo(const WWOnline::IRCServerList& servers);
-		void SetServerCombo(const char* serverName);
+    void InitServersCombo(const WWOnline::IRCServerList& servers);
+    void SetServerCombo(const char* serverName);
 
-		void InitSideCombo(void);
-		void SetSideCombo(int side);
+    void InitSideCombo(void);
+    void SetSideCombo(int side);
 
-		void InitLocaleCombo(void);
-		void SetLocaleCombo(WOL::Locale locale);
+    void InitLocaleCombo(void);
+    void SetLocaleCombo(WOL::Locale locale);
 
-		void InitConnectionSpeedCombo(void);
+    void InitConnectionSpeedCombo(void);
 
-		void On_ComboBoxCtrl_Sel_Change(ComboBoxCtrlClass* combo, int ctrl, int oldSel, int newSel);
+    void On_ComboBoxCtrl_Sel_Change(ComboBoxCtrlClass* combo, int ctrl, int oldSel, int newSel);
 
-		void HandleNotification(DlgWOLWaitEvent&);
+    void HandleNotification(DlgWOLWaitEvent&);
 
-		LoginProfile* GetLoginProfile(void);
+    LoginProfile* GetLoginProfile(void);
 
-	private:
-		DlgWOLSettings(const DlgWOLSettings&);
-		const DlgWOLSettings& operator=(const DlgWOLSettings&);
+private:
+    DlgWOLSettings(const DlgWOLSettings&);
+    const DlgWOLSettings& operator=(const DlgWOLSettings&);
 
-		RefPtr<WWOnline::Session> mWOLSession;
+    RefPtr<WWOnline::Session> mWOLSession;
 
-		bool DetectingBandwidth;
-		bool WaitingToExitDialog;
-	};
+    bool DetectingBandwidth;
+    bool WaitingToExitDialog;
+};
 
 #endif // __DLGWOLSETTINGS_H__

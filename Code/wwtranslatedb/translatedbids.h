@@ -34,7 +34,6 @@
  * Functions:                                                                                  *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
-
 #if defined(_MSC_VER)
 #pragma once
 #endif
@@ -53,11 +52,10 @@
 //////////////////////////////////////////////////////////////////////////////////
 enum
 {
-	CHUNKID_TRANSLATE_DB		= CHUNKID_WWTRANSLATEDB_BEGIN,
-	CHUNKID_TRANSLATE_OBJ,
-	CHUNKID_TDBCATEGORY,
-	CHUNKID_STRING_TWIDDLER,
+    CHUNKID_TRANSLATE_DB = CHUNKID_WWTRANSLATEDB_BEGIN,
+    CHUNKID_TRANSLATE_OBJ,
+    CHUNKID_TDBCATEGORY,
+    CHUNKID_STRING_TWIDDLER,
 };
-
 
 #endif //__TRANSLATE_DB_IDS_H

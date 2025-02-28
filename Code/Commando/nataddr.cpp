@@ -47,14 +47,11 @@
  * IPXAddressClass::As_String -- Get address in human readable form                            *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
-#include	"always.h"
-#include	"assert.h"
-#include	"nataddr.h"
-
-#include	<stdio.h>
-#include	<string.h>
-
-
+#include "always.h"
+#include "assert.h"
+#include "nataddr.h"
+#include <stdio.h>
+#include <string.h>
 
 /***********************************************************************************************
  * IPAddressClass::IPAddressClass -- Class constructor                                         *
@@ -72,12 +69,10 @@
  *=============================================================================================*/
 IPAddressClass::IPAddressClass(void)
 {
-	WholeAddress = 0x00000000;
-	Port = 0;
-	IsValid = false;
+    WholeAddress = 0x00000000;
+    Port = 0;
+    IsValid = false;
 }
-
-
 
 /***********************************************************************************************
  * IPAddressClass::IPAddressClass -- Class constructor                                         *
@@ -93,13 +88,12 @@ IPAddressClass::IPAddressClass(void)
  * HISTORY:                                                                                    *
  *   3/9/00 12:59PM ST : Created                                                               *
  *=============================================================================================*/
-IPAddressClass::IPAddressClass(unsigned char *address, unsigned short port)
+IPAddressClass::IPAddressClass(unsigned char* address, unsigned short port)
 {
-	WholeAddress = *((unsigned long*)address);
-	Port = port;
-	IsValid = true;
+    WholeAddress = *((unsigned long*)address);
+    Port = port;
+    IsValid = true;
 }
-
 
 /***********************************************************************************************
  * IPAddressClass::IPAddressClass -- Class constructor                                         *
@@ -117,13 +111,10 @@ IPAddressClass::IPAddressClass(unsigned char *address, unsigned short port)
  *=============================================================================================*/
 IPAddressClass::IPAddressClass(unsigned long address, unsigned short port)
 {
-	WholeAddress = address;
-	Port = port;
-	IsValid = true;
+    WholeAddress = address;
+    Port = port;
+    IsValid = true;
 }
-
-
-
 
 /***********************************************************************************************
  * IPAddressClass::Set_Address -- Sets a valid IP address into the class                       *
@@ -139,14 +130,12 @@ IPAddressClass::IPAddressClass(unsigned long address, unsigned short port)
  * HISTORY:                                                                                    *
  *   3/9/00 1:01PM ST : Created                                                                *
  *=============================================================================================*/
-void IPAddressClass::Set_Address(unsigned char *address, unsigned short port)
+void IPAddressClass::Set_Address(unsigned char* address, unsigned short port)
 {
-	WholeAddress = *((unsigned long*)address);
-	Port = port;
-	IsValid = true;
+    WholeAddress = *((unsigned long*)address);
+    Port = port;
+    IsValid = true;
 }
-
-
 
 /***********************************************************************************************
  * IPAddressClass::Set_Address -- Sets a valid IP address into the class                       *
@@ -164,12 +153,10 @@ void IPAddressClass::Set_Address(unsigned char *address, unsigned short port)
  *=============================================================================================*/
 void IPAddressClass::Set_Address(unsigned long address, unsigned short port)
 {
-	WholeAddress = address;
-	Port = port;
-	IsValid = true;
+    WholeAddress = address;
+    Port = port;
+    IsValid = true;
 }
-
-
 
 /***********************************************************************************************
  * IPAddressClass::Get_Address -- Get the address value of this class                          *
@@ -185,17 +172,14 @@ void IPAddressClass::Set_Address(unsigned long address, unsigned short port)
  * HISTORY:                                                                                    *
  *   3/9/00 1:03PM ST : Created                                                                *
  *=============================================================================================*/
-void IPAddressClass::Get_Address(unsigned char *address, unsigned short *port)
+void IPAddressClass::Get_Address(unsigned char* address, unsigned short* port)
 {
-	fw_assert(IsValid);
-	*((unsigned long*)address) = WholeAddress;
-	if (port) {
-		*port = Port;
-	}
+    fw_assert(IsValid);
+    *((unsigned long*)address) = WholeAddress;
+    if (port) {
+        *port = Port;
+    }
 }
-
-
-
 
 /***********************************************************************************************
  * IPAddressClass::Get_Address -- Get the address value of this class                          *
@@ -213,11 +197,9 @@ void IPAddressClass::Get_Address(unsigned char *address, unsigned short *port)
  *=============================================================================================*/
 unsigned long IPAddressClass::Get_Address(void)
 {
-	fw_assert(IsValid);
-	return (WholeAddress);
+    fw_assert(IsValid);
+    return (WholeAddress);
 }
-
-
 
 /***********************************************************************************************
  * IPAddressClass::Get_Port -- Get the port number associated with this address                *
@@ -235,11 +217,9 @@ unsigned long IPAddressClass::Get_Address(void)
  *=============================================================================================*/
 unsigned short IPAddressClass::Get_Port(void)
 {
-	fw_assert(IsValid);
-	return(Port);
+    fw_assert(IsValid);
+    return (Port);
 }
-
-
 
 /***********************************************************************************************
  * IPAddressClass::Is_Broadcast -- Does this class represent a broadcast address?              *
@@ -257,14 +237,11 @@ unsigned short IPAddressClass::Get_Port(void)
  *=============================================================================================*/
 bool IPAddressClass::Is_Broadcast(void)
 {
-	if (IsValid && WholeAddress == 0xffffffff) {
-		return(true);
-	}
-	return(false);
-
+    if (IsValid && WholeAddress == 0xffffffff) {
+        return (true);
+    }
+    return (false);
 }
-
-
 
 /***********************************************************************************************
  * IPAddressClass::As_String -- Get address in human readable form                             *
@@ -280,14 +257,13 @@ bool IPAddressClass::Is_Broadcast(void)
  * HISTORY:                                                                                    *
  *   3/9/00 1:07PM ST : Created                                                                *
  *=============================================================================================*/
-char *IPAddressClass::As_String(void)
+char* IPAddressClass::As_String(void)
 {
-	static char _addr_str[128];
-	sprintf (_addr_str, "%d.%d.%d.%d ; %d", Address[0], Address[1], Address[2], Address[3], (unsigned int)Port);
-	return (_addr_str);
+    static char _addr_str[128];
+    sprintf(_addr_str, "%d.%d.%d.%d ; %d", Address[0], Address[1], Address[2], Address[3],
+            (unsigned int)Port);
+    return (_addr_str);
 }
-
-
 
 /***********************************************************************************************
  * IPAddressClass::Is_IP_Equal -- Compare the IP portion of the address only, ignore the port  *
@@ -303,60 +279,12 @@ char *IPAddressClass::As_String(void)
  * HISTORY:                                                                                    *
  *   10/25/00 2:23PM ST : Created                                                              *
  *=============================================================================================*/
-bool IPAddressClass::Is_IP_Equal(IPAddressClass &address)
+bool IPAddressClass::Is_IP_Equal(IPAddressClass& address)
 {
-	if (IsValid && address.Is_Valid() && address.Get_Address() == WholeAddress) {
-		return(true);
-	}
-	return(false);
-
-}
-
-
-
-/***********************************************************************************************
- * IPAddressClass::operator == - Equality operator for the class                               *
- *                                                                                             *
- *                                                                                             *
- *                                                                                             *
- * INPUT:    Class to compare to                                                               *
- *                                                                                             *
- * OUTPUT:   True if the same                                                                  *
- *                                                                                             *
- * WARNINGS: None                                                                              *
- *                                                                                             *
- * HISTORY:                                                                                    *
- *   3/9/00 1:10PM ST : Created                                                                *
- *=============================================================================================*/
-bool IPAddressClass::operator == (IPAddressClass &address)
-{
-	if (IsValid && address.Is_Valid() && address.Get_Address() == WholeAddress && address.Get_Port() == Port) {
-		return(true);
-	}
-	return(false);
-}
-
-
-/***********************************************************************************************
- * IPAddressClass::operator != - Non-equality operator for the class                           *
- *                                                                                             *
- *                                                                                             *
- *                                                                                             *
- * INPUT:    Class to compare to                                                               *
- *                                                                                             *
- * OUTPUT:   True if not the same                                                              *
- *                                                                                             *
- * WARNINGS: None                                                                              *
- *                                                                                             *
- * HISTORY:                                                                                    *
- *   3/9/00 1:10PM ST : Created                                                                *
- *=============================================================================================*/
-bool IPAddressClass::operator != (IPAddressClass &address)
-{
-	if (!IsValid || !address.Is_Valid() || address.Get_Address() != WholeAddress || address.Get_Port() != Port) {
-		return(true);
-	}
-	return(false);
+    if (IsValid && address.Is_Valid() && address.Get_Address() == WholeAddress) {
+        return (true);
+    }
+    return (false);
 }
 
 /***********************************************************************************************
@@ -373,14 +301,14 @@ bool IPAddressClass::operator != (IPAddressClass &address)
  * HISTORY:                                                                                    *
  *   3/9/00 1:10PM ST : Created                                                                *
  *=============================================================================================*/
-bool IPAddressClass::operator == (IPAddressClass address)
+bool IPAddressClass::operator==(IPAddressClass& address)
 {
-	if (IsValid && address.Is_Valid() && address.Get_Address() == WholeAddress && address.Get_Port() == Port) {
-		return(true);
-	}
-	return(false);
+    if (IsValid && address.Is_Valid() && address.Get_Address() == WholeAddress
+        && address.Get_Port() == Port) {
+        return (true);
+    }
+    return (false);
 }
-
 
 /***********************************************************************************************
  * IPAddressClass::operator != - Non-equality operator for the class                           *
@@ -396,14 +324,60 @@ bool IPAddressClass::operator == (IPAddressClass address)
  * HISTORY:                                                                                    *
  *   3/9/00 1:10PM ST : Created                                                                *
  *=============================================================================================*/
-bool IPAddressClass::operator != (IPAddressClass address)
+bool IPAddressClass::operator!=(IPAddressClass& address)
 {
-	if (!IsValid || !address.Is_Valid() || address.Get_Address() != WholeAddress || address.Get_Port() != Port) {
-		return(true);
-	}
-	return(false);
+    if (!IsValid || !address.Is_Valid() || address.Get_Address() != WholeAddress
+        || address.Get_Port() != Port) {
+        return (true);
+    }
+    return (false);
 }
 
+/***********************************************************************************************
+ * IPAddressClass::operator == - Equality operator for the class                               *
+ *                                                                                             *
+ *                                                                                             *
+ *                                                                                             *
+ * INPUT:    Class to compare to                                                               *
+ *                                                                                             *
+ * OUTPUT:   True if the same                                                                  *
+ *                                                                                             *
+ * WARNINGS: None                                                                              *
+ *                                                                                             *
+ * HISTORY:                                                                                    *
+ *   3/9/00 1:10PM ST : Created                                                                *
+ *=============================================================================================*/
+bool IPAddressClass::operator==(IPAddressClass address)
+{
+    if (IsValid && address.Is_Valid() && address.Get_Address() == WholeAddress
+        && address.Get_Port() == Port) {
+        return (true);
+    }
+    return (false);
+}
+
+/***********************************************************************************************
+ * IPAddressClass::operator != - Non-equality operator for the class                           *
+ *                                                                                             *
+ *                                                                                             *
+ *                                                                                             *
+ * INPUT:    Class to compare to                                                               *
+ *                                                                                             *
+ * OUTPUT:   True if not the same                                                              *
+ *                                                                                             *
+ * WARNINGS: None                                                                              *
+ *                                                                                             *
+ * HISTORY:                                                                                    *
+ *   3/9/00 1:10PM ST : Created                                                                *
+ *=============================================================================================*/
+bool IPAddressClass::operator!=(IPAddressClass address)
+{
+    if (!IsValid || !address.Is_Valid() || address.Get_Address() != WholeAddress
+        || address.Get_Port() != Port) {
+        return (true);
+    }
+    return (false);
+}
 
 /***********************************************************************************************
  * IPAddressClass::operator = Assignment operator                                              *
@@ -419,20 +393,20 @@ bool IPAddressClass::operator != (IPAddressClass address)
  * HISTORY:                                                                                    *
  *   3/9/00 1:10PM ST : Created                                                                *
  *=============================================================================================*/
-bool IPAddressClass::operator = (const IPAddressClass &address)
+bool IPAddressClass::operator=(const IPAddressClass& address)
 {
-	IsValid = ((IPAddressClass &)address).Is_Valid();
+    IsValid = ((IPAddressClass&)address).Is_Valid();
 
-	/*
-	** Can't read an invalid address without causing an assert.
-	*/
-	if (IsValid) {
-		WholeAddress = ((IPAddressClass &)address).Get_Address();
-		Port = ((IPAddressClass &)address).Get_Port();
-	} else {
-		WholeAddress = 0xffffffff;
-		Port = 0;
-	}
-	return(IsValid);
+    /*
+    ** Can't read an invalid address without causing an assert.
+    */
+    if (IsValid) {
+        WholeAddress = ((IPAddressClass&)address).Get_Address();
+        Port = ((IPAddressClass&)address).Get_Port();
+    }
+    else {
+        WholeAddress = 0xffffffff;
+        Port = 0;
+    }
+    return (IsValid);
 }
-

@@ -17,22 +17,22 @@
 */
 
 /******************************************************************************
-*
-* FILE
-*     $Archive: /Commando/Code/Launcher/Toolkit/Support/UTypes.h $
-*
-* DESCRIPTION
-*     Generic user type definitions
-*
-* PROGRAMMER
-*     Denzil E. Long, Jr.
-*     $Author: Denzil_l $
-*
-* VERSION INFO
-*     $Modtime: 8/18/00 10:39a $
-*     $Revision: 1 $
-*
-******************************************************************************/
+ *
+ * FILE
+ *     $Archive: /Commando/Code/Launcher/Toolkit/Support/UTypes.h $
+ *
+ * DESCRIPTION
+ *     Generic user type definitions
+ *
+ * PROGRAMMER
+ *     Denzil E. Long, Jr.
+ *     $Author: Denzil_l $
+ *
+ * VERSION INFO
+ *     $Modtime: 8/18/00 10:39a $
+ *     $Revision: 1 $
+ *
+ ******************************************************************************/
 
 #ifndef UTYPES_H
 #define UTYPES_H
@@ -80,7 +80,12 @@ typedef double Float64;
 typedef Float32 Float;
 
 //! TriState
-typedef enum {OFF = false, ON = true, PENDING = -1} TriState;
+typedef enum
+{
+    OFF = false,
+    ON = true,
+    PENDING = -1
+} TriState;
 
 //! Empty pointer
 #ifndef NULL

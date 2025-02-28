@@ -31,38 +31,29 @@
 //*****************************************************************************
 
 #include "cominit.h"
-
 #include <objbase.h>
 
-//#include "utility.h"
+// #include "utility.h"
 
-// 
+//
 // Creating this instance will setup all COM stuff & do cleanup on program exit
 //
-static cComInit	global_com_initializer;
+static cComInit global_com_initializer;
 
 //---------------------------------------------------------------------------
-cComInit::cComInit
-(
-	void
-)
+cComInit::cComInit(void)
 {
-	HRESULT hres = ::CoInitialize(NULL);
-	if (!SUCCEEDED(hres))
-	{
-		::MessageBox(NULL, "Unable to initialize COM.", "Error:", MB_OK | MB_ICONERROR);
-		::exit(0);
-	}
+    HRESULT hres = ::CoInitialize(NULL);
+    if (!SUCCEEDED(hres)) {
+        ::MessageBox(NULL, "Unable to initialize COM.", "Error:", MB_OK | MB_ICONERROR);
+        ::exit(0);
+    }
 }
 
 //---------------------------------------------------------------------------
-cComInit::~cComInit
-(
-	void
-)
+cComInit::~cComInit(void)
 {
-	::CoUninitialize();
+    ::CoUninitialize();
 }
 
 //---------------------------------------------------------------------------
-

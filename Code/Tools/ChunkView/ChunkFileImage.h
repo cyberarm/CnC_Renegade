@@ -34,67 +34,57 @@
  * Functions:                                                                                  *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
-
 #ifndef CHUNKFILEIMAGE_H
 #define CHUNKFILEIMAGE_H
-
 
 #include "bittype.h"
 
 class ChunkLoadClass;
 class ChunkImageClass;
 
-
-
 class ChunkFileImageClass
 {
 public:
+    ChunkFileImageClass(void);
+    ~ChunkFileImageClass(void);
 
-	ChunkFileImageClass(void);
-	~ChunkFileImageClass(void);
-
-	void									Reset(void);
-	void									Load(const char * filename);
-	const ChunkImageClass *			Get_Root(void) const								{ return RootNode; }
+    void Reset(void);
+    void Load(const char* filename);
+    const ChunkImageClass* Get_Root(void) const { return RootNode; }
 
 protected:
-
-	ChunkImageClass *					RootNode;
-
+    ChunkImageClass* RootNode;
 };
-
 
 class ChunkImageClass
 {
 public:
+    ChunkImageClass(void);
+    ~ChunkImageClass(void);
 
-	ChunkImageClass(void);
-	~ChunkImageClass(void);
+    void Load(ChunkLoadClass& cload);
+    void Add_Child(ChunkImageClass* child);
 
-	void									Load(ChunkLoadClass & cload);
-	void									Add_Child(ChunkImageClass * child);	
+    uint32 Get_ID(void) const { return ID; }
+    uint32 Get_Length(void) const { return Length; }
+    const uint8* Get_Data(void) const { return Data; }
 
-	uint32								Get_ID(void) const								{ return ID; }
-	uint32								Get_Length(void) const							{ return Length; }
-	const uint8 *						Get_Data(void)	const								{ return Data; }
+    int Get_Child_Count(void) const;
+    const ChunkImageClass* Get_Child(int i) const;
 
-	int									Get_Child_Count(void) const;
-	const ChunkImageClass *			Get_Child(int i) const;
-
-	int									Get_Sibling_Count(void) const;
-	const ChunkImageClass *			Get_Sibling(int i) const;
+    int Get_Sibling_Count(void) const;
+    const ChunkImageClass* Get_Sibling(int i) const;
 
 protected:
+    void Add_Sibling(ChunkImageClass* sibling);
 
-	void									Add_Sibling(ChunkImageClass * sibling);
+    ChunkImageClass* Child;
+    ChunkImageClass* Sibling;
+    unsigned char* Data;
+    unsigned long ID;
+    unsigned long Length;
 
-	ChunkImageClass *					Child;
-	ChunkImageClass *					Sibling;
-	unsigned char *					Data;
-	unsigned long						ID;
-	unsigned long						Length;
-
-	friend class ChunkFileImageClass;
+    friend class ChunkFileImageClass;
 };
 
 #endif

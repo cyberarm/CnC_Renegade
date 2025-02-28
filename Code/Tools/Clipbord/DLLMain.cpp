@@ -28,33 +28,27 @@ static BOOL controlsInit = FALSE;
 // DllMain
 //----------------------------------------------------------------------------
 
-BOOL WINAPI DllMain
-(
-	HINSTANCE hinstDLL,
-	ULONG,
-	LPVOID
-)
+BOOL WINAPI DllMain(HINSTANCE hinstDLL, ULONG, LPVOID)
 {
-	hInstance = hinstDLL;
+    hInstance = hinstDLL;
 
-	if ( ! controlsInit )
-	{
-		controlsInit = TRUE;
-		
-		InitCustomControls(hInstance);		// jaguar controls
-		InitCommonControls();				// initialize Chicago controls
-	}
-			
-	return TRUE;
+    if (!controlsInit) {
+        controlsInit = TRUE;
+
+        InitCustomControls(hInstance); // jaguar controls
+        InitCommonControls(); // initialize Chicago controls
+    }
+
+    return TRUE;
 }
 
 //----------------------------------------------------------------------------
 // LibDescription
 //----------------------------------------------------------------------------
 
-DLLEXPORT const TCHAR * LibDescription()
+DLLEXPORT const TCHAR* LibDescription()
 {
-	return _T("Animation Key Clipboard Utility");
+    return _T("Animation Key Clipboard Utility");
 }
 
 //----------------------------------------------------------------------------
@@ -63,16 +57,16 @@ DLLEXPORT const TCHAR * LibDescription()
 
 DLLEXPORT int LibNumberClasses()
 {
-	return 1;
+    return 1;
 }
 
 //----------------------------------------------------------------------------
 // LibClassDesc
 //----------------------------------------------------------------------------
 
-DLLEXPORT ClassDesc * LibClassDesc(int i)
+DLLEXPORT ClassDesc* LibClassDesc(int i)
 {
-	return ClipboardDesc ();
+    return ClipboardDesc();
 }
 
 //----------------------------------------------------------------------------
@@ -81,5 +75,5 @@ DLLEXPORT ClassDesc * LibClassDesc(int i)
 
 DLLEXPORT ULONG LibVersion()
 {
-	return VERSION_3DSMAX;
+    return VERSION_3DSMAX;
 }

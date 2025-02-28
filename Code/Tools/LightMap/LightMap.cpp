@@ -16,35 +16,35 @@
 **	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-/*********************************************************************************************** 
- ***                            Confidential - Westwood Studios                              *** 
- *********************************************************************************************** 
- *                                                                                             * 
- *                 Project Name : LightMap                                                     * 
- *                                                                                             * 
- *                     $Archive:: /Commando/Code/Tool $* 
- *                                                                                             * 
- *                      $Author:: Ian_l               $* 
- *                                                                                             * 
- *                     $Modtime:: 7/19/01 8:13p       $* 
- *                                                                                             * 
- *                    $Revision:: 11                                                        $* 
- *                                                                                             * 
- *---------------------------------------------------------------------------------------------* 
- * Functions:                                                                                  * 
+/***********************************************************************************************
+ ***                            Confidential - Westwood Studios                              ***
+ ***********************************************************************************************
+ *                                                                                             *
+ *                 Project Name : LightMap                                                     *
+ *                                                                                             *
+ *                     $Archive:: /Commando/Code/Tool $*
+ *                                                                                             *
+ *                      $Author:: Ian_l               $*
+ *                                                                                             *
+ *                     $Modtime:: 7/19/01 8:13p       $*
+ *                                                                                             *
+ *                    $Revision:: 11                                                        $*
+ *                                                                                             *
+ *---------------------------------------------------------------------------------------------*
+ * Functions:                                                                                  *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
 // Includes.
-#include "StdAfx.h"
 #include "LightMap.h"
 #include "LightMapView.h"
 #include "MainFrm.h"
+#include "StdAfx.h"
 #include "verchk.h"
-#include <stdlib.h>
 #include <direct.h>
+#include <stdlib.h>
 
 //	Static functions.
-BOOL CALLBACK TopLevelWindowSearch (HWND hwnd, LPARAM lParam);
+BOOL CALLBACK TopLevelWindowSearch(HWND hwnd, LPARAM lParam);
 
 // The following is maintained by MFC tools.
 #ifdef _DEBUG
@@ -54,64 +54,67 @@ static char THIS_FILE[] = __FILE__;
 #endif
 
 BEGIN_MESSAGE_MAP(LightMapApp, CWinApp)
-	//{{AFX_MSG_MAP(LightMapApp)
-	ON_COMMAND(ID_APP_ABOUT, OnAppAbout)
-	ON_COMMAND(ID_FILE_OPEN, OnFileOpen)
-	//}}AFX_MSG_MAP
-	// Standard file based document commands
-	ON_COMMAND(ID_FILE_NEW, CWinApp::OnFileNew)
-	ON_COMMAND(ID_FILE_OPEN, CWinApp::OnFileOpen)
+//{{AFX_MSG_MAP(LightMapApp)
+ON_COMMAND(ID_APP_ABOUT, OnAppAbout)
+ON_COMMAND(ID_FILE_OPEN, OnFileOpen)
+//}}AFX_MSG_MAP
+// Standard file based document commands
+ON_COMMAND(ID_FILE_NEW, CWinApp::OnFileNew)
+ON_COMMAND(ID_FILE_OPEN, CWinApp::OnFileOpen)
 END_MESSAGE_MAP()
 
 // The one and only LightMapApp object
 LightMapApp theApp;
 
-
 class CAboutDlg : public CDialog
 {
 public:
-	CAboutDlg();
+    CAboutDlg();
 
-// Dialog Data
-	//{{AFX_DATA(CAboutDlg)
-	enum { IDD = IDD_ABOUTBOX };
-	//}}AFX_DATA
+    // Dialog Data
+    //{{AFX_DATA(CAboutDlg)
+    enum
+    {
+        IDD = IDD_ABOUTBOX
+    };
+    //}}AFX_DATA
 
-	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CAboutDlg)
-	protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
-	//}}AFX_VIRTUAL
-
-// Implementation
+    // ClassWizard generated virtual function overrides
+    //{{AFX_VIRTUAL(CAboutDlg)
 protected:
-	//{{AFX_MSG(CAboutDlg)
-	virtual BOOL OnInitDialog();
-	//}}AFX_MSG
-	DECLARE_MESSAGE_MAP()
+    virtual void DoDataExchange(CDataExchange* pDX); // DDX/DDV support
+    //}}AFX_VIRTUAL
+
+    // Implementation
+protected:
+    //{{AFX_MSG(CAboutDlg)
+    virtual BOOL OnInitDialog();
+    //}}AFX_MSG
+    DECLARE_MESSAGE_MAP()
 };
 
-CAboutDlg::CAboutDlg() : CDialog(CAboutDlg::IDD)
+CAboutDlg::CAboutDlg()
+    : CDialog(CAboutDlg::IDD)
 {
-	//{{AFX_DATA_INIT(CAboutDlg)
-	//}}AFX_DATA_INIT
+    //{{AFX_DATA_INIT(CAboutDlg)
+    //}}AFX_DATA_INIT
 }
 
 void CAboutDlg::DoDataExchange(CDataExchange* pDX)
 {
-	CDialog::DoDataExchange(pDX);
-	//{{AFX_DATA_MAP(CAboutDlg)
-	//}}AFX_DATA_MAP
+    CDialog::DoDataExchange(pDX);
+    //{{AFX_DATA_MAP(CAboutDlg)
+    //}}AFX_DATA_MAP
 }
 
 BEGIN_MESSAGE_MAP(CAboutDlg, CDialog)
-	//{{AFX_MSG_MAP(CAboutDlg)
-	//}}AFX_MSG_MAP
+//{{AFX_MSG_MAP(CAboutDlg)
+//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
-
 /***********************************************************************************************
- * LightMapApp:: --																									  *
+ * LightMapApp:: --
+ **
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -120,16 +123,16 @@ END_MESSAGE_MAP()
  * WARNINGS:                                                                                   *
  *                                                                                             *
  * HISTORY:                                                                                    *
- *   6/1/99    IML : Created.                                                                  * 
+ *   6/1/99    IML : Created.                                                                  *
  *=============================================================================================*/
 LightMapApp::LightMapApp()
 {
-	// NOTE: Place all significant initialization in InitInstance
+    // NOTE: Place all significant initialization in InitInstance
 }
 
-
 /***********************************************************************************************
- * LightMapApp:: --																									  *
+ * LightMapApp:: --
+ **
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -138,99 +141,98 @@ LightMapApp::LightMapApp()
  * WARNINGS:                                                                                   *
  *                                                                                             *
  * HISTORY:                                                                                    *
- *   6/1/99    IML : Created.                                                                  * 
+ *   6/1/99    IML : Created.                                                                  *
  *=============================================================================================*/
 BOOL LightMapApp::InitInstance()
 {
-	char computername [MAX_COMPUTERNAME_LENGTH + 1];
-	char processidname [33];
+    char computername[MAX_COMPUTERNAME_LENGTH + 1];
+    char processidname[33];
 
-	DWORD computernamesize;
+    DWORD computernamesize;
 
-	// Standard initialization
-	// If you are not using these features and wish to reduce the size
-	// of your final executable, you should remove from the following
-	// specific initialization routines you do not need.
+    // Standard initialization
+    // If you are not using these features and wish to reduce the size
+    // of your final executable, you should remove from the following
+    // specific initialization routines you do not need.
 
 #ifdef _AFXDLL
-	Enable3dControls();			// Call this when using MFC in a shared DLL
+    Enable3dControls(); // Call this when using MFC in a shared DLL
 #else
-	Enable3dControlsStatic();	// Call this when linking to MFC statically
+    Enable3dControlsStatic(); // Call this when linking to MFC statically
 #endif
 
-	Do_Version_Check();
+    Do_Version_Check();
 
-	// Set the working path. 
-	_getdcwd (0, WorkingPath, sizeof (WorkingPath));
-	strcat (WorkingPath, "\\");
+    // Set the working path.
+    _getdcwd(0, WorkingPath, sizeof(WorkingPath));
+    strcat(WorkingPath, "\\");
 
-	// Set the instance name.
-	computernamesize = sizeof (computername);
-	GetComputerName (computername, &computernamesize);
-	itoa (GetCurrentProcessId(), processidname, 16); 
-	strcpy (InstanceName, computername);
-	strcat (InstanceName, processidname);
+    // Set the instance name.
+    computernamesize = sizeof(computername);
+    GetComputerName(computername, &computernamesize);
+    itoa(GetCurrentProcessId(), processidname, 16);
+    strcpy(InstanceName, computername);
+    strcat(InstanceName, processidname);
 
-	// Version 0.1 by default.
-	ApplicationVersion = 1;
+    // Version 0.1 by default.
+    ApplicationVersion = 1;
 
-	// Get the name and path of the currently executing application.
-	TCHAR filename [MAX_PATH];
-	::GetModuleFileName (NULL, filename, sizeof (filename));
+    // Get the name and path of the currently executing application.
+    TCHAR filename[MAX_PATH];
+    ::GetModuleFileName(NULL, filename, sizeof(filename));
 
-	// Get the version information for this application.
-	DWORD dummy_var = 0;
-	DWORD version_size = ::GetFileVersionInfoSize (filename, &dummy_var);
-	if (version_size > 0) {
+    // Get the version information for this application.
+    DWORD dummy_var = 0;
+    DWORD version_size = ::GetFileVersionInfoSize(filename, &dummy_var);
+    if (version_size > 0) {
 
-		// Get the file version block
-		LPBYTE pblock = new BYTE [version_size];
-		if (::GetFileVersionInfo (filename, 0L, version_size, pblock)) {
+        // Get the file version block
+        LPBYTE pblock = new BYTE[version_size];
+        if (::GetFileVersionInfo(filename, 0L, version_size, pblock)) {
 
-			// Query the block for the file version information.
-			UINT version_len = 0;
-			VS_FIXEDFILEINFO *pversion_info = NULL;
-			if (::VerQueryValue (pblock, "\\", (LPVOID*) &pversion_info, &version_len)) {
-				ApplicationVersion = pversion_info->dwFileVersionMS;
-			}
-		}
-		delete [] pblock;
-	}
+            // Query the block for the file version information.
+            UINT version_len = 0;
+            VS_FIXEDFILEINFO* pversion_info = NULL;
+            if (::VerQueryValue(pblock, "\\", (LPVOID*)&pversion_info, &version_len)) {
+                ApplicationVersion = pversion_info->dwFileVersionMS;
+            }
+        }
+        delete[] pblock;
+    }
 
-	SetRegistryKey ("Westwood Studios");
-	LoadStdProfileSettings();  // Load standard INI file options (including MRU)
+    SetRegistryKey("Westwood Studios");
+    LoadStdProfileSettings(); // Load standard INI file options (including MRU)
 
-	// Register the application's document templates.  Document templates
-	// serve as the connection between documents, frame windows and views.
-	CSingleDocTemplate* pDocTemplate;
-	pDocTemplate = new CSingleDocTemplate(
-		IDR_MAINFRAME,
-		RUNTIME_CLASS(LightMapDoc),
-		RUNTIME_CLASS(CMainFrame),       
-		RUNTIME_CLASS(LightMapView));
-	AddDocTemplate(pDocTemplate);
+    // Register the application's document templates.  Document templates
+    // serve as the connection between documents, frame windows and views.
+    CSingleDocTemplate* pDocTemplate;
+    pDocTemplate = new CSingleDocTemplate(IDR_MAINFRAME, RUNTIME_CLASS(LightMapDoc),
+                                          RUNTIME_CLASS(CMainFrame), RUNTIME_CLASS(LightMapView));
+    AddDocTemplate(pDocTemplate);
 
-	// Parse command line for standard shell commands, DDE, file open.
-	CCommandLineInfo cmdInfo;
+    // Parse command line for standard shell commands, DDE, file open.
+    CCommandLineInfo cmdInfo;
 
-	ParseCommandLine (cmdInfo);
+    ParseCommandLine(cmdInfo);
 
-	EnableShellOpen();
-	RegisterShellFileTypes (TRUE);
+    EnableShellOpen();
+    RegisterShellFileTypes(TRUE);
 
-	// Dispatch commands specified on the command line.
-	if (!ProcessShellCommand (cmdInfo)) return (FALSE);
-	
-	m_pMainWnd->DragAcceptFiles();
+    // Dispatch commands specified on the command line.
+    if (!ProcessShellCommand(cmdInfo)) {
+        return (FALSE);
+    }
 
-	return (TRUE);
+    m_pMainWnd->DragAcceptFiles();
+
+    return (TRUE);
 }
-
 
 /***********************************************************************************************
  * LightMapApp::Do_Version_Check --	 Check if this version of lightmap is newer or older than  *
- *												 a version at a designated location on the network and if  *
- *												 older then report this fact to user.							  *
+ *												 a
+ *version at a designated location on the network and if  * older then report this fact to user.
+ **
  *																															  *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -242,28 +244,31 @@ BOOL LightMapApp::InitInstance()
  *   05/15/00    IML : Created.                                                                *
  *=============================================================================================*/
 void LightMapApp::Do_Version_Check()
-{	
-	const char *networkpath		= "\\\\Mobius\\Project7\\Projects\\Renegade\\Programming\\Tools\\Lightmap";
-	const char *newversiontext = "There is a newer version of the Lightmap tool. Please run 'Renegade Update' to update your local copy.";
+{
+    const char* networkpath
+        = "\\\\Mobius\\Project7\\Projects\\Renegade\\Programming\\Tools\\Lightmap";
+    const char* newversiontext = "There is a newer version of the Lightmap tool. Please run "
+                                 "'Renegade Update' to update your local copy.";
 
-	char pathname [_MAX_PATH];
-	char filename [_MAX_FNAME];
-	char extension [_MAX_EXT];
-	
-	::GetModuleFileName (NULL, pathname, MAX_PATH);
-	_splitpath (pathname, NULL, NULL, filename, extension);
-	strcpy (pathname, "\\\\Mobius\\Project7\\Projects\\Renegade\\Programming\\Tools\\Lightmap\\");
-	strcat (pathname, filename);
-	strcat (pathname, extension);
+    char pathname[_MAX_PATH];
+    char filename[_MAX_FNAME];
+    char extension[_MAX_EXT];
 
-	if (Compare_EXE_Version ((int)::AfxGetInstanceHandle(), pathname) < 0) {
-		::MessageBox (NULL, newversiontext, "Version Information", MB_ICONEXCLAMATION | MB_OK | MB_SETFOREGROUND | MB_SYSTEMMODAL);
-	}
+    ::GetModuleFileName(NULL, pathname, MAX_PATH);
+    _splitpath(pathname, NULL, NULL, filename, extension);
+    strcpy(pathname, "\\\\Mobius\\Project7\\Projects\\Renegade\\Programming\\Tools\\Lightmap\\");
+    strcat(pathname, filename);
+    strcat(pathname, extension);
+
+    if (Compare_EXE_Version((int)::AfxGetInstanceHandle(), pathname) < 0) {
+        ::MessageBox(NULL, newversiontext, "Version Information",
+                     MB_ICONEXCLAMATION | MB_OK | MB_SETFOREGROUND | MB_SYSTEMMODAL);
+    }
 }
 
-
 /***********************************************************************************************
- * LightMapApp::TopLevelWindowSearch --																		  *
+ * LightMapApp::TopLevelWindowSearch --
+ **
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -274,22 +279,22 @@ void LightMapApp::Do_Version_Check()
  * HISTORY:                                                                                    *
  *   05/15/00    IML : Created.                                                                *
  *=============================================================================================*/
-BOOL CALLBACK TopLevelWindowSearch (HWND hwnd, LPARAM lParam)
+BOOL CALLBACK TopLevelWindowSearch(HWND hwnd, LPARAM lParam)
 {
-	BOOL bcontinue = TRUE;
+    BOOL bcontinue = TRUE;
 
-	// Is this a viewer window?
-	if (::GetProp (hwnd, "LIGHTMAP") != 0) {
-		bcontinue = FALSE;
-		(*((HWND*)lParam)) = hwnd;
-	}
+    // Is this a viewer window?
+    if (::GetProp(hwnd, "LIGHTMAP") != 0) {
+        bcontinue = FALSE;
+        (*((HWND*)lParam)) = hwnd;
+    }
 
-	return (bcontinue);
+    return (bcontinue);
 }
 
-
 /***********************************************************************************************
- * LightMapApp:: --																									  *
+ * LightMapApp:: --
+ **
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -298,23 +303,23 @@ BOOL CALLBACK TopLevelWindowSearch (HWND hwnd, LPARAM lParam)
  * WARNINGS:                                                                                   *
  *                                                                                             *
  * HISTORY:                                                                                    *
- *   6/1/99    IML : Created.                                                                  * 
+ *   6/1/99    IML : Created.                                                                  *
  *=============================================================================================*/
-LightMapDoc* LightMapApp::GetDoc() 
+LightMapDoc* LightMapApp::GetDoc()
 {
-	POSITION pos = GetFirstDocTemplatePosition();
-	CDocTemplate *pDocTemplate = GetNextDocTemplate (pos);
+    POSITION pos = GetFirstDocTemplatePosition();
+    CDocTemplate* pDocTemplate = GetNextDocTemplate(pos);
 
-	pos = pDocTemplate->GetFirstDocPosition();
-	LightMapDoc* pDoc = (LightMapDoc*)pDocTemplate->GetNextDoc (pos);
-	ASSERT (pDoc->IsKindOf(RUNTIME_CLASS(LightMapDoc)));
+    pos = pDocTemplate->GetFirstDocPosition();
+    LightMapDoc* pDoc = (LightMapDoc*)pDocTemplate->GetNextDoc(pos);
+    ASSERT(pDoc->IsKindOf(RUNTIME_CLASS(LightMapDoc)));
 
-	return (pDoc);
+    return (pDoc);
 }
 
-
 /***********************************************************************************************
- * LightMapApp:: --																									  *
+ * LightMapApp:: --
+ **
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -323,18 +328,18 @@ LightMapDoc* LightMapApp::GetDoc()
  * WARNINGS:                                                                                   *
  *                                                                                             *
  * HISTORY:                                                                                    *
- *   6/1/99    IML : Created.                                                                  * 
+ *   6/1/99    IML : Created.                                                                  *
  *=============================================================================================*/
 void LightMapApp::OnAppAbout()
 {
-	CAboutDlg aboutDlg;
-	
-	aboutDlg.DoModal();
+    CAboutDlg aboutDlg;
+
+    aboutDlg.DoModal();
 }
 
-
 /***********************************************************************************************
- * LightMapApp::OnFileOpen --																						  *
+ * LightMapApp::OnFileOpen --
+ **
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -343,23 +348,23 @@ void LightMapApp::OnAppAbout()
  * WARNINGS:                                                                                   *
  *                                                                                             *
  * HISTORY:                                                                                    *
- *   6/1/99    IML : Created.                                                                  * 
+ *   6/1/99    IML : Created.                                                                  *
  *=============================================================================================*/
-void LightMapApp::OnFileOpen() 
+void LightMapApp::OnFileOpen()
 {
-	CFileDialog dialog (TRUE, NULL, NULL, File_Dialog_Flags(), File_Dialog_Filter());
+    CFileDialog dialog(TRUE, NULL, NULL, File_Dialog_Flags(), File_Dialog_Filter());
 
-	if (dialog.DoModal() == IDOK) {
-		if (GetDoc()->OnOpenDocument (dialog.GetPathName())) {
-			GetDoc()->SetPathName (dialog.GetPathName());
-			GetDoc()->UpdateAllViews (NULL);
-		}
-	}
+    if (dialog.DoModal() == IDOK) {
+        if (GetDoc()->OnOpenDocument(dialog.GetPathName())) {
+            GetDoc()->SetPathName(dialog.GetPathName());
+            GetDoc()->UpdateAllViews(NULL);
+        }
+    }
 }
 
-
 /***********************************************************************************************
- * LightMapApp::Explorer_Style --																				  *
+ * LightMapApp::Explorer_Style --
+ **
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -368,20 +373,21 @@ void LightMapApp::OnFileOpen()
  * WARNINGS:                                                                                   *
  *                                                                                             *
  * HISTORY:                                                                                    *
- *   6/1/99    IML : Created.                                                                  * 
+ *   6/1/99    IML : Created.                                                                  *
  *=============================================================================================*/
 bool LightMapApp::Explorer_Style()
 {
-	OSVERSIONINFO info;
+    OSVERSIONINFO info;
 
-	info.dwOSVersionInfoSize = sizeof (OSVERSIONINFO);
-	::GetVersionEx (&info);
- 	return ((info.dwPlatformId == VER_PLATFORM_WIN32_WINDOWS) || ((info.dwPlatformId == VER_PLATFORM_WIN32_NT) && (info.dwMajorVersion >= 4)));
+    info.dwOSVersionInfoSize = sizeof(OSVERSIONINFO);
+    ::GetVersionEx(&info);
+    return ((info.dwPlatformId == VER_PLATFORM_WIN32_WINDOWS)
+            || ((info.dwPlatformId == VER_PLATFORM_WIN32_NT) && (info.dwMajorVersion >= 4)));
 }
 
-
 /***********************************************************************************************
- * LightMapApp::File_Dialog_Flags --																			  *
+ * LightMapApp::File_Dialog_Flags --
+ **
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -390,19 +396,21 @@ bool LightMapApp::Explorer_Style()
  * WARNINGS:                                                                                   *
  *                                                                                             *
  * HISTORY:                                                                                    *
- *   6/1/99    IML : Created.                                                                  * 
+ *   6/1/99    IML : Created.                                                                  *
  *=============================================================================================*/
 DWORD LightMapApp::File_Dialog_Flags()
 {
-	DWORD	flags = OFN_PATHMUSTEXIST | OFN_OVERWRITEPROMPT;
+    DWORD flags = OFN_PATHMUSTEXIST | OFN_OVERWRITEPROMPT;
 
-	if (Explorer_Style()) flags |= OFN_EXPLORER;
-	return (flags);
+    if (Explorer_Style()) {
+        flags |= OFN_EXPLORER;
+    }
+    return (flags);
 }
 
-
 /***********************************************************************************************
- * CAboutDlg::OnInitDialog --																						  *		
+ * CAboutDlg::OnInitDialog --
+ **
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -411,18 +419,19 @@ DWORD LightMapApp::File_Dialog_Flags()
  * WARNINGS:                                                                                   *
  *                                                                                             *
  * HISTORY:                                                                                    *
- *   6/1/99    IML : Created.                                                                  * 
+ *   6/1/99    IML : Created.                                                                  *
  *=============================================================================================*/
-BOOL CAboutDlg::OnInitDialog() 
+BOOL CAboutDlg::OnInitDialog()
 {
-	// Allow the base class to process this message.
-	CDialog::OnInitDialog();
-	
-	// Put the version string into the dialog.
-	CString version_string;
-	version_string.Format ("Version %d.%d", (theApp.Application_Version() >> 16), (theApp.Application_Version() & 0xffff));
-	GetDlgItem (IDC_VERSION_TEXT)->SetWindowText (version_string);
-	
-	return TRUE;  // return TRUE unless you set the focus to a control
-	              // EXCEPTION: OCX Property Pages should return FALSE
+    // Allow the base class to process this message.
+    CDialog::OnInitDialog();
+
+    // Put the version string into the dialog.
+    CString version_string;
+    version_string.Format("Version %d.%d", (theApp.Application_Version() >> 16),
+                          (theApp.Application_Version() & 0xffff));
+    GetDlgItem(IDC_VERSION_TEXT)->SetWindowText(version_string);
+
+    return TRUE; // return TRUE unless you set the focus to a control
+                 // EXCEPTION: OCX Property Pages should return FALSE
 }

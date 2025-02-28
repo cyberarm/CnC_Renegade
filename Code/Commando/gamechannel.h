@@ -21,7 +21,7 @@
 // Project:      Network.lib, for Commando
 // Author:       Tom Spencer-Smith
 // Date:         Dec 1998
-// Description:  
+// Description:
 //
 //-----------------------------------------------------------------------------
 #if defined(_MSV_VER)
@@ -31,19 +31,19 @@
 #ifndef GAMECHANNEL_H
 #define GAMECHANNEL_H
 
-#include "wwdebug.h"
 #include "always.h"
-#include <WWOnline\RefPtr.h>
 #include "refcount.h"
+#include "wwdebug.h"
+#include <WWOnline\RefPtr.h>
 
 namespace WWOnline
 {
-class ChannelData;
+    class ChannelData;
 }
 
 namespace WOL
 {
-struct Channel;
+    struct Channel;
 }
 
 class cGameData;
@@ -51,19 +51,23 @@ class cGameData;
 //-----------------------------------------------------------------------------
 class cGameChannel : public RefCountClass
 {
-	friend class cGameChannelList;
+    friend class cGameChannelList;
 
-	public:
-		cGameData* Get_Game_Data(void) {WWASSERT(PGameData != NULL); return PGameData;}
-		RefPtr<WWOnline::ChannelData>& Get_Channel(void) {return WolChannel;}
-		WOL::Channel* Get_Wol_Channel(void);
+public:
+    cGameData* Get_Game_Data(void)
+    {
+        WWASSERT(PGameData != NULL);
+        return PGameData;
+    }
+    RefPtr<WWOnline::ChannelData>& Get_Channel(void) { return WolChannel; }
+    WOL::Channel* Get_Wol_Channel(void);
 
-	private:
-		cGameChannel(cGameData * p_game_data, const RefPtr<WWOnline::ChannelData>& channel);
-		~cGameChannel(void);
+private:
+    cGameChannel(cGameData* p_game_data, const RefPtr<WWOnline::ChannelData>& channel);
+    ~cGameChannel(void);
 
-		cGameData* PGameData;
-		RefPtr<WWOnline::ChannelData> WolChannel;
+    cGameData* PGameData;
+    RefPtr<WWOnline::ChannelData> WolChannel;
 };
 
 #endif // GAMECHANNEL_H

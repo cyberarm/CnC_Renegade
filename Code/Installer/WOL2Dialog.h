@@ -16,22 +16,22 @@
 **	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-/*********************************************************************************************** 
- ***                            Confidential - Westwood Studios                              *** 
- *********************************************************************************************** 
- *                                                                                             * 
- *                 Project Name : Installer                                                    * 
- *                                                                                             * 
- *                     $Archive:: /Commando/Code/Installer/WOL2Dialog.h $* 
- *                                                                                             * 
- *                      $Author:: Ian_l                   $* 
- *                                                                                             * 
- *                     $Modtime:: 10/09/01 8:24p                $* 
- *                                                                                             * 
- *                    $Revision:: 2                     $* 
- *                                                                                             * 
- *---------------------------------------------------------------------------------------------* 
- * Functions:                                                                                  * 
+/***********************************************************************************************
+ ***                            Confidential - Westwood Studios                              ***
+ ***********************************************************************************************
+ *                                                                                             *
+ *                 Project Name : Installer                                                    *
+ *                                                                                             *
+ *                     $Archive:: /Commando/Code/Installer/WOL2Dialog.h $*
+ *                                                                                             *
+ *                      $Author:: Ian_l                   $*
+ *                                                                                             *
+ *                     $Modtime:: 10/09/01 8:24p                $*
+ *                                                                                             *
+ *                    $Revision:: 2                     $*
+ *                                                                                             *
+ *---------------------------------------------------------------------------------------------*
+ * Functions:                                                                                  *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 #ifndef _WOL2_DIALOG_H
 #define _WOL2_DIALOG_H
@@ -39,25 +39,25 @@
 // Includes.
 #include "InstallMenuDialog.h"
 
-
-// Dialog to instigate sign-up for a Westwood Online account. 
+// Dialog to instigate sign-up for a Westwood Online account.
 
 // Classes.
 class WOL2DialogClass : public InstallMenuDialogClass
 {
-	public:
-		WOL2DialogClass() : InstallMenuDialogClass (IDD_DIALOG_WOL2) {}
+public:
+    WOL2DialogClass()
+        : InstallMenuDialogClass(IDD_DIALOG_WOL2)
+    {
+    }
 
-		// RTTI.
-		void *As_WOL2DialogClass()			{return (this);}
+    // RTTI.
+    void* As_WOL2DialogClass() { return (this); }
 
-		void On_Command (int ctrl_id, int message_id, DWORD param);
+    void On_Command(int ctrl_id, int message_id, DWORD param);
 
-	protected:
-
-		void			 On_Init_Dialog (void);
-		StringClass &Encrypt_Password (const StringClass &password, StringClass &encryptedpassword);
+protected:
+    void On_Init_Dialog(void);
+    StringClass& Encrypt_Password(const StringClass& password, StringClass& encryptedpassword);
 };
-
 
 #endif // _WOL2_DIALOG_H

@@ -34,7 +34,6 @@
  * Functions:                                                                                  *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
-
 #ifndef _SCENES_H
 #define _SCENES_H
 
@@ -42,6 +41,6 @@
 #include "scene.h"
 #endif
 
-extern SimpleSceneClass *			TheScene;
+extern SimpleSceneClass* TheScene;
 
 #endif

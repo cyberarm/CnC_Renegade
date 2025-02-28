@@ -16,26 +16,25 @@
 **	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-/*********************************************************************************************** 
- ***                            Confidential - Westwood Studios                              *** 
- *********************************************************************************************** 
- *                                                                                             * 
- *                 Project Name : Installer                                                    * 
- *                                                                                             * 
- *                     $Archive:: /Commando/Code/Installer/Translator.h $*		
- *                                                                                             * 
- *                      $Author:: Ian_l                   $* 
- *                                                                                             * 
- *                     $Modtime:: 12/13/01 5:30p                $* 
- *                                                                                             * 
- *                    $Revision:: 6                     $* 
- *                                                                                             * 
- *---------------------------------------------------------------------------------------------* 
- * Functions:                                                                                  * 
+/***********************************************************************************************
+ ***                            Confidential - Westwood Studios                              ***
+ ***********************************************************************************************
+ *                                                                                             *
+ *                 Project Name : Installer                                                    *
+ *                                                                                             *
+ *                     $Archive:: /Commando/Code/Installer/Translator.h $*
+ *                                                                                             *
+ *                      $Author:: Ian_l                   $*
+ *                                                                                             *
+ *                     $Modtime:: 12/13/01 5:30p                $*
+ *                                                                                             *
+ *                    $Revision:: 6                     $*
+ *                                                                                             *
+ *---------------------------------------------------------------------------------------------*
+ * Functions:                                                                                  *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 #ifndef _TRANSLATOR_H
 #define _TRANSLATOR_H
-
 
 // Includes
 #include "String_ids.h"
@@ -43,32 +42,25 @@
 #include "WWString.h"
 #include "WideString.h"
 
-
 class RxStringClass : public StringClass
 {
-	public:
-		// Get a string from the resource in ANSI format. 
-		RxStringClass (int resourceid);	
+public:
+    // Get a string from the resource in ANSI format.
+    RxStringClass(int resourceid);
 };
-
 
 class RxWideStringClass : public WideStringClass
 {
-	public:
-		// Get a string from the resource in wide (Unicode) format.
-		RxWideStringClass (int resourceid);
+public:
+    // Get a string from the resource in wide (Unicode) format.
+    RxWideStringClass(int resourceid);
 };
-
 
 class TxWideStringClass : public WideStringClass
 {
-	public:
-		// Get a string from the translation database in wide format.
-		TxWideStringClass (int databaseid, int resourceid = -1);
+public:
+    // Get a string from the translation database in wide format.
+    TxWideStringClass(int databaseid, int resourceid = -1);
 };
 
-
 #endif // TRANSLATOR_H
-
-
-

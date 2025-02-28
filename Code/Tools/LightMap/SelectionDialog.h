@@ -16,22 +16,22 @@
 **	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-/*********************************************************************************************** 
- ***                            Confidential - Westwood Studios                              *** 
- *********************************************************************************************** 
- *                                                                                             * 
- *                 Project Name : LightMap                                                     * 
- *                                                                                             * 
- *                     $Archive:: /Commando/Code/Tool $* 
- *                                                                                             * 
- *                      $Author:: Ian_l               $* 
- *                                                                                             * 
- *                     $Modtime:: 9/06/00 4:51p       $* 
- *                                                                                             * 
- *                    $Revision:: 3                                                         $* 
- *                                                                                             * 
- *---------------------------------------------------------------------------------------------* 
- * Functions:                                                                                  * 
+/***********************************************************************************************
+ ***                            Confidential - Westwood Studios                              ***
+ ***********************************************************************************************
+ *                                                                                             *
+ *                 Project Name : LightMap                                                     *
+ *                                                                                             *
+ *                     $Archive:: /Commando/Code/Tool $*
+ *                                                                                             *
+ *                      $Author:: Ian_l               $*
+ *                                                                                             *
+ *                     $Modtime:: 9/06/00 4:51p       $*
+ *                                                                                             *
+ *                    $Revision:: 3                                                         $*
+ *                                                                                             *
+ *---------------------------------------------------------------------------------------------*
+ * Functions:                                                                                  *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
 #if !defined(AFX_SELECTIONDIALOG_H__07D3067F_7262_11D4_A3CE_009027447394__INCLUDED_)
@@ -41,42 +41,43 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-
 class SelectionDialog : public CDialog
 {
-// Construction
+    // Construction
 public:
-	SelectionDialog (DynamicVectorClass <char*> *listptr = NULL, CWnd* pParent = NULL);   // standard constructor
+    SelectionDialog(DynamicVectorClass<char*>* listptr = NULL,
+                    CWnd* pParent = NULL); // standard constructor
 
-	int Get_Selection() {return (Selection);}
+    int Get_Selection() { return (Selection); }
 
-// Dialog Data
-	//{{AFX_DATA(SelectionDialog)
-	enum { IDD = IDD_SELECTION };
-		// NOTE: the ClassWizard will add data members here
-	//}}AFX_DATA
+    // Dialog Data
+    //{{AFX_DATA(SelectionDialog)
+    enum
+    {
+        IDD = IDD_SELECTION
+    };
+    // NOTE: the ClassWizard will add data members here
+    //}}AFX_DATA
 
-
-// Overrides
-	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(SelectionDialog)
-	public:
-	protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
-	//}}AFX_VIRTUAL
-
-// Implementation
+    // Overrides
+    // ClassWizard generated virtual function overrides
+    //{{AFX_VIRTUAL(SelectionDialog)
+public:
 protected:
+    virtual void DoDataExchange(CDataExchange* pDX); // DDX/DDV support
+    //}}AFX_VIRTUAL
 
-	// Generated message map functions
-	//{{AFX_MSG(SelectionDialog)
-	virtual BOOL OnInitDialog();
-	afx_msg void OnDestroy();
-	//}}AFX_MSG
-	DECLARE_MESSAGE_MAP()
+    // Implementation
+protected:
+    // Generated message map functions
+    //{{AFX_MSG(SelectionDialog)
+    virtual BOOL OnInitDialog();
+    afx_msg void OnDestroy();
+    //}}AFX_MSG
+    DECLARE_MESSAGE_MAP()
 
-	DynamicVectorClass <char*> *ListPtr;
-	int								 Selection;	
+    DynamicVectorClass<char*>* ListPtr;
+    int Selection;
 };
 
 //{{AFX_INSERT_LOCATION}}
