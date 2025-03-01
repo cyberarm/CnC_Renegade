@@ -1,3 +1,5 @@
+.idea/
+cmake-build-*
 
 # Ignore RUNable folder
 [Rr]un
