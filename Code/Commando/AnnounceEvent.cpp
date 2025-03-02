@@ -34,9 +34,9 @@
  *
  ******************************************************************************/
 
-#include "announceevent.h"
+#include "AnnounceEvent.h"
 #include "apppackettypes.h"
-#include "cncmodesettings.h"
+#include "CnCModeSettings.h"
 #include "cnetwork.h"
 #include "floodprotectionmgr.h"
 #include "gamemode.h"
@@ -47,7 +47,7 @@
 #include "translatedb.h"
 #include "translateobj.h"
 #include "wwaudio.h"
-#include <wwlib\widestring.h>
+#include <widestring.h>
 
 DECLARE_NETWORKOBJECT_FACTORY(CSAnnouncement, NETCLASSID_CSANNOUNCEMENT);
 

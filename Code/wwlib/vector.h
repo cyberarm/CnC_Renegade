@@ -58,10 +58,10 @@
 #define VECTOR_H
 
 #include "always.h"
-#include <assert.h>
-#include <new.h>
-#include <stdlib.h>
-#include <string.h>
+#include <cassert>
+#include <new>
+#include <cstdlib>
+#include <cstring>
 
 #ifdef _MSC_VER
 #pragma warning(disable : 4702) // unreachable code, happens with some uses of these templates

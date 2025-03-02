@@ -216,10 +216,10 @@ template <class T> TRect<T> const TRect<T>::Intersect(TRect<T> const& rectangle,
     **	Adjust Height relative draw position according to Height new rectangle
     **	union.
     */
-    if (x != NULL) {
+    if (x != nullptr) {
         *x -= (r.X - X);
     }
-    if (y != NULL) {
+    if (y != nullptr) {
         *y -= (r.Y - Y);
     }
 

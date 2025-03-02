@@ -119,11 +119,11 @@ BINKMovieClass::BINKMovieClass(const char* filename, const char* subtitlename, F
       Bink(0),
       FrameChanged(true),
       TicksPerFrame(0),
-      SubTitleManager(NULL)
+      SubTitleManager(nullptr)
 {
     Bink = BinkOpen(Filename, 0);
 
-    if (Bink == NULL) {
+    if (Bink == nullptr) {
         return;
     }
 
@@ -220,7 +220,7 @@ BINKMovieClass::BINKMovieClass(const char* filename, const char* subtitlename, F
 
 BINKMovieClass::~BINKMovieClass()
 {
-    if (Bink == NULL) {
+    if (Bink == nullptr) {
         return;
     }
 

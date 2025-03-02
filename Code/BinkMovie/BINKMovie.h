@@ -46,8 +46,8 @@ class FontCharsClass;
 class BINKMovie
 {
 public:
-    static void Play(const char* filename, const char* subtitlename = NULL,
-                     FontCharsClass* font = NULL);
+    static void Play(const char* filename, const char* subtitlename = nullptr,
+                     FontCharsClass* font = nullptr);
     static void Stop();
     static void Update();
     static void Render();
