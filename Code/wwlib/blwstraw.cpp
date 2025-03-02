@@ -66,7 +66,7 @@ int BlowStraw::Get(void* source, int slen)
     /*
     **	Verify the parameter for legality.
     */
-    if (source == NULL || slen <= 0) {
+    if (source == nullptr || slen <= 0) {
         return (0);
     }
 
@@ -74,7 +74,7 @@ int BlowStraw::Get(void* source, int slen)
     **	If there is no blowfish engine present, then merely pass the data through
     **	unchanged.
     */
-    if (BF == NULL) {
+    if (BF == nullptr) {
         return (Straw::Get(source, slen));
     }
 
@@ -152,13 +152,13 @@ void BlowStraw::Key(void const* key, int length)
     /*
     **	Create the blowfish engine if one isn't already present.
     */
-    if (BF == NULL) {
+    if (BF == nullptr) {
         BF = new BlowfishEngine;
     }
 
-    assert(BF != NULL);
+    assert(BF != nullptr);
 
-    if (BF != NULL) {
+    if (BF != nullptr) {
         BF->Submit_Key(key, length);
     }
 }

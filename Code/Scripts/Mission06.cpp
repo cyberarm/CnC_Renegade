@@ -78,7 +78,7 @@ DECLARE_SCRIPT(M06_Objective_Controller, "") // 100018
         const char* conv_name = ("M06_CON059");
         int conv_id = Commands->Create_Conversation(conv_name, 100.0f, 200.0f, false);
         Commands->Join_Conversation(STAR, conv_id, false, true);
-        Commands->Join_Conversation(NULL, conv_id, false, true);
+        Commands->Join_Conversation(nullptr, conv_id, false, true);
         Commands->Start_Conversation(conv_id, 300601);
         Commands->Monitor_Conversation(obj, conv_id);
 
@@ -99,7 +99,7 @@ DECLARE_SCRIPT(M06_Objective_Controller, "") // 100018
         // Hack War Room Computer
         case 601: {
             Commands->Add_Objective(601, OBJECTIVE_TYPE_PRIMARY, OBJECTIVE_STATUS_PENDING,
-                                    IDS_Enc_ObjTitle_Primary_M06_02, NULL,
+                                    IDS_Enc_ObjTitle_Primary_M06_02, nullptr,
                                     IDS_Enc_Obj_Primary_M06_02);
             object = Commands->Find_Object(106952);
             if (object) {
@@ -111,7 +111,7 @@ DECLARE_SCRIPT(M06_Objective_Controller, "") // 100018
         // Rescue Scientists
         case 603: {
             Commands->Add_Objective(603, OBJECTIVE_TYPE_PRIMARY, OBJECTIVE_STATUS_PENDING,
-                                    IDS_Enc_ObjTitle_Primary_M06_01, NULL,
+                                    IDS_Enc_ObjTitle_Primary_M06_01, nullptr,
                                     IDS_Enc_Obj_Primary_M06_01);
             object = Commands->Find_Object(101010);
             if (object) {
@@ -123,7 +123,7 @@ DECLARE_SCRIPT(M06_Objective_Controller, "") // 100018
         // Eliminate Mendoza
         case 604: {
             Commands->Add_Objective(604, OBJECTIVE_TYPE_PRIMARY, OBJECTIVE_STATUS_PENDING,
-                                    IDS_Enc_ObjTitle_Primary_M06_04, NULL,
+                                    IDS_Enc_ObjTitle_Primary_M06_04, nullptr,
                                     IDS_Enc_Obj_Primary_M06_04);
             //	object = Commands->Find_Object(mendoza_id);
             object = Commands->Find_Object(108275);
@@ -137,7 +137,7 @@ DECLARE_SCRIPT(M06_Objective_Controller, "") // 100018
         // Rescue Resistance
         case 605: {
             Commands->Add_Objective(605, OBJECTIVE_TYPE_TERTIARY, OBJECTIVE_STATUS_HIDDEN,
-                                    IDS_Enc_ObjTitle_Hidden_M06_02, NULL,
+                                    IDS_Enc_ObjTitle_Hidden_M06_02, nullptr,
                                     IDS_Enc_Obj_Hidden_M06_02);
             object = Commands->Find_Object(101016);
 
@@ -145,19 +145,19 @@ DECLARE_SCRIPT(M06_Objective_Controller, "") // 100018
         // Release GDI prisoner
         case 607: {
             Commands->Add_Objective(607, OBJECTIVE_TYPE_TERTIARY, OBJECTIVE_STATUS_HIDDEN,
-                                    IDS_Enc_ObjTitle_Hidden_M06_03, NULL,
+                                    IDS_Enc_ObjTitle_Hidden_M06_03, nullptr,
                                     IDS_Enc_Obj_Hidden_M06_03);
         } break;
         // Plunder Raveshaw's hidden cache
         case 608: {
             Commands->Add_Objective(608, OBJECTIVE_TYPE_TERTIARY, OBJECTIVE_STATUS_HIDDEN,
-                                    IDS_Enc_ObjTitle_Hidden_M06_04, NULL,
+                                    IDS_Enc_ObjTitle_Hidden_M06_04, nullptr,
                                     IDS_Enc_Obj_Hidden_M06_04);
         } break;
         // Deactivate alarm system
         case 609: {
             Commands->Add_Objective(609, OBJECTIVE_TYPE_SECONDARY, OBJECTIVE_STATUS_PENDING,
-                                    IDS_Enc_ObjTitle_Hidden_M06_01, NULL,
+                                    IDS_Enc_ObjTitle_Hidden_M06_01, nullptr,
                                     IDS_Enc_Obj_Hidden_M06_01);
             Vector3 star_pos = Commands->Get_Position(STAR);
             Vector3 greenhouse_alarm = Commands->Get_Position(Commands->Find_Object(101548));
@@ -187,14 +187,14 @@ DECLARE_SCRIPT(M06_Objective_Controller, "") // 100018
         // Alarm State: Stand Down
         case 610: {
             Commands->Add_Objective(610, OBJECTIVE_TYPE_SECONDARY, OBJECTIVE_STATUS_HIDDEN, 1000,
-                                    NULL);
+                                    nullptr);
         } break;
         // Escape Chateau with Dr. Sydney Mobius
         case 611: {
             Commands->Set_HUD_Help_Text(IDS_M11DSGN_DSGN1007I1DSGN_TXT,
                                         TEXT_COLOR_OBJECTIVE_PRIMARY);
             Commands->Add_Objective(611, OBJECTIVE_TYPE_PRIMARY, OBJECTIVE_STATUS_PENDING,
-                                    IDS_Enc_ObjTitle_Primary_M06_03, NULL,
+                                    IDS_Enc_ObjTitle_Primary_M06_03, nullptr,
                                     IDS_Enc_Obj_Primary_M06_03);
             object = Commands->Find_Object(101527);
             if (object) {
@@ -309,7 +309,7 @@ DECLARE_SCRIPT(M06_WarRoom_Computer, "")
             // located beneath the Chateau. Access is gained through the dining hall.\n
             const char* conv_name = ("M06_CON001");
             int conv_id = Commands->Create_Conversation(conv_name, 100.0f, 200.0f, false);
-            Commands->Join_Conversation(NULL, conv_id, true, true);
+            Commands->Join_Conversation(nullptr, conv_id, true, true);
             Commands->Join_Conversation(STAR, conv_id, false, true);
             Commands->Start_Conversation(conv_id, 300603);
             Commands->Monitor_Conversation(obj, conv_id);
@@ -455,13 +455,13 @@ DECLARE_SCRIPT(M06_Sydney_Mobius, "")
                 //
                 GameObject* mendoza
                     = Commands->Create_Object("Mendoza Boss", Vector3(-40.572F, 28.942F, 1.605F));
-                if (mendoza != NULL) {
+                if (mendoza != nullptr) {
                     Commands->Set_Facing(mendoza, -50.0F);
                 }
 
                 //		GameObject *mendoza = Commands->Create_Object
                 //("Nod_FlameThrower_3Boss", Vector3 (-40.572F, 28.942F, 1.605F)); 		if (mendoza !=
-                //NULL) { 			Commands->Set_Facing (mendoza, -50.0F); 			Commands->Attach_Script(mendoza,
+                //nullptr) { 			Commands->Set_Facing (mendoza, -50.0F); 			Commands->Attach_Script(mendoza,
                 //"M06_Mendoza", "");
                 //		}
 
@@ -1051,7 +1051,7 @@ DECLARE_SCRIPT(M06_Enable_Guard_Tower, "")
             // Warning: Nod Security Measures Detected.\n
             //		const char *conv_name = ("M06_CON010");
             //		int conv_id = Commands->Create_Conversation (conv_name, 100.0f, 200.0f,
-            //false); 		Commands->Join_Conversation(NULL, conv_id, true, true);
+            //false); 		Commands->Join_Conversation(nullptr, conv_id, true, true);
             //		Commands->Join_Conversation(STAR, conv_id, true, true);
             //		Commands->Start_Conversation (conv_id, 300606);
             //		Commands->Monitor_Conversation (obj, conv_id);
@@ -1192,7 +1192,7 @@ DECLARE_SCRIPT(M06_Gate_Guards, "Soldier_ID=0:int")
                     int random = Get_Int_Random(0, 5);
 
                     int conv_id = Commands->Create_Conversation (conv_name[random]);
-                    Commands->Join_Conversation(NULL, conv_id, false, true);
+                    Commands->Join_Conversation(nullptr, conv_id, false, true);
                     Commands->Start_Conversation (conv_id, 1);*/
 
             switch (soldier_id) {
@@ -1378,7 +1378,7 @@ DECLARE_SCRIPT(M06_Alarm_Controller, "")
                 // Stand down general alarm. Intruder alert canceled.\n
                 const char* conv_name = ("M06_CON018");
                 int conv_id = Commands->Create_Conversation(conv_name);
-                Commands->Join_Conversation(NULL, conv_id, false, true);
+                Commands->Join_Conversation(nullptr, conv_id, false, true);
                 Commands->Join_Conversation(Commands->Get_A_Star(Vector3(0.0f, 0.0f, 0.0f)),
                                             conv_id, false, true);
                 Commands->Start_Conversation(conv_id, 300000);
@@ -1858,7 +1858,7 @@ DECLARE_SCRIPT(M06_Tower_Patrol, "Waypath_ID=0:int, Waypath_Loc:Vector3")
 
             if (random < 6) {
                 int conv_id = Commands->Create_Conversation(conv_name[random]);
-                Commands->Join_Conversation(NULL, conv_id, false, true);
+                Commands->Join_Conversation(nullptr, conv_id, false, true);
                 Commands->Start_Conversation(conv_id, 1);
             }
         }
@@ -1956,7 +1956,7 @@ DECLARE_SCRIPT(M06_Courtyard_Patrol, "Waypath_ID=0:int, Waypath_Loc:Vector3")
             int random = Get_Int_Random(0, 10);
             if (random < 5) {
                 int conv_id = Commands->Create_Conversation(conv_name[random]);
-                Commands->Join_Conversation(NULL, conv_id, false, true);
+                Commands->Join_Conversation(nullptr, conv_id, false, true);
                 Commands->Start_Conversation(conv_id, 1);
             }
         }
@@ -2053,7 +2053,7 @@ DECLARE_SCRIPT(M06_Hedgemaze_Patrol, "Waypath_ID=0:int, Waypath_Loc:Vector3")
             int random = Get_Int_Random(0, 10);
             if (random < 4) {
                 int conv_id = Commands->Create_Conversation(conv_name[random]);
-                Commands->Join_Conversation(NULL, conv_id, false, true);
+                Commands->Join_Conversation(nullptr, conv_id, false, true);
                 Commands->Start_Conversation(conv_id, 1);
             }
         }
@@ -2316,7 +2316,7 @@ DECLARE_SCRIPT(M06_Barracks_Patrol, "")
 
             if (random < 5) {
                 int conv_id = Commands->Create_Conversation(conv_name[random]);
-                Commands->Join_Conversation(NULL, conv_id, false, true);
+                Commands->Join_Conversation(nullptr, conv_id, false, true);
                 Commands->Start_Conversation(conv_id, 1);
             }
         }
@@ -2528,7 +2528,7 @@ DECLARE_SCRIPT(M06_Interior_Controller, "")
                 // to standby.\n
                 const char* conv_name = ("M06_CON035");
                 int conv_id = Commands->Create_Conversation(conv_name);
-                Commands->Join_Conversation(NULL, conv_id, false, true);
+                Commands->Join_Conversation(nullptr, conv_id, false, true);
                 Commands->Start_Conversation(conv_id, 1);
 
                 // Disable initial interior spawns
@@ -2555,7 +2555,7 @@ DECLARE_SCRIPT(M06_Interior_Controller, "")
                 // Additional patrols lost, brothers.  Chem units to stations.\n
                 const char* conv_name = ("M06_CON036");
                 int conv_id = Commands->Create_Conversation(conv_name);
-                Commands->Join_Conversation(NULL, conv_id, false, true);
+                Commands->Join_Conversation(nullptr, conv_id, false, true);
                 Commands->Start_Conversation(conv_id, 1);
 
                 // Enable grade 3 patrols
@@ -2593,7 +2593,7 @@ DECLARE_SCRIPT(M06_Interior_Controller, "")
             default: {
 
                 const char* conv_name;
-                conv_name = NULL;
+                conv_name = nullptr;
 
                 if ((dead_loc.X < 12.0f) && (dead_loc.Y < -22.0f) && (dead_loc.Z >= 5.0f)) {
                     // Possible disturbance.  Second floor, near main library.\n
@@ -2630,9 +2630,9 @@ DECLARE_SCRIPT(M06_Interior_Controller, "")
                     conv_name = ("M06_CON044");
                 }
 
-                if (conv_name != NULL) {
+                if (conv_name != nullptr) {
                     int conv_id = Commands->Create_Conversation(conv_name);
-                    Commands->Join_Conversation(NULL, conv_id, false, true);
+                    Commands->Join_Conversation(nullptr, conv_id, false, true);
                     Commands->Start_Conversation(conv_id, 1);
                 }
             } break;
@@ -3739,7 +3739,7 @@ DECLARE_SCRIPT(M06_WarRoom_Officer_DLS, "")
             // Facility?\n
             //	const char *conv_name = ("M06_CON051");
             //	int conv_id = Commands->Create_Conversation (conv_name, INNATE_PRIORITY_ENEMY_SEEN -
-            //5); 	Commands->Join_Conversation(NULL, conv_id, false, true);
+            //5); 	Commands->Join_Conversation(nullptr, conv_id, false, true);
             //	Commands->Join_Conversation(obj, conv_id, false, true);
             //	Commands->Start_Conversation (conv_id, 300123);
             //	Commands->Monitor_Conversation (obj, conv_id);
@@ -4639,7 +4639,7 @@ DECLARE_SCRIPT(M06_Drop_Thunder_Squad, "")
             // standard check in.  Raveshaw's orders.\n
             const char* conv_name = ("M06_CON057");
             int conv_id = Commands->Create_Conversation(conv_name, 100.0f, 200.0f, false);
-            Commands->Join_Conversation(NULL, conv_id, true, true);
+            Commands->Join_Conversation(nullptr, conv_id, true, true);
             Commands->Join_Conversation(STAR, conv_id, false, true);
             Commands->Start_Conversation(conv_id, 300603);
             Commands->Monitor_Conversation(obj, conv_id);
@@ -5256,7 +5256,7 @@ DECLARE_SCRIPT(M06_Enable_Alarm_Objective, "")
             // Warning: Nod Security Measures Detected.
             const char* conv_name = ("M06_CON060");
             int conv_id = Commands->Create_Conversation(conv_name, 100.0f, 200.0f, false);
-            Commands->Join_Conversation(NULL, conv_id, false, true);
+            Commands->Join_Conversation(nullptr, conv_id, false, true);
             Commands->Start_Conversation(conv_id, 300609);
             Commands->Monitor_Conversation(obj, conv_id);
         }

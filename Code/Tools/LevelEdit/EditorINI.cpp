@@ -48,9 +48,9 @@
 //
 Vector3 EditorINIClass::Get_Vector3(LPCTSTR section, LPCTSTR entry, const Vector3& defvalue) const
 {
-    if (section != NULL && entry != NULL) {
+    if (section != nullptr && entry != nullptr) {
         INIEntry* entryptr = Find_Entry(section, entry);
-        if (entryptr && entryptr->Value != NULL) {
+        if (entryptr && entryptr->Value != nullptr) {
             Vector3 ret;
             if (sscanf(entryptr->Value, "%f,%f,%f", &ret[0], &ret[1], &ret[2]) == 3) {
                 return ret;
@@ -67,9 +67,9 @@ Vector3 EditorINIClass::Get_Vector3(LPCTSTR section, LPCTSTR entry, const Vector
 //
 Vector4 EditorINIClass::Get_Vector4(LPCTSTR section, LPCTSTR entry, const Vector4& defvalue) const
 {
-    if (section != NULL && entry != NULL) {
+    if (section != nullptr && entry != nullptr) {
         INIEntry* entryptr = Find_Entry(section, entry);
-        if (entryptr && entryptr->Value != NULL) {
+        if (entryptr && entryptr->Value != nullptr) {
             Vector4 ret;
             if (sscanf(entryptr->Value, "%f,%f,%f,%f", &ret[0], &ret[1], &ret[2], &ret[3]) == 4) {
                 return ret;
@@ -101,7 +101,7 @@ CString EditorINIClass::Get_CString(LPCTSTR section, LPCTSTR entry, LPCTSTR defv
 Matrix3D EditorINIClass::Get_Matrix3D(LPCTSTR section, LPCTSTR entry, Matrix3D& defvalue) const
 {
     // check input parameters
-    if (section == NULL || entry == NULL) {
+    if (section == nullptr || entry == nullptr) {
         return false;
     }
 
@@ -135,7 +135,7 @@ Matrix3D EditorINIClass::Get_Matrix3D(LPCTSTR section, LPCTSTR entry, Matrix3D& 
 bool EditorINIClass::Put_Matrix3D(LPCTSTR section, LPCTSTR entry, const Matrix3D& value)
 {
     // check input parameters
-    if (section == NULL || entry == NULL) {
+    if (section == nullptr || entry == nullptr) {
         return false;
     }
 

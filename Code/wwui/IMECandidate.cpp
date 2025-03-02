@@ -56,7 +56,7 @@ namespace IME
 
     IMECandidate::IMECandidate()
         : mCandidateSize(0),
-          mCandidates(NULL)
+          mCandidates(nullptr)
     {
         Close();
     }
@@ -137,16 +137,16 @@ namespace IME
 
             // Get the size of the candidate list
             if (mUseUnicode) {
-                size = ImmGetCandidateListW(imc, mIndex, NULL, 0);
+                size = ImmGetCandidateListW(imc, mIndex, nullptr, 0);
             }
             else {
-                size = ImmGetCandidateList(imc, mIndex, NULL, 0);
+                size = ImmGetCandidateList(imc, mIndex, nullptr, 0);
             }
 
             // Allocate space to hold candidates
-            if ((mCandidates == NULL) || (size > mCandidateSize)) {
+            if ((mCandidates == nullptr) || (size > mCandidateSize)) {
                 // Free the existing candidate buffer
-                if (mCandidates != NULL) {
+                if (mCandidates != nullptr) {
                     delete[] mCandidates;
                 }
 
@@ -155,7 +155,7 @@ namespace IME
                 mCandidateSize = size;
             }
 
-            if (mCandidates != NULL) {
+            if (mCandidates != nullptr) {
                 if (mUseUnicode) {
                     ImmGetCandidateListW(imc, mIndex, mCandidates, mCandidateSize);
                 }
@@ -192,7 +192,7 @@ namespace IME
     void IMECandidate::Close(void)
     {
         mIndex = -1;
-        mHWND = NULL;
+        mHWND = nullptr;
         mCodePage = CP_ACP;
         mUseUnicode = true;
         mStartFrom1 = true;
@@ -220,7 +220,7 @@ namespace IME
 
     bool IMECandidate::IsValid(void) const
     {
-        return ((-1 != mIndex) && (mCandidates != NULL));
+        return ((-1 != mIndex) && (mCandidates != nullptr));
     }
 
     /******************************************************************************
@@ -260,7 +260,7 @@ namespace IME
 
     unsigned long IMECandidate::GetStyle(void) const
     {
-        WWASSERT(mCandidates != NULL);
+        WWASSERT(mCandidates != nullptr);
         return mCandidates->dwStyle;
     }
 
@@ -279,7 +279,7 @@ namespace IME
 
     unsigned long IMECandidate::GetPageStart(void) const
     {
-        WWASSERT(mCandidates != NULL);
+        WWASSERT(mCandidates != nullptr);
         return mCandidates->dwPageStart;
     }
 
@@ -332,7 +332,7 @@ namespace IME
 
     unsigned long IMECandidate::GetPageSize(void) const
     {
-        WWASSERT(mCandidates != NULL);
+        WWASSERT(mCandidates != nullptr);
         return mCandidates->dwPageSize;
     }
 
@@ -378,7 +378,7 @@ namespace IME
 
     unsigned long IMECandidate::GetSelection(void) const
     {
-        WWASSERT(mCandidates != NULL);
+        WWASSERT(mCandidates != nullptr);
         return mCandidates->dwSelection;
     }
 
@@ -456,7 +456,7 @@ namespace IME
             return mTempString;
         }
 
-        return NULL;
+        return nullptr;
     }
 
     /******************************************************************************

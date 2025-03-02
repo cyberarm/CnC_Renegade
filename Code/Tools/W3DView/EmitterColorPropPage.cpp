@@ -45,10 +45,10 @@ IMPLEMENT_DYNCREATE(EmitterColorPropPageClass, CPropertyPage)
 //
 /////////////////////////////////////////////////////////////
 EmitterColorPropPageClass::EmitterColorPropPageClass(EmitterInstanceListClass* pemitter)
-    : m_pEmitterList(NULL),
+    : m_pEmitterList(nullptr),
       m_bValid(true),
-      m_ColorBar(NULL),
-      m_OpacityBar(NULL),
+      m_ColorBar(nullptr),
+      m_OpacityBar(nullptr),
       m_Lifetime(0),
       CPropertyPage(EmitterColorPropPageClass::IDD)
 {
@@ -126,7 +126,7 @@ void EmitterColorPropPageClass::Initialize(void)
     SAFE_DELETE_ARRAY(m_CurrentOpacities.KeyTimes);
     SAFE_DELETE_ARRAY(m_CurrentOpacities.Values);
 
-    if (m_pEmitterList != NULL) {
+    if (m_pEmitterList != nullptr) {
 
         m_Lifetime = m_pEmitterList->Get_Lifetime();
 
@@ -597,7 +597,7 @@ void EmitterColorPropPageClass::On_Lifetime_Changed(float lifetime)
         m_pEmitterList->Set_Color_Keyframes(m_CurrentColors);
         m_pEmitterList->Set_Opacity_Keyframes(m_CurrentOpacities);
         m_Lifetime = lifetime;
-        /*if (m_hWnd != NULL) {
+        /*if (m_hWnd != nullptr) {
                 Update_Colors ();
                 Update_Opacities ();
         }*/

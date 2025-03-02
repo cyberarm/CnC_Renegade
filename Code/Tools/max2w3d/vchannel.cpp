@@ -62,8 +62,8 @@ VectorChannelClass::VectorChannelClass(uint32 id, int maxframes, uint32 flags, i
       MaxFrames(maxframes),
       VectorLen(vectorlength),
       IsEmpty(true),
-      IdentVect(NULL),
-      Data(NULL),
+      IdentVect(nullptr),
+      Data(nullptr),
       Begin(0),
       End(0),
       ReduceAnimation(false),
@@ -145,7 +145,7 @@ bool VectorChannelClass::SaveTimeCoded(ChunkSaveClass& csave, BitChannelClass* b
 
     W3dTimeCodedAnimChannelStruct* chn = (W3dTimeCodedAnimChannelStruct*)malloc(channelsize);
 
-    if (chn == NULL) {
+    if (chn == nullptr) {
         return false;
     }
 
@@ -211,7 +211,7 @@ bool VectorChannelClass::SaveTimeCoded(ChunkSaveClass& csave, BitChannelClass* b
         return false;
     }
 
-    if (chn != NULL) {
+    if (chn != nullptr) {
         free(chn);
     }
 
@@ -410,7 +410,7 @@ bool VectorChannelClass::SaveAdaptiveDelta(ChunkSaveClass& csave, BitChannelClas
     W3dAdaptiveDeltaAnimChannelStruct* chn
         = (W3dAdaptiveDeltaAnimChannelStruct*)malloc(channelsize);
 
-    if (chn == NULL) {
+    if (chn == nullptr) {
         return false;
     }
 
@@ -537,7 +537,7 @@ bool VectorChannelClass::SaveAdaptiveDelta(ChunkSaveClass& csave, BitChannelClas
         return false;
     }
 
-    if (chn != NULL) {
+    if (chn != nullptr) {
         free(chn);
     }
 
@@ -600,7 +600,7 @@ bool VectorChannelClass::Save(ChunkSaveClass& csave, BitChannelClass* binmov)
 
         W3dAnimChannelStruct* chn = (W3dAnimChannelStruct*)malloc(channelsize);
 
-        if (chn == NULL) {
+        if (chn == nullptr) {
             return false;
         }
 
@@ -623,7 +623,7 @@ bool VectorChannelClass::Save(ChunkSaveClass& csave, BitChannelClass* binmov)
             return false;
         }
 
-        if (chn != NULL) {
+        if (chn != nullptr) {
             free(chn);
         }
 

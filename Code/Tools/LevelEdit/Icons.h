@@ -67,7 +67,7 @@ typedef enum
     NAVIGATOR_ICON,
     PLUS_OVERLAY_ICON,
     BUILDING_ICON,
-    NULL_ICON,
+    nullptr_ICON,
     RAND_ICON,
     DIALOGUE_ICON,
     ICON_COUNT

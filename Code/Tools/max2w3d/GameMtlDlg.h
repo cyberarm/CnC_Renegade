@@ -76,7 +76,7 @@ public:
     Interface* Ip;
 
 protected:
-    void Build_Dialog(HWND hParent = NULL);
+    void Build_Dialog(HWND hParent = nullptr);
     BOOL DisplacementMapProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam);
     BOOL SurfaceTypeProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam);
     BOOL PassCountProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam);

@@ -114,7 +114,7 @@ DECLARE_SCRIPT(Unit_Combat,
 
     void Created(GameObject * obj)
     {
-        anim_script = NULL;
+        anim_script = nullptr;
         self_id = Commands->Get_ID(obj);
         idleposition = Commands->Get_Position(obj);
         state = STATE_IDLE;
@@ -232,7 +232,7 @@ DECLARE_SCRIPT(Unit_Combat,
             //			Function_Play_Knockdown_Anim( obj );
         }
         else {
-            Commands->Set_Animation(obj, NULL, 0);
+            Commands->Set_Animation(obj, nullptr, 0);
             if (script_override > 0) {
                 GameObject* controller = Commands->Find_Object(controller_id);
                 if (controller) {
@@ -708,7 +708,7 @@ DECLARE_SCRIPT(Unit_Combat,
         if (function != FUNC_PANIC) {
             state = STATE_SEARCH;
             function = FUNC_PANIC;
-            Commands->Set_Animation(obj, NULL, 0);
+            Commands->Set_Animation(obj, nullptr, 0);
             if (Commands->Get_Random(0.0f, 1.0f) < 0.5f) {
                 Commands->Set_Animation(obj, "human.j21c01", 0);
             }
@@ -717,7 +717,7 @@ DECLARE_SCRIPT(Unit_Combat,
 
     void Function_Play_Idle_Anim(GameObject * obj)
     {
-        Commands->Set_Animation(obj, NULL, 0);
+        Commands->Set_Animation(obj, nullptr, 0);
         float animnum = Commands->Get_Random(0, 90);
         if (animnum <= 10) {
             anim_script = "human.j03c01";
@@ -753,7 +753,7 @@ DECLARE_SCRIPT(Unit_Combat,
     /*
             void Function_Play_Knockdown_Anim( GameObject * obj )
             {
-                    Commands->Set_Animation( obj, NULL, 0);
+                    Commands->Set_Animation( obj, nullptr, 0);
                     const char * damaged_bone = Commands->Get_Damage_Bone_Name();
                     bool direction = Commands->Get_Damage_Bone_Direction();
 
@@ -858,7 +858,7 @@ DECLARE_SCRIPT(Unit_Combat,
 
     void Function_Play_Search_Anim(GameObject * obj)
     {
-        Commands->Set_Animation(obj, NULL, 0);
+        Commands->Set_Animation(obj, nullptr, 0);
         float animnum = Commands->Get_Random(0, 30);
         if (animnum <= 10) {
             anim_script = "human.j09c01";
@@ -1222,7 +1222,7 @@ DECLARE_SCRIPT(Unit_Combat,
         state = STATE_CRITICAL;
         Commands->Action_Movement_Stop(obj);
         Commands->Action_Attack_Stop(obj);
-        Commands->Set_Animation(obj, NULL, 0);
+        Commands->Set_Animation(obj, nullptr, 0);
         Commands->Enable_Enemy_Seen(obj, false);
         //		Commands->Enable_Sound_Heard( Me, false);
     }

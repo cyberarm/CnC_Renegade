@@ -69,7 +69,7 @@ enum
 //////////////////////////////////////////////////////////////////////////////
 //	Static member initialization
 //////////////////////////////////////////////////////////////////////////////
-PhysClass* CoverAttackPointNodeClass::_TheCollisionObj = NULL;
+PhysClass* CoverAttackPointNodeClass::_TheCollisionObj = nullptr;
 int CoverAttackPointNodeClass::_InstanceCount = 0;
 
 //////////////////////////////////////////////////////////////////////////////
@@ -78,8 +78,8 @@ int CoverAttackPointNodeClass::_InstanceCount = 0;
 //
 //////////////////////////////////////////////////////////////////////////////
 CoverAttackPointNodeClass::CoverAttackPointNodeClass(PresetClass* preset)
-    : m_PhysObj(NULL),
-      m_CoverSpot(NULL),
+    : m_PhysObj(nullptr),
+      m_CoverSpot(nullptr),
       NodeClass(preset)
 {
     _InstanceCount++;
@@ -92,9 +92,9 @@ CoverAttackPointNodeClass::CoverAttackPointNodeClass(PresetClass* preset)
 //
 //////////////////////////////////////////////////////////////////////////////
 CoverAttackPointNodeClass::CoverAttackPointNodeClass(const CoverAttackPointNodeClass& src)
-    : m_PhysObj(NULL),
-      m_CoverSpot(NULL),
-      NodeClass(NULL)
+    : m_PhysObj(nullptr),
+      m_CoverSpot(nullptr),
+      NodeClass(nullptr)
 {
     _InstanceCount++;
     *this = src;
@@ -138,8 +138,8 @@ void CoverAttackPointNodeClass::Initialize(void)
     //	Create the attack-point render object
     //
     RenderObjClass* render_obj = ::Create_Render_Obj("WAY_B");
-    WWASSERT(render_obj != NULL);
-    if (render_obj != NULL) {
+    WWASSERT(render_obj != nullptr);
+    if (render_obj != nullptr) {
 
         // Create the new physics object
         m_PhysObj = new DecorationPhysClass;
@@ -159,13 +159,13 @@ void CoverAttackPointNodeClass::Initialize(void)
         MEMBER_RELEASE(render_obj);
     }
 
-    if (_TheCollisionObj == NULL) {
+    if (_TheCollisionObj == nullptr) {
 
         //
         //	Create the collision physics object
         //
         PresetClass* preset = PresetMgrClass::Find_Preset("Walk-Thru");
-        if (preset != NULL && preset->Get_Definition() != NULL) {
+        if (preset != nullptr && preset->Get_Definition() != nullptr) {
 
             //
             //	Load the assets for this preset and get its definition
@@ -281,7 +281,7 @@ void CoverAttackPointNodeClass::Pre_Export(void)
     // saved during the export.
     //
     Add_Ref();
-    if (m_PhysObj != NULL && m_IsInScene) {
+    if (m_PhysObj != nullptr && m_IsInScene) {
         ::Get_Scene_Editor()->Remove_Object(m_PhysObj);
     }
 
@@ -298,7 +298,7 @@ void CoverAttackPointNodeClass::Post_Export(void)
     //
     //	Put ourselves back into the system
     //
-    if (m_PhysObj != NULL && m_IsInScene) {
+    if (m_PhysObj != nullptr && m_IsInScene) {
         ::Get_Scene_Editor()->Add_Dynamic_Object(m_PhysObj);
     }
 
@@ -330,7 +330,7 @@ void CoverAttackPointNodeClass::On_Delete(void)
 //////////////////////////////////////////////////////////////////////
 PhysClass* CoverAttackPointNodeClass::Peek_Collision_Obj(void) const
 {
-    if (_TheCollisionObj != NULL) {
+    if (_TheCollisionObj != nullptr) {
         _TheCollisionObj->Set_Transform(m_Transform);
     }
 

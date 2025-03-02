@@ -22,7 +22,7 @@
  *                                                                                             *
  *                 Project Name : Max2W3d                                                      *
  *                                                                                             *
- *                     $Archive:: /Commando/Code/Tools/max2w3d/nullsave.h                     $*
+ *                     $Archive:: /Commando/Code/Tools/max2w3d/nullptrsave.h                     $*
  *                                                                                             *
  *                       Author:: Greg Hjelstrom                                               *
  *                                                                                             *
@@ -38,8 +38,8 @@
 #pragma once
 #endif
 
-#ifndef NULLSAVE_H
-#define NULLSAVE_H
+#ifndef nullptrSAVE_H
+#define nullptrSAVE_H
 
 #include "chunkio.h"
 #include "progress.h"
@@ -48,10 +48,10 @@
 
 /*******************************************************************************************
 **
-** NullSaveClass - Create a Null object.
+** nullptrSaveClass - Create a nullptr object.
 **
 *******************************************************************************************/
-class NullSaveClass
+class nullptrSaveClass
 {
 public:
     enum
@@ -60,12 +60,12 @@ public:
         EX_CANCEL = 1
     };
 
-    NullSaveClass(char* mesh_name, char* container_name, Progress_Meter_Class& meter);
+    nullptrSaveClass(char* mesh_name, char* container_name, Progress_Meter_Class& meter);
 
     int Write_To_File(ChunkSaveClass& csave);
 
 private:
-    W3dNullObjectStruct NullData;
+    W3dnullptrObjectStruct nullptrData;
 };
 
-#endif // NULLSAVE_H
+#endif // nullptrSAVE_H

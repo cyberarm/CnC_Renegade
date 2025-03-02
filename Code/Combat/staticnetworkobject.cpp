@@ -57,7 +57,7 @@ DynamicVectorClass<StaticNetworkObjectClass*> StaticNetworkObjectClass::StaticNe
 //
 ////////////////////////////////////////////////////////////////
 StaticNetworkObjectClass::StaticNetworkObjectClass(void)
-    : PhysObj(NULL),
+    : PhysObj(nullptr),
       AnimationMode(0),
       LoopStart(0),
       LoopEnd(0),
@@ -110,7 +110,7 @@ bool StaticNetworkObjectClass::Get_World_Position(Vector3& pos) const
     //
     //	Return the physic object's position
     //
-    if (PhysObj != NULL) {
+    if (PhysObj != nullptr) {
         PhysObj->Get_Position(&pos);
         retval = true;
     }
@@ -125,7 +125,7 @@ bool StaticNetworkObjectClass::Get_World_Position(Vector3& pos) const
 ////////////////////////////////////////////////////////////////
 int StaticNetworkObjectClass::Get_Vis_ID(void)
 {
-    if (PhysObj != NULL) {
+    if (PhysObj != nullptr) {
         return PhysObj->Get_Vis_Object_ID();
     }
 
@@ -145,7 +145,7 @@ void StaticNetworkObjectClass::Initialize(StaticAnimPhysClass* phys_obj)
     //	Update the network ID
     //
     int network_id = 0;
-    if (PhysObj != NULL) {
+    if (PhysObj != nullptr) {
         network_id = PhysObj->Get_ID();
 
         //
@@ -173,7 +173,7 @@ void StaticNetworkObjectClass::Network_Think(void)
 {
     NetworkObjectClass::Network_Think();
 
-    if (PhysObj != NULL) {
+    if (PhysObj != nullptr) {
         AnimCollisionManagerClass& anim_mgr = PhysObj->Get_Animation_Manager();
 
         //
@@ -232,19 +232,19 @@ void StaticNetworkObjectClass::Generate_Static_Network_Objects(void)
     //
     for (iterator.First(); iterator.Is_Done() == false; iterator.Next()) {
         StaticAnimPhysClass* phys_obj = (StaticAnimPhysClass*)iterator.Peek_Obj();
-        if (phys_obj != NULL) {
+        if (phys_obj != nullptr) {
 
             //
             //	Make a new network object for this phys obj
             //
-            StaticNetworkObjectClass* network_obj = NULL;
-            if (phys_obj->As_ElevatorPhysClass() != NULL) {
+            StaticNetworkObjectClass* network_obj = nullptr;
+            if (phys_obj->As_ElevatorPhysClass() != nullptr) {
                 network_obj = new ElevatorNetworkObjectClass;
             }
-            else if (phys_obj->As_DoorPhysClass() != NULL) {
+            else if (phys_obj->As_DoorPhysClass() != nullptr) {
                 network_obj = new DoorNetworkObjectClass;
             }
-            else if (phys_obj->As_DamageableStaticPhysClass() != NULL) {
+            else if (phys_obj->As_DamageableStaticPhysClass() != nullptr) {
                 network_obj = new DSAPONetworkObjectClass;
             }
             else {
@@ -275,7 +275,7 @@ void StaticNetworkObjectClass::Free_Static_Network_Objects(void)
     //
     for (int index = temp_list.Count() - 1; index >= 0; index--) {
         StaticNetworkObjectClass* object = temp_list[index];
-        if (object != NULL) {
+        if (object != nullptr) {
             delete object;
         }
     }
@@ -305,7 +305,7 @@ void StaticNetworkObjectClass::Import_Rare(BitStreamClass& packet)
     packet.Get(CurrFrame);
     packet.Get(TargetFrame);
 
-    if (PhysObj != NULL) {
+    if (PhysObj != nullptr) {
         AnimCollisionManagerClass& anim_mgr = PhysObj->Get_Animation_Manager();
 
         //
@@ -364,9 +364,9 @@ void DoorNetworkObjectClass::Initialize(StaticAnimPhysClass* phys_obj)
     //
     //	Get a pointer to the door
     //
-    if (PhysObj != NULL) {
+    if (PhysObj != nullptr) {
         DoorPhysClass* door = PhysObj->As_DoorPhysClass();
-        if (door != NULL) {
+        if (door != nullptr) {
 
             //
             //	Copy the object's state
@@ -391,9 +391,9 @@ void DoorNetworkObjectClass::Network_Think(void)
     //
     //	Get a pointer to the door
     //
-    if (PhysObj != NULL) {
+    if (PhysObj != nullptr) {
         DoorPhysClass* door = PhysObj->As_DoorPhysClass();
-        if (door != NULL) {
+        if (door != nullptr) {
 
             //
             //	Set the dirty bit if the state has changed
@@ -432,9 +432,9 @@ void DoorNetworkObjectClass::Import_Rare(BitStreamClass& packet)
     //
     //	Get a pointer to the door
     //
-    if (PhysObj != NULL) {
+    if (PhysObj != nullptr) {
         DoorPhysClass* door = PhysObj->As_DoorPhysClass();
-        if (door != NULL) {
+        if (door != nullptr) {
 
             //
             //	Set the new state
@@ -504,9 +504,9 @@ void DoorNetworkObjectClass::Get_Description(StringClass& description)
     line.Format("DoorState:  %d (%s)\n", DoorState, state_string);
     description += line;
 
-    if (PhysObj != NULL) {
+    if (PhysObj != nullptr) {
         DoorPhysClass* door = PhysObj->As_DoorPhysClass();
-        if (door != NULL) {
+        if (door != nullptr) {
             line.Format("Timer:      %-5.2f\n", door->Timer);
             description += line;
 
@@ -551,9 +551,9 @@ void ElevatorNetworkObjectClass::Initialize(StaticAnimPhysClass* phys_obj)
     //
     //	Get a pointer to the elevator
     //
-    if (PhysObj != NULL) {
+    if (PhysObj != nullptr) {
         ElevatorPhysClass* elevator = PhysObj->As_ElevatorPhysClass();
-        if (elevator != NULL) {
+        if (elevator != nullptr) {
 
             //
             //	Copy the object's state
@@ -580,9 +580,9 @@ void ElevatorNetworkObjectClass::Network_Think(void)
     //
     //	Get a pointer to the elevator
     //
-    if (PhysObj != NULL) {
+    if (PhysObj != nullptr) {
         ElevatorPhysClass* elevator = PhysObj->As_ElevatorPhysClass();
-        if (elevator != NULL) {
+        if (elevator != nullptr) {
 
             //
             //	Set the dirty bit if the state has changed
@@ -626,9 +626,9 @@ void ElevatorNetworkObjectClass::Import_Rare(BitStreamClass& packet)
     //
     //	Get a pointer to the elevator
     //
-    if (PhysObj != NULL) {
+    if (PhysObj != nullptr) {
         ElevatorPhysClass* elevator = PhysObj->As_ElevatorPhysClass();
-        if (elevator != NULL) {
+        if (elevator != nullptr) {
 
             //
             //	Switch to the new states
@@ -740,9 +740,9 @@ void ElevatorNetworkObjectClass::Get_Description(StringClass& description)
     line.Format("DoorStateBottom:  %d (%s)\n", DoorStateBottom, state_string);
     description += line;
 
-    if (PhysObj != NULL) {
+    if (PhysObj != nullptr) {
         ElevatorPhysClass* elevator = PhysObj->As_ElevatorPhysClass();
-        if (elevator != NULL) {
+        if (elevator != nullptr) {
 
             line.Format("State:            %d\n", elevator->State);
             description += line;
@@ -787,9 +787,9 @@ void DSAPONetworkObjectClass::Initialize(StaticAnimPhysClass* phys_obj)
     //
     //	Get a pointer to the object
     //
-    if (PhysObj != NULL) {
+    if (PhysObj != nullptr) {
         DamageableStaticPhysClass* phys_obj = PhysObj->As_DamageableStaticPhysClass();
-        if (phys_obj != NULL) {
+        if (phys_obj != nullptr) {
 
             //
             //	Copy the object's state
@@ -813,9 +813,9 @@ void DSAPONetworkObjectClass::Network_Think(void)
     //
     //	Get a pointer to the object
     //
-    if (PhysObj != NULL) {
+    if (PhysObj != nullptr) {
         DamageableStaticPhysClass* phys_obj = PhysObj->As_DamageableStaticPhysClass();
-        if (phys_obj != NULL) {
+        if (phys_obj != nullptr) {
 
             //
             //	Set the dirty bit if the state has changed
@@ -838,7 +838,7 @@ void DSAPONetworkObjectClass::Network_Think(void)
 void DSAPONetworkObjectClass::Import_Rare(BitStreamClass& packet)
 {
     DamageableStaticPhysClass* phys_obj = PhysObj->As_DamageableStaticPhysClass();
-    if (phys_obj == NULL) {
+    if (phys_obj == nullptr) {
         return;
     }
 
@@ -870,7 +870,7 @@ void DSAPONetworkObjectClass::Import_Rare(BitStreamClass& packet)
         const DamageableStaticPhysDefClass* definition = phys_obj->Get_DamageableStaticPhysDef();
         if (definition->KilledExplosion != 0) {
             ExplosionManager::Create_Explosion_At(definition->KilledExplosion,
-                                                  phys_obj->Get_Transform(), NULL);
+                                                  phys_obj->Get_Transform(), nullptr);
         }
     }
 
@@ -885,7 +885,7 @@ void DSAPONetworkObjectClass::Import_Rare(BitStreamClass& packet)
 void DSAPONetworkObjectClass::Export_Rare(BitStreamClass& packet)
 {
     DamageableStaticPhysClass* phys_obj = PhysObj->As_DamageableStaticPhysClass();
-    if (phys_obj == NULL) {
+    if (phys_obj == nullptr) {
         return;
     }
 

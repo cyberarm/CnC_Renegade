@@ -69,7 +69,7 @@ void __cdecl DebugPrint(const char* string, ...)
     static char _buffer[1024];
     static char _filename[512] = "";
 
-    if (string != NULL) {
+    if (string != nullptr) {
         va_list va;
 
         // Format string
@@ -77,7 +77,7 @@ void __cdecl DebugPrint(const char* string, ...)
         vsprintf(&_buffer[0], string, va);
         va_end(va);
 
-        if (Commands != NULL) {
+        if (Commands != nullptr) {
             // Send string to commando executable
             Commands->Debug_Message(_buffer);
         }
@@ -96,17 +96,17 @@ void __cdecl DebugPrint(const char* string, ...)
 			char drive[_MAX_DRIVE];
 			char dir[_MAX_DIR];
 
-			GetModuleFileName(GetModuleHandle(NULL), &path[0], sizeof(path));
-			_splitpath(path, drive, dir, NULL, NULL);
+			GetModuleFileName(GetModuleHandle(nullptr), &path[0], sizeof(path));
+			_splitpath(path, drive, dir, nullptr, nullptr);
 			_makepath(_filename, drive, dir, LOGFILE_NAME, "txt");
 
-			file = CreateFile(_filename, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS,
-				FILE_ATTRIBUTE_NORMAL, NULL);
+			file = CreateFile(_filename, GENERIC_WRITE, 0, nullptr, CREATE_ALWAYS,
+				FILE_ATTRIBUTE_NORMAL, nullptr);
 			}
 		else
 			{
-			file = CreateFile(_filename, GENERIC_WRITE, 0, NULL, OPEN_ALWAYS,
-				FILE_ATTRIBUTE_NORMAL, NULL);
+			file = CreateFile(_filename, GENERIC_WRITE, 0, nullptr, OPEN_ALWAYS,
+				FILE_ATTRIBUTE_NORMAL, nullptr);
 			}
 		
 		// Insert carriage return after newlines
@@ -137,8 +137,8 @@ void __cdecl DebugPrint(const char* string, ...)
 			{
 			DWORD written;
 
-			SetFilePointer(file, 0, NULL, FILE_END);
-			WriteFile(file, &_buffer[0], strlen(_buffer), &written, NULL);
+			SetFilePointer(file, 0, nullptr, FILE_END);
+			WriteFile(file, &_buffer[0], strlen(_buffer), &written, nullptr);
 			CloseHandle(file);
 			}
 #endif

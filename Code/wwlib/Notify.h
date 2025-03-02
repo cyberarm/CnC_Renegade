@@ -60,7 +60,7 @@ public:
     typedef std::vector<Notifier<Event>*> NotifierColl;
 
     Observer()
-        : mNotifiers(NULL)
+        : mNotifiers(nullptr)
     {
     }
 
@@ -87,7 +87,7 @@ public:
     {
         while (mNotifiers.size() > 0) {
             Notifier<Event>* notifier = mNotifiers.back();
-            assert(notifier && "ERROR: NULL pointer in collection.");
+            assert(notifier && "ERROR: nullptr pointer in collection.");
             notifier->RemoveObserver(*this);
         }
     }

@@ -91,7 +91,7 @@ static BOOL CALLBACK PassDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
         SetWindowLong(hwndDlg, GWL_USERDATA, lParam);
     }
     else {
-        if ((theDlg = (GameMtlPassDlg*)GetWindowLong(hwndDlg, GWL_USERDATA)) == NULL) {
+        if ((theDlg = (GameMtlPassDlg*)GetWindowLong(hwndDlg, GWL_USERDATA)) == nullptr) {
             return FALSE;
         }
     }
@@ -139,7 +139,7 @@ GameMtlPassDlg::GameMtlPassDlg(HWND hwMtlEdit, IMtlParams* imp, GameMtl* m, int 
     ps_Page.pfnDlgProc = PassDlgProc;
     ps_Page.pszTitle = title;
     ps_Page.lParam = (LPARAM)this;
-    ps_Page.pfnCallback = NULL;
+    ps_Page.pfnCallback = nullptr;
     HPROPSHEETPAGE hPage = CreatePropertySheetPage(&ps_Page);
     PropSheet_AddPage(HwndEdit, hPage);
     HwndPanel = HwndEdit;
@@ -164,7 +164,7 @@ GameMtlPassDlg::~GameMtlPassDlg()
     TheMtl->Set_Flag(_Pass_Index_To_Flag[PassIndex], IParams->IsRollupPanelOpen(HwndPanel));
     IParams->DeleteRollupPage(HwndPanel);
 #endif
-    SetWindowLong(HwndPanel, GWL_USERDATA, NULL);
+    SetWindowLong(HwndPanel, GWL_USERDATA, nullptr);
 }
 
 /***********************************************************************************************
@@ -227,7 +227,7 @@ BOOL GameMtlPassDlg::DialogProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM l
 
             // Loop through all the tabs in the property sheet
             // Get a pointer to this tab
-            SetWindowPos(hwnd, NULL, rect.left, rect.top, rect.right - rect.left,
+            SetWindowPos(hwnd, nullptr, rect.left, rect.top, rect.right - rect.left,
                          rect.bottom - rect.top, SWP_NOZORDER);
         }
 
@@ -348,7 +348,7 @@ BOOL GameMtlPassDlg::DialogProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM l
 void GameMtlPassDlg::Invalidate()
 {
     Valid = FALSE;
-    InvalidateRect(HwndPanel, NULL, 0);
+    InvalidateRect(HwndPanel, nullptr, 0);
 }
 
 /***********************************************************************************************

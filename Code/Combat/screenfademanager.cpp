@@ -159,7 +159,7 @@ static FloatInterpolatorClass _OverlayRed(0.0f);
 static FloatInterpolatorClass _OverlayGreen(0.0f);
 static FloatInterpolatorClass _OverlayBlue(0.0f);
 
-static Render2DClass* _Renderer = NULL;
+static Render2DClass* _Renderer = nullptr;
 
 /*
 ** Constants
@@ -182,7 +182,7 @@ void ScreenFadeManager::Init()
 void ScreenFadeManager::Shutdown()
 {
     delete _Renderer;
-    _Renderer = NULL;
+    _Renderer = nullptr;
 }
 
 void ScreenFadeManager::Think()

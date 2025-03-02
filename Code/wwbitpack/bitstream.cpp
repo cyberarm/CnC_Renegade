@@ -94,7 +94,7 @@ bool BitStreamClass::Get(bool& value)
 //-----------------------------------------------------------------------------
 void BitStreamClass::Add_Raw_Data(LPCSTR data, USHORT data_size)
 {
-    WWASSERT(data != NULL);
+    WWASSERT(data != nullptr);
     WWASSERT(data_size >= 0);
 
     for (int i = 0; i < data_size; i++) {
@@ -105,7 +105,7 @@ void BitStreamClass::Add_Raw_Data(LPCSTR data, USHORT data_size)
 //-----------------------------------------------------------------------------
 void BitStreamClass::Get_Raw_Data(char* buffer, USHORT buffer_size, USHORT data_size)
 {
-    WWASSERT(buffer != NULL);
+    WWASSERT(buffer != nullptr);
     WWASSERT(data_size >= 0);
     WWASSERT(buffer_size >= data_size);
 
@@ -117,10 +117,10 @@ void BitStreamClass::Get_Raw_Data(char* buffer, USHORT buffer_size, USHORT data_
 //-----------------------------------------------------------------------------
 void BitStreamClass::Add_Terminated_String(LPCSTR string, bool permit_empty)
 {
-    WWASSERT(string != NULL);
+    WWASSERT(string != nullptr);
 
     //
-    // The terminating null is not transmitted.
+    // The terminating nullptr is not transmitted.
     //
     USHORT len = (USHORT)strlen(string);
     if (!permit_empty) {
@@ -136,7 +136,7 @@ void BitStreamClass::Add_Terminated_String(LPCSTR string, bool permit_empty)
 //-----------------------------------------------------------------------------
 void BitStreamClass::Get_Terminated_String(char* buffer, USHORT buffer_size, bool permit_empty)
 {
-    WWASSERT(buffer != NULL);
+    WWASSERT(buffer != nullptr);
     WWASSERT(buffer_size > 0);
 
     USHORT len;
@@ -155,7 +155,7 @@ void BitStreamClass::Get_Terminated_String(char* buffer, USHORT buffer_size, boo
         }
     }
 
-    // Null-terminate it.
+    // nullptr-terminate it.
     if (i < buffer_size) {
         buffer[i] = 0;
     }
@@ -167,10 +167,10 @@ void BitStreamClass::Get_Terminated_String(char* buffer, USHORT buffer_size, boo
 //-----------------------------------------------------------------------------
 void BitStreamClass::Add_Wide_Terminated_String(const WCHAR* string, bool permit_empty)
 {
-    WWASSERT(string != NULL);
+    WWASSERT(string != nullptr);
 
     //
-    // The terminating null is not transmitted.
+    // The terminating nullptr is not transmitted.
     //
     USHORT len = (USHORT)wcslen(string);
     if (!permit_empty) {
@@ -186,7 +186,7 @@ void BitStreamClass::Add_Wide_Terminated_String(const WCHAR* string, bool permit
 //-----------------------------------------------------------------------------
 void BitStreamClass::Get_Wide_Terminated_String(WCHAR* buffer, USHORT buffer_len, bool permit_empty)
 {
-    WWASSERT(buffer != NULL);
+    WWASSERT(buffer != nullptr);
     WWASSERT(buffer_len > 0);
 
     USHORT len;
@@ -206,7 +206,7 @@ void BitStreamClass::Get_Wide_Terminated_String(WCHAR* buffer, USHORT buffer_len
     }
 
     if (i < buffer_len - 1) {
-        buffer[i] = 0; // Null-terminate it.
+        buffer[i] = 0; // nullptr-terminate it.
     }
     else {
         buffer[buffer_len - 1] = 0;

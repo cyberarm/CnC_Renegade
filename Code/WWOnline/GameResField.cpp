@@ -66,7 +66,7 @@ namespace WWOnline
         mSize = sizeof(data);
         mData = new char[mSize];
         memcpy(mData, &data, mSize);
-        mNext = NULL;
+        mNext = nullptr;
     }
 
     /******************************************************************************
@@ -88,7 +88,7 @@ namespace WWOnline
         mSize = sizeof(data);
         mData = new char[mSize];
         memcpy(mData, &data, mSize);
-        mNext = NULL;
+        mNext = nullptr;
     }
 
     /******************************************************************************
@@ -110,7 +110,7 @@ namespace WWOnline
         mSize = sizeof(data);
         mData = new char[mSize];
         memcpy(mData, &data, mSize);
-        mNext = NULL;
+        mNext = nullptr;
     }
 
     /******************************************************************************
@@ -132,7 +132,7 @@ namespace WWOnline
         mSize = sizeof(data);
         mData = new char[mSize];
         memcpy(mData, &data, mSize);
-        mNext = NULL;
+        mNext = nullptr;
     }
 
     /******************************************************************************
@@ -154,7 +154,7 @@ namespace WWOnline
         mSize = sizeof(data);
         mData = new char[mSize];
         memcpy(mData, &data, mSize);
-        mNext = NULL;
+        mNext = nullptr;
     }
 
     /******************************************************************************
@@ -176,7 +176,7 @@ namespace WWOnline
         mSize = sizeof(data);
         mData = new char[mSize];
         memcpy(mData, &data, mSize);
-        mNext = NULL;
+        mNext = nullptr;
     }
 
     /******************************************************************************
@@ -198,7 +198,7 @@ namespace WWOnline
         mSize = (unsigned short)(strlen(data) + 1);
         mData = new char[mSize];
         memcpy(mData, data, mSize);
-        mNext = NULL;
+        mNext = nullptr;
     }
 
     /******************************************************************************
@@ -220,7 +220,7 @@ namespace WWOnline
         mSize = (unsigned short)length;
         mData = new char[mSize];
         memcpy(mData, data, mSize);
-        mNext = NULL;
+        mNext = nullptr;
     }
 
     /******************************************************************************

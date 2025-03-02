@@ -62,7 +62,7 @@ public:
     virtual PersistClass* Create(void) const
     {
         WWASSERT(0);
-        return NULL;
+        return nullptr;
     }
     virtual bool Save(ChunkSaveClass& csave);
     virtual bool Load(ChunkLoadClass& cload);
@@ -94,16 +94,16 @@ class ExplosionManager
 public:
     static void Create_Explosion_At(int exlosion_id, const Vector3& pos, ArmedGameObj* damager,
                                     const Vector3& blast_direction = Vector3(0, 0, -1),
-                                    DamageableGameObj* force_victim = NULL);
+                                    DamageableGameObj* force_victim = nullptr);
     static void Create_Explosion_At(int exlosion_id, const Matrix3D& tm, ArmedGameObj* damager,
                                     const Vector3& blast_direction = Vector3(0, 0, -1),
-                                    DamageableGameObj* force_victim = NULL);
+                                    DamageableGameObj* force_victim = nullptr);
 
     static void Explosion_Damage_Building(int exlosion_id, BuildingGameObj* building,
                                           bool mct_damage, ArmedGameObj* damager);
 
     static void Server_Explode(int explosion_id, const Vector3& pos, int owner_id,
-                               DamageableGameObj* force_victim = NULL);
+                               DamageableGameObj* force_victim = nullptr);
     static void Explode(int explosion_id, const Vector3& pos, int owner_id, int victim_id = 0);
 };
 

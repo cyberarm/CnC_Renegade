@@ -35,7 +35,7 @@ static char THIS_FILE[] = __FILE__;
 /////////////////////////////////////////////////////////////////////////////
 // MakeMixFileDialogClass dialog
 
-MakeMixFileDialogClass::MakeMixFileDialogClass(CWnd* pParent /*=NULL*/)
+MakeMixFileDialogClass::MakeMixFileDialogClass(CWnd* pParent /*=nullptr*/)
     : CDialog(MakeMixFileDialogClass::IDD, pParent)
 {
     //{{AFX_DATA_INIT(MakeMixFileDialogClass)
@@ -201,9 +201,9 @@ void MakeMixFileDialogClass::OnBrowseDir()
     GetDlgItemText(IDC_BROWSE_DIR_NAME, old_name);
 
     CFileDialog dialog(TRUE,
-                       NULL, //".",
+                       nullptr, //".",
                        old_name, OFN_HIDEREADONLY | OFN_EXPLORER,
-                       NULL, //"Mix File (*.mix)|*.mix||",
+                       nullptr, //"Mix File (*.mix)|*.mix||",
                        this);
 
     dialog.m_ofn.lpstrTitle = "Pick A File In the Root Source Directory";

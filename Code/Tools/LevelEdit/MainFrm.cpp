@@ -423,7 +423,7 @@ extern CLevelEditApp theApp;
 CMainFrame::CMainFrame(void)
     : m_UpdateTimer(0),
       m_GrowthRate(0.25F),
-      m_pCurrentDoc(NULL),
+      m_pCurrentDoc(nullptr),
       m_MaxCamProfiles(0)
 {
     return;
@@ -515,7 +515,7 @@ void CMainFrame::Create_Camera_Menu(void)
     //	Get the INI file which contains the data for this viewer
     //
     INIClass* ini_file = ::Get_INI(full_path);
-    if (ini_file != NULL) {
+    if (ini_file != nullptr) {
 
         //
         //	Enumerate the entries...
@@ -566,7 +566,7 @@ void CMainFrame::Restore_Window_State(void)
     if (is_max) {
             ::ShowWindow (m_hWnd, SW_MAXIMIZE);
     } else if (rect.left > 0 && rect.right > 0 && rect.top > 0 && rect.bottom > 0) {
-            ::SetWindowPos (m_hWnd, NULL, rect.left, rect.top, rect.Width (), rect.Height (),
+            ::SetWindowPos (m_hWnd, nullptr, rect.left, rect.top, rect.Width (), rect.Height (),
     SWP_NOZORDER);
     }*/
 
@@ -722,7 +722,7 @@ BOOL CMainFrame::OnCreateClient(LPCREATESTRUCT lpcs, CCreateContext* pContext)
 
     // Get the path where this exe was run from
     TCHAR filename[MAX_PATH];
-    ::GetModuleFileName(NULL, filename, sizeof(filename));
+    ::GetModuleFileName(nullptr, filename, sizeof(filename));
 
     // Does this filename have a directory?
     LPTSTR pathname = ::strrchr(filename, '\\');
@@ -782,7 +782,7 @@ BOOL CMainFrame::OnCreateClient(LPCREATESTRUCT lpcs, CCreateContext* pContext)
     // Initialize the render device
     ::Get_Main_View()->Initialize_Render_Device();
 
-    if (m_pCurrentDoc != NULL) {
+    if (m_pCurrentDoc != nullptr) {
         m_pCurrentDoc->Init_Scene();
     }
 
@@ -824,7 +824,7 @@ BOOL CMainFrame::OnCreateClient(LPCREATESTRUCT lpcs, CCreateContext* pContext)
     //	Attach the sound system to the camera
     //
     SoundSceneClass* sound_scene = _pTheAudioManager->Get_Sound_Scene();
-    if (sound_scene != NULL) {
+    if (sound_scene != nullptr) {
         sound_scene->Attach_Listener_To_Obj(::Get_Camera_Mgr()->Get_Camera());
     }
 
@@ -905,8 +905,8 @@ void CMainFrame::OnObjectManipulate(void)
     MouseMgrClass* pmousemgr = ::Get_Mouse_Mgr();
 
     // Were we succesful in getting the mouse manager?
-    ASSERT(pmousemgr != NULL);
-    if (pmousemgr != NULL) {
+    ASSERT(pmousemgr != nullptr);
+    if (pmousemgr != nullptr) {
         pmousemgr->Set_Mouse_Mode(MouseMgrClass::MODE_OBJECT_MANIPULATE);
     }
 
@@ -923,8 +923,8 @@ void CMainFrame::OnUpdateObjectManipulate(CCmdUI* pCmdUI)
     MouseMgrClass* pmousemgr = ::Get_Mouse_Mgr();
 
     // Were we succesful in getting the mouse manager?
-    ASSERT(pmousemgr != NULL);
-    if (pmousemgr != NULL) {
+    ASSERT(pmousemgr != nullptr);
+    if (pmousemgr != nullptr) {
         pCmdUI->SetCheck((BOOL)pmousemgr->Get_Mouse_Mode()
                          == MouseMgrClass::MODE_OBJECT_MANIPULATE);
     }
@@ -942,8 +942,8 @@ void CMainFrame::OnModeCamera(void)
     MouseMgrClass* pmousemgr = ::Get_Mouse_Mgr();
 
     // Were we succesful in getting the mouse manager?
-    ASSERT(pmousemgr != NULL);
-    if (pmousemgr != NULL) {
+    ASSERT(pmousemgr != nullptr);
+    if (pmousemgr != nullptr) {
         pmousemgr->Set_Mouse_Mode(MouseMgrClass::MODE_CAMERA_DEFAULT);
     }
 
@@ -960,8 +960,8 @@ void CMainFrame::OnUpdateModeCamera(CCmdUI* pCmdUI)
     MouseMgrClass* pmousemgr = ::Get_Mouse_Mgr();
 
     // Were we succesful in getting the mouse manager?
-    ASSERT(pmousemgr != NULL);
-    if (pmousemgr != NULL) {
+    ASSERT(pmousemgr != nullptr);
+    if (pmousemgr != nullptr) {
         pCmdUI->SetCheck((BOOL)pmousemgr->Get_Mouse_Mode() == MouseMgrClass::MODE_CAMERA_DEFAULT);
     }
 
@@ -988,8 +988,8 @@ void CMainFrame::OnModeOrbit(void)
     MouseMgrClass* pmousemgr = ::Get_Mouse_Mgr();
 
     // Were we succesful in getting the mouse manager?
-    ASSERT(pmousemgr != NULL);
-    if (pmousemgr != NULL) {
+    ASSERT(pmousemgr != nullptr);
+    if (pmousemgr != nullptr) {
         pmousemgr->Set_Mouse_Mode(MouseMgrClass::MODE_CAMERA_ORBIT);
     }
 
@@ -1006,8 +1006,8 @@ void CMainFrame::OnUpdateModeOrbit(CCmdUI* pCmdUI)
     MouseMgrClass* pmousemgr = ::Get_Mouse_Mgr();
 
     // Were we succesful in getting the mouse manager?
-    ASSERT(pmousemgr != NULL);
-    if (pmousemgr != NULL) {
+    ASSERT(pmousemgr != nullptr);
+    if (pmousemgr != nullptr) {
         pCmdUI->SetCheck((BOOL)pmousemgr->Get_Mouse_Mode() == MouseMgrClass::MODE_CAMERA_ORBIT);
     }
 
@@ -1255,8 +1255,8 @@ void CMainFrame::OnModeWalkthrough(void)
     MouseMgrClass* pmousemgr = ::Get_Mouse_Mgr();
 
     // Were we succesful in getting the mouse manager?
-    ASSERT(pmousemgr != NULL);
-    if (pmousemgr != NULL) {
+    ASSERT(pmousemgr != nullptr);
+    if (pmousemgr != nullptr) {
         pmousemgr->Set_Mouse_Mode(MouseMgrClass::MODE_CAMERA_WALK);
     }
 
@@ -1273,8 +1273,8 @@ void CMainFrame::OnUpdateModeWalkthrough(CCmdUI* pCmdUI)
     MouseMgrClass* pmousemgr = ::Get_Mouse_Mgr();
 
     // Were we succesful in getting the mouse manager?
-    ASSERT(pmousemgr != NULL);
-    if (pmousemgr != NULL) {
+    ASSERT(pmousemgr != nullptr);
+    if (pmousemgr != nullptr) {
         pCmdUI->SetCheck((BOOL)pmousemgr->Get_Mouse_Mode() == MouseMgrClass::MODE_CAMERA_WALK);
     }
 
@@ -1393,7 +1393,7 @@ void CMainFrame::OnViewToolbarCameraSettings(void)
 
     // Get a pointer to the camera settings dialog
     CameraSettingsFormClass* pform = (CameraSettingsFormClass*)m_CameraSettingsToolbar.Get_Form();
-    if (pform != NULL) {
+    if (pform != nullptr) {
         pform->Update_Controls();
     }
 
@@ -1418,7 +1418,7 @@ void CMainFrame::OnUpdateViewToolbarCameraSettings(CCmdUI* pCmdUI)
 void CMainFrame::OnCameraDepthLess(void)
 {
     CameraMgr* pcamera_mgr = ::Get_Camera_Mgr();
-    if (pcamera_mgr != NULL) {
+    if (pcamera_mgr != nullptr) {
 
         // Get the current 'near' clip plane
         float near_plane = 0;
@@ -1444,7 +1444,7 @@ void CMainFrame::OnCameraDepthLess(void)
 void CMainFrame::OnCameraDepthMore(void)
 {
     CameraMgr* pcamera_mgr = ::Get_Camera_Mgr();
-    if (pcamera_mgr != NULL) {
+    if (pcamera_mgr != nullptr) {
 
         // Get the current 'near' clip plane
         float near_plane = 0;
@@ -1474,7 +1474,7 @@ void CMainFrame::OnSavePresets(void)
     //	Reload the presets into the form
     //
     /*PresetsFormClass *presets_form = ::Get_Presets_Form ();
-    if (presets_form != NULL) {
+    if (presets_form != nullptr) {
             presets_form->Save_Presets ();
     }*/
 
@@ -1579,7 +1579,7 @@ void CMainFrame::OnAlwaysExport(void)
     // Ask the user to pick a path
     //
     CString path;
-    if (::Browse_For_Folder(path, NULL, NULL,
+    if (::Browse_For_Folder(path, nullptr, nullptr,
                             "Select a directory where the core file set will be copied.")) {
 
         //
@@ -1736,8 +1736,8 @@ void CMainFrame::OnGenVis(void)
     MouseMgrClass* pmousemgr = ::Get_Mouse_Mgr();
 
     // Were we succesful in getting the mouse manager?
-    /*ASSERT (pmousemgr != NULL);
-    if ((pmousemgr != NULL) &&
+    /*ASSERT (pmousemgr != nullptr);
+    if ((pmousemgr != nullptr) &&
         (pmousemgr->Get_Mouse_Mode () == MouseMgrClass::MODE_CAMERA_WALK)) {
             ::Get_Scene_Editor ()->Record_Vis_Info ();
     }*/
@@ -1778,7 +1778,7 @@ void CMainFrame::Show_Ani_Toolbar(bool bshow)
 void CMainFrame::OnAniBackFrame(void)
 {
     /*NodeInstanceClass *pnode = Get_Selection_Mgr ().Get_First ();
-    if ((pnode != NULL) &&
+    if ((pnode != nullptr) &&
         (pnode->Get_Type () == NODE_TYPE_TRANSITION_CHARACTER)) {
             TransitionCharacterClass *pcharacter = (TransitionCharacterClass *)pnode;
             pcharacter->Send_Animation_Message (TransitionCharacterClass::ANIM_BACK_FRAME);
@@ -1796,7 +1796,7 @@ void CMainFrame::OnAniBackFrame(void)
 void CMainFrame::OnAniFirstFrame(void)
 {
     /*NodeInstanceClass *pnode = Get_Selection_Mgr ().Get_First ();
-    if ((pnode != NULL) &&
+    if ((pnode != nullptr) &&
         (pnode->Get_Type () == NODE_TYPE_TRANSITION_CHARACTER)) {
             TransitionCharacterClass *pcharacter = (TransitionCharacterClass *)pnode;
             pcharacter->Send_Animation_Message (TransitionCharacterClass::ANIM_FIRST_FRAME);
@@ -1814,7 +1814,7 @@ void CMainFrame::OnAniFirstFrame(void)
 void CMainFrame::OnAniFwdFrame(void)
 {
     /*NodeInstanceClass *pnode = Get_Selection_Mgr ().Get_First ();
-    if ((pnode != NULL) &&
+    if ((pnode != nullptr) &&
         (pnode->Get_Type () == NODE_TYPE_TRANSITION_CHARACTER)) {
             TransitionCharacterClass *pcharacter = (TransitionCharacterClass *)pnode;
             pcharacter->Send_Animation_Message (TransitionCharacterClass::ANIM_ADVANCE_FRAME);
@@ -1832,7 +1832,7 @@ void CMainFrame::OnAniFwdFrame(void)
 void CMainFrame::OnAniLastFrame(void)
 {
     /*NodeInstanceClass *pnode = Get_Selection_Mgr ().Get_First ();
-    if ((pnode != NULL) &&
+    if ((pnode != nullptr) &&
         (pnode->Get_Type () == NODE_TYPE_TRANSITION_CHARACTER)) {
             TransitionCharacterClass *pcharacter = (TransitionCharacterClass *)pnode;
             pcharacter->Send_Animation_Message (TransitionCharacterClass::ANIM_LAST_FRAME);
@@ -1850,7 +1850,7 @@ void CMainFrame::OnAniLastFrame(void)
 void CMainFrame::OnAniPause(void)
 {
     /*NodeInstanceClass *pnode = Get_Selection_Mgr ().Get_First ();
-    if ((pnode != NULL) &&
+    if ((pnode != nullptr) &&
         (pnode->Get_Type () == NODE_TYPE_TRANSITION_CHARACTER)) {
             TransitionCharacterClass *pcharacter = (TransitionCharacterClass *)pnode;
             pcharacter->Send_Animation_Message (TransitionCharacterClass::ANIM_PAUSE);
@@ -1868,7 +1868,7 @@ void CMainFrame::OnAniPause(void)
 void CMainFrame::OnAniPlay(void)
 {
     /*NodeInstanceClass *pnode = Get_Selection_Mgr ().Get_First ();
-    if ((pnode != NULL) &&
+    if ((pnode != nullptr) &&
         (pnode->Get_Type () == NODE_TYPE_TRANSITION_CHARACTER)) {
             TransitionCharacterClass *pcharacter = (TransitionCharacterClass *)pnode;
             pcharacter->Send_Animation_Message (TransitionCharacterClass::ANIM_PLAY);
@@ -1886,7 +1886,7 @@ void CMainFrame::OnAniPlay(void)
 void CMainFrame::OnAniStop(void)
 {
     /*NodeInstanceClass *pnode = Get_Selection_Mgr ().Get_First ();
-    if ((pnode != NULL) &&
+    if ((pnode != nullptr) &&
         (pnode->Get_Type () == NODE_TYPE_TRANSITION_CHARACTER)) {
             TransitionCharacterClass *pcharacter = (TransitionCharacterClass *)pnode;
             pcharacter->Send_Animation_Message (TransitionCharacterClass::ANIM_STOP);
@@ -2477,7 +2477,7 @@ void CMainFrame::OnUpdateViewVisPoints(CCmdUI* pCmdUI)
 void CMainFrame::OnSpecifyAssetDatabase(void)
 {
     CFileDialog dialog(TRUE,
-                       NULL, //"srcsafe.ini",
+                       nullptr, //"srcsafe.ini",
                        "srcsafe.ini",
                        OFN_HIDEREADONLY | OFN_PATHMUSTEXIST | OFN_EXPLORER | OFN_FILEMUSTEXIST
                            | OFN_SHAREAWARE,
@@ -2526,7 +2526,7 @@ void CMainFrame::OnUpdateVisInvert(CCmdUI* pCmdUI)
 void CMainFrame::OnToggleBackfaces(void)
 {
     SceneEditorClass* scene = ::Get_Scene_Editor();
-    if (scene != NULL) {
+    if (scene != nullptr) {
 
         //
         //	Toggle the backface debug setting
@@ -2547,7 +2547,7 @@ void CMainFrame::OnToggleBackfaces(void)
 void CMainFrame::OnUpdateToggleBackfaces(CCmdUI* pCmdUI)
 {
     SceneEditorClass* scene = ::Get_Scene_Editor();
-    if (scene != NULL) {
+    if (scene != nullptr) {
 
         //
         //	Update the menu's checkmark
@@ -2688,17 +2688,17 @@ void CMainFrame::OnTestPathfind(void)
     NodeClass* node1 = NodeMgrClass::Find_Node("PathStart");
     NodeClass* node2 = NodeMgrClass::Find_Node("PathEnd");
 
-    if ((node1 == NULL) || (node2 == NULL)) {
+    if ((node1 == nullptr) || (node2 == nullptr)) {
         node1 = NodeMgrClass::Find_Node("GotoStart");
         node2 = NodeMgrClass::Find_Node("GotoEnd");
     }
 
-    if ((node1 != NULL) && (node2 != NULL)) {
+    if ((node1 != nullptr) && (node2 != nullptr)) {
 
         //
         //	Register all the waypaths with the pathfinding system
         //
-        for (NodeClass* node = NodeMgrClass::Get_First(NODE_TYPE_WAYPATH); node != NULL;
+        for (NodeClass* node = NodeMgrClass::Get_First(NODE_TYPE_WAYPATH); node != nullptr;
              node = NodeMgrClass::Get_Next(node, NODE_TYPE_WAYPATH)) {
             node->Pre_Export();
         }
@@ -2725,13 +2725,13 @@ void CMainFrame::OnTestPathfind(void)
         float turn_radius = 0;
         if (node1->Get_Type() == NODE_TYPE_OBJECT) {
             PhysicalGameObj* game_obj = ((ObjectNodeClass*)node1)->Peek_Game_Obj();
-            if (game_obj != NULL) {
+            if (game_obj != nullptr) {
                 VehicleGameObj* vehicle_obj = game_obj->As_VehicleGameObj();
-                if (vehicle_obj != NULL) {
+                if (vehicle_obj != nullptr) {
                     turn_radius = vehicle_obj->Get_Turn_Radius();
                 }
 
-                path_obj.Set_Flag(PathObjectClass::IS_VEHICLE, bool(vehicle_obj != NULL));
+                path_obj.Set_Flag(PathObjectClass::IS_VEHICLE, bool(vehicle_obj != nullptr));
             }
         }
         path_obj.Set_Turn_Radius(turn_radius);
@@ -2772,7 +2772,7 @@ void CMainFrame::OnTestPathfind(void)
         //
         //	Unregister all the waypaths with the pathfinding system
         //
-        for (node = NodeMgrClass::Get_First(NODE_TYPE_WAYPATH); node != NULL;
+        for (node = NodeMgrClass::Get_First(NODE_TYPE_WAYPATH); node != nullptr;
              node = NodeMgrClass::Get_Next(node, NODE_TYPE_WAYPATH)) {
             node->Post_Export();
         }
@@ -2947,12 +2947,12 @@ void CMainFrame::OnImportVis(void)
 
         // Loop through all the selected files
         POSITION pos = dialog.GetStartPosition();
-        while (pos != NULL) {
+        while (pos != nullptr) {
 
             // Is the filename OK?
             CString filename = dialog.GetNextPathName(pos);
-            HANDLE hfile = ::CreateFile(filename, GENERIC_READ, FILE_SHARE_READ, NULL,
-                                        OPEN_EXISTING, 0L, NULL);
+            HANDLE hfile = ::CreateFile(filename, GENERIC_READ, FILE_SHARE_READ, nullptr,
+                                        OPEN_EXISTING, 0L, nullptr);
 
             ASSERT(hfile != INVALID_HANDLE_VALUE);
             if (hfile != INVALID_HANDLE_VALUE) {
@@ -2999,7 +2999,7 @@ void CMainFrame::OnExportVis(void)
         CString filename = dialog.GetPathName();
 
         // Is the filename OK?
-        HANDLE hfile = ::CreateFile(filename, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, 0L, NULL);
+        HANDLE hfile = ::CreateFile(filename, GENERIC_WRITE, 0, nullptr, CREATE_ALWAYS, 0L, nullptr);
 
         ASSERT(hfile != INVALID_HANDLE_VALUE);
         if (hfile != INVALID_HANDLE_VALUE) {
@@ -3029,7 +3029,7 @@ void CMainFrame::OnExportVis(void)
 void CMainFrame::OnViewVisWindow(void)
 {
     SceneEditorClass* scene = ::Get_Scene_Editor();
-    if (scene != NULL) {
+    if (scene != nullptr) {
         bool show = !scene->Is_Vis_Window_Visible();
         scene->Show_Vis_Window(show);
     }
@@ -3045,7 +3045,7 @@ void CMainFrame::OnViewVisWindow(void)
 void CMainFrame::OnUpdateViewVisWindow(CCmdUI* pCmdUI)
 {
     SceneEditorClass* scene = ::Get_Scene_Editor();
-    if (scene != NULL) {
+    if (scene != nullptr) {
         pCmdUI->SetCheck(scene->Is_Vis_Window_Visible());
     }
 
@@ -3146,7 +3146,7 @@ void CMainFrame::OnDoDebug2(void)
     //	Loop over all the definitions
     //
     /*for (	PresetClass *preset = PresetMgrClass::Get_First ();
-                    preset != NULL;
+                    preset != nullptr;
                     preset = PresetMgrClass::Get_Next (preset))
     {
             if (preset->Get_IsTemporary () == false) {
@@ -3202,7 +3202,7 @@ void CMainFrame::OnDoDebug2(void)
     //	Loop over all the definitions
     //
     for (	PresetClass *preset = PresetMgrClass::Get_First ();
-                    preset != NULL;
+                    preset != nullptr;
                     preset = PresetMgrClass::Get_Next (preset))
     {
             if (preset->Get_IsTemporary () == false) {
@@ -3213,7 +3213,7 @@ void CMainFrame::OnDoDebug2(void)
                     for (int index = 0; index < definition_list.Count (); index ++) {
                             DefinitionClass *definition = definition_list[index];
 
-                            if (definition != NULL && definition->Get_ID () >= TEMP_DEF_ID_START) {
+                            if (definition != nullptr && definition->Get_ID () >= TEMP_DEF_ID_START) {
 
                                     message += "Preset Name: ";
                                     message += preset->Get_Name ();
@@ -3295,7 +3295,7 @@ void CMainFrame::OnTestGoto(void)
 
     NodeClass* node1 = NodeMgrClass::Find_Node("GotoStart");
     NodeClass* node2 = NodeMgrClass::Find_Node("GotoEnd");
-    if ((node1 != NULL) && (node2 != NULL)) {
+    if ((node1 != nullptr) && (node2 != nullptr)) {
 
         ::Get_Scene_Editor()->DoObjectGoto(node1, node2);
     }
@@ -3327,7 +3327,7 @@ void CMainFrame::OnImportStatic(void)
         CString filename = dialog.GetPathName();
 
         // Is the filename OK?
-        HANDLE hfile = ::CreateFile(filename, GENERIC_READ, 0, NULL, OPEN_EXISTING, 0L, NULL);
+        HANDLE hfile = ::CreateFile(filename, GENERIC_READ, 0, nullptr, OPEN_EXISTING, 0L, nullptr);
 
         ASSERT(hfile != INVALID_HANDLE_VALUE);
         if (hfile != INVALID_HANDLE_VALUE) {
@@ -3369,7 +3369,7 @@ void CMainFrame::OnImportStatic(void)
             //
             //	Reset the IDs of all the static nodes
             //
-            for (NodeClass* node = NodeMgrClass::Get_First(); node != NULL;
+            for (NodeClass* node = NodeMgrClass::Get_First(); node != nullptr;
                  node = NodeMgrClass::Get_Next(node)) {
                 if (node->Is_Static()) {
                     node->Set_ID(NodeMgrClass::Get_Node_ID(node->Get_Type()));
@@ -3406,7 +3406,7 @@ void CMainFrame::OnExportStatic(void)
         CString filename = dialog.GetPathName();
 
         // Is the filename OK?
-        HANDLE hfile = ::CreateFile(filename, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, 0L, NULL);
+        HANDLE hfile = ::CreateFile(filename, GENERIC_WRITE, 0, nullptr, CREATE_ALWAYS, 0L, nullptr);
 
         ASSERT(hfile != INVALID_HANDLE_VALUE);
         if (hfile != INVALID_HANDLE_VALUE) {
@@ -3458,9 +3458,9 @@ void CMainFrame::OnDisplayWeb(void)
     PathDebugPlotterClass::Get_Instance()->Display(enable);
 
     if (enable) {
-        PathfindSectorClass* sector = NULL;
+        PathfindSectorClass* sector = nullptr;
         int sector_index = 0;
-        while ((sector = PathfindClass::Get_Instance()->Peek_Sector(sector_index++)) != NULL) {
+        while ((sector = PathfindClass::Get_Instance()->Peek_Sector(sector_index++)) != nullptr) {
 
             Vector3 center = sector->Get_Bounding_Box().Center;
 
@@ -3663,7 +3663,7 @@ void CMainFrame::OnUpdateDebugScriptsMode(CCmdUI* pCmdUI)
 //////////////////////////////////////////////////////////////////////////
 void CMainFrame::OnImportLights(void)
 {
-    CFileDialog dialog(TRUE, ".wlt", NULL,
+    CFileDialog dialog(TRUE, ".wlt", nullptr,
                        OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT | OFN_ALLOWMULTISELECT | OFN_EXPLORER,
                        "Westwood Light Database (*.wlt)|*.wlt||", this);
 
@@ -3681,7 +3681,7 @@ void CMainFrame::OnImportLights(void)
         //
         DynamicVectorClass<StringClass> filename_list;
         POSITION pos = dialog.GetStartPosition();
-        while (pos != NULL) {
+        while (pos != nullptr) {
 
             //
             //	Add this filename to the list
@@ -3750,7 +3750,7 @@ void CMainFrame::OnUpdateViewLightSpheres(CCmdUI* pCmdUI)
 //////////////////////////////////////////////////////////////////////////
 void CMainFrame::OnImportSunlight(void)
 {
-    CFileDialog dialog(TRUE, ".wlt", NULL, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT | OFN_EXPLORER,
+    CFileDialog dialog(TRUE, ".wlt", nullptr, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT | OFN_EXPLORER,
                        "Westwood Light Database (*.wlt)|*.wlt||", this);
 
     //
@@ -3792,7 +3792,7 @@ void CMainFrame::Expand_Attenuation_Spheres(float amount)
     //
     for (int index = 0; index < sel_mgr.Get_Count(); index++) {
         NodeClass* node = sel_mgr.Get_At(index);
-        if (node != NULL) {
+        if (node != nullptr) {
 
             //
             //	Increment this node's radius and pass it back
@@ -3975,8 +3975,8 @@ void CMainFrame::OnBuildDynaCullsys(void)
     //	Find all the pathfind start-points in the level and add
     // them to the floodfiller
     //
-    NodeClass* node = NULL;
-    for (node = NodeMgrClass::Get_First(); node != NULL; node = NodeMgrClass::Get_Next(node)) {
+    NodeClass* node = nullptr;
+    for (node = NodeMgrClass::Get_First(); node != nullptr; node = NodeMgrClass::Get_Next(node)) {
         if (node->Get_Type() == NODE_TYPE_PATHFIND_START) {
             builder.Add_Start_Point(node->Get_Transform().Get_Translation());
         }
@@ -4026,7 +4026,7 @@ void CMainFrame::OnImportVisRemapData(void)
         //
         // Is the filename OK?
         //
-        HANDLE hfile = ::CreateFile(filename, GENERIC_READ, 0, NULL, OPEN_EXISTING, 0L, NULL);
+        HANDLE hfile = ::CreateFile(filename, GENERIC_READ, 0, nullptr, OPEN_EXISTING, 0L, nullptr);
 
         ASSERT(hfile != INVALID_HANDLE_VALUE);
         if (hfile != INVALID_HANDLE_VALUE) {
@@ -4078,7 +4078,7 @@ void CMainFrame::OnExportVisRemapData(void)
         //
         // Is the filename OK?
         //
-        HANDLE hfile = ::CreateFile(filename, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, 0L, NULL);
+        HANDLE hfile = ::CreateFile(filename, GENERIC_WRITE, 0, nullptr, CREATE_ALWAYS, 0L, nullptr);
 
         ASSERT(hfile != INVALID_HANDLE_VALUE);
         if (hfile != INVALID_HANDLE_VALUE) {
@@ -4189,7 +4189,7 @@ void CMainFrame::OnExportLights(void)
         default_name += ".wlt";
     }
 
-    CFileDialog dialog(FALSE, ".wlt", NULL, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT | OFN_EXPLORER,
+    CFileDialog dialog(FALSE, ".wlt", nullptr, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT | OFN_EXPLORER,
                        "Westwood Light Database (*.wlt)|*.wlt||", this);
 
     //
@@ -4351,7 +4351,7 @@ void CMainFrame::OnToggleAttenuationSpheres(void)
     //
     for (int index = 0; index < sel_mgr.Get_Count(); index++) {
         NodeClass* node = sel_mgr.Get_At(index);
-        if (node != NULL) {
+        if (node != nullptr) {
 
             //
             //	Toggle the sphere display...
@@ -4393,7 +4393,7 @@ void CMainFrame::OnFixIdCollisions(void)
         int count = 0;
         for (int index = 0; index < node_list.Count(); index++) {
             NodeClass* node = node_list[index];
-            if (node != NULL) {
+            if (node != nullptr) {
                 node->Set_ID(NodeMgrClass::Get_Node_ID(node->Get_Type()));
                 count++;
             }
@@ -4586,7 +4586,7 @@ void CMainFrame::OnUpdateImmediatePresetCheckin(CCmdUI* pCmdUI)
 //////////////////////////////////////////////////////////////////////////
 void CMainFrame::OnRemapIds(void)
 {
-    if (::MessageBox(NULL,
+    if (::MessageBox(nullptr,
                      "Are you sure you want to remap the IDs of the currently selected objects "
                      "into the current ID range?",
                      "ID Remap", MB_ICONQUESTION | MB_YESNO)
@@ -4598,7 +4598,7 @@ void CMainFrame::OnRemapIds(void)
         //
         for (int index = 0; index < sel_mgr.Get_Count(); index++) {
             NodeClass* node = sel_mgr.Get_At(index);
-            if (node != NULL) {
+            if (node != nullptr) {
 
                 //
                 //	Remap this node's ID
@@ -4634,7 +4634,7 @@ void CMainFrame::OnVerifyCulling(void)
 
     bool result = ::Get_Scene_Editor()->Verify_Culling_Systems(errors);
     if (result == true) {
-        ::MessageBox(NULL, "Culling Systems Verified!\n", "Results", MB_OK);
+        ::MessageBox(nullptr, "Culling Systems Verified!\n", "Results", MB_OK);
     }
     else {
         GenericTextDialogClass dialog(this);
@@ -4721,14 +4721,14 @@ void CMainFrame::OnAddChildNode(void)
     //
     if (sel_mgr.Get_Count() == 1) {
         NodeClass* node = sel_mgr.Get_At(0);
-        if (node != NULL) {
+        if (node != nullptr) {
 
             //
             //	If this node is a child node already, then
             // create a new child from its parent
             //
             NodeClass* parent_node = node->Get_Parent_Node();
-            if (parent_node != NULL) {
+            if (parent_node != nullptr) {
                 node = parent_node;
             }
 
@@ -4736,7 +4736,7 @@ void CMainFrame::OnAddChildNode(void)
             //	Add a child node and start moving it around
             //
             NodeClass* child_node = node->Add_Child_Node(Matrix3D(1));
-            if (child_node != NULL) {
+            if (child_node != nullptr) {
                 ::Get_Mouse_Mgr()->Move_Node(child_node);
             }
         }
@@ -4761,12 +4761,12 @@ void CMainFrame::OnUpdateAddChildNode(CCmdUI* pCmdUI)
     //
     if (sel_mgr.Get_Count() == 1) {
         NodeClass* node = sel_mgr.Get_At(0);
-        if (node != NULL) {
+        if (node != nullptr) {
 
             //
             //	If we are only a child node, then use our parent
             //
-            if (node->Get_Parent_Node() != NULL) {
+            if (node->Get_Parent_Node() != nullptr) {
                 node = node->Get_Parent_Node();
             }
 
@@ -4897,7 +4897,7 @@ void CMainFrame::OnImportPresets(void)
 void CMainFrame::OnBatchExport(void)
 {
 
-    CFileDialog dialog(TRUE, ".lvl", NULL,
+    CFileDialog dialog(TRUE, ".lvl", nullptr,
                        OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT | OFN_EXPLORER | OFN_ALLOWMULTISELECT,
                        "Level Editor Files (*.lvl)|*.lvl||", this);
 
@@ -4939,7 +4939,7 @@ void CMainFrame::OnBatchExport(void)
             // Loop through all the selected files
             //
             POSITION pos = dialog.GetStartPosition();
-            while (pos != NULL) {
+            while (pos != nullptr) {
 
                 //
                 //	Start fresh
@@ -5055,7 +5055,7 @@ void CMainFrame::OnExportPresetFileDependencies(void)
 {
 
     PresetsFormClass* presets_form = ::Get_Presets_Form();
-    if (presets_form != NULL) {
+    if (presets_form != nullptr) {
 
         CFileDialog dialog(FALSE, ".txt", "presets.txt",
                            OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT | OFN_EXPLORER,
@@ -5135,7 +5135,7 @@ void CMainFrame::OnExportTileList(void)
                 //
                 for (int index = 0; index < sel_mgr.Get_Count(); index++) {
                     NodeClass* node = sel_mgr.Get_At(index);
-                    if (node != NULL && node->Is_Proxied() == false
+                    if (node != nullptr && node->Is_Proxied() == false
                         && node->Get_Type() == NODE_TYPE_TILE) {
                         node_list.Add(node);
                     }
@@ -5146,9 +5146,9 @@ void CMainFrame::OnExportTileList(void)
                 //
                 //	Loop over all the nodes in the scene
                 //
-                for (NodeClass* node = NodeMgrClass::Get_First(); node != NULL;
+                for (NodeClass* node = NodeMgrClass::Get_First(); node != nullptr;
                      node = NodeMgrClass::Get_Next(node)) {
-                    if (node != NULL && node->Is_Proxied() == false
+                    if (node != nullptr && node->Is_Proxied() == false
                         && node->Get_Type() == NODE_TYPE_TILE) {
                         node_list.Add(node);
                     }
@@ -5203,7 +5203,7 @@ void CMainFrame::OnRemapUnimportantIds(void)
         int count = 0;
         for (int index = 0; index < node_list.Count(); index++) {
             NodeClass* node = node_list[index];
-            if (node != NULL) {
+            if (node != nullptr) {
                 node->Set_ID(NodeMgrClass::Get_Node_ID(node->Get_Type()));
                 count++;
             }
@@ -5420,7 +5420,7 @@ void CMainFrame::OnAlwaysLocalExport(void)
     // Ask the user to pick a path
     //
     CString path;
-    if (::Browse_For_Folder(path, NULL, NULL,
+    if (::Browse_For_Folder(path, nullptr, nullptr,
                             "Select a directory where the core file set will be copied.")) {
 
         //
@@ -5486,7 +5486,7 @@ void CMainFrame::OnExportInstallerLanguageVersion(void)
 //////////////////////////////////////////////////////////////////////////
 void CMainFrame::OnExtractInstallerRcStrings(void)
 {
-    CFileDialog dialog(TRUE, ".rc", NULL,
+    CFileDialog dialog(TRUE, ".rc", nullptr,
                        OFN_HIDEREADONLY | OFN_PATHMUSTEXIST | OFN_EXPLORER | OFN_FILEMUSTEXIST
                            | OFN_SHAREAWARE,
                        "Resource Files (*.rc)|*.rc||", this);
@@ -5512,7 +5512,7 @@ void CMainFrame::OnExtractInstallerRcStrings(void)
 //////////////////////////////////////////////////////////////////////////
 void CMainFrame::OnExtractRcStrings(void)
 {
-    CFileDialog dialog(TRUE, ".rc", NULL,
+    CFileDialog dialog(TRUE, ".rc", nullptr,
                        OFN_HIDEREADONLY | OFN_PATHMUSTEXIST | OFN_EXPLORER | OFN_FILEMUSTEXIST
                            | OFN_SHAREAWARE,
                        "Resource Files (*.rc)|*.rc||", this);
@@ -5707,7 +5707,7 @@ void CMainFrame::OnComputeVertexSolve()
 
     if (dialog.DoModal() == IDOK) {
         SceneEditorClass* scene = ::Get_Scene_Editor();
-        if (scene != NULL) {
+        if (scene != nullptr) {
             scene->Update_Lighting();
         }
     }
@@ -5736,7 +5736,7 @@ void CMainFrame::OnUpdateModeHeightEdit(CCmdUI* pCmdUI)
     //
     //	Update the toolbar
     //
-    if (mouse_mgr != NULL) {
+    if (mouse_mgr != nullptr) {
         pCmdUI->SetCheck((BOOL)::Get_Mouse_Mgr()->Get_Mouse_Mode()
                          == MouseMgrClass::MODE_HEIGHTFIELD_EDIT);
     }

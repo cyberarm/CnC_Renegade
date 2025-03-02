@@ -68,7 +68,7 @@ static enum { COL_ICON = 0, COL_HOST_NAME, COL_GAME_NAME, COL_GAME_MAP, COL_PLAY
 ////////////////////////////////////////////////////////////////
 //	Static member initialization
 ////////////////////////////////////////////////////////////////
-MPLanGameListMenuClass* MPLanGameListMenuClass::_TheInstance = NULL;
+MPLanGameListMenuClass* MPLanGameListMenuClass::_TheInstance = nullptr;
 
 ////////////////////////////////////////////////////////////////
 //
@@ -108,7 +108,7 @@ void MPLanGameListMenuClass::On_Init_Dialog(void)
     //	Get a pointer to the list control
     //
     ListCtrlClass* list_ctrl = (ListCtrlClass*)Get_Dlg_Item(IDC_GAME_LIST_CTRL);
-    if (list_ctrl != NULL) {
+    if (list_ctrl != nullptr) {
 
         WideStringClass col_name;
 
@@ -143,7 +143,7 @@ void MPLanGameListMenuClass::On_Init_Dialog(void)
     //	Put the nickname into the nickname edit control
     //
     EditCtrlClass* nameEdit = (EditCtrlClass*)Get_Dlg_Item(IDC_NICKNAME_EDIT);
-    assert(nameEdit != NULL);
+    assert(nameEdit != nullptr);
 
     if (nameEdit) {
         // nameEdit->Set_Text_Limit(32);
@@ -212,12 +212,12 @@ void MPLanGameListMenuClass::On_Command(int ctrl_id, int message_id, DWORD param
         //
         //	Create the new game data
         //
-        if (PTheGameData != NULL) {
+        if (PTheGameData != nullptr) {
             delete PTheGameData;
-            PTheGameData = NULL;
+            PTheGameData = nullptr;
         }
         PTheGameData = cGameData::Create_Game_Of_Type(cGameData::GAME_TYPE_CNC);
-        WWASSERT(PTheGameData != NULL);
+        WWASSERT(PTheGameData != nullptr);
 
         // LAN games are NEVER quickmatch
         The_Game()->Set_QuickMatch_Server(false);
@@ -264,7 +264,7 @@ void MPLanGameListMenuClass::On_Frame_Update(void)
 
     if (UpdateNickname) {
         EditCtrlClass* nameEdit = (EditCtrlClass*)Get_Dlg_Item(IDC_NICKNAME_EDIT);
-        WWASSERT(nameEdit != NULL);
+        WWASSERT(nameEdit != nullptr);
         nameEdit->Set_Text(cNetInterface::Get_Nickname());
         UpdateNickname = false;
     }
@@ -291,7 +291,7 @@ bool MPLanGameListMenuClass::On_Key_Down(uint32 key_id, uint32 key_data)
 void MPLanGameListMenuClass::Update_Game_List(void)
 {
     ListCtrlClass* list_ctrl = (ListCtrlClass*)Get_Dlg_Item(IDC_GAME_LIST_CTRL);
-    if (list_ctrl == NULL) {
+    if (list_ctrl == nullptr) {
         return;
     }
 
@@ -302,7 +302,7 @@ void MPLanGameListMenuClass::Update_Game_List(void)
     int curr_sel = list_ctrl->Get_Curr_Sel();
     if (curr_sel != -1) {
         cGameChannel* channel = (cGameChannel*)list_ctrl->Get_Entry_Data(curr_sel, 0);
-        if (channel != NULL) {
+        if (channel != nullptr) {
             selected_owner_name = channel->Get_Game_Data()->Get_Owner();
         }
     }
@@ -317,14 +317,14 @@ void MPLanGameListMenuClass::Update_Game_List(void)
     //
     int index = 0;
     bool found_selected = false;
-    SLNode<cGameChannel>* objnode = NULL;
+    SLNode<cGameChannel>* objnode = nullptr;
     for (objnode = cGameChannelList::Get_Chan_List()->Head(); objnode; objnode = objnode->Next()) {
 
         //
         //	Get a pointer to the channel for this game
         //
         cGameChannel* channel = objnode->Data();
-        WWASSERT(channel != NULL);
+        WWASSERT(channel != nullptr);
 
         //
         //	Insert the entry
@@ -374,8 +374,8 @@ void MPLanGameListMenuClass::Update_Game_List(void)
                 //
                 char map_name[_MAX_FNAME] = { 0 };
                 char mod_name[_MAX_FNAME] = { 0 };
-                ::_splitpath(channel->Get_Game_Data()->Get_Map_Name(), NULL, NULL, map_name, NULL);
-                ::_splitpath(channel->Get_Game_Data()->Get_Mod_Name(), NULL, NULL, mod_name, NULL);
+                ::_splitpath(channel->Get_Game_Data()->Get_Map_Name(), nullptr, nullptr, map_name, nullptr);
+                ::_splitpath(channel->Get_Game_Data()->Get_Mod_Name(), nullptr, nullptr, mod_name, nullptr);
 
                 //
                 //	Create the map name from the aggregate of the mod and map
@@ -471,14 +471,14 @@ void MPLanGameListMenuClass::Join_Game(void)
         //	Get the channel data from this entry
         //
         cGameChannel* channel = (cGameChannel*)list_ctrl->Get_Entry_Data(index, 0);
-        if (channel != NULL && list_ctrl->Get_Entry_Data(index, 1) == 0) {
+        if (channel != nullptr && list_ctrl->Get_Entry_Data(index, 1) == 0) {
 
             //
             //	Free the old game data (if necessary)
             //
-            if (PTheGameData != NULL) {
+            if (PTheGameData != nullptr) {
                 delete PTheGameData;
-                PTheGameData = NULL;
+                PTheGameData = nullptr;
             }
 
             //
@@ -486,7 +486,7 @@ void MPLanGameListMenuClass::Join_Game(void)
             //
             PTheGameData
                 = cGameData::Create_Game_Of_Type(channel->Get_Game_Data()->Get_Game_Type());
-            WWASSERT(PTheGameData != NULL);
+            WWASSERT(PTheGameData != nullptr);
             *PTheGameData = *channel->Get_Game_Data();
 
             // If the game to join is passworded then it is necessary for the user to
@@ -513,7 +513,7 @@ void MPLanGameListMenuClass::Join_Game(void)
 ////////////////////////////////////////////////////////////////
 void MPLanGameListMenuClass::ReceiveSignal(DlgPasswordPrompt& passwordDialog)
 {
-    WWASSERT(PTheGameData != NULL);
+    WWASSERT(PTheGameData != nullptr);
     PTheGameData->Set_Password(passwordDialog.GetPassword());
     Connect_To_Server();
 }
@@ -551,9 +551,9 @@ void MPLanGameListMenuClass::On_ListCtrl_Delete_Entry(ListCtrlClass* list_ctrl, 
     //	Get the channel data from this entry
     //
     cGameChannel* channel = (cGameChannel*)list_ctrl->Get_Entry_Data(item_index, 0);
-    list_ctrl->Set_Entry_Data(item_index, 0, NULL);
+    list_ctrl->Set_Entry_Data(item_index, 0, nullptr);
 
-    if (channel != NULL) {
+    if (channel != nullptr) {
         channel->Release_Ref();
     }
 
@@ -597,7 +597,7 @@ void MPLanGameListMenuClass::Display(void)
     //
     //	Create the dialog if necessary, otherwise simply bring it to the front
     //
-    if (_TheInstance == NULL) {
+    if (_TheInstance == nullptr) {
         START_DIALOG(MPLanGameListMenuClass);
     }
     else {
@@ -624,7 +624,7 @@ void MPLanGameListMenuClass::On_Last_Menu_Ending(void)
 if (UpdateNickname && !g_awaiting_edit) {
         ::MessageBeep(MB_OK);//XXX
         EditCtrlClass* nameEdit = (EditCtrlClass*)Get_Dlg_Item(IDC_NICKNAME_EDIT);
-        assert(nameEdit != NULL);
+        assert(nameEdit != nullptr);
         nameEdit->Set_Focus();
         g_awaiting_edit = true;
 }

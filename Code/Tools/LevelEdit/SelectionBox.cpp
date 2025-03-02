@@ -36,7 +36,7 @@
 //
 //////////////////////////////////////////////////////////////////////
 SelectionBoxClass::DecorationLineClass::DecorationLineClass(void)
-    : m_pLine3D(NULL)
+    : m_pLine3D(nullptr)
 {
     m_pLine3D = new Line3DClass(Vector3(0, 0, 0), Vector3(10, 10, 10), 0.3F, 0.8F, 0.8F, 0.8F);
 
@@ -103,7 +103,7 @@ SelectionBoxClass::~SelectionBoxClass(void)
 void SelectionBoxClass::Display_Around_Node(const NodeClass& node)
 {
     RenderObjClass* render_obj = node.Peek_Render_Obj();
-    if (render_obj != NULL) {
+    if (render_obj != nullptr) {
         Display_Around_Node(*render_obj);
     }
 
@@ -221,7 +221,7 @@ void SelectionBoxClass::Display_Around_Node(const RenderObjClass& render_obj)
     if (m_bIsAddedToScene == false) {
 
         SceneEditorClass* scene = ::Get_Scene_Editor();
-        if (scene != NULL) {
+        if (scene != nullptr) {
 
             // Loop through all the line segments and add them to the scene
             for (int line = 0; line < 24; line++) {
@@ -245,7 +245,7 @@ void SelectionBoxClass::Remove_From_Scene(void)
 {
     // Get a pointer to the current scene
     SceneEditorClass* scene = ::Get_Scene_Editor();
-    if (scene != NULL) {
+    if (scene != nullptr) {
 
         // Remove all the lines from the scene
         for (int line = 0; line < 24; line++) {

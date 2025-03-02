@@ -266,7 +266,7 @@ public:
     {
         LockOwner = lockowner, LockTimer = locktime;
     }
-    bool Is_Locked(void) { return ((LockOwner.Get_Ptr() != NULL) && (LockTimer > 0.0f)); }
+    bool Is_Locked(void) { return ((LockOwner.Get_Ptr() != nullptr) && (LockTimer > 0.0f)); }
     ScriptableGameObj* Get_Lock_Owner(void) { return LockOwner.Get_Ptr(); }
 
     static void Set_Default_Driver_Is_Gunner(bool flag) { DefaultDriverIsGunner = flag; }

@@ -107,7 +107,7 @@ void ModPackageMgrClass::Build_List(void)
 {
     WIN32_FIND_DATA find_info = { 0 };
     BOOL keep_going = TRUE;
-    HANDLE file_find = NULL;
+    HANDLE file_find = nullptr;
 
     //
     //	Build a list of all the saved games we know about
@@ -186,7 +186,7 @@ void ModPackageMgrClass::Set_Current_Package(int index)
 //////////////////////////////////////////////////////////////////////
 ModPackageClass* ModPackageMgrClass::Find_Package(const char* name)
 {
-    ModPackageClass* retval = NULL;
+    ModPackageClass* retval = nullptr;
 
     //
     //	Loop over all the packages in the list until we've found the
@@ -224,7 +224,7 @@ bool ModPackageMgrClass::Get_Mod_Map_Name_From_CRC_Index(uint32 mod_file_crc, in
         //	Get a pointer to this mod package
         //
         ModPackageClass* package = ModPackageMgrClass::Find_Package(mod_name->Peek_Buffer());
-        if (package != NULL) {
+        if (package != nullptr) {
 
             //
             //	Get the list of maps in this mod
@@ -278,7 +278,7 @@ bool ModPackageMgrClass::Get_Mod_Map_Name_From_CRC(uint32 mod_name_crc, uint32 m
             //	Get a pointer to this mod package
             //
             ModPackageClass* package = ModPackageMgrClass::Find_Package(mod_name->Peek_Buffer());
-            if (package != NULL) {
+            if (package != nullptr) {
 
                 //
                 //	Try to find the map from its CRC inside the mod package
@@ -299,7 +299,7 @@ bool ModPackageMgrClass::Get_Mod_Map_Name_From_CRC(uint32 mod_name_crc, uint32 m
 bool ModPackageMgrClass::Find_Filename_From_CRC(const char* search_mask, uint32 filename_crc,
                                                 StringClass* filename)
 {
-    if (search_mask == NULL || filename == NULL) {
+    if (search_mask == nullptr || filename == nullptr) {
         return false;
     }
 
@@ -307,7 +307,7 @@ bool ModPackageMgrClass::Find_Filename_From_CRC(const char* search_mask, uint32 
 
     WIN32_FIND_DATA find_info = { 0 };
     BOOL keep_going = TRUE;
-    HANDLE file_find = NULL;
+    HANDLE file_find = nullptr;
 
     (*filename) = "";
 
@@ -348,7 +348,7 @@ bool ModPackageMgrClass::Find_Filename_From_CRC(const char* search_mask, uint32 
 //////////////////////////////////////////////////////////////////////
 bool ModPackageMgrClass::Find_Package_From_CRC(uint32 file_crc, StringClass* filename)
 {
-    if (filename == NULL) {
+    if (filename == nullptr) {
         return false;
     }
 
@@ -403,7 +403,7 @@ void ModPackageMgrClass::Unload_Current_Mod(void)
     //	Return if there isn't a current mod selected
     //
     if (CurrentPackage.Get_Package_Filename().Is_Empty()
-        || FileFactoryListClass::Get_Instance() == NULL) {
+        || FileFactoryListClass::Get_Instance() == nullptr) {
         return;
     }
 
@@ -411,9 +411,9 @@ void ModPackageMgrClass::Unload_Current_Mod(void)
     //	Delete the temp file factory
     //
     FileFactoryClass* factory = FileFactoryListClass::Get_Instance()->Remove_Temp_FileFactory();
-    if (factory != NULL) {
+    if (factory != nullptr) {
         delete factory;
-        factory = NULL;
+        factory = nullptr;
     }
 
     return;

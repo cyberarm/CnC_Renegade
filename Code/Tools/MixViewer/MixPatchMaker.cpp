@@ -25,7 +25,7 @@
 #include "stdafx.h"
 
 MixPatchMakerClass::MixPatchMakerClass(void)
-    : Dialog(NULL)
+    : Dialog(nullptr)
 {
 }
 
@@ -62,7 +62,7 @@ void MixPatchMakerClass::Thread_Make(void)
     char name[_MAX_PATH];
     char name_compare[_MAX_PATH];
 
-    while (Dialog == NULL) {
+    while (Dialog == nullptr) {
         Sleep(0);
     }
 
@@ -71,8 +71,8 @@ void MixPatchMakerClass::Thread_Make(void)
     */
     char justname[_MAX_PATH];
     char justname_new[_MAX_PATH];
-    _splitpath(OldInputFile, NULL, NULL, justname, NULL);
-    _splitpath(NewInputFile, NULL, NULL, justname_new, NULL);
+    _splitpath(OldInputFile, nullptr, nullptr, justname, nullptr);
+    _splitpath(NewInputFile, nullptr, nullptr, justname_new, nullptr);
     char text[_MAX_PATH + 128];
     sprintf(text, "Looking for differences between %s and %s...", justname, justname_new);
 
@@ -385,9 +385,9 @@ bool MixPatchMakerClass::Find_File(char* file_name, char* path, char* found_path
     ** Look in the current directory.
     */
     char path_to_file[_MAX_PATH + 256];
-    char* pointless_pointer = NULL;
+    char* pointless_pointer = nullptr;
     int len
-        = SearchPath(path, file_name, NULL, sizeof(path_to_file), path_to_file, &pointless_pointer);
+        = SearchPath(path, file_name, nullptr, sizeof(path_to_file), path_to_file, &pointless_pointer);
 
     if (len) {
         strcpy(found_path, path_to_file);

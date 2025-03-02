@@ -70,7 +70,7 @@ MPLanHostOptionsMenuClass::MPLanHostOptionsMenuClass(void)
     : MenuDialogClass(IDD_MP_LAN_HOST_OPTIONS),
       mStartTheGame(false),
       mClanID(0),
-      MapCycleDialog(NULL)
+      MapCycleDialog(nullptr)
 {
     return;
 }
@@ -94,12 +94,12 @@ void MPLanHostOptionsMenuClass::On_Init_Dialog(void)
     Get_Dlg_Item(IDC_MENU_MP_LAN_START_BUTTON)->Enable(false);
 #endif // BETACLIENT
 
-    WWASSERT(PTheGameData != NULL);
+    WWASSERT(PTheGameData != nullptr);
     WWASSERT(The_Game()->Is_Cnc());
     Set_Dlg_Item_Text(IDC_GAME_TYPE_TITLE, TRANSLATE(IDS_MP_GAME_CNC));
 
     TabCtrlClass* tab_ctrl = (TabCtrlClass*)Get_Dlg_Item(IDC_TABCTRL);
-    if (tab_ctrl != NULL) {
+    if (tab_ctrl != nullptr) {
 
         //
         //	Add the tabs to the control
@@ -109,7 +109,7 @@ void MPLanHostOptionsMenuClass::On_Init_Dialog(void)
         //
         //	Add any mode-specific tabs to the control
         //
-        if (The_Game()->As_Cnc() != NULL) {
+        if (The_Game()->As_Cnc() != nullptr) {
             TABCTRL_ADD_TAB(tab_ctrl, MPLanHostCnCOptionsTabClass);
         }
 
@@ -135,7 +135,7 @@ void MPLanHostOptionsMenuClass::On_Init_Dialog(void)
 ////////////////////////////////////////////////////////////////
 void MPLanHostOptionsMenuClass::Enable_Mod_Selection(bool onoff)
 {
-    if (MapCycleDialog == NULL) {
+    if (MapCycleDialog == nullptr) {
         return;
     }
 
@@ -153,7 +153,7 @@ void MPLanHostOptionsMenuClass::On_Periodic(void)
     MenuDialogClass::On_Periodic();
 
     if (mStartTheGame) {
-        WWASSERT(PTheGameData != NULL);
+        WWASSERT(PTheGameData != nullptr);
 
         Start_Game(The_Game());
         mStartTheGame = false;
@@ -177,7 +177,7 @@ void MPLanHostOptionsMenuClass::On_Command(int ctrl_id, int message_id, DWORD pa
         //	Get a pointer to the tab ctrl
         //
         TabCtrlClass* tab_ctrl = (TabCtrlClass*)Get_Dlg_Item(IDC_TABCTRL);
-        if (tab_ctrl != NULL) {
+        if (tab_ctrl != nullptr) {
 
             //
             //	Save the changes on each tab of the control
@@ -187,7 +187,7 @@ void MPLanHostOptionsMenuClass::On_Command(int ctrl_id, int message_id, DWORD pa
                 //
                 //	Are the settings valid?
                 //
-                WWASSERT(PTheGameData != NULL);
+                WWASSERT(PTheGameData != nullptr);
                 WideStringClass outMsg;
 
                 if (The_Game()->Is_Valid_Settings(outMsg, true)) {
@@ -234,7 +234,7 @@ void MPLanHostOptionsMenuClass::On_Command(int ctrl_id, int message_id, DWORD pa
 
     case IDC_SAVELOAD_BUTTON:
         TabCtrlClass* tab_ctrl = (TabCtrlClass*)Get_Dlg_Item(IDC_TABCTRL);
-        if (tab_ctrl != NULL) {
+        if (tab_ctrl != nullptr) {
 
             //
             //	Save the changes on each tab of the control back to the game data.
@@ -289,7 +289,7 @@ void MPLanHostOptionsMenuClass::Start_Game(cGameData* theGame)
 //	MPLanHostBasicOptionsTabClass
 //
 ////////////////////////////////////////////////////////////////
-MPLanHostBasicOptionsTabClass* MPLanHostBasicOptionsTabClass::_mInstance = NULL;
+MPLanHostBasicOptionsTabClass* MPLanHostBasicOptionsTabClass::_mInstance = nullptr;
 int MPLanHostBasicOptionsTabClass::BandTestMaxPlayers = 0;
 
 MPLanHostBasicOptionsTabClass* MPLanHostBasicOptionsTabClass::Get_Instance(void)
@@ -299,19 +299,19 @@ MPLanHostBasicOptionsTabClass* MPLanHostBasicOptionsTabClass::Get_Instance(void)
         return _mInstance;
     }
 
-    return NULL;
+    return nullptr;
 }
 
 MPLanHostBasicOptionsTabClass::MPLanHostBasicOptionsTabClass(void)
     : ChildDialogClass(IDD_MP_LAN_HOST_OPTIONS_BASIC_TAB)
 {
-    assert(_mInstance == NULL);
+    assert(_mInstance == nullptr);
     _mInstance = this;
 }
 
 MPLanHostBasicOptionsTabClass::~MPLanHostBasicOptionsTabClass(void)
 {
-    _mInstance = NULL;
+    _mInstance = nullptr;
 }
 
 ////////////////////////////////////////////////////////////////
@@ -326,7 +326,7 @@ void MPLanHostBasicOptionsTabClass::On_Init_Dialog(void)
     //
     //	Fill in the game name
     //
-    WWASSERT(PTheGameData != NULL);
+    WWASSERT(PTheGameData != nullptr);
     ((EditCtrlClass*)Get_Dlg_Item(IDC_GAME_NAME_EDIT))->Set_Text_Limit(25);
     Set_Dlg_Item_Text(IDC_GAME_NAME_EDIT, The_Game()->Get_Game_Title());
 
@@ -371,9 +371,9 @@ void MPLanHostBasicOptionsTabClass::On_Init_Dialog(void)
     //
     ComboBoxCtrlClass* nic_combobox = (ComboBoxCtrlClass*)Get_Dlg_Item(IDC_HOSTING_IP_COMBO);
 
-    if (nic_combobox != NULL) {
+    if (nic_combobox != nullptr) {
 
-        ULONG* nics = NULL;
+        ULONG* nics = nullptr;
         int nic_count = 0;
         ULONG preferred_nick;
         if (!cGameSpyAdmin::Get_Is_Server_Gamespy_Listed()) {
@@ -386,7 +386,7 @@ void MPLanHostBasicOptionsTabClass::On_Init_Dialog(void)
             nic_count = cNicEnum::Get_Num_GameSpy_Nics();
             preferred_nick = cUserOptions::PreferredGameSpyNic.Get();
         }
-        WWASSERT(nics != NULL);
+        WWASSERT(nics != nullptr);
 
         int current_index = -1;
 
@@ -461,12 +461,12 @@ void MPLanHostBasicOptionsTabClass::InitSideChoiceCombo(int sidePref)
             { TRANSLATE(IDS_MENU_AUTO_TEAM), PLAYERTYPE_RENEGADE },
             { TRANSLATE(IDS_MENU_TEXT933), PLAYERTYPE_GDI },
             { TRANSLATE(IDS_MENU_TEXT934), PLAYERTYPE_NOD },
-            { NULL, -1 },
+            { nullptr, -1 },
         };
 
         int index = 0;
 
-        while (_teams[index].TeamName != NULL) {
+        while (_teams[index].TeamName != nullptr) {
             int item = combo->Add_String(_teams[index].TeamName);
 
             if (item >= 0) {
@@ -494,7 +494,7 @@ void MPLanHostBasicOptionsTabClass::InitSideChoiceCombo(int sidePref)
 bool MPLanHostBasicOptionsTabClass::On_Apply(void)
 {
     WideStringClass password = Get_Dlg_Item_Text(IDC_PASSWORD_EDIT);
-    WWASSERT(PTheGameData != NULL);
+    WWASSERT(PTheGameData != nullptr);
     The_Game()->IsPassworded.Set((password.Get_Length() > 0));
 
     //
@@ -517,12 +517,12 @@ bool MPLanHostBasicOptionsTabClass::On_Apply(void)
     if (!GameModeManager::Find("WOL")->Is_Active()
         && !cGameSpyAdmin::Get_Is_Server_Gamespy_Listed()) {
         ComboBoxCtrlClass* nic_combobox = (ComboBoxCtrlClass*)Get_Dlg_Item(IDC_HOSTING_IP_COMBO);
-        if (nic_combobox != NULL) {
+        if (nic_combobox != nullptr) {
             int curr_sel = nic_combobox->Get_Curr_Sel();
             WWASSERT(curr_sel < cNicEnum::Get_Num_Nics());
             if (curr_sel >= 0) {
                 ULONG* nics = cNicEnum::Get_Nics();
-                WWASSERT(nics != NULL);
+                WWASSERT(nics != nullptr);
                 cUserOptions::PreferredLanNic.Set(nics[curr_sel]);
                 The_Game()->Set_Ip_Address(nics[curr_sel]);
             }
@@ -531,12 +531,12 @@ bool MPLanHostBasicOptionsTabClass::On_Apply(void)
     else if (!GameModeManager::Find("WOL")->Is_Active()
              && cGameSpyAdmin::Get_Is_Server_Gamespy_Listed()) {
         ComboBoxCtrlClass* nic_combobox = (ComboBoxCtrlClass*)Get_Dlg_Item(IDC_HOSTING_IP_COMBO);
-        if (nic_combobox != NULL) {
+        if (nic_combobox != nullptr) {
             int curr_sel = nic_combobox->Get_Curr_Sel();
             WWASSERT(curr_sel < cNicEnum::Get_Num_GameSpy_Nics());
             if (curr_sel >= 0) {
                 ULONG* nics = cNicEnum::Get_GameSpy_Nics();
-                WWASSERT(nics != NULL);
+                WWASSERT(nics != nullptr);
                 cUserOptions::PreferredGameSpyNic.Set(nics[curr_sel]);
                 The_Game()->Set_Ip_Address(nics[curr_sel]);
             }
@@ -545,12 +545,12 @@ bool MPLanHostBasicOptionsTabClass::On_Apply(void)
     else if (!GameModeManager::Find("WOL")->Is_Active()
              && cGameSpyAdmin::Get_Is_Server_Gamespy_Listed()) {
         ComboBoxCtrlClass* nic_combobox = (ComboBoxCtrlClass*)Get_Dlg_Item(IDC_HOSTING_IP_COMBO);
-        if (nic_combobox != NULL) {
+        if (nic_combobox != nullptr) {
             int curr_sel = nic_combobox->Get_Curr_Sel();
             WWASSERT(curr_sel < cNicEnum::Get_Num_GameSpy_Nics());
             if (curr_sel >= 0) {
                 ULONG* nics = cNicEnum::Get_GameSpy_Nics();
-                WWASSERT(nics != NULL);
+                WWASSERT(nics != nullptr);
                 cUserOptions::PreferredGameSpyNic.Set(nics[curr_sel]);
                 The_Game()->Set_Ip_Address(nics[curr_sel]);
             }
@@ -634,13 +634,13 @@ void MPLanHostAdvancedOptionsTabClass::On_Init_Dialog(void)
     }
 
 #ifdef FREEDEDICATEDSERVER
-    WWASSERT(PTheGameData != NULL);
+    WWASSERT(PTheGameData != nullptr);
     The_Game()->IsDedicated.Set(true);
     Enable_Dlg_Item(IDC_DEDICATED_SERVER_CHECK, false);
 #endif // FREEDEDICATEDSERVER
 
     //	if (cGameSpyAdmin::Is_Gamespy_Game()) {
-    //		WWASSERT(PTheGameData != NULL);
+    //		WWASSERT(PTheGameData != nullptr);
     //		The_Game ()->IsDedicated.Set(true);
     //		Enable_Dlg_Item (IDC_DEDICATED_SERVER_CHECK,		false);
     //	}
@@ -698,7 +698,7 @@ void MPLanHostAdvancedOptionsTabClass::On_Init_Dialog(void)
     //
     MPLanHostOptionsMenuClass* parent_dlg
         = static_cast<MPLanHostOptionsMenuClass*>(Get_Parent_Dialog());
-    if (parent_dlg != NULL) {
+    if (parent_dlg != nullptr) {
         parent_dlg->Enable_Mod_Selection(mLaddered == false);
     }
 
@@ -715,7 +715,7 @@ bool MPLanHostAdvancedOptionsTabClass::On_Apply(void)
     //
     //	Pass our settings onto the game
     //
-    WWASSERT(PTheGameData != NULL);
+    WWASSERT(PTheGameData != nullptr);
     The_Game()->IsDedicated.Set(Is_Dlg_Button_Checked(IDC_DEDICATED_SERVER_CHECK));
     The_Game()->IsAutoRestart.Set(Is_Dlg_Button_Checked(IDC_SERVER_RESTART_CHECK));
     The_Game()->IsTeamChangingAllowed.Set(Is_Dlg_Button_Checked(IDC_TEAM_CHANGE_CHECK));
@@ -851,7 +851,7 @@ void MPLanHostAdvancedOptionsTabClass::On_Command(int ctrl_id, int message_id, D
         //
         MPLanHostOptionsMenuClass* parent_dlg
             = static_cast<MPLanHostOptionsMenuClass*>(Get_Parent_Dialog());
-        if (parent_dlg != NULL) {
+        if (parent_dlg != nullptr) {
             parent_dlg->Enable_Mod_Selection(mLaddered == false);
         }
 
@@ -972,7 +972,7 @@ bool MPLanHostAdvancedOptionsTabClass::IsHostAClanMember(void) const
 
     if (gameMode && gameMode->Is_Active()) {
         WolGameModeClass* wolGame = static_cast<WolGameModeClass*>(gameMode);
-        WWASSERT(wolGame != NULL);
+        WWASSERT(wolGame != nullptr);
 
         RefPtr<WWOnline::UserData> host = wolGame->Get_WOL_User_Data(The_Game()->Get_Owner());
 
@@ -1024,7 +1024,7 @@ void MPLanHostMapCycleOptionsTabClass::On_Init_Dialog(void)
     //	Create the available maps list
     //
     ListCtrlClass* list_ctrl = (ListCtrlClass*)Get_Dlg_Item(IDC_AVAILABLE_MAP_LIST_CTRL);
-    if (list_ctrl != NULL) {
+    if (list_ctrl != nullptr) {
         list_ctrl->Add_Column(L"", 1.0F, Vector3(1, 1, 1));
     }
 
@@ -1032,7 +1032,7 @@ void MPLanHostMapCycleOptionsTabClass::On_Init_Dialog(void)
     //	Create the map cycle list
     //
     list_ctrl = (ListCtrlClass*)Get_Dlg_Item(IDC_MAP_CYCLE_LIST_CTRL);
-    if (list_ctrl != NULL) {
+    if (list_ctrl != nullptr) {
         list_ctrl->Add_Column(L"", 1.0F, Vector3(1, 1, 1));
     }
 
@@ -1044,7 +1044,7 @@ void MPLanHostMapCycleOptionsTabClass::On_Init_Dialog(void)
     //
     //	Fill in the map time limit
     //
-    WWASSERT(PTheGameData != NULL);
+    WWASSERT(PTheGameData != nullptr);
     ((EditCtrlClass*)Get_Dlg_Item(IDC_MAP_TIME_LIMIT_EDIT))->Set_Text_Limit(3);
     Set_Dlg_Item_Int(IDC_MAP_TIME_LIMIT_EDIT, The_Game()->Get_Time_Limit_Minutes());
     Check_Dlg_Button(IDC_LOOP_MAPS_CHECK, The_Game()->Do_Maps_Loop());
@@ -1061,7 +1061,7 @@ void MPLanHostMapCycleOptionsTabClass::On_Init_Dialog(void)
 bool MPLanHostMapCycleOptionsTabClass::On_Apply(void)
 {
     ListCtrlClass* list_ctrl = (ListCtrlClass*)Get_Dlg_Item(IDC_MAP_CYCLE_LIST_CTRL);
-    if (list_ctrl != NULL) {
+    if (list_ctrl != nullptr) {
         StringClass ascii_string;
 
         //
@@ -1075,14 +1075,14 @@ bool MPLanHostMapCycleOptionsTabClass::On_Apply(void)
         //
         //	Set the map name
         //
-        WWASSERT(The_Game() != NULL);
+        WWASSERT(The_Game() != nullptr);
         The_Game()->Set_Map_Name(ascii_string);
 
         //
         //	Configure the radar mode combobox
         //
         ComboBoxCtrlClass* combobox_ctrl = (ComboBoxCtrlClass*)Get_Dlg_Item(IDC_MOD_PACKAGE_COMBO);
-        if (combobox_ctrl != NULL) {
+        if (combobox_ctrl != nullptr) {
 
             //
             //	Lookup the currently selected mod package
@@ -1091,7 +1091,7 @@ bool MPLanHostMapCycleOptionsTabClass::On_Apply(void)
             if (curr_sel != -1) {
                 const ModPackageClass* package
                     = (const ModPackageClass*)combobox_ctrl->Get_Item_Data(curr_sel);
-                if (package != NULL) {
+                if (package != nullptr) {
                     The_Game()->Set_Mod_Name(package->Get_Package_Filename());
                 }
                 else {
@@ -1119,7 +1119,7 @@ bool MPLanHostMapCycleOptionsTabClass::On_Apply(void)
     //
     //	Save the map time limit
     //
-    WWASSERT(PTheGameData != NULL);
+    WWASSERT(PTheGameData != nullptr);
     The_Game()->Set_Time_Limit_Minutes(Get_Dlg_Item_Int(IDC_MAP_TIME_LIMIT_EDIT));
     The_Game()->Set_Do_Maps_Loop(Is_Dlg_Button_Checked(IDC_LOOP_MAPS_CHECK));
     return true;
@@ -1133,7 +1133,7 @@ bool MPLanHostMapCycleOptionsTabClass::On_Apply(void)
 void MPLanHostMapCycleOptionsTabClass::Enable_Mod_Selection(bool onoff)
 {
     ComboBoxCtrlClass* combobox_ctrl = (ComboBoxCtrlClass*)Get_Dlg_Item(IDC_MOD_PACKAGE_COMBO);
-    if (combobox_ctrl == NULL) {
+    if (combobox_ctrl == nullptr) {
         return;
     }
 
@@ -1169,7 +1169,7 @@ void MPLanHostMapCycleOptionsTabClass::Build_Mod_Package_List(void)
     //	Configure the radar mode combobox
     //
     ComboBoxCtrlClass* combobx_ctrl = (ComboBoxCtrlClass*)Get_Dlg_Item(IDC_MOD_PACKAGE_COMBO);
-    if (combobx_ctrl == NULL) {
+    if (combobx_ctrl == nullptr) {
         return;
     }
 
@@ -1195,7 +1195,7 @@ void MPLanHostMapCycleOptionsTabClass::Build_Mod_Package_List(void)
     int count = ModPackageMgrClass::Get_Package_Count();
     for (int index = 0; index < count; index++) {
         const ModPackageClass* package = ModPackageMgrClass::Get_Package(index);
-        if (package != NULL) {
+        if (package != nullptr) {
 
             //
             //	Add an entry for this mod package to the combobox
@@ -1339,7 +1339,7 @@ void MPLanHostMapCycleOptionsTabClass::On_ComboBoxCtrl_Sel_Change(ComboBoxCtrlCl
 void MPLanHostMapCycleOptionsTabClass::Populate_Map_List_Ctrl(void)
 {
     ComboBoxCtrlClass* combobox_ctrl = (ComboBoxCtrlClass*)Get_Dlg_Item(IDC_MOD_PACKAGE_COMBO);
-    if (combobox_ctrl == NULL) {
+    if (combobox_ctrl == nullptr) {
         return;
     }
 
@@ -1381,7 +1381,7 @@ void MPLanHostMapCycleOptionsTabClass::Fill_Map_Ctrls(void)
         //
         //	Get the map name as a wide character string
         //
-        WWASSERT(PTheGameData != NULL);
+        WWASSERT(PTheGameData != nullptr);
         StringClass ascii_map_name = The_Game()->Get_Map_Cycle(i);
         WideStringClass map_name;
         map_name.Convert_From(ascii_map_name);
@@ -1404,7 +1404,7 @@ void MPLanHostMapCycleOptionsTabClass::Fill_Map_Ctrls(void)
     //	Create the available maps list
     //
     ListCtrlClass* list_ctrl = (ListCtrlClass*)Get_Dlg_Item(IDC_AVAILABLE_MAP_LIST_CTRL);
-    if (list_ctrl != NULL) {
+    if (list_ctrl != nullptr) {
 
         //
         //	Start fresh
@@ -1428,7 +1428,7 @@ void MPLanHostMapCycleOptionsTabClass::Fill_Map_Ctrls(void)
     //	Create the map cycle list
     //
     list_ctrl = (ListCtrlClass*)Get_Dlg_Item(IDC_MAP_CYCLE_LIST_CTRL);
-    if (list_ctrl != NULL) {
+    if (list_ctrl != nullptr) {
 
         //
         //	Start fresh
@@ -1458,7 +1458,7 @@ void MPLanHostMapCycleOptionsTabClass::Fill_Map_Ctrls(void)
 ////////////////////////////////////////////////////////////////
 void MPLanHostMapCycleOptionsTabClass::Build_Map_List(const ModPackageClass* package)
 {
-    if (package == NULL) {
+    if (package == nullptr) {
         Build_Map_List();
     }
     else {
@@ -1494,14 +1494,14 @@ void MPLanHostMapCycleOptionsTabClass::Build_Map_List(void)
 
     WIN32_FIND_DATA find_info = { 0 };
     BOOL keep_going = TRUE;
-    HANDLE file_find = NULL;
+    HANDLE file_find = nullptr;
 
     //
     //	Build a list of all the maps we know about
     //
 
     StringClass file_filter;
-    WWASSERT(The_Game() != NULL);
+    WWASSERT(The_Game() != nullptr);
     if (The_Game()->Is_Cnc()) {
         file_filter.Format("data\\c&c_*.mix");
     }
@@ -1563,9 +1563,9 @@ void MPLanHostVictoryOptionsTabClass::On_Init_Dialog(void)
     //
     //	Set the check state of the CnC mode controls
     //
-    WWASSERT(PTheGameData != NULL);
+    WWASSERT(PTheGameData != nullptr);
     cGameDataCnc* cnc_mode = The_Game()->As_Cnc();
-    if (cnc_mode != NULL) {
+    if (cnc_mode != nullptr) {
         Check_Dlg_Button(IDC_DESTROY_ALL_BUILDINGS_CHECK, cnc_mode->BaseDestructionEndsGame.Get());
         Check_Dlg_Button(IDC_BEACON_CHECK, cnc_mode->BeaconPlacementEndsGame.Get());
         Update_Enable_State();
@@ -1595,9 +1595,9 @@ bool MPLanHostVictoryOptionsTabClass::On_Apply(void)
     //
     //	Save any CnC mode specific data
     //
-    WWASSERT(PTheGameData != NULL);
+    WWASSERT(PTheGameData != nullptr);
     cGameDataCnc* cnc_mode = The_Game()->As_Cnc();
-    if (cnc_mode != NULL) {
+    if (cnc_mode != nullptr) {
         // Check_Dlg_Button (IDC_DESTROY_ALL_BUILDINGS_CHECK,	true);
         // Check_Dlg_Button (IDC_BEACON_CHECK,						true);
         cnc_mode->BaseDestructionEndsGame.Set(
@@ -1673,15 +1673,15 @@ void MPLanHostVictoryOptionsTabClass::On_Command(int ctrl_id, int message_id, DW
 ////////////////////////////////////////////////////////////////
 void MPLanHostCnCOptionsTabClass::On_Init_Dialog(void)
 {
-    WWASSERT(PTheGameData != NULL);
+    WWASSERT(PTheGameData != nullptr);
     cGameDataCnc* game_data = The_Game()->As_Cnc();
-    WWASSERT(game_data != NULL);
+    WWASSERT(game_data != nullptr);
 
     //
     //	Configure the edit control
     //
     EditCtrlClass* edit = (EditCtrlClass*)Get_Dlg_Item(IDC_STARTING_CREDITS_EDIT);
-    if (edit != NULL) {
+    if (edit != nullptr) {
         edit->Set_Text_Limit(5);
     }
 
@@ -1700,7 +1700,7 @@ void MPLanHostCnCOptionsTabClass::On_Init_Dialog(void)
     //	Configure the radar mode combobox
     //
     ComboBoxCtrlClass* radar_combobox = (ComboBoxCtrlClass*)Get_Dlg_Item(IDC_RADAR_MODE_COMBO);
-    if (radar_combobox != NULL) {
+    if (radar_combobox != nullptr) {
 
         //
         //	Fill the radar_combobox
@@ -1726,9 +1726,9 @@ void MPLanHostCnCOptionsTabClass::On_Init_Dialog(void)
 ////////////////////////////////////////////////////////////////
 bool MPLanHostCnCOptionsTabClass::On_Apply(void)
 {
-    WWASSERT(PTheGameData != NULL);
+    WWASSERT(PTheGameData != nullptr);
     cGameDataCnc* game_data = The_Game()->As_Cnc();
-    WWASSERT(game_data != NULL);
+    WWASSERT(game_data != nullptr);
 
     //
     //	Read the edit control
@@ -1747,7 +1747,7 @@ bool MPLanHostCnCOptionsTabClass::On_Apply(void)
     //	Read the radar mode combobox
     //
     ComboBoxCtrlClass* radar_combobox = (ComboBoxCtrlClass*)Get_Dlg_Item(IDC_RADAR_MODE_COMBO);
-    if (radar_combobox != NULL) {
+    if (radar_combobox != nullptr) {
         The_Game()->Set_Radar_Mode((RadarModeEnum)radar_combobox->Get_Curr_Sel());
     }
 

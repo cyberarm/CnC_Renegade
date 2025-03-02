@@ -47,7 +47,7 @@ static char THIS_FILE[] = __FILE__;
 // LightSettingsPageClass
 //
 LightSettingsPageClass::LightSettingsPageClass(void)
-    : m_pLight(NULL),
+    : m_pLight(nullptr),
       DockableFormClass(LightSettingsPageClass::IDD)
 {
     return;
@@ -126,7 +126,7 @@ void LightSettingsPageClass::Dump(CDumpContext& dc) const
 //
 void LightSettingsPageClass::HandleInitDialog(void)
 {
-    ASSERT(m_pLight != NULL);
+    ASSERT(m_pLight != nullptr);
 
     // Record the light's original settings so we can
     // restore them if we need to.
@@ -377,7 +377,7 @@ void LightSettingsPageClass::OnAmbientButton(void)
         m_pLight->Update_Light();
 
         // Repaint the views
-        ::InvalidateRect(::GetDlgItem(m_hWnd, IDC_AMBIENT_BUTTON), NULL, TRUE);
+        ::InvalidateRect(::GetDlgItem(m_hWnd, IDC_AMBIENT_BUTTON), nullptr, TRUE);
         ::Refresh_Main_View();
     }
 
@@ -397,7 +397,7 @@ void LightSettingsPageClass::OnDiffuseButton(void)
         m_pLight->Update_Light();
 
         // Repaint the views
-        ::InvalidateRect(::GetDlgItem(m_hWnd, IDC_DIFFUSE_BUTTON), NULL, TRUE);
+        ::InvalidateRect(::GetDlgItem(m_hWnd, IDC_DIFFUSE_BUTTON), nullptr, TRUE);
         ::Refresh_Main_View();
     }
 
@@ -417,7 +417,7 @@ void LightSettingsPageClass::OnSpecularButton(void)
         m_pLight->Update_Light();
 
         // Repaint the views
-        ::InvalidateRect(::GetDlgItem(m_hWnd, IDC_SPECULAR_BUTTON), NULL, TRUE);
+        ::InvalidateRect(::GetDlgItem(m_hWnd, IDC_SPECULAR_BUTTON), nullptr, TRUE);
         ::Refresh_Main_View();
     }
 

@@ -65,7 +65,7 @@
  *=============================================================================================*/
 int RLEEngine::Compress(void const* source, void* dest, int length) const
 {
-    assert(source != NULL);
+    assert(source != nullptr);
     assert(length > 0);
 
     int outlen = 0;
@@ -91,7 +91,7 @@ int RLEEngine::Compress(void const* source, void* dest, int length) const
             **	Limit the run to 255 characters maximum.
             */
             runcount = MIN(runcount, 255);
-            if (dptr != NULL) {
+            if (dptr != nullptr) {
                 *dptr++ = '\0';
                 *dptr++ = (unsigned char)runcount;
             }
@@ -104,7 +104,7 @@ int RLEEngine::Compress(void const* source, void* dest, int length) const
             /*
             **	Store the raw byte without any translation.
             */
-            if (dptr != NULL) {
+            if (dptr != nullptr) {
                 *dptr++ = *sptr++;
             }
             else {
@@ -145,14 +145,14 @@ int RLEEngine::Compress(void const* source, void* dest, int length) const
  *=============================================================================================*/
 int RLEEngine::Line_Compress(void const* source, void* dest, int length) const
 {
-    assert(source != NULL);
+    assert(source != nullptr);
     assert(length > 0);
 
     /*
     **	If an output buffer was specified, then the data is actually compressed
     **	into the buffer.
     */
-    if (dest != NULL) {
+    if (dest != nullptr) {
         unsigned short* sizeptr = (unsigned short*)dest;
         int complen = Compress(source, sizeptr + 1, length) + sizeof(short);
         *sizeptr = (unsigned short)complen;
@@ -163,7 +163,7 @@ int RLEEngine::Line_Compress(void const* source, void* dest, int length) const
     **	Since no output buffer was specifed, this call merely determins how
     **	many bytes would be consumed in the output buffer.
     */
-    return (Compress(source, NULL, length) + sizeof(short));
+    return (Compress(source, nullptr, length) + sizeof(short));
 }
 
 /***********************************************************************************************
@@ -187,8 +187,8 @@ int RLEEngine::Line_Compress(void const* source, void* dest, int length) const
  *=============================================================================================*/
 int RLEEngine::Decompress(void const* source, void* dest, int length) const
 {
-    assert(source != NULL);
-    assert(dest != NULL);
+    assert(source != nullptr);
+    assert(dest != nullptr);
     assert(length > 0);
 
     unsigned char* dptr = (unsigned char*)dest;
@@ -244,8 +244,8 @@ int RLEEngine::Decompress(void const* source, void* dest, int length) const
  *=============================================================================================*/
 int RLEEngine::Line_Decompress(void const* source, void* dest) const
 {
-    assert(source != NULL);
-    assert(dest != NULL);
+    assert(source != nullptr);
+    assert(dest != nullptr);
 
     unsigned short const* sptr = (unsigned short const*)source;
 

@@ -133,7 +133,7 @@ bool PathfindPortalClass::Load(ChunkLoadClass& cload)
 ///////////////////////////////////////////////////////////////////////////
 bool PathfindPortalClass::Load_Variables(ChunkLoadClass& cload)
 {
-    PathfindPortalClass* old_ptr = NULL;
+    PathfindPortalClass* old_ptr = nullptr;
 
     //
     //	Read all the micro chunks...
@@ -158,7 +158,7 @@ bool PathfindPortalClass::Load_Variables(ChunkLoadClass& cload)
     //
     //	Register our old ptr so other objects can remap to us
     //
-    if (old_ptr != NULL) {
+    if (old_ptr != nullptr) {
         SaveLoadSystemClass::Register_Pointer(old_ptr, this);
     }
 
@@ -259,11 +259,11 @@ bool PathfindActionPortalClass::Load_Variables(ChunkLoadClass& cload)
     // problem, we don't want a reference on them.  This is why we don't
     // do a ref-counted pointer remap.
     //
-    if (m_EnterPortal != NULL) {
+    if (m_EnterPortal != nullptr) {
         REQUEST_POINTER_REMAP((void**)&m_EnterPortal);
     }
 
-    if (m_ExitPortal != NULL) {
+    if (m_ExitPortal != nullptr) {
         REQUEST_POINTER_REMAP((void**)&m_ExitPortal);
     }
 

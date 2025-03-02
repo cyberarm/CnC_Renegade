@@ -61,7 +61,7 @@ public:
     /*
     **	Constructs a working surface (not visible).
     */
-    DSurface(int width, int height, bool system_memory = false, DDPIXELFORMAT* pixform = NULL);
+    DSurface(int width, int height, bool system_memory = false, DDPIXELFORMAT* pixform = nullptr);
 
     /*
     **	Creates a surface from a previously created DirectDraw surface object.
@@ -77,7 +77,7 @@ public:
     /*
     **	Create a surface object that represents the currently visible screen.
     */
-    static DSurface* Create_Primary(DSurface** backsurface1 = NULL);
+    static DSurface* Create_Primary(DSurface** backsurface1 = nullptr);
 
     /*
     **	Copies regions from one surface to another.

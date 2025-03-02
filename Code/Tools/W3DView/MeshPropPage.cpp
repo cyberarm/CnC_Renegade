@@ -157,7 +157,7 @@ BOOL CMeshPropPage::OnInitDialog(void)
 
             // Free the object
             pCMesh->Release_Ref();
-            pCMesh = NULL;
+            pCMesh = nullptr;
         }
     }
 

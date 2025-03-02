@@ -154,7 +154,7 @@ protected:
     typedef struct PathDataStruct
     {
         PathDataStruct(void)
-            : m_Portal(NULL),
+            : m_Portal(nullptr),
               m_Point(0, 0, 0)
         {
         }

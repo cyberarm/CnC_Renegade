@@ -65,10 +65,10 @@ static UINT fnGeneratingVisDialogThread(DWORD dwparam1, DWORD dwparam2, DWORD, H
 // GeneratingEdgeSampledVisDialogClass
 //
 /////////////////////////////////////////////////////////////////////////////
-GeneratingEdgeSampledVisDialogClass::GeneratingEdgeSampledVisDialogClass(CWnd* pParent /*=NULL*/)
+GeneratingEdgeSampledVisDialogClass::GeneratingEdgeSampledVisDialogClass(CWnd* pParent /*=nullptr*/)
     : m_IsCancelled(false),
       m_IsFinished(false),
-      m_ProgressObj(NULL),
+      m_ProgressObj(nullptr),
       m_StartTime(0),
       m_FarmMode(false),
       CDialog(GeneratingEdgeSampledVisDialogClass::IDD, pParent)
@@ -77,7 +77,7 @@ GeneratingEdgeSampledVisDialogClass::GeneratingEdgeSampledVisDialogClass(CWnd* p
     // NOTE: the ClassWizard will add member initialization here
     //}}AFX_DATA_INIT
 
-    Create(GeneratingEdgeSampledVisDialogClass::IDD, NULL);
+    Create(GeneratingEdgeSampledVisDialogClass::IDD, nullptr);
 
     //
     //	Determine the section of the status file
@@ -138,7 +138,7 @@ BOOL GeneratingEdgeSampledVisDialogClass::OnInitDialog(void)
     //
     //	Start the timer
     //
-    SetTimer(777, 1000, NULL);
+    SetTimer(777, 1000, nullptr);
 
     //
     //	Record the time at operation start
@@ -178,7 +178,7 @@ void GeneratingEdgeSampledVisDialogClass::OnCancel(void)
     //
     //	Stop the vis generation process
     //
-    if (m_ProgressObj != NULL) {
+    if (m_ProgressObj != nullptr) {
         m_ProgressObj->Request_Cancel();
         Update_Stats();
     }
@@ -198,7 +198,7 @@ void GeneratingEdgeSampledVisDialogClass::OnCancel(void)
 /////////////////////////////////////////////////////////////////////////////
 void GeneratingEdgeSampledVisDialogClass::Update_Stats(void)
 {
-    if (m_ProgressObj != NULL) {
+    if (m_ProgressObj != nullptr) {
 
         //
         //	Update the simple text controls
@@ -283,8 +283,8 @@ GeneratingEdgeSampledVisDialogClass* GeneratingEdgeSampledVisDialogClass::Displa
     //
     //	Create the dialog on a separate thread
     //
-    GeneratingEdgeSampledVisDialogClass* dialog = NULL;
-    ::Create_UI_Thread(fnGeneratingVisDialogThread, 0, (DWORD)&dialog, 0, NULL, NULL);
+    GeneratingEdgeSampledVisDialogClass* dialog = nullptr;
+    ::Create_UI_Thread(fnGeneratingVisDialogThread, 0, (DWORD)&dialog, 0, nullptr, nullptr);
     return dialog;
 }
 
@@ -329,7 +329,7 @@ UINT fnGeneratingVisDialogThread(DWORD dwparam1, DWORD dwparam2, DWORD /*dwparam
     //
     GeneratingEdgeSampledVisDialogClass** return_val
         = (GeneratingEdgeSampledVisDialogClass**)dwparam2;
-    if (return_val != NULL) {
+    if (return_val != nullptr) {
         (*return_val) = dialog;
     }
 

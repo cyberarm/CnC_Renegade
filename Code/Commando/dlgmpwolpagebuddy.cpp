@@ -50,10 +50,10 @@
 ////////////////////////////////////////////////////////////////
 MPWolPageBuddyPopupClass::MPWolPageBuddyPopupClass(void)
     : PopupDialogClass(IDD_MP_WOL_PAGE_BUDDY),
-      mBuddyMgr(NULL)
+      mBuddyMgr(nullptr)
 {
     mBuddyMgr = WOLBuddyMgr::GetInstance(false);
-    WWASSERT(mBuddyMgr != NULL);
+    WWASSERT(mBuddyMgr != nullptr);
 }
 
 MPWolPageBuddyPopupClass::~MPWolPageBuddyPopupClass(void)

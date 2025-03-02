@@ -50,7 +50,7 @@ public:
     virtual ScriptImpClass* Create(void)
     {
         T* script = new T;
-        assert(script != NULL);
+        assert(script != nullptr);
         script->SetFactory(this);
         script->Register_Auto_Save_Variables();
         return script;

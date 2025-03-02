@@ -106,8 +106,8 @@ int PASCAL WinMain(HINSTANCE instance, HINSTANCE, char* command_line, int comman
 int Print_WM(UINT message, char* out)
 {
     switch (message) {
-    case WM_NULL:
-        sprintf(out, "WM_NULL");
+    case WM_nullptr:
+        sprintf(out, "WM_nullptr");
         break;
     case WM_CREATE:
         sprintf(out, "WM_CREATE");

@@ -670,7 +670,7 @@ bool EditCtrlClass::On_Key_Down(uint32 key_id, uint32 key_data)
     //
     //	Check to see if the advise sinks are processing this input...
     //
-    if (AdviseSink != NULL) {
+    if (AdviseSink != nullptr) {
         handled = AdviseSink->On_EditCtrl_Key_Down(this, key_id, key_data);
     }
     if (handled == false) {

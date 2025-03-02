@@ -94,7 +94,7 @@ bool DlgDownload::DoDialog(const WCHAR* title, const DownloadList& files, bool q
             popup->Release_Ref();
         }
 
-        return (popup != NULL);
+        return (popup != nullptr);
     }
 
     return false;

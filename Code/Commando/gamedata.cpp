@@ -95,7 +95,7 @@
 
 const int cGameData::MAX_TIME_LIMIT = 999;
 
-cGameData* PTheGameData = NULL;
+cGameData* PTheGameData = nullptr;
 
 static WideStringClass renderer_time_text;
 static WideStringClass renderer_dedicated_server_label;
@@ -108,7 +108,7 @@ static unsigned renderer_gameplay_color;
 //
 const StringClass cGameData::INI_SECTION_NAME = "Settings";
 const float cGameData::LIMITS_X_POS = 0.8f;
-Render2DSentenceClass* cGameData::PTextRenderer = NULL;
+Render2DSentenceClass* cGameData::PTextRenderer = nullptr;
 int cGameData::HostedGameNumber = 0;
 bool cGameData::IsManualRestart = false;
 bool cGameData::IsManualExit = false;
@@ -137,9 +137,9 @@ void cGameData::Onetime_Shutdown(void)
     WWDEBUG_SAY(("cGameData::Onetime_Shutdown\n"));
 
     if (!ConsoleBox.Is_Exclusive()) {
-        WWASSERT(PTextRenderer != NULL);
+        WWASSERT(PTextRenderer != nullptr);
         delete PTextRenderer;
-        PTextRenderer = NULL;
+        PTextRenderer = nullptr;
     }
 }
 
@@ -292,7 +292,7 @@ void cGameData::Reset_Game(bool is_reloaded)
     }
 
     if (Get_Text_Display()) {
-        WWASSERT(Get_Text_Display() != NULL);
+        WWASSERT(Get_Text_Display() != nullptr);
         Get_Text_Display()->Flush();
     }
 
@@ -331,7 +331,7 @@ void cGameData::Swap_Team_Sides(void)
          player_node; player_node = player_node->Next()) {
 
         cPlayer* p_player = player_node->Data();
-        WWASSERT(p_player != NULL);
+        WWASSERT(p_player != nullptr);
 
         int team = p_player->Get_Player_Type();
 
@@ -377,7 +377,7 @@ void cGameData::Remix_Team_Sides(void)
          player_node; player_node = player_node->Next()) {
 
         cPlayer* p_player = player_node->Data();
-        WWASSERT(p_player != NULL);
+        WWASSERT(p_player != nullptr);
 
         int new_team = PLAYERTYPE_NOD;
         if (rand() % 2 == 0) {
@@ -416,10 +416,10 @@ void cGameData::Rebalance_Team_Sides(void)
     // Rebalance teams numerically
     //
     cTeam* p_nod = cTeamManager::Find_Team(PLAYERTYPE_NOD);
-    WWASSERT(p_nod != NULL);
+    WWASSERT(p_nod != nullptr);
 
     cTeam* p_gdi = cTeamManager::Find_Team(PLAYERTYPE_GDI);
-    WWASSERT(p_gdi != NULL);
+    WWASSERT(p_gdi != nullptr);
 
     int move_count = 0;
 
@@ -432,13 +432,13 @@ void cGameData::Rebalance_Team_Sides(void)
 
         if (nod_tally > gdi_tally + 1) {
             cPlayer* p_player = cPlayerManager::Find_Team_Player(PLAYERTYPE_NOD);
-            WWASSERT(p_player != NULL);
+            WWASSERT(p_player != nullptr);
             p_player->Set_Player_Type(PLAYERTYPE_GDI);
             move_count++;
         }
         else if (gdi_tally > nod_tally + 1) {
             cPlayer* p_player = cPlayerManager::Find_Team_Player(PLAYERTYPE_GDI);
-            WWASSERT(p_player != NULL);
+            WWASSERT(p_player != nullptr);
             p_player->Set_Player_Type(PLAYERTYPE_NOD);
             move_count++;
         }
@@ -548,7 +548,7 @@ void cGameData::Set_Intermission_Time_Seconds(int time)
 //-----------------------------------------------------------------------------
 void cGameData::Set_Motd(const WCHAR* motd)
 {
-    WWASSERT(motd != NULL);
+    WWASSERT(motd != nullptr);
 
     Motd = motd;
 }
@@ -640,7 +640,7 @@ bool cGameData::Is_Valid_Settings(WideStringClass& outMsg, bool check_as_server)
         //
         //	Test to see whether or not the map exists
         //
-        char* filename = NULL;
+        char* filename = nullptr;
         if (!Is_Map_Valid(&filename)) {
             Debug_Say(("cGameData::Is_Valid_Settings: Level \"%s\" not found\n", filename));
             PRINT_CONFIG_ERROR;
@@ -987,20 +987,20 @@ void cGameData::Import_Tier_2_Data(cPacket& packet)
 //-----------------------------------------------------------------------------
 void cGameData::Load_From_Server_Config(LPCSTR config_file)
 {
-    WWASSERT(config_file != NULL);
+    WWASSERT(config_file != nullptr);
     WWASSERT(cMiscUtil::Is_String_Different(config_file, ""));
 
     INIClass* p_ini = Get_INI(config_file);
     StringClass full_filename(config_file, true);
 
-    if (p_ini == NULL) {
+    if (p_ini == nullptr) {
         full_filename.Format("data\\%s", config_file);
         FILE* file = fopen(full_filename, "w");
         fclose(file);
 
         p_ini = Get_INI(config_file);
     }
-    WWASSERT(p_ini != NULL);
+    WWASSERT(p_ini != nullptr);
 
     LastServerConfigModTime = Get_Config_File_Mod_Time();
 
@@ -1132,11 +1132,11 @@ void cGameData::Load_From_Server_Config(LPCSTR config_file)
 //-----------------------------------------------------------------------------
 void cGameData::Save_To_Server_Config(LPCSTR config_file)
 {
-    WWASSERT(config_file != NULL);
+    WWASSERT(config_file != nullptr);
     WWASSERT(cMiscUtil::Is_String_Different(config_file, ""));
 
     INIClass* p_ini = Get_INI(config_file);
-    WWASSERT(p_ini != NULL);
+    WWASSERT(p_ini != nullptr);
 
     //
     // We can't overwrite entries, so clear them out first.
@@ -1196,7 +1196,7 @@ void cGameData::Save_To_Server_Config(LPCSTR config_file)
 //-----------------------------------------------------------------------------
 void cGameData::Soldier_Added(SoldierGameObj* p_soldier)
 {
-    WWASSERT(p_soldier != NULL);
+    WWASSERT(p_soldier != nullptr);
 
     if (IsFreeWeapons.Is_True() && p_soldier->Get_Player_Type() != PLAYERTYPE_NEUTRAL) {
 
@@ -1210,7 +1210,7 @@ void cGameData::Soldier_Added(SoldierGameObj* p_soldier)
             weapon = 1 + rand() % 7;
         }
 
-        WWASSERT(p_soldier->Get_Weapon_Bag() != NULL);
+        WWASSERT(p_soldier->Get_Weapon_Bag() != nullptr);
         p_soldier->Get_Weapon_Bag()->Select_Key_Number(weapon);
     }
 }
@@ -1396,9 +1396,9 @@ int cGameData::Choose_Smallest_Team(void)
     // WWASSERT(Is_Team_Game());
 
     cTeam* p_team_0 = cTeamManager::Find_Team(0);
-    WWASSERT(p_team_0 != NULL);
+    WWASSERT(p_team_0 != nullptr);
     cTeam* p_team_1 = cTeamManager::Find_Team(1);
-    WWASSERT(p_team_1 != NULL);
+    WWASSERT(p_team_1 != nullptr);
 
     int team = -999;
 
@@ -1550,7 +1550,7 @@ void cGameData::Game_Over_Processing(void)
         //
         cGameDataCnc* test_game_settings
             = (cGameDataCnc*)Create_Game_Of_Type(cGameData::GAME_TYPE_CNC);
-        WWASSERT(test_game_settings != NULL);
+        WWASSERT(test_game_settings != nullptr);
 
         bool ok = false;
 
@@ -1696,7 +1696,7 @@ bool cGameData::Is_Clan_Game_Open(void) const
 cGameData* cGameData::Create_Game_Of_Type(GameTypeEnum game_type)
 {
     /*
-    cGameData * p_game_data = NULL;
+    cGameData * p_game_data = nullptr;
 
     switch (game_type) {
             //case GAME_TYPE_DEATHMATCH:			p_game_data = new
@@ -1738,9 +1738,9 @@ const char* cGameData::Get_Game_Type_Name(void) const
 //-----------------------------------------------------------------------------
 void cGameData::Add_Bottom_Text(WideStringClass& text)
 {
-    // WWASSERT(text != NULL);
+    // WWASSERT(text != nullptr);
 
-    /* 	WWASSERT(PFont != NULL);
+    /* 	WWASSERT(PFont != nullptr);
             float x = Render2DClass::Get_Screen_Resolution().Center().X -
                     PFont->String_Width(text) / 2.0f;
 
@@ -1748,7 +1748,7 @@ void cGameData::Add_Bottom_Text(WideStringClass& text)
             y -= 1.2 * PFont->Char_Height();
             MultiHUDClass::Set_Bottom_Text_Y_Pos(y);
 
-       WWASSERT(PTextRenderer != NULL);
+       WWASSERT(PTextRenderer != nullptr);
             PTextRenderer->Set_Location(Vector2(cMathUtil::Round(x), cMathUtil::Round(y)));
             PTextRenderer->Draw_Text(text);
     */
@@ -1758,7 +1758,7 @@ void cGameData::Add_Bottom_Text(WideStringClass& text)
 //-----------------------------------------------------------------------------
 void cGameData::Show_Game_Settings_Limits(void)
 {
-    if (PTextRenderer == NULL) {
+    if (PTextRenderer == nullptr) {
         return;
     }
 
@@ -1792,10 +1792,10 @@ void cGameData::Show_Game_Settings_Limits(void)
 
     // Gameplay pending label -
     bool show_gameplay_label = false;
-    if (!Is_Gameplay_Permitted() || (COMBAT_STAR == NULL)) {
+    if (!Is_Gameplay_Permitted() || (COMBAT_STAR == nullptr)) {
         show_gameplay_label = true;
     }
-    // if (IsIntermission.Is_False() && (!Is_Gameplay_Permitted() || (COMBAT_STAR == NULL))) {
+    // if (IsIntermission.Is_False() && (!Is_Gameplay_Permitted() || (COMBAT_STAR == nullptr))) {
     if (show_gameplay_label) {
         Get_Gameplay_Not_Permitted_Label(text, color);
     }
@@ -1980,7 +1980,7 @@ void cGameData::Render(void)
 {
     Show_Game_Settings_Limits();
 
-    if (PTextRenderer != NULL) {
+    if (PTextRenderer != nullptr) {
         WWPROFILE("cGameData::Render");
         PTextRenderer->Render();
     }
@@ -2064,7 +2064,7 @@ void cGameData::On_Game_Begin(void)
 
     if (gameMode && gameMode->Is_Active()) {
         WolGameModeClass* wolGame = reinterpret_cast<WolGameModeClass*>(gameMode);
-        WWASSERT(wolGame != NULL);
+        WWASSERT(wolGame != nullptr);
         wolGame->Start_Game(this);
     }
 }
@@ -2207,7 +2207,7 @@ void cGameData::Filter_Spawners(void)
 
         for (int i = 0; i < spawner_list.Count(); i++) {
 
-            WWASSERT(spawner_list[i] != NULL);
+            WWASSERT(spawner_list[i] != nullptr);
 
             if (spawner_list[i]->Get_Definition().Is_Multiplay_Weapon_Spawner()) {
                 spawner_list[i]->Enable(false);
@@ -2414,7 +2414,7 @@ void cGameData::Get_Description(WideStringClass& description)
 //-----------------------------------------------------------------------------
 
 // cGameData *						The_Game(void)
-// {WWASSERT(PTheGameData != NULL); return PTheGameData;}
+// {WWASSERT(PTheGameData != nullptr); return PTheGameData;}
 cGameData* The_Game(void)
 {
     return PTheGameData;
@@ -2422,17 +2422,17 @@ cGameData* The_Game(void)
 
 cGameDataSinglePlayer* The_Single_Player_Game(void)
 {
-    WWASSERT(The_Game()->As_Single_Player() != NULL);
+    WWASSERT(The_Game()->As_Single_Player() != nullptr);
     return The_Game()->As_Single_Player();
 }
 cGameDataSkirmish* The_Skirmish_Game(void)
 {
-    WWASSERT(The_Game()->As_Skirmish() != NULL);
+    WWASSERT(The_Game()->As_Skirmish() != nullptr);
     return The_Game()->As_Skirmish();
 }
 cGameDataCnc* The_Cnc_Game(void)
 {
-    WWASSERT(The_Game()->As_Cnc() != NULL);
+    WWASSERT(The_Game()->As_Cnc() != nullptr);
     return The_Game()->As_Cnc();
 }
 
@@ -2476,9 +2476,9 @@ void cGameData::Set_Full_Score_Time_Threshold_Mins(int mins)
 // Set_Min_Game_Time_Required_Mins(			packet.Get(i_placeholder));
 // Set_Full_Score_Time_Threshold_Mins(		packet.Get(i_placeholder));
 // cGameDataDeathMatch *		The_Deathmatch_Game(void)
-// {WWASSERT(The_Game()->As_Deathmatch() != NULL);			return
+// {WWASSERT(The_Game()->As_Deathmatch() != nullptr);			return
 // The_Game()->As_Deathmatch();} cGameDataTeamDeathMatch *	The_Team_Deathmatch_Game(void)
-// {WWASSERT(The_Game()->As_Team_Deathmatch() != NULL);	return The_Game()->As_Team_Deathmatch();}
+// {WWASSERT(The_Game()->As_Team_Deathmatch() != nullptr);	return The_Game()->As_Team_Deathmatch();}
 
 // if (Is_Team_Game()) {
 /*

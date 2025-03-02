@@ -83,7 +83,7 @@ public:
 
     static Vector3 Calc_New_Position(const Matrix3D& coord_system,
                                      const Vector3& start_point_in_world_coords,
-                                     LPPOINT mouse_pos = NULL);
+                                     LPPOINT mouse_pos = nullptr);
 
     //
     //	Translation functions
@@ -171,7 +171,7 @@ inline PhysClass* MoverClass::Cast_Ray(CastResultStruct& result, const Vector3& 
     //	Return a pointer to the collided physics object if the
     // cast hit something
     //
-    PhysClass* collided_obj = NULL;
+    PhysClass* collided_obj = nullptr;
     if (result.Fraction < 1.0F) {
         collided_obj = raytest.CollidedPhysObj;
     }
@@ -194,7 +194,7 @@ inline PhysClass* MoverClass::Cast_Box(CastResultStruct& result, const AABoxClas
     //	Return a pointer to the collided physics object if the
     // cast hit something
     //
-    PhysClass* collided_obj = NULL;
+    PhysClass* collided_obj = nullptr;
     if (result.Fraction < 1.0F) {
         collided_obj = boxtest.CollidedPhysObj;
     }

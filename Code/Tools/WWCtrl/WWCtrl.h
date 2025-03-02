@@ -65,7 +65,7 @@ LINKAGE_SPEC BOOL Set_Form_Color(HWND form_wnd, int red, int green, int blue);
 LINKAGE_SPEC BOOL Set_Form_Original_Color(HWND form_wnd, int red, int green, int blue);
 
 LINKAGE_SPEC BOOL Set_Update_Callback(HWND form_wnd, WWCTRL_COLORCALLBACK callback,
-                                      void* arg = NULL);
+                                      void* arg = nullptr);
 }
 
 #endif //__WWCTRL_H

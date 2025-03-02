@@ -114,13 +114,13 @@
 //
 //////////////////////////////////////////////////////////////////////
 SceneEditorClass::SceneEditorClass(void)
-    : m_SelectionMgr(NULL),
+    : m_SelectionMgr(nullptr),
       m_bLightsOn(true),
       m_bAggregateChildrenVisible(true),
       m_bVisPointsDisplayed(0),
       m_TotalVisPoints(0),
       m_ManualVisPointsVisible(true),
-      m_MovingObject(NULL),
+      m_MovingObject(nullptr),
       m_DisplaySoundSpheres(false),
       m_DisplayLightSpheres(false),
       m_ShowStaticAnimPhys(true),
@@ -250,8 +250,8 @@ void SceneEditorClass::Cleanup_Resources(void)
     //
     //	Free the background sound
     //
-    if (WWAudioClass::Get_Instance() != NULL) {
-        WWAudioClass::Get_Instance()->Set_Background_Music(NULL);
+    if (WWAudioClass::Get_Instance() != nullptr) {
+        WWAudioClass::Get_Instance()->Set_Background_Music(nullptr);
     }
 
     //
@@ -266,7 +266,7 @@ void SceneEditorClass::Cleanup_Resources(void)
     // Remove all entries from the group list
     Reset_Global_Groups_List();
 
-    m_MovingObject = NULL;
+    m_MovingObject = nullptr;
 
     //
     //	Shutdown the heightfield system
@@ -291,13 +291,13 @@ NodeClass* SceneEditorClass::Create_Node(PresetClass* preset, Matrix3D* transfor
     // Create the new node
     //
     NodeClass* node = NodeMgrClass::Create_Node(preset, node_id);
-    ASSERT(node != NULL);
-    if (node != NULL) {
+    ASSERT(node != nullptr);
+    if (node != nullptr) {
 
         //
         //	Find a good starting position for this node in the scene
         //
-        if (transform != NULL) {
+        if (transform != nullptr) {
             node->Set_Transform(*transform);
         }
         else {
@@ -327,7 +327,7 @@ NodeClass* SceneEditorClass::Create_Node(PresetClass* preset, Matrix3D* transfor
         else if (node->Get_Type() == NODE_TYPE_WAYPATH) {
             ::Get_Mouse_Mgr()->Set_Mouse_Mode(MouseMgrClass::MODE_WAYPATH_EDIT);
             MMWaypathEditClass* mode = (MMWaypathEditClass*)::Get_Mouse_Mgr()->Get_Mode_Mgr();
-            if (mode != NULL) {
+            if (mode != nullptr) {
                 mode->Set_Waypath((WaypathNodeClass*)node);
             }
         }
@@ -335,7 +335,7 @@ NodeClass* SceneEditorClass::Create_Node(PresetClass* preset, Matrix3D* transfor
         //
         //	Create any linked nodes and put them into the scene
         //
-        if (preset != NULL) {
+        if (preset != nullptr) {
             preset->Create_Linked_Nodes(node);
         }
 
@@ -359,7 +359,7 @@ NodeClass* SceneEditorClass::Create_Node(PresetClass* preset, Matrix3D* transfor
 NodeClass* SceneEditorClass::Clone_Node(NodeClass* node)
 {
     NodeClass* new_node = node->Clone();
-    if (new_node != NULL) {
+    if (new_node != nullptr) {
 
         //
         //	Make sure the new node has a name and ID
@@ -402,7 +402,7 @@ void SceneEditorClass::Reload_Lightmap_Models(void)
     //	Reload the necessary "tool" assets
     //
     CLevelEditDoc* doc = ::Get_Current_Document();
-    if (doc != NULL) {
+    if (doc != nullptr) {
         doc->Preload_Human_Data();
         doc->Preload_Tool_Assets();
     }
@@ -479,7 +479,7 @@ bool SceneEditorClass::Delete_Nodes(PresetClass* preset)
     //	Build a list of nodes to that are dependent on this preset
     //
     DynamicVectorClass<NodeClass*> node_removal_list;
-    for (NodeClass* node = NodeMgrClass::Get_First(); node != NULL;
+    for (NodeClass* node = NodeMgrClass::Get_First(); node != nullptr;
          node = NodeMgrClass::Get_Next(node)) {
         if (node->Get_Preset() == preset) {
             node_removal_list.Add(node);
@@ -542,7 +542,7 @@ void SceneEditorClass::Add_Groups_To_List(NodeClass& node, GROUP_LIST& group_lis
     // Loop through all the children of this node and
     // add their groups to the list as well
     for (NodeInstanceClass *child = node.Get_Child ();
-              child != NULL;
+              child != nullptr;
               child = child->Get_Sibling ()) {
             Add_Groups_To_List (*child, group_list);
     }*/
@@ -557,7 +557,7 @@ void SceneEditorClass::Add_Groups_To_List(NodeClass& node, GROUP_LIST& group_lis
 //////////////////////////////////////////////////////////////////////
 void SceneEditorClass::Build_Group_List(GROUP_LIST& group_list, NodeClass* node)
 {
-    if (node != NULL) {
+    if (node != nullptr) {
         Add_Groups_To_List(*node, group_list);
     }
     else {
@@ -568,7 +568,7 @@ void SceneEditorClass::Build_Group_List(GROUP_LIST& group_list, NodeClass* node)
         //
         for (int index = 0; index < m_SelectionMgr->Get_Count(); index++) {
             NodeClass* node = m_SelectionMgr->Get_At(index);
-            if (node != NULL) {
+            if (node != nullptr) {
                 Add_Groups_To_List(*node, group_list);
             }
         }
@@ -589,7 +589,7 @@ void SceneEditorClass::Add_Nodes_To_List(NodeClass& node, NODE_LIST& node_list)
     // add them and their children to the list as well
     //
     /*for (NodeInstanceClass *child = node.Get_Child ();
-              child != NULL;
+              child != nullptr;
               child = child->Get_Sibling ()) {
 
             if (child->Is_Owner_Only () == false) {
@@ -614,7 +614,7 @@ Vector3 SceneEditorClass::Build_Node_List(NODE_LIST& node_list)
     //
     for (int index = 0; index < m_SelectionMgr->Get_Count(); index++) {
         NodeClass* node = m_SelectionMgr->Get_At(index);
-        if (node != NULL) {
+        if (node != nullptr) {
             node_list.Add_Unique(node);
         }
     }
@@ -644,7 +644,7 @@ void SceneEditorClass::Build_Node_List(NODE_LIST& node_list, NodeClass* parent_n
 
         for (int index = 0; index < group_mgr->Get_Count(); index++) {
             NodeClass* node = group_mgr->Get_At(index);
-            if (node != NULL) {
+            if (node != nullptr) {
 
                 node_list.Add_Unique(node);
                 Add_Nodes_To_List(*node, node_list);
@@ -655,11 +655,11 @@ void SceneEditorClass::Build_Node_List(NODE_LIST& node_list, NodeClass* parent_n
     //
     // Don't forget to add the nodes from the selection group as well!
     //
-    if (parent_node == NULL) {
+    if (parent_node == nullptr) {
 
         for (int index = 0; index < m_SelectionMgr->Get_Count(); index++) {
             NodeClass* node = m_SelectionMgr->Get_At(index);
-            if (node != NULL) {
+            if (node != nullptr) {
 
                 node_list.Add_Unique(node);
                 Add_Nodes_To_List(*node, node_list);
@@ -691,7 +691,7 @@ void SceneEditorClass::Delete_Nodes(void)
     //
     for (int index = 0; index < m_SelectionMgr->Get_Count(); index++) {
         NodeClass* node = m_SelectionMgr->Get_At(index);
-        if (node != NULL) {
+        if (node != nullptr) {
 
             // Add this node to our list of affected nodes
             affected_list.Add_Unique(node);
@@ -790,9 +790,9 @@ void SceneEditorClass::Update_Toolbars(void)
             // Print vis-id and occluder status if we're only printing one object
             //
             PhysClass* phys_obj = node->Peek_Physics_Obj();
-            if (m_SelectionMgr->Get_Count() == 1 && phys_obj != NULL) {
+            if (m_SelectionMgr->Get_Count() == 1 && phys_obj != nullptr) {
                 StaticPhysClass* static_phys_obj = phys_obj->As_StaticPhysClass();
-                if (static_phys_obj != NULL) {
+                if (static_phys_obj != nullptr) {
                     selection_set += (" (");
                     CString visid_string;
                     visid_string.Format(" VisObjectId = %d, ",
@@ -803,7 +803,7 @@ void SceneEditorClass::Update_Toolbars(void)
                     selection_set += visid_string;
 
                     AABTreeLinkClass* link = (AABTreeLinkClass*)static_phys_obj->Get_Cull_Link();
-                    if (link != NULL) {
+                    if (link != nullptr) {
                         visid_string.Format(" CullLink = %d, ", link->Node->Index);
                         selection_set += visid_string;
                     }
@@ -846,7 +846,7 @@ void SceneEditorClass::Update_Toolbars(void)
 
     // Show/hide the animation toolbar depending on the current state
     CMainFrame* pmainwnd = (CMainFrame*)::AfxGetMainWnd();
-    if (pmainwnd != NULL) {
+    if (pmainwnd != nullptr) {
         pmainwnd->Show_Ani_Toolbar(show_ani_toolbar);
         pmainwnd->Update_Ani_Frame(frame, max_frames);
     }
@@ -873,29 +873,29 @@ NodeClass* SceneEditorClass::Find_Node_At_Point(CPoint point, Vector3* intersect
     // Cast the ray into the world
     //
     CastResultStruct res;
-    if (intersect_pt != NULL) {
+    if (intersect_pt != nullptr) {
         res.ComputeContactPoint = true;
     }
 
     PhysClass* physobj = MoverClass::Cast_Ray(res, ray_start, ray_end, MOUSE_CLICK_COLLISION_GROUP);
-    if ((physobj != NULL) && (physobj->Peek_Model() != NULL)) {
+    if ((physobj != nullptr) && (physobj->Peek_Model() != nullptr)) {
         WWDEBUG_SAY(("Picked model: %s\r\n", physobj->Peek_Model()->Get_Name()));
     }
 
     //
     // Get the node's pointer that was hit from the raycast
     //
-    NodeClass* node = NULL;
-    if (physobj != NULL) {
+    NodeClass* node = nullptr;
+    if (physobj != nullptr) {
 
         HITTESTINFO* hit_info = (HITTESTINFO*)physobj->Peek_Model()->Get_User_Data();
-        if (hit_info != NULL && hit_info->Type == HITTESTINFO::Node) {
+        if (hit_info != nullptr && hit_info->Type == HITTESTINFO::Node) {
             node = hit_info->node;
 
             //
             //	Return the intersection point (if requested)
             //
-            if (intersect_pt != NULL) {
+            if (intersect_pt != nullptr) {
                 (*intersect_pt) = res.ContactPoint;
             }
         }
@@ -931,11 +931,11 @@ bool SceneEditorClass::Execute_Function_At_Point(CPoint point)
     //
     // Determine if the user clicked on a 'function'
     //
-    NodeClass* node = NULL;
-    if (physobj != NULL) {
+    NodeClass* node = nullptr;
+    if (physobj != nullptr) {
 
         HITTESTINFO* hit_info = (HITTESTINFO*)physobj->Peek_Model()->Get_User_Data();
-        if ((hit_info != NULL) && hit_info->Type == HITTESTINFO::Function) {
+        if ((hit_info != nullptr) && hit_info->Type == HITTESTINFO::Function) {
 
             hit_info->function->On_Click();
             processed = true;
@@ -1048,7 +1048,7 @@ void SceneEditorClass::On_Frame(void)
     //
     HWND current_focus_wnd = ::GetFocus();
     DWORD process_id = 0;
-    if (current_focus_wnd != NULL) {
+    if (current_focus_wnd != nullptr) {
         ::GetWindowThreadProcessId(current_focus_wnd, &process_id);
     }
 
@@ -1059,14 +1059,14 @@ void SceneEditorClass::On_Frame(void)
         Move_Selected_Nodes();
     }
 
-    if (m_MovingObject != NULL) {
+    if (m_MovingObject != nullptr) {
         PathMgrClass::Resolve_Paths(Vector3(0, 0, 0));
         PhysicalGameObj* game_obj = ((ObjectNodeClass*)m_MovingObject)->Peek_Game_Obj();
         ((SmartGameObj*)game_obj)->Generate_Control();
         game_obj->Think();
 
         PhysClass* phys_obj = game_obj->Peek_Physical_Object();
-        if (phys_obj != NULL) {
+        if (phys_obj != nullptr) {
             phys_obj->Timestep(TimeManager::Get_Frame_Seconds());
         }
 
@@ -1074,8 +1074,8 @@ void SceneEditorClass::On_Frame(void)
 
 #if 0
 		ActionClass	*action = ((SmartGameObj *)game_obj)->Get_Action ();
-		if (action != NULL && action->Get_Movement () == NULL) {
-			//m_MovingObject = NULL;
+		if (action != nullptr && action->Get_Movement () == nullptr) {
+			//m_MovingObject = nullptr;
 		}
 #endif
     }
@@ -1096,7 +1096,7 @@ void SceneEditorClass::Record_Vis_Info(const Matrix3D& view_transform,
 
     PresetClass* preset
         = PresetMgrClass::Get_First(CLASSID_VIS_POINT_DEF, PresetMgrClass::ID_CLASS);
-    if (preset == NULL) {
+    if (preset == nullptr) {
         CString message = "Missing 'Manual Vis Point' preset.  Please create a default preset "
                           "under the 'Manual Vis Point' folder in the preset library.";
         ::MessageBox(::AfxGetMainWnd()->m_hWnd, message, "Missing Preset",
@@ -1108,7 +1108,7 @@ void SceneEditorClass::Record_Vis_Info(const Matrix3D& view_transform,
         // When doing a manual vis, use the FOV and clip settings of the in-game camera
         //
         CameraClass* scene_cam = CombatManager::Get_Camera();
-        WWASSERT(scene_cam != NULL);
+        WWASSERT(scene_cam != nullptr);
 
         float scene_znear = 0;
         float scene_zfar = 0;
@@ -1163,7 +1163,7 @@ void SceneEditorClass::Record_Vis_Info(const Matrix3D& view_transform,
 ///////////////////////////////////////////////////////////////
 void SceneEditorClass::Begin_Operation(OPERATION_TYPE type, NodeClass* node)
 {
-    if (node != NULL) {
+    if (node != nullptr) {
 
         // Build a list containing the node
         NODE_LIST node_list;
@@ -1189,8 +1189,8 @@ void SceneEditorClass::Begin_Operation(OPERATION_TYPE type, NODE_LIST* affected_
     // If necessary, build a complete list of all the nodes that will be
     // affected by this operation
     //
-    if (affected_list == NULL) {
-        Build_Node_List(node_list, NULL);
+    if (affected_list == nullptr) {
+        Build_Node_List(node_list, nullptr);
         affected_list = &node_list;
     }
 
@@ -1263,8 +1263,8 @@ bool SceneEditorClass::Copy_Objects(void)
         //	Copy the node and add it to our 'clipboard'
         //
         NodeClass* node_copy = node->Clone();
-        ASSERT(node_copy != NULL);
-        if (node_copy != NULL) {
+        ASSERT(node_copy != nullptr);
+        if (node_copy != nullptr) {
             node_copy->Remove_From_Scene();
             m_LocalClipboard.Add(node_copy);
         }
@@ -1294,7 +1294,7 @@ bool SceneEditorClass::Paste_Objects(void)
         //
         NodeClass* node = m_LocalClipboard[index];
         NodeClass* node_copy = Clone_Node(node);
-        if (node_copy != NULL) {
+        if (node_copy != nullptr) {
             m_SelectionMgr->Add_Node(node_copy);
             MEMBER_RELEASE(node_copy);
         }
@@ -1357,7 +1357,7 @@ GroupMgrClass* SceneEditorClass::Add_Global_Group(const CString& name, NODE_LIST
 
     // If we have a list of nodes to add to this group,
     // then do so now.
-    if (initial_list != NULL) {
+    if (initial_list != nullptr) {
         for (int index = 0; index < initial_list->Count(); index++) {
             group->Add_Node((*initial_list)[index]);
         }
@@ -1399,7 +1399,7 @@ void SceneEditorClass::Reset_Global_Groups_List(void)
     // free their associated memory.
     for (int index = 0; index < m_GroupsList.Count(); index++) {
         GroupMgrClass* group = m_GroupsList[index];
-        if (group != NULL) {
+        if (group != nullptr) {
             Remove_Group_From_Toolbar(group);
             SAFE_DELETE(group);
         }
@@ -1417,11 +1417,11 @@ void SceneEditorClass::Reset_Global_Groups_List(void)
 ////////////////////////////////////////////////////////////////
 void SceneEditorClass::Add_Group_To_Toolbar(GroupMgrClass* group)
 {
-    ASSERT(group != NULL);
+    ASSERT(group != nullptr);
 
     // Get the form representing the groups list, and add this group to it
     /*GroupsPageClass *group_page = ::Get_Groups_Form ();
-    if (group_page != NULL) {
+    if (group_page != nullptr) {
             group_page->Add_Group (group);
     }*/
 
@@ -1435,11 +1435,11 @@ void SceneEditorClass::Add_Group_To_Toolbar(GroupMgrClass* group)
 ////////////////////////////////////////////////////////////////
 void SceneEditorClass::Remove_Group_From_Toolbar(GroupMgrClass* group)
 {
-    ASSERT(group != NULL);
+    ASSERT(group != nullptr);
 
     // Get the form representing the groups list, and remove this group from it
     /*GroupsPageClass *group_page = ::Get_Groups_Form ();
-    if (group_page != NULL) {
+    if (group_page != nullptr) {
             group_page->Remove_Group (group);
     }*/
 
@@ -1458,9 +1458,9 @@ void SceneEditorClass::Turn_Lights_On(bool onoff)
     //
     // Loop through all the lights in the world
     //
-    /*LightInstanceClass *plight = NULL;
+    /*LightInstanceClass *plight = nullptr;
     for (plight = (LightInstanceClass *)::Get_Node_Mgr ().Get_First (NODE_TYPE_LIGHT);
-              plight != NULL;
+              plight != nullptr;
               plight = (LightInstanceClass *)::Get_Node_Mgr ().Get_Next (NODE_TYPE_LIGHT)) {
             plight->Turn_Light_On (onoff);
     }*/
@@ -1481,7 +1481,7 @@ void SceneEditorClass::Lock_Nodes(bool lock)
     //
     for (int index = 0; index < m_SelectionMgr->Get_Count(); index++) {
         NodeClass* node = m_SelectionMgr->Get_At(index);
-        if (node != NULL) {
+        if (node != nullptr) {
 
             //
             // Lock the node, this keep the node from moving during
@@ -1504,7 +1504,7 @@ void SceneEditorClass::Set_Background_Music(LPCTSTR filename)
     //
     //	Stop the old sound
     //
-    WWAudioClass::Get_Instance()->Set_Background_Music(NULL);
+    WWAudioClass::Get_Instance()->Set_Background_Music(nullptr);
 
     //
     // Remove the sound file from the file manager
@@ -1519,7 +1519,7 @@ void SceneEditorClass::Set_Background_Music(LPCTSTR filename)
     //
     // Set the new background music
     //
-    if ((filename != NULL) && (filename[0] != 0)) {
+    if ((filename != nullptr) && (filename[0] != 0)) {
         CString path = ::Get_File_Mgr()->Make_Full_Path(filename);
         if (::Get_File_Mgr()->Does_File_Exist(path, true)) {
 
@@ -1577,7 +1577,7 @@ void SceneEditorClass::Display_Vis_Points(bool onoff)
         //
         for (int index = 0; index < m_VisPoints.Count(); index++) {
             DecorationPhysClass* vis_point = m_VisPoints[index];
-            if (vis_point != NULL) {
+            if (vis_point != nullptr) {
                 if (onoff) {
                     Add_Dynamic_Object(vis_point);
                 }
@@ -1633,7 +1633,7 @@ void SceneEditorClass::Remove_All_Vis_Points(void)
     //
     for (int index = 0; index < m_VisPoints.Count(); index++) {
         DecorationPhysClass* vis_point = m_VisPoints[index];
-        if (vis_point != NULL) {
+        if (vis_point != nullptr) {
             Remove_Object(vis_point);
             vis_point->Release_Ref();
         }
@@ -1684,8 +1684,8 @@ void SceneEditorClass::Internal_Vis_Reset(void)
         //
         //	Ask all the nodes
         //
-        NodeClass* node = NULL;
-        for (node = NodeMgrClass::Get_First(); node != NULL; node = NodeMgrClass::Get_Next(node)) {
+        NodeClass* node = nullptr;
+        for (node = NodeMgrClass::Get_First(); node != nullptr; node = NodeMgrClass::Get_Next(node)) {
             node->Update_Cached_Vis_IDs();
         }
     }
@@ -1701,8 +1701,8 @@ void SceneEditorClass::Internal_Vis_Reset(void)
 void SceneEditorClass::Get_Vis_Camera_FOV(double& hfov, double& vfov)
 {
     CameraClass* vis_camera = Get_Vis_Camera();
-    WWASSERT(vis_camera != NULL);
-    if (vis_camera != NULL) {
+    WWASSERT(vis_camera != nullptr);
+    if (vis_camera != nullptr) {
         hfov = vis_camera->Get_Horizontal_FOV();
         vfov = vis_camera->Get_Vertical_FOV();
         MEMBER_RELEASE(vis_camera);
@@ -1723,8 +1723,8 @@ void SceneEditorClass::Get_Vis_Camera_FOV(double& hfov, double& vfov)
 void SceneEditorClass::Get_Vis_Camera_Clip_Planes(float& znear, float& zfar)
 {
     CameraClass* vis_camera = Get_Vis_Camera();
-    WWASSERT(vis_camera != NULL);
-    if (vis_camera != NULL) {
+    WWASSERT(vis_camera != nullptr);
+    if (vis_camera != nullptr) {
         vis_camera->Get_Clip_Planes(znear, zfar);
         MEMBER_RELEASE(vis_camera);
     }
@@ -1743,7 +1743,7 @@ void SceneEditorClass::Get_Vis_Camera_Clip_Planes(float& znear, float& zfar)
 ////////////////////////////////////////////////////////////////
 CameraClass* SceneEditorClass::Get_Render_Camera(void)
 {
-    CameraClass* camera = NULL;
+    CameraClass* camera = nullptr;
 
     if (::Get_Camera_Mgr()->Get_Camera_Mode() == CameraMgr::MODE_WALK_THROUGH) {
         camera = CombatManager::Get_Camera();
@@ -1775,8 +1775,8 @@ void SceneEditorClass::Generate_Pathfind_Portals(void)
     //	Find all the pathfind start-points in the level and add
     // them to the floodfiller
     //
-    NodeClass* node = NULL;
-    for (node = NodeMgrClass::Get_First(); node != NULL; node = NodeMgrClass::Get_Next(node)) {
+    NodeClass* node = nullptr;
+    for (node = NodeMgrClass::Get_First(); node != nullptr; node = NodeMgrClass::Get_Next(node)) {
         if (node->Get_Type() == NODE_TYPE_PATHFIND_START) {
             builder.Add_Start_Point(node->Get_Transform().Get_Translation());
         }
@@ -1810,7 +1810,7 @@ void SceneEditorClass::Export_VIS(LPCTSTR filename)
     //
     //	Create the file
     //
-    HANDLE hfile = ::CreateFile(filename, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, 0L, NULL);
+    HANDLE hfile = ::CreateFile(filename, GENERIC_WRITE, 0, nullptr, CREATE_ALWAYS, 0L, nullptr);
 
     ASSERT(hfile != INVALID_HANDLE_VALUE);
     if (hfile != INVALID_HANDLE_VALUE) {
@@ -1840,7 +1840,7 @@ void SceneEditorClass::Update_Selection_Boxes(void)
     //
     for (int index = 0; index < m_SelectionMgr->Get_Count(); index++) {
         NodeClass* node = m_SelectionMgr->Get_At(index);
-        if (node != NULL) {
+        if (node != nullptr) {
 
             //
             // Ask the node to update its selection box (color and pos)
@@ -1865,7 +1865,7 @@ void SceneEditorClass::Re_Partition_Audio_System(void)
     max = level_bounds.Center + level_bounds.Extent;
 
     SoundSceneClass* sound_scene = WWAudioClass::Get_Instance()->Get_Sound_Scene();
-    if (sound_scene != NULL) {
+    if (sound_scene != nullptr) {
         sound_scene->Re_Partition(min, max);
     }
 
@@ -1892,8 +1892,8 @@ void SceneEditorClass::Show_Manual_Vis_Points(bool show_points)
     if (m_ManualVisPointsVisible != show_points) {
         m_ManualVisPointsVisible = show_points;
 
-        NodeClass* node = NULL;
-        for (node = NodeMgrClass::Get_First(); node != NULL; node = NodeMgrClass::Get_Next(node)) {
+        NodeClass* node = nullptr;
+        for (node = NodeMgrClass::Get_First(); node != nullptr; node = NodeMgrClass::Get_Next(node)) {
             if (node->Get_Type() == NODE_TYPE_VIS_POINT) {
                 node->Hide(!m_ManualVisPointsVisible);
             }
@@ -1910,7 +1910,7 @@ void SceneEditorClass::Show_Manual_Vis_Points(bool show_points)
 ////////////////////////////////////////////////////////////////
 void SceneEditorClass::DoObjectGoto(NodeClass* node1, NodeClass* node2)
 {
-    SANITY_CHECK(node1 != NULL && node2 != NULL && node1->Get_Type() == NODE_TYPE_OBJECT)
+    SANITY_CHECK(node1 != nullptr && node2 != nullptr && node1->Get_Type() == NODE_TYPE_OBJECT)
     {
         return;
     }
@@ -1918,7 +1918,7 @@ void SceneEditorClass::DoObjectGoto(NodeClass* node1, NodeClass* node2)
     //
     //	Register all the waypaths with the pathfinding system
     //
-    for (NodeClass* node = NodeMgrClass::Get_First(NODE_TYPE_WAYPATH); node != NULL;
+    for (NodeClass* node = NodeMgrClass::Get_First(NODE_TYPE_WAYPATH); node != nullptr;
          node = NodeMgrClass::Get_Next(node, NODE_TYPE_WAYPATH)) {
         node->Pre_Export();
     }
@@ -1932,7 +1932,7 @@ void SceneEditorClass::DoObjectGoto(NodeClass* node1, NodeClass* node2)
     m_MovingObject = node1;
     PhysicalGameObj* game_obj = ((ObjectNodeClass*)m_MovingObject)->Peek_Game_Obj();
 
-    if (game_obj != NULL && game_obj->As_SmartGameObj() != NULL) {
+    if (game_obj != nullptr && game_obj->As_SmartGameObj() != nullptr) {
         ActionClass* action = ((SmartGameObj*)game_obj)->Get_Action();
 
         ActionParamsStruct parameters;
@@ -1944,7 +1944,7 @@ void SceneEditorClass::DoObjectGoto(NodeClass* node1, NodeClass* node2)
     //
     //	Unregister all the waypaths with the pathfinding system
     //
-    for (node = NodeMgrClass::Get_First(NODE_TYPE_WAYPATH); node != NULL;
+    for (node = NodeMgrClass::Get_First(NODE_TYPE_WAYPATH); node != nullptr;
          node = NodeMgrClass::Get_Next(node, NODE_TYPE_WAYPATH)) {
         node->Post_Export();
     }
@@ -1960,7 +1960,7 @@ void SceneEditorClass::DoObjectGoto(NodeClass* node1, NodeClass* node2)
 void SceneEditorClass::Export_Lights(LPCTSTR filename)
 {
     FileClass* file = _TheFileFactory->Get_File(filename);
-    if (file != NULL && file->Create() && file->Open(FileClass::WRITE)) {
+    if (file != nullptr && file->Create() && file->Open(FileClass::WRITE)) {
 
         //
         //	Write the first chunk header
@@ -1971,7 +1971,7 @@ void SceneEditorClass::Export_Lights(LPCTSTR filename)
         //
         //	Loop over all the lights in the scene
         //
-        for (NodeClass* node = NodeMgrClass::Get_First(NODE_TYPE_LIGHT); node != NULL;
+        for (NodeClass* node = NodeMgrClass::Get_First(NODE_TYPE_LIGHT); node != nullptr;
              node = NodeMgrClass::Get_Next(node, NODE_TYPE_LIGHT)) {
             LightNodeClass* light_node = (LightNodeClass*)node;
 
@@ -1979,7 +1979,7 @@ void SceneEditorClass::Export_Lights(LPCTSTR filename)
             //	Get the actual light from the editor object
             //
             LightClass* light = light_node->Peek_Light();
-            if (light != NULL) {
+            if (light != nullptr) {
 
                 //
                 //	Save this light
@@ -2031,7 +2031,7 @@ void SceneEditorClass::Import_Lights(DynamicVectorClass<StringClass>& filename_l
     //
     for (int index = 0; index < filename_list.Count(); index++) {
         FileClass* file = _TheFileFactory->Get_File(filename_list[index]);
-        if (file != NULL && file->Open()) {
+        if (file != nullptr && file->Open()) {
 
             //
             //	Read the lights from this file
@@ -2061,7 +2061,7 @@ void SceneEditorClass::Import_Lights(DynamicVectorClass<StringClass>& filename_l
         //
         //	Delete the file object
         //
-        if (file != NULL) {
+        if (file != nullptr) {
             _TheFileFactory->Return_File(file);
         }
     }
@@ -2075,7 +2075,7 @@ void SceneEditorClass::Import_Lights(DynamicVectorClass<StringClass>& filename_l
     //	Get the preset we will use to derive each imported light-node from
     //
     PresetClass* preset = PresetMgrClass::Find_Preset("Lightscape Imported");
-    ASSERT(preset != NULL);
+    ASSERT(preset != nullptr);
 
     CString base_name = ::Asset_Name_From_Filename(filename_list[0]);
 
@@ -2085,7 +2085,7 @@ void SceneEditorClass::Import_Lights(DynamicVectorClass<StringClass>& filename_l
     for (index = 0; index < light_list.Count(); index++) {
 
         LightClass* light = light_list[index];
-        if (light != NULL) {
+        if (light != nullptr) {
 
             //
             //	Create an editor 'node' for this light and configure it from the
@@ -2104,7 +2104,7 @@ void SceneEditorClass::Import_Lights(DynamicVectorClass<StringClass>& filename_l
                 //
                 //	Add this light to the list the caller supplied us with (if necessary)
                 //
-                if (node_list != NULL) {
+                if (node_list != nullptr) {
                     node_list->Add(light_node);
                     light_node->Add_Ref();
                 }
@@ -2235,7 +2235,7 @@ void SceneEditorClass::Display_Sound_Spheres(bool onoff)
         //	Loop over all the sounds and tell them to turn the spheres
         // on or off.
         //
-        for (NodeClass* node = NodeMgrClass::Get_First(NODE_TYPE_SOUND); node != NULL;
+        for (NodeClass* node = NodeMgrClass::Get_First(NODE_TYPE_SOUND); node != nullptr;
              node = NodeMgrClass::Get_Next(node, NODE_TYPE_SOUND)) {
             node->Show_Attenuation_Spheres(m_DisplaySoundSpheres);
         }
@@ -2258,7 +2258,7 @@ void SceneEditorClass::Display_Light_Spheres(bool onoff)
         //	Loop over all the lights and tell them to turn the spheres
         // on or off.
         //
-        for (NodeClass* node = NodeMgrClass::Get_First(NODE_TYPE_LIGHT); node != NULL;
+        for (NodeClass* node = NodeMgrClass::Get_First(NODE_TYPE_LIGHT); node != nullptr;
              node = NodeMgrClass::Get_Next(node, NODE_TYPE_LIGHT)) {
             node->Show_Attenuation_Spheres(m_DisplayLightSpheres);
         }
@@ -2280,7 +2280,7 @@ void SceneEditorClass::Import_Sunlight(LPCTSTR filename)
     //	Open the file
     //
     FileClass* file = _TheFileFactory->Get_File(filename);
-    if (file != NULL && file->Open()) {
+    if (file != nullptr && file->Open()) {
 
         //
         //	Read the lights from this file
@@ -2298,18 +2298,18 @@ void SceneEditorClass::Import_Sunlight(LPCTSTR filename)
     //
     //	Try to find all the directional lights
     //
-    LightClass* sunlight = NULL;
+    LightClass* sunlight = nullptr;
     bool more_than_one = false;
     for (int index = 0; index < light_list.Count() && !more_than_one; index++) {
         LightClass* light = light_list[index];
-        if (light != NULL) {
+        if (light != nullptr) {
 
             //
             //	We assume that every directional light is the 'sunlight'.
             //
             if (light->Get_Type() == LightClass::DIRECTIONAL) {
 
-                if (sunlight == NULL) {
+                if (sunlight == nullptr) {
                     sunlight = light;
                 }
                 else {
@@ -2327,7 +2327,7 @@ void SceneEditorClass::Import_Sunlight(LPCTSTR filename)
         }
     }
 
-    bool apply_changes = (sunlight != NULL);
+    bool apply_changes = (sunlight != nullptr);
     if (more_than_one) {
 
         //
@@ -2484,7 +2484,7 @@ void SceneEditorClass::Replace_Selection(void)
                 //
                 ObjectNodeClass* old_obj_node = node->As_ObjectNodeClass();
                 ObjectNodeClass* new_obj_node = new_node->As_ObjectNodeClass();
-                if (old_obj_node != NULL && new_obj_node != NULL) {
+                if (old_obj_node != nullptr && new_obj_node != nullptr) {
                     new_obj_node->Copy_Scripts(*old_obj_node);
                 }
 
@@ -2575,14 +2575,14 @@ void SceneEditorClass::Generate_Edge_Sampled_Vis(float granularity, bool ignore_
     for (int index = first_node; index < last_node && !progress_obj.Is_Cancel_Requested();
          index++) {
         NodeClass* node = node_list[index];
-        if (node != NULL) {
+        if (node != nullptr) {
 
             //
             // Simply pass off the render object onto the sampler class
             // for point generation
             //
             RenderObjClass* render_obj = node->Peek_Render_Obj();
-            if (render_obj != NULL) {
+            if (render_obj != nullptr) {
                 sampler.Process(render_obj);
             }
         }
@@ -2595,7 +2595,7 @@ void SceneEditorClass::Generate_Edge_Sampled_Vis(float granularity, bool ignore_
     //
     VisMgrClass::Render_Manual_Vis_Points();
 
-    dialog->Set_Progress_Obj(NULL);
+    dialog->Set_Progress_Obj(nullptr);
     dialog->Set_Finished(true);
     return;
 }
@@ -2648,7 +2648,7 @@ void SceneEditorClass::Display_Editor_Objects(bool onoff)
     NodeMgrClass::Build_Full_Node_List(node_list);
     for (int index = 0; index < node_list.Count(); index++) {
         NodeClass* node = node_list[index];
-        if (node != NULL) {
+        if (node != nullptr) {
             int type = node->Get_Type();
 
             //
@@ -2690,7 +2690,7 @@ void SceneEditorClass::Display_Static_Anim_Phys(bool onoff)
         //
         PhysClass* phys_obj = iterator.Peek_Obj();
         StaticAnimPhysClass* static_phys_obj = phys_obj->As_StaticAnimPhysClass();
-        if (static_phys_obj != NULL && static_phys_obj->Peek_Model() != NULL) {
+        if (static_phys_obj != nullptr && static_phys_obj->Peek_Model() != nullptr) {
 
             //
             //	Hide the static anim phys object and turn off its collision
@@ -2706,11 +2706,11 @@ void SceneEditorClass::Display_Static_Anim_Phys(bool onoff)
     }
 
     /*for (	NodeClass *node = NodeMgrClass::Get_First ();
-                    node != NULL;
+                    node != nullptr;
                     node = NodeMgrClass::Get_Next (node))
     {
             PhysClass *phys_obj = node->Peek_Physics_Obj ();
-            if (phys_obj != NULL && phys_obj->As_StaticAnimPhysClass () != NULL) {
+            if (phys_obj != nullptr && phys_obj->As_StaticAnimPhysClass () != nullptr) {
                     node->Hide (!onoff);
             }
     }*/
@@ -2735,7 +2735,7 @@ void SceneEditorClass::Enable_Building_Power(bool onoff)
     //	Loop over all the lights and tell them to turn the spheres
     // on or off.
     //
-    for (NodeClass* node = NodeMgrClass::Get_First(NODE_TYPE_BUILDING); node != NULL;
+    for (NodeClass* node = NodeMgrClass::Get_First(NODE_TYPE_BUILDING); node != nullptr;
          node = NodeMgrClass::Get_Next(node, NODE_TYPE_BUILDING)) {
         ((BuildingNodeClass*)node)->Enable_Power(onoff);
         ((BuildingNodeClass*)node)->Set_Normalized_Health(onoff * 1.0F);
@@ -2763,7 +2763,7 @@ void SceneEditorClass::Reset_Dynamic_Object_Visibility_Status(void)
         //
         PhysClass* phys_obj = iterator.Peek_Obj();
         DynamicPhysClass* dyn_phys_obj = phys_obj->As_DynamicPhysClass();
-        if (dyn_phys_obj != NULL) {
+        if (dyn_phys_obj != nullptr) {
 
             //
             //	Reset this dynamic object's visibility
@@ -2782,7 +2782,7 @@ void SceneEditorClass::Reset_Dynamic_Object_Visibility_Status(void)
 ////////////////////////////////////////////////////////////////
 void SceneEditorClass::Reset_Vis_For_Node(NodeClass* node)
 {
-    if (node == NULL || node->Is_Static() == false) {
+    if (node == nullptr || node->Is_Static() == false) {
         return;
     }
 
@@ -2790,7 +2790,7 @@ void SceneEditorClass::Reset_Vis_For_Node(NodeClass* node)
     //	Make sure this is a static phys object
     //
     PhysClass* phys = node->Peek_Physics_Obj();
-    if (phys != NULL && phys->As_StaticPhysClass() != NULL) {
+    if (phys != nullptr && phys->As_StaticPhysClass() != nullptr) {
         StaticPhysClass* static_phys = phys->As_StaticPhysClass();
 
         //
@@ -2803,7 +2803,7 @@ void SceneEditorClass::Reset_Vis_For_Node(NodeClass* node)
             //	Get the vis table for this sector
             //
             VisTableClass* vis_table = VisTableManager.Get_Vis_Table(vis_id, false);
-            if (vis_table != NULL) {
+            if (vis_table != nullptr) {
 
                 //
                 //	Reset the visibility data for this sector
@@ -2856,7 +2856,7 @@ void SceneEditorClass::Set_Sun_Light_Orientation(float yaw, float pitch)
 ////////////////////////////////////////////////////////////////
 void SceneEditorClass::Show_Vis_Window(bool onoff)
 {
-    if (m_VisWindow.m_hWnd == NULL) {
+    if (m_VisWindow.m_hWnd == nullptr) {
         m_VisWindow.Create();
     }
 
@@ -2873,7 +2873,7 @@ bool SceneEditorClass::Is_Vis_Window_Visible(void)
 {
     bool retval = true;
 
-    if (m_VisWindow.m_hWnd == NULL || m_VisWindow.IsWindowVisible() == false) {
+    if (m_VisWindow.m_hWnd == nullptr || m_VisWindow.IsWindowVisible() == false) {
         retval = false;
     }
 

@@ -181,7 +181,7 @@ void GameObjManager::Add(BaseGameObj* obj)
     // Make sure we have no duplicate IDs
     PhysicalGameObj* pobj = obj->As_PhysicalGameObj();
     if (pobj) {
-        WWASSERT(Find_PhysicalGameObj(pobj->Get_ID()) == NULL);
+        WWASSERT(Find_PhysicalGameObj(pobj->Get_ID()) == nullptr);
     }
 
     // Cinematic scripts wanted objects not to progress on the frame they were created,
@@ -233,10 +233,10 @@ void GameObjManager::Destroy_All() // Destroy each object in the list
 
     NetworkObjectMgrClass::Delete_Pending();
 
-    WWASSERT(GameObjList.Head() == NULL);
-    WWASSERT(SmartGameObjList.Head() == NULL);
-    WWASSERT(StarGameObjList.Head() == NULL);
-    WWASSERT(BuildingGameObjList.Head() == NULL);
+    WWASSERT(GameObjList.Head() == nullptr);
+    WWASSERT(SmartGameObjList.Head() == nullptr);
+    WWASSERT(StarGameObjList.Head() == nullptr);
+    WWASSERT(BuildingGameObjList.Head() == nullptr);
 
     ScriptManager::Enable_Script_Creation(true); // turn it back on
 }
@@ -278,11 +278,11 @@ int GameObjManager::Think()
         // Don't think when cinematic frozen
         if (Is_Cinematic_Freeze_Active() && objnode->Data()->Is_Cinematic_Freeze_Enabled()) {
             // Stop the physics motion
-            if (objnode->Data()->As_SmartGameObj() != NULL) {
+            if (objnode->Data()->As_SmartGameObj() != nullptr) {
                 objnode->Data()->As_SmartGameObj()->Reset_Controller();
 
                 // And the weapon (flames, etc)
-                if (objnode->Data()->As_SmartGameObj()->Get_Weapon() != NULL) {
+                if (objnode->Data()->As_SmartGameObj()->Get_Weapon() != nullptr) {
                     objnode->Data()->As_SmartGameObj()->Get_Weapon()->Deselect();
                 }
             }
@@ -349,7 +349,7 @@ SoldierGameObj* GameObjManager::Find_Soldier_Of_Client_ID(int client_id)
 
             SoldierGameObj* p_soldier = objnode->Data()->As_SoldierGameObj();
 
-            if (p_soldier != NULL && !p_soldier->Is_Delete_Pending()
+            if (p_soldier != nullptr && !p_soldier->Is_Delete_Pending()
                 && p_soldier->Get_Control_Owner() == client_id) {
 
                 return p_soldier;
@@ -357,7 +357,7 @@ SoldierGameObj* GameObjManager::Find_Soldier_Of_Client_ID(int client_id)
         }
     }
 
-    return NULL;
+    return nullptr;
 }
 
 /*
@@ -370,14 +370,14 @@ SoldierGameObj* GameObjManager::Find_Different_Player_Soldier(int my_id)
 
         SoldierGameObj* p_soldier = objnode->Data()->As_SoldierGameObj();
 
-        if (p_soldier != NULL && !p_soldier->Is_Delete_Pending() && p_soldier->Is_Human_Controlled()
+        if (p_soldier != nullptr && !p_soldier->Is_Delete_Pending() && p_soldier->Is_Human_Controlled()
             && p_soldier->Get_Control_Owner() != my_id) {
 
             return p_soldier;
         }
     }
 
-    return NULL;
+    return nullptr;
 }
 
 SoldierGameObj* GameObjManager::Find_Soldier_Of_Player_Type(int player_type)
@@ -387,14 +387,14 @@ SoldierGameObj* GameObjManager::Find_Soldier_Of_Player_Type(int player_type)
 
         SoldierGameObj* p_soldier = objnode->Data()->As_SoldierGameObj();
 
-        if (p_soldier != NULL && !p_soldier->Is_Delete_Pending()
+        if (p_soldier != nullptr && !p_soldier->Is_Delete_Pending()
             && p_soldier->Get_Player_Type() == player_type) {
 
             return p_soldier;
         }
     }
 
-    return NULL;
+    return nullptr;
 }
 
 /*
@@ -410,7 +410,7 @@ PhysicalGameObj* GameObjManager::Find_PhysicalGameObj(int id)
         }
     }
 
-    return NULL; // Not found
+    return nullptr; // Not found
 }
 
 /*
@@ -427,7 +427,7 @@ ScriptableGameObj* GameObjManager::Find_ScriptableGameObj(int id)
         }
     }
 
-    return NULL; // Not found
+    return nullptr; // Not found
 }
 
 /*
@@ -435,7 +435,7 @@ ScriptableGameObj* GameObjManager::Find_ScriptableGameObj(int id)
 */
 VehicleGameObj* GameObjManager::Find_Vehicle_Occupied_By(SoldierGameObj* p_soldier)
 {
-    WWASSERT(p_soldier != NULL);
+    WWASSERT(p_soldier != nullptr);
 
     SLNode<BaseGameObj>* objnode;
 
@@ -447,7 +447,7 @@ VehicleGameObj* GameObjManager::Find_Vehicle_Occupied_By(SoldierGameObj* p_soldi
         }
     }
 
-    return NULL; // Not found
+    return nullptr; // Not found
 }
 
 /*
@@ -467,7 +467,7 @@ SmartGameObj* GameObjManager::Find_SmartGameObj(int id)
         }
     }
 
-    return NULL; // Not found
+    return nullptr; // Not found
 }
 
 /*
@@ -478,10 +478,10 @@ void GameObjManager::Init_Buildings(void)
     /*
     ** Ask each building to build its list of aggregates, meshes, and lights
     */
-    SLNode<BuildingGameObj>* objnode = NULL;
+    SLNode<BuildingGameObj>* objnode = nullptr;
     for (objnode = BuildingGameObjList.Head(); objnode; objnode = objnode->Next()) {
         BuildingGameObj* obj = objnode->Data()->As_BuildingGameObj();
-        if (obj != NULL) {
+        if (obj != nullptr) {
             obj->Collect_Building_Components();
         }
     }
@@ -494,10 +494,10 @@ void GameObjManager::Init_Buildings(void)
 */
 void GameObjManager::Update_Building_Collection_Spheres(void)
 {
-    SLNode<BuildingGameObj>* objnode = NULL;
+    SLNode<BuildingGameObj>* objnode = nullptr;
     for (objnode = BuildingGameObjList.Head(); objnode; objnode = objnode->Next()) {
         BuildingGameObj* obj = objnode->Data()->As_BuildingGameObj();
-        if (obj != NULL) {
+        if (obj != nullptr) {
 
             //
             //	Get some information about the current building
@@ -510,14 +510,14 @@ void GameObjManager::Update_Building_Collection_Spheres(void)
             //
             //	Test this building with all other buildings that have the same prefix
             //
-            SLNode<BuildingGameObj>* test_node = NULL;
+            SLNode<BuildingGameObj>* test_node = nullptr;
             for (test_node = BuildingGameObjList.Head(); test_node; test_node = test_node->Next()) {
                 BuildingGameObj* test_obj = test_node->Data()->As_BuildingGameObj();
 
                 //
                 //	Is this a building with the same prefix?
                 //
-                if (test_obj != NULL && test_obj != obj
+                if (test_obj != nullptr && test_obj != obj
                     && ::stricmp(test_obj->Get_Name_Prefix(), prefix) == 0) {
                     //
                     //	Get the test object's position
@@ -589,10 +589,10 @@ bool GameObjManager::Is_In_Environment_Zone(Vector3& pos)
         // Remove the wishing to be dead ones
         SLNode<BaseGameObj> *objnode;
         for (	objnode = GameObjList.Head(); objnode; ) {
-      WWASSERT(objnode != NULL);
+      WWASSERT(objnode != nullptr);
                 BaseGameObj *obj = objnode->Data();
                 objnode = objnode->Next();
-      WWASSERT(obj != NULL);
+      WWASSERT(obj != nullptr);
 
                 if ( obj->Is_Destroy() ) {
                         // If I'm a server, notify all others to destroy this object if this is a

@@ -60,7 +60,7 @@
 ////////////////////////////////////////////////////////////////
 float RadioCommandDisplayClass::DisplayTimer = 0.0F;
 bool RadioCommandDisplayClass::IsDisplayed = false;
-TextWindowClass* RadioCommandDisplayClass::TextWindow = NULL;
+TextWindowClass* RadioCommandDisplayClass::TextWindow = nullptr;
 
 ////////////////////////////////////////////////////////////////
 //
@@ -69,9 +69,9 @@ TextWindowClass* RadioCommandDisplayClass::TextWindow = NULL;
 ////////////////////////////////////////////////////////////////
 void RadioCommandDisplayClass::Shutdown(void)
 {
-    if (TextWindow != NULL) {
+    if (TextWindow != nullptr) {
         delete TextWindow;
-        TextWindow = NULL;
+        TextWindow = nullptr;
     }
 
     IsDisplayed = false;
@@ -89,9 +89,9 @@ void RadioCommandDisplayClass::Initialize(void)
     //
     //	Start fresh
     //
-    if (TextWindow != NULL) {
+    if (TextWindow != nullptr) {
         delete TextWindow;
-        TextWindow = NULL;
+        TextWindow = nullptr;
     }
 
     //
@@ -141,7 +141,7 @@ void RadioCommandDisplayClass::Initialize(void)
 void RadioCommandDisplayClass::Update(DISPLAY_TYPE type)
 {
     CNCModeSettingsDef* cnc_def = CNCModeSettingsDef::Get_Instance();
-    if (TextWindow == NULL || cnc_def == NULL) {
+    if (TextWindow == nullptr || cnc_def == nullptr) {
         return;
     }
 

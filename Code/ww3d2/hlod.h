@@ -112,8 +112,8 @@ public:
     virtual RenderObjClass* Get_Additional_Model(int model_index) const;
     virtual int Get_Additional_Model_Bone(int model_index) const;
 
-    virtual bool Is_NULL_Lod_Included(void) const;
-    virtual void Include_NULL_Lod(bool include = true);
+    virtual bool Is_nullptr_Lod_Included(void) const;
+    virtual void Include_nullptr_Lod(bool include = true);
 
     /////////////////////////////////////////////////////////////////////////////
     // Proxy interface

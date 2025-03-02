@@ -38,15 +38,15 @@ cRegistryBool::cRegistryBool(LPCSTR registry_location, LPCSTR key_name, bool def
 {
     WWMEMLOG(MEM_GAMEDATA);
 
-    WWASSERT(registry_location != NULL);
-    WWASSERT(key_name != NULL);
+    WWASSERT(registry_location != nullptr);
+    WWASSERT(key_name != nullptr);
     WWASSERT(strlen(registry_location) < sizeof(RegistryLocation));
     WWASSERT(strlen(key_name) < sizeof(KeyName));
     strcpy(RegistryLocation, registry_location);
     strcpy(KeyName, key_name);
 
     RegistryClass* registry = new RegistryClass(RegistryLocation);
-    WWASSERT(registry != NULL && registry->Is_Valid());
+    WWASSERT(registry != nullptr && registry->Is_Valid());
     Value = registry->Get_Int(KeyName, default_value == 1);
     delete registry;
 
@@ -64,10 +64,10 @@ bool cRegistryBool::Set(bool value)
 {
     Value = value;
 
-    WWASSERT(RegistryLocation != NULL);
-    WWASSERT(KeyName != NULL);
+    WWASSERT(RegistryLocation != nullptr);
+    WWASSERT(KeyName != nullptr);
     RegistryClass* registry = new RegistryClass(RegistryLocation);
-    WWASSERT(registry != NULL && registry->Is_Valid());
+    WWASSERT(registry != nullptr && registry->Is_Valid());
     registry->Set_Int(KeyName, Value);
     delete registry;
 

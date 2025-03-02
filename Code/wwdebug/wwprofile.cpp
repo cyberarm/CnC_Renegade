@@ -128,8 +128,8 @@ WWProfileHierachyNodeClass::WWProfileHierachyNodeClass(const char* name,
       StartTime(0),
       RecursionCounter(0),
       Parent(parent),
-      Child(NULL),
-      Sibling(NULL)
+      Child(nullptr),
+      Sibling(nullptr)
 {
     Reset();
 }
@@ -301,7 +301,7 @@ bool WWProfileHierachyNodeClass::Return(void)
 ** WWProfileManager Implementation
 **
 ***************************************************************************************************/
-WWProfileHierachyNodeClass WWProfileManager::Root("Root", NULL);
+WWProfileHierachyNodeClass WWProfileManager::Root("Root", nullptr);
 WWProfileHierachyNodeClass* WWProfileManager::CurrentNode = &WWProfileManager::Root;
 WWProfileHierachyNodeClass* WWProfileManager::CurrentRootNode = &WWProfileManager::Root;
 int WWProfileManager::FrameCounter = 0;
@@ -433,7 +433,7 @@ void WWProfileManager::Increment_Frame_Counter(void)
     if (ProfileCollecting) {
         float time = Get_Time_Since_Reset();
         TotalFrameTimes += time;
-        WWProfileHierachyNodeClass* new_root = Root.Clone_Hierarchy(NULL);
+        WWProfileHierachyNodeClass* new_root = Root.Clone_Hierarchy(nullptr);
         new_root->Set_Total_Time(time);
         new_root->Set_Total_Calls(1);
         ProfileCollectVector.Add(new_root);
@@ -510,7 +510,7 @@ void WWProfileManager::End_Collecting(const char* filename)
     int i;
     if (filename && ProfileCollectVector.Count() != 0) {
         FileClass* file = _TheWritingFileFactory->Get_File(filename);
-        if (file != NULL) {
+        if (file != nullptr) {
             //
             //	Open or create the file
             //
@@ -605,7 +605,7 @@ void WWProfileIterator::Next(void)
 
 bool WWProfileIterator::Is_Done(void)
 {
-    return CurrentChild == NULL;
+    return CurrentChild == nullptr;
 }
 
 void WWProfileIterator::Enter_Child(void)
@@ -617,12 +617,12 @@ void WWProfileIterator::Enter_Child(void)
 void WWProfileIterator::Enter_Child(int index)
 {
     CurrentChild = CurrentParent->Get_Child();
-    while ((CurrentChild != NULL) && (index != 0)) {
+    while ((CurrentChild != nullptr) && (index != 0)) {
         index--;
         CurrentChild = CurrentChild->Get_Sibling();
     }
 
-    if (CurrentChild != NULL) {
+    if (CurrentChild != nullptr) {
         CurrentParent = CurrentChild;
         CurrentChild = CurrentParent->Get_Child();
     }
@@ -630,7 +630,7 @@ void WWProfileIterator::Enter_Child(int index)
 
 void WWProfileIterator::Enter_Parent(void)
 {
-    if (CurrentParent->Get_Parent() != NULL) {
+    if (CurrentParent->Get_Parent() != nullptr) {
         CurrentParent = CurrentParent->Get_Parent();
     }
     CurrentChild = CurrentParent->Get_Child();
@@ -663,13 +663,13 @@ void WWProfileInOrderIterator::Next(void)
     else { //	if not, go to my parent's sibling, or his.......
         // Find a parent with a sibling....
         bool done = false;
-        while (CurrentNode != NULL && !done) {
+        while (CurrentNode != nullptr && !done) {
 
             // go to my parent
             CurrentNode = CurrentNode->Get_Parent();
 
             // If I have a sibling, go there
-            if (CurrentNode != NULL && CurrentNode->Get_Sibling() != NULL) {
+            if (CurrentNode != nullptr && CurrentNode->Get_Sibling() != nullptr) {
                 CurrentNode = CurrentNode->Get_Sibling();
                 done = true;
             }
@@ -679,7 +679,7 @@ void WWProfileInOrderIterator::Next(void)
 
 bool WWProfileInOrderIterator::Is_Done(void)
 {
-    return CurrentNode == NULL;
+    return CurrentNode == nullptr;
 }
 
 /*
@@ -707,7 +707,7 @@ WWTimeItClass::~WWTimeItClass(void)
 */
 WWMeasureItClass::WWMeasureItClass(float* p_result)
 {
-    WWASSERT(p_result != NULL);
+    WWASSERT(p_result != nullptr);
     PResult = p_result;
     WWProfile_Get_Ticks(&Time);
 }
@@ -717,7 +717,7 @@ WWMeasureItClass::~WWMeasureItClass(void)
     __int64 End;
     WWProfile_Get_Ticks(&End);
     End -= Time;
-    WWASSERT(PResult != NULL);
+    WWASSERT(PResult != nullptr);
     *PResult = End * CPUDetectClass::Get_Inv_Processor_Ticks_Per_Second();
 }
 

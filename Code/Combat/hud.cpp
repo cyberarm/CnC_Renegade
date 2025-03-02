@@ -280,16 +280,16 @@ struct PowerupIconStruct
 {
 
     PowerupIconStruct(void)
-        : Renderer(NULL),
+        : Renderer(nullptr),
           Number(0)
     {
     }
 
     ~PowerupIconStruct(void)
     {
-        if (Renderer != NULL) {
+        if (Renderer != nullptr) {
             delete Renderer;
-            Renderer = NULL;
+            Renderer = nullptr;
         }
     }
 
@@ -330,10 +330,10 @@ static void Powerup_Init(void)
 static void Powerup_Shutdown(void)
 {
     delete PowerupBoxRenderer;
-    PowerupBoxRenderer = NULL;
+    PowerupBoxRenderer = nullptr;
 
     delete PowerupTextRenderer;
-    PowerupTextRenderer = NULL;
+    PowerupTextRenderer = nullptr;
 
     int i;
     for (i = 0; i < LeftPowerupIconList.Count(); i++) {
@@ -586,7 +586,7 @@ Render2DTextClass* WeaponTotalCountRenderer;
 Render2DSentenceClass* WeaponNameRenderer;
 Vector2 WeaponBase;
 
-WeaponClass* _LastHUDWeapon = NULL;
+WeaponClass* _LastHUDWeapon = nullptr;
 int _LastVehicleSeat = -1;
 
 #define WEAPON_OFFSET 100, 110
@@ -601,7 +601,7 @@ static void HUD_Help_Text_Init(void)
     //	Load the font...
     //
     FontCharsClass* font = StyleMgrClass::Peek_Font(StyleMgrClass::FONT_INGAME_BIG_TXT);
-    WWASSERT(font != NULL);
+    WWASSERT(font != nullptr);
 
     //
     //	Configure the renderer
@@ -699,7 +699,7 @@ static void HUD_Help_Text_Render(void)
 static void HUD_Help_Text_Shutdown(void)
 {
     delete HUDHelpTextRenderer;
-    HUDHelpTextRenderer = NULL;
+    HUDHelpTextRenderer = nullptr;
     return;
 }
 
@@ -736,26 +736,26 @@ static void Weapon_Init(void)
     WeaponTotalCountRenderer->Set_Coordinate_Range(Render2DClass::Get_Screen_Resolution());
     font->Release_Ref();
 
-    _LastHUDWeapon = NULL;
+    _LastHUDWeapon = nullptr;
     _LastVehicleSeat = -1;
 }
 
 static void Weapon_Shutdown(void)
 {
     delete WeaponBoxRenderer;
-    WeaponBoxRenderer = NULL;
+    WeaponBoxRenderer = nullptr;
 
     delete WeaponImageRenderer;
-    WeaponImageRenderer = NULL;
+    WeaponImageRenderer = nullptr;
 
     delete WeaponNameRenderer;
-    WeaponNameRenderer = NULL;
+    WeaponNameRenderer = nullptr;
 
     delete WeaponClipCountRenderer;
-    WeaponClipCountRenderer = NULL;
+    WeaponClipCountRenderer = nullptr;
 
     delete WeaponTotalCountRenderer;
-    WeaponTotalCountRenderer = NULL;
+    WeaponTotalCountRenderer = nullptr;
 }
 
 #define CLIP_ROUNDS_OFFSET 15, 27
@@ -787,7 +787,7 @@ static void Weapon_Reset(void)
 
 static void Weapon_Update(void)
 {
-    WeaponClass* weapon = NULL;
+    WeaponClass* weapon = nullptr;
     if (COMBAT_STAR) {
         weapon = COMBAT_STAR->Get_Weapon();
 
@@ -799,7 +799,7 @@ static void Weapon_Update(void)
     WeaponClipCountRenderer->Reset();
     WeaponTotalCountRenderer->Reset();
 
-    if (weapon != NULL) {
+    if (weapon != nullptr) {
         //		StringClass	text;
         //		text.Format( "%03d", weapon->Get_Clip_Rounds() );
         WCHAR tmp_text[5];
@@ -902,7 +902,7 @@ static void Weapon_Update(void)
         WeaponImageRenderer->Reset();
         WeaponNameRenderer->Reset();
 
-        if (weapon != NULL) {
+        if (weapon != nullptr) {
 
             StringClass filename(HUD_WEAPONS_TEXTURE, true);
             RectClass uv(0, 64, 128, 128);
@@ -921,7 +921,7 @@ static void Weapon_Update(void)
 				add.Y += Input::Get_Amount( INPUT_FUNCTION_MOVE_FORWARD ) - Input::Get_Amount( INPUT_FUNCTION_MOVE_BACKWARD );
 				tweak_add -= add;
 				offset += tweak_add;
-				_LastHUDWeapon = NULL;
+				_LastHUDWeapon = nullptr;
 				if ( add.Length() != 0 ) {
 					Debug_Say(( "%s offset %f %f\n", def->Get_Name(), offset.X, offset.Y ));
 				}
@@ -995,16 +995,16 @@ static void Weapon_Chart_Init(void)
 static void Weapon_Chart_Shutdown(void)
 {
     delete WeaponChartBoxRenderer;
-    WeaponChartBoxRenderer = NULL;
+    WeaponChartBoxRenderer = nullptr;
 
     for (int i = 0; i < WeaponChartIcons.Count(); i++) {
         delete WeaponChartIcons[i];
-        WeaponChartIcons[i] = NULL;
+        WeaponChartIcons[i] = nullptr;
     }
     WeaponChartIcons.Delete_All();
 
     delete WeaponChartKeynameRenderer;
-    WeaponChartKeynameRenderer = NULL;
+    WeaponChartKeynameRenderer = nullptr;
 }
 
 Vector2 WeaponChartBase(0.11f, 0.05f);
@@ -1017,7 +1017,7 @@ static void Clear_Weapon_Chart_Icons(void)
         int i;
         for (i = 0; i < WeaponChartIcons.Count(); i++) {
             delete WeaponChartIcons[i];
-            WeaponChartIcons[i] = NULL;
+            WeaponChartIcons[i] = nullptr;
         }
         WeaponChartIcons.Delete_All();
         WeaponChartKeynameRenderer->Reset();
@@ -1053,7 +1053,7 @@ static void Build_Weapon_Chart_Icons(void)
         // Draw weapons in that column
         for (int i = 0; i < weapon_bag->Get_Count(); i++) {
             WeaponClass* weapon = weapon_bag->Peek_Weapon(i);
-            if (weapon != NULL) {
+            if (weapon != nullptr) {
 
                 if ((int)weapon->Get_Key_Number() != (column % 10)) {
                     continue;
@@ -1084,7 +1084,7 @@ static void Build_Weapon_Chart_Icons(void)
                 StringClass new_name(true);
                 Strip_Path_From_Filename(new_name, filename);
                 renderer->Set_Texture(new_name);
-                if (renderer->Peek_Texture() != NULL) {
+                if (renderer->Peek_Texture() != nullptr) {
                     //					SurfaceClass::SurfaceDescription
                     //surface_desc; 					renderer->Peek_Texture()->Get_Level_Description( surface_desc );
                     //					float size = surface_desc.Width;
@@ -1118,8 +1118,8 @@ void HUDClass::Force_Weapon_Chart_Display(void)
 
 static void Weapon_Chart_Update(void)
 {
-    if (COMBAT_STAR == NULL || COMBAT_STAR->Get_Weapon_Bag() == NULL
-        || COMBAT_STAR->Get_Vehicle() != NULL) {
+    if (COMBAT_STAR == nullptr || COMBAT_STAR->Get_Weapon_Bag() == nullptr
+        || COMBAT_STAR->Get_Vehicle() != nullptr) {
         Clear_Weapon_Chart_Icons();
         return;
     }
@@ -1138,7 +1138,7 @@ static void Weapon_Chart_Update(void)
     }
 
     // Rebuild the icons if necessary
-    // subtract 1 because the first is always null
+    // subtract 1 because the first is always nullptr
     if (ForceChartRebuild || (weapon_bag->Get_Count() - 1 != WeaponChartIcons.Count())) {
         ForceChartRebuild = false;
         Debug_Say(("Build icons\n"));
@@ -1156,7 +1156,7 @@ static void Weapon_Chart_Update(void)
         // Update intensities in that column
         for (i = 0; i < weapon_bag->Get_Count(); i++) {
             WeaponClass* weapon = weapon_bag->Peek_Weapon(i);
-            if (weapon != NULL) {
+            if (weapon != nullptr) {
 
                 if ((int)weapon->Get_Key_Number() != (column % 10)) {
                     continue;
@@ -1241,7 +1241,7 @@ static void Damage_Init(void)
 static void Damage_Shutdown(void)
 {
     delete DamageRenderer;
-    DamageRenderer = NULL;
+    DamageRenderer = nullptr;
 }
 
 static void Damage_Add_Indicator(int index, float start_x, float start_y, float end_x, float end_y)
@@ -1419,17 +1419,17 @@ static void Target_Init(void)
 static void Target_Shutdown(void)
 {
     delete TargetRenderer;
-    TargetRenderer = NULL;
+    TargetRenderer = nullptr;
 
     delete TargetBoxRenderer;
-    TargetBoxRenderer = NULL;
+    TargetBoxRenderer = nullptr;
 
     delete TargetNameRenderer;
-    TargetNameRenderer = NULL;
+    TargetNameRenderer = nullptr;
     TargetNameString = "";
 
     delete InfoDebugRenderer;
-    InfoDebugRenderer = NULL;
+    InfoDebugRenderer = nullptr;
 }
 
 bool InfoDebug = false;
@@ -1449,7 +1449,7 @@ static void Target_Update(void)
     static float box_zoom_size = 0;
 
     DamageableGameObj* d_obj = HUDInfo::Get_Info_Object();
-    if (d_obj != NULL) {
+    if (d_obj != nullptr) {
 
         PhysicalGameObj* p_obj = d_obj->As_PhysicalGameObj();
         BuildingGameObj* building = d_obj->As_BuildingGameObj();
@@ -1463,7 +1463,7 @@ static void Target_Update(void)
 
             int color
                 = HUDGlobalSettingsDef::Get_Instance()->Get_No_Relation_Color().Convert_To_ARGB();
-            if (p_obj != NULL) {
+            if (p_obj != nullptr) {
                 if (COMBAT_STAR->Is_Teammate(p_obj)) {
                     color = HUDGlobalSettingsDef::Get_Instance()
                                 ->Get_Friendly_Color()
@@ -1475,7 +1475,7 @@ static void Target_Update(void)
                 }
             }
 
-            if (building != NULL) {
+            if (building != nullptr) {
                 //				if ( building->Is_GDI() ) {
                 if (COMBAT_STAR->Is_Teammate(building)) {
                     color = HUDGlobalSettingsDef::Get_Instance()
@@ -1638,7 +1638,7 @@ static void Target_Update(void)
                 if (translate_obj) {
                     WideStringClass translate_string = translate_obj->Get_String();
 
-                    if (building != NULL && HUDInfo::Get_Info_Object_Is_MCT()) {
+                    if (building != nullptr && HUDInfo::Get_Info_Object_Is_MCT()) {
                         translate_string = TRANSLATE(IDS_Enc_Struct_Nod_MCT_Name);
                     }
 
@@ -1671,11 +1671,11 @@ static void Target_Update(void)
 
             // Draw Team Icon
             int team = PLAYERTYPE_GDI;
-            if (p_obj != NULL) {
+            if (p_obj != nullptr) {
                 team = p_obj->Get_Player_Type();
             }
 
-            if (building != NULL) {
+            if (building != nullptr) {
                 if (building->Is_GDI()) {
                     team = PLAYERTYPE_GDI;
                 }
@@ -1703,11 +1703,11 @@ static void Target_Update(void)
 
             // Draw chevrons
             bool draw_chevrons = false;
-            if (p_obj != NULL && p_obj->Is_HUD_Pokable_Indicator_Enabled()) {
+            if (p_obj != nullptr && p_obj->Is_HUD_Pokable_Indicator_Enabled()) {
                 draw_chevrons = true;
             }
-            if (obj->As_SmartGameObj() != NULL
-                && obj->As_SmartGameObj()->As_VehicleGameObj() != NULL
+            if (obj->As_SmartGameObj() != nullptr
+                && obj->As_SmartGameObj()->As_VehicleGameObj() != nullptr
                 && COMBAT_STAR->Is_Permitted_To_Enter_Vehicle()
                 && obj->As_SmartGameObj()->As_VehicleGameObj()->Is_Entry_Permitted(COMBAT_STAR)) {
                 draw_chevrons = true;
@@ -1782,7 +1782,7 @@ static RectClass Get_Target_Box(PhysicalGameObj* obj)
     Vector2 top(0, 0);
     Vector2 bottom(0, 0);
 
-    if (po != NULL) {
+    if (po != nullptr) {
         // Get the Obj AABox in Camera Space
         AABoxClass obj_box;
         po->Get_Shadow_Blob_Box(&obj_box);
@@ -1867,7 +1867,7 @@ LARGE_FONT ); SET_REF_OWNER( font ); ScoreRenderer = new Render2DTextClass( font
 static	void	Score_Shutdown( void )
 {
         delete ScoreRenderer;
-        ScoreRenderer = NULL;
+        ScoreRenderer = nullptr;
 }
 
 static	void	Score_Update( void )
@@ -1907,7 +1907,7 @@ Render2DClass* ObjectiveArrowRenderer;
 Render2DSentenceClass* ObjectiveTextRenderer;
 
 int CurrentObjectiveIndex = 0;
-void* CurrentObjective = NULL;
+void* CurrentObjective = nullptr;
 static int CachedObjectiveIndex = -1;
 int CachedRange = 0;
 
@@ -1924,7 +1924,7 @@ static void Objective_Init(void)
     ObjectiveTextRenderer->Set_Font(font);
 
     CurrentObjectiveIndex = 0;
-    CurrentObjective = NULL;
+    CurrentObjective = nullptr;
     CachedObjectiveIndex = -1;
     CachedRange = 0;
 }
@@ -1933,7 +1933,7 @@ static void Objective_Release_Pogs(void)
 {
     for (int i = 0; i < ObjectivePogRenderers.Count(); i++) {
         delete ObjectivePogRenderers[i];
-        ObjectivePogRenderers[i] = NULL;
+        ObjectivePogRenderers[i] = nullptr;
     }
     ObjectivePogRenderers.Delete_All();
 }
@@ -1943,10 +1943,10 @@ static void Objective_Shutdown(void)
     Objective_Release_Pogs();
 
     delete ObjectiveArrowRenderer;
-    ObjectiveArrowRenderer = NULL;
+    ObjectiveArrowRenderer = nullptr;
 
     delete ObjectiveTextRenderer;
-    ObjectiveTextRenderer = NULL;
+    ObjectiveTextRenderer = nullptr;
 }
 
 #define POG_FLY_TIME 2.0f
@@ -1988,11 +1988,11 @@ static void Objective_Update(void)
         CurrentObjective = ObjectiveManager::Get_Objective(CurrentObjectiveIndex);
     }
     else {
-        if (CurrentObjectiveIndex != 0 || CurrentObjective != NULL) {
+        if (CurrentObjectiveIndex != 0 || CurrentObjective != nullptr) {
             rebuild = true;
         }
         CurrentObjectiveIndex = 0;
-        CurrentObjective = NULL;
+        CurrentObjective = nullptr;
     }
 
     // re-Create the Pogs, if needed
@@ -2052,7 +2052,7 @@ static void Objective_Update(void)
                         star_box += offset;
 
                         Vector3 color3(0, 1, 0);
-                        if (ObjectiveManager::Get_Objective(index) != NULL) {
+                        if (ObjectiveManager::Get_Objective(index) != nullptr) {
                             color3 = ObjectiveManager::Get_Objective(index)->Type_To_Color();
                         }
                         unsigned int color = color3.Convert_To_ARGB();
@@ -2398,13 +2398,13 @@ static void Info_Shutdown(void)
     Info_Editor_Shutdown();
 
     delete InfoRenderer;
-    InfoRenderer = NULL;
+    InfoRenderer = nullptr;
 
     delete InfoHealthCountRenderer;
-    InfoHealthCountRenderer = NULL;
+    InfoHealthCountRenderer = nullptr;
 
     delete InfoShieldCountRenderer;
-    InfoShieldCountRenderer = NULL;
+    InfoShieldCountRenderer = nullptr;
 }
 
 static void Info_Update_Health_Shield(void)
@@ -2815,7 +2815,7 @@ static bool Is_HUD_Displayed(void);
 void HUDClass::Init(bool render_available)
 {
     for (int i = 0; i < NUM_RENDER_IMAGES; i++) {
-        RenderImages[i] = NULL;
+        RenderImages[i] = nullptr;
     }
 
     // Reticles
@@ -2892,7 +2892,7 @@ void HUDClass::Shutdown()
         for (int i = 0; i < NUM_RENDER_IMAGES; i++) {
             if (RenderImages[i]) {
                 delete RenderImages[i];
-                RenderImages[i] = NULL;
+                RenderImages[i] = nullptr;
             }
         }
 
@@ -3029,7 +3029,7 @@ void HUDClass::Think()
         gun.Get_Inverse(tm);
     }
 
-    PhysicalGameObj* obj = NULL;
+    PhysicalGameObj* obj = nullptr;
     if (HUDInfo::Get_Info_Object()) {
         obj = HUDInfo::Get_Info_Object()->As_PhysicalGameObj();
     }
@@ -3040,7 +3040,7 @@ void HUDClass::Think()
     unsigned long reticle_color
         = HUDGlobalSettingsDef::Get_Instance()->Get_No_Relation_Color().Convert_To_ARGB();
 
-    if (HUDInfo::Get_Weapon_Target_Object() != NULL) {
+    if (HUDInfo::Get_Weapon_Target_Object() != nullptr) {
         reticle_color
             = HUDGlobalSettingsDef::Get_Instance()->Get_Friendly_Color().Convert_To_ARGB();
         PhysicalGameObj* pgo = HUDInfo::Get_Weapon_Target_Object()->As_PhysicalGameObj();
@@ -3074,13 +3074,13 @@ void HUDClass::Think()
     }
 
     // TSS092401 if ( weapon ) {
-    if (CombatManager::Is_Gameplay_Permitted() && (weapon != NULL)
+    if (CombatManager::Is_Gameplay_Permitted() && (weapon != nullptr)
         && CombatManager::Is_Hit_Reticle_Enabled()) {
         WWPROFILE("Reticle");
         Vector3 pos3d = HUDInfo::Get_Weapon_Target_Position();
         Vector3 reticle_hit_offset;
         COMBAT_CAMERA->Project(reticle_hit_offset, pos3d);
-        //		weapon_hitting = HUDInfo::Get_Weapon_Target_Object() != NULL;
+        //		weapon_hitting = HUDInfo::Get_Weapon_Target_Object() != nullptr;
         RenderImages[RETICLE_HIT]->Reset();
         RenderImages[RETICLE_HIT]->Add_Quad(RectClass(reticle_hit_offset.X - RETICLE_WIDTH / 2,
                                                       reticle_hit_offset.Y - RETICLE_HEIGHT / 2,

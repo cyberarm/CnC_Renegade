@@ -50,7 +50,7 @@
 
 DynamicShadowManagerClass::DynamicShadowManagerClass(PhysClass& parent)
     : Parent(parent),
-      Shadow(NULL),
+      Shadow(nullptr),
       ShadowNearZ(-1.0f),
       ShadowFarZ(-1.0f),
       ForceUseBlobBox(false),
@@ -124,11 +124,11 @@ void DynamicShadowManagerClass::Update_Shadow(void)
     if ((Parent.Do_Any_Effects_Suppress_Shadows())
         || (Parent.Is_Shadow_Generation_Enabled() == false)
         || (shadow_mode == PhysicsSceneClass::SHADOW_MODE_NONE) || (shadow_dist2 > shadow_shutoff2)
-        || (model == NULL) || (model->Is_Hidden()) || (objbox.Extent.Length2() < 0.1f)) {
-        if (Shadow != NULL) {
+        || (model == nullptr) || (model->Is_Hidden()) || (objbox.Extent.Length2() < 0.1f)) {
+        if (Shadow != nullptr) {
             scene->Remove_Dynamic_Texture_Projector(Shadow);
             Shadow->Release_Ref();
-            Shadow = NULL;
+            Shadow = nullptr;
         }
         return;
     }
@@ -181,7 +181,7 @@ void DynamicShadowManagerClass::Update_Shadow(void)
 			*/
 			Allocate_Shadow();
 
-			LightClass * best_light = NULL;
+			LightClass * best_light = nullptr;
 			NonRefPhysListIterator it(&lightlist);
 			for (it.First(); !it.Is_Done(); it.Next()) {
 				best_light = (LightClass *)(it.Peek_Obj()->Peek_Model());
@@ -226,7 +226,7 @@ void DynamicShadowManagerClass::Update_Shadow(void)
 
         if (use_blob) {
             TextureClass* shadow_texture = PhysResourceMgrClass::Get_Shadow_Blob_Texture();
-            WWASSERT(shadow_texture != NULL);
+            WWASSERT(shadow_texture != nullptr);
             Shadow->Set_Texture(shadow_texture);
             shadow_texture->Release_Ref();
             Shadow->Set_Texture_Dirty(false);
@@ -273,7 +273,7 @@ void DynamicShadowManagerClass::Update_Shadow(void)
 
 void DynamicShadowManagerClass::Allocate_Shadow(void)
 {
-    if (Shadow == NULL) {
+    if (Shadow == nullptr) {
         PhysicsSceneClass* scene = PhysicsSceneClass::Get_Instance();
 
         Shadow = NEW_REF(DynTexProjectClass, (&Parent));
@@ -294,6 +294,6 @@ void DynamicShadowManagerClass::Release_Shadow(void)
             PhysicsSceneClass::Get_Instance()->Remove_Dynamic_Texture_Projector(Shadow);
         }
         Shadow->Release_Ref();
-        Shadow = NULL;
+        Shadow = nullptr;
     }
 }

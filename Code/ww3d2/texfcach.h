@@ -80,7 +80,7 @@ public:
     // Check that file is in cache, is not - load and save all mipmap levels
     bool Validate_Texture(const char* texturename);
 
-    // Load a surface from the file cache, null if does not exist.
+    // Load a surface from the file cache, nullptr if does not exist.
     srColorSurfaceIFace* Get_Surface(const char* texturename, unsigned int reduce_factor);
 
 protected:

@@ -106,13 +106,13 @@ static const int _ModelDescriptions[MODEL_COUNT]
  *=============================================================================================*/
 CopyDialogClass::CopyDialogClass()
     : InstallMenuDialogClass(IDD_DIALOG_COPY),
-      SupplementalModel(NULL),
-      ProgressBarModel(NULL),
-      ProgressBarAnim(NULL),
+      SupplementalModel(nullptr),
+      ProgressBarModel(nullptr),
+      ProgressBarAnim(nullptr),
       CurrentModel(0),
-      CountdownTimer(NULL),
-      FlashTimer(NULL),
-      FileSystemErrorPopup(NULL),
+      CountdownTimer(nullptr),
+      FlashTimer(nullptr),
+      FileSystemErrorPopup(nullptr),
       AddedModels(false)
 {
 }
@@ -251,7 +251,7 @@ void CopyDialogClass::On_Frame_Update(void)
             CountdownTimer = new CDTimerClass<SafeTimerClass>(MODEL_DISPLAY_TIME);
         }
 
-        if (FlashTimer == NULL) {
+        if (FlashTimer == nullptr) {
 
             FlashTimer = new TTimerClass<SafeTimerClass>;
 
@@ -329,11 +329,11 @@ void CopyDialogClass::Add_Models()
 
         SupplementalModel
             = WW3DAssetManager::Get_Instance()->Create_Render_Obj(supplementalmodelname);
-        if (SupplementalModel != NULL) {
+        if (SupplementalModel != nullptr) {
             Get_BackDrop()->Peek_Scene()->Add_Render_Object(SupplementalModel);
 
             supplementalanim = WW3DAssetManager::Get_Instance()->Get_HAnim(supplementalanimname);
-            if (supplementalanim != NULL) {
+            if (supplementalanim != nullptr) {
                 SupplementalModel->Set_Animation(supplementalanim, 0,
                                                  RenderObjClass::ANIM_MODE_LOOP);
                 REF_PTR_RELEASE(supplementalanim);
@@ -342,10 +342,10 @@ void CopyDialogClass::Add_Models()
 
         ProgressBarModel
             = WW3DAssetManager::Get_Instance()->Create_Render_Obj(progressbarmodelname);
-        if (ProgressBarModel != NULL) {
+        if (ProgressBarModel != nullptr) {
             Get_BackDrop()->Peek_Scene()->Add_Render_Object(ProgressBarModel);
             ProgressBarAnim = WW3DAssetManager::Get_Instance()->Get_HAnim(progressbaranimname);
-            if (ProgressBarAnim != NULL) {
+            if (ProgressBarAnim != nullptr) {
                 ProgressBarModel->Set_Animation(ProgressBarAnim, 0,
                                                 RenderObjClass::ANIM_MODE_MANUAL);
             }
@@ -391,7 +391,7 @@ void CopyDialogClass::Set_Model(unsigned modelindex)
         RenderObjClass* sub_obj = viewercontrol->Peek_Model()->Get_Sub_Object(index);
 
         // Hide muzzle flashes - they are not appropriate in this context.
-        if (::strstr(sub_obj->Get_Name(), "MUZZLEFLASH") != NULL) {
+        if (::strstr(sub_obj->Get_Name(), "MUZZLEFLASH") != nullptr) {
             sub_obj->Set_Hidden(true);
         }
 
@@ -455,10 +455,10 @@ void CopyDialogClass::End_Dialog(void)
 
     AIL_set_preference(DIG_DS_MIX_FRAGMENT_CNT, 8);
 
-    if (CountdownTimer != NULL) {
+    if (CountdownTimer != nullptr) {
         delete CountdownTimer;
     }
-    if (FlashTimer != NULL) {
+    if (FlashTimer != nullptr) {
         delete FlashTimer;
     }
 

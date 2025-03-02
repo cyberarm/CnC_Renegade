@@ -102,8 +102,8 @@ public:
     void Add_Render_Task(DX8PolygonRendererClass* p_renderer, MeshClass* p_mesh);
 
     void Render(void);
-    bool Anything_To_Render() { return (render_task_head != NULL); }
-    void Clear_Render_List() { render_task_head = NULL; }
+    bool Anything_To_Render() { return (render_task_head != nullptr); }
+    void Clear_Render_List() { render_task_head = nullptr; }
 
     TextureClass* Peek_Texture(int stage) { return textures[stage]; }
     const VertexMaterialClass* Peek_Material() { return material; }
@@ -117,7 +117,7 @@ public:
 
     void Remove_Polygon_Renderer(DX8PolygonRendererClass* p_renderer);
     void Add_Polygon_Renderer(DX8PolygonRendererClass* p_renderer,
-                              DX8PolygonRendererClass* add_after_this = NULL);
+                              DX8PolygonRendererClass* add_after_this = nullptr);
 
     DX8FVFCategoryContainer* Get_Container(void) { return container; }
 };
@@ -200,7 +200,7 @@ public:
     inline void Add_Visible_Texture_Category(DX8TextureCategoryClass* tex_category, int pass)
     {
         WWASSERT(pass < MAX_PASSES);
-        WWASSERT(tex_category != NULL);
+        WWASSERT(tex_category != nullptr);
         WWASSERT(texture_category_list[pass].Contains(tex_category));
         visible_texture_category_list[pass].Add(tex_category);
         AnythingToRender = true;
@@ -296,8 +296,8 @@ private:
 struct MeshRegKeyStruct
 {
     MeshRegKeyStruct(void)
-        : Model(NULL),
-          UserLighting(NULL)
+        : Model(nullptr),
+          UserLighting(nullptr)
     {
     }
     MeshRegKeyStruct(MeshModelClass* mdl, unsigned int* lighting)

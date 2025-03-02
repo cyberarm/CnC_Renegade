@@ -94,7 +94,7 @@ WaypathClass::WaypathClass(const WaypathPositionClass& start, const WaypathPosit
         //	Lookup the path we will use as our reference
         //
         WaypathClass* whole_path = PathfindClass::Get_Instance()->Find_Waypath(waypath_id);
-        if (whole_path != NULL) {
+        if (whole_path != nullptr) {
 
             //
             //	Copy the flags from the complete path
@@ -257,7 +257,7 @@ bool WaypathClass::Load_Variables(ChunkLoadClass& cload)
             //	Read the old waypoint ptr from the chunk and add it to our
             // list.  We will remap it later.
             //
-            WaypointClass* waypoint = NULL;
+            WaypointClass* waypoint = nullptr;
             cload.Read(&waypoint, sizeof(waypoint));
             m_Waypoints.Add(waypoint);
         } break;
@@ -267,7 +267,7 @@ bool WaypathClass::Load_Variables(ChunkLoadClass& cload)
             //	Read the old pointer from the chunk and submit it
             // to the remapping system.
             //
-            WaypathClass* old_ptr = NULL;
+            WaypathClass* old_ptr = nullptr;
             cload.Read(&old_ptr, sizeof(old_ptr));
             SaveLoadSystemClass::Register_Pointer(old_ptr, this);
         } break;
@@ -388,7 +388,7 @@ bool WaypathClass::Evaluate_Position(const WaypathPositionClass& pos, Vector3* p
         //
         int index = pos.Get_Waypoint_Index();
         WaypointClass* seg_pt1 = Get_Point(index);
-        if (seg_pt1 != NULL) {
+        if (seg_pt1 != nullptr) {
 
             //
             //	Get the world-space position of the start point of the segment
@@ -409,7 +409,7 @@ bool WaypathClass::Evaluate_Position(const WaypathPositionClass& pos, Vector3* p
                 //	Lookup the end point of the segment
                 //
                 WaypointClass* seg_pt2 = Get_Point(index + 1);
-                if (seg_pt2 != NULL) {
+                if (seg_pt2 != nullptr) {
 
                     //
                     //	Get the world-space position of the end point of the segment

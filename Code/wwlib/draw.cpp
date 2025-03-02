@@ -84,7 +84,7 @@ void Draw_Shape(Surface& surface, ConvertClass& convert, ShapeSet const* shapefi
                 unsigned char const* remap)
 {
     assert((flags & SHAPE_PREDATOR) == 0); // Not yet supported.
-    assert(shapefile != NULL);
+    assert(shapefile != nullptr);
     assert(shapenum != -1);
 
     convert.Set_Remap(remap);
@@ -116,10 +116,10 @@ void Draw_Shape(Surface& surface, ConvertClass& convert, ShapeSet const* shapefi
     rect.Y = 0;
 
     /*
-    **	If the remap table supplied is not NULL, then set the remap flag so that
+    **	If the remap table supplied is not nullptr, then set the remap flag so that
     **	the appropriate blitter will be selected.
     */
-    if (remap != NULL) {
+    if (remap != nullptr) {
         flags = ShapeFlags_Type(flags | SHAPE_REMAP);
     }
 
@@ -130,14 +130,14 @@ void Draw_Shape(Surface& surface, ConvertClass& convert, ShapeSet const* shapefi
     */
     if (shapefile->Is_RLE_Compressed(shapenum)) {
         RLEBlitter const* blitter = convert.RLEBlitter_From_Flags(flags);
-        if (blitter != NULL) {
+        if (blitter != nullptr) {
             RLE_Blit(surface, window, Rect(x, y, rect.Width, rect.Height), shape, rect, rect,
                      *blitter);
         }
     }
     else {
         Blitter const* blitter = convert.Blitter_From_Flags(flags);
-        if (blitter != NULL) {
+        if (blitter != nullptr) {
             Bit_Blit(surface, window, Rect(x, y, rect.Width, rect.Height), shape, shape.Get_Rect(),
                      rect, *blitter);
         }
@@ -166,7 +166,7 @@ void Draw_Shape(Surface& surface, ConvertClass& convert, ShapeSet const* shapefi
  *          remap    -- The remapping table pointer (optional) to be used for ownership        *
  *                      remapping control.                                                     *
  *                                                                                             *
- *          blitter  -- Preexisting blitter to use. If this parameter is NULL, then a blitter  *
+ *          blitter  -- Preexisting blitter to use. If this parameter is nullptr, then a blitter  *
  *                      object is created from the convert object supplied.                    *
  *                                                                                             *
  * OUTPUT:  none                                                                               *
@@ -182,8 +182,8 @@ void Blit_Block(Surface& surface, ConvertClass& convert, Surface const& source,
 {
     convert.Set_Remap(remap);
 
-    if (blitter == NULL) {
-        blitter = convert.Blitter_From_Flags((remap != NULL) ? SHAPE_REMAP : SHAPE_NORMAL);
+    if (blitter == nullptr) {
+        blitter = convert.Blitter_From_Flags((remap != nullptr) ? SHAPE_REMAP : SHAPE_NORMAL);
     }
 
     /*

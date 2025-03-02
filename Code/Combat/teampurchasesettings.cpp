@@ -179,7 +179,7 @@ TeamPurchaseSettingsDefClass::~TeamPurchaseSettingsDefClass(void)
     //	Remove this entry from the static array
     //
     if (Team < TEAM_COUNT) {
-        DefinitionArray[Team] = NULL;
+        DefinitionArray[Team] = nullptr;
     }
 
     return;
@@ -213,7 +213,7 @@ const PersistFactoryClass& TeamPurchaseSettingsDefClass::Get_Factory(void) const
 PersistClass* TeamPurchaseSettingsDefClass::Create(void) const
 {
     WWASSERT(0);
-    return NULL;
+    return nullptr;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////
@@ -356,7 +356,7 @@ void TeamPurchaseSettingsDefClass::Load_Variables(ChunkLoadClass& cload)
 ///////////////////////////////////////////////////////////////////////////////////////////
 const WCHAR* TeamPurchaseSettingsDefClass::Get_Enlisted_Name(int index)
 {
-    const WCHAR* retval = NULL;
+    const WCHAR* retval = nullptr;
 
     //
     //	Return the translated string...

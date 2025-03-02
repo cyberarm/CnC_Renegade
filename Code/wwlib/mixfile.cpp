@@ -68,7 +68,7 @@ MixFileFactoryClass::MixFileFactoryClass(const char* mix_filename, FileFactoryCl
       NamesOffset(0),
       IsValid(false),
       BaseOffset(0),
-      Factory(NULL),
+      Factory(nullptr),
       IsModified(false)
 {
     //	WWDEBUG_SAY(( "MixFileFactory( %s )\n", mix_filename ));
@@ -155,7 +155,7 @@ bool MixFileFactoryClass::Build_Filename_List(DynamicVectorClass<StringClass>& l
     //	Attempt to open the file
     //
     RawFileClass* file = (RawFileClass*)Factory->Get_File(MixFilename);
-    if (file != NULL && file->Open(RawFileClass::READ)) {
+    if (file != nullptr && file->Open(RawFileClass::READ)) {
 
         //
         //	Seek to the names offset header
@@ -210,17 +210,17 @@ bool MixFileFactoryClass::Build_Filename_List(DynamicVectorClass<StringClass>& l
 FileClass* MixFileFactoryClass::Get_File(char const* filename)
 {
     if (FileInfo.Length() == 0) {
-        return NULL;
+        return nullptr;
     }
     //	WWDEBUG_SAY(( "MixFileFactoryClass::Get_File( %s )\n", filename ));
 
-    RawFileClass* file = NULL;
+    RawFileClass* file = nullptr;
 
     //	Create the key block that will be used to binary search for the file.
     unsigned long crc = CRC_Stringi(filename);
 
     //	Binary search for the file in this mixfile. If it is found, then create the file
-    FileInfoStruct* info = NULL;
+    FileInfoStruct* info = nullptr;
     FileInfoStruct* base = &FileInfo[0];
     int stride = FileInfo.Length();
     while (stride > 0) {
@@ -239,7 +239,7 @@ FileClass* MixFileFactoryClass::Get_File(char const* filename)
         }
     }
 
-    if (info != NULL) {
+    if (info != nullptr) {
         //		WWDEBUG_SAY(( "MixFileFactoryClass::Get_File( %s ) FOUND\n", filename ));
         file = (RawFileClass*)Factory->Get_File(MixFilename);
         if (file) {
@@ -257,7 +257,7 @@ FileClass* MixFileFactoryClass::Get_File(char const* filename)
 
 void MixFileFactoryClass::Return_File(FileClass* file)
 {
-    if (file != NULL) {
+    if (file != nullptr) {
         Factory->Return_File(file);
     }
 }
@@ -311,7 +311,7 @@ void MixFileFactoryClass::Flush_Changes(void)
     //
     char drive[_MAX_DRIVE] = { 0 };
     char dir[_MAX_DIR] = { 0 };
-    ::_splitpath(MixFilename, drive, dir, NULL, NULL);
+    ::_splitpath(MixFilename, drive, dir, nullptr, nullptr);
     StringClass path = drive;
     path += dir;
 
@@ -332,7 +332,7 @@ void MixFileFactoryClass::Flush_Changes(void)
             //	Copy this file data to the mix file
             //
             FileClass* file_data = Get_File(filename);
-            if (file_data != NULL) {
+            if (file_data != nullptr) {
                 file_data->Open();
                 new_mix_file.Add_File(filename, file_data);
                 Return_File(file_data);
@@ -406,7 +406,7 @@ MixFileCreator::MixFileCreator(const char* filename)
     WWDEBUG_SAY(("Creating Mix File %s\n", filename));
 
     MixFile = _SimpleFileFactory.Get_File(filename);
-    if (MixFile != NULL) {
+    if (MixFile != nullptr) {
         MixFile->Open(FileClass::WRITE);
         MixFile->Write("MIX1", 4);
         long header_offset = 0;
@@ -434,7 +434,7 @@ int MixFileCreator::File_Info_Compare(const void* a, const void* b)
 
 MixFileCreator::~MixFileCreator(void)
 {
-    if (MixFile != NULL) {
+    if (MixFile != nullptr) {
 
         // Save Header Data
         int header_offset = MixFile->Tell();
@@ -496,11 +496,11 @@ MixFileCreator::~MixFileCreator(void)
 
 void MixFileCreator::Add_File(const char* source_filename, const char* saved_filename)
 {
-    if (saved_filename == NULL) {
+    if (saved_filename == nullptr) {
         saved_filename = source_filename;
     }
 
-    if (MixFile != NULL) {
+    if (MixFile != nullptr) {
 
         FileClass* file = _SimpleFileFactory.Get_File(source_filename);
 
@@ -550,7 +550,7 @@ void MixFileCreator::Add_File(const char* source_filename, const char* saved_fil
 
 void MixFileCreator::Add_File(const char* filename, FileClass* file)
 {
-    if (MixFile != NULL) {
+    if (MixFile != nullptr) {
 
         MixFileCreator::FileInfoStruct info;
         info.CRC = CRC_Stringi(filename);

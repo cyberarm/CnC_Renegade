@@ -158,30 +158,30 @@ HAnimComboDataClass::~HAnimComboDataClass(void)
 
 void HAnimComboDataClass::Clear(void)
 {
-    if (HAnim != NULL) {
+    if (HAnim != nullptr) {
         HAnim->Release_Ref();
-        HAnim = NULL;
+        HAnim = nullptr;
     }
 
     // not sure if the pivot map should be deleted or just have everything set to one.
     // removing it effectively sets it to one, so that's what I'm doing for now.
     if (PivotMap) {
         PivotMap->Release_Ref();
-        PivotMap = NULL;
+        PivotMap = nullptr;
     }
 
     Frame = 0.0f;
     PrevFrame = 0.0f;
     Weight = 1.0;
-    PivotMap = NULL;
+    PivotMap = nullptr;
 }
 
 void HAnimComboDataClass::Set_HAnim(HAnimClass* motion)
 {
-    if (motion != NULL) {
+    if (motion != nullptr) {
         motion->Add_Ref();
     }
-    if (HAnim != NULL) {
+    if (HAnim != nullptr) {
         HAnim->Release_Ref();
     }
     HAnim = motion;
@@ -189,10 +189,10 @@ void HAnimComboDataClass::Set_HAnim(HAnimClass* motion)
 
 void HAnimComboDataClass::Set_Pivot_Map(PivotMapClass* map)
 {
-    if (map != NULL) {
+    if (map != nullptr) {
         map->Add_Ref();
     }
-    if (PivotMap != NULL) {
+    if (PivotMap != nullptr) {
         PivotMap->Release_Ref();
     }
     PivotMap = map;
@@ -204,10 +204,10 @@ void HAnimComboDataClass::Set_Pivot_Map(PivotMapClass* map)
 */
 void HAnimComboDataClass::Build_Active_Pivot_Map(void)
 {
-    if (PivotMap != NULL) {
+    if (PivotMap != nullptr) {
         PivotMap->Release_Ref();
     }
-    if (HAnim == NULL) {
+    if (HAnim == nullptr) {
         PivotMap = 0;
         return;
     }
@@ -293,7 +293,7 @@ bool HAnimComboClass::Normalize_Weights(void)
     int num_anim_pivots = 100000;
     for (anim_idx = 0; anim_idx < anim_count; anim_idx++) {
         num_anim_pivots = MIN(num_anim_pivots, Peek_Motion(anim_idx)->Get_Num_Pivots());
-        bool has_pivot_map = Peek_Pivot_Weight_Map(anim_idx) != NULL;
+        bool has_pivot_map = Peek_Pivot_Weight_Map(anim_idx) != nullptr;
         all_pivot_maps &= has_pivot_map;
         none_pivot_maps &= !has_pivot_map;
     }
@@ -306,7 +306,7 @@ bool HAnimComboClass::Normalize_Weights(void)
         // Calculate total weight of all active anims, ensure it is very close to 1.
         float weight_total = 0.0f;
         for (anim_idx = 0; anim_idx < anim_count; anim_idx++) {
-            if (Peek_Motion(anim_idx) != NULL) {
+            if (Peek_Motion(anim_idx) != nullptr) {
                 float weight = Get_Weight(anim_idx);
                 weight_total += weight;
             }
@@ -316,7 +316,7 @@ bool HAnimComboClass::Normalize_Weights(void)
         if (weight_total != 0.0 && WWMath::Fabs(weight_total - 1.0) > WWMATH_EPSILON) {
             float oo_total = 1.0f / weight_total;
             for (anim_idx = 0; anim_idx < anim_count; anim_idx++) {
-                if (Peek_Motion(anim_idx) != NULL) {
+                if (Peek_Motion(anim_idx) != nullptr) {
                     Set_Weight(anim_idx, Get_Weight(anim_idx) * oo_total);
                 }
             }
@@ -331,7 +331,7 @@ bool HAnimComboClass::Normalize_Weights(void)
 
                 float weight_total = 0.0f;
                 for (anim_idx = 0; anim_idx < anim_count; anim_idx++) {
-                    if (Peek_Motion(anim_idx) != NULL) {
+                    if (Peek_Motion(anim_idx) != nullptr) {
                         float weight
                             = Get_Weight(anim_idx) * (*Peek_Pivot_Weight_Map(anim_idx))[piv_idx];
                         weight_total += weight;
@@ -342,7 +342,7 @@ bool HAnimComboClass::Normalize_Weights(void)
                 if (weight_total != 0.0 && WWMath::Fabs(weight_total - 1.0) > WWMATH_EPSILON) {
                     float oo_total = 1.0f / weight_total;
                     for (anim_idx = 0; anim_idx < anim_count; anim_idx++) {
-                        if (Peek_Motion(anim_idx) != NULL) {
+                        if (Peek_Motion(anim_idx) != nullptr) {
                             PivotMapClass* pivot_map = Get_Pivot_Weight_Map(anim_idx);
                             float new_weight = (*pivot_map)[piv_idx] * oo_total;
                             (*pivot_map)[piv_idx] = new_weight;
@@ -375,7 +375,7 @@ HAnimClass* HAnimComboClass::Get_Motion(int index)
 
     HAnimClass* anim = data->Peek_HAnim();
 
-    if (anim != NULL) {
+    if (anim != nullptr) {
         anim->Add_Ref();
     }
     return anim;

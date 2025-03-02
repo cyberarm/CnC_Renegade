@@ -109,7 +109,7 @@ DECLARE_SCRIPT(M09_Objective_Controller, "") // Object Controller id: 2000071
 
         case 900: {
             Commands->Add_Objective(900, OBJECTIVE_TYPE_PRIMARY, OBJECTIVE_STATUS_PENDING,
-                                    IDS_Enc_ObjTitle_Primary_M09_04, NULL,
+                                    IDS_Enc_ObjTitle_Primary_M09_04, nullptr,
                                     IDS_Enc_Obj_Primary_M09_04);
 
             object = Commands->Find_Object(2000010);
@@ -124,7 +124,7 @@ DECLARE_SCRIPT(M09_Objective_Controller, "") // Object Controller id: 2000071
 
         case 901: {
             Commands->Add_Objective(901, OBJECTIVE_TYPE_PRIMARY, OBJECTIVE_STATUS_PENDING,
-                                    IDS_Enc_ObjTitle_Primary_M09_01, NULL,
+                                    IDS_Enc_ObjTitle_Primary_M09_01, nullptr,
                                     IDS_Enc_Obj_Primary_M09_01);
 
             object = Commands->Find_Object(2002239);
@@ -137,7 +137,7 @@ DECLARE_SCRIPT(M09_Objective_Controller, "") // Object Controller id: 2000071
         // New Primary Mission Objective: Escort Dr. Mobius to the Surface
         case 902: {
             Commands->Add_Objective(902, OBJECTIVE_TYPE_PRIMARY, OBJECTIVE_STATUS_PENDING,
-                                    IDS_Enc_ObjTitle_Primary_M09_02, NULL,
+                                    IDS_Enc_ObjTitle_Primary_M09_02, nullptr,
                                     IDS_Enc_Obj_Primary_M09_02);
 
             object = Commands->Find_Object(2000955);
@@ -150,7 +150,7 @@ DECLARE_SCRIPT(M09_Objective_Controller, "") // Object Controller id: 2000071
         // New Primary Mission Objective: Escort Dr. Mobius to the Rendezvous Point
         case 903: {
             Commands->Add_Objective(903, OBJECTIVE_TYPE_PRIMARY, OBJECTIVE_STATUS_PENDING,
-                                    IDS_Enc_ObjTitle_Primary_M09_03, NULL,
+                                    IDS_Enc_ObjTitle_Primary_M09_03, nullptr,
                                     IDS_Enc_Obj_Primary_M09_03);
 
             object = Commands->Find_Object(2000969);
@@ -164,21 +164,21 @@ DECLARE_SCRIPT(M09_Objective_Controller, "") // Object Controller id: 2000071
 
         case 904: {
             Commands->Add_Objective(904, OBJECTIVE_TYPE_TERTIARY, OBJECTIVE_STATUS_HIDDEN,
-                                    IDS_Enc_ObjTitle_Hidden_M09_01, NULL,
+                                    IDS_Enc_ObjTitle_Hidden_M09_01, nullptr,
                                     IDS_Enc_Obj_Hidden_M09_04);
         } break; /*
    // New Hidden Mission Objective: Comandeer the NOD Stealth Tank.
    case 905:
            {
                    Commands->Add_Objective(905, OBJECTIVE_TYPE_TERTIARY, OBJECTIVE_STATUS_HIDDEN,
-   IDS_M09_T02, NULL);
+   IDS_M09_T02, nullptr);
            }
            break;
    // New Hidden Mission Objective: Comandeer the NOD Stealth Tank.
    case 906:
            {
                    Commands->Add_Objective(906, OBJECTIVE_TYPE_PRIMARY, OBJECTIVE_STATUS_PENDING,
-   IDS_M09_P05, NULL);
+   IDS_M09_P05, nullptr);
            }
            break;*/
         case 1000: {
@@ -3651,7 +3651,7 @@ DECLARE_SCRIPT(M09_Gunner, "")
     void Custom(GameObject * obj, int type, int param, GameObject* sender)
     {
         if (type == GO) {
-            Commands->Attach_To_Object_Bone(obj, NULL, NULL);
+            Commands->Attach_To_Object_Bone(obj, nullptr, nullptr);
 
             // Commands->Enable_Collisions ( obj );
 
@@ -3954,7 +3954,7 @@ DECLARE_SCRIPT(M09_Destroy_Self_Zone, "")
 
             const char* conv_name = ("IDS_M09_D13");
             int conv_id = Commands->Create_Conversation(conv_name, 99, 200, false);
-            Commands->Join_Conversation(NULL, conv_id, false, false);
+            Commands->Join_Conversation(nullptr, conv_id, false, false);
             Commands->Join_Conversation(mobius, conv_id, false, false);
             Commands->Join_Conversation(STAR, conv_id, false, false);
             Commands->Start_Conversation(conv_id, 900);
@@ -4039,7 +4039,7 @@ DECLARE_SCRIPT(M09_KeyCard_Zone, "")
 
                 /*const char *conv_name = ("IDS_M09_D13");
                 int conv_id = Commands->Create_Conversation (conv_name, 99, 200, false);
-                Commands->Join_Conversation(NULL, conv_id, false, false);
+                Commands->Join_Conversation(nullptr, conv_id, false, false);
                 Commands->Join_Conversation(mobius, conv_id, false, false);
                 Commands->Join_Conversation(STAR, conv_id, false, false);
                 Commands->Start_Conversation (conv_id, 900);
@@ -4290,7 +4290,7 @@ DECLARE_SCRIPT(M09_PSuitAnim, "") { void Created(GameObject * obj) {
     params.Set_Animation ("S_A_HUMAN.H_A_X9C_SUIT", true);
     Commands->Action_Play_Animation (obj, params);*/
 
-    Commands->Set_Animation(obj, "S_A_HUMAN.H_A_X9C_SUIT", true, NULL, 0.0f, -1.0f, false);
+    Commands->Set_Animation(obj, "S_A_HUMAN.H_A_X9C_SUIT", true, nullptr, 0.0f, -1.0f, false);
 }
 
 void Custom(GameObject* obj, int type, int param, GameObject* sender)

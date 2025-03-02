@@ -85,7 +85,7 @@ private:
 };
 
 // Static data.
-LightMapDoc* LightMapView::_Document = NULL;
+LightMapDoc* LightMapView::_Document = nullptr;
 
 /***********************************************************************************************
  * LightMapView::LightMapView --
@@ -102,7 +102,7 @@ LightMapDoc* LightMapView::_Document = NULL;
  *=============================================================================================*/
 LightMapView::LightMapView()
 {
-    MeshIndexTable = NULL;
+    MeshIndexTable = nullptr;
 }
 
 /***********************************************************************************************
@@ -120,7 +120,7 @@ LightMapView::LightMapView()
  *=============================================================================================*/
 LightMapView::~LightMapView()
 {
-    if (MeshIndexTable != NULL) {
+    if (MeshIndexTable != nullptr) {
         delete[] MeshIndexTable;
     }
 }
@@ -148,7 +148,7 @@ void LightMapView::OnInsertSolve()
         char* inclusionstring;
 
         if (!insertsolvedialog.Apply_Selective()) {
-            inclusionstring = NULL;
+            inclusionstring = nullptr;
         }
         else {
             inclusionstring = insertsolvedialog.Inclusion_String();
@@ -255,17 +255,17 @@ void LightMapView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint)
 
         // Create a mesh index table that will place the mesh indices in alphabetical order of mesh
         // name.
-        if (MeshIndexTable != NULL) {
+        if (MeshIndexTable != nullptr) {
             delete[] MeshIndexTable;
         }
         MeshIndexTable = new unsigned[document->Mesh_Count()];
-        ASSERT(MeshIndexTable != NULL);
+        ASSERT(MeshIndexTable != nullptr);
         for (meshindex = 0; meshindex < document->Mesh_Count(); meshindex++) {
             MeshIndexTable[meshindex] = meshindex;
         }
         _Document = document;
         qsort(MeshIndexTable, document->Mesh_Count(), sizeof(unsigned), Compare_Names);
-        _Document = NULL;
+        _Document = nullptr;
 
         list.DeleteAllItems();
 
@@ -386,7 +386,7 @@ void LightMapView::OnLButtonDown(UINT flags, CPoint point)
     // Call default handler.
     CListView::OnLButtonDown(flags, point);
 
-    if (MeshIndexTable != NULL) {
+    if (MeshIndexTable != nullptr) {
 
         hittest.pt = point;
         GetListCtrl().SubItemHitTest(&hittest);
@@ -421,7 +421,7 @@ void LightMapView::OnLButtonDown(UINT flags, CPoint point)
  *=============================================================================================*/
 int LightMapView::Compare_Names(const void* index0, const void* index1)
 {
-    ASSERT(_Document != NULL);
+    ASSERT(_Document != nullptr);
     return (strcmp(_Document->Mesh_Name(*((unsigned*)index0)),
                    _Document->Mesh_Name(*((unsigned*)index1))));
 }

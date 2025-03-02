@@ -184,7 +184,7 @@ protected:
     {
     public:
         AudibleInfoClass(void)
-            : sound_obj(NULL),
+            : sound_obj(nullptr),
               distance2(0)
         {
         }

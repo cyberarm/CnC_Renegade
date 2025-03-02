@@ -78,10 +78,10 @@ ArgvClass::ArgvClass(bool case_sensitive, bool exact_size)
  * *ArgvClass::Find_Again -- Search for a string given the flags.                              *
  *                                                                                             *
  * INPUT:                                                                                      *
- *      const char *arg - String to search for. If NULL, LastArg will be used.                 *
+ *      const char *arg - String to search for. If nullptr, LastArg will be used.                 *
  *                                                                                             *
  * OUTPUT:                                                                                     *
- *      const char *string found (null if not found)
+ *      const char *string found (nullptr if not found)
  **
  *                                                                                             *
  * WARNINGS:                                                                                   *
@@ -142,7 +142,7 @@ const char* ArgvClass::Find_Again(const char* arg)
             }
         }
     }
-    return NULL;
+    return nullptr;
 }
 
 /***********************************************************************************************
@@ -185,7 +185,7 @@ int ArgvClass::Init(char* lpCmdLine, char* fileprefix)
         if (*ptr == '"') {
             ptr++;
             eos = ptr;
-            // Search for next " or a null.
+            // Search for next " or a nullptr.
             while (*eos && (*eos != '"')) {
                 eos++;
             }
@@ -196,13 +196,13 @@ int ArgvClass::Init(char* lpCmdLine, char* fileprefix)
         }
         else {
             eos = ptr + 1;
-            // search for next white space or null.
+            // search for next white space or nullptr.
             while (*eos && !isspace(*eos)) {
                 eos++;
             }
         }
 
-        // Null out end of string so string function work.
+        // nullptr out end of string so string function work.
         // Save the end to restore later.
         save = *eos;
         *eos = 0;
@@ -224,7 +224,7 @@ int ArgvClass::Init(char* lpCmdLine, char* fileprefix)
             Argc++;
         }
 
-        // If save is null, then we are at the end and we can bail out.
+        // If save is nullptr, then we are at the end and we can bail out.
         if (!save) {
             break;
         }
@@ -277,7 +277,7 @@ bool ArgvClass::Load_File(const char* fname)
 
             // Check for comments.
             if ((*string != '#') && (*string != ';')) {
-                // Make sure null terminated.
+                // Make sure nullptr terminated.
                 string[maxstrlen - 1] = '\0';
 
                 char* ptr = string + (strlen(string) - 1);
@@ -346,7 +346,7 @@ const char* ArgvClass::Find_Value(const char* arg)
             return (Get_Cur_Value(strlen(arg)));
         }
     }
-    return (NULL);
+    return (nullptr);
 }
 
 /***********************************************************************************************
@@ -368,12 +368,12 @@ const char* ArgvClass::Get_Cur_Value(unsigned prefixlen, bool* val_in_next)
         *val_in_next = false;
     }
     if (CurrentPos < 0) {
-        return NULL;
+        return nullptr;
     }
     char* ptr = Argv[CurrentPos];
 
     if (strlen(ptr) < prefixlen) {
-        return (NULL);
+        return (nullptr);
     }
 
     ptr += prefixlen;
@@ -389,7 +389,7 @@ const char* ArgvClass::Get_Cur_Value(unsigned prefixlen, bool* val_in_next)
     // Goto next line to handle '-P data' case on command line.
     ptr = Argv[CurrentPos + 1];
     if (!ptr) {
-        return NULL;
+        return nullptr;
     }
 
     while (*ptr) {
@@ -401,7 +401,7 @@ const char* ArgvClass::Get_Cur_Value(unsigned prefixlen, bool* val_in_next)
         }
         ptr++;
     }
-    return (NULL);
+    return (nullptr);
 }
 
 /***********************************************************************************************
@@ -419,7 +419,7 @@ const char* ArgvClass::Get_Cur_Value(unsigned prefixlen, bool* val_in_next)
  *=============================================================================================*/
 void ArgvClass::Update_Value(const char* attrib, const char* value)
 {
-    if ((Find_Value(attrib)) != NULL) {
+    if ((Find_Value(attrib)) != nullptr) {
         if (((CurrentPos + 1) < Argc) && (Argv[CurrentPos + 1][0] != '-')) // update old value
         {
             free(Argv[CurrentPos + 1]);
@@ -488,7 +488,7 @@ bool ArgvClass::Remove_Value(const char* attrib)
 {
     int removeCount = 1;
 
-    if ((Find_Value(attrib)) != NULL) {
+    if ((Find_Value(attrib)) != nullptr) {
         free(Argv[CurrentPos]);
         if (((CurrentPos + 1) < Argc) && (Argv[CurrentPos + 1][0] != '-')) // value for this arg
         {

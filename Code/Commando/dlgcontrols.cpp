@@ -46,7 +46,7 @@
 ////////////////////////////////////////////////////////////////
 //	Static member initialization
 ////////////////////////////////////////////////////////////////
-ControlsMenuClass* ControlsMenuClass::_TheInstance = NULL;
+ControlsMenuClass* ControlsMenuClass::_TheInstance = nullptr;
 
 ////////////////////////////////////////////////////////////////
 //
@@ -67,7 +67,7 @@ ControlsMenuClass::ControlsMenuClass(void)
 ////////////////////////////////////////////////////////////////
 ControlsMenuClass::~ControlsMenuClass(void)
 {
-    _TheInstance = NULL;
+    _TheInstance = nullptr;
     return;
 }
 
@@ -79,7 +79,7 @@ ControlsMenuClass::~ControlsMenuClass(void)
 void ControlsMenuClass::On_Init_Dialog(void)
 {
     TabCtrlClass* tab_ctrl = (TabCtrlClass*)Get_Dlg_Item(IDC_CONTROL_TABCTRL);
-    if (tab_ctrl != NULL) {
+    if (tab_ctrl != nullptr) {
 
         //
         //	Add the tabs to the control
@@ -132,7 +132,7 @@ void ControlsMenuClass::Apply_Changes(void)
     //	Apply the changes on each tab
     //
     TabCtrlClass* tab_ctrl = (TabCtrlClass*)Get_Dlg_Item(IDC_CONTROL_TABCTRL);
-    if (tab_ctrl != NULL) {
+    if (tab_ctrl != nullptr) {
         if (tab_ctrl->Apply_Changes_On_Tabs()) {
 
             //
@@ -156,7 +156,7 @@ void ControlsMenuClass::Reload(void)
     //	Ask each tab to reload its data
     //
     TabCtrlClass* tab_ctrl = (TabCtrlClass*)Get_Dlg_Item(IDC_CONTROL_TABCTRL);
-    if (tab_ctrl != NULL) {
+    if (tab_ctrl != nullptr) {
         tab_ctrl->Reload_Tabs();
     }
 

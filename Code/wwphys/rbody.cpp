@@ -153,7 +153,7 @@ private:
 };
 
 RBodyHistoryClass::RBodyHistoryClass(void)
-    : SnapshotArray(NULL),
+    : SnapshotArray(nullptr),
       HeadIndex(0)
 {
     SnapshotArray = new StateSnapshotStruct[RBODY_SNAPSHOT_COUNT];
@@ -161,9 +161,9 @@ RBodyHistoryClass::RBodyHistoryClass(void)
 
 RBodyHistoryClass::~RBodyHistoryClass(void)
 {
-    if (SnapshotArray != NULL) {
+    if (SnapshotArray != nullptr) {
         delete[] SnapshotArray;
-        SnapshotArray = NULL;
+        SnapshotArray = nullptr;
     }
 }
 
@@ -203,7 +203,7 @@ void RBodyHistoryClass::Update_History(const RigidBodyStateStruct& state, float 
 
 void RBodyHistoryClass::Compute_Old_State(float t, RigidBodyStateStruct* set_state)
 {
-    WWASSERT(set_state != NULL);
+    WWASSERT(set_state != nullptr);
     int index = HeadIndex;
     bool done = false;
 
@@ -304,7 +304,7 @@ void RBodyHistoryClass::Find_Nearest_State(const RigidBodyStateStruct& input,
 
     WWASSERT((result_index0 >= 0) && (result_index0 < RBODY_SNAPSHOT_COUNT));
     WWASSERT((result_index1 >= 0) && (result_index1 < RBODY_SNAPSHOT_COUNT));
-    WWASSERT(output != NULL);
+    WWASSERT(output != nullptr);
     RigidBodyStateStruct::Lerp(SnapshotArray[result_index0], SnapshotArray[result_index1],
                                result_fraction, output);
 }
@@ -503,8 +503,8 @@ enum
  *   10/15/99   gth : Created.                                                                 *
  *=============================================================================================*/
 RigidBodyClass::RigidBodyClass(void)
-    : Box(NULL),
-      ContactBox(NULL),
+    : Box(nullptr),
+      ContactBox(nullptr),
       IBody(1),
       IBodyInv(1),
       Rotation(1),
@@ -515,7 +515,7 @@ RigidBodyClass::RigidBodyClass(void)
       StickCount(0),
       LastTimestep(0.0f),
       GoToSleepTimer(RBODY_SLEEP_DELAY),
-      History(NULL)
+      History(nullptr)
 {
     State.Position.Set(0, 0, 0);
     State.Orientation.Make_Identity();
@@ -562,9 +562,9 @@ void RigidBodyClass::Init(const RigidBodyDefClass& def)
 RigidBodyClass::~RigidBodyClass(void)
 {
     REF_PTR_RELEASE(Box);
-    if (ContactBox != NULL) {
+    if (ContactBox != nullptr) {
         delete ContactBox;
-        ContactBox = NULL;
+        ContactBox = nullptr;
     }
 }
 
@@ -689,7 +689,7 @@ void RigidBodyClass::Set_Model(RenderObjClass* model)
 void RigidBodyClass::Update_Cached_Model_Parameters(void)
 {
     // if we don't have a model yet, just return
-    if (Model == NULL) {
+    if (Model == nullptr) {
         return;
     }
 
@@ -710,7 +710,7 @@ void RigidBodyClass::Update_Cached_Model_Parameters(void)
         // The LOD code generates a unique name for the mesh by appending A,B,C, etc to the name.
         // A is the lowest LOD, B is the next, and so on.  Our worldbox is specified in the highest
         // LOD so we have to construct the name by appending 'A'+LodCount to the name... icky
-        if ((Box == NULL) && (Model->Class_ID() == RenderObjClass::CLASSID_HLOD)) {
+        if ((Box == nullptr) && (Model->Class_ID() == RenderObjClass::CLASSID_HLOD)) {
 
             char namebuffer[64];
             sprintf(namebuffer, "WorldBox%c", 'A' + ((HLodClass*)Model)->Get_Lod_Count() - 1);
@@ -724,7 +724,7 @@ void RigidBodyClass::Update_Cached_Model_Parameters(void)
     }
 
     // Otherwise just create one
-    if (Box == NULL) {
+    if (Box == nullptr) {
         WWDEBUG_SAY(("Missing WorldBox in model: %s\r\n", Model->Get_Name()));
         Box = new OBBoxRenderObjClass(OBBoxClass(Vector3(0, 0, 0), Vector3(1, 1, 1)));
         Box->Set_Collision_Type(COLLISION_TYPE_PHYSICAL);
@@ -734,7 +734,7 @@ void RigidBodyClass::Update_Cached_Model_Parameters(void)
     Matrix3D tm = Get_Transform();
     Model->Set_Transform(Matrix3D(1));
 
-    if (ContactBox != NULL) {
+    if (ContactBox != nullptr) {
         delete ContactBox;
     }
     ContactBox = new OctBoxClass(*this, Box->Get_Box());
@@ -857,11 +857,11 @@ void RigidBodyClass::Network_Latency_State_Update(const Vector3& new_pos,
     /*
     ** Allocate a history object if needed
     */
-    if (History == NULL) {
+    if (History == nullptr) {
         History = new RBodyHistoryClass;
         History->Init(LastKnownState);
     }
-    WWASSERT(History != NULL);
+    WWASSERT(History != nullptr);
 
     /*
     ** Search our history to find the point nearest this server update
@@ -1346,7 +1346,7 @@ void RigidBodyClass::Compute_Force_And_Torque(Vector3* force, Vector3* torque)
             */
             Phys3Class* p3obj = ContactBox->Peek_Contacted_Object(i)->As_Phys3Class();
             bool resolved = false;
-            if (p3obj != NULL) {
+            if (p3obj != nullptr) {
                 resolved = Push_Phys3_Object_Away(p3obj, contact);
             }
             if (resolved == false) {
@@ -1532,7 +1532,7 @@ bool RigidBodyClass::Can_Go_To_Sleep(float dt)
     ** RigidBodies go to sleep if their oct-box is resting on at least three contacts and
     ** their velocities are below some thresh-hold and their controller isn't doing anything.
     */
-    if ((Controller != NULL) && (Controller->Is_Inactive() != true)) {
+    if ((Controller != nullptr) && (Controller->Is_Inactive() != true)) {
         GoToSleepTimer = RBODY_SLEEP_DELAY;
         return false;
     }
@@ -1646,7 +1646,7 @@ void RigidBodyClass::Timestep(float dt)
     /*
     ** Update our history buffer
     */
-    if (History != NULL) {
+    if (History != nullptr) {
         History->Update_History(State, dt);
 
         /*
@@ -1674,7 +1674,7 @@ void RigidBodyClass::Timestep(float dt)
     ** If we're currently asleep, see if we need to wake up.
     */
     if (Is_Asleep()) {
-        if ((Controller != NULL) && (Controller->Is_Inactive() == false)) {
+        if ((Controller != nullptr) && (Controller->Is_Inactive() == false)) {
             Set_Flag(ASLEEP, false);
         }
         else {
@@ -1778,7 +1778,7 @@ void RigidBodyClass::Timestep(float dt)
                             */
                             PhysClass* other_obj = ContactBox->Peek_Contacted_Object(ci);
 
-                            if ((other_obj != NULL) && (other_obj->As_RigidBodyClass() != NULL)) {
+                            if ((other_obj != nullptr) && (other_obj->As_RigidBodyClass() != nullptr)) {
 
                                 RigidBodyClass* other_rbody = other_obj->As_RigidBodyClass();
                                 float fraction = Mass / (Mass + other_rbody->Get_Mass());
@@ -1787,7 +1787,7 @@ void RigidBodyClass::Timestep(float dt)
                                 other_rbody->Apply_Impulse(-(1.0f - fraction) * impulse,
                                                            contact.ContactPoint);
                             }
-                            else if ((other_obj != NULL) && (other_obj->As_Phys3Class() != NULL)) {
+                            else if ((other_obj != nullptr) && (other_obj->As_Phys3Class() != nullptr)) {
 
                                 if (!Push_Phys3_Object_Away(other_obj->As_Phys3Class(), contact)) {
                                     State.LMomentum += impulse;
@@ -1937,7 +1937,7 @@ bool RigidBodyClass::Push_Phys3_Object_Away(Phys3Class* p3obj, const CastResultS
     */
     CollisionEventClass event;
     event.CollisionResult = &contact;
-    event.CollidedRenderObj = NULL;
+    event.CollidedRenderObj = nullptr;
     event.OtherObj = this;
     p3obj->Collision_Occurred(event);
 
@@ -2023,7 +2023,7 @@ void RigidBodyClass::Assert_Not_Intersecting(void)
 
 void RigidBodyClass::Get_Shadow_Blob_Box(AABoxClass* set_obj_space_box)
 {
-    WWASSERT(set_obj_space_box != NULL);
+    WWASSERT(set_obj_space_box != nullptr);
     if (Box) {
         Box->Get_Obj_Space_Bounding_Box(*set_obj_space_box);
     }
@@ -2154,7 +2154,7 @@ bool RigidBodyClass::Save(ChunkSaveClass& csave)
 
 bool RigidBodyClass::Load(ChunkLoadClass& cload)
 {
-    ODESystemClass* odesys = NULL;
+    ODESystemClass* odesys = nullptr;
 
     while (cload.Open_Chunk()) {
 
@@ -2189,7 +2189,7 @@ bool RigidBodyClass::Load(ChunkLoadClass& cload)
         cload.Close_Chunk();
     }
 
-    if (odesys != NULL) {
+    if (odesys != nullptr) {
         SaveLoadSystemClass::Register_Pointer(odesys, (ODESystemClass*)this);
     }
 

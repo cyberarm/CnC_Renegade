@@ -206,8 +206,8 @@ bool Bit_Blit(Surface& dest, Rect const& dcliprect, Rect const& ddrect, Surface 
     Rect srect = ssrect;
     Rect drect = ddrect;
     bool overlapped = false;
-    void* dbuffer = NULL;
-    void* sbuffer = NULL;
+    void* dbuffer = nullptr;
+    void* sbuffer = nullptr;
 
     /*
     **	Prepare for the blit by performing any clipping as well as fetching pointers into the
@@ -370,7 +370,7 @@ bool RLE_Blit(Surface& dest, Rect const& dcliprect, Rect const& ddrect, Surface 
 
     void* dbuffer = dest.Lock(dcliprect.Top_Left() + drect.Top_Left());
     //	void * dbuffer = dest.Lock(Point2D(dcliprect.X + drect.X, dcliprect.Y + drect.Y));
-    if (dbuffer == NULL) {
+    if (dbuffer == nullptr) {
         return (false);
     }
 
@@ -380,7 +380,7 @@ bool RLE_Blit(Surface& dest, Rect const& dcliprect, Rect const& ddrect, Surface 
     **	is a pixel offset required, it is handled below.
     */
     void* sbuffer = source.Lock();
-    if (sbuffer == NULL) {
+    if (sbuffer == nullptr) {
         dest.Unlock();
         return (false);
     }

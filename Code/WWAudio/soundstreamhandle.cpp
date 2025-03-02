@@ -68,7 +68,7 @@ void SoundStreamHandleClass::Initialize(SoundBufferClass* buffer)
 {
     SoundHandleClass::Initialize(buffer);
 
-    if (Buffer != NULL) {
+    if (Buffer != nullptr) {
 
         //
         //	Create a stream from the sample handle

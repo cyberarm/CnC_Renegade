@@ -77,19 +77,19 @@ void App_Response_Callback(char* response)
     if (DumpOutput) {
         HANDLE file = INVALID_HANDLE_VALUE;
         if (TruncateFile) {
-            file = CreateFile("RenRem.txt", GENERIC_WRITE, 0, NULL, CREATE_ALWAYS,
-                              FILE_ATTRIBUTE_NORMAL, NULL);
+            file = CreateFile("RenRem.txt", GENERIC_WRITE, 0, nullptr, CREATE_ALWAYS,
+                              FILE_ATTRIBUTE_NORMAL, nullptr);
         }
         else {
-            file = CreateFile("RenRem.txt", GENERIC_WRITE, 0, NULL, OPEN_ALWAYS,
-                              FILE_ATTRIBUTE_NORMAL, NULL);
+            file = CreateFile("RenRem.txt", GENERIC_WRITE, 0, nullptr, OPEN_ALWAYS,
+                              FILE_ATTRIBUTE_NORMAL, nullptr);
         }
         TruncateFile = false;
 
         if (file != INVALID_HANDLE_VALUE) {
-            SetFilePointer(file, 0, NULL, FILE_END);
+            SetFilePointer(file, 0, nullptr, FILE_END);
             unsigned long actual = 0;
-            WriteFile(file, response, strlen(response), &actual, NULL);
+            WriteFile(file, response, strlen(response), &actual, nullptr);
             CloseHandle(file);
         }
     }

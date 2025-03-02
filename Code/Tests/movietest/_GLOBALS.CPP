@@ -38,8 +38,8 @@
 #include "_globals.h"
 
 bool GameInFocus;
-Mouse* MouseCursor = NULL;
-WWKeyboardClass* Keyboard = NULL;
+Mouse* MouseCursor = nullptr;
+WWKeyboardClass* Keyboard = nullptr;
 SystemTimerClass SystemTimer;
 
 int Argc;

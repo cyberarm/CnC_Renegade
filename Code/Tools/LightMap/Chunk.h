@@ -46,7 +46,7 @@ public:
     ChunkClass(ChunkLoadClass& loadchunk);
     ~ChunkClass()
     {
-        if (Data != NULL) {
+        if (Data != nullptr) {
             delete[] Data;
         }
     }

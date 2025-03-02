@@ -95,7 +95,7 @@ void* ::operator new(size_t size)
 
     if (_g_binit == false) {
         _g_binit = true;
-        ::SymInitialize(::GetCurrentProcess(), NULL, TRUE);
+        ::SymInitialize(::GetCurrentProcess(), nullptr, TRUE);
     }
 
     CONTEXT context = { 0 };
@@ -103,7 +103,7 @@ void* ::operator new(size_t size)
     context.ContextFlags = CONTEXT_FULL;
     ::GetThreadContext(hthread, &context);
 
-    HANDLE hthread2 = NULL;
+    HANDLE hthread2 = nullptr;
     DuplicateHandle(::GetCurrentProcess(), hthread, ::GetCurrentProcess(), &hthread2,
                     THREAD_ALL_ACCESS | THREAD_GET_CONTEXT, FALSE, 0);
     context.ContextFlags = CONTEXT_FULL;

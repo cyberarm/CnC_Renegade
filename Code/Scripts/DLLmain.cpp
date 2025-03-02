@@ -109,7 +109,7 @@ ScriptClass* Create_Script(const char* name)
 
 void Destroy_Script(ScriptClass* script)
 {
-    assert(script != NULL);
+    assert(script != nullptr);
     delete script;
 }
 
@@ -154,11 +154,11 @@ const char* Get_Script_Name(int index)
 {
     ScriptFactory* factory = ScriptRegistrar::GetScriptFactory(index);
 
-    if (factory != NULL) {
+    if (factory != nullptr) {
         return factory->GetName();
     }
 
-    return NULL;
+    return nullptr;
 }
 
 /******************************************************************************
@@ -181,11 +181,11 @@ const char* Get_Script_Param_Description(int index)
 {
     ScriptFactory* factory = ScriptRegistrar::GetScriptFactory(index);
 
-    if (factory != NULL) {
+    if (factory != nullptr) {
         return factory->GetParamDescription();
     }
 
-    return NULL;
+    return nullptr;
 }
 
 /******************************************************************************
@@ -206,7 +206,7 @@ const char* Get_Script_Param_Description(int index)
 
 bool Set_Script_Commands(ScriptCommandsClass* commands)
 {
-    assert(commands != NULL);
+    assert(commands != nullptr);
 
     // Save the commands list
     Commands = commands->Commands;
@@ -244,6 +244,6 @@ bool Set_Script_Commands(ScriptCommandsClass* commands)
 
 void Set_Request_Destroy_Func(void (*function)(ScriptClass*))
 {
-    assert(function != NULL);
+    assert(function != nullptr);
     ScriptImpClass::Set_Request_Destroy_Func(function);
 }

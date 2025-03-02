@@ -48,7 +48,7 @@
  * INPUTS
  *     URL      - Website address
  *     Wait     - Wait for user to close browser (default = false)
- *     Callback - User callback to invoke during wait (default = NULL callback)
+ *     Callback - User callback to invoke during wait (default = nullptr callback)
  *
  * RESULT
  *     Success - True if successful; otherwise false
@@ -73,7 +73,7 @@ bool LaunchWebBrowser(const char* url)
     strcpy(extPtr, ".html");
 
     HANDLE file
-        = CreateFile(filename, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+        = CreateFile(filename, GENERIC_WRITE, 0, nullptr, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
 
     assert(INVALID_HANDLE_VALUE != file && "Failed to create temporary HTML file.");
 
@@ -84,12 +84,12 @@ bool LaunchWebBrowser(const char* url)
     // Write generic contents
     const char* contents = "<title>ViewHTML</title>";
     DWORD written;
-    WriteFile(file, contents, strlen(contents), &written, NULL);
+    WriteFile(file, contents, strlen(contents), &written, nullptr);
     CloseHandle(file);
 
     // Find the executable that can launch this file
     char exeName[MAX_PATH];
-    HINSTANCE hInst = FindExecutable(filename, NULL, exeName);
+    HINSTANCE hInst = FindExecutable(filename, nullptr, exeName);
     assert(((int)hInst > 32) && "Unable to find executable that will display HTML files.");
 
     // Delete temporary file
@@ -108,7 +108,7 @@ bool LaunchWebBrowser(const char* url)
     startupInfo.cb = sizeof(startupInfo);
 
     PROCESS_INFORMATION processInfo;
-    BOOL createSuccess = CreateProcess(exeName, commandLine, NULL, NULL, FALSE, 0, NULL, NULL,
+    BOOL createSuccess = CreateProcess(exeName, commandLine, nullptr, nullptr, FALSE, 0, nullptr, nullptr,
                                        &startupInfo, &processInfo);
 
     assert(createSuccess && "Failed to launch default WebBrowser.");

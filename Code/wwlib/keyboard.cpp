@@ -338,7 +338,7 @@ char WWKeyboardClass::To_ASCII(unsigned short key)
 
     /*
     **	If Windows could not perform the translation as expected, then
-    **	return with a null ASCII value.
+    **	return with a nullptr ASCII value.
     */
     if (result != 1) {
         return ('\0');
@@ -374,7 +374,7 @@ bool WWKeyboardClass::Down(unsigned short key)
  * WWKeyboardClass::Fetch_Element -- Extract the next element in the keyboard buffer.          *
  *                                                                                             *
  *    This routine will extract the next pending element in the keyboard queue. If there is    *
- *    no element available, then NULL is returned.                                             *
+ *    no element available, then nullptr is returned.                                             *
  *                                                                                             *
  * INPUT:   none                                                                               *
  *                                                                                             *
@@ -515,8 +515,8 @@ void WWKeyboardClass::Fill_Buffer_From_System(void)
     if (!Is_Buffer_Full()) {
         Windows_Message_Handler();
         //		MSG	msg;
-        //		while (PeekMessage(&msg, NULL, 0, 0, PM_NOREMOVE)) {
-        //		  	if (!GetMessage( &msg, NULL, 0, 0 )) {
+        //		while (PeekMessage(&msg, nullptr, 0, 0, PM_NOREMOVE)) {
+        //		  	if (!GetMessage( &msg, nullptr, 0, 0 )) {
         //				return;
         //			}
         //			TranslateMessage(&msg);
@@ -591,7 +591,7 @@ bool WWKeyboardClass::Message_Handler(HWND window, UINT message, UINT wParam, LO
     int y = point.y;
 
     // Special conversion to game coordinates is needed here.
-    if (MouseCursor != NULL) {
+    if (MouseCursor != nullptr) {
         MouseCursor->Convert_Coordinate(x, y);
     }
 

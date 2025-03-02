@@ -99,7 +99,7 @@ BOOL CMixViewerDoc::OnNewDocument(void)
     //	Update each view
     //
     POSITION pos = GetFirstViewPosition();
-    while (pos != NULL) {
+    while (pos != nullptr) {
         CMixViewerView* view = (CMixViewerView*)GetNextView(pos);
         view->Reset();
     }
@@ -127,7 +127,7 @@ BOOL CMixViewerDoc::OnOpenDocument(LPCTSTR path)
     //	Update each view
     //
     POSITION pos = GetFirstViewPosition();
-    while (pos != NULL) {
+    while (pos != nullptr) {
         CMixViewerView* view = (CMixViewerView*)GetNextView(pos);
         view->Reload(path);
     }
@@ -146,7 +146,7 @@ void CMixViewerDoc::Reload_Views(void)
     //	Update each view
     //
     POSITION pos = GetFirstViewPosition();
-    while (pos != NULL) {
+    while (pos != nullptr) {
         CMixViewerView* view = (CMixViewerView*)GetNextView(pos);
         view->Reload(GetPathName());
     }

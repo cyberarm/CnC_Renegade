@@ -63,11 +63,11 @@ static DynamicVectorClass<unsigned long> _TempClipFlagBuffer;
 */
 
 MeshModelClass::MeshModelClass(void)
-    : DefMatDesc(NULL),
-      AlternateMatDesc(NULL),
-      CurMatDesc(NULL),
-      MatInfo(NULL),
-      GapFiller(NULL)
+    : DefMatDesc(nullptr),
+      AlternateMatDesc(nullptr),
+      CurMatDesc(nullptr),
+      MatInfo(nullptr),
+      GapFiller(nullptr)
 {
     Set_Flag(DIRTY_BOUNDS, true);
 
@@ -81,15 +81,15 @@ MeshModelClass::MeshModelClass(void)
 
 MeshModelClass::MeshModelClass(const MeshModelClass& that)
     : MeshGeometryClass(that),
-      DefMatDesc(NULL),
-      AlternateMatDesc(NULL),
-      CurMatDesc(NULL),
-      MatInfo(NULL),
-      GapFiller(NULL),
+      DefMatDesc(nullptr),
+      AlternateMatDesc(nullptr),
+      CurMatDesc(nullptr),
+      MatInfo(nullptr),
+      GapFiller(nullptr),
       HasBeenInUse(false)
 {
     DefMatDesc = new MeshMatDescClass(*(that.DefMatDesc));
-    if (that.AlternateMatDesc != NULL) {
+    if (that.AlternateMatDesc != nullptr) {
         AlternateMatDesc = new MeshMatDescClass(*(that.AlternateMatDesc));
     }
     CurMatDesc = DefMatDesc;
@@ -105,10 +105,10 @@ MeshModelClass::~MeshModelClass(void)
     Reset(0, 0, 0);
     REF_PTR_RELEASE(MatInfo);
 
-    if (DefMatDesc != NULL) {
+    if (DefMatDesc != nullptr) {
         delete DefMatDesc;
     }
-    if (AlternateMatDesc != NULL) {
+    if (AlternateMatDesc != nullptr) {
         delete AlternateMatDesc;
     }
     return;
@@ -123,12 +123,12 @@ MeshModelClass& MeshModelClass::operator=(const MeshModelClass& that)
         *DefMatDesc = *(that.DefMatDesc);
         CurMatDesc = DefMatDesc;
 
-        if (AlternateMatDesc != NULL) {
+        if (AlternateMatDesc != nullptr) {
             delete AlternateMatDesc;
-            AlternateMatDesc = NULL;
+            AlternateMatDesc = nullptr;
         }
 
-        if (that.AlternateMatDesc != NULL) {
+        if (that.AlternateMatDesc != nullptr) {
             AlternateMatDesc = new MeshMatDescClass(*(that.AlternateMatDesc));
         }
 
@@ -136,7 +136,7 @@ MeshModelClass& MeshModelClass::operator=(const MeshModelClass& that)
 
         if (GapFiller) {
             delete[] GapFiller;
-            GapFiller = NULL;
+            GapFiller = nullptr;
         }
         if (that.GapFiller) {
             GapFiller = new GapFillerClass(*that.GapFiller);
@@ -152,14 +152,14 @@ void MeshModelClass::Reset(int polycount, int vertcount, int passcount)
     // Release everything we have and reset to initial state
     MatInfo->Reset();
     DefMatDesc->Reset(polycount, vertcount, passcount);
-    if (AlternateMatDesc != NULL) {
+    if (AlternateMatDesc != nullptr) {
         delete AlternateMatDesc;
-        AlternateMatDesc = NULL;
+        AlternateMatDesc = nullptr;
     }
     CurMatDesc = DefMatDesc;
 
     delete GapFiller;
-    GapFiller = NULL;
+    GapFiller = nullptr;
 
     return;
 }
@@ -174,7 +174,7 @@ void MeshModelClass::Register_For_Rendering()
         }
         else if (GapFiller) {
             delete GapFiller;
-            GapFiller = NULL;
+            GapFiller = nullptr;
         }
     }
     else {
@@ -183,7 +183,7 @@ void MeshModelClass::Register_For_Rendering()
         }
         else if (GapFiller) {
             delete GapFiller;
-            GapFiller = NULL;
+            GapFiller = nullptr;
         }
     }
 }
@@ -253,7 +253,7 @@ void MeshModelClass::Replace_VertexMaterial(VertexMaterialClass* vmat,
 void MeshModelClass::Shadow_Render(SpecialRenderInfoClass& rinfo, const Matrix3D& tm,
                                    const HTreeClass* htree)
 {
-    if (rinfo.BWRenderer != NULL) {
+    if (rinfo.BWRenderer != nullptr) {
         if (_TempTransformedVertexBuffer.Length() < VertexCount) {
             _TempTransformedVertexBuffer.Resize(VertexCount);
         }
@@ -447,7 +447,7 @@ void MeshModelClass::Make_Color_Array_Unique(int array_index)
 
 void MeshModelClass::Enable_Alternate_Material_Description(bool onoff)
 {
-    if ((onoff == true) && (AlternateMatDesc != NULL)) {
+    if ((onoff == true) && (AlternateMatDesc != nullptr)) {
         if (CurMatDesc != AlternateMatDesc) {
             CurMatDesc = AlternateMatDesc;
 
@@ -575,7 +575,7 @@ HashTemplateClass<TriangleSide, SideIndexInfo> SideHash;
 // ----------------------------------------------------------------------------
 
 GapFillerClass::GapFillerClass(MeshModelClass* mmc_)
-    : mmc(NULL),
+    : mmc(nullptr),
       PolygonCount(0)
 {
     REF_PTR_SET(mmc, mmc_);
@@ -589,7 +589,7 @@ GapFillerClass::GapFillerClass(MeshModelClass* mmc_)
                 TextureArray[pass][stage] = new TextureClass*[ArraySize];
             }
             else {
-                TextureArray[pass][stage] = NULL;
+                TextureArray[pass][stage] = nullptr;
             }
         }
 
@@ -597,20 +597,20 @@ GapFillerClass::GapFillerClass(MeshModelClass* mmc_)
             MaterialArray[pass] = new VertexMaterialClass*[ArraySize];
         }
         else {
-            MaterialArray[pass] = NULL;
+            MaterialArray[pass] = nullptr;
         }
 
         if (mmc->Has_Shader_Array(pass)) {
             ShaderArray[pass] = new ShaderClass[ArraySize];
         }
         else {
-            ShaderArray[pass] = NULL;
+            ShaderArray[pass] = nullptr;
         }
     }
 }
 
 GapFillerClass::GapFillerClass(const GapFillerClass& that)
-    : mmc(NULL),
+    : mmc(nullptr),
       PolygonCount(that.PolygonCount)
 {
     REF_PTR_SET(mmc, that.mmc);
@@ -627,7 +627,7 @@ GapFillerClass::GapFillerClass(const GapFillerClass& that)
                 }
             }
             else {
-                TextureArray[pass][stage] = NULL;
+                TextureArray[pass][stage] = nullptr;
             }
         }
 
@@ -639,7 +639,7 @@ GapFillerClass::GapFillerClass(const GapFillerClass& that)
             }
         }
         else {
-            MaterialArray[pass] = NULL;
+            MaterialArray[pass] = nullptr;
         }
 
         if (that.ShaderArray[pass]) {
@@ -649,7 +649,7 @@ GapFillerClass::GapFillerClass(const GapFillerClass& that)
             }
         }
         else {
-            ShaderArray[pass] = NULL;
+            ShaderArray[pass] = nullptr;
         }
     }
 }

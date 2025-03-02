@@ -38,7 +38,7 @@ cBitPacker::cBitPacker()
     // WWASSERT(BufferSize > 0);
 
     // Buffer = new BYTE[BufferSize];
-    // WWASSERT(Buffer != NULL);
+    // WWASSERT(Buffer != nullptr);
     // memset(Buffer, 0, BufferSize);
     memset(Buffer, 0, MAX_BUFFER_SIZE);
 }

@@ -36,7 +36,7 @@ class EditFilenameListDialogClass : public CDialog
 {
     // Construction
 public:
-    EditFilenameListDialogClass(CWnd* pParent = NULL); // standard constructor
+    EditFilenameListDialogClass(CWnd* pParent = nullptr); // standard constructor
 
     // Dialog Data
     //{{AFX_DATA(EditFilenameListDialogClass)

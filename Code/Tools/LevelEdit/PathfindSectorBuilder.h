@@ -153,7 +153,7 @@ protected:
     void Determine_Height(FloodfillBoxClass* start_box, float* min_z_pos, float* max_z_pos);
     int Build_Height_Values(void);
 
-    void Compress_Sectors(DynamicVectorClass<AABoxClass>* box_list = NULL);
+    void Compress_Sectors(DynamicVectorClass<AABoxClass>* box_list = nullptr);
     FloodfillBoxClass* Find_Perimeter(FloodfillBoxClass* start_box, BOX_PERIMETER* perimeter);
     bool Check_Edge(FloodfillBoxClass* start_box, int count_left, int count_right, int count_up,
                     int count_down, PATHFIND_DIR move_dir);

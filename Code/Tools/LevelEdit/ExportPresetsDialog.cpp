@@ -40,7 +40,7 @@ static char THIS_FILE[] = __FILE__;
 // ExportPresetsDialogClass
 //
 /////////////////////////////////////////////////////////////////////////////
-ExportPresetsDialogClass::ExportPresetsDialogClass(CWnd* pParent /*=NULL*/)
+ExportPresetsDialogClass::ExportPresetsDialogClass(CWnd* pParent /*=nullptr*/)
     : CDialog(ExportPresetsDialogClass::IDD, pParent)
 {
     //{{AFX_DATA_INIT(ExportPresetsDialogClass)
@@ -143,7 +143,7 @@ void ExportPresetsDialogClass::OnOK(void)
         //
         HTREEITEM selected_item = m_TreeCtrl.GetSelectedItem();
         int class_id = 0;
-        if (selected_item != NULL) {
+        if (selected_item != nullptr) {
             class_id = m_TreeCtrl.GetItemData(selected_item);
         }
 
@@ -187,13 +187,13 @@ void ExportPresetsDialogClass::Fill_Tree(void)
         //
         DefinitionFactoryClass* factory
             = DefinitionFactoryMgrClass::Find_Factory(PRESET_CATEGORIES[index].clsid);
-        if (factory == NULL) {
+        if (factory == nullptr) {
 
             //
             //	Find all the sub-factories
             //
             for (factory = DefinitionFactoryMgrClass::Get_First(PRESET_CATEGORIES[index].clsid);
-                 factory != NULL; factory
+                 factory != nullptr; factory
                  = DefinitionFactoryMgrClass::Get_Next(factory, PRESET_CATEGORIES[index].clsid)) {
                 //
                 //	Add this sub-factory to the tree

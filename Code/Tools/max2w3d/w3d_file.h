@@ -51,10 +51,10 @@
 
 NAMING CONVENTIONS:
 
-        Typical render object name is 15 characters + NULL
-        Meshes have 31 + NULL character name formed from the concatenation of the "container"
+        Typical render object name is 15 characters + nullptr
+        Meshes have 31 + nullptr character name formed from the concatenation of the "container"
                 model name and the mesh's name:  "ContainerName.MeshName"
-        Animations have 31 + NULL character names formed from the concatenation of the Hierarchy
+        Animations have 31 + nullptr character names formed from the concatenation of the Hierarchy
 tree name with the animation name: "AnimationName.HierarchyName" Textures have unlimited name
 length. Typically you can determine which 'W3D' file a render object came from by looking at its
 name.  If the name contains a '.' then the filename is the string before the '.' and if not, then
@@ -265,7 +265,7 @@ W3D_CHUNK_VERTEX_MATERIAL_INFO
 
 August 5, 1999
 
-        Adding Null Object exporting
+        Adding nullptr Object exporting
 
 March 28, 2000
 
@@ -339,7 +339,7 @@ enum
     W3D_CHUNK_VERTICES = 0x00000002, // array of vertices (array of W3dVectorStruct's)
     W3D_CHUNK_VERTEX_NORMALS = 0x00000003, // array of normals (array of W3dVectorStruct's)
     W3D_CHUNK_MESH_USER_TEXT
-    = 0x0000000C, // Text from the MAX comment field (Null terminated string)
+    = 0x0000000C, // Text from the MAX comment field (nullptr terminated string)
     W3D_CHUNK_VERTEX_INFLUENCES
     = 0x0000000E, // Mesh Deformation vertex connections (array of W3dVertInfStruct's)
     W3D_CHUNK_MESH_HEADER3
@@ -362,14 +362,14 @@ enum
 
     W3D_CHUNK_VERTEX_MATERIALS = 0x0000002A, // wraps the vertex materials
     W3D_CHUNK_VERTEX_MATERIAL = 0x0000002B,
-    W3D_CHUNK_VERTEX_MATERIAL_NAME = 0x0000002C, // vertex material name (NULL-terminated string)
+    W3D_CHUNK_VERTEX_MATERIAL_NAME = 0x0000002C, // vertex material name (nullptr-terminated string)
     W3D_CHUNK_VERTEX_MATERIAL_INFO = 0x0000002D, // W3dVertexMaterialStruct
-    W3D_CHUNK_VERTEX_MAPPER_ARGS0 = 0x0000002E, // Null-terminated string
-    W3D_CHUNK_VERTEX_MAPPER_ARGS1 = 0x0000002F, // Null-terminated string
+    W3D_CHUNK_VERTEX_MAPPER_ARGS0 = 0x0000002E, // nullptr-terminated string
+    W3D_CHUNK_VERTEX_MAPPER_ARGS1 = 0x0000002F, // nullptr-terminated string
 
     W3D_CHUNK_TEXTURES = 0x00000030, // wraps all of the texture info
     W3D_CHUNK_TEXTURE = 0x00000031, // wraps a texture definition
-    W3D_CHUNK_TEXTURE_NAME = 0x00000032, // texture filename (NULL-terminated string)
+    W3D_CHUNK_TEXTURE_NAME = 0x00000032, // texture filename (nullptr-terminated string)
     W3D_CHUNK_TEXTURE_INFO = 0x00000033, // optional W3dTextureInfoStruct
 
     W3D_CHUNK_MATERIAL_PASS = 0x00000038, // wraps the information for a single material pass
@@ -495,7 +495,7 @@ enum
     W3D_CHUNK_SPHERE,
     W3D_CHUNK_RING,
 
-    W3D_CHUNK_NULL_OBJECT = 0x00000750, // defines a NULL object (W3dNullObjectStruct)
+    W3D_CHUNK_nullptr_OBJECT = 0x00000750, // defines a nullptr object (W3dnullptrObjectStruct)
 
     W3D_CHUNK_LIGHTSCAPE = 0x00000800, // wrapper for lights created with Lightscape.
     W3D_CHUNK_LIGHTSCAPE_LIGHT, // definition of a light created with Lightscape.
@@ -504,9 +504,9 @@ enum
 
     W3D_CHUNK_DAZZLE = 0x00000900, // wrapper for a glare object.  Creates halos and flare lines
                                    // seen around a bright light source
-    W3D_CHUNK_DAZZLE_NAME, // null-terminated string, name of the dazzle (typical w3d object naming:
+    W3D_CHUNK_DAZZLE_NAME, // nullptr-terminated string, name of the dazzle (typical w3d object naming:
                            // "container.object")
-    W3D_CHUNK_DAZZLE_TYPENAME, // null-terminated string, type of dazzle (from dazzle.ini)
+    W3D_CHUNK_DAZZLE_TYPENAME, // nullptr-terminated string, type of dazzle (from dazzle.ini)
 
     W3D_CHUNK_SOUNDROBJ = 0x00000A00, // description of a sound render object
     W3D_CHUNK_SOUNDROBJ_HEADER, // general information such as name and version
@@ -2166,15 +2166,15 @@ struct W3dBoxStruct
 
 /********************************************************************************
 
-        NULL Objects
+        nullptr Objects
 
-        Null objects are used by the LOD system to make meshes dissappear at lower
+        nullptr objects are used by the LOD system to make meshes dissappear at lower
         levels of detail.
 
 ********************************************************************************/
-#define W3D_NULL_OBJECT_CURRENT_VERSION W3D_MAKE_VERSION(1, 0)
+#define W3D_nullptr_OBJECT_CURRENT_VERSION W3D_MAKE_VERSION(1, 0)
 
-struct W3dNullObjectStruct
+struct W3dnullptrObjectStruct
 {
     uint32 Version; // file format version
     uint32 Attributes; // object attributes (currently un-used)

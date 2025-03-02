@@ -95,7 +95,7 @@ public:
         return (TRect<T>(X - point.X, Y - point.Y, Width, Height));
     }
 
-    TRect<T> const Intersect(TRect<T> const& rectangle, T* x = NULL, T* y = NULL) const;
+    TRect<T> const Intersect(TRect<T> const& rectangle, T* x = nullptr, T* y = nullptr) const;
     TRect<T> const Union(TRect<T> const& rect2) const;
 
     /*
@@ -216,10 +216,10 @@ template <class T> TRect<T> const TRect<T>::Intersect(TRect<T> const& rectangle,
     **	Adjust Height relative draw position according to Height new rectangle
     **	union.
     */
-    if (x != nullptr) {
+    if (x != nullptrptr) {
         *x -= (r.X - X);
     }
-    if (y != nullptr) {
+    if (y != nullptrptr) {
         *y -= (r.Y - Y);
     }
 

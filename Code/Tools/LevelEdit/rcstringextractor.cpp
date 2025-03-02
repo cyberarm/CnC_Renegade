@@ -67,7 +67,7 @@ bool RCStringExtractorClass::Find_String(StringClass& line, const char* keyword,
     //	Did we find the keyword?
     //
     char* buffer = ::strstr(new_line, keyword);
-    if (buffer != NULL) {
+    if (buffer != nullptr) {
         buffer += ::lstrlen(keyword);
 
         //
@@ -121,7 +121,7 @@ bool RCStringExtractorClass::Find_String(StringClass& line, const char* keyword,
                     //
                     //	Check to ensure this isn't already a translation string
                     //
-                    if (::strstr(contents, "IDS_") == NULL) {
+                    if (::strstr(contents, "IDS_") == nullptr) {
 
                         //
                         //	Now fill in the replacement
@@ -216,7 +216,7 @@ void RCStringExtractorClass::Extract_Strings(void)
         //	Try to find the category these strings are to be imported into
         //
         TDBCategoryClass* category = TranslateDBClass::Find_Category(CategoryName);
-        if (category != NULL) {
+        if (category != nullptr) {
             CategoryIndex = category->Get_ID();
         }
 
@@ -278,7 +278,7 @@ int RCStringExtractorClass::Find_Starting_Index(void)
     int count = TranslateDBClass::Get_Object_Count();
     for (int index = 0; index < count; index++) {
         TDBObjClass* obj = TranslateDBClass::Get_Object(index);
-        if (obj != NULL) {
+        if (obj != nullptr) {
 
             //
             //	Is this one of the strings we care about?

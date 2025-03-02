@@ -61,7 +61,7 @@ TechOptionsMenuClass::TechOptionsMenuClass(void)
 void TechOptionsMenuClass::On_Init_Dialog(void)
 {
     TabCtrlClass* tab_ctrl = (TabCtrlClass*)Get_Dlg_Item(IDC_TABCTRL);
-    if (tab_ctrl != NULL) {
+    if (tab_ctrl != nullptr) {
 
         //
         //	Add the tabs to the control
@@ -101,7 +101,7 @@ void TechOptionsMenuClass::On_Destroy(void)
     //	Get a pointer to the tab ctrl
     //
     TabCtrlClass* tab_ctrl = (TabCtrlClass*)Get_Dlg_Item(IDC_TABCTRL);
-    if (tab_ctrl != NULL) {
+    if (tab_ctrl != nullptr) {
 
         //
         //	Save the changes on each tab of the control

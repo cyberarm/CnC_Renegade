@@ -102,7 +102,7 @@ namespace WWOnline
         mReserved = ntohs(*(unsigned short*)curbuf);
         curbuf += sizeof(mReserved);
 
-        mHead = NULL;
+        mHead = nullptr;
 
         // Calculate the remaining size so that we can loop through the
         // packets and extract them.
@@ -249,7 +249,7 @@ namespace WWOnline
             }
         }
 
-        return NULL;
+        return nullptr;
     }
 
     /**************************************************************************

@@ -41,9 +41,9 @@ cMsgStatList::cMsgStatList(void)
 //---------------- --------------------------------------------------------------------
 cMsgStatList::~cMsgStatList(void)
 {
-    if (PStat != NULL) {
+    if (PStat != nullptr) {
         delete[] PStat;
-        PStat = NULL;
+        PStat = nullptr;
     }
 }
 
@@ -54,7 +54,7 @@ void cMsgStatList::Init(int num_stats)
 
     NumStats = num_stats;
     PStat = new cMsgStat[NumStats + 1];
-    WWASSERT(PStat != NULL);
+    WWASSERT(PStat != nullptr);
 }
 
 //-----------------------------------------------------------------------------

@@ -61,7 +61,7 @@ public:
     //////////////////////////////////////////////////////////////////
     //	Public constructors/destructors
     //////////////////////////////////////////////////////////////////
-    ZoneNodeClass(PresetClass* preset = NULL);
+    ZoneNodeClass(PresetClass* preset = nullptr);
     ZoneNodeClass(const ZoneNodeClass& src);
     ~ZoneNodeClass(void);
 
@@ -192,8 +192,8 @@ inline void ZoneNodeClass::On_Transform(void)
 //////////////////////////////////////////////////////////////////
 inline Box3DClass* ZoneNodeClass::Get_Box(void)
 {
-    Box3DClass* box = NULL;
-    if (m_PhysObj != NULL) {
+    Box3DClass* box = nullptr;
+    if (m_PhysObj != nullptr) {
         box = m_PhysObj->Get_Box();
     }
 

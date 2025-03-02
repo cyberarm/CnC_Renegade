@@ -50,8 +50,8 @@
 AnimationCompressionSettingsDialogClass::AnimationCompressionSettingsDialogClass(
     Interface* maxinterface, HWND parent_wnd)
     : MaxInterface(maxinterface),
-      Options(NULL),
-      Wnd(NULL),
+      Options(nullptr),
+      Wnd(nullptr),
       ParentWnd(parent_wnd)
 {
     return;
@@ -88,7 +88,7 @@ BOOL CALLBACK AnimationCompressionSettingsDialogClass::Real_Message_Proc(HWND wn
                                                                          WPARAM wparam,
                                                                          LPARAM lparam)
 {
-    AnimationCompressionSettingsDialogClass* dialog_obj = NULL;
+    AnimationCompressionSettingsDialogClass* dialog_obj = nullptr;
 
     //
     //	Setup the framework we need so that the instance
@@ -107,7 +107,7 @@ BOOL CALLBACK AnimationCompressionSettingsDialogClass::Real_Message_Proc(HWND wn
     //	Allow the instance to handle the call
     //
     BOOL retval = FALSE;
-    if (dialog_obj != NULL) {
+    if (dialog_obj != nullptr) {
         retval = dialog_obj->Message_Proc(message, wparam, lparam);
     }
 
@@ -142,7 +142,7 @@ BOOL AnimationCompressionSettingsDialogClass::Message_Proc(UINT message, WPARAM 
         ::GetWindowRect(Wnd, &rect);
         int width = parent_rect.right - parent_rect.left;
         int height = parent_rect.bottom - parent_rect.top;
-        ::SetWindowPos(Wnd, NULL, parent_rect.left + (width / 2) - ((rect.right - rect.left) / 2),
+        ::SetWindowPos(Wnd, nullptr, parent_rect.left + (width / 2) - ((rect.right - rect.left) / 2),
                        parent_rect.top + (height / 2) - ((rect.bottom - rect.top) / 2), 0, 0,
                        SWP_NOZORDER | SWP_NOSIZE);
 

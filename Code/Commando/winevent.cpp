@@ -74,7 +74,7 @@ void cWinEvent::Init(int winner, int loser, bool is_cycle_over)
     Loser = loser;
     IsMapCycleOver = is_cycle_over;
 
-    WWASSERT(The_Game() != NULL);
+    WWASSERT(The_Game() != nullptr);
     HostedGameNumber = The_Game()->Get_Hosted_Game_Number();
 
     Set_Object_Dirty_Bit(BIT_CREATION, true);
@@ -97,7 +97,7 @@ void cWinEvent::Act(void)
 
     WideStringClass win_text;
 
-    WWASSERT(PTheGameData != NULL);
+    WWASSERT(PTheGameData != nullptr);
     // if (The_Game()->Is_Team_Game()) {
 
     WideStringClass champ_text;
@@ -128,7 +128,7 @@ void cWinEvent::Act(void)
     //
     //	Let the game know if the map cycle is over
     //
-    if (The_Game() != NULL) {
+    if (The_Game() != nullptr) {
         The_Game()->Set_Is_Map_Cycle_Over(IsMapCycleOver);
     }
 
@@ -139,7 +139,7 @@ void cWinEvent::Act(void)
 void cWinEvent::Export_Creation(BitStreamClass& packet)
 {
     WWASSERT(cNetwork::I_Am_Server());
-    WWASSERT(The_Game() != NULL);
+    WWASSERT(The_Game() != nullptr);
 
     cNetEvent::Export_Creation(packet);
 
@@ -182,7 +182,7 @@ void cWinEvent::Import_Creation(BitStreamClass& packet)
     packet.Get(mvp_count);
 
     // TSS092601
-    WWASSERT(The_Game() != NULL);
+    WWASSERT(The_Game() != nullptr);
 
     //
     // This is just causing no end of trouble so I'm going to simplify it.

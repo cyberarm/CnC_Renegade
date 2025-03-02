@@ -131,7 +131,7 @@ protected:
         MESH = 0,
         COLLISIONBOX,
         DAZZLE,
-        NULLOBJ,
+        nullptrOBJ,
         AGGREGATE,
         PROXY,
         LIGHT,

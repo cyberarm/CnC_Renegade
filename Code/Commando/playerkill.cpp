@@ -89,19 +89,19 @@ void cPlayerKill::Act(void)
     WideStringClass killer_name = TRANSLATION(IDS_MP_SOMEBODY);
     WideStringClass victim_name = TRANSLATION(IDS_MP_SOMEBODY);
 
-    cPlayer* p_killer = NULL;
-    cPlayer* p_victim = NULL;
+    cPlayer* p_killer = nullptr;
+    cPlayer* p_victim = nullptr;
 
     if (KillerId != PLAYER_ID_UNKNOWN) {
         p_killer = cPlayerManager::Find_Player(KillerId);
-        if (p_killer != NULL) {
+        if (p_killer != nullptr) {
             killer_name = p_killer->Get_Name();
         }
     }
 
     if (VictimId != PLAYER_ID_UNKNOWN) {
         p_victim = cPlayerManager::Find_Player(VictimId);
-        if (p_victim != NULL) {
+        if (p_victim != nullptr) {
             victim_name = p_victim->Get_Name();
         }
     }
@@ -115,7 +115,7 @@ void cPlayerKill::Act(void)
           killer_name,
           TRANSLATION(IDS_MP_TREASON_PHRASE),
           victim_name);
-                 WWASSERT(Get_Text_Display() != NULL);
+                 WWASSERT(Get_Text_Display() != nullptr);
                  Get_Text_Display()->Print_Informational(formatted_text);
 
     } else {
@@ -126,7 +126,7 @@ void cPlayerKill::Act(void)
           killer_name,
                          TRANSLATION(IDS_MP_DEFAULT_KILL_PHRASE),
           victim_name);
-                 WWASSERT(Get_Text_Display() != NULL);
+                 WWASSERT(Get_Text_Display() != nullptr);
                  Get_Text_Display()->Print_Informational(formatted_text);
 
                  if (cNetwork::I_Am_Client() && KillerId == cNetwork::Get_My_Id() &&
@@ -136,8 +136,8 @@ void cPlayerKill::Act(void)
     }
          */
 
-    if (p_killer != NULL && p_victim != NULL) {
-        WWASSERT(CombatManager::Get_Message_Window() != NULL);
+    if (p_killer != nullptr && p_victim != nullptr) {
+        WWASSERT(CombatManager::Get_Message_Window() != nullptr);
 
         //
         //	Determine which message to display

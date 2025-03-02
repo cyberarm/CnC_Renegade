@@ -67,7 +67,7 @@ void GroupMgrClass::Export_Nodes(NODE_LIST& node_list)
     //
     for (int index = 0; index < m_GroupList.Count(); index++) {
         NodeClass* node = m_GroupList[index];
-        if (node != NULL) {
+        if (node != nullptr) {
             node_list.Add_Unique(node);
         }
     }
@@ -98,7 +98,7 @@ void GroupMgrClass::Import_Nodes(const NODE_LIST& node_list)
 /////////////////////////////////////////////////////////////
 void GroupMgrClass::Add_Node(NodeClass* node)
 {
-    if ((node != NULL) && (Is_Item_In_Group(node) == false)) {
+    if ((node != nullptr) && (Is_Item_In_Group(node) == false)) {
 
         //
         // Add this item to the list
@@ -232,15 +232,15 @@ void GroupMgrClass::Clone_Group(void)
                 //
                 //	Add this new point to our group
                 //
-                WaypointNodeClass* new_point = NULL;
+                WaypointNodeClass* new_point = nullptr;
                 path->Get_Point(index + 1, &new_point);
-                if (new_point != NULL) {
+                if (new_point != nullptr) {
                     SAFE_ADD_REF(new_point);
                     m_GroupList.Add(new_point);
                 }
             }
         }
-        else if (node->Get_Parent_Node() != NULL) {
+        else if (node->Get_Parent_Node() != nullptr) {
 
             if (node->Get_Parent_Node()->Can_Add_Child_Nodes()) {
 
@@ -250,7 +250,7 @@ void GroupMgrClass::Clone_Group(void)
                 //
                 NodeClass* new_node
                     = node->Get_Parent_Node()->Add_Child_Node(node->Get_Transform());
-                if (new_node != NULL) {
+                if (new_node != nullptr) {
                     SAFE_ADD_REF(new_node);
                     m_GroupList.Add(new_node);
                 }
@@ -262,7 +262,7 @@ void GroupMgrClass::Clone_Group(void)
             //	Create a new instance of this node, and add it to our list
             //
             NodeClass* new_node = ::Get_Scene_Editor()->Clone_Node(node);
-            if (new_node != NULL) {
+            if (new_node != nullptr) {
                 m_GroupList.Add(new_node);
             }
         }
@@ -292,7 +292,7 @@ void GroupMgrClass::Recalc_Stats(void)
     for (int index = 0; index < m_GroupList.Count(); index++) {
         NodeClass* node = m_GroupList[index];
         RenderObjClass* render_obj = node->Peek_Render_Obj();
-        if (render_obj != NULL) {
+        if (render_obj != nullptr) {
 
             if (index == 0) {
                 m_BoundingBox = render_obj->Get_Bounding_Box();
@@ -334,7 +334,7 @@ void GroupMgrClass::Hide(bool hide)
     // Loop through all the nodes in the group
     for (int index = 0; index < m_GroupList.Count(); index++) {
         NodeClass* node = m_GroupList[index];
-        if (node != NULL) {
+        if (node != nullptr) {
 
             //
             // Hide this node
@@ -367,7 +367,7 @@ void GroupMgrClass::Hide(bool hide)
 /////////////////////////////////////////////////////////////
 void SelectionMgrClass::Add_Node(NodeClass* node)
 {
-    if ((node != NULL) && (Is_Item_In_Group(node) == false)) {
+    if ((node != nullptr) && (Is_Item_In_Group(node) == false)) {
 
         //
         //	Show the selection box
@@ -389,7 +389,7 @@ void SelectionMgrClass::Remove_Node(NodeClass* node)
     //
     // Remove the selection box from this node
     //
-    if (node != NULL) {
+    if (node != nullptr) {
         node->Show_Selection_Box(false);
     }
 
@@ -407,7 +407,7 @@ void SelectionMgrClass::Reset(void)
     // Loop through all the nodes in the group
     for (int index = 0; index < m_GroupList.Count(); index++) {
         NodeClass* node = m_GroupList[index];
-        if (node != NULL) {
+        if (node != nullptr) {
 
             //
             // Remove the selection item from this node
@@ -500,7 +500,7 @@ void UserGroupMgrClass::Update_Global_Group_List(void)
 void UserGroupMgrClass::Add_Node(NodeClass* node)
 {
     GroupMgrClass::Add_Node(node);
-    if (node != NULL) { }
+    if (node != nullptr) { }
 
     return;
 }
@@ -516,7 +516,7 @@ void UserGroupMgrClass::Remove_Node(NodeClass* node)
     GroupMgrClass::Remove_Node(node);
 
     // OK to process?
-    if (in_list && node != NULL) { }
+    if (in_list && node != nullptr) { }
 
     return;
 }

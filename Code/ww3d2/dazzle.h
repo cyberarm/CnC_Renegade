@@ -299,13 +299,13 @@ public:
     static const char*
     Get_Type_Name(unsigned int id); // Return the name of the type with the given ID
     static DazzleTypeClass*
-    Get_Type_Class(unsigned id); // Return dazzle type class pointer, or NULL if not found
+    Get_Type_Class(unsigned id); // Return dazzle type class pointer, or nullptr if not found
                                  // The pointer is NOT refcounted - all types are deinitialised
                                  // when exiting the level.
     static unsigned Get_Lensflare_ID(
         const char* name); // Return the ID of lensflare with given name, or INT_MAX if failed
     static LensflareTypeClass*
-    Get_Lensflare_Class(unsigned id); // Return lensflare type class pointer, or NULL if not found
+    Get_Lensflare_Class(unsigned id); // Return lensflare type class pointer, or nullptr if not found
 
     static void Deinit();
 

@@ -94,9 +94,9 @@ public:
     void Re_Partition_Sector_Tree(void);
 
     PathfindSectorClass* Find_Sector(const Vector3& position, float sector_fudge = 0,
-                                     PathfindSectorClass* exclude_sector = NULL);
+                                     PathfindSectorClass* exclude_sector = nullptr);
     void Collect_Sectors(DynamicVectorClass<PathfindSectorClass*>& list, const AABoxClass& box,
-                         PathfindSectorClass* exclude_sector = NULL);
+                         PathfindSectorClass* exclude_sector = nullptr);
     bool Find_Random_Spot(const Vector3& center, float max_dist, Vector3* dest);
 
     bool Save(ChunkSaveClass& csave);
@@ -230,7 +230,7 @@ inline PathfindSectorClass* PathfindClass::Peek_Sector(int sector_index)
         return m_SectorList[sector_index];
     }
     else {
-        return NULL;
+        return nullptr;
     }
 }
 

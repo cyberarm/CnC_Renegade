@@ -112,7 +112,7 @@ private:
     bool Export_Damage_Animations(char* name, ChunkSaveClass& csave, Progress_Meter_Class& meter,
                                   INode* damage_root);
     bool Export_Geometry(char* name, ChunkSaveClass& csave, Progress_Meter_Class& meter,
-                         INode* root = NULL, MeshConnectionsClass** out_connection = NULL);
+                         INode* root = nullptr, MeshConnectionsClass** out_connection = nullptr);
     bool Export_HLod(char* name, const char* htree_name, ChunkSaveClass& csave,
                      Progress_Meter_Class& meter, MeshConnectionsClass** connections,
                      int lod_count);

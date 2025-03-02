@@ -51,11 +51,11 @@ public:
 
     virtual BOOL Accept_Node(INode* node, TimeValue time)
     {
-        if (node == NULL) {
+        if (node == nullptr) {
             return FALSE;
         }
         Object* obj = node->EvalWorldState(time).obj;
-        if (obj == NULL) {
+        if (obj == nullptr) {
             return FALSE;
         }
 
@@ -70,7 +70,7 @@ public:
 
 void SnapPointsClass::Export_Points(INode* scene_root, TimeValue time, ChunkSaveClass& csave)
 {
-    if (scene_root == NULL) {
+    if (scene_root == nullptr) {
         return;
     }
 

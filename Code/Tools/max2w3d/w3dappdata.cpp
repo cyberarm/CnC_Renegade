@@ -140,8 +140,8 @@ void W3DAppData2Struct::Init_From_AppData0(W3DAppData0Struct& olddata)
     if (olddata.Is_Normal_Mesh()) {
         Set_Geometry_Type(GEO_TYPE_NORMAL_MESH);
     }
-    if (olddata.Is_Null()) {
-        Set_Geometry_Type(GEO_TYPE_NULL);
+    if (olddata.Is_nullptr()) {
+        Set_Geometry_Type(GEO_TYPE_nullptr);
     }
 
     Enable_Hidden(olddata.Is_Hidden());
@@ -219,7 +219,7 @@ W3DAppData2Struct* W3DAppData2Struct::Get_App_Data(INode* node, bool create_if_m
     /*
     ** Try to get our AppData which has the export flags
     */
-    W3DAppData2Struct* wdata = NULL;
+    W3DAppData2Struct* wdata = nullptr;
     AppDataChunk* appdata
         = node->GetAppDataChunk(W3DUtilityClassID, UTILITY_CLASS_ID, W3D_APPDATA_2);
 
@@ -300,7 +300,7 @@ W3DDazzleAppDataStruct* W3DDazzleAppDataStruct::Get_App_Data(INode* node, bool c
     /*
     ** Try to get the existing AppData chunk
     */
-    W3DDazzleAppDataStruct* dazzledata = NULL;
+    W3DDazzleAppDataStruct* dazzledata = nullptr;
     AppDataChunk* appdata
         = node->GetAppDataChunk(W3DUtilityClassID, UTILITY_CLASS_ID, W3D_DAZZLE_APPDATA);
 
@@ -334,7 +334,7 @@ W3DDazzleAppDataStruct* W3DDazzleAppDataStruct::Get_App_Data(INode* node, bool c
 
 static int get_geometry_type(INode* node)
 {
-    assert(node != NULL);
+    assert(node != nullptr);
     return W3DAppData2Struct::Get_App_Data(node)->Get_Geometry_Type();
 }
 
@@ -515,10 +515,10 @@ bool Is_Skin(INode* node)
 
         ReferenceTarget* refTarg = node->GetReference(i);
 
-        if (refTarg != NULL && refTarg->ClassID() == Class_ID(WSM_DERIVOB_CLASS_ID, 0)) {
+        if (refTarg != nullptr && refTarg->ClassID() == Class_ID(WSM_DERIVOB_CLASS_ID, 0)) {
 
             IDerivedObject* wsm_der_obj = (IDerivedObject*)refTarg;
-            // MessageBox(NULL, "WSM found", _T("WSM"), MB_OK);
+            // MessageBox(nullptr, "WSM found", _T("WSM"), MB_OK);
 
             for (int j = 0; j < wsm_der_obj->NumModifiers(); j++) {
                 Modifier* mod = wsm_der_obj->GetModifier(j);
@@ -554,7 +554,7 @@ bool Is_Shadow(INode* node)
 }
 
 /***********************************************************************************************
- * Is_Null_Object -- check if a node is a null object                                          *
+ * Is_nullptr_Object -- check if a node is a nullptr object                                          *
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *
@@ -565,12 +565,12 @@ bool Is_Shadow(INode* node)
  * HISTORY:                                                                                    *
  *   10/26/1997 GH  : Created.                                                                 *
  *=============================================================================================*/
-bool Is_Null_Object(INode* node)
+bool Is_nullptr_Object(INode* node)
 {
     if (!Is_Geometry(node)) {
         return false;
     }
-    return (get_geometry_type(node) == W3DAppData2Struct::GEO_TYPE_NULL);
+    return (get_geometry_type(node) == W3DAppData2Struct::GEO_TYPE_nullptr);
 }
 
 /***********************************************************************************************

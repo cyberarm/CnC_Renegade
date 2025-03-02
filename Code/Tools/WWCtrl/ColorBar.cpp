@@ -41,16 +41,16 @@ extern HINSTANCE _hinstance;
 // ColorBarClass
 //
 ColorBarClass::ColorBarClass(void)
-    : m_hBitmap(NULL),
+    : m_hBitmap(nullptr),
       m_iBMPWidth(0),
       m_iBMPHeight(0),
-      m_pBits(NULL),
-      m_hMemDC(NULL),
+      m_pBits(nullptr),
+      m_hMemDC(nullptr),
       m_iColorPoints(0),
       m_iMarkerWidth(0),
       m_iMarkerHeight(0),
-      m_KeyFrameDIB(NULL),
-      m_pKeyFrameBits(NULL),
+      m_KeyFrameDIB(nullptr),
+      m_pKeyFrameBits(nullptr),
       m_iCurrentKey(0),
       m_MinPos(0),
       m_MaxPos(1),
@@ -121,9 +121,9 @@ ColorBarClass::ColorBarClass(void)
 //
 ColorBarClass::~ColorBarClass(void)
 {
-    if (m_hMemDC != NULL) {
+    if (m_hMemDC != nullptr) {
         ::DeleteObject(m_hMemDC);
-        m_hMemDC = NULL;
+        m_hMemDC = nullptr;
     }
 
     Free_Marker_Bitmap();
@@ -160,7 +160,7 @@ void RegisterColorBar(HINSTANCE hinst)
         wndclass.lpfnWndProc = fnColorBarProc;
         wndclass.hInstance = hinst;
         wndclass.hbrBackground = (HBRUSH)(COLOR_3DFACE + 1);
-        wndclass.hCursor = ::LoadCursor(NULL, IDC_ARROW);
+        wndclass.hCursor = ::LoadCursor(nullptr, IDC_ARROW);
         wndclass.lpszClassName = "WWCOLORBAR";
 
         // Let the windows manager know about this global class
@@ -179,12 +179,12 @@ LRESULT WINAPI fnColorBarProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lpa
     switch (message) {
     case WM_CREATE: {
         LPCREATESTRUCT pcreate_info = (LPCREATESTRUCT)lparam;
-        if (pcreate_info != NULL) {
+        if (pcreate_info != nullptr) {
 
             // Should we create a new class manager for this window?
             ColorBarClass* pwnd = (ColorBarClass*)pcreate_info->lpCreateParams;
             BOOL created = FALSE;
-            if (pwnd == NULL) {
+            if (pwnd == nullptr) {
                 pwnd = new ColorBarClass;
                 created = TRUE;
             }
@@ -199,7 +199,7 @@ LRESULT WINAPI fnColorBarProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lpa
             if (pOldWndProc) {
                 WNDPROC pold_proc
                     = (WNDPROC)::SetWindowLong(hwnd, GWL_WNDPROC, (DWORD)::AfxGetAfxWndProc());
-                ASSERT(pold_proc != NULL);
+                ASSERT(pold_proc != nullptr);
                 (*pOldWndProc) = pold_proc;
             }
 
@@ -214,18 +214,18 @@ LRESULT WINAPI fnColorBarProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lpa
         ColorBarClass* pwnd = (ColorBarClass*)::GetProp(hwnd, "CLASSPOINTER");
         BOOL created = (BOOL)::GetProp(hwnd, "CREATED");
 
-        if (pwnd != NULL) {
+        if (pwnd != nullptr) {
             pwnd->Detach();
 
             WNDPROC* pOldWndProc = pwnd->GetSuperWndProcAddr();
             if (pOldWndProc) {
                 ::SetWindowLong(hwnd, GWL_WNDPROC, (DWORD)(*pOldWndProc));
-                (*pOldWndProc) = NULL;
+                (*pOldWndProc) = nullptr;
             }
 
             if (created) {
                 delete pwnd;
-                pwnd = NULL;
+                pwnd = nullptr;
             }
         }
     } break;
@@ -245,7 +245,7 @@ int ColorBarClass::OnCreate(LPCREATESTRUCT lpCreateStruct)
         return -1;
     }
 
-    m_hMemDC = ::CreateCompatibleDC(NULL);
+    m_hMemDC = ::CreateCompatibleDC(nullptr);
     Create_Bitmap();
     return 0;
 }
@@ -260,7 +260,7 @@ BOOL ColorBarClass::Create(LPCTSTR /*lpszClassName*/, LPCTSTR lpszWindowName, DW
 )
 {
     // Create the window (it will force the message map and everthing)
-    HWND hparent_wnd = (pparent_wnd != NULL) ? pparent_wnd->m_hWnd : NULL;
+    HWND hparent_wnd = (pparent_wnd != nullptr) ? pparent_wnd->m_hWnd : nullptr;
     HWND hwnd
         = ::CreateWindow("WWCOLORBAR", lpszWindowName, dwStyle, rect.left, rect.top,
                          rect.right - rect.left, rect.bottom - rect.top, hparent_wnd, (HMENU)nID,
@@ -268,7 +268,7 @@ BOOL ColorBarClass::Create(LPCTSTR /*lpszClassName*/, LPCTSTR lpszWindowName, DW
                          this);
 
     // Return the true/false result code
-    return (hwnd != NULL);
+    return (hwnd != nullptr);
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -341,14 +341,14 @@ void ColorBarClass::Create_Bitmap(void)
     bitmap_info.biClrImportant = 0;
 
     // Get a temporary screen DC
-    HDC hscreen_dc = ::GetDC(NULL);
+    HDC hscreen_dc = ::GetDC(nullptr);
 
     // Create a bitmap that we can access the bits directly of
     m_hBitmap = ::CreateDIBSection(hscreen_dc, (const BITMAPINFO*)&bitmap_info, DIB_RGB_COLORS,
-                                   (void**)&m_pBits, NULL, 0L);
+                                   (void**)&m_pBits, nullptr, 0L);
 
     // Release our temporary screen DC
-    ::ReleaseDC(NULL, hscreen_dc);
+    ::ReleaseDC(nullptr, hscreen_dc);
 
     // Window's bitmaps are DWORD aligned, so make sure
     // we take that into account.
@@ -366,10 +366,10 @@ void ColorBarClass::Create_Bitmap(void)
 //
 void ColorBarClass::Free_Bitmap(void)
 {
-    if (m_hBitmap != NULL) {
+    if (m_hBitmap != nullptr) {
         ::DeleteObject(m_hBitmap);
-        m_hBitmap = NULL;
-        m_pBits = NULL;
+        m_hBitmap = nullptr;
+        m_pBits = nullptr;
     }
 
     m_iBMPWidth = 0;
@@ -605,7 +605,7 @@ void ColorBarClass::Paint_DIB(void)
         //
         int x_pos = 0;
         int y_pos = 0;
-        int* position = NULL;
+        int* position = nullptr;
         int offset = 0;
 
         if (style & CBRS_HORZ) {
@@ -663,7 +663,7 @@ void ColorBarClass::OnPaint(void)
 //
 void ColorBarClass::Paint_Screen(HDC hwnd_dc)
 {
-    if (m_hMemDC != NULL) {
+    if (m_hMemDC != nullptr) {
 
         //
         //	Blit the actual color bar to the screen
@@ -728,22 +728,22 @@ bool ColorBarClass::Get_Point(int index, float* position, float* red, float* gre
     if ((index >= 0) && (index < m_iColorPoints)) {
 
         // Return the position to the caller if requested
-        if (position != NULL) {
+        if (position != nullptr) {
             (*position) = m_MinPos + (m_ColorPoints[index].PosPercent * (m_MaxPos - m_MinPos));
         }
 
         // Return the red value to the caller if requested
-        if (red != NULL) {
+        if (red != nullptr) {
             (*red) = m_ColorPoints[index].StartRed;
         }
 
         // Return the green value to the caller if requested
-        if (green != NULL) {
+        if (green != nullptr) {
             (*green) = m_ColorPoints[index].StartGreen;
         }
 
         // Return the blue value to the caller if requested
-        if (blue != NULL) {
+        if (blue != nullptr) {
             (*blue) = m_ColorPoints[index].StartBlue;
         }
     }
@@ -1043,10 +1043,10 @@ void ColorBarClass::Update_Point_Info(void)
 //
 void ColorBarClass::Free_Marker_Bitmap(void)
 {
-    if (m_KeyFrameDIB != NULL) {
+    if (m_KeyFrameDIB != nullptr) {
         ::DeleteObject(m_KeyFrameDIB);
-        m_KeyFrameDIB = NULL;
-        m_pKeyFrameBits = NULL;
+        m_KeyFrameDIB = nullptr;
+        m_pKeyFrameBits = nullptr;
     }
 
     return;
@@ -1064,7 +1064,7 @@ void ColorBarClass::Load_Key_Frame_BMP(void)
     //	Load the appropriate BMP based on the barstyle
     //
     LONG style = ::GetWindowLong(m_hWnd, GWL_STYLE);
-    HBITMAP hbmp = NULL;
+    HBITMAP hbmp = nullptr;
     if (style & CBRS_HORZ) {
         hbmp = ::LoadBitmap(_hinstance, MAKEINTRESOURCE(IDB_KEYFRAME_V));
     }
@@ -1095,17 +1095,17 @@ void ColorBarClass::Load_Key_Frame_BMP(void)
     bitmap_info.biClrImportant = 0;
 
     // Get a temporary screen DC
-    HDC hscreen_dc = ::GetDC(NULL);
+    HDC hscreen_dc = ::GetDC(nullptr);
 
     // Create a bitmap that we can access the bits directly of
     m_KeyFrameDIB = ::CreateDIBSection(hscreen_dc, (const BITMAPINFO*)&bitmap_info, DIB_RGB_COLORS,
-                                       (void**)&m_pKeyFrameBits, NULL, 0L);
+                                       (void**)&m_pKeyFrameBits, nullptr, 0L);
 
     // Release our temporary screen DC
-    ::ReleaseDC(NULL, hscreen_dc);
+    ::ReleaseDC(nullptr, hscreen_dc);
 
     // Initialize 2 temp DCs so we can copy from the BMP to the DIB section
-    HDC htemp_dc = ::CreateCompatibleDC(NULL);
+    HDC htemp_dc = ::CreateCompatibleDC(nullptr);
     HBITMAP hold_bmp1 = (HBITMAP)::SelectObject(m_hMemDC, m_KeyFrameDIB);
     HBITMAP hold_bmp2 = (HBITMAP)::SelectObject(htemp_dc, hbmp);
 
@@ -1133,7 +1133,7 @@ void ColorBarClass::Paint_Key_Frame(int x_pos, int y_pos)
     int marker_scanline = (m_iMarkerWidth * 3) + alignment_offset;
     int width_in_bytes = m_iMarkerWidth * 3;
 
-    if ((m_pBits != NULL) && (m_pKeyFrameBits != NULL)) {
+    if ((m_pBits != nullptr) && (m_pKeyFrameBits != nullptr)) {
         int dest_index = (m_iScanlineSize * y_pos) + (x_pos * 3);
         int src_index = 0;
 
@@ -1755,7 +1755,7 @@ void ColorBarClass::Set_Redraw(bool redraw)
 //
 void ColorBarClass::Repaint(void)
 {
-    InvalidateRect(NULL, FALSE);
+    InvalidateRect(nullptr, FALSE);
     if (m_bRedraw) {
         UpdateWindow();
     }

@@ -71,8 +71,8 @@ enum
 //
 //////////////////////////////////////////////////////////////////////////////
 OratorClass::OratorClass(void)
-    : Conversation(NULL),
-      GameObj(NULL),
+    : Conversation(nullptr),
+      GameObj(nullptr),
       Position(0, 0, 0),
       HasArrived(false),
       Flags(0),
@@ -157,12 +157,12 @@ bool OratorClass::Get_Flag(int flag)
 //////////////////////////////////////////////////////////////////////////////
 PhysicalGameObj* OratorClass::Get_Game_Obj(void) const
 {
-    PhysicalGameObj* game_obj = NULL;
+    PhysicalGameObj* game_obj = nullptr;
 
     //
     //	Do some RTTI to see if we can return the soldier pointer
     //
-    if (GameObj != NULL) {
+    if (GameObj != nullptr) {
         game_obj = GameObj.Get_Ptr()->As_PhysicalGameObj();
     }
 
@@ -234,7 +234,7 @@ bool OratorClass::Load(ChunkLoadClass& cload)
 ///////////////////////////////////////////////////////////////////////
 void OratorClass::Load_Variables(ChunkLoadClass& cload)
 {
-    OratorClass* old_ptr = NULL;
+    OratorClass* old_ptr = nullptr;
 
     //
     //	Loop through all the microchunks that define the variables
@@ -259,14 +259,14 @@ void OratorClass::Load_Variables(ChunkLoadClass& cload)
     //
     //	Fixup the pointer
     //
-    if (Conversation != NULL) {
+    if (Conversation != nullptr) {
         REQUEST_REF_COUNTED_POINTER_REMAP((RefCountClass**)&Conversation);
     }
 
     //
     //	Register our old pointer so other objects can safely remap to it
     //
-    WWASSERT(old_ptr != NULL);
+    WWASSERT(old_ptr != nullptr);
     SaveLoadSystemClass::Register_Pointer(old_ptr, this);
     return;
 }

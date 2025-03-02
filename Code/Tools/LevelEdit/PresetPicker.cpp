@@ -46,7 +46,7 @@
 //
 /////////////////////////////////////////////////////////////////////////
 PresetPickerClass::PresetPickerClass(void)
-    : m_Preset(NULL),
+    : m_Preset(nullptr),
       m_ClassID(0),
       m_IconIndex(0)
 {
@@ -99,7 +99,7 @@ void PresetPickerClass::Set_Preset(PresetClass* preset)
     //	Build a new text string to display
     //
     CString new_text;
-    if (preset != NULL) {
+    if (preset != nullptr) {
         new_text = preset->Get_Name();
     }
 

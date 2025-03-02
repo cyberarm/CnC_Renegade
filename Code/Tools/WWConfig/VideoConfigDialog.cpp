@@ -39,7 +39,7 @@ static VideoConfigDialogClass* VideoConfigDialogInstance;
 /////////////////////////////////////////////////////////////////////////////
 //	Globals
 /////////////////////////////////////////////////////////////////////////////
-WW3DAssetManager* _TheAssetMgr = NULL;
+WW3DAssetManager* _TheAssetMgr = nullptr;
 ;
 
 /////////////////////////////////////////////////////////////////////////////
@@ -79,7 +79,7 @@ VideoConfigDialogClass::VideoConfigDialogClass(CWnd* pParent)
 
 VideoConfigDialogClass::~VideoConfigDialogClass()
 {
-    VideoConfigDialogInstance = NULL;
+    VideoConfigDialogInstance = nullptr;
 }
 
 VideoConfigDialogClass* VideoConfigDialogClass::Get_Instance()
@@ -260,7 +260,7 @@ void VideoConfigDialogClass::OnDestroy(void)
     //
     WW3D::Shutdown();
     delete _TheAssetMgr;
-    _TheAssetMgr = NULL;
+    _TheAssetMgr = nullptr;
 
     CDialog::OnDestroy();
     return;

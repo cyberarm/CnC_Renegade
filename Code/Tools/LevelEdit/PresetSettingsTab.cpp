@@ -40,7 +40,7 @@ static char THIS_FILE[] = __FILE__;
 /////////////////////////////////////////////////////////////////////////////
 PresetSettingsTabClass::PresetSettingsTabClass(PresetClass* preset)
     : m_Preset(preset),
-      m_ParamSheet(NULL),
+      m_ParamSheet(nullptr),
       m_IsReadOnly(false),
       DockableFormClass(PresetSettingsTabClass::IDD)
 {
@@ -103,10 +103,10 @@ void PresetSettingsTabClass::Dump(CDumpContext& dc) const
 /////////////////////////////////////////////////////////////////////////////
 void PresetSettingsTabClass::HandleInitDialog(void)
 {
-    ASSERT(m_Preset != NULL);
+    ASSERT(m_Preset != nullptr);
 
     DefinitionClass* definition = m_Preset->Get_Definition();
-    if (definition != NULL) {
+    if (definition != nullptr) {
 
         //
         //	Create a scrollable dialog that contains all the
@@ -134,7 +134,7 @@ bool PresetSettingsTabClass::Apply_Changes(void)
     bool retval = true;
 
     DefinitionClass* definition = m_Preset->Get_Definition();
-    if (definition != NULL) { }
+    if (definition != nullptr) { }
 
     m_ParamSheet->Apply();
 
@@ -149,9 +149,9 @@ bool PresetSettingsTabClass::Apply_Changes(void)
 /////////////////////////////////////////////////////////////////////////////
 void PresetSettingsTabClass::OnSize(UINT nType, int cx, int cy)
 {
-    if ((m_ParamSheet != NULL) && (cx > 0) && (cy > 0)) {
+    if ((m_ParamSheet != nullptr) && (cx > 0) && (cy > 0)) {
 
-        m_ParamSheet->SetWindowPos(NULL, 10, 5, cx - 20, cy - 10, SWP_NOZORDER);
+        m_ParamSheet->SetWindowPos(nullptr, 10, 5, cx - 20, cy - 10, SWP_NOZORDER);
     }
 
     DockableFormClass::OnSize(nType, cx, cy);

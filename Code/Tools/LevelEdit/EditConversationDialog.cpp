@@ -70,8 +70,8 @@ const ORATOR_UI_INFO ORATOR_CTRLS[ORATOR_MAX] = {
 // EditConversationDialogClass
 //
 /////////////////////////////////////////////////////////////////////////////
-EditConversationDialogClass::EditConversationDialogClass(CWnd* pParent /*=NULL*/)
-    : m_Conversation(NULL),
+EditConversationDialogClass::EditConversationDialogClass(CWnd* pParent /*=nullptr*/)
+    : m_Conversation(nullptr),
       CDialog(EditConversationDialogClass::IDD, pParent)
 {
     //{{AFX_DATA_INIT(EditConversationDialogClass)
@@ -128,7 +128,7 @@ BOOL EditConversationDialogClass::OnInitDialog(void)
     //
     //	Create a new conversation if we don't already have one to edit
     //
-    if (m_Conversation == NULL) {
+    if (m_Conversation == nullptr) {
         m_Conversation = new ConversationClass;
 
         OratorClass orator;
@@ -329,7 +329,7 @@ void EditConversationDialogClass::OnDblclkRemarkList(NMHDR* pNMHDR, LRESULT* pRe
             //	Update the text entry in the list control
             //
             TDBObjClass* translate_obj = TranslateDBClass::Find_Object(remark->Get_Text_ID());
-            if (translate_obj != NULL) {
+            if (translate_obj != nullptr) {
                 m_ListCtrl.SetItemText(sel_index, COL_REMARK, translate_obj->Get_English_String());
             }
         }
@@ -511,7 +511,7 @@ void EditConversationDialogClass::Add_Entry(const ConversationRemarkClass& remar
         //	Lookup the text to display for this remark
         //
         TDBObjClass* translate_obj = TranslateDBClass::Find_Object(remark.Get_Text_ID());
-        if (translate_obj != NULL) {
+        if (translate_obj != nullptr) {
             m_ListCtrl.SetItemText(item_index, COL_REMARK, translate_obj->Get_English_String());
 
             //
@@ -640,7 +640,7 @@ void EditConversationDialogClass::Update_Remarks(int orator_index)
             //
             //	Remove this entry if it was made by the orator in question
             //
-            if (remark != NULL && remark->Get_Orator_ID() == orator_index) {
+            if (remark != nullptr && remark->Get_Orator_ID() == orator_index) {
                 m_ListCtrl.DeleteItem(index);
                 index--;
                 item_count--;
@@ -725,7 +725,7 @@ void EditConversationDialogClass::OnDeleteitemRemarkList(NMHDR* pNMHDR, LRESULT*
     //
     //	Lookup the associated remark object
     //
-    ConversationRemarkClass* remark = NULL;
+    ConversationRemarkClass* remark = nullptr;
     remark = (ConversationRemarkClass*)m_ListCtrl.GetItemData(pNMListView->iItem);
 
     //

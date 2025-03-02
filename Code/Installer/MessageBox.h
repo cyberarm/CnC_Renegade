@@ -65,7 +65,7 @@ public:
                                           MessageBoxTypeEnum type,
                                           CallbackMenuDialogClass* callbackobject);
     static void Do_Dialog(const WCHAR* title, const WCHAR* text, MessageBoxTypeEnum type,
-                          CallbackMenuDialogClass* callbackobject = NULL);
+                          CallbackMenuDialogClass* callbackobject = nullptr);
 
     void On_Command(int ctrl_id, int message_id, DWORD param);
 

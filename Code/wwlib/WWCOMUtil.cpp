@@ -60,14 +60,14 @@ STDMETHODIMP Dispatch_GetProperty(IDispatch* object, const OLECHAR* propName, VA
     // Get the dispid for the named property
     OLECHAR* member = const_cast<OLECHAR*>(propName);
     DISPID dispid;
-    HRESULT hr = object->GetIDsOfNames(IID_NULL, &member, 1, LOCALE_SYSTEM_DEFAULT, &dispid);
+    HRESULT hr = object->GetIDsOfNames(IID_nullptr, &member, 1, LOCALE_SYSTEM_DEFAULT, &dispid);
 
     if (SUCCEEDED(hr)) {
         // Get the property
-        DISPPARAMS params = { NULL, NULL, 0, 0 };
+        DISPPARAMS params = { nullptr, nullptr, 0, 0 };
         UINT argErr = 0;
-        hr = object->Invoke(dispid, IID_NULL, LOCALE_SYSTEM_DEFAULT, DISPATCH_PROPERTYGET, &params,
-                            result, NULL, &argErr);
+        hr = object->Invoke(dispid, IID_nullptr, LOCALE_SYSTEM_DEFAULT, DISPATCH_PROPERTYGET, &params,
+                            result, nullptr, &argErr);
     }
 
     return hr;
@@ -95,19 +95,19 @@ STDMETHODIMP Dispatch_PutProperty(IDispatch* object, const OLECHAR* propName, VA
     OLECHAR* member = const_cast<OLECHAR*>(propName);
     DISPID dispid;
 
-    HRESULT hr = object->GetIDsOfNames(IID_NULL, &member, 1, LOCALE_SYSTEM_DEFAULT, &dispid);
+    HRESULT hr = object->GetIDsOfNames(IID_nullptr, &member, 1, LOCALE_SYSTEM_DEFAULT, &dispid);
 
     if (SUCCEEDED(hr)) {
         // Get the property
-        DISPPARAMS params = { NULL, NULL, 0, 0 };
+        DISPPARAMS params = { nullptr, nullptr, 0, 0 };
         params.cArgs = 1;
         params.rgvarg = propValue;
 
         VARIANT result;
         UINT argErr = 0;
 
-        hr = object->Invoke(dispid, IID_NULL, LOCALE_SYSTEM_DEFAULT, DISPATCH_PROPERTYPUT, &params,
-                            &result, NULL, &argErr);
+        hr = object->Invoke(dispid, IID_nullptr, LOCALE_SYSTEM_DEFAULT, DISPATCH_PROPERTYPUT, &params,
+                            &result, nullptr, &argErr);
     }
 
     return hr;
@@ -137,12 +137,12 @@ STDMETHODIMP Dispatch_InvokeMethod(IDispatch* object, const OLECHAR* methodName,
     OLECHAR* member = const_cast<OLECHAR*>(methodName);
     DISPID dispid;
 
-    HRESULT hr = object->GetIDsOfNames(IID_NULL, &member, 1, LOCALE_SYSTEM_DEFAULT, &dispid);
+    HRESULT hr = object->GetIDsOfNames(IID_nullptr, &member, 1, LOCALE_SYSTEM_DEFAULT, &dispid);
 
     if (SUCCEEDED(hr)) {
         UINT argErr = 0;
-        hr = object->Invoke(dispid, IID_NULL, LOCALE_SYSTEM_DEFAULT, DISPATCH_METHOD, params,
-                            result, NULL, &argErr);
+        hr = object->Invoke(dispid, IID_nullptr, LOCALE_SYSTEM_DEFAULT, DISPATCH_METHOD, params,
+                            result, nullptr, &argErr);
     }
 
     return hr;
@@ -170,10 +170,10 @@ bool RegisterCOMServer(const char* dllName)
 
     HINSTANCE hInst = LoadLibrary(dllName);
 
-    if (hInst != NULL) {
+    if (hInst != nullptr) {
         FARPROC regServerProc = GetProcAddress(hInst, "DllRegisterServer");
 
-        if (regServerProc != NULL) {
+        if (regServerProc != nullptr) {
             HRESULT hr = regServerProc();
             success = SUCCEEDED(hr);
         }
@@ -206,10 +206,10 @@ bool UnregisterCOMServer(const char* dllName)
 
     HINSTANCE hInst = LoadLibrary(dllName);
 
-    if (hInst != NULL) {
+    if (hInst != nullptr) {
         FARPROC unregServerProc = GetProcAddress(hInst, "DllUnregisterServer");
 
-        if (unregServerProc != NULL) {
+        if (unregServerProc != nullptr) {
             HRESULT hr = unregServerProc();
             success = SUCCEEDED(hr);
         }

@@ -107,7 +107,7 @@ bool BitChannelClass::Save(ChunkSaveClass& csave, bool compress)
 
         W3dTimeCodedBitChannelStruct* chn = (W3dTimeCodedBitChannelStruct*)malloc(channelsize);
 
-        if (chn == NULL) {
+        if (chn == nullptr) {
             return false;
         }
 
@@ -149,7 +149,7 @@ bool BitChannelClass::Save(ChunkSaveClass& csave, bool compress)
             return false;
         }
 
-        if (chn != NULL) {
+        if (chn != nullptr) {
             free(chn);
         }
 
@@ -174,7 +174,7 @@ bool BitChannelClass::Save(ChunkSaveClass& csave, bool compress)
 
         W3dBitChannelStruct* chn = (W3dBitChannelStruct*)malloc(channelsize);
 
-        if (chn == NULL) {
+        if (chn == nullptr) {
             return false;
         }
 
@@ -194,7 +194,7 @@ bool BitChannelClass::Save(ChunkSaveClass& csave, bool compress)
             return false;
         }
 
-        if (chn != NULL) {
+        if (chn != nullptr) {
             free(chn);
         }
 

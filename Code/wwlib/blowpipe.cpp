@@ -61,7 +61,7 @@
 int BlowPipe::Flush(void)
 {
     int total = 0;
-    if (Counter > 0 && BF != NULL) {
+    if (Counter > 0 && BF != nullptr) {
         total += Pipe::Put(Buffer, Counter);
     }
     Counter = 0;
@@ -90,7 +90,7 @@ int BlowPipe::Flush(void)
  *=============================================================================================*/
 int BlowPipe::Put(void const* source, int slen)
 {
-    if (source == NULL || slen < 1) {
+    if (source == nullptr || slen < 1) {
         return (Pipe::Put(source, slen));
     }
 
@@ -98,7 +98,7 @@ int BlowPipe::Put(void const* source, int slen)
     **	If there is no blowfish engine present, then merely pass the data through
     **	unchanged in any way.
     */
-    if (BF == NULL) {
+    if (BF == nullptr) {
         return (Pipe::Put(source, slen));
     }
 
@@ -185,13 +185,13 @@ void BlowPipe::Key(void const* key, int length)
     /*
     **	Create the blowfish engine if one isn't already present.
     */
-    if (BF == NULL) {
+    if (BF == nullptr) {
         BF = new BlowfishEngine;
     }
 
-    assert(BF != NULL);
+    assert(BF != nullptr);
 
-    if (BF != NULL) {
+    if (BF != nullptr) {
         BF->Submit_Key(key, length);
     }
 }

@@ -118,7 +118,7 @@ public:
     INDEX const Fetch_ID_By_Position(int pos) const { return (IndexTable[pos].ID); }
 
     /*
-    **	Clear out the index table to null (empty) state.
+    **	Clear out the index table to nullptr (empty) state.
     */
     void Clear(void);
 
@@ -296,7 +296,7 @@ template <class INDEX, class T> bool IndexClass<INDEX, T>::Increase_Table_Size(i
     }
 
     NodeElement* table = new NodeElement[IndexSize + amount];
-    if (table != NULL) {
+    if (table != nullptr) {
 
         /*
         **	Copy all valid nodes into the new table.
@@ -663,7 +663,7 @@ int _USERENTRY IndexClass<INDEX, T>::search_compfunc(void const* ptr1, void cons
  * INPUT:   id -- The index ID to search for.                                                  *
  *                                                                                             *
  * OUTPUT:  Returns with a pointer to the NodeElement that matches the index ID specified. If  *
- *          no matching index could be found, then NULL is returned.                           *
+ *          no matching index could be found, then nullptr is returned.                           *
  *                                                                                             *
  * WARNINGS:   none                                                                            *
  *                                                                                             *

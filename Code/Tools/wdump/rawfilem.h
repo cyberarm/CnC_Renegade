@@ -47,7 +47,7 @@
 #include <stddef.h>
 #include <stdlib.h>
 
-#define NULL_HANDLE INVALID_HANDLE_VALUE
+#define nullptr_HANDLE INVALID_HANDLE_VALUE
 #define HANDLE_TYPE HANDLE
 
 #include "wwfile.h"
@@ -159,7 +159,7 @@ public:
     virtual void Close(void);
     virtual unsigned long Get_Date_Time(void);
     virtual bool Set_Date_Time(unsigned long datetime);
-    virtual void Error(int error, int canretry = false, char const* filename = NULL);
+    virtual void Error(int error, int canretry = false, char const* filename = nullptr);
 
     void Bias(int start, int length = -1);
 
@@ -189,7 +189,7 @@ private:
     HANDLE_TYPE Handle;
 
     /*
-    **	This points to the filename as a NULL terminated string. It may point to either a
+    **	This points to the filename as a nullptr terminated string. It may point to either a
     **	constant or an allocated string as indicated by the "Allocated" flag.
     */
     char const* Filename;
@@ -222,11 +222,11 @@ private:
  * RawFileMClass::File_Name -- Returns with the filename associate with the file object.        *
  *                                                                                             *
  *    Use this routine to determine what filename is associated with this file object. If no   *
- *    filename has yet been assigned, then this routing will return NULL.                      *
+ *    filename has yet been assigned, then this routing will return nullptr.                      *
  *                                                                                             *
  * INPUT:   none                                                                               *
  *                                                                                             *
- * OUTPUT:  Returns with a pointer to the file name associated with this file object or NULL   *
+ * OUTPUT:  Returns with a pointer to the file name associated with this file object or nullptr   *
  *          if one doesn't exist.                                                              *
  *                                                                                             *
  * WARNINGS:   none                                                                            *
@@ -242,7 +242,7 @@ inline char const* RawFileMClass::File_Name(void) const
 /***********************************************************************************************
  * RawFileMClass::RawFileMClass -- Default constructor for a file object.                        *
  *                                                                                             *
- *    This constructs a null file object. A null file object has no file handle or filename    *
+ *    This constructs a nullptr file object. A nullptr file object has no file handle or filename    *
  *    associated with it. In order to use a file object created in this fashion it must be     *
  *    assigned a name and then opened.                                                         *
  *                                                                                             *
@@ -270,7 +270,7 @@ inline RawFileMClass::RawFileMClass(void)
 /***********************************************************************************************
  * RawFileMClass::~RawFileMClass -- Default deconstructor for a file object.                     *
  *                                                                                             *
- *    This constructs a null file object. A null file object has no file handle or filename    *
+ *    This constructs a nullptr file object. A nullptr file object has no file handle or filename    *
  *    associated with it. In order to use a file object created in this fashion it must be     *
  *    assigned a name and then opened.                                                         *
  *                                                                                             *
@@ -288,7 +288,7 @@ inline RawFileMClass::~RawFileMClass(void)
     Close();
     if (Allocated && Filename) {
         free((char*)Filename);
-        Filename = NULL;
+        Filename = nullptr;
         Allocated = false;
     }
 }

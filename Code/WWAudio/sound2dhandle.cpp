@@ -80,7 +80,7 @@ void Sound2DHandleClass::Initialize(SoundBufferClass* buffer)
         //
         // Pass the actual sound data onto the sample
         //
-        if (Buffer != NULL) {
+        if (Buffer != nullptr) {
             ::AIL_set_named_sample_file(SampleHandle, (char*)Buffer->Get_Filename(),
                                         Buffer->Get_Raw_Buffer(), Buffer->Get_Raw_Length(), 0);
         }

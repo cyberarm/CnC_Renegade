@@ -43,8 +43,8 @@ bool Is_Valid_ID_Char(char ch);
 // EditStringDialogClass
 //
 /////////////////////////////////////////////////////////////////////////////
-EditStringDialogClass::EditStringDialogClass(CWnd* pParent /*=NULL*/)
-    : m_Object(NULL),
+EditStringDialogClass::EditStringDialogClass(CWnd* pParent /*=nullptr*/)
+    : m_Object(nullptr),
       CDialog(EditStringDialogClass::IDD, pParent)
 {
     //{{AFX_DATA_INIT(EditStringDialogClass)
@@ -101,7 +101,7 @@ BOOL EditStringDialogClass::OnInitDialog(void)
     //	Configure the preset picker control
     //
     m_PresetPicker.Set_Class_ID(CLASSID_SOUND);
-    if (m_Object != NULL && m_Object->Get_Sound_ID() > 0) {
+    if (m_Object != nullptr && m_Object->Get_Sound_ID() > 0) {
         PresetClass* preset = PresetMgrClass::Find_Preset(m_Object->Get_Sound_ID());
         m_PresetPicker.Set_Preset(preset);
     }
@@ -109,7 +109,7 @@ BOOL EditStringDialogClass::OnInitDialog(void)
     //
     //	Fill in the text controls
     //
-    if (m_Object != NULL) {
+    if (m_Object != nullptr) {
         CString text = m_Object->Get_English_String();
         Convert_Newline_To_Chars(text);
 
@@ -219,7 +219,7 @@ void EditStringDialogClass::OnOK(void)
         //
         //	Create a new translation object (if necessary)
         //
-        if (m_Object == NULL) {
+        if (m_Object == nullptr) {
             m_Object = new TDBObjClass;
         }
 
@@ -248,7 +248,7 @@ void EditStringDialogClass::OnOK(void)
         //
         int sound_id = -1;
         PresetClass* sound_preset = m_PresetPicker.Get_Preset();
-        if (sound_preset != NULL) {
+        if (sound_preset != nullptr) {
             sound_id = sound_preset->Get_ID();
         }
         m_Object->Set_Sound_ID(sound_id);

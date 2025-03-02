@@ -124,7 +124,7 @@ public:
     BlitPlainXlat(T const* translator)
         : TranslateTable(translator)
     {
-        assert(TranslateTable != NULL);
+        assert(TranslateTable != nullptr);
     }
     virtual void BlitForward(void* dest, void const* source, int len) const
     {
@@ -161,7 +161,7 @@ public:
     BlitTransXlat(T const* translator)
         : TranslateTable(translator)
     {
-        assert(TranslateTable != NULL);
+        assert(TranslateTable != nullptr);
     }
     virtual void BlitForward(void* dest, void const* source, int len) const
     {
@@ -202,8 +202,8 @@ public:
         : RemapTable(remapper),
           TranslateTable(translator)
     {
-        assert(RemapTable != NULL);
-        assert(TranslateTable != NULL);
+        assert(RemapTable != nullptr);
+        assert(TranslateTable != nullptr);
     }
     virtual void BlitForward(void* dest, void const* source, int length) const
     {
@@ -246,8 +246,8 @@ public:
         : RemapTable(remapper),
           TranslateTable(translator)
     {
-        assert(RemapTable != NULL);
-        assert(TranslateTable != NULL);
+        assert(RemapTable != nullptr);
+        assert(TranslateTable != nullptr);
     }
     virtual void BlitForward(void* dest, void const* source, int length) const
     {
@@ -400,7 +400,7 @@ public:
         : TranslateTable(translator),
           Mask(mask)
     {
-        assert(TranslateTable != NULL);
+        assert(TranslateTable != nullptr);
     }
     virtual void BlitForward(void* dest, void const* source, int length) const
     {
@@ -441,7 +441,7 @@ public:
         : TranslateTable(translator),
           Mask(mask)
     {
-        assert(TranslateTable != NULL);
+        assert(TranslateTable != nullptr);
     }
     virtual void BlitForward(void* dest, void const* source, int length) const
     {
@@ -484,7 +484,7 @@ public:
         : TranslateTable(translator),
           Mask(mask)
     {
-        assert(TranslateTable != NULL);
+        assert(TranslateTable != nullptr);
     }
     virtual void BlitForward(void* dest, void const* source, int length) const
     {

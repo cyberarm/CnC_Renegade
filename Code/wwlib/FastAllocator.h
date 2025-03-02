@@ -135,7 +135,7 @@ template <class T, int nStackCount, int bConstruct = 1> class StackAllocator
 public:
     StackAllocator()
         : mnAllocCount(-1),
-          mpTHeap(NULL)
+          mpTHeap(nullptr)
     {
     }
     ~StackAllocator()
@@ -172,7 +172,7 @@ public:
                         ++pTArray; // of T with 'this' set to the input address. Note that we don't
                                    // put
                     } // a '()' after the T this is because () causes trivial types like int
-                } // and class* to be assigned zero/NULL. We don't want that.
+                } // and class* to be assigned zero/nullptr. We don't want that.
                 return (T*)mTArray;
             } // Else the request is too big. So let's use (the slower) operator new.
             return (mpTHeap = new T[nCount]); // The compiler will call the constructors here.
@@ -195,7 +195,7 @@ public:
         }
         else if (pT == mpTHeap) { // If the allocation came from our heap...
             delete[] mpTHeap; // The compiler will call the destructors here.
-            mpTHeap = NULL; // We clear these out so that we can possibly
+            mpTHeap = nullptr; // We clear these out so that we can possibly
             mnAllocCount = -1; //  use the allocator again.
         }
         else { // Else the allocation came from the external heap.
@@ -206,7 +206,7 @@ public:
 protected:
     int mnAllocCount; // Count of objects allocated. -1 means that nothing is allocated. We don't
                       // use zero because zero is a legal allocation count in C++.
-    T* mpTHeap; // This is normally NULL, but gets used of the allocation request is too high.
+    T* mpTHeap; // This is normally nullptr, but gets used of the allocation request is too high.
     char mTArray[nStackCount * sizeof(T)]; // This is our stack memory.
 };
 ///////////////////////////////////////////////////////////////////////////////
@@ -502,8 +502,8 @@ WWINLINE void FastAllocatorGeneral::Free(void* pAlloc)
 }
 
 // ANSI C requires:
-//   (1) realloc(NULL, newsize) is equivalent to malloc(newsize).
-//   (2) realloc(pblock, 0) is equivalent to free(pblock) (except that NULL is returned).
+//   (1) realloc(nullptr, newsize) is equivalent to malloc(newsize).
+//   (2) realloc(pblock, 0) is equivalent to free(pblock) (except that nullptr is returned).
 //   (3) if the realloc() fails, the object pointed to by pblock is left unchanged.
 //
 WWINLINE void* FastAllocatorGeneral::Realloc(void* pAlloc, unsigned int n)
@@ -519,7 +519,7 @@ WWINLINE void* FastAllocatorGeneral::Realloc(void* pAlloc, unsigned int n)
         return pNewAlloc;
     }
     Free(pAlloc);
-    return NULL;
+    return nullptr;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -550,7 +550,7 @@ template <class T> struct FastSTLAllocator
 
     T* address(T& t) const { return (&t); } // These two are slightly strange but
     const T* address(const T& t) const { return (&t); } // required functions. Just do it.
-    static T* allocate(size_t n, const void* = NULL)
+    static T* allocate(size_t n, const void* = nullptr)
     {
         return (T*)generalAllocator.Alloc(n * sizeof(T));
     }
@@ -596,9 +596,9 @@ public:
     pointer address(reference x) const { return &x; }
     const_pointer address(const_reference x) const { return &x; }
 
-    T* allocate(size_type n, const void* = NULL)
+    T* allocate(size_type n, const void* = nullptr)
     {
-        return n != 0 ? static_cast<T*>(generalAllocator.Alloc(n * sizeof(T))) : NULL;
+        return n != 0 ? static_cast<T*>(generalAllocator.Alloc(n * sizeof(T))) : nullptr;
     }
     void deallocate(pointer p, size_type n) { generalAllocator.Free(p); }
     size_type max_size() const { return size_t(-1) / sizeof(T); }

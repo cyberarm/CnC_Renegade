@@ -44,7 +44,7 @@ static StringClass VersionWarningString;
 /////////////////////////////////////////////////////////////////////////////
 // DriverVersionWarning dialog
 
-DriverVersionWarning::DriverVersionWarning(CWnd* pParent /*=NULL*/)
+DriverVersionWarning::DriverVersionWarning(CWnd* pParent /*=nullptr*/)
     : CDialog(DriverVersionWarning::IDD, pParent)
 {
     //{{AFX_DATA_INIT(DriverVersionWarning)
@@ -153,9 +153,9 @@ void CheckDriverVersion()
         return;
     }
 
-    IDirect3D8* d3d = NULL;
+    IDirect3D8* d3d = nullptr;
     D3DCAPS8 tmp_caps;
-    const D3DCAPS8* d3dcaps = NULL;
+    const D3DCAPS8* d3dcaps = nullptr;
     D3DADAPTER_IDENTIFIER8 adapter_id;
 
     VideoConfigDialogClass* video = VideoConfigDialogClass::Get_Instance();
@@ -215,7 +215,7 @@ void CheckDriverVersion()
 
     DX8Caps caps(d3d, *d3dcaps, WW3D_FORMAT_UNKNOWN, adapter_id);
     d3d->Release();
-    d3d = NULL;
+    d3d = nullptr;
 
     // Beta message - remember to remove!
     /*	bool unknown_device=false;

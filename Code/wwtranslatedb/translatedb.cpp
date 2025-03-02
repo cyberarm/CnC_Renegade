@@ -135,7 +135,7 @@ void TranslateDBClass::Free_Categories(void)
     //
     for (int index = 0; index < m_CategoryList.Count(); index++) {
         TDBCategoryClass* category = m_CategoryList[index];
-        if (category != NULL) {
+        if (category != nullptr) {
             delete category;
         }
     }
@@ -156,7 +156,7 @@ void TranslateDBClass::Free_Objects(void)
     //
     for (int index = 0; index < m_ObjectList.Count(); index++) {
         TDBObjClass* translate_obj = m_ObjectList[index];
-        if (translate_obj != NULL) {
+        if (translate_obj != nullptr) {
             delete translate_obj;
         }
     }
@@ -203,7 +203,7 @@ bool TranslateDBClass::Save(ChunkSaveClass& csave)
         //
         //	Save this category
         //
-        if (category != NULL) {
+        if (category != nullptr) {
             csave.Begin_Chunk(category->Get_Factory().Chunk_ID());
             category->Get_Factory().Save(csave, category);
             csave.End_Chunk();
@@ -223,7 +223,7 @@ bool TranslateDBClass::Save(ChunkSaveClass& csave)
         //
         //	Save this translation object
         //
-        if (translate_obj != NULL) {
+        if (translate_obj != nullptr) {
 
             //
             //	Check to ensure this category isn't filtered out...
@@ -297,9 +297,9 @@ bool TranslateDBClass::Load_Categories(ChunkLoadClass& cload)
         //
         PersistFactoryClass* factory
             = SaveLoadSystemClass::Find_Persist_Factory(cload.Cur_Chunk_ID());
-        if (factory != NULL) {
+        if (factory != nullptr) {
             TDBCategoryClass* category = (TDBCategoryClass*)factory->Load(cload);
-            if (category != NULL) {
+            if (category != nullptr) {
                 Add_Category(category, false);
             }
         }
@@ -326,9 +326,9 @@ bool TranslateDBClass::Load_Objects(ChunkLoadClass& cload)
         //
         PersistFactoryClass* factory
             = SaveLoadSystemClass::Find_Persist_Factory(cload.Cur_Chunk_ID());
-        if (factory != NULL) {
+        if (factory != nullptr) {
             TDBObjClass* translate_obj = (TDBObjClass*)factory->Load(cload);
-            if (translate_obj != NULL) {
+            if (translate_obj != nullptr) {
                 Add_Object(translate_obj);
             }
         }
@@ -391,7 +391,7 @@ void TranslateDBClass::Export_Table(const char* filename)
     //
     //	Create the file
     //
-    HANDLE file = ::CreateFile(filename, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, 0L, NULL);
+    HANDLE file = ::CreateFile(filename, GENERIC_WRITE, 0, nullptr, CREATE_ALWAYS, 0L, nullptr);
 
     WWASSERT(file != INVALID_HANDLE_VALUE);
     if (file != INVALID_HANDLE_VALUE) {
@@ -405,7 +405,7 @@ void TranslateDBClass::Export_Table(const char* filename)
         //
         for (int index = 0; index < m_ObjectList.Count(); index++) {
             TDBObjClass* object = m_ObjectList[index];
-            if (object != NULL && object->As_StringTwiddlerClass() == NULL) {
+            if (object != nullptr && object->As_StringTwiddlerClass() == nullptr) {
 
                 StringClass english_string = object->Get_English_String();
 
@@ -421,7 +421,7 @@ void TranslateDBClass::Export_Table(const char* filename)
                 //
                 StringClass category_name;
                 TDBCategoryClass* category = Find_Category(object->Get_Category_ID());
-                if (category != NULL) {
+                if (category != nullptr) {
                     category_name = category->Get_Name();
                 }
 
@@ -431,7 +431,7 @@ void TranslateDBClass::Export_Table(const char* filename)
                 StringClass sound_preset_name;
                 DefinitionClass* definition
                     = DefinitionMgrClass::Find_Definition(object->Get_Sound_ID(), false);
-                if (definition != NULL) {
+                if (definition != nullptr) {
                     sound_preset_name = definition->Get_Name();
                 }
 
@@ -470,7 +470,7 @@ void TranslateDBClass::Export_C_Header(const char* filename)
     //
     //	Create the file
     //
-    HANDLE file = ::CreateFile(filename, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, 0L, NULL);
+    HANDLE file = ::CreateFile(filename, GENERIC_WRITE, 0, nullptr, CREATE_ALWAYS, 0L, nullptr);
 
     WWASSERT(file != INVALID_HANDLE_VALUE);
     if (file != INVALID_HANDLE_VALUE) {
@@ -503,7 +503,7 @@ void TranslateDBClass::Export_C_Header(const char* filename)
         //
         for (int index = 0; index < m_ObjectList.Count(); index++) {
             TDBObjClass* object = m_ObjectList[index];
-            if (object != NULL) {
+            if (object != nullptr) {
 
                 //
                 //	Write a #define for this object's ID
@@ -540,7 +540,7 @@ void TranslateDBClass::Import_C_Header(const char* filename)
     //	Create the file
     //
     HANDLE file
-        = ::CreateFile(filename, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, 0L, NULL);
+        = ::CreateFile(filename, GENERIC_READ, FILE_SHARE_READ, nullptr, OPEN_EXISTING, 0L, nullptr);
 
     WWASSERT(file != INVALID_HANDLE_VALUE);
     if (file != INVALID_HANDLE_VALUE) {
@@ -611,9 +611,9 @@ void TranslateDBClass::Import_C_Header(const char* filename)
                         //	Do we already have this object?
                         //
                         TDBObjClass* object = Find_Object(id);
-                        if (object == NULL) {
+                        if (object == nullptr) {
                             object = Find_Object(id_desc_text);
-                            if (object == NULL) {
+                            if (object == nullptr) {
 
                                 //
                                 //	If we didn't already have this object, then create
@@ -663,7 +663,7 @@ int TranslateDBClass::Get_Object_Count(void)
 ///////////////////////////////////////////////////////////////////////
 TDBObjClass* TranslateDBClass::Get_Object(int index)
 {
-    TDBObjClass* object = NULL;
+    TDBObjClass* object = nullptr;
 
     WWASSERT(index >= 0 && index < m_ObjectList.Count());
     if (index >= 0 && index < m_ObjectList.Count()) {
@@ -686,7 +686,7 @@ uint32 TranslateDBClass::Find_Unique_ID(void)
     //	Return the 'id' of the first empty slot in the list
     //
     for (int index = 0; index < m_ObjectList.Count(); index++) {
-        if (m_ObjectList[index] == NULL) {
+        if (m_ObjectList[index] == nullptr) {
             new_id = (ID_MIN + index);
             break;
         }
@@ -724,8 +724,8 @@ bool TranslateDBClass::Add_Category(TDBCategoryClass* new_category, bool assign_
 {
     bool retval = false;
 
-    WWASSERT(new_category != NULL);
-    if (new_category != NULL) {
+    WWASSERT(new_category != nullptr);
+    if (new_category != nullptr) {
 
         //
         //	Assign this category an ID (if necessary)
@@ -768,13 +768,13 @@ bool TranslateDBClass::Remove_Category(int index)
         //	Free the object that was in this slot
         //
         TDBCategoryClass* category = m_CategoryList[index];
-        if (category != NULL) {
+        if (category != nullptr) {
 
             //
             //	Remove all objects from the category
             //
             int category_id = category->Get_ID();
-            for (TDBObjClass* object = Get_First_Object(category_id); object != NULL;
+            for (TDBObjClass* object = Get_First_Object(category_id); object != nullptr;
                  object = Get_Next_Object(category_id, object)) {
                 object->Set_Category_ID(CATEGORY_DEFAULT);
             }
@@ -801,8 +801,8 @@ bool TranslateDBClass::Add_Object(TDBObjClass* new_obj)
 {
     bool retval = false;
 
-    WWASSERT(new_obj != NULL);
-    if (new_obj != NULL) {
+    WWASSERT(new_obj != nullptr);
+    if (new_obj != nullptr) {
 
         //
         //	Try to find an unused ID for the object (if necessary)
@@ -822,7 +822,7 @@ bool TranslateDBClass::Add_Object(TDBObjClass* new_obj)
         //	Grow the list up to the number of elements we need
         //
         while (m_ObjectList.Count() <= obj_index) {
-            m_ObjectList.Add(NULL);
+            m_ObjectList.Add(nullptr);
         }
 
         //
@@ -860,7 +860,7 @@ bool TranslateDBClass::Remove_Object(int index)
         //	Free the object that was in this slot
         //
         TDBObjClass* object = m_ObjectList[index];
-        if (object != NULL) {
+        if (object != nullptr) {
             // Remove the object from the hash table
             StringClass lower_case_name(object->Get_ID_Desc(), true);
             _strlwr(lower_case_name.Peek_Buffer());
@@ -871,7 +871,7 @@ bool TranslateDBClass::Remove_Object(int index)
         //
         //	Remove the pointer from the list and re-assign IDs
         //
-        m_ObjectList[index] = NULL;
+        m_ObjectList[index] = nullptr;
         retval = true;
     }
 
@@ -927,7 +927,7 @@ int TranslateDBClass::Get_Category_Count(void)
 ///////////////////////////////////////////////////////////////////////
 TDBCategoryClass* TranslateDBClass::Get_Category(int index)
 {
-    TDBCategoryClass* category = NULL;
+    TDBCategoryClass* category = nullptr;
 
     WWASSERT(index >= 0 && index < m_CategoryList.Count());
     if (index >= 0 && index < m_CategoryList.Count()) {
@@ -944,7 +944,7 @@ TDBCategoryClass* TranslateDBClass::Get_Category(int index)
 ///////////////////////////////////////////////////////////////////////
 TDBCategoryClass* TranslateDBClass::Find_Category(uint32 id)
 {
-    TDBCategoryClass* category = NULL;
+    TDBCategoryClass* category = nullptr;
 
     //
     //	Loop over all the categories until we've found a matching ID
@@ -966,7 +966,7 @@ TDBCategoryClass* TranslateDBClass::Find_Category(uint32 id)
 ///////////////////////////////////////////////////////////////////////
 TDBCategoryClass* TranslateDBClass::Find_Category(const char* name)
 {
-    TDBCategoryClass* category = NULL;
+    TDBCategoryClass* category = nullptr;
 
     //
     //	Loop over all the categories until we've found a matching name
@@ -988,7 +988,7 @@ TDBCategoryClass* TranslateDBClass::Find_Category(const char* name)
 ///////////////////////////////////////////////////////////////////////
 TDBObjClass* TranslateDBClass::Get_First_Object(uint32 category_id)
 {
-    TDBObjClass* object = NULL;
+    TDBObjClass* object = nullptr;
 
     //
     //	Loop over the objects we know about and return the first
@@ -996,7 +996,7 @@ TDBObjClass* TranslateDBClass::Get_First_Object(uint32 category_id)
     //
     for (int index = 0; index < m_ObjectList.Count(); index++) {
         TDBObjClass* curr_obj = m_ObjectList[index];
-        if (curr_obj != NULL) {
+        if (curr_obj != nullptr) {
 
             //
             //	Does this object belong to the category we are enumerating?
@@ -1021,11 +1021,11 @@ TDBObjClass* TranslateDBClass::Get_Next_Object(uint32 category_id, TDBObjClass* 
     //
     //	Sanity check
     //
-    if (curr_obj == NULL) {
-        return NULL;
+    if (curr_obj == nullptr) {
+        return nullptr;
     }
 
-    TDBObjClass* object = NULL;
+    TDBObjClass* object = nullptr;
 
     //
     //	Determine where in the list to start looking
@@ -1038,7 +1038,7 @@ TDBObjClass* TranslateDBClass::Get_Next_Object(uint32 category_id, TDBObjClass* 
     //
     for (int index = start_index; index < m_ObjectList.Count(); index++) {
         TDBObjClass* curr_obj = m_ObjectList[index];
-        if (curr_obj != NULL) {
+        if (curr_obj != nullptr) {
 
             //
             //	Does this object belong to the category we are enumerating?
@@ -1093,7 +1093,7 @@ void TranslateDBClass::Import_Strings(const char* filename)
     //	Open the file
     //
     HANDLE file
-        = ::CreateFile(filename, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, 0L, NULL);
+        = ::CreateFile(filename, GENERIC_READ, FILE_SHARE_READ, nullptr, OPEN_EXISTING, 0L, nullptr);
 
     WWASSERT(file != INVALID_HANDLE_VALUE);
     if (file != INVALID_HANDLE_VALUE) {
@@ -1115,7 +1115,7 @@ void TranslateDBClass::Import_Strings(const char* filename)
             //
             //	Convert the string to an array of values
             //
-            StringClass* value_array = NULL;
+            StringClass* value_array = nullptr;
             int value_count = Build_List_From_String(line, "\t", &value_array);
 
             //
@@ -1149,7 +1149,7 @@ void TranslateDBClass::Import_Strings(const char* filename)
                 if (value_count >= 4) {
                     DefinitionClass* definition = DefinitionMgrClass::Find_Typed_Definition(
                         value_array[3], CLASSID_SOUND, false);
-                    if (definition != NULL) {
+                    if (definition != nullptr) {
                         new_obj->Set_Sound_ID(definition->Get_ID());
                     }
                 }
@@ -1163,9 +1163,9 @@ void TranslateDBClass::Import_Strings(const char* filename)
             //
             // Cleanup
             //
-            if (value_array != NULL) {
+            if (value_array != nullptr) {
                 delete[] value_array;
-                value_array = NULL;
+                value_array = nullptr;
             }
         }
     }
@@ -1182,16 +1182,16 @@ int Build_List_From_String(const char* buffer, const char* delimiter, StringClas
 {
     int count = 0;
 
-    WWASSERT(buffer != NULL);
-    WWASSERT(delimiter != NULL);
-    WWASSERT(string_list != NULL);
-    if ((buffer != NULL) && (delimiter != NULL) && (string_list != NULL)) {
+    WWASSERT(buffer != nullptr);
+    WWASSERT(delimiter != nullptr);
+    WWASSERT(string_list != nullptr);
+    if ((buffer != nullptr) && (delimiter != nullptr) && (string_list != nullptr)) {
         int delim_len = ::strlen(delimiter);
 
         //
         // Determine how many entries there will be in the list
         //
-        for (const char* entry = buffer; (entry != NULL) && (entry[1] != 0);
+        for (const char* entry = buffer; (entry != nullptr) && (entry[1] != 0);
              entry = ::strstr(entry, delimiter)) {
 
             //
@@ -1216,7 +1216,7 @@ int Build_List_From_String(const char* buffer, const char* delimiter, StringClas
             // Parse the string and pull out its entries.
             //
             count = 0;
-            for (entry = buffer; (entry != NULL) && (entry[1] != 0);
+            for (entry = buffer; (entry != nullptr) && (entry[1] != 0);
                  entry = ::strstr(entry, delimiter)) {
 
                 //
@@ -1231,7 +1231,7 @@ int Build_List_From_String(const char* buffer, const char* delimiter, StringClas
                 //
                 StringClass entry_string = entry;
                 char* delim_start = ::strstr(entry_string, delimiter);
-                if (delim_start != NULL) {
+                if (delim_start != nullptr) {
                     delim_start[0] = 0;
                 }
 

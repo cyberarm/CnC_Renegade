@@ -44,11 +44,11 @@
 ////////////////////////////////////////////////////////////////
 //	Static member initialization
 ////////////////////////////////////////////////////////////////
-ToolTipClass* ToolTipMgrClass::ToolTip = NULL;
+ToolTipClass* ToolTipMgrClass::ToolTip = nullptr;
 int ToolTipMgrClass::ToolTipDelay = 1000;
 int ToolTipMgrClass::DefaultToolTipDelay = 1000;
 bool ToolTipMgrClass::ToolTipDisplayed = false;
-DialogControlClass* ToolTipMgrClass::CurrentControl = NULL;
+DialogControlClass* ToolTipMgrClass::CurrentControl = nullptr;
 Vector2 ToolTipMgrClass::LastMousePos(0, 0);
 int ToolTipMgrClass::PauseTime = -1;
 
@@ -81,7 +81,7 @@ void ToolTipMgrClass::Shutdown(void)
     //	Free the tooltip object
     //
     delete ToolTip;
-    ToolTip = NULL;
+    ToolTip = nullptr;
     return;
 }
 
@@ -95,7 +95,7 @@ void ToolTipMgrClass::Render(void)
     //
     //	Simply render the tooltip (if necessary)
     //
-    if (ToolTipDisplayed && ToolTip != NULL) {
+    if (ToolTipDisplayed && ToolTip != nullptr) {
         ToolTip->Render();
     }
 
@@ -120,7 +120,7 @@ void ToolTipMgrClass::Reset(void)
 ////////////////////////////////////////////////////////////////
 void ToolTipMgrClass::Update(const Vector2& mouse_pos)
 {
-    if (ToolTip == NULL) {
+    if (ToolTip == nullptr) {
         return;
     }
 
@@ -138,7 +138,7 @@ void ToolTipMgrClass::Update(const Vector2& mouse_pos)
             //	What control are we over?
             //
             DialogControlClass* control = DialogMgrClass::Find_Control(mouse_pos);
-            if (control != NULL && control->Wants_Tooltip()) {
+            if (control != nullptr && control->Wants_Tooltip()) {
                 CurrentControl = control;
 
                 //
@@ -177,7 +177,7 @@ void ToolTipMgrClass::Update(const Vector2& mouse_pos)
                 //	Force the tooltip to be hidden
                 //
                 ToolTipDisplayed = false;
-                CurrentControl = NULL;
+                CurrentControl = nullptr;
             }
         }
     }

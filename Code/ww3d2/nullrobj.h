@@ -22,7 +22,7 @@
  *                                                                                             *
  *                 Project Name : WW3D                                                         *
  *                                                                                             *
- *                     $Archive:: /Commando/Code/ww3d2/nullrobj.h                             $*
+ *                     $Archive:: /Commando/Code/ww3d2/nullptrrobj.h                             $*
  *                                                                                             *
  *                       Author:: Greg Hjelstrom                                               *
  *                                                                                             *
@@ -38,8 +38,8 @@
 #pragma once
 #endif
 
-#ifndef NULL_H
-#define NULL_H
+#ifndef nullptr_H
+#define nullptr_H
 
 #ifndef RENDOBJ_H
 #include "rendobj.h"
@@ -47,12 +47,12 @@
 
 #include "proto.h"
 
-class Null3DObjClass : public RenderObjClass
+class nullptr3DObjClass : public RenderObjClass
 {
 public:
-    Null3DObjClass(const char* name = "NULL");
-    Null3DObjClass(const Null3DObjClass& src);
-    Null3DObjClass& operator=(const Null3DObjClass& that);
+    nullptr3DObjClass(const char* name = "nullptr");
+    nullptr3DObjClass(const nullptr3DObjClass& src);
+    nullptr3DObjClass& operator=(const nullptr3DObjClass& that);
 
     virtual int Class_ID(void) const;
     virtual RenderObjClass* Clone(void) const;
@@ -65,24 +65,24 @@ protected:
     char Name[2 * W3D_NAME_LEN];
 };
 
-class NullPrototypeClass : public PrototypeClass
+class nullptrPrototypeClass : public PrototypeClass
 {
 public:
-    NullPrototypeClass(void);
-    NullPrototypeClass(const W3dNullObjectStruct& null);
+    nullptrPrototypeClass(void);
+    nullptrPrototypeClass(const W3dnullptrObjectStruct& nullptr);
 
     virtual const char* Get_Name(void) const { return Definition.Name; }
-    virtual int Get_Class_ID(void) const { return RenderObjClass::CLASSID_NULL; }
-    virtual RenderObjClass* Create(void) { return NEW_REF(Null3DObjClass, (Definition.Name)); }
+    virtual int Get_Class_ID(void) const { return RenderObjClass::CLASSID_nullptr; }
+    virtual RenderObjClass* Create(void) { return NEW_REF(nullptr3DObjClass, (Definition.Name)); }
 
 protected:
-    W3dNullObjectStruct Definition;
+    W3dnullptrObjectStruct Definition;
 };
 
-class NullLoaderClass : public PrototypeLoaderClass
+class nullptrLoaderClass : public PrototypeLoaderClass
 {
 public:
-    virtual int Chunk_Type(void) { return W3D_CHUNK_NULL_OBJECT; }
+    virtual int Chunk_Type(void) { return W3D_CHUNK_nullptr_OBJECT; }
     virtual PrototypeClass* Load_W3D(ChunkLoadClass& cload);
 };
 
@@ -90,6 +90,6 @@ public:
 ** Instance of the default loader which the asset manager can
 ** automatically install at creation time
 */
-extern NullLoaderClass _NullLoader;
+extern nullptrLoaderClass _nullptrLoader;
 
 #endif

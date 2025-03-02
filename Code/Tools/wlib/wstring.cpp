@@ -40,23 +40,23 @@ string to it's own memory (for assignment or construction).
 #define PADSIZE 32 // include a little padding on alloc for future growth
 
 Wstring::Wstring()
-    : str(NULL),
+    : str(nullptr),
       strsize(0)
 {
 }
 
 Wstring::Wstring(IN char* string)
-    : str(NULL),
+    : str(nullptr),
       strsize(0)
 {
     set(string);
 }
 
 Wstring::Wstring(IN Wstring& other)
-    : str(NULL),
+    : str(nullptr),
       strsize(0)
 {
-    if (other.str != NULL) {
+    if (other.str != nullptr) {
         str = new char[strlen(other.str) + PADSIZE + 1];
         strsize = strlen(other.str) + PADSIZE + 1;
         strcpy(str, other.str);
@@ -70,11 +70,11 @@ Wstring::~Wstring()
 
 bool Wstring::operator<(IN Wstring& other) RO
 {
-    if (str == NULL && other.str == NULL) {
+    if (str == nullptr && other.str == nullptr) {
         return false;
     }
 
-    if (str == NULL) {
+    if (str == nullptr) {
         return true;
     }
 
@@ -83,7 +83,7 @@ bool Wstring::operator<(IN Wstring& other) RO
 
 bit8 Wstring::operator==(IN char* other) RO
 {
-    if ((str == NULL) && (other == NULL)) {
+    if ((str == nullptr) && (other == nullptr)) {
         return (TRUE);
     }
     if (strcmp(str, other) != 0) {
@@ -96,11 +96,11 @@ bit8 Wstring::operator==(IN char* other) RO
 
 bit8 Wstring::operator==(IN Wstring& other) RO
 {
-    if ((str == NULL) && (other.str == NULL)) {
+    if ((str == nullptr) && (other.str == nullptr)) {
         return (TRUE);
     }
 
-    if ((str == NULL) || (other.str == NULL)) {
+    if ((str == nullptr) || (other.str == nullptr)) {
         return (FALSE);
     }
 
@@ -124,11 +124,11 @@ bit8 Wstring::operator!=(IN char* other) RO
 
 bit8 Wstring::operator!=(IN Wstring& other) RO
 {
-    if ((str == NULL) && (other.str == NULL)) {
+    if ((str == nullptr) && (other.str == nullptr)) {
         return (FALSE);
     }
 
-    if ((str == NULL) || (other.str == NULL)) {
+    if ((str == nullptr) || (other.str == nullptr)) {
         return (TRUE);
     }
 
@@ -160,7 +160,7 @@ bit8 Wstring::cat(IN char* s)
 {
     uint32 len;
 
-    if (s == NULL) { // it's OK to cat nothing
+    if (s == nullptr) { // it's OK to cat nothing
         return (TRUE);
     }
 
@@ -192,7 +192,7 @@ bit8 Wstring::cat(uint32 size, IN char* s)
     strgrow(len);
 
     strncat(str, s, size);
-    str[len - 1] = 0; // make sure null term'd
+    str[len - 1] = 0; // make sure nullptr term'd
 
     return (TRUE);
 }
@@ -262,15 +262,15 @@ char Wstring::remove(sint32 pos, sint32 count)
 bit8 Wstring::removeChar(char c)
 {
     int len = 0;
-    char* cptr = NULL;
+    char* cptr = nullptr;
     bit8 removed = FALSE;
 
-    if (str == NULL) {
+    if (str == nullptr) {
         return (FALSE);
     }
 
     len = strlen(str);
-    while ((cptr = strchr(str, c)) != NULL) {
+    while ((cptr = strchr(str, c)) != nullptr) {
         memmove(cptr, cptr + 1, len - 1 - ((int)(cptr - str)));
         len--;
         str[len] = 0;
@@ -291,7 +291,7 @@ void Wstring::clear(void)
         delete[] (str);
     }
     strsize = 0;
-    str = NULL;
+    str = nullptr;
 }
 
 // This is usually used for raw storage instead of string ops...
@@ -336,7 +336,7 @@ char Wstring::get(uint32 index) RO
 
 uint32 Wstring::length(void) RO
 {
-    if (str == NULL) {
+    if (str == nullptr) {
         return (0);
     }
     return ((uint32)strlen(str));
@@ -345,7 +345,7 @@ uint32 Wstring::length(void) RO
 // Insert at given position and shift old stuff to right
 bit8 Wstring::insert(char* instring, uint32 pos)
 {
-    if (str == NULL) {
+    if (str == nullptr) {
         return (set(instring));
     }
     if (pos > strlen(str)) {
@@ -423,7 +423,7 @@ bit8 Wstring::replace(IN char* replaceThis, IN char* withThis)
                 return (FALSE);
             }
 
-            src = NULL;
+            src = nullptr;
         }
     }
     return (set(dest.get()));
@@ -468,7 +468,7 @@ char Wstring::set(uint32 size, IN char* string)
 // work in all cases, but this should be good enough for 99% of Wstring usage.
 char Wstring::setFormatted(IN char* msg, ...)
 {
-    if (msg == NULL || strlen(msg) <= 0) {
+    if (msg == nullptr || strlen(msg) <= 0) {
         return FALSE;
     }
 
@@ -528,12 +528,12 @@ bit8 Wstring::truncate(char c)
 {
     sint32 len;
 
-    if (str == NULL) {
+    if (str == nullptr) {
         return (FALSE);
     }
 
     char* cptr = strchr(str, c);
-    if (cptr == NULL) {
+    if (cptr == nullptr) {
         return (FALSE);
     }
     len = (sint32)(cptr - str);
@@ -554,7 +554,7 @@ sint32 Wstring::getToken(int offset, char* delim, Wstring& out) RO
     }
 
     for (i = offset; i < (int)length(); i++) {
-        if (strchr(delim, str[i]) == NULL) {
+        if (strchr(delim, str[i]) == nullptr) {
             break;
         }
     }
@@ -564,7 +564,7 @@ sint32 Wstring::getToken(int offset, char* delim, Wstring& out) RO
     start = i;
 
     for (; i < (int)length(); i++) {
-        if (strchr(delim, str[i]) != NULL) {
+        if (strchr(delim, str[i]) != nullptr) {
             break;
         }
     }
@@ -587,7 +587,7 @@ sint32 Wstring::getLine(int offset, Wstring& out)
     }
 
     for (; i < (int)length(); i++) {
-        if (strchr("\r\n", str[i]) != NULL) {
+        if (strchr("\r\n", str[i]) != nullptr) {
             break;
         }
     }
@@ -606,7 +606,7 @@ sint32 Wstring::getLine(int offset, Wstring& out)
 //
 void Wstring::strgrow(int length)
 {
-    if (str == NULL) {
+    if (str == nullptr) {
         str = new char[length + PADSIZE];
         str[0] = 0;
         strsize = length + PADSIZE;

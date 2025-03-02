@@ -89,7 +89,7 @@ void cGodModeEvent::Act(void)
     if (cDevOptions::IBelieveInGod.Is_True() || CRC_Stringi(Password) == 4014842490) {
         cPlayer* p_player = cPlayerManager::Find_Player(SenderId);
 
-        if (p_player != NULL) {
+        if (p_player != nullptr) {
 
             p_player->Invulnerable.Toggle();
             p_player->Mark_As_Modified();
@@ -103,7 +103,7 @@ void cGodModeEvent::Act(void)
                 SoldierGameObj* p_soldier
                     = GameObjManager::Find_Soldier_Of_Client_ID(p_player->Get_Id());
 
-                if (p_soldier != NULL) {
+                if (p_soldier != nullptr) {
 
                     p_soldier->Give_All_Weapons();
 
@@ -121,7 +121,7 @@ void cGodModeEvent::Act(void)
     }
     else {
         if (Get_Text_Display()) {
-            WWASSERT(Get_Text_Display() != NULL);
+            WWASSERT(Get_Text_Display() != nullptr);
             Get_Text_Display()->Print_System(
                 "God status toggle request ignored due to your atheism.");
         }

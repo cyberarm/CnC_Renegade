@@ -90,17 +90,17 @@ CLevelEditView::CLevelEditView(void)
       m_iBitsPerPixel(16),
       m_iWindowed(1),
       m_bRenderDeviceInitialized(FALSE),
-      m_pCameraMgr(NULL),
-      m_pMouseMgr(NULL),
+      m_pCameraMgr(nullptr),
+      m_pMouseMgr(nullptr),
       m_bActive(false),
-      m_p2DScene(NULL),
-      m_p2DCamera(NULL),
+      m_p2DScene(nullptr),
+      m_p2DCamera(nullptr),
       m_TimerID(0),
       m_HorzFOV(0),
       m_VertFOV(0),
       m_CursorXRatio(1),
       m_CursorYRatio(1),
-      m_hMouseHook(NULL)
+      m_hMouseHook(nullptr)
 {
     // Get the windowed mode from the registry
     CString string_windowed = theApp.GetProfileString("Config", "Windowed", "1");
@@ -236,27 +236,27 @@ bool CLevelEditView::Initialize_Render_Device(void)
     ASSERT(m_bRenderDeviceInitialized);
 
     // Create a new camera manager object
-    if (m_pCameraMgr == NULL) {
+    if (m_pCameraMgr == nullptr) {
         m_pCameraMgr = new CameraMgr;
     }
 
     // Create a new mouse manager object
-    if (m_pMouseMgr == NULL) {
+    if (m_pMouseMgr == nullptr) {
         m_pMouseMgr = new MouseMgrClass;
     }
 
     // Reset the camera's FOV
     m_pCameraMgr->Get_Camera()->Set_View_Plane(m_HorzFOV, m_VertFOV);
 
-    if (m_p2DCamera == NULL) {
+    if (m_p2DCamera == nullptr) {
 
         // Create a new instance of the camera class to use
         // when rendering the background BMP
         m_p2DCamera = new CameraClass();
 
         // Were we successful in creating the new instance?
-        ASSERT(m_p2DCamera != NULL);
-        if (m_p2DCamera != NULL) {
+        ASSERT(m_p2DCamera != nullptr);
+        if (m_p2DCamera != nullptr) {
 
             // Set the default values for the new camera
             m_p2DCamera->Set_View_Plane(Vector2(-1.00F, -1.00F), Vector2(1.00F, 1.00F));
@@ -267,7 +267,7 @@ bool CLevelEditView::Initialize_Render_Device(void)
         }
     }
 
-    if (m_p2DScene == NULL) {
+    if (m_p2DScene == nullptr) {
 
         // Instantiate a new scene
         m_p2DScene = new SimpleSceneClass;
@@ -411,8 +411,8 @@ void CLevelEditView::Repaint_View(void)
     // Are we in a valid state?
     //
     WWASSERT(_iPaintingLock >= 0);
-    if (m_bRenderDeviceInitialized && (_iPaintingLock == 0) && (doc != NULL)
-        && (doc->Get_Scene() != NULL) && (::Is_Silent_Mode() == false)) {
+    if (m_bRenderDeviceInitialized && (_iPaintingLock == 0) && (doc != nullptr)
+        && (doc->Get_Scene() != nullptr) && (::Is_Silent_Mode() == false)) {
         _iPaintingLock++;
 
         //
@@ -447,7 +447,7 @@ void CLevelEditView::Repaint_View(void)
         // Update some sub-systems.
         BackgroundMgrClass::Update(scene, camera);
         SoundEnvironmentClass* sound_environment = CombatManager::Get_Sound_Environment();
-        if (sound_environment != NULL) {
+        if (sound_environment != nullptr) {
             sound_environment->Update(scene, camera);
         }
         WeatherMgrClass::Update(scene, camera);
@@ -482,7 +482,7 @@ void CLevelEditView::Repaint_View(void)
         //	Render the dazzle layer (if necessary)
         //
         DazzleLayerClass* dazzle_layer = CombatManager::Get_Dazzle_Layer();
-        if (dazzle_layer != NULL) {
+        if (dazzle_layer != nullptr) {
             dazzle_layer->Render(camera);
         }
 
@@ -572,15 +572,15 @@ LRESULT CALLBACK fnMouseHookProc(int nCode, WPARAM wParam, LPARAM lParam)
     LRESULT result = 0L;
 
     CLevelEditView* pview = ::Get_Main_View();
-    if (pview != NULL) {
+    if (pview != nullptr) {
         MOUSEHOOKSTRUCT* pinfo = (MOUSEHOOKSTRUCT*)lParam;
-        if (pinfo != NULL) {
+        if (pinfo != nullptr) {
 
             bool allow_update = pinfo->hwnd == pview->m_hWnd;
             if (!allow_update) {
-                allow_update = (::GetProp(pinfo->hwnd, "ALLOW_UPDATE") != NULL);
+                allow_update = (::GetProp(pinfo->hwnd, "ALLOW_UPDATE") != nullptr);
                 if (!allow_update && ::GetParent(pinfo->hwnd)) {
-                    allow_update = (::GetProp(::GetParent(pinfo->hwnd), "ALLOW_UPDATE") != NULL);
+                    allow_update = (::GetProp(::GetParent(pinfo->hwnd), "ALLOW_UPDATE") != nullptr);
                 }
 
                 if (::Get_Mouse_Mgr()
@@ -718,9 +718,9 @@ void CLevelEditView::OnDestroy(void)
     // Kill the timer
     Start_Update(false);
 
-    if (m_hMouseHook != NULL) {
+    if (m_hMouseHook != nullptr) {
         ::UnhookWindowsHookEx(m_hMouseHook);
-        m_hMouseHook = NULL;
+        m_hMouseHook = nullptr;
     }
 
     ::RemoveProp(m_hWnd, "WaitingToProcess");
@@ -736,7 +736,7 @@ void CLevelEditView::OnDestroy(void)
 //
 void CLevelEditView::Reset_View(void)
 {
-    ASSERT(m_pCameraMgr != NULL);
+    ASSERT(m_pCameraMgr != nullptr);
 
     // Re-initialize the camera
     m_pCameraMgr->Init_Camera();
@@ -753,10 +753,10 @@ void CLevelEditView::Reset_View(void)
 void CALLBACK fnTimerCallback(UINT uID, UINT uMsg, DWORD dwUser, DWORD dw1, DWORD dw2)
 {
     HWND hwnd = (HWND)dwUser;
-    if (hwnd != NULL) {
+    if (hwnd != nullptr) {
 
         // Send this event off to the view to process (hackish, but fine for now)
-        if ((GetProp(hwnd, "WaitingToProcess") == NULL) && (CLevelEditView::_iPaintingLock == 0)) {
+        if ((GetProp(hwnd, "WaitingToProcess") == nullptr) && (CLevelEditView::_iPaintingLock == 0)) {
             SetProp(hwnd, "WaitingToProcess", (HANDLE)1);
 
             // Send the message to the view so it will be in the

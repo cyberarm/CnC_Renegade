@@ -41,53 +41,53 @@ for sending to a WOL game results server.
 
 RenegadeGameRes::~RenegadeGameRes()
 {
-    if (_host != NULL) {
+    if (_host != nullptr) {
         delete[] _host;
     }
-    if (_map_name != NULL) {
+    if (_map_name != nullptr) {
         delete[] _map_name;
     }
-    if (_logins != NULL) {
+    if (_logins != nullptr) {
         for (int i = 0; i < _myplayercount; i++) {
-            if (_logins[i] != NULL) {
+            if (_logins[i] != nullptr) {
                 delete[] _logins[i];
             }
         }
         delete[] _logins;
     }
-    if (_scores != NULL) {
+    if (_scores != nullptr) {
         delete[] _scores;
     }
-    if (_clan_ids != NULL) {
+    if (_clan_ids != nullptr) {
         delete[] _clan_ids;
     }
-    if (_durations != NULL) {
+    if (_durations != nullptr) {
         delete[] _durations;
     }
-    if (_ips != NULL) {
+    if (_ips != nullptr) {
         delete[] _ips;
     }
-    if (_deaths != NULL) {
+    if (_deaths != nullptr) {
         delete[] _deaths;
     }
-    if (_kills != NULL) {
+    if (_kills != nullptr) {
         delete[] _kills;
     }
-    if (_selfkills != NULL) {
+    if (_selfkills != nullptr) {
         delete[] _selfkills;
     }
-    if (_damagepoints != NULL) {
+    if (_damagepoints != nullptr) {
         delete[] _damagepoints;
     }
 }
 
 void RenegadeGameRes::setMapName(const char* val)
 {
-    if (_map_name != NULL) {
+    if (_map_name != nullptr) {
         delete[] _map_name;
     }
 
-    if (val == NULL) {
+    if (val == nullptr) {
         return;
     }
 
@@ -150,7 +150,7 @@ void RenegadeGameRes::addPlayer(const char* login, double score, long unsigned i
 
 int RenegadeGameRes::sendResults()
 {
-    assert(_host != NULL);
+    assert(_host != nullptr);
     assert(_port != 0);
     // GameResPacket grPacket
     //  Build the packet
@@ -233,7 +233,7 @@ int RenegadeGameRes::sendResults()
     delete[] outPacket;
     delete[] encPacket;
 
-    if (_host != NULL) {
+    if (_host != nullptr) {
         return sendlen;
     }
     else {
@@ -251,9 +251,9 @@ pointer to it.
 `----------------------------------------------------------------------------------*/
 char** RenegadeGameRes::_addToArr(char** arr, const char* item)
 {
-    char** newarr = NULL;
+    char** newarr = nullptr;
 
-    if (arr == NULL) {
+    if (arr == nullptr) {
         // Make a new array
         assert(_myplayercount == 0);
         newarr = new char*[1];
@@ -284,9 +284,9 @@ pointer to it.
 `----------------------------------------------------------------------------------*/
 long unsigned int* RenegadeGameRes::_addToArr(long unsigned int* arr, long unsigned int item)
 {
-    long unsigned int* newarr = NULL;
+    long unsigned int* newarr = nullptr;
 
-    if (arr == NULL) {
+    if (arr == nullptr) {
         // Make a new array
         assert(_myplayercount == 0);
         newarr = new long unsigned int[1];

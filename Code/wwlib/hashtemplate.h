@@ -76,7 +76,7 @@ template <class KeyType, class ValueType> class HashTemplateClass
 public:
     enum
     {
-        NIL = -1 // internal enumeration for representing a NULL link
+        NIL = -1 // internal enumeration for representing a nullptr link
     };
 
     HashTemplateClass(void);

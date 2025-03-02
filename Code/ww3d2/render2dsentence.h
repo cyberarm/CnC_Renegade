@@ -165,7 +165,7 @@ public:
     //Cursor; }
 
     Vector2 Get_Text_Extents(const WCHAR* text);
-    Vector2 Get_Formatted_Text_Extents(const WCHAR* text, int* row_count = NULL);
+    Vector2 Get_Formatted_Text_Extents(const WCHAR* text, int* row_count = nullptr);
     const WCHAR* Find_Row_Start(const WCHAR* text, int row_index);
 
     //

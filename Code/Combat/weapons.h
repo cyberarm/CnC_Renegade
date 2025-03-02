@@ -135,7 +135,7 @@ class WeaponClass
 {
 
 public:
-    WeaponClass(const WeaponDefinitionClass* weapon_def = NULL);
+    WeaponClass(const WeaponDefinitionClass* weapon_def = nullptr);
     ~WeaponClass(void);
 
     void Init(const WeaponDefinitionClass* weapon_def);

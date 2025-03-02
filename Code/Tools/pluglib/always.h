@@ -151,8 +151,8 @@ template <class T> T max(T a, T b)
 #include "watcom.h"
 #endif
 
-#ifndef NULL
-#define NULL 0
+#ifndef nullptr
+#define nullptr 0
 #endif
 
 /**********************************************************************

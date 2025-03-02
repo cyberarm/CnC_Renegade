@@ -38,7 +38,7 @@ static char THIS_FILE[] = __FILE__;
 //
 //  CSaveSettingsDialog
 //
-CSaveSettingsDialog::CSaveSettingsDialog(CWnd* pParent /*=NULL*/)
+CSaveSettingsDialog::CSaveSettingsDialog(CWnd* pParent /*=nullptr*/)
     : CDialog(CSaveSettingsDialog::IDD, pParent)
 {
     //{{AFX_DATA_INIT(CSaveSettingsDialog)
@@ -94,7 +94,7 @@ BOOL CSaveSettingsDialog::OnInitDialog(void)
 void CSaveSettingsDialog::OnBrowseButton(void)
 {
     TCHAR szFileName[MAX_PATH];
-    ::GetModuleFileName(NULL, szFileName, sizeof(szFileName));
+    ::GetModuleFileName(nullptr, szFileName, sizeof(szFileName));
     LPTSTR pszPath = ::strrchr(szFileName, '\\');
     if (pszPath) {
         ::SetCurrentDirectory(pszPath);

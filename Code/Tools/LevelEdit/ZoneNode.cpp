@@ -74,7 +74,7 @@ enum
 //
 //////////////////////////////////////////////////////////////////////////////
 ZoneNodeClass::ZoneNodeClass(PresetClass* preset)
-    : m_PhysObj(NULL),
+    : m_PhysObj(nullptr),
       m_CachedSize(1, 1, 1),
       ObjectNodeClass(preset)
 {
@@ -87,9 +87,9 @@ ZoneNodeClass::ZoneNodeClass(PresetClass* preset)
 //
 //////////////////////////////////////////////////////////////////////////////
 ZoneNodeClass::ZoneNodeClass(const ZoneNodeClass& src)
-    : m_PhysObj(NULL),
+    : m_PhysObj(nullptr),
       m_CachedSize(1, 1, 1),
-      ObjectNodeClass(NULL)
+      ObjectNodeClass(nullptr)
 {
     *this = src;
     return;
@@ -119,13 +119,13 @@ void ZoneNodeClass::Initialize(void)
 {
     MEMBER_RELEASE(m_PhysObj);
 
-    if (m_GameObj != NULL) {
+    if (m_GameObj != nullptr) {
         m_GameObj->Set_Delete_Pending();
-        m_GameObj = NULL;
+        m_GameObj = nullptr;
     }
 
     DefinitionClass* definition = m_Preset->Get_Definition();
-    if (definition != NULL) {
+    if (definition != nullptr) {
 
         //
         //	Create the game object
@@ -135,7 +135,7 @@ void ZoneNodeClass::Initialize(void)
         //
         //	Assign 'hit-test' information to this game object
         //
-        if (m_GameObj != NULL) {
+        if (m_GameObj != nullptr) {
 
             //
             // Create the new box physics object
@@ -276,7 +276,7 @@ void ZoneNodeClass::Update_Zone_Obj(void)
     //
     //	Update the zone's bounding box
     //
-    if (box != NULL && zone_obj != NULL) {
+    if (box != nullptr && zone_obj != nullptr) {
         Vector3 pos = box->Get_Transform().Get_Translation();
         Vector3 size = box->Get_Dimensions() / 2;
 
@@ -359,7 +359,7 @@ void ZoneNodeClass::Pre_Export(void)
     // saved during the export.
     //
     Add_Ref();
-    if (m_PhysObj != NULL && m_IsInScene) {
+    if (m_PhysObj != nullptr && m_IsInScene) {
         ::Get_Scene_Editor()->Remove_Object(m_PhysObj);
         m_GrabHandles.Remove_From_Scene();
     }
@@ -376,7 +376,7 @@ void ZoneNodeClass::Post_Export(void)
     //
     //	Put ourselves back into the system
     //
-    if (m_PhysObj != NULL && m_IsInScene) {
+    if (m_PhysObj != nullptr && m_IsInScene) {
         ::Get_Scene_Editor()->Add_Dynamic_Object(m_PhysObj);
         m_GrabHandles.Position_Around_Node(this);
     }

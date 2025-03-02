@@ -156,8 +156,8 @@ static UINT indicators[] = {
 // CMainFrame construction/destruction
 
 CMainFrame::CMainFrame()
-    : VirtualJoystick(NULL),
-      ControlledObject(NULL)
+    : VirtualJoystick(nullptr),
+      ControlledObject(nullptr)
 {
 }
 
@@ -226,7 +226,7 @@ void CMainFrame::OnDestroy()
 {
     CFrameWnd::OnDestroy();
 
-    if (VirtualJoystick != NULL) {
+    if (VirtualJoystick != nullptr) {
         VirtualJoystick->DestroyWindow();
         delete VirtualJoystick;
     }
@@ -255,7 +255,7 @@ void CMainFrame::Save(ChunkSaveClass& csave)
 
 void CMainFrame::Load(ChunkLoadClass& cload)
 {
-    PhysControllerClass* controlptr = NULL;
+    PhysControllerClass* controlptr = nullptr;
     CGraphicView* graphic_view = (CGraphicView*)Splitter.GetPane(0, 1);
     CDataView* data_view = (CDataView*)Splitter.GetPane(0, 0);
 
@@ -281,7 +281,7 @@ void CMainFrame::Load(ChunkLoadClass& cload)
         cload.Close_Chunk();
     }
 
-    if (controlptr != NULL) {
+    if (controlptr != nullptr) {
         SaveLoadSystemClass::Register_Pointer(controlptr, &(VirtualJoystick->Controller));
     }
 }
@@ -324,14 +324,14 @@ BOOL CMainFrame::OnCreateClient(LPCREATESTRUCT lpcs, CCreateContext* pContext)
     }
 
     CGraphicView* view = (CGraphicView*)Splitter.GetPane(0, 1);
-    ASSERT(view != NULL);
-    if (view == NULL) {
+    ASSERT(view != nullptr);
+    if (view == nullptr) {
         return FALSE;
     }
 
     // Set the current directory to the application's run directory.
     TCHAR szFileName[MAX_PATH];
-    ::GetModuleFileName(NULL, szFileName, sizeof(szFileName));
+    ::GetModuleFileName(nullptr, szFileName, sizeof(szFileName));
     LPTSTR pszPath = ::strrchr(szFileName, '\\');
     if (pszPath) {
         pszPath[0] = 0;
@@ -444,7 +444,7 @@ void CMainFrame::Add_Object(PhysClass* new_obj)
     name.Format("%s_%2d", new_obj->Peek_Model()->Get_Name(), doc->Get_Physics_Object_Count());
     new_obj->Set_Name(name);
 
-    if (doc != NULL) {
+    if (doc != nullptr) {
         doc->Add_Physics_Object(new_obj);
     }
 }
@@ -459,12 +459,12 @@ CPhysTestDoc* CMainFrame::Get_Document(void)
 void CMainFrame::OnCreateRigidBody()
 {
     const char* model_name = Peek_Selected_Model();
-    if (model_name == NULL) {
+    if (model_name == nullptr) {
         return;
     }
 
     RenderObjClass* model = WW3DAssetManager::Get_Instance()->Create_Render_Obj(model_name);
-    if (model == NULL) {
+    if (model == nullptr) {
         return;
     }
 
@@ -479,18 +479,18 @@ void CMainFrame::OnCreateRigidBody()
 
 void CMainFrame::OnUpdateCreateRigidBody(CCmdUI* pCmdUI)
 {
-    pCmdUI->Enable(Peek_Selected_Model() != NULL);
+    pCmdUI->Enable(Peek_Selected_Model() != nullptr);
 }
 
 void CMainFrame::OnCreateWheeledVehicle()
 {
     const char* model_name = Peek_Selected_Model();
-    if (model_name == NULL) {
+    if (model_name == nullptr) {
         return;
     }
 
     RenderObjClass* model = WW3DAssetManager::Get_Instance()->Create_Render_Obj(model_name);
-    if (model == NULL) {
+    if (model == nullptr) {
         return;
     }
 
@@ -505,18 +505,18 @@ void CMainFrame::OnCreateWheeledVehicle()
 
 void CMainFrame::OnUpdateCreateWheeledVehicle(CCmdUI* pCmdUI)
 {
-    pCmdUI->Enable(Peek_Selected_Model() != NULL);
+    pCmdUI->Enable(Peek_Selected_Model() != nullptr);
 }
 
 void CMainFrame::OnCreateMotorcycle()
 {
     const char* model_name = Peek_Selected_Model();
-    if (model_name == NULL) {
+    if (model_name == nullptr) {
         return;
     }
 
     RenderObjClass* model = WW3DAssetManager::Get_Instance()->Create_Render_Obj(model_name);
-    if (model == NULL) {
+    if (model == nullptr) {
         return;
     }
 
@@ -531,24 +531,24 @@ void CMainFrame::OnCreateMotorcycle()
 
 void CMainFrame::OnUpdateCreateMotorcycle(CCmdUI* pCmdUI)
 {
-    pCmdUI->Enable(Peek_Selected_Model() != NULL);
+    pCmdUI->Enable(Peek_Selected_Model() != nullptr);
 }
 
 const char* CMainFrame::Peek_Selected_Model(void)
 {
     CDataView* data_view = (CDataView*)Splitter.GetPane(0, 0);
     CPhysTestDoc* doc = (CPhysTestDoc*)data_view->GetDocument();
-    if ((data_view == NULL) || (doc == NULL)) {
-        return NULL;
+    if ((data_view == nullptr) || (doc == nullptr)) {
+        return nullptr;
     }
 
     // get the currently selected instance
     ItemInfoClass* item = data_view->Get_Selected_Item();
-    if (item == NULL) {
-        return NULL;
+    if (item == nullptr) {
+        return nullptr;
     }
     if (item->Type != ItemInfoClass::MODEL) {
-        return NULL;
+        return nullptr;
     }
 
     return item->Name;
@@ -558,17 +558,17 @@ PhysClass* CMainFrame::Peek_Selected_Object(void)
 {
     CDataView* data_view = (CDataView*)Splitter.GetPane(0, 0);
     CPhysTestDoc* doc = (CPhysTestDoc*)data_view->GetDocument();
-    if ((data_view == NULL) || (doc == NULL)) {
-        return NULL;
+    if ((data_view == nullptr) || (doc == nullptr)) {
+        return nullptr;
     }
 
     // get the currently selected instance
     ItemInfoClass* item = data_view->Get_Selected_Item();
-    if (item == NULL) {
-        return NULL;
+    if (item == nullptr) {
+        return nullptr;
     }
     if (item->Type != ItemInfoClass::INSTANCE) {
-        return NULL;
+        return nullptr;
     }
 
     PhysClass* obj = (PhysClass*)item->Instance;
@@ -581,7 +581,7 @@ MoveablePhysClass* CMainFrame::Peek_Selected_MoveablePhysClass(void)
     if (obj) {
         return obj->As_MoveablePhysClass();
     }
-    return NULL;
+    return nullptr;
 }
 
 RigidBodyClass* CMainFrame::Peek_Selected_RigidBodyClass(void)
@@ -590,7 +590,7 @@ RigidBodyClass* CMainFrame::Peek_Selected_RigidBodyClass(void)
     if (obj) {
         return obj->As_RigidBodyClass();
     }
-    return NULL;
+    return nullptr;
 }
 
 MotorVehicleClass* CMainFrame::Peek_Selected_MotorVehicleClass(void)
@@ -599,7 +599,7 @@ MotorVehicleClass* CMainFrame::Peek_Selected_MotorVehicleClass(void)
     if (obj) {
         return obj->As_MotorVehicleClass();
     }
-    return NULL;
+    return nullptr;
 }
 
 WheeledVehicleClass* CMainFrame::Peek_Selected_WheeledVehicleClass(void)
@@ -608,7 +608,7 @@ WheeledVehicleClass* CMainFrame::Peek_Selected_WheeledVehicleClass(void)
     if (obj) {
         return obj->As_WheeledVehicleClass();
     }
-    return NULL;
+    return nullptr;
 }
 
 MotorcycleClass* CMainFrame::Peek_Selected_MotorcycleClass(void)
@@ -617,7 +617,7 @@ MotorcycleClass* CMainFrame::Peek_Selected_MotorcycleClass(void)
     if (obj) {
         return obj->As_MotorcycleClass();
     }
-    return NULL;
+    return nullptr;
 }
 
 void CMainFrame::Apply_Impulse(const Vector3& imp)
@@ -645,7 +645,7 @@ void CMainFrame::Apply_Couple(const Vector3& p0, const Vector3& i0, const Vector
 
 void CMainFrame::OnUpdateImpulseButton(CCmdUI* pCmdUI)
 {
-    pCmdUI->Enable(Peek_Selected_RigidBodyClass() != NULL);
+    pCmdUI->Enable(Peek_Selected_RigidBodyClass() != nullptr);
 }
 
 void CMainFrame::OnCoupleNegx()
@@ -762,7 +762,7 @@ void CMainFrame::OnUpdateViewVirtualjoystick(CCmdUI* pCmdUI)
 void CMainFrame::OnInertia()
 {
     RigidBodyClass* rbody = Peek_Selected_RigidBodyClass();
-    if (rbody == NULL) {
+    if (rbody == nullptr) {
         return;
     }
     CInertiaDialog dialog(this, rbody);
@@ -772,7 +772,7 @@ void CMainFrame::OnInertia()
 void CMainFrame::OnProperties()
 {
     MoveablePhysClass* obj = Peek_Selected_MoveablePhysClass();
-    if (obj == NULL) {
+    if (obj == nullptr) {
         return;
     }
     CRbodyPropertiesDialog dialog(this, obj);
@@ -781,13 +781,13 @@ void CMainFrame::OnProperties()
 
 void CMainFrame::OnUpdateProperties(CCmdUI* pCmdUI)
 {
-    pCmdUI->Enable(Peek_Selected_MoveablePhysClass() != NULL);
+    pCmdUI->Enable(Peek_Selected_MoveablePhysClass() != nullptr);
 }
 
 void CMainFrame::OnMotorProperties()
 {
     MotorVehicleClass* vehicle = Peek_Selected_MotorVehicleClass();
-    if (vehicle == NULL) {
+    if (vehicle == nullptr) {
         return;
     }
     CMotorVehicleDialog dialog(this, vehicle);
@@ -796,13 +796,13 @@ void CMainFrame::OnMotorProperties()
 
 void CMainFrame::OnUpdateMotorProperties(CCmdUI* pCmdUI)
 {
-    pCmdUI->Enable(Peek_Selected_MotorVehicleClass() != NULL);
+    pCmdUI->Enable(Peek_Selected_MotorVehicleClass() != nullptr);
 }
 
 void CMainFrame::OnMotorcycleProperties()
 {
     MotorcycleClass* cycle = Peek_Selected_MotorcycleClass();
-    if (cycle == NULL) {
+    if (cycle == nullptr) {
         return;
     }
     CMotorcycleDialog dialog(this, cycle);
@@ -811,13 +811,13 @@ void CMainFrame::OnMotorcycleProperties()
 
 void CMainFrame::OnUpdateMotorcycleProperties(CCmdUI* pCmdUI)
 {
-    pCmdUI->Enable(Peek_Selected_MotorVehicleClass() != NULL);
+    pCmdUI->Enable(Peek_Selected_MotorVehicleClass() != nullptr);
 }
 
 void CMainFrame::OnWheelProperties()
 {
     WheeledVehicleClass* vehicle = Peek_Selected_WheeledVehicleClass();
-    if (vehicle == NULL) {
+    if (vehicle == nullptr) {
         return;
     }
     CWheeledVehicleDialog dialog(this, vehicle);
@@ -826,7 +826,7 @@ void CMainFrame::OnWheelProperties()
 
 void CMainFrame::OnUpdateWheelProperties(CCmdUI* pCmdUI)
 {
-    pCmdUI->Enable(Peek_Selected_WheeledVehicleClass() != NULL);
+    pCmdUI->Enable(Peek_Selected_WheeledVehicleClass() != nullptr);
 }
 
 void CMainFrame::OnOptionsPhysicsConstants()
@@ -841,7 +841,7 @@ void CMainFrame::OnFreezeObject()
     CPhysTestDoc* doc = (CPhysTestDoc*)data_view->GetDocument();
 
     ItemInfoClass* item = data_view->Get_Selected_Item();
-    if (item == NULL) {
+    if (item == nullptr) {
         return;
     }
     if (item->Type != ItemInfoClass::INSTANCE) {
@@ -849,7 +849,7 @@ void CMainFrame::OnFreezeObject()
     }
 
     RigidBodyClass* rbody = (RigidBodyClass*)item->Instance;
-    if (rbody == NULL) {
+    if (rbody == nullptr) {
         return;
     }
 
@@ -871,7 +871,7 @@ void CMainFrame::OnDebugObject()
 void CMainFrame::OnUpdateDebugObject(CCmdUI* pCmdUI)
 {
     PhysClass* obj = Peek_Selected_Object();
-    if (obj == NULL) {
+    if (obj == nullptr) {
         pCmdUI->Enable(FALSE);
     }
     else {
@@ -912,10 +912,10 @@ void CMainFrame::OnUpdateOptionsWireframe(CCmdUI* pCmdUI)
 
 void CMainFrame::Notify_Selection_Changed(void)
 {
-    if (ControlledObject != NULL) {
-        ControlledObject->Set_Controller(NULL);
+    if (ControlledObject != nullptr) {
+        ControlledObject->Set_Controller(nullptr);
         ControlledObject->Release_Ref();
-        ControlledObject = NULL;
+        ControlledObject = nullptr;
     }
     ControlledObject = Peek_Selected_MoveablePhysClass();
     if (ControlledObject) {
@@ -1017,8 +1017,8 @@ void CMainFrame::OnFileImportModel()
 {
     // show the file open dialong
     CFileDialog file_dialog(TRUE, // bOpenFileDialog,
-                            ".W3D", // LPCTSTR lpszDefExt = NULL,
-                            NULL, // LPCTSTR lpszFileName = NULL,
+                            ".W3D", // LPCTSTR lpszDefExt = nullptr,
+                            nullptr, // LPCTSTR lpszFileName = nullptr,
                             OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT, "Westwood 3D Files|*.w3d|");
 
     // read in the file
@@ -1031,8 +1031,8 @@ void CMainFrame::OnFileImportLev()
 {
     // show the file open dialong
     CFileDialog file_dialog(TRUE, // bOpenFileDialog,
-                            ".LEV", // LPCTSTR lpszDefExt = NULL,
-                            NULL, // LPCTSTR lpszFileName = NULL,
+                            ".LEV", // LPCTSTR lpszDefExt = nullptr,
+                            nullptr, // LPCTSTR lpszFileName = nullptr,
                             OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT, "LEV Files|*.lev|");
 
     // read in the file

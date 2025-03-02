@@ -40,11 +40,11 @@ static char THIS_FILE[] = __FILE__;
 // SelectPresetDialogClass
 //
 /////////////////////////////////////////////////////////////////////////////
-SelectPresetDialogClass::SelectPresetDialogClass(CWnd* pParent /*=NULL*/)
+SelectPresetDialogClass::SelectPresetDialogClass(CWnd* pParent /*=nullptr*/)
     : m_ClassID(0),
-      m_Preset(NULL),
+      m_Preset(nullptr),
       m_IconIndex(0),
-      m_InitialSelection(NULL),
+      m_InitialSelection(nullptr),
       m_AllowNoneSelection(true),
       CDialog(SelectPresetDialogClass::IDD, pParent)
 {
@@ -113,19 +113,19 @@ BOOL SelectPresetDialogClass::OnInitDialog(void)
     //
     //	Add a way for the user to clear the selection
     //
-    HTREEITEM none_entry = NULL;
+    HTREEITEM none_entry = nullptr;
     if (m_AllowNoneSelection) {
-        none_entry = m_TreeCtrl.InsertItem("<None>", NULL_ICON, NULL_ICON, TVI_ROOT, TVI_FIRST);
+        none_entry = m_TreeCtrl.InsertItem("<None>", nullptr_ICON, nullptr_ICON, TVI_ROOT, TVI_FIRST);
     }
 
     //
     //	Select the correct entry (if necessary)
     //
-    if (m_InitialSelection != NULL) {
+    if (m_InitialSelection != nullptr) {
         m_TreeCtrl.EnsureVisible(m_InitialSelection);
         m_TreeCtrl.SelectItem(m_InitialSelection);
     }
-    else if (none_entry != NULL) {
+    else if (none_entry != nullptr) {
         m_TreeCtrl.SelectItem(none_entry);
     }
 
@@ -156,11 +156,11 @@ void SelectPresetDialogClass::Fill_Tree(NTreeLeafClass<PresetClass*>* leaf, HTRE
     //
     //	Loop over all the presets
     //
-    for (; leaf != NULL; leaf = leaf->Peek_Next()) {
+    for (; leaf != nullptr; leaf = leaf->Peek_Next()) {
         PresetClass* preset = leaf->Get_Value();
 
-        ASSERT(preset != NULL);
-        if (preset != NULL) {
+        ASSERT(preset != nullptr);
+        if (preset != nullptr) {
 
             //
             //	Insert the new preset into the tree
@@ -168,7 +168,7 @@ void SelectPresetDialogClass::Fill_Tree(NTreeLeafClass<PresetClass*>* leaf, HTRE
             int icon_index = preset->Get_Icon_Index();
             HTREEITEM new_item
                 = m_TreeCtrl.InsertItem(preset->Get_Name(), icon_index, icon_index, parent_item);
-            if (new_item != NULL) {
+            if (new_item != nullptr) {
 
                 //
                 //	Associate the preset with its tree entry
@@ -179,7 +179,7 @@ void SelectPresetDialogClass::Fill_Tree(NTreeLeafClass<PresetClass*>* leaf, HTRE
                 //	Recurse if necessary
                 //
                 NTreeLeafClass<PresetClass*>* child = leaf->Peek_Child();
-                if (child != NULL) {
+                if (child != nullptr) {
                     Fill_Tree(child, new_item);
                     m_TreeCtrl.SortChildren(parent_item);
                 }
@@ -208,7 +208,7 @@ void SelectPresetDialogClass::OnOK(void)
     //	Save the selected preset
     //
     HTREEITEM selected_item = m_TreeCtrl.GetSelectedItem();
-    if (selected_item != NULL) {
+    if (selected_item != nullptr) {
         m_Preset = (PresetClass*)m_TreeCtrl.GetItemData(selected_item);
     }
 
@@ -226,7 +226,7 @@ void SelectPresetDialogClass::OnDestroy(void)
     //
     // Remove the main image list we associated with the control
     //
-    m_TreeCtrl.SetImageList(NULL, TVSIL_NORMAL);
+    m_TreeCtrl.SetImageList(nullptr, TVSIL_NORMAL);
 
     CDialog::OnDestroy();
     return;
@@ -260,13 +260,13 @@ void SelectPresetDialogClass::Build_Full_Preset_Tree(void)
         //	Is there a factory to create this class of defintion?
         //
         /*DefinitionFactoryClass *factory = DefinitionFactoryMgrClass::Find_Factory
-        (PRESET_CATEGORIES[index].clsid); if (factory == NULL) {
+        (PRESET_CATEGORIES[index].clsid); if (factory == nullptr) {
 
                 //
                 //	Find all the sub-factories
                 //
                 for (	factory = DefinitionFactoryMgrClass::Get_First
-        (PRESET_CATEGORIES[index].clsid); factory != NULL; factory =
+        (PRESET_CATEGORIES[index].clsid); factory != nullptr; factory =
         DefinitionFactoryMgrClass::Get_Next (factory, PRESET_CATEGORIES[index].clsid))
                 {
                         //
@@ -298,12 +298,12 @@ void SelectPresetDialogClass::Generate_Tree(int class_id, HTREEITEM parent_item)
     //	Is there a factory to create this class of defintion?
     //
     DefinitionFactoryClass* factory = DefinitionFactoryMgrClass::Find_Factory(class_id);
-    if (factory == NULL) {
+    if (factory == nullptr) {
 
         //
         //	Find all the sub-factories
         //
-        for (factory = DefinitionFactoryMgrClass::Get_First(class_id); factory != NULL;
+        for (factory = DefinitionFactoryMgrClass::Get_First(class_id); factory != nullptr;
              factory = DefinitionFactoryMgrClass::Get_Next(factory, class_id)) {
             //
             //	Add this sub-factory and all its definitions to the tree
@@ -353,14 +353,14 @@ void SelectPresetDialogClass::OnSelchangedPresetTree(NMHDR* pNMHDR, LRESULT* pRe
     // a real preset or not...
     //
     HTREEITEM selected_item = m_TreeCtrl.GetSelectedItem();
-    if (selected_item != NULL) {
+    if (selected_item != nullptr) {
         PresetClass* preset = (PresetClass*)m_TreeCtrl.GetItemData(selected_item);
 
         if (m_AllowNoneSelection == false) {
-            ::EnableWindow(::GetDlgItem(m_hWnd, IDOK), preset != NULL);
+            ::EnableWindow(::GetDlgItem(m_hWnd, IDOK), preset != nullptr);
         }
 
-        ::EnableWindow(::GetDlgItem(m_hWnd, IDC_INFO), preset != NULL);
+        ::EnableWindow(::GetDlgItem(m_hWnd, IDC_INFO), preset != nullptr);
     }
 
     return;
@@ -374,9 +374,9 @@ void SelectPresetDialogClass::OnSelchangedPresetTree(NMHDR* pNMHDR, LRESULT* pRe
 void SelectPresetDialogClass::OnInfo(void)
 {
     HTREEITEM selected_item = m_TreeCtrl.GetSelectedItem();
-    if (selected_item != NULL) {
+    if (selected_item != nullptr) {
         PresetClass* preset = (PresetClass*)m_TreeCtrl.GetItemData(selected_item);
-        if (preset != NULL) {
+        if (preset != nullptr) {
 
             //
             //	Show the settings for this preset

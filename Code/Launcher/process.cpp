@@ -23,8 +23,8 @@ Process::Process()
     directory[0] = 0;
     command[0] = 0;
     args[0] = 0;
-    hProcess = NULL;
-    hThread = NULL;
+    hProcess = nullptr;
+    hThread = nullptr;
 }
 
 // Create a process
@@ -44,10 +44,10 @@ bit8 Create_Process(Process& process)
     DBGMSG("PROCESS CMD=" << cmdargs << "  DIR=" << process.directory);
 
 #ifndef COPY_PROTECT
-    retval = CreateProcess(NULL, cmdargs, NULL, NULL, FALSE, 0, NULL, NULL /*process.directory*/,
+    retval = CreateProcess(nullptr, cmdargs, nullptr, nullptr, FALSE, 0, nullptr, nullptr /*process.directory*/,
                            &si, &piProcess);
 #else
-    retval = CreateProcess(NULL, cmdargs, NULL, NULL, TRUE, 0, NULL, NULL /*process.directory*/,
+    retval = CreateProcess(nullptr, cmdargs, nullptr, nullptr, TRUE, 0, nullptr, nullptr /*process.directory*/,
                            &si, &piProcess);
 #endif
 
@@ -57,8 +57,8 @@ bit8 Create_Process(Process& process)
                << (DWORD)piProcess.dwThreadId);
     if (retval == 0) {
         char message_buffer[256];
-        FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM, NULL, GetLastError(),
-                      MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), &message_buffer[0], 256, NULL);
+        FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM, nullptr, GetLastError(),
+                      MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), &message_buffer[0], 256, nullptr);
         DBGMSG("ERR: " << message_buffer);
     }
     process.hProcess = piProcess.hProcess;
@@ -75,12 +75,12 @@ bit8 Wait_Process(Process& process, DWORD* exit_code)
 {
     DWORD retval;
     retval = WaitForSingleObject(process.hProcess, INFINITE);
-    if (exit_code != NULL) {
+    if (exit_code != nullptr) {
         *exit_code = -1;
     }
     if (retval == WAIT_OBJECT_0) // process exited
     {
-        if (exit_code != NULL) {
+        if (exit_code != nullptr) {
             GetExitCodeProcess(process.hProcess, exit_code);
         }
         return (TRUE);
@@ -130,7 +130,7 @@ bit8 Read_Process_Info(ConfigFile& config, OUT Process& info, IN char* key)
       bit8      found_space;
       int       i;
 
-      if ((in=fopen(config,"r"))==NULL)
+      if ((in=fopen(config,"r"))==nullptr)
         return(FALSE);
 
       while(fgets(string,256,in))

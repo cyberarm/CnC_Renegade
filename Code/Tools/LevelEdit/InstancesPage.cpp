@@ -194,7 +194,7 @@ void InstancesPageClass::OnSize(UINT nType, int cx, int cy)
         ScreenToClient(&toolbar_rect);
 
         // Move the toolbar so it is in its correct position
-        m_Toolbar.SetWindowPos(NULL, TOOLBAR_H_SPACING,
+        m_Toolbar.SetWindowPos(nullptr, TOOLBAR_H_SPACING,
                                (cy - TOOLBAR_V_SPACING) - toolbar_rect.Height(),
                                cx - TOOLBAR_H_BORDER, toolbar_rect.Height(), SWP_NOZORDER);
 
@@ -207,7 +207,7 @@ void InstancesPageClass::OnSize(UINT nType, int cx, int cy)
         int list_height = ((cy - TOOLBAR_V_BORDER) - toolbar_rect.Height()) - client_rect.top;
 
         // Resize the tab control to fill the entire contents of the client area
-        m_ListCtrl.SetWindowPos(NULL, 0, 0, cx - ((list_rect.left - parentrect.left) << 1),
+        m_ListCtrl.SetWindowPos(nullptr, 0, 0, cx - ((list_rect.left - parentrect.left) << 1),
                                 list_height, SWP_NOZORDER | SWP_NOMOVE);
     }
 
@@ -225,13 +225,13 @@ void InstancesPageClass::OnDestroy(void)
     // Free the state image list we associated with the control
     //
     CImageList* imagelist = m_ListCtrl.GetImageList(LVSIL_STATE);
-    m_ListCtrl.SetImageList(NULL, LVSIL_STATE);
+    m_ListCtrl.SetImageList(nullptr, LVSIL_STATE);
     SAFE_DELETE(imagelist);
 
     //
     // Remove the main image list we associated with the control
     //
-    m_ListCtrl.SetImageList(NULL, LVSIL_SMALL);
+    m_ListCtrl.SetImageList(nullptr, LVSIL_SMALL);
     m_ListCtrl.DeleteAllItems();
 
     ::RemoveProp(m_ListCtrl, "TRANS_ACCS");
@@ -250,7 +250,7 @@ void InstancesPageClass::OnEdit(void)
 {
     // Show the settings dialog for the currently selected item
     NodeClass* node = Get_Item_Node(m_ListCtrl.GetNextItem(-1, LVNI_ALL | LVNI_SELECTED));
-    if (node != NULL) {
+    if (node != nullptr) {
         node->Show_Settings_Dialog();
     }
 
@@ -264,7 +264,7 @@ void InstancesPageClass::OnEdit(void)
 /////////////////////////////////////////////////////////////////////////////
 void InstancesPageClass::OnGoto(void)
 {
-    NodeClass* selected_node = NULL;
+    NodeClass* selected_node = nullptr;
 
     //
     //	Try to find the first selected node (if any)
@@ -292,7 +292,7 @@ void InstancesPageClass::OnShowAll(void)
     //
     //	Show all the nodes
     //
-    for (NodeClass* node = NodeMgrClass::Get_First(); node != NULL;
+    for (NodeClass* node = NodeMgrClass::Get_First(); node != nullptr;
          node = NodeMgrClass::Get_Next(node)) {
         node->Hide(false);
     }
@@ -302,7 +302,7 @@ void InstancesPageClass::OnShowAll(void)
     //
     for (int index = 0; index < m_ListCtrl.GetItemCount(); index++) {
         ITEM_DATA* item_data = (ITEM_DATA*)m_ListCtrl.GetItemData(index);
-        if (item_data != NULL && item_data->type != TYPE_NAVIGATOR) {
+        if (item_data != nullptr && item_data->type != TYPE_NAVIGATOR) {
             ListView_SetCheckState(m_ListCtrl, index, true);
         }
     }
@@ -332,7 +332,7 @@ InstancesPageClass::WindowProc(UINT message, WPARAM wParam, LPARAM lParam)
         //	Should we toggle the checkmark for this entry?
         //
         ITEM_DATA* item_data = (ITEM_DATA*)m_ListCtrl.GetItemData(index);
-        if (item_data != NULL && item_data->type != TYPE_NAVIGATOR) {
+        if (item_data != nullptr && item_data->type != TYPE_NAVIGATOR) {
 
             //
             //	Either hide or show the selected nodes
@@ -381,7 +381,7 @@ LRESULT CALLBACK CheckBoxSubclassProc(HWND hwnd, UINT message, WPARAM wparam, LP
         ::RemoveProp(hwnd, "OLDPROC");
     }
 
-    if (pold_proc != NULL) {
+    if (pold_proc != nullptr) {
         return ::CallWindowProc(pold_proc, hwnd, message, wparam, lparam);
     }
     else {
@@ -407,7 +407,7 @@ void InstancesPageClass::OnDblclkInstanceList(NMHDR* pNMHDR, LRESULT* pResult)
     if ((index >= 0) && ((flags & LVHT_ONITEMLABEL) || (flags & LVHT_ONITEMICON))) {
 
         ITEM_DATA* item_data = (ITEM_DATA*)m_ListCtrl.GetItemData(index);
-        if (item_data != NULL) {
+        if (item_data != nullptr) {
 
             if (item_data->type == TYPE_NAVIGATOR) {
 
@@ -433,7 +433,7 @@ void InstancesPageClass::OnDblclkInstanceList(NMHDR* pNMHDR, LRESULT* pResult)
             else {
 
                 NodeClass* node = Get_Item_Node(index);
-                if (node != NULL) {
+                if (node != nullptr) {
 
                     //
                     //	If this node is a terrain, then display the subojects,
@@ -465,7 +465,7 @@ void InstancesPageClass::OnSelect(void)
     //
     //	Clear all selected nodes
     //
-    ::Get_Scene_Editor()->Set_Selection(NULL);
+    ::Get_Scene_Editor()->Set_Selection(nullptr);
 
     //
     //	Toggle the selection state of all the nodes in the selection set
@@ -473,7 +473,7 @@ void InstancesPageClass::OnSelect(void)
     int index = -1;
     while ((index = m_ListCtrl.GetNextItem(index, LVNI_ALL | LVNI_SELECTED)) >= 0) {
         NodeClass* node = Get_Item_Node(index);
-        if (node != NULL) {
+        if (node != nullptr) {
             ::Get_Scene_Editor()->Toggle_Selection(node);
         }
     }
@@ -505,7 +505,7 @@ void InstancesPageClass::OnDelete(void)
         int index = -1;
         while ((index = m_ListCtrl.GetNextItem(index, LVNI_ALL | LVNI_SELECTED)) >= 0) {
             NodeClass* node = Get_Item_Node(index);
-            if (node != NULL) {
+            if (node != nullptr) {
                 delete_list.Add(node);
             }
         }
@@ -543,7 +543,7 @@ BOOL InstancesPageClass::OnInitDialog(void)
     //
     CRect parentrect;
     GetWindowRect(&parentrect);
-    m_Toolbar.SetWindowPos(NULL, 0, 0, parentrect.Width() - TOOLBAR_H_BORDER, TOOLBAR_HEIGHT,
+    m_Toolbar.SetWindowPos(nullptr, 0, 0, parentrect.Width() - TOOLBAR_H_BORDER, TOOLBAR_HEIGHT,
                            SWP_NOZORDER | SWP_NOMOVE);
     m_Toolbar.Enable_Button(IDC_DELETE, false);
     m_Toolbar.Enable_Button(IDC_SELECT, false);
@@ -614,7 +614,7 @@ void InstancesPageClass::Insert_Factory(LPCTSTR name, int class_id)
         //	Allocate a new wrapper if we need to
         //
         ITEM_DATA* item_data = (ITEM_DATA*)m_ListCtrl.GetItemData(index);
-        if (item_data == NULL) {
+        if (item_data == nullptr) {
             item_data = new ITEM_DATA;
         }
 
@@ -655,7 +655,7 @@ void InstancesPageClass::Insert_Node(NodeClass* node)
         //	Allocate a new wrapper if we need to
         //
         ITEM_DATA* item_data = (ITEM_DATA*)m_ListCtrl.GetItemData(index);
-        if (item_data == NULL) {
+        if (item_data == nullptr) {
             item_data = new ITEM_DATA;
         }
 
@@ -697,7 +697,7 @@ void InstancesPageClass::Insert_Navigator(void)
         //	Allocate a new wrapper if we need to
         //
         ITEM_DATA* item_data = (ITEM_DATA*)m_ListCtrl.GetItemData(index);
-        if (item_data == NULL) {
+        if (item_data == nullptr) {
             item_data = new ITEM_DATA;
         }
 
@@ -706,7 +706,7 @@ void InstancesPageClass::Insert_Navigator(void)
         // this list item contains.
         //
         item_data->type = TYPE_NAVIGATOR;
-        item_data->node = NULL;
+        item_data->node = nullptr;
         item_data->name = "..";
         m_ListCtrl.SetItemData(index, (DWORD)item_data);
     }
@@ -721,14 +721,14 @@ void InstancesPageClass::Insert_Navigator(void)
 ////////////////////////////////////////////////////////////////////////////
 void InstancesPageClass::Add_Node(NodeClass* node)
 {
-    WWASSERT(node != NULL);
+    WWASSERT(node != nullptr);
 
     PresetClass* preset = node->Get_Preset();
-    if (preset != NULL) {
+    if (preset != nullptr) {
 
         DefinitionClass* definition = preset->Get_Definition();
-        WWASSERT(definition != NULL);
-        if (definition != NULL) {
+        WWASSERT(definition != nullptr);
+        if (definition != nullptr) {
 
             //
             //	Should the node be inserted into the current view?
@@ -753,7 +753,7 @@ void InstancesPageClass::Add_Node(NodeClass* node)
 ////////////////////////////////////////////////////////////////////////////
 void InstancesPageClass::Remove_Node(NodeClass* node)
 {
-    WWASSERT(node != NULL);
+    WWASSERT(node != nullptr);
 
     //
     //	Attempt to find this node in the current view
@@ -782,14 +782,14 @@ void InstancesPageClass::Remove_Node(NodeClass* node)
 /////////////////////////////////////////////////////////////////////////////
 NodeClass* InstancesPageClass::Get_Item_Node(int index)
 {
-    NodeClass* node = NULL;
+    NodeClass* node = nullptr;
 
     //
     //	If this item represents a node, then return the node
     //	pointer to the caller.
     //
     ITEM_DATA* item_data = (ITEM_DATA*)m_ListCtrl.GetItemData(index);
-    if ((item_data != NULL) && (item_data->type == TYPE_NODE)) {
+    if ((item_data != nullptr) && (item_data->type == TYPE_NODE)) {
         node = item_data->node;
     }
 
@@ -805,7 +805,7 @@ void InstancesPageClass::Set_Node_Check(int index, bool onoff)
 {
     // First off, show/hide the node
     /*NodeClass *node = Get_Item_Node (index);
-    if (node != NULL) {
+    if (node != nullptr) {
             node->Hide (!onoff);
     }*/
 
@@ -851,7 +851,7 @@ void InstancesPageClass::Populate_List(uint32 class_id)
         //
         //	Fill all the node instances into the list control
         //
-        for (NodeClass* node = NodeMgrClass::Find_First(class_id); node != NULL;
+        for (NodeClass* node = NodeMgrClass::Find_First(class_id); node != nullptr;
              node = NodeMgrClass::Find_Next(node, class_id)) {
             //
             //	Add this node to the list control
@@ -863,7 +863,7 @@ void InstancesPageClass::Populate_List(uint32 class_id)
         //	Fill all the factory instances into the list control
         //
         for (DefinitionFactoryClass* factory = DefinitionFactoryMgrClass::Get_First(class_id);
-             factory != NULL; factory = DefinitionFactoryMgrClass::Get_Next(factory, class_id)) {
+             factory != nullptr; factory = DefinitionFactoryMgrClass::Get_Next(factory, class_id)) {
             //
             //	Add this node to the list control
             //
@@ -903,7 +903,7 @@ void InstancesPageClass::Populate_List(NodeClass* node)
     m_ListCtrl.SetRedraw(FALSE);
     m_ListCtrl.DeleteAllItems();
 
-    if (node != NULL) {
+    if (node != nullptr) {
         Insert_Navigator();
 
         //
@@ -911,7 +911,7 @@ void InstancesPageClass::Populate_List(NodeClass* node)
         //
         for (int index = 0; index < node->Get_Sub_Node_Count(); index++) {
             NodeClass* sub_node = node->Get_Sub_Node(index);
-            if (sub_node != NULL) {
+            if (sub_node != nullptr) {
 
                 //
                 //	Add this node to the list control
@@ -967,7 +967,7 @@ int CALLBACK InstancesListSortCallback(LPARAM lParam1, LPARAM lParam2, LPARAM lP
 
     ITEM_DATA* item_data1 = (ITEM_DATA*)lParam1;
     ITEM_DATA* item_data2 = (ITEM_DATA*)lParam2;
-    if (item_data1 != NULL && item_data2 != NULL) {
+    if (item_data1 != nullptr && item_data2 != nullptr) {
 
         //
         //	Do the types match?
@@ -1027,7 +1027,7 @@ void InstancesPageClass::Update_Button_States(void)
     bool enable = false;
     int index = -1;
     while (!enable && (index = m_ListCtrl.GetNextItem(index, LVNI_ALL | LVNI_SELECTED)) >= 0) {
-        enable |= (Get_Item_Node(index) != NULL);
+        enable |= (Get_Item_Node(index) != nullptr);
     }
 
     //
@@ -1048,9 +1048,9 @@ void InstancesPageClass::Update_Button_States(void)
 void InstancesPageClass::Hide_Node(NodeClass* node, uint32 class_id, bool hide)
 {
     PresetClass* preset = node->Get_Preset();
-    if (preset != NULL) {
+    if (preset != nullptr) {
         DefinitionClass* definition = preset->Get_Definition();
-        if (definition != NULL) {
+        if (definition != nullptr) {
 
             //
             //	Did this node come from the selected factory?
@@ -1072,7 +1072,7 @@ void InstancesPageClass::Hide_Node(NodeClass* node, uint32 class_id, bool hide)
     //
     for (int index = 0; index < node->Get_Sub_Node_Count(); index++) {
         NodeClass* sub_node = node->Get_Sub_Node(index);
-        if (sub_node != NULL) {
+        if (sub_node != nullptr) {
             Hide_Node(sub_node, class_id, hide);
         }
     }
@@ -1088,14 +1088,14 @@ void InstancesPageClass::Hide_Node(NodeClass* node, uint32 class_id, bool hide)
 void InstancesPageClass::Hide_Nodes(int index, bool hide)
 {
     ITEM_DATA* item_data = (ITEM_DATA*)m_ListCtrl.GetItemData(index);
-    if (item_data != NULL) {
+    if (item_data != nullptr) {
 
         if (item_data->type == TYPE_FACTORY) {
 
             //
             //	Loop over all the nodes in the world
             //
-            for (NodeClass* node = NodeMgrClass::Get_First(); node != NULL;
+            for (NodeClass* node = NodeMgrClass::Get_First(); node != nullptr;
                  node = NodeMgrClass::Get_Next(node)) {
                 //
                 //	Hide this node (if necessary)
@@ -1135,7 +1135,7 @@ void InstancesPageClass::Update_Overlays(void)
         //	Get information about this entry
         //
         ITEM_DATA* item_data = (ITEM_DATA*)m_ListCtrl.GetItemData(index);
-        if (item_data != NULL) {
+        if (item_data != nullptr) {
 
             bool needs_overlay = false;
 
@@ -1172,12 +1172,12 @@ bool InstancesPageClass::Does_Factory_Have_Children(uint32 factory_id)
     //	Check to see if there are any instances of this factory
     // in the world
     //
-    for (NodeClass* node = NodeMgrClass::Get_First(); node != NULL && retval == false;
+    for (NodeClass* node = NodeMgrClass::Get_First(); node != nullptr && retval == false;
          node = NodeMgrClass::Get_Next(node)) {
         PresetClass* preset = node->Get_Preset();
-        if (preset != NULL) {
+        if (preset != nullptr) {
             DefinitionClass* definition = preset->Get_Definition();
-            if (definition != NULL) {
+            if (definition != nullptr) {
 
                 //
                 //	Did this node come from the specified factory?
@@ -1196,7 +1196,7 @@ bool InstancesPageClass::Does_Factory_Have_Children(uint32 factory_id)
     //
     if (retval == false) {
         DefinitionFactoryClass* factory = DefinitionFactoryMgrClass::Get_First(factory_id);
-        if (factory != NULL && factory->Get_Class_ID() != factory_id) {
+        if (factory != nullptr && factory->Get_Class_ID() != factory_id) {
             retval = true;
         }
     }

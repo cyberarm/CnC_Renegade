@@ -76,7 +76,7 @@ enum
 //
 //////////////////////////////////////////////////////////////////////////////
 BuildingNodeClass::BuildingNodeClass(PresetClass* preset)
-    : m_PhysObj(NULL),
+    : m_PhysObj(nullptr),
       ObjectNodeClass(preset)
 {
     return;
@@ -88,8 +88,8 @@ BuildingNodeClass::BuildingNodeClass(PresetClass* preset)
 //
 //////////////////////////////////////////////////////////////////////////////
 BuildingNodeClass::BuildingNodeClass(const BuildingNodeClass& src)
-    : m_PhysObj(NULL),
-      ObjectNodeClass(NULL)
+    : m_PhysObj(nullptr),
+      ObjectNodeClass(nullptr)
 {
     (*this) = src;
     return;
@@ -124,7 +124,7 @@ void BuildingNodeClass::Initialize(void)
     //	Load the model we want to use to identify the building controller
     //
     RenderObjClass* render_obj = ::Create_Render_Obj("BUILDINGICON");
-    if (render_obj != NULL) {
+    if (render_obj != nullptr) {
 
         //
         // Create the new physics object
@@ -169,7 +169,7 @@ const BuildingNodeClass& BuildingNodeClass::operator=(const BuildingNodeClass& s
     //
     for (int index = 0; index < src.m_ChildNodes.Count(); index++) {
         NodeClass* child_node = src.m_ChildNodes[index];
-        if (child_node != NULL) {
+        if (child_node != nullptr) {
             Add_Child_Node(child_node->Get_Transform());
         }
     }
@@ -196,7 +196,7 @@ bool BuildingNodeClass::Save(ChunkSaveClass& csave)
     //
     for (int index = 0; index < m_ChildNodes.Count(); index++) {
         NodeClass* child_node = m_ChildNodes[index];
-        if (child_node != NULL) {
+        if (child_node != nullptr) {
             Matrix3D tm = child_node->Get_Transform();
             WRITE_MICRO_CHUNK(csave, VARID_CHILD_NODE, tm);
         }
@@ -270,19 +270,19 @@ bool BuildingNodeClass::Load_Variables(ChunkLoadClass& cload)
 void BuildingNodeClass::Pre_Export(void)
 {
     Add_Ref();
-    if (m_PhysObj != NULL && m_IsInScene) {
+    if (m_PhysObj != nullptr && m_IsInScene) {
         ::Get_Scene_Editor()->Remove_Object(m_PhysObj);
 
         //
         //	Configure the building object (if necessary)
         //
         BuildingGameObj* building = Get_Building();
-        if (building != NULL) {
+        if (building != nullptr) {
 
             //
             //	What type of building is this?
             //
-            if (building->As_VehicleFactoryGameObj() != NULL) {
+            if (building->As_VehicleFactoryGameObj() != nullptr) {
                 VehicleFactoryGameObj* airstrip = building->As_VehicleFactoryGameObj();
 
                 //
@@ -292,7 +292,7 @@ void BuildingNodeClass::Pre_Export(void)
                     airstrip->Set_Creation_TM(m_ChildNodes[0]->Get_Transform());
                 }
             }
-            else if (building->As_RefineryGameObj() != NULL) {
+            else if (building->As_RefineryGameObj() != nullptr) {
                 RefineryGameObj* refinery = building->As_RefineryGameObj();
 
                 //
@@ -328,7 +328,7 @@ void BuildingNodeClass::Pre_Export(void)
 //////////////////////////////////////////////////////////////////////
 void BuildingNodeClass::Post_Export(void)
 {
-    if (m_PhysObj != NULL && m_IsInScene) {
+    if (m_PhysObj != nullptr && m_IsInScene) {
         ::Get_Scene_Editor()->Add_Dynamic_Object(m_PhysObj);
 
         //
@@ -391,13 +391,13 @@ bool BuildingNodeClass::Can_Add_Child_Nodes(void) const
     bool retval = false;
 
     BuildingGameObj* building = Get_Building();
-    if (building != NULL) {
+    if (building != nullptr) {
 
         //
         //	Is this one of the types of buildings which need
         // child nodes?
         //
-        if (building->As_VehicleFactoryGameObj() != NULL) {
+        if (building->As_VehicleFactoryGameObj() != nullptr) {
 
             //
             //	This type of building can only have one child node
@@ -406,7 +406,7 @@ bool BuildingNodeClass::Can_Add_Child_Nodes(void) const
                 retval = true;
             }
         }
-        else if (building->As_RefineryGameObj() != NULL) {
+        else if (building->As_RefineryGameObj() != nullptr) {
 
             //
             //	This type of building can only have one child node
@@ -513,7 +513,7 @@ void BuildingNodeClass::Add_To_Scene(void)
 void BuildingNodeClass::Remove_From_Scene(void)
 {
     SceneEditorClass* scene = ::Get_Scene_Editor();
-    if (scene != NULL && m_IsInScene) {
+    if (scene != nullptr && m_IsInScene) {
 
         //
         //	Remove all the waypoints from the scene

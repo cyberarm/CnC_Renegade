@@ -47,9 +47,9 @@ static TCHAR* GetString(int id)
 {
     static TCHAR buf[256];
     if (hInstance) {
-        return LoadString(hInstance, id, buf, sizeof(buf)) ? buf : NULL;
+        return LoadString(hInstance, id, buf, sizeof(buf)) ? buf : nullptr;
     }
-    return NULL;
+    return nullptr;
 }
 
 static int MessageBox(int s1, int s2, int option = MB_OK)
@@ -253,20 +253,20 @@ public:
         Next = next;
         Max_keys = 1;
         Number_of_keys = 0;
-        Key = NULL;
+        Key = nullptr;
     }
 
     ~Bone()
     {
         delete[] Name;
-        if (Key != NULL) {
+        if (Key != nullptr) {
             delete[] Key;
         }
     }
 
     void alloc_key_space(Interface* gi)
     {
-        if (Key == NULL && Max_keys > 0) {
+        if (Key == nullptr && Max_keys > 0) {
             Key = new Key_Class[Max_keys];
         }
 
@@ -290,7 +290,7 @@ public:
 
     void add_key(TimeValue time, const Quat& rot, const Point3& pos)
     {
-        if (Key != NULL && Number_of_keys < Max_keys) {
+        if (Key != nullptr && Number_of_keys < Max_keys) {
             Key[Number_of_keys].Time = time;
             Key[Number_of_keys].Orientation = rot;
             Key[Number_of_keys].Position = pos;
@@ -323,7 +323,7 @@ void Bone::put_keys_into_max(ImpInterface* imp_i, Interface* i)
     // Find the bone's I-node.
 
     INode* inode = i->GetINodeByName(Name);
-    if (inode == NULL) {
+    if (inode == nullptr) {
         return;
     }
 
@@ -395,7 +395,7 @@ void Bone::put_keys_into_max(ImpInterface* imp_i, Interface* i)
         AppDataChunk* chunk
             = inode->GetAppDataChunk(Class_ID(0x74975aa6, 0x1810323f), SCENE_IMPORT_CLASS_ID, 2);
 
-        if (chunk == NULL) {
+        if (chunk == nullptr) {
             // (gth) HACK HACK HACK!  For some time, I had removed this 'length_multiplier'
             // Many commando animations were created without the multiplier which was 1.0 / 0.0254
             // so, shove that multiplier in if one wasn't found...  This only comes into play
@@ -458,7 +458,7 @@ void Bone::put_keys_into_max(ImpInterface* imp_i, Interface* i)
 class Key_Manager
 {
 public:
-    Key_Manager() { Bones = NULL; }
+    Key_Manager() { Bones = nullptr; }
     ~Key_Manager();
 
     // Call this first to increment the maximum number of keys for a given
@@ -492,7 +492,7 @@ Key_Manager::~Key_Manager()
 {
     Bone* p = Bones;
 
-    while (p != NULL) {
+    while (p != nullptr) {
         Bone* delete_p = p;
         p = p->next();
 
@@ -506,13 +506,13 @@ Key_Manager::~Key_Manager()
 
 void Key_Manager::inc_max_keys(const char* name)
 {
-    for (Bone* p = Bones; p != NULL; p = p->next()) {
+    for (Bone* p = Bones; p != nullptr; p = p->next()) {
         if (strcmp(p->name(), name) == 0) {
             break;
         }
     }
 
-    if (p == NULL) {
+    if (p == nullptr) {
         // This is a new bone; add it to the list.
 
         p = new Bone(name, Bones);
@@ -529,7 +529,7 @@ void Key_Manager::inc_max_keys(const char* name)
 
 void Key_Manager::alloc_key_space(Interface* gi)
 {
-    for (Bone* p = Bones; p != NULL; p = p->next()) {
+    for (Bone* p = Bones; p != nullptr; p = p->next()) {
         p->alloc_key_space(gi);
     }
 }
@@ -540,13 +540,13 @@ void Key_Manager::alloc_key_space(Interface* gi)
 
 void Key_Manager::add_key(const char* name, TimeValue time, const Quat& rot, const Point3& pos)
 {
-    for (Bone* p = Bones; p != NULL; p = p->next()) {
+    for (Bone* p = Bones; p != nullptr; p = p->next()) {
         if (strcmp(p->name(), name) == 0) {
             break;
         }
     }
 
-    if (p != NULL) {
+    if (p != nullptr) {
         p->add_key(time, rot, pos);
     }
 }
@@ -557,7 +557,7 @@ void Key_Manager::add_key(const char* name, TimeValue time, const Quat& rot, con
 
 void Key_Manager::put_keys_into_max(ImpInterface* imp_i, Interface* i)
 {
-    for (Bone* p = Bones; p != NULL; p = p->next()) {
+    for (Bone* p = Bones; p != nullptr; p = p->next()) {
         p->put_keys_into_max(imp_i, i);
     }
 }
@@ -594,7 +594,7 @@ static void read_frames(FILE* file, ImpInterface* iface, Interface* gi)
 
     while (1) {
         char* rv = fgets(line, sizeof line, file);
-        if (rv == NULL) {
+        if (rv == nullptr) {
             break;
         }
 
@@ -617,14 +617,14 @@ static void read_frames(FILE* file, ImpInterface* iface, Interface* gi)
 
     while (1) {
         char* rv = fgets(line, sizeof line, file);
-        if (rv == NULL) {
+        if (rv == nullptr) {
             break;
         }
 
         if (isdigit(line[0])) {
             // This line marks the start of a new frame.
 
-            int frame_number = strtol(line, NULL, 10);
+            int frame_number = strtol(line, nullptr, 10);
             frame_time = (frame_number - 1) * amc_ticks_per_frame + first_frame_time;
         }
         else {
@@ -639,7 +639,7 @@ static void read_frames(FILE* file, ImpInterface* iface, Interface* gi)
 
             INode* inode = gi->GetINodeByName(name_p);
 #if 0
-			if ( inode == NULL )
+			if ( inode == nullptr )
 			{
 				char message [ 256 ];
 				sprintf ( message, "Can't find node named \"%s\".",
@@ -649,7 +649,7 @@ static void read_frames(FILE* file, ImpInterface* iface, Interface* gi)
 				return;
 			}
 #else
-            if (inode == NULL) {
+            if (inode == nullptr) {
                 continue;
             }
 #endif
@@ -660,7 +660,7 @@ static void read_frames(FILE* file, ImpInterface* iface, Interface* gi)
             AppDataChunk* chunk = inode->GetAppDataChunk(Class_ID(0x74975aa6, 0x1810323f),
                                                          SCENE_IMPORT_CLASS_ID, 1);
 
-            if (chunk == NULL) {
+            if (chunk == nullptr) {
                 char message[256];
                 sprintf(message, "\"%s\" has no app data chunk.", name_p);
                 MessageBox(GetActiveWindow(), message, "Parse error", MB_OK);

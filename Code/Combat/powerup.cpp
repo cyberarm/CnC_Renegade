@@ -434,7 +434,7 @@ bool PowerUpGameObjDef::Grant(SmartGameObj* obj, PowerUpGameObj* p_powerup, bool
         WeaponBagClass* weapon_bag = obj->Get_Weapon_Bag();
         for (int weapon_index = 0; weapon_index < weapon_bag->Get_Count(); weapon_index++) {
             WeaponClass* weapon = weapon_bag->Peek_Weapon(weapon_index);
-            if (weapon != NULL && weapon->Get_Definition()->CanReceiveGenericCnCAmmo) {
+            if (weapon != nullptr && weapon->Get_Definition()->CanReceiveGenericCnCAmmo) {
 
                 //
                 //	Grant "x" number of clips to the weapon
@@ -467,7 +467,7 @@ bool PowerUpGameObjDef::Grant(SmartGameObj* obj, PowerUpGameObj* p_powerup, bool
 
     /*
     // Handle Capture the Flag
-    if ( IsCaptureTheFlag && p_powerup != NULL && obj->As_SoldierGameObj() != NULL ) {
+    if ( IsCaptureTheFlag && p_powerup != nullptr && obj->As_SoldierGameObj() != nullptr ) {
             CombatManager::Soldier_Contacts_Flag( obj->As_SoldierGameObj(), p_powerup );
             granted = true;
     }
@@ -477,7 +477,7 @@ bool PowerUpGameObjDef::Grant(SmartGameObj* obj, PowerUpGameObj* p_powerup, bool
         granted = true;
     }
 
-    if (granted && p_powerup != NULL) {
+    if (granted && p_powerup != nullptr) {
         p_powerup->Set_State(PowerUpGameObj::STATE_GRANTING);
 
         //
@@ -507,9 +507,9 @@ SimplePersistFactoryClass<PowerUpGameObj, CHUNKID_GAME_OBJECT_POWERUP>
     _PowerUpGameObjPersistFactory;
 
 PowerUpGameObj::PowerUpGameObj(void)
-    : IdleSoundObj(NULL),
+    : IdleSoundObj(nullptr),
       State(STATE_BECOMING_IDLE),
-      WeaponBag(NULL)
+      WeaponBag(nullptr)
 {
     Set_App_Packet_Type(APPPACKETTYPE_POWERUP);
 }
@@ -519,15 +519,15 @@ PowerUpGameObj::~PowerUpGameObj(void)
     //
     //	Cleanup the idle sound
     //
-    if (IdleSoundObj != NULL) {
+    if (IdleSoundObj != nullptr) {
         IdleSoundObj->Remove_From_Scene();
         IdleSoundObj->Release_Ref();
-        IdleSoundObj = NULL;
+        IdleSoundObj = nullptr;
     }
 
-    if (WeaponBag != NULL) {
+    if (WeaponBag != nullptr) {
         delete WeaponBag;
-        WeaponBag = NULL;
+        WeaponBag = nullptr;
     }
 
     return;
@@ -586,7 +586,7 @@ bool PowerUpGameObj::Save(ChunkSaveClass& csave)
     WRITE_MICRO_CHUNK(csave, MICROCHUNKID_STATE_END_TIMER, StateEndTimer);
     csave.End_Chunk();
 
-    if (WeaponBag != NULL) {
+    if (WeaponBag != nullptr) {
         csave.Begin_Chunk(CHUNKID_WEAPONBAG);
         WeaponBag->Save(csave);
         csave.End_Chunk();
@@ -622,8 +622,8 @@ bool PowerUpGameObj::Load(ChunkLoadClass& cload)
             break;
 
         case CHUNKID_WEAPONBAG:
-            WWASSERT(WeaponBag == NULL);
-            WeaponBag = new WeaponBagClass(NULL);
+            WWASSERT(WeaponBag == nullptr);
+            WeaponBag = new WeaponBagClass(nullptr);
             WeaponBag->Load(cload);
             break;
 
@@ -642,7 +642,7 @@ void PowerUpGameObj::On_Post_Load(void)
 {
     SimpleGameObj::On_Post_Load();
     Peek_Physical_Object()->Set_Collision_Group(UNCOLLIDEABLE_GROUP); // MOVED
-    if (Peek_Physical_Object()->As_MoveablePhysClass() != NULL) {
+    if (Peek_Physical_Object()->As_MoveablePhysClass() != nullptr) {
         Peek_Physical_Object()->As_MoveablePhysClass()->Set_Gravity_Multiplier(0);
     }
 
@@ -663,7 +663,7 @@ void PowerUpGameObj::Set_State(int state)
             //
             //	Stop the idling sound (if necessary)
             //
-            if (IdleSoundObj != NULL) {
+            if (IdleSoundObj != nullptr) {
                 IdleSoundObj->Remove_From_Scene();
                 IdleSoundObj->Stop();
             }
@@ -683,7 +683,7 @@ void PowerUpGameObj::Set_State(int state)
                 Set_Animation(Get_Definition().GrantAnimationName, false);
                 HAnimClass* animation = WW3DAssetManager::Get_Instance()->Get_HAnim(
                     Get_Anim_Control()->Get_Animation_Name());
-                if (animation != NULL) {
+                if (animation != nullptr) {
                     StateEndTimer = animation->Get_Total_Time();
                     REF_PTR_RELEASE(animation);
                 }
@@ -706,11 +706,11 @@ void PowerUpGameObj::Update_State(void)
         //	Start playing the idle sound
         //
         if (Get_Definition().IdleSoundID != 0) {
-            if (IdleSoundObj == NULL) {
+            if (IdleSoundObj == nullptr) {
                 IdleSoundObj = WWAudioClass::Get_Instance()->Create_Continuous_Sound(
                     Get_Definition().IdleSoundID);
             }
-            if (IdleSoundObj != NULL) {
+            if (IdleSoundObj != nullptr) {
                 IdleSoundObj->Set_Transform(Get_Transform());
                 IdleSoundObj->Add_To_Scene(true);
             }
@@ -770,7 +770,7 @@ void PowerUpGameObj::Grant(SmartGameObj* obj)
     Get_Definition().Grant(obj, this);
 
     // If we have a weapon bag, move it
-    if (WeaponBag != NULL) {
+    if (WeaponBag != nullptr) {
         WWASSERT(obj->Get_Weapon_Bag());
         if (obj->Get_Weapon_Bag()->Move_Contents(WeaponBag)) {
             Set_State(PowerUpGameObj::STATE_GRANTING);
@@ -813,7 +813,7 @@ void PowerUpGameObj::Think(void)
         for (smart_objnode = GameObjManager::Get_Smart_Game_Obj_List()->Head(); smart_objnode;
              smart_objnode = smart_objnode->Next()) {
             SmartGameObj* obj = smart_objnode->Data();
-            WWASSERT(obj != NULL);
+            WWASSERT(obj != nullptr);
 
             SoldierGameObj* soldier = obj->As_SoldierGameObj();
 
@@ -845,11 +845,11 @@ PowerUpGameObj* PowerUpGameObj::Create_Backpack(ArmedGameObj* provider)
 
     PowerUpGameObj* backpack = (PowerUpGameObj*)ObjectLibraryManager::Create_Object("Backpack");
 
-    if (backpack != NULL) {
+    if (backpack != nullptr) {
         Matrix3D tm(1);
         tm.Set_Translation(provider->Get_Bullseye_Position());
         backpack->Set_Transform(tm);
-        backpack->WeaponBag = new WeaponBagClass(NULL);
+        backpack->WeaponBag = new WeaponBagClass(nullptr);
         backpack->WeaponBag->Move_Contents(provider->Get_Weapon_Bag());
         backpack->Start_Observers();
     }
@@ -877,7 +877,7 @@ void PowerUpGameObj::Get_Description(StringClass& description)
     line.Format("POS:   %-5.2f, %-5.2f, %-5.2f\n", position.X, position.Y, position.Z);
     description += line;
 
-    if (Get_Defense_Object() != NULL) {
+    if (Get_Defense_Object() != nullptr) {
         line.Format("HLTH:  %-5.2f\n", Get_Defense_Object()->Get_Health());
         description += line;
     }
@@ -898,7 +898,7 @@ void PowerUpGameObj::Expire(void)
         ** If the definition calls for it, add a material effect to the object
         */
         PhysClass* physobj = Peek_Physical_Object();
-        if (physobj != NULL) {
+        if (physobj != nullptr) {
             TransitionEffectClass* effect = CombatMaterialEffectManager::Get_Death_Effect();
             effect->Set_Transition_Time(EXPIRE_TIME);
             physobj->Add_Effect_To_Me(effect);

@@ -337,7 +337,7 @@ void PowerPlantGameObj::On_Destroyed(void)
     //	Tell the base that it better check the power state
     // of the base.
     //
-    if (BaseController != NULL) {
+    if (BaseController != nullptr) {
         BaseController->Check_Base_Power();
     }
 

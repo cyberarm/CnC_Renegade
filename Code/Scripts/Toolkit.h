@@ -51,13 +51,13 @@
 */
 
 #ifdef WWDEBUG
-#define NULL_POINTER_CHECK(X)                                                                      \
-    (if (X == NULL) {                                                                              \
-        Commands->Debug_Message("***NULL pointer found in script: Line %d of file %s.\n",          \
+#define nullptr_POINTER_CHECK(X)                                                                      \
+    (if (X == nullptr) {                                                                              \
+        Commands->Debug_Message("***nullptr pointer found in script: Line %d of file %s.\n",          \
                                 __LINE__, __FILE__);                                               \
     })
 #else
-#define NULL_POINTER_CHECK(X)
+#define nullptr_POINTER_CHECK(X)
 #endif
 
 #ifdef WWDEBUG

@@ -63,7 +63,7 @@
  *=============================================================================================*/
 static void Count_Textures(RenderObjClass* obj)
 {
-    if (obj == NULL) {
+    if (obj == nullptr) {
         return;
     }
 
@@ -80,7 +80,7 @@ static void Count_Textures(RenderObjClass* obj)
     ** Count the textures for this object
     */
     MaterialInfoClass* matinfo = obj->Get_Material_Info();
-    if (matinfo != NULL) {
+    if (matinfo != nullptr) {
         for (int ti = 0; ti < matinfo->Texture_Count(); ti++) {
             Debug_Statistics::Record_Texture(matinfo->Peek_Texture(ti));
         }
@@ -111,7 +111,7 @@ VisSectorStatsClass::VisSectorStatsClass(void)
       TextureCount(0),
       TextureBytes(0),
       CenterPoint(0, 0, 0),
-      PhysObj(NULL)
+      PhysObj(nullptr)
 {
 }
 
@@ -133,7 +133,7 @@ VisSectorStatsClass::VisSectorStatsClass(const VisSectorStatsClass& src)
       TextureCount(0),
       TextureBytes(0),
       CenterPoint(0, 0, 0),
-      PhysObj(NULL)
+      PhysObj(nullptr)
 {
     (*this) = src;
 }
@@ -181,7 +181,7 @@ void VisSectorStatsClass::Compute_Stats(StaticPhysClass* obj, VisTableClass* vis
     TextureCount = 0;
     TextureBytes = 0;
 
-    if (vistable != NULL) {
+    if (vistable != nullptr) {
         Debug_Statistics::Begin_Statistics();
         Debug_Statistics::Record_Texture_Mode(Debug_Statistics::RECORD_TEXTURE_DETAILS);
 
@@ -254,9 +254,9 @@ const VisSectorStatsClass& VisSectorStatsClass::operator=(const VisSectorStatsCl
  *=============================================================================================*/
 const char* VisSectorStatsClass::Get_Name(void)
 {
-    const char* name = NULL;
+    const char* name = nullptr;
 
-    if (PhysObj != NULL && PhysObj->Peek_Model() != NULL) {
+    if (PhysObj != nullptr && PhysObj->Peek_Model() != nullptr) {
         name = PhysObj->Peek_Model()->Get_Name();
     }
 

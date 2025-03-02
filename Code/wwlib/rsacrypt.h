@@ -176,7 +176,7 @@ template <int PRECISION> bool RSACrypt<PRECISION>::Load_SSH_Keyset(FileClass* fi
     }
 
     file->Read(buffer, strlen(AUTHFILE_ID_STRING) + 1);
-    buffer[strlen(AUTHFILE_ID_STRING)] = 0; // null term
+    buffer[strlen(AUTHFILE_ID_STRING)] = 0; // nullptr term
 
     if (strcmp((char*)buffer, AUTHFILE_ID_STRING)) {
         return (false);

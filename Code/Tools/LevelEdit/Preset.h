@@ -214,7 +214,7 @@ INLINE_ACCESSOR_CONST(bool, PresetClass, IsTemporary);
 ////////////////////////////////////////////////////////////////////
 inline uint32 PresetClass::Get_ID(void) const
 {
-    if (m_Definition != NULL) {
+    if (m_Definition != nullptr) {
         m_DefinitionID = m_Definition->Get_ID();
     }
 
@@ -226,7 +226,7 @@ inline uint32 PresetClass::Get_ID(void) const
 ////////////////////////////////////////////////////////////////////
 inline void PresetClass::Set_ID(uint32 id)
 {
-    if (m_Definition != NULL) {
+    if (m_Definition != nullptr) {
         m_Definition->Set_ID(id);
     }
 
@@ -239,8 +239,8 @@ inline void PresetClass::Set_ID(uint32 id)
 ////////////////////////////////////////////////////////////////////
 inline LPCTSTR PresetClass::Get_Name(void) const
 {
-    LPCTSTR name = NULL;
-    if (m_Definition != NULL) {
+    LPCTSTR name = nullptr;
+    if (m_Definition != nullptr) {
         name = m_Definition->Get_Name();
     }
 
@@ -252,7 +252,7 @@ inline LPCTSTR PresetClass::Get_Name(void) const
 ////////////////////////////////////////////////////////////////////
 inline void PresetClass::Set_Name(LPCTSTR name)
 {
-    if (m_Definition != NULL) {
+    if (m_Definition != nullptr) {
         m_Definition->Set_Name(name);
     }
 
@@ -291,7 +291,7 @@ inline void PresetClass::Set_Manual_Dependencies(STRING_LIST& list)
 inline uint32 PresetClass::Get_Class_ID(void) const
 {
     uint32 class_id = 0;
-    if (m_Definition != NULL) {
+    if (m_Definition != nullptr) {
         class_id = m_Definition->Get_Class_ID();
     }
 

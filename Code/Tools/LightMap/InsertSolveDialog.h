@@ -45,14 +45,14 @@ class InsertSolveDialog : public CDialog
 {
     // Construction
 public:
-    InsertSolveDialog(const char* initialpathname, CWnd* pParent = NULL);
+    InsertSolveDialog(const char* initialpathname, CWnd* pParent = nullptr);
 
     ~InsertSolveDialog()
     {
-        if (FileListBuffer != NULL) {
+        if (FileListBuffer != nullptr) {
             delete[] FileListBuffer;
         }
-        if (InclusionString != NULL) {
+        if (InclusionString != nullptr) {
             delete[] InclusionString;
         }
     }
@@ -98,7 +98,7 @@ protected:
     const char* InitialPathname; // Pathname used to indicate default browsing directory.
     char DirectoryName[_MAX_DIR]; // Directory containing solve files.
     char* FileListBuffer; // Buffer to store list of solve filenames.
-    char* FilenameList; // Ptr to list of solve filenames (separated by null terminating character).
+    char* FilenameList; // Ptr to list of solve filenames (separated by nullptr terminating character).
     bool ApplySelective;
     bool InvertSelection;
     bool BlendNoise;

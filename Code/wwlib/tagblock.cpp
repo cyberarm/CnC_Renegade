@@ -111,7 +111,7 @@ private:
 TagBlockFile::TagBlockFile(const char* fname)
     : RawFileClass(),
       Header(),
-      CreateHandle(NULL),
+      CreateHandle(nullptr),
       NumOpenHandles(0),
       IndexList()
 {
@@ -126,7 +126,7 @@ TagBlockFile::TagBlockFile(const char* fname)
 
     // See if there is any data in file (or was it just created?)
     if (Header.Version == FILE_VERSION) {
-        TagBlockIndex* lasttag = NULL;
+        TagBlockIndex* lasttag = nullptr;
         int curpos = sizeof(Header);
 
         // Loop through each block in file and create an in memory index for it.
@@ -142,7 +142,7 @@ TagBlockFile::TagBlockFile(const char* fname)
             if (blockheader.Index == block) {
                 char tagname[MAX_TAG_NAME_SIZE];
 
-                // Read in tag name, this includes the NULL at end of string.
+                // Read in tag name, this includes the nullptr at end of string.
                 Read(tagname, blockheader.TagSize);
 
                 // Create new tag index for fast retrievel.
@@ -238,7 +238,7 @@ TagBlockHandle* TagBlockFile::Open_Tag(const char* tagname)
     // Find tag to open up.
     TagBlockIndex* index = Find_Block(tagname);
     if (!index) {
-        return (NULL);
+        return (nullptr);
     }
 
     // Load up the block header information.
@@ -272,7 +272,7 @@ TagBlockHandle* TagBlockFile::Create_Tag(const char* tagname)
 {
     // Only allow one handle to be creating open at a time.
     if (CreateHandle) {
-        return (NULL);
+        return (nullptr);
     }
 
     // Create a new index that we can write too.
@@ -280,7 +280,7 @@ TagBlockHandle* TagBlockFile::Create_Tag(const char* tagname)
 
     // An index may not be created if a tag of the same name already exists.
     if (!index) {
-        return (NULL);
+        return (nullptr);
     }
 
     // Create a header.
@@ -373,7 +373,7 @@ int TagBlockFile::End_Write_Access(TagBlockHandle* handle)
         Save_Header();
 
         // Don't allow writing with this handle anymore.
-        CreateHandle = NULL;
+        CreateHandle = nullptr;
         return (true);
     }
     return (false);
@@ -395,7 +395,7 @@ TagBlockIndex* TagBlockFile::Create_Index(const char* tagname, int blockoffset)
 {
     // Don't allow duplicate tags.
     if (Find_Block(tagname)) {
-        return (NULL);
+        return (nullptr);
     }
 
     TagBlockIndex* index;
@@ -439,7 +439,7 @@ TagBlockIndex* TagBlockFile::Create_Index(const char* tagname, int blockoffset)
 TagBlockIndex* TagBlockFile::Find_Block(const char* tagname)
 {
     if (IndexList.Is_Empty()) {
-        return (NULL);
+        return (nullptr);
     }
 
     unsigned long crc = CRC_Stringi(tagname);
@@ -458,8 +458,8 @@ TagBlockIndex* TagBlockFile::Find_Block(const char* tagname)
             Read(name, cur->Get_TagSize());
 
             // Is it a match?
-            assert(name != NULL);
-            assert(tagname != NULL);
+            assert(name != nullptr);
+            assert(tagname != nullptr);
             if (!strcmpi(name, tagname)) {
                 return (cur);
             }
@@ -474,7 +474,7 @@ TagBlockIndex* TagBlockFile::Find_Block(const char* tagname)
         node = node->Next();
     }
 
-    return (NULL);
+    return (nullptr);
 }
 
 /***********************************************************************************************

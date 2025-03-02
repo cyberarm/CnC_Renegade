@@ -69,8 +69,8 @@ bit8 ThreadFactory::startThread(Runnable& runable, void* data, bit8 destroy)
     //  use all the normal C library stuff. (IMPORTANT!!!)
     uint32 handle;
     uint32 stup1d;
-    handle = _beginthreadex(NULL, 0, threadClassLauncher, tInfo, 0, &stup1d);
-    if (handle != NULL) {
+    handle = _beginthreadex(nullptr, 0, threadClassLauncher, tInfo, 0, &stup1d);
+    if (handle != nullptr) {
         return (TRUE);
     }
     else {
@@ -88,7 +88,7 @@ bit8 ThreadFactory::startThread(Runnable& runable, void* data, bit8 destroy)
     pthread_attr_init(&threadAttr);
     pthread_attr_setdetachstate(&threadAttr, PTHREAD_CREATE_DETACHED);
     pthread_attr_setscope(&threadAttr, PTHREAD_SCOPE_SYSTEM);
-    retval = pthread_create(NULL, &threadAttr, threadClassLauncher, tInfo);
+    retval = pthread_create(nullptr, &threadAttr, threadClassLauncher, tInfo);
     if (retval == 0) {
         return (TRUE);
     }
@@ -121,8 +121,8 @@ bit8 ThreadFactory::startThread(void (*start_func)(void*), void* data)
     //  use all the normal C library stuff. (IMPORTANT!!!)
     uint32 handle;
     unsigned temp;
-    handle = _beginthreadex(NULL, 0, threadFuncLauncher, tInfo, 0, &temp);
-    if (handle != NULL) {
+    handle = _beginthreadex(nullptr, 0, threadFuncLauncher, tInfo, 0, &temp);
+    if (handle != nullptr) {
         return (TRUE);
     }
     return (FALSE);
@@ -133,7 +133,7 @@ bit8 ThreadFactory::startThread(void (*start_func)(void*), void* data)
     pthread_attr_init(&threadAttr);
     pthread_attr_setdetachstate(&threadAttr, PTHREAD_CREATE_DETACHED);
     pthread_attr_setscope(&threadAttr, PTHREAD_SCOPE_SYSTEM);
-    retval = pthread_create(NULL, &threadAttr, threadFuncLauncher, tInfo);
+    retval = pthread_create(nullptr, &threadAttr, threadFuncLauncher, tInfo);
     if (retval == 0) {
         return (TRUE);
     }

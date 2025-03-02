@@ -59,8 +59,8 @@ const int COL_NAME = 0;
 /////////////////////////////////////////////////////////////////////////////
 PresetZoneTabClass::PresetZoneTabClass(PresetClass* preset)
     : m_Preset(preset),
-      m_PhysObj(NULL),
-      m_ZoneList(NULL),
+      m_PhysObj(nullptr),
+      m_ZoneList(nullptr),
       DockableFormClass(PresetZoneTabClass::IDD)
 {
     //{{AFX_DATA_INIT(PresetZoneTabClass)
@@ -119,7 +119,7 @@ void PresetZoneTabClass::Dump(CDumpContext& dc) const
 /////////////////////////////////////////////////////////////////////////////
 void PresetZoneTabClass::HandleInitDialog(void)
 {
-    ASSERT(m_Preset != NULL);
+    ASSERT(m_Preset != nullptr);
 
     ListView_SetExtendedListViewStyle(m_ListCtrl, LVS_EX_FULLROWSELECT);
     m_ListCtrl.InsertColumn(COL_NAME, "Name");
@@ -134,7 +134,7 @@ void PresetZoneTabClass::HandleInitDialog(void)
         //	Insert this zone into the control
         //
         ZoneParameterClass* parameter = (*m_ZoneList)[index];
-        if (parameter != NULL) {
+        if (parameter != nullptr) {
             m_ListCtrl.InsertItem(index, parameter->Get_Name(), 0);
         }
     }
@@ -167,7 +167,7 @@ bool PresetZoneTabClass::Apply_Changes(void)
 void PresetZoneTabClass::Modify_Selected_Zone(void)
 {
     Create_Phys_Obj();
-    if (m_PhysObj != NULL) {
+    if (m_PhysObj != nullptr) {
 
         //
         //	Get the currently selected item
@@ -176,7 +176,7 @@ void PresetZoneTabClass::Modify_Selected_Zone(void)
         if (index >= 0) {
 
             ZoneParameterClass* parameter = (*m_ZoneList)[index];
-            if (parameter != NULL) {
+            if (parameter != nullptr) {
 
                 //
                 //	Show the zone edit dialog
@@ -203,22 +203,22 @@ void PresetZoneTabClass::Create_Phys_Obj(void)
 {
     CWaitCursor wait_cursor;
 
-    if (m_PhysObj == NULL && m_Preset != NULL) {
+    if (m_PhysObj == nullptr && m_Preset != nullptr) {
 
         //
         //	Instantiate the node
         //
         NodeClass* node = (NodeClass*)m_Preset->Create();
-        ASSERT(node != NULL);
-        if (node != NULL) {
+        ASSERT(node != nullptr);
+        if (node != nullptr) {
 
             //
             //	Initialize the node and get its phys object pointer
             //
             node->Initialize();
             PhysClass* phys_obj = node->Peek_Physics_Obj();
-            ASSERT(phys_obj != NULL);
-            if (phys_obj != NULL) {
+            ASSERT(phys_obj != nullptr);
+            if (phys_obj != nullptr) {
 
                 //
                 //	Keep a copy of the physics object for our own uses.

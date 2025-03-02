@@ -45,7 +45,7 @@ class EditStringDialogClass : public CDialog
 {
     // Construction
 public:
-    EditStringDialogClass(CWnd* pParent = NULL); // standard constructor
+    EditStringDialogClass(CWnd* pParent = nullptr); // standard constructor
 
     // Dialog Data
     //{{AFX_DATA(EditStringDialogClass)

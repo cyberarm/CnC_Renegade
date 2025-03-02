@@ -77,7 +77,7 @@ void cCsHint::Act(void)
     WWASSERT(cNetwork::I_Am_Server());
 
     NetworkObjectClass* p_object = NetworkObjectMgrClass::Find_Object(SubjectId);
-    if (p_object != NULL) {
+    if (p_object != nullptr) {
         p_object->Increment_Client_Hint_Count(SenderId);
     }
 

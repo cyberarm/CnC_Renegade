@@ -90,7 +90,7 @@ fixed::fixed(char const* ascii)
     **	compiler confusion that would call this routine when the programmer wanted the
     **	integer parameter constructor to be called.
     */
-    if (ascii == NULL) {
+    if (ascii == nullptr) {
         Data.Raw = 0;
         return;
     }
@@ -154,7 +154,7 @@ fixed::fixed(char const* ascii)
 /***********************************************************************************************
  * fixed::To_ASCII -- Convert a fixed point number into an ASCII string.                       *
  *                                                                                             *
- *    Use this routine to convert this fixed point number into an ASCII null terminated        *
+ *    Use this routine to convert this fixed point number into an ASCII nullptr terminated        *
  *    string. This is the counterpart to the fixed point constructor that takes an ASCII       *
  *    string.                                                                                  *
  *                                                                                             *
@@ -162,7 +162,7 @@ fixed::fixed(char const* ascii)
  *                                                                                             *
  *          maxlen   -- The length of the buffer.                                              *
  *                                                                                             *
- * OUTPUT:  Returns with the number of characters placed in the buffer. The trailing null is   *
+ * OUTPUT:  Returns with the number of characters placed in the buffer. The trailing nullptr is   *
  *          not counted in this total.                                                         *
  *                                                                                             *
  * WARNINGS:   none                                                                            *
@@ -172,7 +172,7 @@ fixed::fixed(char const* ascii)
  *=============================================================================================*/
 int fixed::To_ASCII(char* buffer, int maxlen) const
 {
-    if (buffer == NULL) {
+    if (buffer == nullptr) {
         return (0);
     }
 

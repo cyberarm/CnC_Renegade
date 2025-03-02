@@ -52,9 +52,9 @@ class EmitterPropertySheetClass : public CPropertySheet
     // Construction
 public:
     EmitterPropertySheetClass(EmitterInstanceListClass* emitter_list, UINT nIDCaption,
-                              CWnd* pParentWnd = NULL);
+                              CWnd* pParentWnd = nullptr);
     EmitterPropertySheetClass(EmitterInstanceListClass* emitter_list, LPCTSTR pszCaption,
-                              CWnd* pParentWnd = NULL);
+                              CWnd* pParentWnd = nullptr);
 
     // Attributes
 public:

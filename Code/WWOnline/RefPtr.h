@@ -34,9 +34,9 @@
  *     Reinterpret_Cast<X> replaces reinterpret_cast<X*> and reinterpret_cast<X&>
  *     Const_Cast<X> replaces const_cast<X*> and const_cast<X&>
  *
- *     IsValid() replaces (x != NULL)
+ *     IsValid() replaces (x != nullptr)
  *
- *     Member function Attach() or assigning RefPtr<X>() will NULL a pointer.
+ *     Member function Attach() or assigning RefPtr<X>() will nullptr a pointer.
  *
  *     Generally, RefPtr<> and RefPtrConst<> behave like their raw pointer
  *     counterparts, except of course they are reference counted and will delete
@@ -82,26 +82,26 @@ public:
 
     inline bool operator!=(const RefPtrBase& rhs) const { return !operator==(rhs); }
 
-    inline bool IsValid(void) const { return (mRefObject != NULL); }
+    inline bool IsValid(void) const { return (mRefObject != nullptr); }
 
     inline void Release(void)
     {
         if (IsValid()) {
             mRefObject->ReleaseReference();
-            mRefObject = NULL;
+            mRefObject = nullptr;
         }
     }
 
 protected:
     RefPtrBase()
-        : mRefObject(NULL)
+        : mRefObject(nullptr)
     {
     }
 
     RefPtrBase(RefCounted* object)
         : mRefObject(object)
     {
-        assert((mRefObject == NULL) || (mRefObject->ReferenceCount() == 0));
+        assert((mRefObject == nullptr) || (mRefObject->ReferenceCount() == 0));
 
         if (IsValid()) {
             mRefObject->AddReference();
@@ -131,7 +131,7 @@ protected:
         // If objects are different
         if (object != mRefObject) {
             // Add reference to new object
-            if (object != NULL) {
+            if (object != nullptr) {
                 object->AddReference();
             }
 

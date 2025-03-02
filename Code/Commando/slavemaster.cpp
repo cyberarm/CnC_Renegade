@@ -357,7 +357,7 @@ SlaveServerClass* SlaveMasterClass::Get_Slave(int index)
     if (index >= 0 && index < NumSlaveServers) {
         return (&SlaveServers[index]);
     }
-    return (NULL);
+    return (nullptr);
 }
 
 /***********************************************************************************************
@@ -570,11 +570,11 @@ bool SlaveMasterClass::Aquire_Slave(int index)
     if (ConsoleBox.Is_Exclusive()) {
         HWND slave_window = ConsoleBox.Get_Slave_Window_By_Title(
             SlaveServers[index].NickName, SlaveServers[index].SettingsFileName);
-        if (slave_window != NULL) {
+        if (slave_window != nullptr) {
             /*
             ** Note the process ID for later.
             */
-            SlaveServers[index].ProcessInfo.hProcess = NULL; // Don't know handle.
+            SlaveServers[index].ProcessInfo.hProcess = nullptr; // Don't know handle.
             GetWindowThreadProcessId(slave_window, &SlaveServers[index].ProcessInfo.dwProcessId);
             WWDEBUG_SAY(("Slave found by HWND with process ID %d\n",
                          SlaveServers[index].ProcessInfo.dwProcessId));
@@ -608,7 +608,7 @@ bool SlaveMasterClass::Aquire_Slave(int index)
             /*
             ** Note the process ID for later.
             */
-            SlaveServers[index].ProcessInfo.hProcess = NULL; // Don't know handle.
+            SlaveServers[index].ProcessInfo.hProcess = nullptr; // Don't know handle.
             SlaveServers[index].ProcessInfo.dwProcessId = proc_id;
             WWDEBUG_SAY(
                 ("Slave found with process ID %d\n", SlaveServers[index].ProcessInfo.dwProcessId));
@@ -695,7 +695,7 @@ void SlaveMasterClass::Startup_Slaves(void)
                             char dir[_MAX_DIR];
                             char path[_MAX_PATH];
                             GetModuleFileName(ProgramInstance, path_to_exe, sizeof(path_to_exe));
-                            _splitpath(path_to_exe, drive, dir, NULL, NULL);
+                            _splitpath(path_to_exe, drive, dir, nullptr, nullptr);
 #ifdef FREEDEDICATEDSERVER
                             _makepath(path, drive, dir, "renegadeserver", "exe");
 #else // FREEDEDICATEDSERVER
@@ -716,8 +716,8 @@ void SlaveMasterClass::Startup_Slaves(void)
                                 if (slave_reg.Is_Valid()) {
                                     slave_reg.Set_Int("ProcessId", 0);
                                 }
-                                result = CreateProcess(path, command_line, NULL, NULL, false, 0,
-                                                       NULL, NULL, &startup_info,
+                                result = CreateProcess(path, command_line, nullptr, nullptr, false, 0,
+                                                       nullptr, nullptr, &startup_info,
                                                        &SlaveServers[i].ProcessInfo);
                             }
                             if (result) {

@@ -344,7 +344,7 @@ bool SerialDialogClass::Get_Serial_Number(StringClass& serialnumber)
 }
 
 /***********************************************************************************************
- * SerialDialogClass::CheckSum -- Generate a checksum number between 0...9999 from a null
+ * SerialDialogClass::CheckSum -- Generate a checksum number between 0...9999 from a nullptr
  ** terminated string of numbers.
  **
  *																															  *

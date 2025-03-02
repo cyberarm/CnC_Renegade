@@ -53,9 +53,9 @@ class CombatPhysObserverClass : public PhysObserverClass
 {
 
 public:
-    virtual DamageableGameObj* As_DamageableGameObj(void) { return NULL; }
-    virtual PhysicalGameObj* As_PhysicalGameObj(void) { return NULL; }
-    virtual BuildingGameObj* As_BuildingGameObj(void) { return NULL; }
+    virtual DamageableGameObj* As_DamageableGameObj(void) { return nullptr; }
+    virtual PhysicalGameObj* As_PhysicalGameObj(void) { return nullptr; }
+    virtual BuildingGameObj* As_BuildingGameObj(void) { return nullptr; }
 };
 
 #endif //	COMBATPHYSOBSERVER_H

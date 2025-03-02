@@ -56,8 +56,8 @@
  *=============================================================================================*/
 HModelDefClass::HModelDefClass(void)
     : SubObjectCount(0),
-      SubObjects(NULL),
-      SnapPoints(NULL)
+      SubObjects(nullptr),
+      SnapPoints(nullptr)
 {
 }
 
@@ -92,15 +92,15 @@ HModelDefClass::~HModelDefClass(void)
  *=============================================================================================*/
 void HModelDefClass::Free(void)
 {
-    if (SubObjects != NULL) {
+    if (SubObjects != nullptr) {
         delete[] SubObjects;
-        SubObjects = NULL;
+        SubObjects = nullptr;
     }
     SubObjectCount = 0;
 
-    if (SnapPoints != NULL) {
+    if (SnapPoints != nullptr) {
         SnapPoints->Release_Ref();
-        SnapPoints = NULL;
+        SnapPoints = nullptr;
     }
 }
 
@@ -158,7 +158,7 @@ int HModelDefClass::Load_W3D(ChunkLoadClass& cload)
     */
     SubObjectCount = header.NumConnections;
     SubObjects = new HmdlNodeDefStruct[SubObjectCount];
-    if (SubObjects == NULL) {
+    if (SubObjects == nullptr) {
         goto Error;
     }
 

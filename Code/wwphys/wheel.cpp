@@ -131,7 +131,7 @@ const float MAX_SUSPENSION_ACCEL = 50.0f;
  * HISTORY:                                                                                    *
  *=============================================================================================*/
 SuspensionElementClass::SuspensionElementClass(void)
-    : Parent(NULL),
+    : Parent(nullptr),
       Flags(DEFAULT_FLAGS),
       PositionBone(-1),
       AxisBone(-1),
@@ -176,9 +176,9 @@ SuspensionElementClass::SuspensionElementClass(void)
  *=============================================================================================*/
 SuspensionElementClass::~SuspensionElementClass(void)
 {
-    if (Parent != NULL) {
+    if (Parent != nullptr) {
         RenderObjClass* model = Parent->Peek_Model();
-        if (model != NULL) {
+        if (model != nullptr) {
             if (PositionBone != -1) {
                 model->Release_Bone(PositionBone);
             }
@@ -212,9 +212,9 @@ SuspensionElementClass::~SuspensionElementClass(void)
  *=============================================================================================*/
 void SuspensionElementClass::Init(VehiclePhysClass* obj, int pbone, int rbone, int fbone, int abone)
 {
-    WWASSERT(obj != NULL); // have to have a valid object
+    WWASSERT(obj != nullptr); // have to have a valid object
     WWASSERT(pbone != -1); // have to have a position bone at least
-    WWASSERT(obj->Peek_Model() != NULL); // have to have a valid model
+    WWASSERT(obj->Peek_Model() != nullptr); // have to have a valid model
 
     // Store a pointer to the vehicle.  Not referenced because this class meant to be a private
     // member of wheeled vehicle.  A reference here would be circular.
@@ -297,7 +297,7 @@ void SuspensionElementClass::Init(VehiclePhysClass* obj, int pbone, int rbone, i
  *=============================================================================================*/
 void SuspensionElementClass::Intersect_Spring(void)
 {
-    WWASSERT(Parent != NULL);
+    WWASSERT(Parent != nullptr);
 
     // transform the wheel coordinate system into world space.
     Matrix3D::Multiply(Parent->Get_Transform(), ObjWheelTM, &WheelTM);
@@ -355,7 +355,7 @@ void SuspensionElementClass::Intersect_Spring(void)
  *=============================================================================================*/
 void SuspensionElementClass::Non_Physical_Intersect_Spring(float suspension_fraction)
 {
-    WWASSERT(Parent != NULL);
+    WWASSERT(Parent != nullptr);
 
     // transform the wheel coordinate system into world space.
     Matrix3D::Multiply(Parent->Get_Transform(), ObjWheelTM, &WheelTM);
@@ -389,7 +389,7 @@ void SuspensionElementClass::Non_Physical_Intersect_Spring(float suspension_frac
 void SuspensionElementClass::Update_Model(void)
 {
     RenderObjClass* model = Parent->Peek_Model();
-    if (model == NULL) {
+    if (model == nullptr) {
         return;
     }
 
@@ -423,7 +423,7 @@ void SuspensionElementClass::Update_Model(void)
 void SuspensionElementClass::Non_Physical_Update(float suspension_fraction, float rotation)
 {
     RenderObjClass* model = Parent->Peek_Model();
-    if (model == NULL) {
+    if (model == nullptr) {
         return;
     }
 
@@ -606,9 +606,9 @@ WheelClass::WheelClass(void)
  *=============================================================================================*/
 WheelClass::~WheelClass(void)
 {
-    if (Parent != NULL) {
+    if (Parent != nullptr) {
         RenderObjClass* model = Parent->Peek_Model();
-        if (model != NULL) {
+        if (model != nullptr) {
             if (RotationBone != -1) {
                 model->Release_Bone(RotationBone);
             }
@@ -641,7 +641,7 @@ void WheelClass::Init(VehiclePhysClass* obj, int position_bone, int rotation_bon
 
     // Grab a pointer to the render model
     RenderObjClass* model = obj->Peek_Model();
-    WWASSERT(model != NULL);
+    WWASSERT(model != nullptr);
 
     // Store the bone indices and capture the bones
     RotationBone = rotation_bone;
@@ -964,7 +964,7 @@ void WVWheelClass::Update_Model(void)
 void WVWheelClass::Non_Physical_Update(float suspension_fraction, float rotation)
 {
     RenderObjClass* model = Parent->Peek_Model();
-    if (model == NULL) {
+    if (model == nullptr) {
         return;
     }
 
@@ -982,7 +982,7 @@ void WVWheelClass::Roll_Wheel(void)
     RenderObjClass* model = Parent->Peek_Model();
     WheeledVehicleClass* wv_parent = Parent->As_WheeledVehicleClass();
 
-    if ((model == NULL) || (wv_parent == NULL) || (RotationBone == -1)) {
+    if ((model == nullptr) || (wv_parent == nullptr) || (RotationBone == -1)) {
         return;
     }
 
@@ -1114,7 +1114,7 @@ void TrackWheelClass::Update_Model(void)
 void TrackWheelClass::Non_Physical_Update(float suspension_fraction, float rotation)
 {
     RenderObjClass* model = Parent->Peek_Model();
-    if (model == NULL) {
+    if (model == nullptr) {
         return;
     }
 
@@ -1133,7 +1133,7 @@ void TrackWheelClass::Roll_Wheel(void)
     RenderObjClass* model = Parent->Peek_Model();
     TrackedVehicleClass* track_parent = Parent->As_TrackedVehicleClass();
 
-    if ((model == NULL) || (track_parent == NULL) || (RotationBone == -1)) {
+    if ((model == nullptr) || (track_parent == nullptr) || (RotationBone == -1)) {
         return;
     }
 
@@ -1179,7 +1179,7 @@ void VTOLWheelClass::Update_Model(void)
 void VTOLWheelClass::Non_Physical_Update(float suspension_fraction, float rotation)
 {
     RenderObjClass* model = Parent->Peek_Model();
-    if (model == NULL) {
+    if (model == nullptr) {
         return;
     }
 
@@ -1207,7 +1207,7 @@ void VTOLWheelClass::Roll_Wheel(void)
 {
     RenderObjClass* model = Parent->Peek_Model();
 
-    if ((RotationBone != -1) && (model != NULL)) {
+    if ((RotationBone != -1) && (model != nullptr)) {
         if (Get_Flag(INCONTACT)) {
 
             // Rotate the wheel based on movement

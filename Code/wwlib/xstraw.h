@@ -99,7 +99,7 @@ private:
     FileClass* File;
     bool HasOpened;
 
-    bool Valid_File(void) { return (File != NULL); }
+    bool Valid_File(void) { return (File != nullptr); }
     FileStraw(FileStraw& rvalue);
     FileStraw& operator=(FileStraw const& pipe);
 };

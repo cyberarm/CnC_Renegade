@@ -83,7 +83,7 @@ void StringPickerClass::On_Pick(void)
         //	Change the text of the window control
         //
         TDBObjClass* object = TranslateDBClass::Find_Object(m_EntryID);
-        if (object != NULL) {
+        if (object != nullptr) {
             const StringClass& text = object->Get_ID_Desc();
             SetWindowText(text);
         }
@@ -108,7 +108,7 @@ void StringPickerClass::Set_Entry(int entry_id)
     //	Change the text of the window control
     //
     TDBObjClass* object = TranslateDBClass::Find_Object(entry_id);
-    if (object != NULL) {
+    if (object != nullptr) {
         const StringClass& text = object->Get_ID_Desc();
         SetWindowText(text);
     }

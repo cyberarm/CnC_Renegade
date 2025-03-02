@@ -109,7 +109,7 @@ static StringClass* profile_log_names;
 //
 // ConsoleGameModeClass statics
 //
-ConsoleGameModeClass* ConsoleGameModeClass::Instance = NULL;
+ConsoleGameModeClass* ConsoleGameModeClass::Instance = nullptr;
 const float ConsoleGameModeClass::LeftMargin = 0.02f;
 
 /*
@@ -119,7 +119,7 @@ void ConsoleGameModeClass::Init()
 {
     ConsoleFunctionManager::Init();
 
-    WWASSERT(ConsoleGameModeClass::Instance == NULL);
+    WWASSERT(ConsoleGameModeClass::Instance == nullptr);
 
     ConsoleGameModeClass::Instance = this;
     InputActive = false;
@@ -138,7 +138,7 @@ void ConsoleGameModeClass::Init()
 
     Load_Registry_Keys();
 
-    ProfileIterator = NULL;
+    ProfileIterator = nullptr;
 }
 
 /*
@@ -150,7 +150,7 @@ void ConsoleGameModeClass::Shutdown()
 
     WWASSERT(ConsoleGameModeClass::Instance == this);
 
-    ConsoleGameModeClass::Instance = NULL;
+    ConsoleGameModeClass::Instance = nullptr;
 
     ConsoleFunctionManager::Shutdown();
 }
@@ -709,7 +709,7 @@ void ConsoleGameModeClass::Think()
 
                 AudibleSoundClass* sound_obj
                     = WWAudioClass::Get_Instance()->Peek_2D_Sample(sample_index);
-                if (sound_obj != NULL) {
+                if (sound_obj != nullptr) {
 
                     if (sound_obj->Get_Type() == AudibleSoundClass::TYPE_MUSIC) {
                         message += "(M)";
@@ -745,7 +745,7 @@ void ConsoleGameModeClass::Think()
 
                 AudibleSoundClass* sound_obj
                     = WWAudioClass::Get_Instance()->Peek_3D_Sample(sample_index);
-                if (sound_obj != NULL) {
+                if (sound_obj != nullptr) {
 
                     if (sound_obj->Get_Type() == AudibleSoundClass::TYPE_MUSIC) {
                         message += "(M)";
@@ -869,7 +869,7 @@ void ConsoleGameModeClass::Think()
             working_string.Format("Culling Stats\n");
             message = working_string;
 
-            if (the_scene != NULL) {
+            if (the_scene != nullptr) {
                 const PhysicsSceneClass::StatsStruct& stats = the_scene->Get_Statistics();
                 if (stats.FrameCount > 0) {
                     working_string.Format("Frames: %d\n", stats.FrameCount);
@@ -904,7 +904,7 @@ void ConsoleGameModeClass::Think()
             working_string.Format("Physics Stats\n");
             message = working_string;
 
-            if (the_scene != NULL) {
+            if (the_scene != nullptr) {
                 int phys3_count = 0;
                 int phys3_active_count = 0;
                 int human_count = 0;
@@ -925,7 +925,7 @@ void ConsoleGameModeClass::Think()
                 RefPhysListIterator iterator = the_scene->Get_Dynamic_Object_Iterator();
                 for (iterator.First(); !iterator.Is_Done(); iterator.Next()) {
                     PhysClass* obj = iterator.Peek_Obj();
-                    WWASSERT(obj != NULL);
+                    WWASSERT(obj != nullptr);
 
                     if (obj->As_Phys3Class()) {
                         phys3_count++;
@@ -1013,7 +1013,7 @@ void ConsoleGameModeClass::Think()
                 iterator = the_scene->Get_Static_Object_Iterator();
                 for (iterator.First(); !iterator.Is_Done(); iterator.Next()) {
                     PhysClass* obj = iterator.Peek_Obj();
-                    WWASSERT(obj != NULL);
+                    WWASSERT(obj != nullptr);
                     if (obj->As_StaticPhysClass()) {
                         static_obj_count++;
                     }
@@ -1042,17 +1042,17 @@ void ConsoleGameModeClass::Think()
             working_string.Format("Vehicle Debug Stats\n");
             message = working_string;
 
-            if ((COMBAT_STAR != NULL)
-                && (((PhysicalGameObj*)COMBAT_STAR)->As_SoldierGameObj() != NULL)) {
+            if ((COMBAT_STAR != nullptr)
+                && (((PhysicalGameObj*)COMBAT_STAR)->As_SoldierGameObj() != nullptr)) {
                 VehicleGameObj* vehicle_game_obj
                     = ((PhysicalGameObj*)COMBAT_STAR)->As_SoldierGameObj()->Get_Vehicle();
 
-                if ((vehicle_game_obj != NULL)
-                    && (vehicle_game_obj->Peek_Physical_Object() != NULL)) {
+                if ((vehicle_game_obj != nullptr)
+                    && (vehicle_game_obj->Peek_Physical_Object() != nullptr)) {
 
                     VehiclePhysClass* vehicle
                         = vehicle_game_obj->Peek_Physical_Object()->As_VehiclePhysClass();
-                    if (vehicle != NULL) {
+                    if (vehicle != nullptr) {
                         Vector3 vel;
                         vehicle->Get_Velocity(&vel);
                         float meters_per_sec = vel.Length();
@@ -1063,7 +1063,7 @@ void ConsoleGameModeClass::Think()
                         message += working_string;
 
                         WheeledVehicleClass* wv = vehicle->As_WheeledVehicleClass();
-                        if (wv != NULL) {
+                        if (wv != nullptr) {
 
                             working_string.Format("Current Gear: %d\n", wv->Get_Current_Gear());
                             message += working_string;
@@ -1087,9 +1087,9 @@ void ConsoleGameModeClass::Think()
                         }
 
                         TrackedVehicleClass* tv = vehicle->As_TrackedVehicleClass();
-                        if (tv != NULL) {
+                        if (tv != nullptr) {
                             const TrackedVehicleDefClass* def = tv->Get_TrackedVehicleDef();
-                            if (def != NULL) {
+                            if (def != nullptr) {
                                 working_string.Format("Max Engine Torque: %10.3f\n",
                                                       def->Get_Max_Engine_Torque());
                                 message += working_string;
@@ -1165,7 +1165,7 @@ void ConsoleGameModeClass::Think()
         if (StatisticsDisplayManager::Is_Current_Display("wol")) {
             char string[200];
             if (GameModeManager::Find("WOL")->Is_Active()) {
-                WWASSERT(PWC != NULL);
+                WWASSERT(PWC != nullptr);
                 // sprintf(string, "WOL location: %s", PWC->Translate_Location());
                 sprintf(string, "WOL location: %s",
                         Translate_Location(PWC->Get_Current_Location()));
@@ -1195,7 +1195,7 @@ void ConsoleGameModeClass::Think()
 */
 void ConsoleGameModeClass::Parse_Input(char* string)
 {
-    WWASSERT(Get_Console() != NULL);
+    WWASSERT(Get_Console() != nullptr);
     if (ConsoleInputType == INPUT_FUNCTION_BEGIN_PUBLIC_MESSAGE
         || ConsoleInputType == INPUT_FUNCTION_BEGIN_TEAM_MESSAGE
         || ConsoleInputType == INPUT_FUNCTION_BEGIN_PRIVATE_MESSAGE) {
@@ -1240,7 +1240,7 @@ void ConsoleGameModeClass::Accept_Suggestion(char* cmd)
 {
     if (ConsoleInputType == INPUT_FUNCTION_BEGIN_CONSOLE) {
         // If a space has already been entered or there is no suggestion, do nothing
-        if ((strchr(cmd, ' ') == NULL) && (strlen(Suggestion) > 0)) {
+        if ((strchr(cmd, ' ') == nullptr) && (strlen(Suggestion) > 0)) {
             strcpy(cmd, Suggestion);
         }
     }
@@ -1251,8 +1251,8 @@ void ConsoleGameModeClass::Update_Suggestion(char* cmd, bool go_to_next)
     if (ConsoleInputType == INPUT_FUNCTION_BEGIN_CONSOLE) {
 
         // If a space has already been entered don't update so that the help stays up
-        if ((strlen(cmd) > 0) && (strchr(cmd, ' ') == NULL)) {
-            char* cur_suggestion = NULL;
+        if ((strlen(cmd) > 0) && (strchr(cmd, ' ') == nullptr)) {
+            char* cur_suggestion = nullptr;
             if ((go_to_next) && (strlen(Suggestion) > 0)) {
                 cur_suggestion = &(Suggestion[0]);
             }
@@ -1268,7 +1268,7 @@ void ConsoleGameModeClass::Update_Suggestion(char* cmd, bool go_to_next)
 
 void ConsoleGameModeClass::Profile_Command(const char* command)
 {
-    if (ProfileIterator != NULL) {
+    if (ProfileIterator != nullptr) {
         if (stricmp(command, "log") == 0) {
             if (profile_log_active) {
                 End_Profile_Log();
@@ -1279,7 +1279,7 @@ void ConsoleGameModeClass::Profile_Command(const char* command)
         }
         else if (stricmp(command, "off") == 0) {
             WWProfileManager::Release_Iterator(ProfileIterator);
-            ProfileIterator = NULL;
+            ProfileIterator = nullptr;
         }
         else if (stricmp(command, "reset") == 0) {
             WWProfileManager::Reset();
@@ -1295,7 +1295,7 @@ void ConsoleGameModeClass::Profile_Command(const char* command)
         }
     }
 
-    if (ProfileIterator == NULL) {
+    if (ProfileIterator == nullptr) {
         if (stricmp(command, "on") == 0) {
             ProfileIterator = WWProfileManager::Get_Iterator();
         }
@@ -1575,7 +1575,7 @@ static ProfileLogNodeClass* profile_log_tail;
 
 ProfileLogNodeClass::ProfileLogNodeClass(unsigned count_)
     : count(count_),
-      succ(NULL)
+      succ(nullptr)
 {
     if (!profile_log_head) {
         profile_log_head = this;
@@ -1596,7 +1596,7 @@ ProfileLogNodeClass::~ProfileLogNodeClass()
         profile_log_head = succ;
     }
     if (profile_log_tail == this) {
-        profile_log_tail = NULL;
+        profile_log_tail = nullptr;
     }
 }
 
@@ -1646,7 +1646,7 @@ void ConsoleGameModeClass::End_Profile_Log()
     }
 
     delete[] profile_log_names;
-    profile_log_names = NULL;
+    profile_log_names = nullptr;
 }
 
 void ConsoleGameModeClass::Process_Profile_Log()
@@ -1688,7 +1688,7 @@ void ConsoleGameModeClass::Process_Profile_Log()
                  ProfileIterator->Next(), index++) { }
 
             delete[] profile_log_names;
-            profile_log_names = NULL;
+            profile_log_names = nullptr;
             if (index) {
                 profile_log_names = new StringClass[index];
             }

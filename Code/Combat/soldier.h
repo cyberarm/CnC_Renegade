@@ -155,7 +155,7 @@ public:
                               int alternate_skin = -1);
     virtual void Apply_Damage_Extended(const OffenseObjectClass& offense, float scale = 1.0f,
                                        const Vector3& direction = Vector3(0, 0, 0),
-                                       const char* collision_box_name = NULL);
+                                       const char* collision_box_name = nullptr);
     virtual void Completely_Damaged(const OffenseObjectClass& damager) { }
     virtual CollisionReactionType Collision_Occurred(const CollisionEventClass& event);
     virtual Vector3 Get_Bullseye_Position(void);
@@ -293,8 +293,8 @@ public:
 
     // Dialog support
     void Say_Dialogue(int dialog_id);
-    static float Say_Dynamic_Dialogue(int text_id, SoldierGameObj* speaker = NULL,
-                                      AudibleSoundClass** sound_obj_to_return = NULL);
+    static float Say_Dynamic_Dialogue(int text_id, SoldierGameObj* speaker = nullptr,
+                                      AudibleSoundClass** sound_obj_to_return = nullptr);
     void Stop_Current_Speech(void);
     RenderObjClass* Find_Head_Model(void);
     void Prepare_Speech_Framework(void);
@@ -321,7 +321,7 @@ public:
     // Innate observer access
     void Set_Innate_Observer(SoldierObserverClass* observer) { InnateObserver = observer; }
     SoldierObserverClass* Get_Innate_Observer(void) { return InnateObserver; }
-    void Clear_Innate_Observer(void) { InnateObserver = NULL; }
+    void Clear_Innate_Observer(void) { InnateObserver = nullptr; }
 
     const char* Get_First_Person_Hands_Model_Name(void);
 
@@ -402,7 +402,7 @@ protected:
     GameObjReference SpecialDamageDamager;
     TransitionEffectClass* SpecialDamageEffect;
     void Set_Special_Damage_Mode(ArmorWarheadManager::SpecialDamageType mode,
-                                 ArmedGameObj* damager = NULL);
+                                 ArmedGameObj* damager = nullptr);
 
     TransitionEffectClass* HealingEffect;
 

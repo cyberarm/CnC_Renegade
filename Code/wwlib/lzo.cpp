@@ -97,5 +97,5 @@ int LZOCompressor::Decompress(const lzo_byte* in, lzo_uint in_len, lzo_byte* out
 {
     CriticalSectionClass::LockClass m(mutex);
 
-    return lzo1x_decompress(in, in_len, out, out_len, NULL);
+    return lzo1x_decompress(in, in_len, out, out_len, nullptr);
 }

@@ -1138,7 +1138,7 @@ const char* Input::Get_Key_Name(short key_id)
     }
 
     Debug_Say(("Could not find a name for key %d\n", key_id));
-    return NULL;
+    return nullptr;
 }
 
 /*
@@ -1146,7 +1146,7 @@ const char* Input::Get_Key_Name(short key_id)
 */
 short Input::Get_Key(const char* name)
 {
-    if (name != NULL && name[0] != 0) {
+    if (name != nullptr && name[0] != 0) {
 
         //
         // Check each button name
@@ -1286,7 +1286,7 @@ void Input::Save_Configuration(const char* filename)
     StringClass config_filename;
     config_filename.Format("config\\%s", filename);
     FileClass* ini_file = _TheWritingFileFactory->Get_File(config_filename);
-    if (ini_file != NULL) {
+    if (ini_file != nullptr) {
         ini_file->Open(FileClass::WRITE);
         input_ini.Save(*ini_file);
         _TheWritingFileFactory->Return_File(ini_file);
@@ -1442,7 +1442,7 @@ void Input::Load_Configuration(const char* filename)
     //	Try to load the INI file
     //
     INIClass* input_ini = Get_INI(filename);
-    if (input_ini == NULL) {
+    if (input_ini == nullptr) {
         Debug_Say(("Input::Load_Configuration - Unable to load %s\n", filename));
         return;
     }

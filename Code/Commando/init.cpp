@@ -169,7 +169,7 @@ static const float _ParticleLODScreenSizes[17]
  *=============================================================================================*/
 void Append_To_Assert_History(const char* message)
 {
-    if (message == NULL) {
+    if (message == nullptr) {
         //
         // bail
         //
@@ -177,7 +177,7 @@ void Append_To_Assert_History(const char* message)
     }
 
     FILE* file = ::fopen("_asserts.txt", "at");
-    if (file == NULL) {
+    if (file == nullptr) {
         return;
     }
 
@@ -199,16 +199,16 @@ void Append_To_Assert_History(const char* message)
     // Full filename
     //
     char full_filename[MAX_PATH];
-    ::GetModuleFileName(NULL, full_filename, sizeof(full_filename));
+    ::GetModuleFileName(nullptr, full_filename, sizeof(full_filename));
     ::sprintf(line, "Filename:   %s\n", full_filename);
     ::fwrite(line, 1, ::strlen(line), file);
 
     //
     // File size
     //
-    HANDLE hfile = ::CreateFile(full_filename, 0, 0, NULL, OPEN_EXISTING, 0L, NULL);
+    HANDLE hfile = ::CreateFile(full_filename, 0, 0, nullptr, OPEN_EXISTING, 0L, nullptr);
     if (hfile != INVALID_HANDLE_VALUE) {
-        DWORD file_size = ::GetFileSize(hfile, NULL);
+        DWORD file_size = ::GetFileSize(hfile, nullptr);
         ::CloseHandle(hfile);
         ::sprintf(line, "Filesize:   %d\n", file_size);
         ::fwrite(line, 1, ::strlen(line), file);
@@ -237,7 +237,7 @@ void Append_To_Assert_History(const char* message)
  *=============================================================================================*/
 void Commando_Assert_Handler(const char* message)
 {
-    if (message == NULL) {
+    if (message == nullptr) {
         //
         // bail
         //
@@ -277,7 +277,7 @@ void Commando_Assert_Handler(const char* message)
 
 #ifdef WWDEBUG
 
-    if (cDevOptions::SoundEffectOnAssert.Is_True() && WWAudioClass::Get_Instance() != NULL) {
+    if (cDevOptions::SoundEffectOnAssert.Is_True() && WWAudioClass::Get_Instance() != nullptr) {
         //
         // Sound effect
         //
@@ -354,7 +354,7 @@ public:
     {
         FileClass* file = BaseFactory->Get_File(filename);
         Debug_Say(("FILE_LOG : %s %s\n", filename,
-                   ((file == NULL || !file->Is_Available()) ? "MISSING" : "")));
+                   ((file == nullptr || !file->Is_Available()) ? "MISSING" : "")));
         return file;
     }
     void Set_Base_Factory(FileFactoryClass* factory) { BaseFactory = factory; }
@@ -401,13 +401,13 @@ void Construct_Directory_Structure(void)
     //	Lookup the path of the executable
     //
     char path[MAX_PATH] = { 0 };
-    ::GetModuleFileName(NULL, path, sizeof(path));
+    ::GetModuleFileName(nullptr, path, sizeof(path));
 
     //
     //	Strip off the filename
     //
     char* filename = ::strrchr(path, '\\');
-    if (filename != NULL) {
+    if (filename != nullptr) {
         filename[1] = 0;
     }
 
@@ -421,21 +421,21 @@ void Construct_Directory_Structure(void)
     //	Create the data directory if necessary
     //
     if (GetFileAttributes(data_dir) == 0xFFFFFFFF) {
-        ::CreateDirectory(data_dir, NULL);
+        ::CreateDirectory(data_dir, nullptr);
     }
 
     //
     //	Create the save directory if necessary
     //
     if (GetFileAttributes(save_dir) == 0xFFFFFFFF) {
-        ::CreateDirectory(save_dir, NULL);
+        ::CreateDirectory(save_dir, nullptr);
     }
 
     //
     //	Create the config directory if necessary
     //
     if (GetFileAttributes(config_dir) == 0xFFFFFFFF) {
-        ::CreateDirectory(config_dir, NULL);
+        ::CreateDirectory(config_dir, nullptr);
     }
 
     return;
@@ -447,13 +447,13 @@ static bool Verify_Log_Directory(const StringClass& folder)
         return true;
     }
     // HANDLE file;
-    // file = CreateFile(folder, 0, 0, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+    // file = CreateFile(folder, 0, 0, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
     // if (file!=INVALID_HANDLE_VALUE) {
     //	CloseHandle(file);
     //	return true;
     // }
 
-    if (CreateDirectory(folder, NULL)) {
+    if (CreateDirectory(folder, nullptr)) {
         return true;
     }
     if (GetLastError() == ERROR_ALREADY_EXISTS) {
@@ -474,7 +474,7 @@ static bool Create_Log_File_Name(const StringClass& folder, StringClass& filenam
         HANDLE file;
         filename.Format("%s\\%3.3d%s", folder, i, original);
         file
-            = CreateFile(filename, GENERIC_WRITE, 0, NULL, CREATE_NEW, FILE_ATTRIBUTE_NORMAL, NULL);
+            = CreateFile(filename, GENERIC_WRITE, 0, nullptr, CREATE_NEW, FILE_ATTRIBUTE_NORMAL, nullptr);
         if (file != INVALID_HANDLE_VALUE) {
             CloseHandle(file);
             return true;
@@ -493,14 +493,14 @@ static void Copy_Log(const StringClass& folder, const char* filename, bool use_n
             if (Create_Log_File_Name(folder, log_file_name, use_numbering)) {
                 DWORD written;
                 HANDLE file;
-                file = CreateFile(log_file_name, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS,
-                                  FILE_ATTRIBUTE_NORMAL, NULL);
+                file = CreateFile(log_file_name, GENERIC_WRITE, 0, nullptr, CREATE_ALWAYS,
+                                  FILE_ATTRIBUTE_NORMAL, nullptr);
                 if (INVALID_HANDLE_VALUE != file) {
                     raw_log_file.Open();
                     unsigned char* memory = new unsigned char[size];
                     raw_log_file.Read(memory, size);
                     raw_log_file.Close();
-                    WriteFile(file, memory, size, &written, NULL);
+                    WriteFile(file, memory, size, &written, nullptr);
                     delete[] memory;
                     CloseHandle(file);
                 }
@@ -715,7 +715,7 @@ bool Game_Init(void)
 
     // CRC_Check();
 
-    Get_Version_Number(NULL, NULL);
+    Get_Version_Number(nullptr, nullptr);
 
     // setup Writing Factory
     RenegadeWritingFileFactory.Set_Sub_Directory(DATA_SUBDIRECTORY);
@@ -744,7 +744,7 @@ bool Game_Init(void)
     //
     WIN32_FIND_DATA find_info = { 0 };
     BOOL keep_going = TRUE;
-    HANDLE file_find = NULL;
+    HANDLE file_find = nullptr;
     for (file_find = ::FindFirstFile("data\\*.mix", &find_info);
          (file_find != INVALID_HANDLE_VALUE) && keep_going;
          keep_going = ::FindNextFile(file_find, &find_info)) {
@@ -824,13 +824,13 @@ bool Game_Init(void)
     PathMgrClass::Initialize();
 
     // Initialize WW3D
-    switch (WW3D::Init(MainWindow, NULL, ConsoleBox.Is_Exclusive() ? true : false)) {
+    switch (WW3D::Init(MainWindow, nullptr, ConsoleBox.Is_Exclusive() ? true : false)) {
     case WW3D_ERROR_OK: // Success!
         break;
     case WW3D_ERROR_DIRECTX8_INITIALIZATION_FAILED:
     default:
         WWDEBUG_SAY(("WW3D::Init Failed!\r\n"));
-        ::MessageBox(NULL, "DirectX 8.0 or later is required to play C&C:Renegade.",
+        ::MessageBox(nullptr, "DirectX 8.0 or later is required to play C&C:Renegade.",
                      "Renegade Graphics Initialization Error.", MB_OK);
         return false;
     }
@@ -891,7 +891,7 @@ bool Game_Init(void)
     //
     TranslateDBClass::Initialize();
     FileClass* file = _TheFileFactory->Get_File(STRINGS_FILENAME);
-    if (file != NULL) {
+    if (file != nullptr) {
         file->Open(FileClass::READ); //	Open or the file
         if (file->Is_Available()) {
             ChunkLoadClass cload(file); // Load the database
@@ -922,7 +922,7 @@ bool Game_Init(void)
     //	Load the conversation database
     //
     file = _TheFileFactory->Get_File(CONV_DB_FILENAME);
-    if (file != NULL) {
+    if (file != nullptr) {
         file->Open(FileClass::READ); //	Open or the file
         if (file->Is_Available()) {
             ChunkLoadClass cload(file); // Load the database
@@ -1001,7 +1001,7 @@ bool Game_Init(void)
     // Note:  Accelerator tables that are loaded from resources (like
     // we are doing here) do not need to be manually freed.  Windows
     // will cleanup for us when the process terminates.
-    HACCEL haccel = ::LoadAccelerators(::GetModuleHandle(NULL), MAKEINTRESOURCE(IDR_ACCELERATOR));
+    HACCEL haccel = ::LoadAccelerators(::GetModuleHandle(nullptr), MAKEINTRESOURCE(IDR_ACCELERATOR));
     if (haccel) {
         ::Add_Accelerator(MainWindow, haccel);
     }
@@ -1103,10 +1103,10 @@ char* Build_Registry_Location_String(char* base, char* modifier, char* sub)
 {
     static char _whole_registry_string[1024];
 
-    WWASSERT(base != NULL);
-    WWASSERT(sub != NULL);
+    WWASSERT(base != nullptr);
+    WWASSERT(sub != nullptr);
 
-    if (modifier == NULL) {
+    if (modifier == nullptr) {
         modifier = DefaultRegistryModifier;
     }
 

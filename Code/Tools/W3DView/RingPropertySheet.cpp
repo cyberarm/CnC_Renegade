@@ -42,7 +42,7 @@ IMPLEMENT_DYNAMIC(RingPropertySheetClass, CPropertySheet)
 /////////////////////////////////////////////////////////////////////////////
 RingPropertySheetClass::RingPropertySheetClass(RingRenderObjClass* ring, UINT nIDCaption,
                                                CWnd* pParentWnd, UINT iSelectPage)
-    : m_RenderObj(NULL),
+    : m_RenderObj(nullptr),
       CPropertySheet(nIDCaption, pParentWnd, iSelectPage)
 {
     MEMBER_ADD(m_RenderObj, ring);
@@ -57,7 +57,7 @@ RingPropertySheetClass::RingPropertySheetClass(RingRenderObjClass* ring, UINT nI
 /////////////////////////////////////////////////////////////////////////////
 RingPropertySheetClass::RingPropertySheetClass(RingRenderObjClass* ring, LPCTSTR pszCaption,
                                                CWnd* pParentWnd, UINT iSelectPage)
-    : m_RenderObj(NULL),
+    : m_RenderObj(nullptr),
       CPropertySheet(pszCaption, pParentWnd, iSelectPage)
 {
     MEMBER_ADD(m_RenderObj, ring);
@@ -144,7 +144,7 @@ RingPropertySheetClass::WindowProc(UINT message, WPARAM wParam, LPARAM lParam)
 void RingPropertySheetClass::Add_Object_To_Viewer(void)
 {
     CW3DViewDoc* doc = ::GetCurrentDocument();
-    if ((doc != NULL) && (m_RenderObj != NULL)) {
+    if ((doc != nullptr) && (m_RenderObj != nullptr)) {
 
         //
         // Create a new prototype for this object
@@ -201,7 +201,7 @@ void RingPropertySheetClass::Update_Object(void)
 /////////////////////////////////////////////////////////////
 void RingPropertySheetClass::Initialize(void)
 {
-    if (m_RenderObj == NULL) {
+    if (m_RenderObj == nullptr) {
         Create_New_Object();
     }
     else {

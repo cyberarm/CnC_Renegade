@@ -65,7 +65,7 @@ BOOL PresetPropSheetClass::OnInitDialog(void)
     //
     ::CreateWindow("BUTTON", "OK && Propagate...", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON, 0, 0,
                    (button_rect.Width() * 3) / 2, button_rect.Height(), m_hWnd,
-                   (HMENU)IDC_PROPAGATE, ::AfxGetInstanceHandle(), NULL);
+                   (HMENU)IDC_PROPAGATE, ::AfxGetInstanceHandle(), nullptr);
     //
     //	Set the new button's font
     //
@@ -99,14 +99,14 @@ void PresetPropSheetClass::Reposition_Buttons(int cx, int cy)
     //	Reposition the OK and Cancel buttons
     //
     int first_width = ((button_rect.Width() * 3) / 2);
-    ::SetWindowPos(::GetDlgItem(m_hWnd, IDC_PROPAGATE), NULL, (cx - first_width) - BORDER_BUTTON_X,
+    ::SetWindowPos(::GetDlgItem(m_hWnd, IDC_PROPAGATE), nullptr, (cx - first_width) - BORDER_BUTTON_X,
                    (cy - button_rect.Height()) - BORDER_BUTTON_Y, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
 
-    ::SetWindowPos(::GetDlgItem(m_hWnd, IDCANCEL), NULL,
+    ::SetWindowPos(::GetDlgItem(m_hWnd, IDCANCEL), nullptr,
                    (cx - (button_rect.Width() + first_width)) - (BORDER_BUTTON_X * 3),
                    (cy - button_rect.Height()) - BORDER_BUTTON_Y, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
 
-    ::SetWindowPos(::GetDlgItem(m_hWnd, IDC_OK), NULL,
+    ::SetWindowPos(::GetDlgItem(m_hWnd, IDC_OK), nullptr,
                    (cx - ((button_rect.Width() * 2) + first_width)) - (BORDER_BUTTON_X * 4),
                    (cy - button_rect.Height()) - BORDER_BUTTON_Y, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
     return;

@@ -110,7 +110,7 @@ bool GameInitMgrClass::Is_Game_In_Progress(void)
 {
     GameModeClass* mode = GameModeManager::Find("Combat");
     // return (mode && mode->Is_Active());
-    return (mode != NULL && !mode->Is_Inactive());
+    return (mode != nullptr && !mode->Is_Inactive());
 }
 
 ////////////////////////////////////////////////////////////////
@@ -122,7 +122,7 @@ void GameInitMgrClass::Start_Game(const char* map_name, int teamChoice, unsigned
 {
     unsigned long time;
 
-    WWASSERT(map_name != NULL);
+    WWASSERT(map_name != nullptr);
     WWDEBUG_SAY(("GameInitMgrClass::Start_Game(%s)\n", map_name));
 
     // NOTE: Multi-play does not need this fix because it does not sound page swap.
@@ -157,7 +157,7 @@ void GameInitMgrClass::Start_Game(const char* map_name, int teamChoice, unsigned
     //	Set the map name
     //
     StringClass map(map_name, true);
-    WWASSERT(PTheGameData != NULL);
+    WWASSERT(PTheGameData != nullptr);
     The_Game()->Set_Map_Name(map);
 
     //
@@ -308,7 +308,7 @@ void GameInitMgrClass::End_Game(void)
     //
     // A dedicated server will disable sfx & music. Restore them here.
     //
-    if (WWAudioClass::Get_Instance() != NULL) {
+    if (WWAudioClass::Get_Instance() != nullptr) {
         if (RestoreSFX) {
             WWAudioClass::Get_Instance()->Allow_Sound_Effects(true);
         }
@@ -376,7 +376,7 @@ void GameInitMgrClass::End_Game(void)
 
     if (gameMode && gameMode->Is_Active()) {
         WolGameModeClass* wolGame = static_cast<WolGameModeClass*>(gameMode);
-        WWASSERT(wolGame != NULL);
+        WWASSERT(wolGame != nullptr);
         wolGame->Leave_Game();
     }
 
@@ -529,11 +529,11 @@ void GameInitMgrClass::Start_Client_Server(void)
 
     assert(GameModeManager::Find("WOL"));
     if (GameModeManager::Find("WOL")->Is_Active()) {
-        WWASSERT(PTheGameData != NULL);
+        WWASSERT(PTheGameData != nullptr);
         The_Game()->Set_Port(WOLNATInterface.Get_Port_As_Server());
     }
     else if (GameModeManager::Find("LAN")->Is_Active() && cGameSpyAdmin::Is_Gamespy_Game()) {
-        WWASSERT(PTheGameData != NULL);
+        WWASSERT(PTheGameData != nullptr);
         The_Game()->Set_Port(cUserOptions::GameSpyGamePort.Get());
     }
 
@@ -552,7 +552,7 @@ void GameInitMgrClass::Start_Client_Server(void)
         //
         // Dedicated server disables playing of sfx & music
         //
-        if ((IsClientRequired == false) && WWAudioClass::Get_Instance() != NULL) {
+        if ((IsClientRequired == false) && WWAudioClass::Get_Instance() != nullptr) {
 
             if (WWAudioClass::Get_Instance()->Are_Sound_Effects_On()) {
                 WWAudioClass::Get_Instance()->Allow_Sound_Effects(false);
@@ -662,9 +662,9 @@ void GameInitMgrClass::Initialize_SP(void)
     //
     //	Create the new game type
     //
-    WWASSERT(PTheGameData == NULL);
+    WWASSERT(PTheGameData == nullptr);
     PTheGameData = new cGameDataSinglePlayer;
-    WWASSERT(PTheGameData != NULL);
+    WWASSERT(PTheGameData != nullptr);
 
     //
     //	Remember our state
@@ -729,9 +729,9 @@ void GameInitMgrClass::Initialize_Skirmish(void)
     //
     //	Create the new game type
     //
-    WWASSERT(PTheGameData == NULL);
+    WWASSERT(PTheGameData == nullptr);
     PTheGameData = new cGameDataSkirmish;
-    WWASSERT(PTheGameData != NULL);
+    WWASSERT(PTheGameData != nullptr);
 
     //
     //	Remember our state
@@ -906,9 +906,9 @@ void GameInitMgrClass::Shutdown(void)
     //
     //	Free the old game data
     //
-    if (PTheGameData != NULL) {
+    if (PTheGameData != nullptr) {
         delete PTheGameData;
-        PTheGameData = NULL;
+        PTheGameData = nullptr;
     }
 
     //
@@ -970,7 +970,7 @@ void _reload_game_configuration_files(void)
     //	Reload the strings table
     TranslateDBClass::Initialize();
     FileClass* file = _TheFileFactory->Get_File("STRINGS.TDB");
-    if (file != NULL) {
+    if (file != nullptr) {
         file->Open(FileClass::READ); //	Open or the file
         if (file->Is_Available()) {
             ChunkLoadClass cload(file); // Load the database

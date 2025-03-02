@@ -423,9 +423,9 @@ const PersistFactoryClass& SakuraBossGameObjDef::Get_Factory(void) const
 //
 ///////////////////////////////////////////////////////////////////////////
 SakuraBossGameObj::SakuraBossGameObj(void)
-    : GattlingGun(NULL),
-      RockerLauncherLeft(NULL),
-      RockerLauncherRight(NULL),
+    : GattlingGun(nullptr),
+      RockerLauncherLeft(nullptr),
+      RockerLauncherRight(nullptr),
       AvailableWeapons(WEAPON_ALL),
       OverallState(STATE_ATTACK_LIFT_AREA),
       NextOverallState(STATE_ATTACK_LIFT_AREA),
@@ -443,7 +443,7 @@ SakuraBossGameObj::SakuraBossGameObj(void)
       CurrentHealth(1.0F),
       TargetAngle(0),
       IsAttacking(false),
-      Path(NULL),
+      Path(nullptr),
       ChopperTiltBoneIndex(0),
       TiltAngle(0),
       AvailableTaunts(0xFFFFFF)
@@ -503,9 +503,9 @@ void SakuraBossGameObj::Init(const SakuraBossGameObjDef& definition)
     //
     //	Initialize the defense for the left and right rocket launchers
     //
-    // Pass a NULL for the owner so we don't think we have killed Sakura too early
-    LeftRocketDefenseObject.Init(definition.RocketsDefense, NULL);
-    RightRocketDefenseObject.Init(definition.RocketsDefense, NULL);
+    // Pass a nullptr for the owner so we don't think we have killed Sakura too early
+    LeftRocketDefenseObject.Init(definition.RocketsDefense, nullptr);
+    RightRocketDefenseObject.Init(definition.RocketsDefense, nullptr);
 
     //
     //	Lookup the weapon definitions
@@ -518,7 +518,7 @@ void SakuraBossGameObj::Init(const SakuraBossGameObjDef& definition)
     //
     //	Create the gatling gun
     //
-    if (gatling_gun_def != NULL) {
+    if (gatling_gun_def != nullptr) {
         GattlingGun = new WeaponClass(gatling_gun_def);
         GattlingGun->Set_Owner(this);
         GattlingGun->Init_Muzzle_Flash(Peek_Physical_Object()->Peek_Model());
@@ -527,7 +527,7 @@ void SakuraBossGameObj::Init(const SakuraBossGameObjDef& definition)
     //
     //	Create the rocket launchers
     //
-    if (rocket_launcher_def != NULL) {
+    if (rocket_launcher_def != nullptr) {
         RockerLauncherLeft = new WeaponClass(rocket_launcher_def);
         RockerLauncherRight = new WeaponClass(rocket_launcher_def);
         RockerLauncherLeft->Set_Owner(this);
@@ -539,7 +539,7 @@ void SakuraBossGameObj::Init(const SakuraBossGameObjDef& definition)
     //
     //	Make sure we have an animation controller
     //
-    if (Get_Anim_Control() == NULL) {
+    if (Get_Anim_Control() == nullptr) {
         Set_Anim_Control(new SimpleAnimControlClass);
         Get_Anim_Control()->Set_Model(Peek_Model());
     }
@@ -606,7 +606,7 @@ bool SakuraBossGameObj::Save(ChunkSaveClass& csave)
     Save_Variables(csave);
     csave.End_Chunk();
 
-    if (Path != NULL) {
+    if (Path != nullptr) {
         csave.Begin_Chunk(CHUNKID_PATH);
         Path->Save(csave);
         csave.End_Chunk();
@@ -682,9 +682,9 @@ void SakuraBossGameObj::On_Post_Load(void)
     //
     //	Initialize the defense for the left and right rocket launchers
     //
-    // Pass a NULL for the owner so we don't think we have killed Sakura too early
-    // LeftRocketDefenseObject.Init (Get_Definition ().RocketsDefense, NULL);
-    // RightRocketDefenseObject.Init (Get_Definition ().RocketsDefense, NULL);
+    // Pass a nullptr for the owner so we don't think we have killed Sakura too early
+    // LeftRocketDefenseObject.Init (Get_Definition ().RocketsDefense, nullptr);
+    // RightRocketDefenseObject.Init (Get_Definition ().RocketsDefense, nullptr);
 
     //
     //	Lookup the weapon definitions
@@ -697,7 +697,7 @@ void SakuraBossGameObj::On_Post_Load(void)
     //
     //	Create the gatling gun
     //
-    if (gatling_gun_def != NULL) {
+    if (gatling_gun_def != nullptr) {
         GattlingGun = new WeaponClass(gatling_gun_def);
         GattlingGun->Set_Owner(this);
         GattlingGun->Init_Muzzle_Flash(Peek_Physical_Object()->Peek_Model());
@@ -706,7 +706,7 @@ void SakuraBossGameObj::On_Post_Load(void)
     //
     //	Create the rocket launchers
     //
-    if (rocket_launcher_def != NULL) {
+    if (rocket_launcher_def != nullptr) {
         RockerLauncherLeft = new WeaponClass(rocket_launcher_def);
         RockerLauncherRight = new WeaponClass(rocket_launcher_def);
         RockerLauncherLeft->Set_Owner(this);
@@ -831,7 +831,7 @@ void SakuraBossGameObj::Update_Decision_Data(void)
     //	Update our current health
     //
     DefenseObjectClass* defense_object = Get_Defense_Object();
-    if (defense_object != NULL) {
+    if (defense_object != nullptr) {
         CurrentHealth = defense_object->Get_Health() / defense_object->Get_Health_Max();
     }
 
@@ -848,7 +848,7 @@ void SakuraBossGameObj::Update_Decision_Data(void)
     //
     TargetAngle = 0;
     TargetPos.Set(0, 0, 0);
-    if (CurrentTarget != NULL) {
+    if (CurrentTarget != nullptr) {
 
         //
         //	Get the target's position
@@ -912,19 +912,19 @@ void SakuraBossGameObj::Think(void)
     //
     //	Update the weapons
     //
-    if (RockerLauncherLeft != NULL) {
+    if (RockerLauncherLeft != nullptr) {
         CurrentMuzzleIndex = ROCKET_LEFT;
         RockerLauncherLeft->Update();
         RockerLauncherLeft->Set_Total_Rounds(1000);
     }
 
-    if (RockerLauncherRight != NULL) {
+    if (RockerLauncherRight != nullptr) {
         CurrentMuzzleIndex = ROCKET_RIGHT;
         RockerLauncherRight->Update();
         RockerLauncherRight->Set_Total_Rounds(1000);
     }
 
-    if (GattlingGun != NULL) {
+    if (GattlingGun != nullptr) {
         GattlingGun->Update();
         GattlingGun->Set_Total_Rounds(1000);
     }
@@ -1187,7 +1187,7 @@ bool SakuraBossGameObj::Should_Change_Overall_State(void)
     if (OverallStateTimeLeft <= 0) {
         retval = true;
     }
-    else if (CurrentTarget != NULL) {
+    else if (CurrentTarget != nullptr) {
 
         switch (OverallState) {
         case STATE_CIRCLE_POWER_PLANT:
@@ -1340,11 +1340,11 @@ void SakuraBossGameObj::Update_Overall_State(void)
     switch (OverallState) {
     case STATE_CIRCLE_POWER_PLANT:
 
-        if (CurrentTarget != NULL) {
+        if (CurrentTarget != nullptr) {
             Pilot.Set_Circle_Pos(TargetPos);
         }
         else {
-            Pilot.Set_Target(NULL);
+            Pilot.Set_Target(nullptr);
         }
 
         //
@@ -1355,7 +1355,7 @@ void SakuraBossGameObj::Update_Overall_State(void)
 
     case STATE_CIRCLE_REFINERY:
 
-        if (CurrentTarget != NULL) {
+        if (CurrentTarget != nullptr) {
             Vector3 destination(-166.0F, 40.13F, 42.23F);
 
             bool target_player = true;
@@ -1428,7 +1428,7 @@ void SakuraBossGameObj::Update_Overall_State(void)
             }
         }
         else {
-            Pilot.Set_Target(NULL);
+            Pilot.Set_Target(nullptr);
         }
 
         break;
@@ -1467,7 +1467,7 @@ void SakuraBossGameObj::Update_Overall_State(void)
         //	Determine if we should start firing or not...
         // We should fire on the target if they are in front of us
         //
-        if (CurrentTarget != NULL) {
+        if (CurrentTarget != nullptr) {
 
             //
             //	Transform the target into our coordinate system.  Is the target in front of us?
@@ -1488,7 +1488,7 @@ void SakuraBossGameObj::Update_Overall_State(void)
             }
         }
         else {
-            Pilot.Set_Target(NULL);
+            Pilot.Set_Target(nullptr);
         }
 
         //
@@ -1520,7 +1520,7 @@ void SakuraBossGameObj::Update_Overall_State(void)
 
     case STATE_VALLEY_STRAFE:
 
-        if (CurrentTarget != NULL) {
+        if (CurrentTarget != nullptr) {
             Vector3 destination(-84.33F, 77.99F, 26.77F);
 
             if (TargetPos.Y < 42.0F) {
@@ -1562,18 +1562,18 @@ void SakuraBossGameObj::Update_Overall_State(void)
             }
         }
         else {
-            Pilot.Set_Target(NULL);
+            Pilot.Set_Target(nullptr);
         }
 
         break;
 
     case STATE_LAND_IN_TIBERIUM_FIELD: {
 
-        if (CurrentTarget != NULL) {
+        if (CurrentTarget != nullptr) {
             Pilot.Set_Target(&TargetPos);
         }
         else {
-            Pilot.Set_Target(NULL);
+            Pilot.Set_Target(nullptr);
         }
 
         //
@@ -1603,11 +1603,11 @@ void SakuraBossGameObj::Update_Overall_State(void)
         }
         else if (FaceTargetInTransition) {
 
-            if (CurrentTarget != NULL) {
+            if (CurrentTarget != nullptr) {
                 Pilot.Set_Target(&TargetPos);
             }
             else {
-                Pilot.Set_Target(NULL);
+                Pilot.Set_Target(nullptr);
             }
         }
 
@@ -1630,7 +1630,7 @@ void SakuraBossGameObj::Update_Tilt(void)
     //	Lookup the model we are going to tilt
     //
     RenderObjClass* model = Peek_Model();
-    WWASSERT(model != NULL);
+    WWASSERT(model != nullptr);
 
     if (ChopperTiltBoneIndex > 0) {
 
@@ -1651,7 +1651,7 @@ void SakuraBossGameObj::Update_Tilt(void)
             //	Determine how far we need to tile to look straight at the player
             //
             float target_angle = DEG_TO_RADF(25.0F);
-            if (CurrentTarget != NULL) {
+            if (CurrentTarget != nullptr) {
 
                 //
                 //	Get the target's position relative to ours
@@ -1737,7 +1737,7 @@ void SakuraBossGameObj::Attack_Target(float rocket_priority, float gattling_prio
     //
     //	Don't attack if we don't have a target, or we are already attacking
     //
-    if (CurrentTarget == NULL || IsAttacking || SakuraState != SAKURA_STATE_NORMAL) {
+    if (CurrentTarget == nullptr || IsAttacking || SakuraState != SAKURA_STATE_NORMAL) {
         return;
     }
 
@@ -1929,15 +1929,15 @@ void SakuraBossGameObj::Set_Sakura_State(int new_state)
             //	Lookup the conversation for this taunt
             //
             ConversationClass* conv = ConversationMgrClass::Find_Conversation(TAUNT_IDS[taunt_id]);
-            if (conv != NULL) {
+            if (conv != nullptr) {
                 ActiveConversationClass* taunt_conversation
                     = ConversationMgrClass::Create_New_Conversation(conv);
-                if (taunt_conversation != NULL) {
+                if (taunt_conversation != nullptr) {
 
                     //
                     //	Add Sakura and the player to the list
                     //
-                    taunt_conversation->Add_Orator(NULL);
+                    taunt_conversation->Add_Orator(nullptr);
                     OratorClass* orator = taunt_conversation->Add_Orator(COMBAT_STAR);
                     orator->Set_Flag(OratorClass::FLAG_DONT_MOVE, true);
                     orator->Set_Flag(OratorClass::FLAG_DONT_TURN_HEAD, false);
@@ -2033,7 +2033,7 @@ void SakuraBossGameObj::Set_Gattling_Gun_State(int new_state)
         case GATLING_STATE_REVVING_UP: {
             AudibleSoundClass* sound = WWAudioClass::Get_Instance()->Create_Sound(
                 Get_Definition().GattlingGunRevSoundDefID);
-            if (sound != NULL) {
+            if (sound != nullptr) {
 
                 //
                 // We will continue to 'rev' the gatling gun until the sound ends
@@ -2058,7 +2058,7 @@ void SakuraBossGameObj::Set_Gattling_Gun_State(int new_state)
             //	Pick a random amount of time to fire at the player
             //
             GattlingGunStateTimeLeft = WWMath::Random_Float(5.0F, 10.0F);
-            if (GattlingGun != NULL) {
+            if (GattlingGun != nullptr) {
 
                 //
                 //	Start firing the gatling gun at the player
@@ -2103,7 +2103,7 @@ void SakuraBossGameObj::Update_Gattling_Gun_State(void)
         //	Target the player
         //
         ScriptableGameObj* target = CurrentTarget.Get_Ptr();
-        if (target != NULL) {
+        if (target != nullptr) {
             Set_Targeting(TargetPos, true);
         }
 
@@ -2165,7 +2165,7 @@ void SakuraBossGameObj::Set_Rocket_State(int new_state)
             //
             //	Stop firing
             //
-            if (RockerLauncherLeft != NULL && RockerLauncherRight != NULL) {
+            if (RockerLauncherLeft != nullptr && RockerLauncherRight != nullptr) {
                 RockerLauncherLeft->Set_Primary_Triggered(false);
                 RockerLauncherRight->Set_Primary_Triggered(false);
             }
@@ -2176,7 +2176,7 @@ void SakuraBossGameObj::Set_Rocket_State(int new_state)
             //	Pick a random amount of time to fire at the player
             //
             RocketLauncherStateTimeLeft = WWMath::Random_Float(2.0F, 6.0F);
-            if (RockerLauncherLeft != NULL && RockerLauncherRight != NULL) {
+            if (RockerLauncherLeft != nullptr && RockerLauncherRight != nullptr) {
 
                 RockerLauncherLeft->Set_Target(TargetPos);
                 RockerLauncherRight->Set_Target(TargetPos);
@@ -2221,7 +2221,7 @@ void SakuraBossGameObj::Update_Rocket_State(void)
         //	Are the rocket launcher doors completely open?
         //
         AnimControlClass* anim_control = Get_Anim_Control();
-        if (anim_control != NULL && anim_control->Get_Current_Frame() == ROCKETS_OUT_FRAME_NUM) {
+        if (anim_control != nullptr && anim_control->Get_Current_Frame() == ROCKETS_OUT_FRAME_NUM) {
             Set_Rocket_State(ROCKET_STATE_OPEN);
         }
     } break;
@@ -2231,7 +2231,7 @@ void SakuraBossGameObj::Update_Rocket_State(void)
         //	Are the rocket launcher doors completely closed?
         //
         AnimControlClass* anim_control = Get_Anim_Control();
-        if (anim_control != NULL && anim_control->Get_Current_Frame() == ROCKETS_IN_FRAME_NUM) {
+        if (anim_control != nullptr && anim_control->Get_Current_Frame() == ROCKETS_IN_FRAME_NUM) {
             Set_Rocket_State(ROCKET_STATE_CLOSED);
         }
     } break;
@@ -2292,9 +2292,9 @@ void SakuraBossGameObj::Apply_Damage_Extended(const OffenseObjectClass& damager,
     // apply the damage to the rocket (not the whole vehicle)
     //
     bool damaged_rockets = false;
-    if (RocketLauncherState != ROCKET_STATE_CLOSED && collision_box_name != NULL) {
+    if (RocketLauncherState != ROCKET_STATE_CLOSED && collision_box_name != nullptr) {
 
-        if (::strstr(collision_box_name, LEFT_ROCKET_MESH) != NULL) {
+        if (::strstr(collision_box_name, LEFT_ROCKET_MESH) != nullptr) {
             damaged_rockets = true;
 
             //
@@ -2305,7 +2305,7 @@ void SakuraBossGameObj::Apply_Damage_Extended(const OffenseObjectClass& damager,
                 Blow_Off_Weapon(WEAPON_ROCKETS_LEFT);
             }
         }
-        else if (::strstr(collision_box_name, RIGHT_ROCKET_MESH) != NULL) {
+        else if (::strstr(collision_box_name, RIGHT_ROCKET_MESH) != nullptr) {
             damaged_rockets = true;
 
             //
@@ -2355,12 +2355,12 @@ void SakuraBossGameObj::Blow_Off_Weapon(int weapon_id)
     //
     //	Create an explosion
     //
-    ExplosionManager::Create_Explosion_At(Get_Definition().RocketDestroyedExplosionID, tm, NULL);
+    ExplosionManager::Create_Explosion_At(Get_Definition().RocketDestroyedExplosionID, tm, nullptr);
 
     //
     //	Find the rocket launcher model
     //
-    RenderObjClass* weapon_model = NULL;
+    RenderObjClass* weapon_model = nullptr;
     if (weapon_id == WEAPON_ROCKETS_LEFT) {
         weapon_model = Peek_Model()->Get_Sub_Object_By_Name(LEFT_ROCKET_MESH);
     }
@@ -2371,7 +2371,7 @@ void SakuraBossGameObj::Blow_Off_Weapon(int weapon_id)
     //
     //	Remove the destroyed rocket launcher model from the apache
     //
-    if (weapon_model != NULL) {
+    if (weapon_model != nullptr) {
         Peek_Model()->Remove_Sub_Object(weapon_model);
         REF_PTR_RELEASE(weapon_model);
     }
@@ -2380,7 +2380,7 @@ void SakuraBossGameObj::Blow_Off_Weapon(int weapon_id)
     //	'Shake' the vehicle
     //
     PhysClass* phys_obj = Peek_Physical_Object();
-    if (phys_obj != NULL && phys_obj->As_RigidBodyClass() != NULL) {
+    if (phys_obj != nullptr && phys_obj->As_RigidBodyClass() != nullptr) {
         RigidBodyClass* rigid_body = phys_obj->As_RigidBodyClass();
 
         Vector3 center = Get_Transform().Get_Translation();
@@ -2435,7 +2435,7 @@ void SakuraBossGameObj::Blow_Off_Weapon(int weapon_id)
 void SakuraBossGameObj::Open_Rocket_Launchers(bool onoff)
 {
     AnimControlClass* anim_control = Get_Anim_Control();
-    if (anim_control != NULL) {
+    if (anim_control != nullptr) {
 
         //
         //	Set the rocket-door animation
@@ -2461,7 +2461,7 @@ bool SakuraBossGameObj::Are_Rocker_Launchers_Ready(void)
     //	Rocket launchers are ready if the animation has been played to end
     //
     AnimControlClass* anim_control = Get_Anim_Control();
-    if (anim_control != NULL) {
+    if (anim_control != nullptr) {
         retval = (anim_control->Get_Current_Frame() == ROCKETS_OUT_FRAME_NUM);
     }
 
@@ -2497,7 +2497,7 @@ const Matrix3D& SakuraBossGameObj::Get_Muzzle(int /*index*/)
     CurrentMuzzleTM = Get_Transform();
 
     RenderObjClass* model = Peek_Model();
-    if (model != NULL) {
+    if (model != nullptr) {
 
         if (GattlingGunState == GATLING_STATE_FIRING) {
 
@@ -2557,7 +2557,7 @@ void SakuraBossGameObj::Update_Target(void)
         //
         //	Choose either the closest commando or the last person to damage us
         //
-        if (FreeRandom.Get_Int(2) == 0 && LastDamager != NULL) {
+        if (FreeRandom.Get_Int(2) == 0 && LastDamager != nullptr) {
             CurrentTarget = LastDamager;
         }
         else {
@@ -2569,7 +2569,7 @@ void SakuraBossGameObj::Update_Target(void)
         //
         TargetTimeLeft = WWMath::Random_Float(5.0F, 20.0F);
     }
-    else if (CurrentTarget == NULL) {
+    else if (CurrentTarget == nullptr) {
         TargetTimeLeft = TargetTimeLeft * 0.25F;
     }
 
@@ -2583,7 +2583,7 @@ void SakuraBossGameObj::Update_Target(void)
 ///////////////////////////////////////////////////////////////////////////
 SoldierGameObj* SakuraBossGameObj::Find_Closest_Human_Player(void)
 {
-    SoldierGameObj* closest_human_player = NULL;
+    SoldierGameObj* closest_human_player = nullptr;
     float closest_distance = 9999.0F;
 
     //
@@ -2607,12 +2607,12 @@ SoldierGameObj* SakuraBossGameObj::Find_Closest_Human_Player(void)
     //
     NonRefPhysListIterator it(&objs_in_valley);
     for (it.First(); !it.Is_Done(); it.Next()) {
-        PhysicalGameObj* gameobj = NULL;
+        PhysicalGameObj* gameobj = nullptr;
 
         //
         //	Get the game object from this physics object
         //
-        if (it.Peek_Obj()->Get_Observer() != NULL) {
+        if (it.Peek_Obj()->Get_Observer() != nullptr) {
             gameobj
                 = ((CombatPhysObserverClass*)it.Peek_Obj()->Get_Observer())->As_PhysicalGameObj();
         }
@@ -2620,9 +2620,9 @@ SoldierGameObj* SakuraBossGameObj::Find_Closest_Human_Player(void)
         //
         //	Check to see if this is a commando game object
         //
-        if (gameobj != NULL) {
+        if (gameobj != nullptr) {
             SoldierGameObj* soldier = gameobj->As_SoldierGameObj();
-            if (soldier != NULL && soldier->Is_Human_Controlled()) {
+            if (soldier != nullptr && soldier->Is_Human_Controlled()) {
 
                 Vector3 position;
                 soldier->Get_Position(&position);
@@ -2650,7 +2650,7 @@ SoldierGameObj* SakuraBossGameObj::Find_Closest_Human_Player(void)
 void SakuraBossGameObj::Do_Waypath(int waypath_id, int start_id, int end_id)
 {
     WaypathClass* waypath = PathfindClass::Get_Instance()->Find_Waypath(waypath_id);
-    if (waypath != NULL) {
+    if (waypath != nullptr) {
 
         //
         //	Initialize our pathfind object with the waypath

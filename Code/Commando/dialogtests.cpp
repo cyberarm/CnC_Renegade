@@ -95,7 +95,7 @@
 ////////////////////////////////////////////////////////////////
 //	Static member initialization
 ////////////////////////////////////////////////////////////////
-QuitVerificationDialogClass* QuitVerificationDialogClass::_TheInstance = NULL;
+QuitVerificationDialogClass* QuitVerificationDialogClass::_TheInstance = nullptr;
 bool SplashIntroMenuDialogClass::IsComplete = false;
 
 ////////////////////////////////////////////////////////////////
@@ -141,7 +141,7 @@ void SplashIntroMenuDialogClass::On_Init_Dialog(void)
     //
     // Configure the image
     //
-    if (Get_Dlg_Item(IDC_IMAGE_CTRL) != NULL) {
+    if (Get_Dlg_Item(IDC_IMAGE_CTRL) != nullptr) {
         ((ImageCtrlClass*)Get_Dlg_Item(IDC_IMAGE_CTRL))->Set_Texture("multisplash01.tga");
     }
 
@@ -222,7 +222,7 @@ void SplashOutroMenuDialogClass::On_Init_Dialog(void)
     //
     // Configure the image
     //
-    if (Get_Dlg_Item(IDC_IMAGE_CTRL) != NULL) {
+    if (Get_Dlg_Item(IDC_IMAGE_CTRL) != nullptr) {
         ((ImageCtrlClass*)Get_Dlg_Item(IDC_IMAGE_CTRL))->Set_Texture("multisplash02.tga");
     }
 
@@ -267,16 +267,16 @@ void SplashOutroMenuDialogClass::On_Command(int ctrl_id, int mesage_id, DWORD pa
 {
     switch (ctrl_id) {
     case IDC_BUY_RENEGADE:
-        ::ShellExecute(NULL, "open",
+        ::ShellExecute(nullptr, "open",
                        "http://www.ea.com/"
                        "storeEntry.jsp?sDestinationURL=DETAIL&sSku=14180W&sEntryPoint=EXPSITE",
-                       NULL, NULL, SW_SHOW);
+                       nullptr, nullptr, SW_SHOW);
         Stop_Main_Loop(EXIT_SUCCESS);
         break;
 
     case IDC_VISIT_WEB_BUTTON:
-        ::ShellExecute(NULL, "open", "http://www.westwood.com/games/ccuniverse/renegade", NULL,
-                       NULL, SW_SHOW);
+        ::ShellExecute(nullptr, "open", "http://www.westwood.com/games/ccuniverse/renegade", nullptr,
+                       nullptr, SW_SHOW);
         Stop_Main_Loop(EXIT_SUCCESS);
         break;
 
@@ -316,7 +316,7 @@ QuitVerificationDialogClass::QuitVerificationDialogClass(void)
 ////////////////////////////////////////////////////////////////
 QuitVerificationDialogClass::~QuitVerificationDialogClass(void)
 {
-    _TheInstance = NULL;
+    _TheInstance = nullptr;
     return;
 }
 
@@ -324,7 +324,7 @@ QuitVerificationDialogClass::~QuitVerificationDialogClass(void)
 ////////////////////////////////////////////////////////////////
 //	Static member initialization
 ////////////////////////////////////////////////////////////////
-GameSpyMainDialogClass* GameSpyMainDialogClass::_TheInstance = NULL;
+GameSpyMainDialogClass* GameSpyMainDialogClass::_TheInstance = nullptr;
 bool GameSpyMainDialogClass::DetectingBandwidth = false;
 
 ////////////////////////////////////////////////////////////////
@@ -361,7 +361,7 @@ GameSpyMainDialogClass::GameSpyMainDialogClass(void)
 ////////////////////////////////////////////////////////////////
 GameSpyMainDialogClass::~GameSpyMainDialogClass(void)
 {
-    _TheInstance = NULL;
+    _TheInstance = nullptr;
     cGameSpyAdmin::Set_Is_Under_Gamespy_Menuing(false);
     return;
 }
@@ -378,7 +378,7 @@ void GameSpyMainDialogClass::On_Init_Dialog(void)
     //
     // Init the gamespy logo
     //
-    if (Get_Dlg_Item(IDC_GAMESPY_ICON) != NULL) {
+    if (Get_Dlg_Item(IDC_GAMESPY_ICON) != nullptr) {
         ((ImageCtrlClass*)Get_Dlg_Item(IDC_GAMESPY_ICON))->Set_Texture("GAMESPYLOGO.TGA");
     }
 }
@@ -487,7 +487,7 @@ void GameSpyMainDialogClass::Host_Game(void)
     //	Create the new game data
     //
     PTheGameData = cGameData::Create_Game_Of_Type(cGameData::GAME_TYPE_CNC);
-    WWASSERT(PTheGameData != NULL);
+    WWASSERT(PTheGameData != nullptr);
 
     The_Game()->Load_From_Server_Config();
 
@@ -510,7 +510,7 @@ void GameSpyMainDialogClass::Host_Game(void)
 ////////////////////////////////////////////////////////////////
 //	Static member initialization
 ////////////////////////////////////////////////////////////////
-GameSpyOptionsDialogClass* GameSpyOptionsDialogClass::_TheInstance = NULL;
+GameSpyOptionsDialogClass* GameSpyOptionsDialogClass::_TheInstance = nullptr;
 
 ////////////////////////////////////////////////////////////////
 //
@@ -531,7 +531,7 @@ GameSpyOptionsDialogClass::GameSpyOptionsDialogClass(void)
 ////////////////////////////////////////////////////////////////
 GameSpyOptionsDialogClass::~GameSpyOptionsDialogClass(void)
 {
-    _TheInstance = NULL;
+    _TheInstance = nullptr;
     return;
 }
 
@@ -548,7 +548,7 @@ void GameSpyOptionsDialogClass::On_Init_Dialog(void)
     //	Put the nickname into the nickname edit control
     //
     EditCtrlClass* name_edit = (EditCtrlClass*)Get_Dlg_Item(IDC_NICKNAME_EDIT);
-    WWASSERT(name_edit != NULL);
+    WWASSERT(name_edit != nullptr);
     name_edit->Set_Text_Limit(30);
     name_edit->Set_Text(cNetInterface::Get_Nickname());
 
@@ -621,7 +621,7 @@ void GameSpyOptionsDialogClass::On_Command(int ctrl_id, int mesage_id, DWORD par
         // Save the settings
         //
         /*			ComboBoxCtrlClass* connectCombo =
-           (ComboBoxCtrlClass*)Get_Dlg_Item(IDC_CONNECTION_SPEED_COMBO); if (connectCombo != NULL) {
+           (ComboBoxCtrlClass*)Get_Dlg_Item(IDC_CONNECTION_SPEED_COMBO); if (connectCombo != nullptr) {
                                         int selection = connectCombo->Get_Curr_Sel();
 
                                         if (selection >= 0) {
@@ -663,7 +663,7 @@ void GameSpyOptionsDialogClass::On_Command(int ctrl_id, int mesage_id, DWORD par
 ////////////////////////////////////////////////////////////////
 //	Static member initialization
 ////////////////////////////////////////////////////////////////
-InternetMainDialogClass* InternetMainDialogClass::_TheInstance = NULL;
+InternetMainDialogClass* InternetMainDialogClass::_TheInstance = nullptr;
 
 ////////////////////////////////////////////////////////////////
 //
@@ -685,7 +685,7 @@ InternetMainDialogClass::InternetMainDialogClass(void)
 ////////////////////////////////////////////////////////////////
 InternetMainDialogClass::~InternetMainDialogClass(void)
 {
-    _TheInstance = NULL;
+    _TheInstance = nullptr;
     return;
 }
 
@@ -778,7 +778,7 @@ void MPLanMenuClass::On_Init_Dialog(void)
     GameInitMgrClass::Initialize_LAN();
 
     DialogControlClass* edit_ctrl = Get_Dlg_Item(IDC_NICKNAME_EDIT);
-    if (edit_ctrl != NULL) {
+    if (edit_ctrl != nullptr) {
 
         //
         //	Set the text of the nick name control
@@ -821,7 +821,7 @@ void MPLanMenuClass::On_Command(int ctrl_id, int mesage_id, DWORD param)
     case IDC_MENU_MP_START_SERVER_BUTTON:
     case IDC_MENU_MP_JOIN_GAME_BUTTON: {
         DialogControlClass* edit_ctrl = Get_Dlg_Item(IDC_NICKNAME_EDIT);
-        if (edit_ctrl != NULL) {
+        if (edit_ctrl != nullptr) {
 
             //
             //	Pass the nickname onto the network interface
@@ -874,7 +874,7 @@ Add_Folders (const char *path, TreeCtrlClass *tree_ctrl, TreeItemClass *parent_i
 {
         WIN32_FIND_DATA find_info	= { 0 };
         BOOL keep_going				= TRUE;
-        HANDLE file_find				= NULL;
+        HANDLE file_find				= nullptr;
 
         StringClass full_path = path;
         full_path += "\\*.*";
@@ -922,7 +922,7 @@ void StartSPGameDialogClass::On_Init_Dialog(void)
     // TreeCtrlClass *tree_ctrl = (TreeCtrlClass *)Get_Dlg_Item (IDC_TREE_CTRL);
 
     //_level = 0;
-    // Add_Folders ("c:", tree_ctrl, NULL);
+    // Add_Folders ("c:", tree_ctrl, nullptr);
 
     MenuDialogClass::On_Init_Dialog();
     return;
@@ -937,14 +937,14 @@ void StartSPGameDialogClass::On_Init_Dialog(void)
 StartSPGameDialogClass::On_TreeCtrl_Needs_Children (TreeCtrlClass *tree_ctrl, int ctrl_id,
 TreeItemClass *parent_item)
 {
-        if (parent_item == NULL) {
+        if (parent_item == nullptr) {
                 return ;
         }
 
         WideStringClass full_path = parent_item->Get_Name ();
 
         TreeItemClass *curr_parent = parent_item;
-        while ((curr_parent = curr_parent->Get_Parent ()) != NULL) {
+        while ((curr_parent = curr_parent->Get_Parent ()) != nullptr) {
                 WideStringClass temp_path = curr_parent->Get_Name ();
                 temp_path += L"\\";
                 temp_path += full_path;
@@ -1125,7 +1125,7 @@ void MPJoinMenuClass::On_Init_Dialog(void)
 #if (1)
     assert(!"NEW_WWONLINE: Denzil look here!");
 #else
-    if (WolGameModeClass::PWolChat != NULL) {
+    if (WolGameModeClass::PWolChat != nullptr) {
         WolGameModeClass::PWolChat->Go_To_GameList();
     }
 #endif
@@ -1134,7 +1134,7 @@ void MPJoinMenuClass::On_Init_Dialog(void)
     //	Get a pointer to the list control
     //
     ListCtrlClass* list_ctrl = (ListCtrlClass*)Get_Dlg_Item(IDC_GAME_LIST);
-    if (list_ctrl != NULL) {
+    if (list_ctrl != nullptr) {
 
         //
         //	Configure the columns
@@ -1163,16 +1163,16 @@ void MPJoinMenuClass::On_Command(int ctrl_id, int message_id, DWORD param)
         int index = list_ctrl->Get_Curr_Sel();
         if (index >= 0) {
             cGameChannel* channel = (cGameChannel*)list_ctrl->Get_Entry_Data(index, 0);
-            if (channel != NULL) {
+            if (channel != nullptr) {
 
-                if (PTheGameData != NULL) {
+                if (PTheGameData != nullptr) {
                     delete PTheGameData;
-                    PTheGameData = NULL;
+                    PTheGameData = nullptr;
                 }
 
                 PTheGameData
                     = cGameData::Create_Game_Of_Type(channel->Get_Game_Data()->Get_Game_Type());
-                WWASSERT(PTheGameData != NULL);
+                WWASSERT(PTheGameData != nullptr);
                 *PTheGameData = *channel->Get_Game_Data();
 
                 cNetwork::Init_Client();
@@ -1219,7 +1219,7 @@ void MPJoinMenuClass::On_Frame_Update(void)
 void MPJoinMenuClass::Update_Game_List(void)
 {
     ListCtrlClass* list_ctrl = (ListCtrlClass*)Get_Dlg_Item(IDC_GAME_LIST);
-    if (list_ctrl == NULL) {
+    if (list_ctrl == nullptr) {
         return;
     }
 
@@ -1246,10 +1246,10 @@ void MPJoinMenuClass::Update_Game_List(void)
     SLNode<cGameChannel>* objnode;
     for (objnode = cGameChannelList::Get_Chan_List()->Head(); objnode; objnode = objnode->Next()) {
         cGameChannel* p_channel = objnode->Data();
-        WWASSERT(p_channel != NULL);
+        WWASSERT(p_channel != nullptr);
 
         if (GameModeManager::Find("WOL")->Is_Active()) {
-            WWASSERT(p_channel->Get_Wol_Channel() != NULL);
+            WWASSERT(p_channel->Get_Wol_Channel() != nullptr);
             p_channel->Get_Game_Data()->Set_Current_Players(
                 p_channel->Get_Wol_Channel()->currentUsers);
         }
@@ -1444,7 +1444,7 @@ void DeathOptionsPopupClass::On_Init_Dialog(void)
     //	Activate the menu game mode (if necessary)
     //
     GameModeClass* menu_game_mode = GameModeManager::Find("Menu");
-    if (menu_game_mode != NULL && menu_game_mode->Is_Active() == false) {
+    if (menu_game_mode != nullptr && menu_game_mode->Is_Active() == false) {
         menu_game_mode->Activate();
     }
     GameModeManager::Find("Combat")->Suspend();
@@ -1508,7 +1508,7 @@ void FailedOptionsPopupClass::On_Init_Dialog(void)
     //	Activate the menu game mode (if necessary)
     //
     GameModeClass* menu_game_mode = GameModeManager::Find("Menu");
-    if (menu_game_mode != NULL && menu_game_mode->Is_Active() == false) {
+    if (menu_game_mode != nullptr && menu_game_mode->Is_Active() == false) {
         menu_game_mode->Activate();
     }
     GameModeManager::Find("Combat")->Suspend();
@@ -1582,7 +1582,7 @@ EditWheeledVehicleDialogClass::~EditWheeledVehicleDialogClass(void)
 
 void EditWheeledVehicleDialogClass::On_Init_Dialog(void)
 {
-    if (VehicleDef != NULL) {
+    if (VehicleDef != nullptr) {
 
         Set_Dlg_Item_Float(IDC_MASS_EDIT, VehicleDef->Get_Mass());
         Set_Dlg_Item_Float(IDC_GRAVSCALE_EDIT, VehicleDef->Get_Grav_Scale());
@@ -1636,7 +1636,7 @@ void EditWheeledVehicleDialogClass::On_Command(int ctrl_id, int message_id, DWOR
 {
     switch (ctrl_id) {
     case IDOK:
-        if (VehicleDef != NULL) {
+        if (VehicleDef != nullptr) {
             VehicleDef->Set_Mass(Get_Dlg_Item_Float(IDC_MASS_EDIT));
             VehicleDef->Set_Grav_Scale(Get_Dlg_Item_Float(IDC_GRAVSCALE_EDIT));
             VehicleDef->Set_Aerodynamic_Drag(Get_Dlg_Item_Float(IDC_AERODRAG_EDIT));
@@ -1661,7 +1661,7 @@ void EditWheeledVehicleDialogClass::On_Command(int ctrl_id, int message_id, DWOR
             if (pscene) {
                 RefPhysListIterator iterator = pscene->Get_Dynamic_Object_Iterator();
                 while (!iterator.Is_Done()) {
-                    if ((iterator.Peek_Obj() != NULL)
+                    if ((iterator.Peek_Obj() != nullptr)
                         && (iterator.Peek_Obj()->Get_Definition() == VehicleDef)) {
                         iterator.Peek_Obj()->Definition_Changed();
                     }
@@ -1697,7 +1697,7 @@ EditTrackedVehicleDialogClass::~EditTrackedVehicleDialogClass(void)
 
 void EditTrackedVehicleDialogClass::On_Init_Dialog(void)
 {
-    if (VehicleDef != NULL) {
+    if (VehicleDef != nullptr) {
 
         Set_Dlg_Item_Float(IDC_MASS_EDIT, VehicleDef->Get_Mass());
         Set_Dlg_Item_Float(IDC_GRAVSCALE_EDIT, VehicleDef->Get_Grav_Scale());
@@ -1728,7 +1728,7 @@ void EditTrackedVehicleDialogClass::On_Command(int ctrl_id, int message_id, DWOR
 {
     switch (ctrl_id) {
     case IDOK:
-        if (VehicleDef != NULL) {
+        if (VehicleDef != nullptr) {
             VehicleDef->Set_Mass(Get_Dlg_Item_Float(IDC_MASS_EDIT));
             VehicleDef->Set_Grav_Scale(Get_Dlg_Item_Float(IDC_GRAVSCALE_EDIT));
             VehicleDef->Set_Aerodynamic_Drag(Get_Dlg_Item_Float(IDC_AERODRAG_EDIT));
@@ -1747,7 +1747,7 @@ void EditTrackedVehicleDialogClass::On_Command(int ctrl_id, int message_id, DWOR
             if (pscene) {
                 RefPhysListIterator iterator = pscene->Get_Dynamic_Object_Iterator();
                 while (!iterator.Is_Done()) {
-                    if ((iterator.Peek_Obj() != NULL)
+                    if ((iterator.Peek_Obj() != nullptr)
                         && (iterator.Peek_Obj()->Get_Definition() == VehicleDef)) {
                         iterator.Peek_Obj()->Definition_Changed();
                     }

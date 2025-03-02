@@ -73,8 +73,8 @@ enum
 //
 //////////////////////////////////////////////////////////////////////////////
 SpawnPointNodeClass::SpawnPointNodeClass(PresetClass* preset)
-    : PhysObj(NULL),
-      SpawnerNode(NULL),
+    : PhysObj(nullptr),
+      SpawnerNode(nullptr),
       NodeClass(preset)
 {
     return;
@@ -86,9 +86,9 @@ SpawnPointNodeClass::SpawnPointNodeClass(PresetClass* preset)
 //
 //////////////////////////////////////////////////////////////////////////////
 SpawnPointNodeClass::SpawnPointNodeClass(const SpawnPointNodeClass& src)
-    : PhysObj(NULL),
-      SpawnerNode(NULL),
-      NodeClass(NULL)
+    : PhysObj(nullptr),
+      SpawnerNode(nullptr),
+      NodeClass(nullptr)
 {
     *this = src;
     return;
@@ -122,8 +122,8 @@ void SpawnPointNodeClass::Initialize(void)
     //	Create the spawn-point render object
     //
     RenderObjClass* render_obj = SpawnerNode->Get_Spawned_Model();
-    WWASSERT(render_obj != NULL);
-    if (render_obj != NULL) {
+    WWASSERT(render_obj != nullptr);
+    if (render_obj != nullptr) {
 
         // Create the new physics object
         PhysObj = new DecorationPhysClass;
@@ -240,7 +240,7 @@ void SpawnPointNodeClass::Pre_Export(void)
     // saved during the export.
     //
     Add_Ref();
-    if (PhysObj != NULL && m_IsInScene) {
+    if (PhysObj != nullptr && m_IsInScene) {
         ::Get_Scene_Editor()->Remove_Object(PhysObj);
     }
 
@@ -257,7 +257,7 @@ void SpawnPointNodeClass::Post_Export(void)
     //
     //	Put ourselves back into the system
     //
-    if (PhysObj != NULL && m_IsInScene) {
+    if (PhysObj != nullptr && m_IsInScene) {
         ::Get_Scene_Editor()->Add_Dynamic_Object(PhysObj);
     }
 

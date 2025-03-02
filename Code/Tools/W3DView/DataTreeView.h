@@ -105,7 +105,7 @@ public:
     //
     //	Display methods
     //
-    void Display_Asset(HTREEITEM htree_item = NULL);
+    void Display_Asset(HTREEITEM htree_item = nullptr);
     void Select_Next(void);
     void Select_Prev(void);
     void Reload_Lightmap_Models(void);

@@ -124,9 +124,9 @@ bool INIClass::KeepBlankEntries = false;
 INIEntry::~INIEntry(void)
 {
     free(Entry);
-    Entry = NULL;
+    Entry = nullptr;
     free(Value);
-    Value = NULL;
+    Value = nullptr;
 }
 
 INISection::~INISection(void)
@@ -245,7 +245,7 @@ INIClass::~INIClass(void)
  *    then the entire INI data is cleared out. Optionally, this routine can be used to clear   *
  *    out just an individual entry in the specified section.                                   *
  *                                                                                             *
- * INPUT:   section  -- Pointer to the section to clear out [pass NULL to clear all].          *
+ * INPUT:   section  -- Pointer to the section to clear out [pass nullptr to clear all].          *
  *                                                                                             *
  *          entry    -- Pointer to optional entry specifier. If this parameter is specified,   *
  *                      then only this specific entry (if found) will be cleared. Otherwise,   *
@@ -262,7 +262,7 @@ INIClass::~INIClass(void)
  *=============================================================================================*/
 bool INIClass::Clear(char const* section, char const* entry)
 {
-    if (section == NULL) {
+    if (section == nullptr) {
         SectionList->Delete();
         SectionIndex->Clear();
 
@@ -271,10 +271,10 @@ bool INIClass::Clear(char const* section, char const* entry)
     }
     else {
         INISection* secptr = Find_Section(section);
-        if (secptr != NULL) {
-            if (entry != NULL) {
+        if (secptr != nullptr) {
+            if (entry != nullptr) {
                 INIEntry* entptr = secptr->Find_Entry(entry);
-                if (entptr != NULL) {
+                if (entptr != nullptr) {
                     /*
                     **	Remove the entry from the entry index list.
                     */
@@ -404,7 +404,7 @@ int INIClass::Load(Straw& ffile)
         if (end_of_file) {
             return (false);
         }
-        if (buffer[0] == '[' && strchr(buffer, ']') != NULL) {
+        if (buffer[0] == '[' && strchr(buffer, ']') != nullptr) {
             break;
         }
     }
@@ -422,7 +422,7 @@ int INIClass::Load(Straw& ffile)
             */
             buffer[0] = ' ';
             char* ptr = strchr(buffer, ']');
-            if (ptr != NULL) {
+            if (ptr != nullptr) {
                 *ptr = '\0';
             }
             strtrim(buffer);
@@ -440,7 +440,7 @@ int INIClass::Load(Straw& ffile)
                 **	care of it.
                 */
                 int len = Read_Line(file, buffer, sizeof(buffer), end_of_file);
-                if (buffer[0] == '[' && strchr(buffer, ']') != NULL) {
+                if (buffer[0] == '[' && strchr(buffer, ']') != nullptr) {
                     break;
                 }
 
@@ -497,12 +497,12 @@ int INIClass::Load(Straw& ffile)
 
             buffer[0] = ' ';
             char* ptr = strchr(buffer, ']');
-            if (ptr != NULL) {
+            if (ptr != nullptr) {
                 *ptr = '\0';
             }
             strtrim(buffer);
             INISection* secptr = new INISection(strdup(buffer));
-            if (secptr == NULL) {
+            if (secptr == nullptr) {
                 Clear();
                 return (false);
             }
@@ -518,7 +518,7 @@ int INIClass::Load(Straw& ffile)
                 **	care of it.
                 */
                 int len = Read_Line(file, buffer, sizeof(buffer), end_of_file);
-                if (buffer[0] == '[' && strchr(buffer, ']') != NULL) {
+                if (buffer[0] == '[' && strchr(buffer, ']') != nullptr) {
                     break;
                 }
 
@@ -562,7 +562,7 @@ int INIClass::Load(Straw& ffile)
                 }
 
                 INIEntry* entryptr = new INIEntry(strdup(buffer), strdup(divider));
-                if (entryptr == NULL) {
+                if (entryptr == nullptr) {
                     delete secptr;
                     Clear();
                     return (false);
@@ -641,7 +641,7 @@ int INIClass::Save(const char* filename) const
         retval = Save(*file);
         _TheWritingFileFactory->Return_File(file);
     }
-    file = NULL;
+    file = nullptr;
 
     delete[] Filename;
     Filename = nstrdup(filename);
@@ -720,7 +720,7 @@ int INIClass::Save(Pipe& pipe) const
  *                      brackets. Case is NOT sensitive in the search.                         *
  *                                                                                             *
  * OUTPUT:  Returns with a pointer to the INI section control structure if the section was     *
- *          found. Otherwise, NULL is returned.                                                *
+ *          found. Otherwise, nullptr is returned.                                                *
  *                                                                                             *
  * WARNINGS:   none                                                                            *
  *                                                                                             *
@@ -731,7 +731,7 @@ int INIClass::Save(Pipe& pipe) const
  *=============================================================================================*/
 INISection* INIClass::Find_Section(char const* section) const
 {
-    if (section != NULL) {
+    if (section != nullptr) {
         //		long crc = CRCEngine()(section, strlen(section));
         long crc = CRC(section);
 
@@ -739,7 +739,7 @@ INISection* INIClass::Find_Section(char const* section) const
             return ((*SectionIndex)[crc]);
         }
     }
-    return (NULL);
+    return (nullptr);
 }
 
 /***********************************************************************************************
@@ -782,7 +782,7 @@ int INIClass::Section_Count(void) const
 int INIClass::Entry_Count(char const* section) const
 {
     INISection* secptr = Find_Section(section);
-    if (secptr != NULL) {
+    if (secptr != nullptr) {
         return (secptr->EntryIndex.Count());
     }
     return (0);
@@ -799,7 +799,7 @@ int INIClass::Entry_Count(char const* section) const
  *          entry    -- Pointer to the entry name to search for.                               *
  *                                                                                             *
  * OUTPUT:  If the entry was found, then a pointer to the entry control structure will be      *
- *          returned. Otherwise, NULL will be returned.                                        *
+ *          returned. Otherwise, nullptr will be returned.                                        *
  *                                                                                             *
  * WARNINGS:   none                                                                            *
  *                                                                                             *
@@ -809,10 +809,10 @@ int INIClass::Entry_Count(char const* section) const
 INIEntry* INIClass::Find_Entry(char const* section, char const* entry) const
 {
     INISection* secptr = Find_Section(section);
-    if (secptr != NULL) {
+    if (secptr != nullptr) {
         return (secptr->Find_Entry(entry));
     }
-    return (NULL);
+    return (nullptr);
 }
 
 /***********************************************************************************************
@@ -837,10 +837,10 @@ char const* INIClass::Get_Entry(char const* section, int index) const
 {
     INISection* secptr = Find_Section(section);
 
-    if (secptr != NULL && index < secptr->EntryIndex.Count()) {
+    if (secptr != nullptr && index < secptr->EntryIndex.Count()) {
         INIEntry* entryptr = secptr->EntryList.First();
 
-        while (entryptr != NULL && entryptr->Is_Valid()) {
+        while (entryptr != nullptr && entryptr->Is_Valid()) {
             if (index == 0) {
                 return (entryptr->Entry);
             }
@@ -848,7 +848,7 @@ char const* INIClass::Get_Entry(char const* section, int index) const
             entryptr = entryptr->Next();
         }
     }
-    return (NULL);
+    return (nullptr);
 }
 
 /***********************************************************************************************
@@ -907,7 +907,7 @@ unsigned INIClass::Enumerate_Entries(const char* Section, const char* Entry_Pref
  *=============================================================================================*/
 bool INIClass::Put_UUBlock(char const* section, void const* block, int len)
 {
-    if (section == NULL || block == NULL || len < 1) {
+    if (section == nullptr || block == nullptr || len < 1) {
         return (false);
     }
 
@@ -962,7 +962,7 @@ bool INIClass::Put_UUBlock(char const* section, void const* block, int len)
  *=============================================================================================*/
 int INIClass::Get_UUBlock(char const* section, void* block, int len) const
 {
-    if (section == NULL) {
+    if (section == nullptr) {
         return (0);
     }
 
@@ -1042,7 +1042,7 @@ const WideStringClass& INIClass::Get_Wide_String(WideStringClass& new_string, ch
  *=============================================================================================*/
 bool INIClass::Put_Wide_String(char const* section, char const* entry, const unsigned short* string)
 {
-    if (section == NULL || entry == NULL || string == NULL) {
+    if (section == nullptr || entry == nullptr || string == nullptr) {
         return (false);
     }
 
@@ -1076,7 +1076,7 @@ bool INIClass::Put_Wide_String(char const* section, char const* entry, const uns
 
 bool INIClass::Put_UUBlock(char const* section, char const* entry, void const* block, int len)
 {
-    if (section == NULL || block == NULL || len < 1) {
+    if (section == nullptr || block == nullptr || len < 1) {
         return (false);
     }
 
@@ -1095,10 +1095,10 @@ bool INIClass::Put_UUBlock(char const* section, char const* entry, void const* b
 
 int INIClass::Get_UUBlock(char const* section, char const* entry, void* block, int len) const
 {
-    if (section == NULL) {
+    if (section == nullptr) {
         return (0);
     }
-    if (entry == NULL) {
+    if (entry == nullptr) {
         return (0);
     }
 
@@ -1128,7 +1128,7 @@ int INIClass::Get_UUBlock(char const* section, char const* entry, void* block, i
  *                                                                                             *
  * INPUT:   section  -- The section to place the text block into.                              *
  *                                                                                             *
- *          text     -- Pointer to a null terminated text string that holds the block of       *
+ *          text     -- Pointer to a nullptr terminated text string that holds the block of       *
  *                      text. The length can be arbitrary.                                     *
  *                                                                                             *
  * OUTPUT:  bool; Was the text block placed into the database?                                 *
@@ -1140,14 +1140,14 @@ int INIClass::Get_UUBlock(char const* section, char const* entry, void* block, i
  *=============================================================================================*/
 bool INIClass::Put_TextBlock(char const* section, char const* text)
 {
-    if (section == NULL) {
+    if (section == nullptr) {
         return (false);
     }
 
     Clear(section);
 
     int index = 1;
-    while (text != NULL && *text != 0) {
+    while (text != nullptr && *text != 0) {
 
         char buffer[128];
 
@@ -1205,9 +1205,9 @@ bool INIClass::Put_TextBlock(char const* section, char const* text)
  *          buffer   -- Pointer to the buffer that will hold the complete text.                *
  *                                                                                             *
  *          len      -- The length of the buffer specified. The text will, at most, fill this  *
- *                      buffer with the last character being forced to null.                   *
+ *                      buffer with the last character being forced to nullptr.                   *
  *                                                                                             *
- * OUTPUT:  Returns with the number of characters placed into the buffer. The trailing null    *
+ * OUTPUT:  Returns with the number of characters placed into the buffer. The trailing nullptr    *
  *          is not counted.                                                                    *
  *                                                                                             *
  * WARNINGS:   none                                                                            *
@@ -1326,12 +1326,12 @@ int INIClass::Get_Int(char const* section, char const* entry, int defvalue) cons
     /*
     **	Verify that the parameters are nominally correct.
     */
-    if (section == NULL || entry == NULL) {
+    if (section == nullptr || entry == nullptr) {
         return (defvalue);
     }
 
     INIEntry* entryptr = Find_Entry(section, entry);
-    if (entryptr && entryptr->Value != NULL) {
+    if (entryptr && entryptr->Value != nullptr) {
 
         if (*entryptr->Value == '$') {
             sscanf(entryptr->Value, "$%x", &defvalue);
@@ -1462,12 +1462,12 @@ int INIClass::Get_Hex(char const* section, char const* entry, int defvalue) cons
     /*
     **	Verify that the parameters are nominally correct.
     */
-    if (section == NULL || entry == NULL) {
+    if (section == nullptr || entry == nullptr) {
         return (defvalue);
     }
 
     INIEntry* entryptr = Find_Entry(section, entry);
-    if (entryptr && entryptr->Value != NULL) {
+    if (entryptr && entryptr->Value != nullptr) {
         sscanf(entryptr->Value, "%x", &defvalue);
     }
     return (defvalue);
@@ -1497,16 +1497,16 @@ float INIClass::Get_Float(char const* section, char const* entry, float defvalue
     /*
     **	Verify that the parameters are nominally correct.
     */
-    if (section == NULL || entry == NULL) {
+    if (section == nullptr || entry == nullptr) {
         return (defvalue);
     }
 
     INIEntry* entryptr = Find_Entry(section, entry);
-    if (entryptr != NULL && entryptr->Value != NULL) {
+    if (entryptr != nullptr && entryptr->Value != nullptr) {
         float val = defvalue;
         sscanf(entryptr->Value, "%f", &val);
         defvalue = val;
-        if (strchr(entryptr->Value, '%') != NULL) {
+        if (strchr(entryptr->Value, '%') != nullptr) {
             defvalue /= 100.0f;
         }
     }
@@ -1564,16 +1564,16 @@ double INIClass::Get_Double(char const* section, char const* entry, double defva
     /*
     **	Verify that the parameters are nominally correct.
     */
-    if (section == NULL || entry == NULL) {
+    if (section == nullptr || entry == nullptr) {
         return (defvalue);
     }
 
     INIEntry* entryptr = Find_Entry(section, entry);
-    if (entryptr != NULL && entryptr->Value != NULL) {
+    if (entryptr != nullptr && entryptr->Value != nullptr) {
         float val = defvalue;
         sscanf(entryptr->Value, "%lf", &val);
         defvalue = val;
-        if (strchr(entryptr->Value, '%') != NULL) {
+        if (strchr(entryptr->Value, '%') != nullptr) {
             defvalue /= 100.0f;
         }
     }
@@ -1631,15 +1631,15 @@ bool INIClass::Put_Double(char const* section, char const* entry, double number)
  *=============================================================================================*/
 bool INIClass::Put_String(char const* section, char const* entry, char const* string)
 {
-    if (section == NULL || entry == NULL) {
+    if (section == nullptr || entry == nullptr) {
         return (false);
     }
 
     INISection* secptr = Find_Section(section);
 
-    if (secptr == NULL) {
+    if (secptr == nullptr) {
         secptr = new INISection(strdup(section));
-        if (secptr == NULL) {
+        if (secptr == nullptr) {
             return (false);
         }
         SectionList->Add_Tail(secptr);
@@ -1650,7 +1650,7 @@ bool INIClass::Put_String(char const* section, char const* entry, char const* st
     **	Remove the old entry if found and print debug message
     */
     INIEntry* entryptr = secptr->Find_Entry(entry);
-    if (entryptr != NULL) {
+    if (entryptr != nullptr) {
         if (strcmp(entryptr->Entry, entry)) {
             DuplicateCRCError("INIClass::Put_String", section, entry);
         }
@@ -1666,10 +1666,10 @@ bool INIClass::Put_String(char const* section, char const* entry, char const* st
     /*
     **	Create and add the new entry.
     */
-    if (string != NULL && strlen(string) > 0) {
+    if (string != nullptr && strlen(string) > 0) {
         entryptr = new INIEntry(strdup(entry), strdup(string));
 
-        if (entryptr == NULL) {
+        if (entryptr == nullptr) {
             return (false);
         }
         secptr->EntryList.Add_Tail(entryptr);
@@ -1710,10 +1710,10 @@ int INIClass::Get_String(char const* section, char const* entry, char const* def
     /*
     **	Verify that the parameters are nominally legal.
     */
-    //	if (buffer != NULL && size > 0) {
+    //	if (buffer != nullptr && size > 0) {
     //		buffer[0] = '\0';
     //	}
-    if (buffer == NULL || size < 2 || section == NULL || entry == NULL) {
+    if (buffer == nullptr || size < 2 || section == nullptr || entry == nullptr) {
         return (0);
     }
 
@@ -1722,14 +1722,14 @@ int INIClass::Get_String(char const* section, char const* entry, char const* def
     **	value will be used as the entry value.
     */
     INIEntry* entryptr = Find_Entry(section, entry);
-    if (entryptr != NULL && entryptr->Value != NULL) {
+    if (entryptr != nullptr && entryptr->Value != nullptr) {
         defvalue = entryptr->Value;
     }
 
     /*
     **	Fill in the buffer with the entry value and return with the length of the string.
     */
-    if (defvalue == NULL) {
+    if (defvalue == nullptr) {
         buffer[0] = '\0';
         return (0);
     }
@@ -1747,7 +1747,7 @@ int INIClass::Get_String(char const* section, char const* entry, char const* def
 const StringClass& INIClass::Get_String(StringClass& new_string, char const* section,
                                         char const* entry, char const* defvalue) const
 {
-    if (section == NULL || entry == NULL) {
+    if (section == nullptr || entry == nullptr) {
         new_string = "";
         return new_string;
     }
@@ -1757,11 +1757,11 @@ const StringClass& INIClass::Get_String(StringClass& new_string, char const* sec
     **	value will be used as the entry value.
     */
     INIEntry* entryptr = Find_Entry(section, entry);
-    if (entryptr != NULL) {
+    if (entryptr != nullptr) {
         defvalue = entryptr->Value;
     }
 
-    if (defvalue == NULL) {
+    if (defvalue == nullptr) {
         new_string = "";
         return new_string;
     }
@@ -1797,8 +1797,8 @@ const StringClass& INIClass::Get_String(StringClass& new_string, char const* sec
  *=============================================================================================*/
 char* INIClass::Get_Alloc_String(char const* section, char const* entry, char const* defvalue) const
 {
-    if (section == NULL || entry == NULL) {
-        return (NULL);
+    if (section == nullptr || entry == nullptr) {
+        return (nullptr);
     }
 
     /*
@@ -1806,12 +1806,12 @@ char* INIClass::Get_Alloc_String(char const* section, char const* entry, char co
     **	value will be used as the entry value.
     */
     INIEntry* entryptr = Find_Entry(section, entry);
-    if (entryptr != NULL) {
+    if (entryptr != nullptr) {
         defvalue = entryptr->Value;
     }
 
-    if (defvalue == NULL) {
-        return NULL;
+    if (defvalue == nullptr) {
+        return nullptr;
     }
     return (strdup(defvalue));
 }
@@ -1819,12 +1819,12 @@ char* INIClass::Get_Alloc_String(char const* section, char const* entry, char co
 int INIClass::Get_List_Index(char const* section, char const* entry, int const defvalue,
                              char* list[])
 {
-    if (section == NULL || entry == NULL) {
+    if (section == nullptr || entry == nullptr) {
         return (0);
     }
 
     INIEntry* entryptr = Find_Entry(section, entry);
-    if (entryptr == NULL || entryptr->Value == NULL) {
+    if (entryptr == nullptr || entryptr->Value == nullptr) {
         return defvalue;
     }
 
@@ -1838,9 +1838,9 @@ int INIClass::Get_List_Index(char const* section, char const* entry, int const d
 }
 int INIClass::Get_Int_Bitfield(char const* section, char const* entry, int defvalue, char* list[])
 {
-    // if we can't find the entry or the entry is null just return the default value
+    // if we can't find the entry or the entry is nullptr just return the default value
     INIEntry* entryptr = Find_Entry(section, entry);
-    if (entryptr == NULL || entryptr->Value == NULL) {
+    if (entryptr == nullptr || entryptr->Value == nullptr) {
         return defvalue;
     }
 
@@ -1851,7 +1851,7 @@ int INIClass::Get_Int_Bitfield(char const* section, char const* entry, int defva
     char* str = strdup(entryptr->Value);
 
     int lp;
-    for (char* token = strtok(str, "|+"); token; token = strtok(NULL, "|+")) {
+    for (char* token = strtok(str, "|+"); token; token = strtok(nullptr, "|+")) {
         for (lp = 0; list[lp]; lp++) {
             // if this list entry matches our string token then we need
             // to set this bit.
@@ -1862,7 +1862,7 @@ int INIClass::Get_Int_Bitfield(char const* section, char const* entry, int defva
         }
         // if we reached the end of the list and found nothing then we need
         // to assert since we have an unidentified value
-        if (list[lp] == NULL) {
+        if (list[lp] == nullptr) {
             assert(lp < 1000);
         }
     }
@@ -1872,10 +1872,10 @@ int INIClass::Get_Int_Bitfield(char const* section, char const* entry, int defva
 
 int* INIClass::Get_Alloc_Int_Array(char const* section, char const* entry, int listend)
 {
-    int* retval = NULL;
+    int* retval = nullptr;
 
     INIEntry* entryptr = Find_Entry(section, entry);
-    if (entryptr == NULL || entryptr->Value == NULL) {
+    if (entryptr == nullptr || entryptr->Value == nullptr) {
         retval = new int[1];
         retval[0] = listend;
 
@@ -1887,7 +1887,7 @@ int* INIClass::Get_Alloc_Int_Array(char const* section, char const* entry, int l
     int count = 0;
     char* str = strdup(entryptr->Value);
     char* token;
-    for (token = strtok(str, " "); token; token = strtok(NULL, " ")) {
+    for (token = strtok(str, " "); token; token = strtok(nullptr, " ")) {
         count++;
     }
     free(str);
@@ -1897,7 +1897,7 @@ int* INIClass::Get_Alloc_Int_Array(char const* section, char const* entry, int l
     retval = new int[count + 1];
     count = 0;
     str = strdup(entryptr->Value);
-    for (token = strtok(str, " "); token; token = strtok(NULL, " ")) {
+    for (token = strtok(str, " "); token; token = strtok(nullptr, " ")) {
         retval[count] = atoi(token);
         count++;
     }
@@ -1968,12 +1968,12 @@ bool INIClass::Get_Bool(char const* section, char const* entry, bool defvalue) c
     /*
     **	Verify that the parameters are nominally correct.
     */
-    if (section == NULL || entry == NULL) {
+    if (section == nullptr || entry == nullptr) {
         return (defvalue);
     }
 
     INIEntry* entryptr = Find_Entry(section, entry);
-    if (entryptr && entryptr->Value != NULL) {
+    if (entryptr && entryptr->Value != nullptr) {
         switch (toupper(*entryptr->Value)) {
         case 'Y':
         case 'T':
@@ -2207,7 +2207,7 @@ TPoint2D<float> const INIClass::Get_Point(char const* section, char const* entry
  * INPUT:   entry -- The entry to scan for.                                                    *
  *                                                                                             *
  * OUTPUT:  Returns with a pointer to the entry control structure if the entry was found.      *
- *          Otherwise it returns NULL.                                                         *
+ *          Otherwise it returns nullptr.                                                         *
  *                                                                                             *
  * WARNINGS:   none                                                                            *
  *                                                                                             *
@@ -2218,14 +2218,14 @@ TPoint2D<float> const INIClass::Get_Point(char const* section, char const* entry
  *=============================================================================================*/
 INIEntry* INISection::Find_Entry(char const* entry) const
 {
-    if (entry != NULL) {
+    if (entry != nullptr) {
         //		int crc = CRCEngine()(entry, strlen(entry));
         int crc = CRC::String(entry);
         if (EntryIndex.Is_Present(crc)) {
             return (EntryIndex[crc]);
         }
     }
-    return (NULL);
+    return (nullptr);
 }
 
 /***********************************************************************************************
@@ -2307,7 +2307,7 @@ PKey INIClass::Get_PKey(bool fast) const
  *    This routine will scan the string (text line) supplied and if any comment portions are   *
  *    found, they will be trimmed off. Leading and trailing blanks are also removed.           *
  *                                                                                             *
- * INPUT:   buffer   -- Pointer to the null terminate string to be processed.                  *
+ * INPUT:   buffer   -- Pointer to the nullptr terminate string to be processed.                  *
  *                                                                                             *
  * OUTPUT:  none                                                                               *
  *                                                                                             *
@@ -2318,7 +2318,7 @@ PKey INIClass::Get_PKey(bool fast) const
  *=============================================================================================*/
 void INIClass::Strip_Comments(char* buffer)
 {
-    if (buffer != NULL) {
+    if (buffer != nullptr) {
         char* comment = strchr(buffer, ';');
         if (comment) {
             *comment = '\0';
@@ -2333,7 +2333,7 @@ void INIClass::Strip_Comments(char* buffer)
  *                                                                                             *
  *                                                                                             *
  *                                                                                             *
- * INPUT:  pointer to null terminated string                                                   *
+ * INPUT:  pointer to nullptr terminated string                                                   *
  *                                                                                             *
  * OUTPUT: integer that is highly likely to be unique for a given INI file.                    *
  *                                                                                             *

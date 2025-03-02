@@ -100,7 +100,7 @@ int Read_Line(FileClass& file, char* buffer, int len, bool& eof)
  *=============================================================================================*/
 int Read_Line(Straw& file, char* buffer, int len, bool& eof)
 {
-    if (len == 0 || buffer == NULL) {
+    if (len == 0 || buffer == nullptr) {
         return (0);
     }
 
@@ -128,7 +128,7 @@ int Read_Line(Straw& file, char* buffer, int len, bool& eof)
 
 int Read_Line(Straw& file, wchar_t* buffer, int len, bool& eof)
 {
-    if (len == 0 || buffer == NULL) {
+    if (len == 0 || buffer == nullptr) {
         return (0);
     }
 

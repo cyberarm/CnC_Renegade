@@ -97,8 +97,8 @@ typedef struct
     int defaultx; /* default coordinate point */
     int defaulty;
     int numhotspots; /* number of hot spots defined */
-    char framename[GIMEX_FRAMENAME_SIZE]; /* null terminated name of frame/image */
-    char comment[GIMEX_COMMENT_SIZE]; /* null terminated multiline user comment */
+    char framename[GIMEX_FRAMENAME_SIZE]; /* nullptr terminated name of frame/image */
+    char comment[GIMEX_COMMENT_SIZE]; /* nullptr terminated multiline user comment */
     int hotspottbl[GIMEX_HOTSPOTTBL_SIZE][GIMEX_HOTSPOTTBL_VALUES]; /* up to 256 hot spots, XY pairs
                                                                        relative to upperleft */
     float dpi; /* dots per inch ie 72.0 */
@@ -161,7 +161,7 @@ typedef struct
     int maxframename; /* maximum characters in ginfo framename */
     int defaultquality; /* default pack quality */
     long mactype[MAXMACTYPES]; /* mac file system types used */
-    char extensions[MAXEXTENSIONS][GIMEX_EXTENSION_SIZE]; /* null terminated extensions with '.' */
+    char extensions[MAXEXTENSIONS][GIMEX_EXTENSION_SIZE]; /* nullptr terminated extensions with '.' */
     char authorstr[GIMEX_AUTHORSTR_SIZE]; /* name of gimex module author */
     char versionstr[GIMEX_VERSIONSTR_SIZE]; /* version number of gimex module ie 1.00 */
     char shorttypestr[GIMEX_SHORTTYPESTR_SIZE]; /* 3 or 4 character type string ie TGA */

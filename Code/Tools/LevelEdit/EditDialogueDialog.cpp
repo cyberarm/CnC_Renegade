@@ -50,8 +50,8 @@ enum
 // EditDialogueDialogClass
 //
 /////////////////////////////////////////////////////////////////////////////
-EditDialogueDialogClass::EditDialogueDialogClass(CWnd* pParent /*=NULL*/)
-    : m_Dialogue(NULL),
+EditDialogueDialogClass::EditDialogueDialogClass(CWnd* pParent /*=nullptr*/)
+    : m_Dialogue(nullptr),
       CDialog(EditDialogueDialogClass::IDD, pParent)
 {
     //{{AFX_DATA_INIT(EditDialogueDialogClass)
@@ -98,7 +98,7 @@ BOOL EditDialogueDialogClass::OnInitDialog(void)
 {
     CDialog::OnInitDialog();
 
-    ASSERT(m_Dialogue != NULL);
+    ASSERT(m_Dialogue != nullptr);
 
     //
     //	Configure the list control
@@ -178,9 +178,9 @@ void EditDialogueDialogClass::OnOK(void)
         //	Add this option to the dialogue's list
         //
         DialogueOptionClass* option = (DialogueOptionClass*)m_ListCtrl.GetItemData(index);
-        if (option != NULL) {
+        if (option != nullptr) {
             option_list.Add(option);
-            m_ListCtrl.SetItemData(index, NULL);
+            m_ListCtrl.SetItemData(index, nullptr);
         }
     }
 
@@ -249,14 +249,14 @@ void EditDialogueDialogClass::OnDblclkOptionList(NMHDR* pNMHDR, LRESULT* pResult
     if (index >= 0) {
 
         DialogueOptionClass* option = (DialogueOptionClass*)m_ListCtrl.GetItemData(index);
-        if (option != NULL) {
+        if (option != nullptr) {
 
             //
             //	Display a dialog that allows the user to edit this option
             //
             ConversationPickerDialogClass dialog(this);
 
-            ConversationClass* conversation = NULL;
+            ConversationClass* conversation = nullptr;
             conversation = ConversationMgrClass::Find_Conversation(option->Get_Conversation_ID());
             dialog.Set_Conversation(conversation);
 
@@ -290,9 +290,9 @@ void EditDialogueDialogClass::OnDeleteitemOptionList(NMHDR* pNMHDR, LRESULT* pRe
     //	Free the associated DialogueOptionClass object
     //
     DialogueOptionClass* option = (DialogueOptionClass*)m_ListCtrl.GetItemData(pNMListView->iItem);
-    if (option != NULL) {
+    if (option != nullptr) {
         SAFE_DELETE(option);
-        m_ListCtrl.SetItemData(pNMListView->iItem, NULL);
+        m_ListCtrl.SetItemData(pNMListView->iItem, nullptr);
     }
 
     return;
@@ -306,7 +306,7 @@ void EditDialogueDialogClass::OnDeleteitemOptionList(NMHDR* pNMHDR, LRESULT* pRe
 void EditDialogueDialogClass::Update_Entry(int index)
 {
     DialogueOptionClass* option = (DialogueOptionClass*)m_ListCtrl.GetItemData(index);
-    if (option != NULL) {
+    if (option != nullptr) {
 
         //
         //	Update the weight column of the list control
@@ -320,7 +320,7 @@ void EditDialogueDialogClass::Update_Entry(int index)
         //
         int conversation_id = option->Get_Conversation_ID();
         ConversationClass* conversation = ConversationMgrClass::Find_Conversation(conversation_id);
-        if (conversation != NULL) {
+        if (conversation != nullptr) {
 
             //
             //	Put this text into the appropriate column in the list control
@@ -340,8 +340,8 @@ void EditDialogueDialogClass::Update_Entry(int index)
 /////////////////////////////////////////////////////////////////////////////
 void EditDialogueDialogClass::Insert_Entry(DialogueOptionClass* option)
 {
-    ASSERT(option != NULL);
-    if (option != NULL) {
+    ASSERT(option != nullptr);
+    if (option != nullptr) {
 
         CString weight_text;
         weight_text.Format("%d", (int)option->Get_Weight());
@@ -363,7 +363,7 @@ void EditDialogueDialogClass::Insert_Entry(DialogueOptionClass* option)
             int conversation_id = option->Get_Conversation_ID();
             ConversationClass* conversation
                 = ConversationMgrClass::Find_Conversation(conversation_id);
-            if (conversation != NULL) {
+            if (conversation != nullptr) {
 
                 //
                 //	Put this text into the appropriate column in the list control
@@ -400,7 +400,7 @@ void EditDialogueDialogClass::OnItemchangedRemarkList(NMHDR* pNMHDR, LRESULT* pR
             //	Update the weight of the selected item
             //
             DialogueOptionClass* option = (DialogueOptionClass*)m_ListCtrl.GetItemData(item_index);
-            if (option != NULL) {
+            if (option != nullptr) {
                 SetDlgItemInt(IDC_SELECTED_WEIGHT_EDIT, (int)option->Get_Weight());
             }
         }
@@ -464,7 +464,7 @@ void EditDialogueDialogClass::Update_Current_Weight(void)
     if (item_index >= 0) {
 
         DialogueOptionClass* option = (DialogueOptionClass*)m_ListCtrl.GetItemData(item_index);
-        if (option != NULL) {
+        if (option != nullptr) {
 
             //
             //	Get the weight

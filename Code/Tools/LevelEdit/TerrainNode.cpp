@@ -134,7 +134,7 @@ void TerrainNodeClass::Free_Sections(void)
         //
         //	Remove the file dependencies for this tile from the file manager.
         //
-        if (sub_node != NULL && sub_node->Get_Type() != NODE_TYPE_TERRAIN_SECTION) {
+        if (sub_node != nullptr && sub_node->Get_Type() != NODE_TYPE_TERRAIN_SECTION) {
             ::Get_File_Mgr()->Update(sub_node, false);
         }
     }
@@ -172,7 +172,7 @@ void TerrainNodeClass::Add_To_Scene(void)
 void TerrainNodeClass::Remove_From_Scene(void)
 {
     SceneEditorClass* scene = ::Get_Scene_Editor();
-    if (scene != NULL && m_IsInScene) {
+    if (scene != nullptr && m_IsInScene) {
         Build_Section_ID_List();
 
         //
@@ -225,7 +225,7 @@ void TerrainNodeClass::Special_Set_Transform(const Matrix3D& tm)
             // transform it relative to the terrain...
             //
             RenderObjClass* model = sub_node->Peek_Render_Obj();
-            if (model != NULL && model->Class_ID() == RenderObjClass::CLASSID_DAZZLE) {
+            if (model != nullptr && model->Class_ID() == RenderObjClass::CLASSID_DAZZLE) {
                 Matrix3D sub_obj_tm = sub_node->Get_Transform();
                 Matrix3D rel_sub_obj_tm = inv_tm * sub_obj_tm;
 
@@ -270,7 +270,7 @@ void TerrainNodeClass::Initialize(void)
 
     TerrainDefinitionClass* definition
         = static_cast<TerrainDefinitionClass*>(m_Preset->Get_Definition());
-    if (definition != NULL) {
+    if (definition != nullptr) {
 
         //
         //	Make sure all assets are loaded into memory before this tile is created...
@@ -291,7 +291,7 @@ void TerrainNodeClass::Initialize(void)
             // Create the terrain
             //
             RenderObjClass* terrain = ::Create_Render_Obj(asset_name);
-            if (terrain != NULL) {
+            if (terrain != nullptr) {
 
                 //
                 // Loop through all the sections inside the mesh collection and
@@ -301,7 +301,7 @@ void TerrainNodeClass::Initialize(void)
                 if (section_count > 0) {
                     for (int index = 0; index < section_count; index++) {
                         RenderObjClass* sub_obj = terrain->Get_Sub_Object(index);
-                        if (sub_obj != NULL) {
+                        if (sub_obj != nullptr) {
 
                             //
                             //	Create a new terrain section and add it to our list
@@ -423,7 +423,7 @@ void TerrainNodeClass::Add_Vis_Points(VisPointGeneratorClass& generator, RenderO
             //	Pass all the sections onto the generator
             //
             RenderObjClass *render_obj = phys_obj->Peek_Model ();
-            if (render_obj != NULL) {
+            if (render_obj != nullptr) {
                     NodeClass::Add_Vis_Points (generator, render_obj);
             }
     }*/
@@ -564,7 +564,7 @@ void TerrainNodeClass::Create_Lights(void)
     //
     TerrainDefinitionClass* definition
         = static_cast<TerrainDefinitionClass*>(m_Preset->Get_Definition());
-    if (definition == NULL) {
+    if (definition == nullptr) {
         return;
     }
     ::Get_Main_View()->Allow_Repaint(false);
@@ -587,7 +587,7 @@ void TerrainNodeClass::Create_Lights(void)
     //
     for (int index = 0; index < node_list.Count(); index++) {
         LightNodeClass* node = node_list[index];
-        if (node != NULL) {
+        if (node != nullptr) {
 
             //
             //	Transform this light from world-relative to terrain relative
@@ -616,7 +616,7 @@ PresetClass* TerrainNodeClass::Find_Proxy_Preset(const char* preset_name)
 {
     bool is_restricted_user = ::Get_File_Mgr()->Is_Special_User();
 
-    PresetClass* retval = NULL;
+    PresetClass* retval = nullptr;
 
     //
     //	Loop over all the presets, until we've found one that matches the
@@ -624,7 +624,7 @@ PresetClass* TerrainNodeClass::Find_Proxy_Preset(const char* preset_name)
     //
     bool keep_going = true;
     bool is_preferred = false;
-    for (PresetClass* preset = PresetMgrClass::Get_First(); preset != NULL && keep_going;
+    for (PresetClass* preset = PresetMgrClass::Get_First(); preset != nullptr && keep_going;
          preset = PresetMgrClass::Get_Next(preset)) {
         //
         //	Is this the preset we are looking for?
@@ -680,14 +680,14 @@ void TerrainNodeClass::Create_Proxies(DynamicVectorClass<ProxyClass>& proxy_list
         // Find the preset this placeholder references
         //
         PresetClass* preset = Find_Proxy_Preset(preset_name);
-        if (preset != NULL) {
+        if (preset != nullptr) {
 
             //
             // Create the node from the base
             //
             NodeClass* node = ::Get_Scene_Editor()->Create_Node(preset, &rel_transform, 0, false);
-            ASSERT(node != NULL);
-            if (node != NULL) {
+            ASSERT(node != nullptr);
+            if (node != nullptr) {
 
                 //
                 //	Change some flags on the object
@@ -698,7 +698,7 @@ void TerrainNodeClass::Create_Proxies(DynamicVectorClass<ProxyClass>& proxy_list
                 //
                 //	Is the node configured correctly?
                 //
-                if (node->Peek_Physics_Obj() != NULL || node->Get_Type() == NODE_TYPE_TERRAIN) {
+                if (node->Peek_Physics_Obj() != nullptr || node->Get_Type() == NODE_TYPE_TERRAIN) {
 
                     //
                     // Normalize the rotation of this node
@@ -756,7 +756,7 @@ void TerrainNodeClass::Update_Cached_Vis_IDs(void)
     //
     for (int index = 0; index < m_Sections.Count(); index++) {
         NodeClass* node = m_Sections[index];
-        if (node != NULL) {
+        if (node != nullptr) {
             node->Update_Cached_Vis_IDs();
         }
     }
@@ -812,7 +812,7 @@ bool TerrainNodeClass::Is_A_Child_Node(NodeClass* node) const
     //
     for (int index = 0; retval == false && index < m_Sections.Count(); index++) {
         NodeClass* curr_node = m_Sections[index];
-        if (curr_node != NULL) {
+        if (curr_node != nullptr) {
 
             //
             //	Is this the node we are looking for?
@@ -905,7 +905,7 @@ void TerrainSectionNodeClass::Create(RenderObjClass* render_obj)
 ////////////////////////////////////////////////////////////////
 void TerrainSectionNodeClass::Set_Transform(const Matrix3D& tm)
 {
-    if (Terrain == NULL) {
+    if (Terrain == nullptr) {
         return;
     }
 

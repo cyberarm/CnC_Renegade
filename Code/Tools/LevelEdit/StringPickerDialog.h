@@ -42,7 +42,7 @@ class StringPickerDialogClass : public CDialog, public StringsCategoryViewCallba
 {
     // Construction
 public:
-    StringPickerDialogClass(CWnd* pParent = NULL); // standard constructor
+    StringPickerDialogClass(CWnd* pParent = nullptr); // standard constructor
     ~StringPickerDialogClass(void);
 
     // Dialog Data

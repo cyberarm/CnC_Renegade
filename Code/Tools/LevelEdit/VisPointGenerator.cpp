@@ -80,10 +80,10 @@ VisPointGeneratorClass::VisPointGeneratorClass(float granularity)
       m_IgnoreBias(false),
       m_ViewPlaneExtent(0, 0, 0),
       m_WorldToGridTM(1),
-      m_CurrentNode(NULL),
-      m_StatWindow(NULL),
-      m_pCameraSimOffsets(NULL),
-      m_CurrentPointList(NULL),
+      m_CurrentNode(nullptr),
+      m_StatWindow(nullptr),
+      m_pCameraSimOffsets(nullptr),
+      m_CurrentPointList(nullptr),
       m_PolygonsProcessed(0),
       m_TotalPoints(0),
       m_CameraSimPointCount(DEF_CAM_SIM_POINT_COUNT),
@@ -159,7 +159,7 @@ static bool Read_Float_Param(LPCTSTR text, LPCTSTR key, float* value)
     CString lowercase_text(text);
     lowercase_text.MakeLower();
     LPCTSTR key_start = ::strstr(lowercase_text, key);
-    if (key_start != NULL) {
+    if (key_start != nullptr) {
 
         //
         //	Move past the key designator
@@ -294,7 +294,7 @@ void VisPointGeneratorClass::Submit_Mesh(MeshClass& mesh)
     //	Get this mesh's polygon information
     //
     MeshModelClass* model = mesh.Get_Model();
-    if (model != NULL) {
+    if (model != nullptr) {
         const TriIndex* poly_array = model->Get_Polygon_Array();
         const Vector3* vertex_array = model->Get_Vertex_Array();
         const Vector4* plane_array = model->Get_Plane_Array(true);
@@ -367,7 +367,7 @@ void VisPointGeneratorClass::Submit_Mesh(MeshClass& mesh)
         //
         // Matrix3D *vis_point = m_Grid.Get_At_Flat (cell);
         VisPointInfo* vis_point = m_Grid.Get_At_Flat(cell);
-        if (vis_point != NULL) {
+        if (vis_point != nullptr) {
 
             //
             //	Allocate a new point list for this point
@@ -400,7 +400,7 @@ void VisPointGeneratorClass::Submit_Mesh(MeshClass& mesh)
 
     /*DWORD finished_ticks = ::GetTickCount ();
 
-    if (m_StatWindow != NULL) {
+    if (m_StatWindow != nullptr) {
             CString stats;
             stats.Format ("Grid Size: %d, %d, %d.\nTotal Time: %d, Collection Time %d.",
                                                     m_Grid.Get_Cells_X (),
@@ -646,7 +646,7 @@ bool VisPointGeneratorClass::Check_Ceiling(const Vector3& position, float* ceili
     //
     //	Return how far above us the ceiling is.
     //
-    if (ceiling_dist != NULL) {
+    if (ceiling_dist != nullptr) {
         (*ceiling_dist) = (res.Fraction * (end_point.Z - start_point.Z));
     }
 
@@ -657,19 +657,19 @@ bool VisPointGeneratorClass::Check_Ceiling(const Vector3& position, float* ceili
 
         // Get the physics object we hit
         PhysClass* physobj = raytest.CollidedPhysObj;
-        if (physobj != NULL) {
+        if (physobj != nullptr) {
 
             //
             //	Check to see if the node we hit is a static tile.  Otherwise
             // we don't care about it.
             //
             /*HITTESTINFO *hittest = (HITTESTINFO *)physobj->Peek_Model ()->Get_User_Data ();
-            if (	(hittest != NULL) &&
+            if (	(hittest != nullptr) &&
                             (hittest->Type == HITTESTINFO::Node) &&
-                            (hittest->node != NULL) &&
+                            (hittest->node != nullptr) &&
                             (hittest->node->Is_Static ()))*/
 
-            if (physobj->As_StaticPhysClass() != NULL) {
+            if (physobj->As_StaticPhysClass() != nullptr) {
 
                 // If this polygon is facing up, then make sure it satisfies
                 // our 'ceiling' requirements for back-face polygons.
@@ -695,7 +695,7 @@ bool VisPointGeneratorClass::Is_Grid_Cell_Empty(const Vector3& position)
     grid_pos.Y = grid_pos.Y / m_Granularity;
     grid_pos.Z = grid_pos.Z / m_Granularity;
 
-    return (m_Grid.Get_At(grid_pos.X, grid_pos.Y, grid_pos.Z) == NULL);
+    return (m_Grid.Get_At(grid_pos.X, grid_pos.Y, grid_pos.Z) == nullptr);
 }
 
 /////////////////////////////////////////////////////////////////////////
@@ -742,7 +742,7 @@ bool VisPointGeneratorClass::Submit_Point(const Matrix3D& vis_transform, bool do
     //	empty.
     //
     VisPointInfo* cell_contents = m_Grid.Get_At(grid_pos.X, grid_pos.Y, grid_pos.Z);
-    if ((cell_contents == NULL)
+    if ((cell_contents == nullptr)
         || ((cell_contents->m_Transform.Get_Translation() - cell_center).Length()
             > new_point_dist)) {
 
@@ -866,7 +866,7 @@ bool VisPointGeneratorClass::Test_Camera_Sim_Point(const Vector3& start_point,
     //	If the point doesn't lie over the current node, then
     // we've successfully found a new point.
     //
-    if ((node != m_CurrentNode) && (node != NULL)) {
+    if ((node != m_CurrentNode) && (node != nullptr)) {
         (*node_result) = node;
         (*transform_result).Make_Identity();
         (*transform_result).Obj_Look_At(test_point, start_point, 0);
@@ -883,7 +883,7 @@ bool VisPointGeneratorClass::Test_Camera_Sim_Point(const Vector3& start_point,
 /////////////////////////////////////////////////////////////////////////
 NodeClass* VisPointGeneratorClass::Find_Floor_Node(const Vector3& start_point)
 {
-    NodeClass* node = NULL;
+    NodeClass* node = nullptr;
 
     //
     //	Build a ray from the given position down 1000 meters
@@ -905,14 +905,14 @@ NodeClass* VisPointGeneratorClass::Find_Floor_Node(const Vector3& start_point)
 
         // Get the physics object we hit
         PhysClass* physobj = raytest.CollidedPhysObj;
-        if (physobj != NULL) {
+        if (physobj != nullptr) {
 
             //
             //	Check to see if the 'node' we hit is different then the node
             // we are currently processing.
             //
             HITTESTINFO* hittest = (HITTESTINFO*)physobj->Peek_Model()->Get_User_Data();
-            if ((hittest != NULL) && (hittest->Type == HITTESTINFO::Node)) {
+            if ((hittest != nullptr) && (hittest->Type == HITTESTINFO::Node)) {
                 //
                 //	Pass the node we found back to the caller.
                 //
@@ -953,7 +953,7 @@ bool VisPointGeneratorClass::Is_Object_Invalid_Roof(RenderObjClass* render_obj)
         // Check this subobject
         //
         RenderObjClass* sub_object = render_obj->Get_Sub_Object(index);
-        if (sub_object != NULL) {
+        if (sub_object != nullptr) {
             retval &= Is_Object_Invalid_Roof(sub_object);
             MEMBER_RELEASE(sub_object);
         }
@@ -964,7 +964,7 @@ bool VisPointGeneratorClass::Is_Object_Invalid_Roof(RenderObjClass* render_obj)
     //
     if (render_obj->Class_ID() == RenderObjClass::CLASSID_MESH) {
         MeshModelClass* model = ((MeshClass*)render_obj)->Get_Model();
-        if (model != NULL) {
+        if (model != nullptr) {
 
             //
             //	The mesh is invalid if:
@@ -1049,7 +1049,7 @@ void VisPointGeneratorClass::Generate_Camera_Locations(const Matrix3D& real_vis_
         Vector3 end_point = position + m_pCameraSimOffsets[index];
 
         sim_points[index].vis_point.Make_Identity();
-        sim_points[index].node = NULL;
+        sim_points[index].node = nullptr;
 
         //
         //	Test the point to see if lies over another mesh
@@ -1062,7 +1062,7 @@ void VisPointGeneratorClass::Generate_Camera_Locations(const Matrix3D& real_vis_
     //	Now submit the 'middle' point of each node series
     //
     int start_index = 0;
-    NodeClass* current_node = NULL;
+    NodeClass* current_node = nullptr;
     for (index = 0; index < m_CameraSimPointCount; index++) {
 
         //
@@ -1081,12 +1081,12 @@ void VisPointGeneratorClass::Generate_Camera_Locations(const Matrix3D& real_vis_
                 for (int offset = 0; (offset < max) && !found; offset++) {
 
                     if (((middle_index + offset) < index)
-                        && (sim_points[middle_index + offset].node != NULL)) {
+                        && (sim_points[middle_index + offset].node != nullptr)) {
                         middle_index += offset;
                         found = true;
                     }
                     else if (((middle_index - offset) >= start_index)
-                             && (sim_points[middle_index - offset].node != NULL)) {
+                             && (sim_points[middle_index - offset].node != nullptr)) {
                         middle_index -= offset;
                         found = true;
                     }
@@ -1150,9 +1150,9 @@ void VisPointGeneratorClass::Post_Process_Nodes(void)
 /////////////////////////////////////////////////////////////////////////
 void VisPointGeneratorClass::Add_Manual_Nodes(void)
 {
-    /*VisPointNodeClass *vis_point = NULL;
+    /*VisPointNodeClass *vis_point = nullptr;
     for (	vis_point = (VisPointNodeClass *)NodeMgrClass::Get_First (NODE_TYPE_VIS_POINT);
-                    vis_point != NULL;
+                    vis_point != nullptr;
                     vis_point = (VisPointNodeClass *)NodeMgrClass::Get_Next (vis_point,
     NODE_TYPE_VIS_POINT))
     {

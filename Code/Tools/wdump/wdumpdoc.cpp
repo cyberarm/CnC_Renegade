@@ -104,7 +104,7 @@ void CWdumpDoc::OnFileOpen()
         = "W3D Files (*.w3d)|*.w3d|WLT Files (*.wlt)|*.wlt|WHT Files (*.wht)|*.wht|WHA Files "
           "(*.wha)|*.wha|WTM Files (*.wtm)|*.wtm|All Files (*.*)|*.*||";
 
-    CFileDialog f(true, NULL, NULL, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT, szFilter);
+    CFileDialog f(true, nullptr, nullptr, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT, szFilter);
 
     if (f.DoModal() != IDOK) {
         return;

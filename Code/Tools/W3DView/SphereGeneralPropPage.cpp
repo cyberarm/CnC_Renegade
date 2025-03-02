@@ -89,13 +89,13 @@ END_MESSAGE_MAP()
 /////////////////////////////////////////////////////////////
 void SphereGeneralPropPageClass::Initialize(void)
 {
-    if (m_RenderObj != NULL) {
+    if (m_RenderObj != nullptr) {
 
         //
         // Get the object's texture
         //
         TextureClass* texture = m_RenderObj->Peek_Texture();
-        if (texture != NULL) {
+        if (texture != nullptr) {
             m_TextureFilename = texture->Get_Texture_Name();
         }
 
@@ -190,7 +190,7 @@ BOOL SphereGeneralPropPageClass::OnApply(void)
     if (index != CB_ERR) {
         ShaderClass* shader
             = (ShaderClass*)SendDlgItemMessage(IDC_SHADER_COMBO, CB_GETITEMDATA, (WPARAM)index);
-        if (shader != NULL) {
+        if (shader != nullptr) {
             m_Shader = (*shader);
         }
     }
@@ -207,7 +207,7 @@ BOOL SphereGeneralPropPageClass::OnApply(void)
         //
         //	Create a texture and pass it onto the object
         //
-        TextureClass* texture = NULL;
+        TextureClass* texture = nullptr;
         if (m_TextureFilename.GetLength() > 0) {
             texture = WW3DAssetManager::Get_Instance()->Get_Texture(
                 ::Get_Filename_From_Path(m_TextureFilename));
@@ -242,7 +242,7 @@ BOOL SphereGeneralPropPageClass::OnApply(void)
 /////////////////////////////////////////////////////////////
 void SphereGeneralPropPageClass::OnBrowseButton(void)
 {
-    CFileDialog dialog(TRUE, ".tga", NULL, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT | OFN_EXPLORER,
+    CFileDialog dialog(TRUE, ".tga", nullptr, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT | OFN_EXPLORER,
                        "Textures files (*.tga)|*.tga||", ::AfxGetMainWnd());
 
     // Ask the user what texture file they wish to load
@@ -287,7 +287,7 @@ BOOL SphereGeneralPropPageClass::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT*
     //	Update the spinner control if necessary
     //
     NMHDR* header = (NMHDR*)lParam;
-    if ((header != NULL) && (header->code == UDN_DELTAPOS)) {
+    if ((header != nullptr) && (header->code == UDN_DELTAPOS)) {
         LPNMUPDOWN updown = (LPNMUPDOWN)lParam;
         ::Update_Spinner_Buddy(header->hwndFrom, updown->iDelta);
     }

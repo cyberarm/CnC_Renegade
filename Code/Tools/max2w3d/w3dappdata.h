@@ -88,7 +88,7 @@ bool Is_Collision_AABox(INode* node);
 bool Is_Collision_OBBox(INode* node);
 bool Is_Skin(INode* node);
 bool Is_Shadow(INode* node);
-bool Is_Null_Object(INode* node);
+bool Is_nullptr_Object(INode* node);
 bool Is_Dazzle(INode* node);
 bool Is_Aggregate(INode* node);
 
@@ -118,7 +118,7 @@ bool Is_NPatchable(INode* node);
 */
 inline bool Is_Proxy(INode& node)
 {
-    return (::strchr(node.GetName(), '~') != NULL);
+    return (::strchr(node.GetName(), '~') != nullptr);
 }
 
 /*
@@ -159,7 +159,7 @@ inline bool Is_Proxy(INode& node)
 #define GEOMETRY_TYPE_OBBOX 0x0030 // this is an oriented box (should have 8 verts, etc)
 #define GEOMETRY_TYPE_AABOX 0x0040 // this is an axis aligned box
 #define GEOMETRY_TYPE_CAMERA_ORIENTED 0x0050 // interpret this geometry as a camera-oriented mesh
-#define GEOMETRY_TYPE_NULL 0x0100 // this is a null (for LOD)
+#define GEOMETRY_TYPE_nullptr 0x0100 // this is a nullptr (for LOD)
 
 #define EXPORT_CAST_SHADOW_FLAG 0x0200 // this mesh casts a shadow
 #define EXPORT_VERTEX_ALPHA_FLAG 0x0400 // convert vertex colors to alpha
@@ -211,7 +211,7 @@ struct W3DAppData0Struct
     {
         return (ExportFlags & GEOMETRY_TYPE_MASK) == GEOMETRY_TYPE_OBBOX;
     }
-    bool Is_Null(void) { return (ExportFlags & GEOMETRY_TYPE_MASK) == GEOMETRY_TYPE_NULL; }
+    bool Is_nullptr(void) { return (ExportFlags & GEOMETRY_TYPE_MASK) == GEOMETRY_TYPE_nullptr; }
 
     bool Is_Physical_Collision(void)
     {
@@ -296,7 +296,7 @@ struct W3DAppData2Struct
         GEO_TYPE_OBBOX = 0x00000003,
         GEO_TYPE_AABOX = 0x00000004,
         GEO_TYPE_CAMERA_ORIENTED = 0x00000005,
-        GEO_TYPE_NULL = 0x00000006,
+        GEO_TYPE_nullptr = 0x00000006,
         GEO_TYPE_DAZZLE = 0x00000007,
         GEO_TYPE_AGGREGATE = 0x00000008,
     };
@@ -313,7 +313,7 @@ struct W3DAppData2Struct
     bool Is_Camera_Oriented_Mesh(void) const { return GeometryType == GEO_TYPE_CAMERA_ORIENTED; }
     bool Is_Collision_AABox(void) const { return GeometryType == GEO_TYPE_AABOX; }
     bool Is_Collision_OBBox(void) const { return GeometryType == GEO_TYPE_OBBOX; }
-    bool Is_Null(void) const { return GeometryType == GEO_TYPE_NULL; }
+    bool Is_nullptr(void) const { return GeometryType == GEO_TYPE_nullptr; }
     bool Is_Dazzle(void) const { return GeometryType == GEO_TYPE_DAZZLE; }
 
     bool Is_Hidden_Enabled(void) const

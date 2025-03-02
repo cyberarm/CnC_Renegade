@@ -100,11 +100,11 @@ static inline int FracToPc(float f)
 GameMtlDlg::GameMtlDlg(HWND hwMtlEdit, IMtlParams* imp, GameMtl* m)
 {
     HwndEdit = hwMtlEdit;
-    HwndPanel = NULL;
-    HwndHints = NULL;
-    HwndPsx = NULL;
-    HwndNotes = NULL;
-    HpalOld = NULL;
+    HwndPanel = nullptr;
+    HwndHints = nullptr;
+    HwndPsx = nullptr;
+    HwndNotes = nullptr;
+    HpalOld = nullptr;
 
     TheMtl = m;
     IParams = imp;
@@ -112,28 +112,28 @@ GameMtlDlg::GameMtlDlg(HWND hwMtlEdit, IMtlParams* imp, GameMtl* m)
     IsActive = 0;
     InstCopy = FALSE;
 
-    DiffuseSwatch = NULL;
-    SpecularSwatch = NULL;
+    DiffuseSwatch = nullptr;
+    SpecularSwatch = nullptr;
 
-    AmbientCoeffSwatch = NULL;
-    DiffuseCoeffSwatch = NULL;
-    SpecularCoeffSwatch = NULL;
-    EmissiveCoeffSwatch = NULL;
+    AmbientCoeffSwatch = nullptr;
+    DiffuseCoeffSwatch = nullptr;
+    SpecularCoeffSwatch = nullptr;
+    EmissiveCoeffSwatch = nullptr;
 
-    DCTFramesSpin = NULL;
-    DITFramesSpin = NULL;
-    SCTFramesSpin = NULL;
-    SITFramesSpin = NULL;
+    DCTFramesSpin = nullptr;
+    DITFramesSpin = nullptr;
+    SCTFramesSpin = nullptr;
+    SITFramesSpin = nullptr;
 
-    DCTRateSpin = NULL;
-    DITRateSpin = NULL;
-    SCTRateSpin = NULL;
-    SITRateSpin = NULL;
+    DCTRateSpin = nullptr;
+    DITRateSpin = nullptr;
+    SCTRateSpin = nullptr;
+    SITRateSpin = nullptr;
 
-    OpacitySpin = NULL;
-    TranslucencySpin = NULL;
-    ShininessSpin = NULL;
-    FogSpin = NULL;
+    OpacitySpin = nullptr;
+    TranslucencySpin = nullptr;
+    ShininessSpin = nullptr;
+    FogSpin = nullptr;
 }
 
 /***********************************************************************************************
@@ -152,32 +152,32 @@ GameMtlDlg::~GameMtlDlg()
 {
     if (DiffuseSwatch) {
         ReleaseIColorSwatch(DiffuseSwatch);
-        DiffuseSwatch = NULL;
+        DiffuseSwatch = nullptr;
     }
 
     if (SpecularSwatch) {
         ReleaseIColorSwatch(SpecularSwatch);
-        SpecularSwatch = NULL;
+        SpecularSwatch = nullptr;
     }
 
     if (AmbientCoeffSwatch) {
         ReleaseIColorSwatch(AmbientCoeffSwatch);
-        AmbientCoeffSwatch = NULL;
+        AmbientCoeffSwatch = nullptr;
     }
 
     if (DiffuseCoeffSwatch) {
         ReleaseIColorSwatch(DiffuseCoeffSwatch);
-        DiffuseCoeffSwatch = NULL;
+        DiffuseCoeffSwatch = nullptr;
     }
 
     if (SpecularCoeffSwatch) {
         ReleaseIColorSwatch(SpecularCoeffSwatch);
-        SpecularCoeffSwatch = NULL;
+        SpecularCoeffSwatch = nullptr;
     }
 
     if (EmissiveCoeffSwatch) {
         ReleaseIColorSwatch(EmissiveCoeffSwatch);
-        EmissiveCoeffSwatch = NULL;
+        EmissiveCoeffSwatch = nullptr;
     }
 
     if (HwndPanel) {
@@ -191,23 +191,23 @@ GameMtlDlg::~GameMtlDlg()
     TheMtl->SetFlag(GAMEMTL_ROLLUP3_OPEN, IParams->IsRollupPanelOpen(HwndHints));
     TheMtl->SetFlag(GAMEMTL_ROLLUP4_OPEN, IParams->IsRollupPanelOpen(HwndNotes));
     TheMtl->RollScroll = IParams->GetRollupScrollPos();
-    TheMtl->SetParamDlg(NULL);
+    TheMtl->SetParamDlg(nullptr);
 
     IParams->UnRegisterDlgWnd(HwndPanel);
     IParams->DeleteRollupPage(HwndPanel);
-    HwndPanel = NULL;
+    HwndPanel = nullptr;
 
     IParams->UnRegisterDlgWnd(HwndPsx);
     IParams->DeleteRollupPage(HwndPsx);
-    HwndPsx = NULL;
+    HwndPsx = nullptr;
 
     IParams->UnRegisterDlgWnd(HwndHints);
     IParams->DeleteRollupPage(HwndHints);
-    HwndHints = NULL;
+    HwndHints = nullptr;
 
     IParams->UnRegisterDlgWnd(HwndNotes);
     IParams->DeleteRollupPage(HwndNotes);
-    HwndNotes = NULL;
+    HwndNotes = nullptr;
 }
 
 /***********************************************************************************************
@@ -242,10 +242,10 @@ Class_ID GameMtlDlg::ClassID()
 void GameMtlDlg::Invalidate()
 {
     Valid = FALSE;
-    InvalidateRect(HwndPanel, NULL, 0);
-    InvalidateRect(HwndPsx, NULL, 0);
-    InvalidateRect(HwndHints, NULL, 0);
-    InvalidateRect(HwndNotes, NULL, 0);
+    InvalidateRect(HwndPanel, nullptr, 0);
+    InvalidateRect(HwndPsx, nullptr, 0);
+    InvalidateRect(HwndHints, nullptr, 0);
+    InvalidateRect(HwndNotes, nullptr, 0);
 }
 
 /***********************************************************************************************
@@ -455,7 +455,7 @@ BOOL GameMtlDlg::PanelProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
         case IDC_MAPON_DCT:
             TheMtl->EnableMap(ID_DI, GetCheckBox(hwndDlg, id));
             if (!GetCheckBox(hwndDlg, id)) {
-                TheMtl->SetSubTexmap(ID_DI, NULL);
+                TheMtl->SetSubTexmap(ID_DI, nullptr);
             }
             UpdateTexmapDisplay(ID_DI);
             UpdateMtlDisplay();
@@ -464,7 +464,7 @@ BOOL GameMtlDlg::PanelProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
         case IDC_MAPON_DIT:
             TheMtl->EnableMap(ID_SI, GetCheckBox(hwndDlg, id));
             if (!GetCheckBox(hwndDlg, id)) {
-                TheMtl->SetSubTexmap(ID_SI, NULL);
+                TheMtl->SetSubTexmap(ID_SI, nullptr);
             }
             UpdateTexmapDisplay(ID_SI);
             UpdateMtlDisplay();
@@ -473,7 +473,7 @@ BOOL GameMtlDlg::PanelProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
         case IDC_MAPON_SCT:
             TheMtl->EnableMap(ID_SP, GetCheckBox(hwndDlg, id));
             if (!GetCheckBox(hwndDlg, id)) {
-                TheMtl->SetSubTexmap(ID_SP, NULL);
+                TheMtl->SetSubTexmap(ID_SP, nullptr);
             }
             UpdateTexmapDisplay(ID_SP);
             UpdateMtlDisplay();
@@ -482,7 +482,7 @@ BOOL GameMtlDlg::PanelProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
         case IDC_MAPON_SIT:
             TheMtl->EnableMap(ID_RL, GetCheckBox(hwndDlg, id));
             if (!GetCheckBox(hwndDlg, id)) {
-                TheMtl->SetSubTexmap(ID_RL, NULL);
+                TheMtl->SetSubTexmap(ID_RL, nullptr);
             }
             UpdateTexmapDisplay(ID_RL);
             UpdateMtlDisplay();
@@ -607,9 +607,9 @@ BOOL GameMtlDlg::PanelProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
         ReleaseISpinner(ShininessSpin);
         ReleaseISpinner(FogSpin);
 
-        DCTFramesSpin = DITFramesSpin = SCTFramesSpin = SITFramesSpin = NULL;
-        DCTRateSpin = DITRateSpin = SCTRateSpin = SITRateSpin = NULL;
-        OpacitySpin = TranslucencySpin = ShininessSpin = FogSpin = NULL;
+        DCTFramesSpin = DITFramesSpin = SCTFramesSpin = SITFramesSpin = nullptr;
+        DCTRateSpin = DITRateSpin = SCTRateSpin = SITRateSpin = nullptr;
+        OpacitySpin = TranslucencySpin = ShininessSpin = FogSpin = nullptr;
 
         break;
     }
@@ -639,7 +639,7 @@ static BOOL CALLBACK PanelDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
         SetWindowLong(hwndDlg, GWL_USERDATA, lParam);
     }
     else {
-        if ((theDlg = (GameMtlDlg*)GetWindowLong(hwndDlg, GWL_USERDATA)) == NULL) {
+        if ((theDlg = (GameMtlDlg*)GetWindowLong(hwndDlg, GWL_USERDATA)) == nullptr) {
             return FALSE;
         }
     }
@@ -706,7 +706,7 @@ static BOOL CALLBACK NotesDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
         SetWindowLong(hwndDlg, GWL_USERDATA, lParam);
     }
     else {
-        if ((theDlg = (GameMtlDlg*)GetWindowLong(hwndDlg, GWL_USERDATA)) == NULL) {
+        if ((theDlg = (GameMtlDlg*)GetWindowLong(hwndDlg, GWL_USERDATA)) == nullptr) {
             return FALSE;
         }
     }
@@ -798,7 +798,7 @@ static BOOL CALLBACK HintsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
         SetWindowLong(hwndDlg, GWL_USERDATA, lParam);
     }
     else {
-        if ((theDlg = (GameMtlDlg*)GetWindowLong(hwndDlg, GWL_USERDATA)) == NULL) {
+        if ((theDlg = (GameMtlDlg*)GetWindowLong(hwndDlg, GWL_USERDATA)) == nullptr) {
             return FALSE;
         }
     }
@@ -890,7 +890,7 @@ static BOOL CALLBACK PsxDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
         SetWindowLong(hwndDlg, GWL_USERDATA, lParam);
     }
     else {
-        if ((theDlg = (GameMtlDlg*)GetWindowLong(hwndDlg, GWL_USERDATA)) == NULL) {
+        if ((theDlg = (GameMtlDlg*)GetWindowLong(hwndDlg, GWL_USERDATA)) == nullptr) {
             return FALSE;
         }
     }
@@ -1109,7 +1109,7 @@ void GameMtlDlg::SetThing(ReferenceTarget* m)
     assert(m->ClassID() == GameMaterialClassID);
 
     if (TheMtl) {
-        TheMtl->ParamPanel = NULL;
+        TheMtl->ParamPanel = nullptr;
     }
 
     TheMtl = (GameMtl*)m;

@@ -49,13 +49,13 @@
 #define DEFAULT_VB_SIZE 5000
 
 static bool _DynamicSortingVertexArrayInUse = false;
-// static VertexFormatXYZNDUV2* _DynamicSortingVertexArray=NULL;
-static SortingVertexBufferClass* _DynamicSortingVertexArray = NULL;
+// static VertexFormatXYZNDUV2* _DynamicSortingVertexArray=nullptr;
+static SortingVertexBufferClass* _DynamicSortingVertexArray = nullptr;
 static unsigned short _DynamicSortingVertexArraySize = 0;
 static unsigned short _DynamicSortingVertexArrayOffset = 0;
 
 static bool _DynamicDX8VertexBufferInUse = false;
-static DX8VertexBufferClass* _DynamicDX8VertexBuffer = NULL;
+static DX8VertexBufferClass* _DynamicDX8VertexBuffer = nullptr;
 static unsigned short _DynamicDX8VertexBufferSize = DEFAULT_VB_SIZE;
 static unsigned short _DynamicDX8VertexBufferOffset = 0;
 
@@ -300,7 +300,7 @@ SortingVertexBufferClass::~SortingVertexBufferClass()
 DX8VertexBufferClass::DX8VertexBufferClass(unsigned FVF, unsigned short vertex_count_,
                                            UsageType usage)
     : VertexBufferClass(BUFFER_TYPE_DX8, FVF, vertex_count_),
-      VertexBuffer(NULL)
+      VertexBuffer(nullptr)
 {
     Create_Vertex_Buffer(usage);
 }
@@ -311,7 +311,7 @@ DX8VertexBufferClass::DX8VertexBufferClass(const Vector3* vertices, const Vector
                                            const Vector2* tex_coords, unsigned short VertexCount,
                                            UsageType usage)
     : VertexBufferClass(BUFFER_TYPE_DX8, D3DFVF_XYZ | D3DFVF_TEX1 | D3DFVF_NORMAL, VertexCount),
-      VertexBuffer(NULL)
+      VertexBuffer(nullptr)
 {
     WWASSERT(vertices);
     WWASSERT(normals);
@@ -328,7 +328,7 @@ DX8VertexBufferClass::DX8VertexBufferClass(const Vector3* vertices, const Vector
                                            unsigned short VertexCount, UsageType usage)
     : VertexBufferClass(BUFFER_TYPE_DX8, D3DFVF_XYZ | D3DFVF_TEX1 | D3DFVF_NORMAL | D3DFVF_DIFFUSE,
                         VertexCount),
-      VertexBuffer(NULL)
+      VertexBuffer(nullptr)
 {
     WWASSERT(vertices);
     WWASSERT(normals);
@@ -345,7 +345,7 @@ DX8VertexBufferClass::DX8VertexBufferClass(const Vector3* vertices, const Vector
                                            const Vector2* tex_coords, unsigned short VertexCount,
                                            UsageType usage)
     : VertexBufferClass(BUFFER_TYPE_DX8, D3DFVF_XYZ | D3DFVF_TEX1 | D3DFVF_DIFFUSE, VertexCount),
-      VertexBuffer(NULL)
+      VertexBuffer(nullptr)
 {
     WWASSERT(vertices);
     WWASSERT(tex_coords);
@@ -360,7 +360,7 @@ DX8VertexBufferClass::DX8VertexBufferClass(const Vector3* vertices, const Vector
 DX8VertexBufferClass::DX8VertexBufferClass(const Vector3* vertices, const Vector2* tex_coords,
                                            unsigned short VertexCount, UsageType usage)
     : VertexBufferClass(BUFFER_TYPE_DX8, D3DFVF_XYZ | D3DFVF_TEX1, VertexCount),
-      VertexBuffer(NULL)
+      VertexBuffer(nullptr)
 {
     WWASSERT(vertices);
     WWASSERT(tex_coords);
@@ -703,13 +703,13 @@ DynamicVBAccessClass::~DynamicVBAccessClass()
 
 void DynamicVBAccessClass::_Deinit()
 {
-    WWASSERT((_DynamicDX8VertexBuffer == NULL) || (_DynamicDX8VertexBuffer->Num_Refs() == 1));
+    WWASSERT((_DynamicDX8VertexBuffer == nullptr) || (_DynamicDX8VertexBuffer->Num_Refs() == 1));
     REF_PTR_RELEASE(_DynamicDX8VertexBuffer);
     _DynamicDX8VertexBufferInUse = false;
     _DynamicDX8VertexBufferSize = DEFAULT_VB_SIZE;
     _DynamicDX8VertexBufferOffset = 0;
 
-    WWASSERT((_DynamicSortingVertexArray == NULL) || (_DynamicSortingVertexArray->Num_Refs() == 1));
+    WWASSERT((_DynamicSortingVertexArray == nullptr) || (_DynamicSortingVertexArray->Num_Refs() == 1));
     REF_PTR_RELEASE(_DynamicSortingVertexArray);
     WWASSERT(!_DynamicSortingVertexArrayInUse);
     _DynamicSortingVertexArrayInUse = false;

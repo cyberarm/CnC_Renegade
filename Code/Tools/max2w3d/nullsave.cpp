@@ -22,7 +22,7 @@
  *                                                                                             *
  *                 Project Name : Max2W3d                                                      *
  *                                                                                             *
- *                     $Archive:: /Commando/Code/Tools/max2w3d/nullsave.cpp                   $*
+ *                     $Archive:: /Commando/Code/Tools/max2w3d/nullptrsave.cpp                   $*
  *                                                                                             *
  *                       Author:: Greg Hjelstrom                                               *
  *                                                                                             *
@@ -34,27 +34,27 @@
  * Functions:                                                                                  *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
-#include "nullsave.h"
+#include "nullptrsave.h"
 
-NullSaveClass::NullSaveClass(char* mesh_name, char* container_name, Progress_Meter_Class& meter)
+nullptrSaveClass::nullptrSaveClass(char* mesh_name, char* container_name, Progress_Meter_Class& meter)
 {
     //////////////////////////////////////////////////////////////////////
-    // Set up the NullObject description
+    // Set up the nullptrObject description
     //////////////////////////////////////////////////////////////////////
-    memset(&NullData, 0, sizeof(NullData));
+    memset(&nullptrData, 0, sizeof(nullptrData));
 
-    NullData.Version = W3D_NULL_OBJECT_CURRENT_VERSION;
-    if ((container_name != NULL) && (strlen(container_name) > 0)) {
-        strcpy(NullData.Name, container_name);
-        strcat(NullData.Name, ".");
+    nullptrData.Version = W3D_nullptr_OBJECT_CURRENT_VERSION;
+    if ((container_name != nullptr) && (strlen(container_name) > 0)) {
+        strcpy(nullptrData.Name, container_name);
+        strcat(nullptrData.Name, ".");
     }
-    strcat(NullData.Name, mesh_name);
+    strcat(nullptrData.Name, mesh_name);
 }
 
-int NullSaveClass::Write_To_File(ChunkSaveClass& csave)
+int nullptrSaveClass::Write_To_File(ChunkSaveClass& csave)
 {
-    csave.Begin_Chunk(W3D_CHUNK_NULL_OBJECT);
-    csave.Write(&NullData, sizeof(NullData));
+    csave.Begin_Chunk(W3D_CHUNK_nullptr_OBJECT);
+    csave.Write(&nullptrData, sizeof(nullptrData));
     csave.End_Chunk();
     return 0;
 }

@@ -54,7 +54,7 @@ public:
     } CryptControl;
 
     BlowPipe(CryptControl control)
-        : BF(NULL),
+        : BF(nullptr),
           Counter(0),
           Control(control)
     {
@@ -62,7 +62,7 @@ public:
     virtual ~BlowPipe(void)
     {
         delete BF;
-        BF = NULL;
+        BF = nullptr;
     }
     virtual int Flush(void);
 
@@ -74,7 +74,7 @@ public:
 protected:
     /*
     **	The Blowfish engine used for encryption/decryption. If this pointer is
-    **	NULL, then this indicates that the blowfish engine is not active and no
+    **	nullptr, then this indicates that the blowfish engine is not active and no
     **	key has been submitted. All data would pass through this pipe unchanged
     **	in that case.
     */

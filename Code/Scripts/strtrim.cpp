@@ -56,7 +56,7 @@
 
 char* strtrim(char* buffer)
 {
-    if (buffer != NULL) {
+    if (buffer != nullptr) {
         // Strip leading white space from the string.
         char* source = buffer;
 

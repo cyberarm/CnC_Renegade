@@ -107,7 +107,7 @@ ListCtrlClass::~ListCtrlClass(void)
 {
     Delete_All_Entries();
 
-    if (Parent != NULL) {
+    if (Parent != nullptr) {
         Parent->Remove_Control(&ScrollBarCtrl);
     }
 
@@ -693,7 +693,7 @@ void ListCtrlClass::Update_Scroll_Bar_Visibility(void)
         new_right = ScrollBarCtrl.Get_Window_Rect().Left;
         IsScrollBarDisplayed = true;
     }
-    else if (Parent != NULL) {
+    else if (Parent != nullptr) {
         new_right = ScrollBarCtrl.Get_Window_Rect().Right;
         IsScrollBarDisplayed = false;
     }

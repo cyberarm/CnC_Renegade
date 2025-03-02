@@ -67,8 +67,8 @@ template <class T> class TRect;
 template <class T> class List;
 template <class T, class U> class IndexClass;
 
-#ifndef NULL
-#define NULL 0L
+#ifndef nullptr
+#define nullptr 0L
 #endif
 
 /*
@@ -112,12 +112,12 @@ public:
     /*
     **	Erase all data within this INI file manager.
     */
-    bool Clear(char const* section = NULL, char const* entry = NULL);
+    bool Clear(char const* section = nullptr, char const* entry = nullptr);
 
     //		int Line_Count(char const * section) const;
     bool Is_Loaded(void) const;
     int Size(void) const;
-    bool Is_Present(char const* section, char const* entry = NULL) const
+    bool Is_Present(char const* section, char const* entry = nullptr) const
     {
         if (entry == 0) {
             return (Find_Section(section) != 0);
@@ -130,7 +130,7 @@ public:
     **	section is present.
     */
     int Section_Count(void) const;
-    bool Section_Present(char const* section) const { return (Find_Section(section) != NULL); }
+    bool Section_Present(char const* section) const { return (Find_Section(section) != nullptr); }
 
     /*
     **	Fetch the number of entries in a section or get a particular entry in a section.

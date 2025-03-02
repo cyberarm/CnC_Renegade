@@ -45,7 +45,7 @@ public:
     };
 
     ItemInfoClass(const char* name, int type)
-        : Instance(NULL)
+        : Instance(nullptr)
     {
         Name = strdup(name);
         Type = type;

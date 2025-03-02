@@ -48,7 +48,7 @@
 ///////////////////////////////////////////////////////////////////
 ScreenCursorClass::ScreenCursorClass(void)
     : Hotspot(0, 0),
-      Texture(NULL),
+      Texture(nullptr),
       Width(0),
       Height(0)
 {
@@ -78,7 +78,7 @@ void ScreenCursorClass::Set_Texture(TextureClass* texture)
     //
     // Find the dimensions of the texture:
     //
-    if (Texture != NULL) {
+    if (Texture != nullptr) {
         //		SurfaceClass::SurfaceDescription surface_desc;
         //		Texture->Get_Level_Description(surface_desc);
         //		Width	= surface_desc.Width;

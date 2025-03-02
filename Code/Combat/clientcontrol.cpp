@@ -41,7 +41,7 @@
 #include "networkobjectfactory.h"
 #include "smartgameobj.h"
 
-CClientControl* PClientControl = NULL;
+CClientControl* PClientControl = nullptr;
 
 DECLARE_NETWORKOBJECT_FACTORY(CClientControl, NETCLASSID_CLIENTCONTROL);
 
@@ -119,17 +119,17 @@ void CClientControl::Export_Frequent(BitStreamClass& packet)
 
     if (SmartObjId != -1) {
             SmartGameObj * p_smart_go = GameObjManager::Find_SmartGameObj(SmartObjId);
-            WWASSERT(p_smart_go != NULL);
+            WWASSERT(p_smart_go != nullptr);
 
             p_smart_go->Export_Control_Cs(packet);
             p_smart_go->Export_State_Cs(packet);
     }
     */
 
-    SmartGameObj* p_smart_go = NULL;
+    SmartGameObj* p_smart_go = nullptr;
     if (SmartObjId != -1) {
         p_smart_go = GameObjManager::Find_SmartGameObj(SmartObjId);
-        if (p_smart_go == NULL) {
+        if (p_smart_go == nullptr) {
             SmartObjId = -1;
         }
     }
@@ -137,7 +137,7 @@ void CClientControl::Export_Frequent(BitStreamClass& packet)
     packet.Add(SmartObjId);
 
     if (SmartObjId != -1) {
-        WWASSERT(p_smart_go != NULL);
+        WWASSERT(p_smart_go != nullptr);
 
         p_smart_go->Export_Control_Cs(packet);
         p_smart_go->Export_State_Cs(packet);
@@ -155,9 +155,9 @@ void CClientControl::Import_Frequent(BitStreamClass& packet)
 
     if (SmartObjId != -1) {
         SmartGameObj* p_smart_go = GameObjManager::Find_SmartGameObj(SmartObjId);
-        // WWASSERT(p_smart_go != NULL);
+        // WWASSERT(p_smart_go != nullptr);
 
-        if (p_smart_go == NULL) {
+        if (p_smart_go == nullptr) {
             packet.Flush();
         }
         else {

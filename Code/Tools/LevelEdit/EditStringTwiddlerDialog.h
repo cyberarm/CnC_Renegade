@@ -37,7 +37,7 @@ class EditStringTwiddlerDialogClass : public CDialog
 {
     // Construction
 public:
-    EditStringTwiddlerDialogClass(CWnd* pParent = NULL);
+    EditStringTwiddlerDialogClass(CWnd* pParent = nullptr);
 
     // Dialog Data
     //{{AFX_DATA(EditStringTwiddlerDialogClass)

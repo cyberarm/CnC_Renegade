@@ -100,8 +100,8 @@ StaticAABTreeCullClass::~StaticAABTreeCullClass(void)
 
 void StaticAABTreeCullClass::Add_Object(PhysClass* obj, int cull_node_id /*= -1*/)
 {
-    WWASSERT(Scene != NULL);
-    WWASSERT(obj->As_StaticPhysClass() != NULL);
+    WWASSERT(Scene != nullptr);
+    WWASSERT(obj->As_StaticPhysClass() != nullptr);
     PhysAABTreeCullClass::Add_Object(obj, cull_node_id);
     // (gth) not resetting vis when adding a static object
     //	Scene->Reset_Vis();
@@ -109,8 +109,8 @@ void StaticAABTreeCullClass::Add_Object(PhysClass* obj, int cull_node_id /*= -1*
 
 void StaticAABTreeCullClass::Remove_Object(PhysClass* obj)
 {
-    WWASSERT(Scene != NULL);
-    WWASSERT(obj->As_StaticPhysClass() != NULL);
+    WWASSERT(Scene != nullptr);
+    WWASSERT(obj->As_StaticPhysClass() != nullptr);
     PhysAABTreeCullClass::Remove_Object(obj);
     // (gth) not resetting vis when removing a static object
     //	Scene->Reset_Vis();
@@ -118,7 +118,7 @@ void StaticAABTreeCullClass::Remove_Object(PhysClass* obj)
 
 void StaticAABTreeCullClass::Update_Culling(CullableClass* obj)
 {
-    WWASSERT(Scene != NULL);
+    WWASSERT(Scene != nullptr);
     PhysAABTreeCullClass::Update_Culling(obj);
     // (gth) not resetting vis when moving a static object
     //	Scene->Reset_Vis();
@@ -129,9 +129,9 @@ void StaticAABTreeCullClass::Collect_Visible_Objects(const FrustumClass& frustum
                                                      RefPhysListClass& visobjlist,
                                                      RefPhysListClass& wsmeshlist)
 {
-    WWASSERT(RootNode != NULL);
+    WWASSERT(RootNode != nullptr);
 
-    if (pvs != NULL) {
+    if (pvs != nullptr) {
 
         /*
         ** If we got a pvs then we call the custom hierarchical visible object
@@ -165,7 +165,7 @@ void StaticAABTreeCullClass::Collect_Visible_Objects(const FrustumClass& frustum
         ** Loop over each object, adding it into the list
         */
         StaticPhysClass* obj;
-        for (obj = (StaticPhysClass*)Get_First_Collected_Object(); obj != NULL;
+        for (obj = (StaticPhysClass*)Get_First_Collected_Object(); obj != nullptr;
              obj = (StaticPhysClass*)Get_Next_Collected_Object(obj)) {
             if (obj->Is_World_Space_Mesh()) {
                 wsmeshlist.Add(obj);
@@ -348,7 +348,7 @@ void StaticAABTreeCullClass::Evaluate_Non_Occluder_Visibility(VisRenderContextCl
         RefPhysListIterator it(&non_occluders);
         for (it.First(); !it.Is_Done(); it.Next()) {
             StaticPhysClass* obj = (StaticPhysClass*)it.Peek_Obj();
-            WWASSERT(obj != NULL);
+            WWASSERT(obj != nullptr);
             context.VisTable.Set_Bit(obj->Get_Vis_Object_ID(), true);
         }
     }
@@ -357,7 +357,7 @@ void StaticAABTreeCullClass::Evaluate_Non_Occluder_Visibility(VisRenderContextCl
         RefPhysListIterator it(&non_occluders);
         for (it.First(); !it.Is_Done(); it.Next()) {
             StaticPhysClass* obj = (StaticPhysClass*)it.Peek_Obj();
-            WWASSERT(obj != NULL);
+            WWASSERT(obj != nullptr);
 
             /*
             ** If the camera is inside the bounding box of this non-occluder; mark it visible
@@ -490,26 +490,26 @@ StaticPhysClass* StaticAABTreeCullClass::Find_Vis_Tile(const Vector3& sample_poi
 
         // return pointer to the tile that the box hit
         WWASSERT(boxtest.CollidedPhysObj);
-        WWASSERT(boxtest.CollidedPhysObj->As_StaticPhysClass() != NULL);
+        WWASSERT(boxtest.CollidedPhysObj->As_StaticPhysClass() != nullptr);
         return (StaticPhysClass*)boxtest.CollidedPhysObj;
     }
     else if (ray_result.Fraction < 1.0f) {
 
         // return pointer to the tile that the ray hit
         WWASSERT(raytest.CollidedPhysObj);
-        WWASSERT(raytest.CollidedPhysObj->As_StaticPhysClass() != NULL);
+        WWASSERT(raytest.CollidedPhysObj->As_StaticPhysClass() != nullptr);
         return (StaticPhysClass*)raytest.CollidedPhysObj;
     }
     else {
 
-        return NULL;
+        return nullptr;
     }
 }
 
 int StaticAABTreeCullClass::Get_Vis_Sector_ID(const Vector3& sample_point)
 {
     StaticPhysClass* tile = Find_Vis_Tile(sample_point);
-    if (tile == NULL) {
+    if (tile == nullptr) {
         return -1;
     }
     return tile->Get_Vis_Sector_ID();
@@ -526,11 +526,11 @@ void StaticAABTreeCullClass::Propogate_Hierarchical_Visibility_Recursive(AABTree
     /*
     ** Recurse to the bottom of the tree first
     */
-    if (node->Front != NULL) {
+    if (node->Front != nullptr) {
         Propogate_Hierarchical_Visibility_Recursive(node->Front, pvs);
     }
 
-    if (node->Back != NULL) {
+    if (node->Back != nullptr) {
         Propogate_Hierarchical_Visibility_Recursive(node->Back, pvs);
     }
 
@@ -551,11 +551,11 @@ bool StaticAABTreeCullClass::Is_Child_Visible(AABTreeNodeClass* node, VisTableCl
     ** If this is a leaf node, we check for visibility of any contained objects
     ** Otherwise we check if either of the child nodes are visible
     */
-    if ((node->Front != NULL) && (pvs->Get_Bit(node->Front->UserData) != 0)) {
+    if ((node->Front != nullptr) && (pvs->Get_Bit(node->Front->UserData) != 0)) {
         return true;
     }
 
-    if ((node->Back != NULL) && (pvs->Get_Bit(node->Back->UserData) != 0)) {
+    if ((node->Back != nullptr) && (pvs->Get_Bit(node->Back->UserData) != 0)) {
         return true;
     }
 

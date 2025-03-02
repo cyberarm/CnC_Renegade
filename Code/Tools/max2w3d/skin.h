@@ -245,7 +245,7 @@ public:
                                RefMessage message);
     void BeginEditParams(IObjParam* ip, ULONG flags, Animatable* prev);
     void EndEditParams(IObjParam* ip, ULONG flags, Animatable* next);
-    CreateMouseCallBack* GetCreateMouseCallBack() { return NULL; }
+    CreateMouseCallBack* GetCreateMouseCallBack() { return nullptr; }
 
     /*
     ** From Reference Maker.  These three functions give access to the "virtual array" of

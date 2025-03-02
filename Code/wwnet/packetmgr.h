@@ -287,7 +287,7 @@ private:
         ~SendBufferClass(void)
         {
             delete PacketBuffer;
-            PacketBuffer = NULL;
+            PacketBuffer = nullptr;
         };
     };
 

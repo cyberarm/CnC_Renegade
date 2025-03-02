@@ -64,15 +64,15 @@ static void Init_3D_Scene();
 HINSTANCE hInst; // current instance
 TCHAR szTitle[MAX_LOADSTRING]; // The title bar text
 TCHAR szWindowClass[MAX_LOADSTRING]; // The title bar text
-WW3DAssetManager* AssetManager = NULL;
-SimpleSceneClass* my_scene = NULL;
-CameraClass* my_camera = NULL;
-Render2DTextClass* mytext = NULL;
-RenderObjClass* orig_object = NULL;
-MaterialPassClass* mat_pass = NULL;
-HAnimClass* my_anim = NULL;
-Font3DInstanceClass* my_font_a = NULL;
-Font3DInstanceClass* my_font_b = NULL;
+WW3DAssetManager* AssetManager = nullptr;
+SimpleSceneClass* my_scene = nullptr;
+CameraClass* my_camera = nullptr;
+Render2DTextClass* mytext = nullptr;
+RenderObjClass* orig_object = nullptr;
+MaterialPassClass* mat_pass = nullptr;
+HAnimClass* my_anim = nullptr;
+Font3DInstanceClass* my_font_a = nullptr;
+Font3DInstanceClass* my_font_b = nullptr;
 
 DecalSystemClass TheDecalSystem;
 bool running = true;
@@ -195,7 +195,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 
     hInst = hInstance; // Store instance handle in our global variable
     HWND hWnd = CreateWindow(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, 0,
-                             CW_USEDEFAULT, 0, NULL, NULL, hInstance, NULL);
+                             CW_USEDEFAULT, 0, nullptr, nullptr, hInstance, nullptr);
 
     ShowWindow(hWnd, nCmdShow);
     UpdateWindow(hWnd);
@@ -317,7 +317,7 @@ ATOM MyRegisterClass(HINSTANCE hInstance)
     wcex.cbWndExtra = 0;
     wcex.hInstance = hInstance;
     wcex.hIcon = LoadIcon(hInstance, (LPCTSTR)IDI_SKELETON);
-    wcex.hCursor = LoadCursor(NULL, IDC_ARROW);
+    wcex.hCursor = LoadCursor(nullptr, IDC_ARROW);
     wcex.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
     wcex.lpszMenuName = (LPCSTR)IDC_SKELETON;
     wcex.lpszClassName = szWindowClass;
@@ -491,7 +491,7 @@ void Debug_Refs(void)
                 && (search_ref->Line == ref->Line)) {
                 count++;
             }
-            else if ((ref->File == NULL) && (search_ref->File == NULL)) {
+            else if ((ref->File == nullptr) && (search_ref->File == nullptr)) {
                 count++;
             }
 

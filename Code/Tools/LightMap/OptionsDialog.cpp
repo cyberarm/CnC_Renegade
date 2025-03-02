@@ -233,14 +233,14 @@ int OptionsDialog::DoModal()
  *=============================================================================================*/
 void OptionsDialog::OnChangeSpatialTolerance()
 {
-    SpatialTolerance = GetDlgItemInt(IDC_SPATIAL_TOLERANCE, NULL, FALSE);
+    SpatialTolerance = GetDlgItemInt(IDC_SPATIAL_TOLERANCE, nullptr, FALSE);
 }
 
 void OptionsDialog::OnUpdateSpatialTolerance()
 {
     const unsigned maxtolerance = 10000;
 
-    unsigned v = GetDlgItemInt(IDC_SPATIAL_TOLERANCE, NULL, FALSE);
+    unsigned v = GetDlgItemInt(IDC_SPATIAL_TOLERANCE, nullptr, FALSE);
     if (v > maxtolerance) {
         SetDlgItemInt(IDC_SPATIAL_TOLERANCE, maxtolerance, FALSE);
     }
@@ -261,12 +261,12 @@ void OptionsDialog::OnUpdateSpatialTolerance()
  *=============================================================================================*/
 void OptionsDialog::OnChangeFillColorRed()
 {
-    FillColor.R = GetDlgItemInt(IDC_FILL_COLOR_RED, NULL, FALSE);
+    FillColor.R = GetDlgItemInt(IDC_FILL_COLOR_RED, nullptr, FALSE);
 }
 
 void OptionsDialog::OnUpdateFillColorRed()
 {
-    unsigned v = GetDlgItemInt(IDC_FILL_COLOR_RED, NULL, FALSE);
+    unsigned v = GetDlgItemInt(IDC_FILL_COLOR_RED, nullptr, FALSE);
     if (v > _UI8_MAX) {
         SetDlgItemInt(IDC_FILL_COLOR_RED, _UI8_MAX, FALSE);
     }
@@ -287,12 +287,12 @@ void OptionsDialog::OnUpdateFillColorRed()
  *=============================================================================================*/
 void OptionsDialog::OnChangeFillColorGreen()
 {
-    FillColor.G = GetDlgItemInt(IDC_FILL_COLOR_GREEN, NULL, FALSE);
+    FillColor.G = GetDlgItemInt(IDC_FILL_COLOR_GREEN, nullptr, FALSE);
 }
 
 void OptionsDialog::OnUpdateFillColorGreen()
 {
-    unsigned v = GetDlgItemInt(IDC_FILL_COLOR_GREEN, NULL, FALSE);
+    unsigned v = GetDlgItemInt(IDC_FILL_COLOR_GREEN, nullptr, FALSE);
     if (v > _UI8_MAX) {
         SetDlgItemInt(IDC_FILL_COLOR_GREEN, _UI8_MAX, FALSE);
     }
@@ -313,12 +313,12 @@ void OptionsDialog::OnUpdateFillColorGreen()
  *=============================================================================================*/
 void OptionsDialog::OnChangeFillColorBlue()
 {
-    FillColor.B = GetDlgItemInt(IDC_FILL_COLOR_BLUE, NULL, FALSE);
+    FillColor.B = GetDlgItemInt(IDC_FILL_COLOR_BLUE, nullptr, FALSE);
 }
 
 void OptionsDialog::OnUpdateFillColorBlue()
 {
-    unsigned v = GetDlgItemInt(IDC_FILL_COLOR_BLUE, NULL, FALSE);
+    unsigned v = GetDlgItemInt(IDC_FILL_COLOR_BLUE, nullptr, FALSE);
     if (v > _UI8_MAX) {
         SetDlgItemInt(IDC_FILL_COLOR_BLUE, _UI8_MAX, FALSE);
     }
@@ -378,7 +378,7 @@ void OptionsDialog::OnHScroll(UINT sbcode, UINT pos, CScrollBar* scrollbar)
     int controlid = scrollbar->GetDlgCtrlID();
 
     CSliderCtrl* slider = (CSliderCtrl*)GetDlgItem(controlid);
-    ASSERT(slider != NULL);
+    ASSERT(slider != nullptr);
     switch (controlid) {
 
     case IDC_SMOOTHING_ANGLE:
@@ -421,7 +421,7 @@ void OptionsDialog::OnVScroll(UINT sbcode, UINT pos, CScrollBar* scrollbar)
     int controlid = scrollbar->GetDlgCtrlID();
 
     CSpinButtonCtrl* spinner = (CSpinButtonCtrl*)GetDlgItem(controlid);
-    ASSERT(spinner != NULL);
+    ASSERT(spinner != nullptr);
     switch (controlid) {
 
     case IDC_SAMPLE_RATE:
@@ -491,7 +491,7 @@ void OptionsDialog::Initialize_Slider(int sliderid, int start, int end, int valu
     CSliderCtrl* slider;
 
     slider = (CSliderCtrl*)GetDlgItem(sliderid);
-    ASSERT(slider != NULL);
+    ASSERT(slider != nullptr);
     slider->SetRange(start, end);
     slider->SetPos(value);
 }
@@ -514,7 +514,7 @@ void OptionsDialog::Initialize_Spinner(int spinnerid, int start, int end, int va
     CSpinButtonCtrl* spinner;
 
     spinner = (CSpinButtonCtrl*)GetDlgItem(spinnerid);
-    ASSERT(spinner != NULL);
+    ASSERT(spinner != nullptr);
     spinner->SetRange(start, end);
     spinner->SetPos(value);
 }

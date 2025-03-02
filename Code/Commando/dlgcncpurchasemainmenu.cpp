@@ -77,7 +77,7 @@ bool CNCPurchaseMainMenuClass::SecretsEnabled = false;
 ////////////////////////////////////////////////////////////////
 CNCPurchaseMainMenuClass::CNCPurchaseMainMenuClass(void)
     : Team(PurchaseSettingsDefClass::TEAM_GDI),
-      ChatModule(NULL),
+      ChatModule(nullptr),
       RefreshTimer(0),
       MessageLogLength(0),
       MenuDialogClass(IDD_CNC_PURCHASE_MAIN_SCREEN)
@@ -142,8 +142,8 @@ void CNCPurchaseMainMenuClass::On_Init_Dialog(void)
     //
     //	Configure the bitmap buttons
     //
-    chars_button->Set_Bitmap(chars_texture, NULL);
-    vehicles_button->Set_Bitmap(vehicles_texture, NULL);
+    chars_button->Set_Bitmap(chars_texture, nullptr);
+    vehicles_button->Set_Bitmap(vehicles_texture, nullptr);
 
     RefreshTimer = 0;
 
@@ -180,7 +180,7 @@ void CNCPurchaseMainMenuClass::On_Init_Dialog(void)
     //	Configure the message log list ctrl
     //
     ListCtrlClass* list_ctrl = (ListCtrlClass*)Get_Dlg_Item(IDC_LIST_CTRL);
-    if (list_ctrl != NULL) {
+    if (list_ctrl != nullptr) {
         list_ctrl->Add_Column(L"", 1.0F, Vector3(1, 1, 1));
     }
 
@@ -188,7 +188,7 @@ void CNCPurchaseMainMenuClass::On_Init_Dialog(void)
     //	Activate the menu game mode (if necessary)
     //
     GameModeClass* menu_game_mode = GameModeManager::Find("Menu");
-    if (menu_game_mode != NULL && menu_game_mode->Is_Active() == false) {
+    if (menu_game_mode != nullptr && menu_game_mode->Is_Active() == false) {
         menu_game_mode->Activate();
     }
 
@@ -225,7 +225,7 @@ void CNCPurchaseMainMenuClass::Configure_Purchase_Controls(void)
     //
     //	Lookup the purchase settings for this team
     //
-    TeamPurchaseSettingsDefClass* definition = NULL;
+    TeamPurchaseSettingsDefClass* definition = nullptr;
     definition
         = TeamPurchaseSettingsDefClass::Get_Definition((TeamPurchaseSettingsDefClass::TEAM)Team);
 
@@ -235,7 +235,7 @@ void CNCPurchaseMainMenuClass::Configure_Purchase_Controls(void)
         //	Get the control for this entry
         //
         MerchandiseCtrlClass* ctrl = (MerchandiseCtrlClass*)Get_Dlg_Item(CTRL_IDS[index]);
-        if (ctrl != NULL) {
+        if (ctrl != nullptr) {
 
             //
             //	Configure the merchandise settings
@@ -251,7 +251,7 @@ void CNCPurchaseMainMenuClass::Configure_Purchase_Controls(void)
     //	Configure the beacon purchase object
     //
     MerchandiseCtrlClass* ctrl = (MerchandiseCtrlClass*)Get_Dlg_Item(IDC_BEACON_PURCHASE);
-    if (ctrl != NULL) {
+    if (ctrl != nullptr) {
         ctrl->Set_Text(definition->Get_Beacon_Name());
         ctrl->Set_Cost(definition->Get_Beacon_Cost());
         ctrl->Set_Texture(definition->Get_Beacon_Texture());
@@ -261,7 +261,7 @@ void CNCPurchaseMainMenuClass::Configure_Purchase_Controls(void)
     //	Configure the supply purchase object
     //
     ctrl = (MerchandiseCtrlClass*)Get_Dlg_Item(IDC_SUPPLY_PURCHASE);
-    if (ctrl != NULL) {
+    if (ctrl != nullptr) {
         ctrl->Set_Text(definition->Get_Supply_Name());
         ctrl->Set_Cost(0);
         ctrl->Set_Texture(definition->Get_Supply_Texture());
@@ -342,10 +342,10 @@ void CNCPurchaseMainMenuClass::Do_Purchase_Screen(PurchaseSettingsDefClass::TYPE
     //
     //	Lookup the definition based on the type and team
     //
-    PurchaseSettingsDefClass* definition = NULL;
+    PurchaseSettingsDefClass* definition = nullptr;
     definition = PurchaseSettingsDefClass::Find_Definition(type, Team);
 
-    if (definition != NULL) {
+    if (definition != nullptr) {
 
         //
         //	Show the purchase dialog
@@ -371,7 +371,7 @@ void CNCPurchaseMainMenuClass::Do_Purchase_Screen(PurchaseSettingsDefClass::TYPE
         //	Examine the base for this player to decide what purchase options they have
         //
         BaseControllerClass* base = BaseControllerClass::Find_Base_For_Star();
-        if (base != NULL) {
+        if (base != nullptr) {
 
             //
             //	If the base is powered down then all prices double in cost
@@ -426,7 +426,7 @@ void CNCPurchaseMainMenuClass::Clear_Selections(void)
     //
     for (int index = 0; index < 6; index++) {
         MerchandiseCtrlClass* ctrl = (MerchandiseCtrlClass*)Get_Dlg_Item(CTRL_IDS[index]);
-        if (ctrl != NULL && ctrl->Get_Purchase_Count() > 0) {
+        if (ctrl != nullptr && ctrl->Get_Purchase_Count() > 0) {
             ctrl->Reset_Purchase_Count();
         }
     }
@@ -448,7 +448,7 @@ void CNCPurchaseMainMenuClass::Purchase(void)
     //
     //	Lookup the purchase settings for this team
     //
-    TeamPurchaseSettingsDefClass* definition = NULL;
+    TeamPurchaseSettingsDefClass* definition = nullptr;
     definition
         = TeamPurchaseSettingsDefClass::Get_Definition((TeamPurchaseSettingsDefClass::TEAM)Team);
 
@@ -457,7 +457,7 @@ void CNCPurchaseMainMenuClass::Purchase(void)
     //
     for (int index = 0; index < 6; index++) {
         MerchandiseCtrlClass* ctrl = (MerchandiseCtrlClass*)Get_Dlg_Item(CTRL_IDS[index]);
-        if (ctrl != NULL && ctrl->Get_Purchase_Count() > 0) {
+        if (ctrl != nullptr && ctrl->Get_Purchase_Count() > 0) {
 
             switch (CTRL_IDS[index]) {
             case IDC_ENLISTED_PURCHASE_01:
@@ -500,7 +500,7 @@ void CNCPurchaseMainMenuClass::On_Merchandise_Selected(MerchandiseCtrlClass* ctr
     //
     //	Update the counter on the merchandise control
     //
-    if (ctrl != NULL) {
+    if (ctrl != nullptr) {
 
         if (ctrl->Get_Purchase_Count() == 0) {
             ctrl->Increment_Purchase_Count();
@@ -520,7 +520,7 @@ void CNCPurchaseMainMenuClass::On_Merchandise_Selected(MerchandiseCtrlClass* ctr
                 for (int index = 0; index < 4; index++) {
                     MerchandiseCtrlClass* other_ctrl
                         = (MerchandiseCtrlClass*)Get_Dlg_Item(CTRL_IDS[index]);
-                    if (other_ctrl != NULL && other_ctrl != ctrl) {
+                    if (other_ctrl != nullptr && other_ctrl != ctrl) {
                         other_ctrl->Reset_Purchase_Count();
                     }
                 }
@@ -563,7 +563,7 @@ void CNCPurchaseMainMenuClass::Purchase_Item(int ctrl_id)
     //
     for (int index = 0; index < 6; index++) {
         MerchandiseCtrlClass* ctrl = (MerchandiseCtrlClass*)Get_Dlg_Item(CTRL_IDS[index]);
-        if (ctrl != NULL) {
+        if (ctrl != nullptr) {
             ctrl->Reset_Purchase_Count();
         }
     }
@@ -572,7 +572,7 @@ void CNCPurchaseMainMenuClass::Purchase_Item(int ctrl_id)
     //	Purchase the item and close the dialog
     //
     MerchandiseCtrlClass* ctrl = (MerchandiseCtrlClass*)Get_Dlg_Item(ctrl_id);
-    if (ctrl != NULL) {
+    if (ctrl != nullptr) {
         ctrl->Increment_Purchase_Count();
         Purchase();
     }
@@ -587,16 +587,16 @@ void CNCPurchaseMainMenuClass::Purchase_Item(int ctrl_id)
 ////////////////////////////////////////////////////////////////
 void CNCPurchaseMainMenuClass::On_Frame_Update(void)
 {
-    if (COMBAT_STAR == NULL) {
+    if (COMBAT_STAR == nullptr) {
         return;
     }
 
     //
     //	Update the player's money every frame
-    // TSS120301 - I'm not sure how player data can be null here but we are crashing
+    // TSS120301 - I'm not sure how player data can be nullptr here but we are crashing
     // with that, so let's test against it.
     //
-    if (COMBAT_STAR->Get_Player_Data() != NULL) {
+    if (COMBAT_STAR->Get_Player_Data() != nullptr) {
         int old_money = Get_Dlg_Item_Int(IDC_CREDITS_TEXT);
         int new_money = (int)COMBAT_STAR->Get_Player_Data()->Get_Money();
         if (new_money != old_money) {
@@ -630,14 +630,14 @@ void CNCPurchaseMainMenuClass::On_Frame_Update(void)
 ////////////////////////////////////////////////////////////////
 void CNCPurchaseMainMenuClass::Refresh_Beacon_State(void)
 {
-    if (COMBAT_STAR == NULL) {
+    if (COMBAT_STAR == nullptr) {
         return;
     }
 
     //
     //	Lookup the purchase settings for this team
     //
-    TeamPurchaseSettingsDefClass* definition = NULL;
+    TeamPurchaseSettingsDefClass* definition = nullptr;
     definition
         = TeamPurchaseSettingsDefClass::Get_Definition((TeamPurchaseSettingsDefClass::TEAM)Team);
 
@@ -646,7 +646,7 @@ void CNCPurchaseMainMenuClass::Refresh_Beacon_State(void)
     //
     float cost = definition->Get_Beacon_Cost();
     int funds = 0;
-    if (COMBAT_STAR->Get_Player_Data() != NULL) {
+    if (COMBAT_STAR->Get_Player_Data() != nullptr) {
         funds = (int)COMBAT_STAR->Get_Player_Data()->Get_Money();
     }
 
@@ -660,7 +660,7 @@ void CNCPurchaseMainMenuClass::Refresh_Beacon_State(void)
         //	Get the player's weapon bag
         //
         WeaponBagClass* weapon_bag = COMBAT_STAR->Get_Weapon_Bag();
-        if (weapon_bag != NULL) {
+        if (weapon_bag != nullptr) {
 
             //
             //	Beacons are purchased via a powerup, so lookup the powerup
@@ -670,7 +670,7 @@ void CNCPurchaseMainMenuClass::Refresh_Beacon_State(void)
             PowerUpGameObjDef* powerup_def
                 = (PowerUpGameObjDef*)DefinitionMgrClass::Find_Definition(
                     definition->Get_Beacon_Definition());
-            if (powerup_def != NULL) {
+            if (powerup_def != nullptr) {
 
                 //
                 //	Loop over all the weapons in the bag
@@ -679,7 +679,7 @@ void CNCPurchaseMainMenuClass::Refresh_Beacon_State(void)
                 int weapon_count = weapon_bag->Get_Count();
                 for (int index = 0; index < weapon_count; index++) {
                     WeaponClass* weapon = weapon_bag->Peek_Weapon(index);
-                    if (weapon != NULL && weapon->Get_ID() == beacon_id) {
+                    if (weapon != nullptr && weapon->Get_ID() == beacon_id) {
 
                         //
                         //	Don't allow the player to purchase more beacons then
@@ -724,14 +724,14 @@ void CNCPurchaseMainMenuClass::Refresh_Button_States(void)
     // the vehicles button
     //
     BaseControllerClass* base_controller = BaseControllerClass::Find_Base_For_Star();
-    if (base_controller != NULL) {
+    if (base_controller != nullptr) {
 
         //
         //	Try to find the vehicle factory for this level
         //
         BuildingGameObj* building
             = base_controller->Find_Building(BuildingConstants::TYPE_VEHICLE_FACTORY);
-        if (building != NULL && building->As_VehicleFactoryGameObj() != NULL) {
+        if (building != nullptr && building->As_VehicleFactoryGameObj() != nullptr) {
             VehicleFactoryGameObj* factory = building->As_VehicleFactoryGameObj();
 
             //
@@ -762,7 +762,7 @@ void CNCPurchaseMainMenuClass::Refresh_Button_States(void)
         //	Try to find the vehicle factory for this level
         //
         building = base_controller->Find_Building(BuildingConstants::TYPE_SOLDIER_FACTORY);
-        if (building != NULL && building->As_SoldierFactoryGameObj() != NULL) {
+        if (building != nullptr && building->As_SoldierFactoryGameObj() != nullptr) {
             SoldierFactoryGameObj* factory = building->As_SoldierFactoryGameObj();
 
             //
@@ -796,7 +796,7 @@ void CNCPurchaseMainMenuClass::Refresh_Button_States(void)
         //
         BaseControllerClass* base = BaseControllerClass::Find_Base_For_Star();
 
-        if (base != NULL) {
+        if (base != nullptr) {
 
             //
             // Find the vehicle factory
@@ -804,7 +804,7 @@ void CNCPurchaseMainMenuClass::Refresh_Button_States(void)
             BuildingGameObj* building
                 = base->Find_Building(BuildingConstants::TYPE_VEHICLE_FACTORY);
 
-            if ((building != NULL) && (building->As_VehicleFactoryGameObj())) {
+            if ((building != nullptr) && (building->As_VehicleFactoryGameObj())) {
 
                 //
                 // See if the team already maxed out the number of vehicles
@@ -845,7 +845,7 @@ bool CNCPurchaseMainMenuClass::On_Key_Down(uint32 key_id, uint32 key_data)
     //	Don't process hot keys if an edit control has the focus
     //
     DialogControlClass* focus_ctrl = DialogMgrClass::Get_Focus();
-    if (focus_ctrl == NULL || focus_ctrl->As_EditCtrlClass() == NULL) {
+    if (focus_ctrl == nullptr || focus_ctrl->As_EditCtrlClass() == nullptr) {
 
         //
         //	Check to see if a hotkey was pressed
@@ -915,7 +915,7 @@ void CNCPurchaseMainMenuClass::Refresh_Message_Log(void)
 {
     ListCtrlClass* list_ctrl = (ListCtrlClass*)Get_Dlg_Item(IDC_LIST_CTRL);
     MessageWindowClass* message_window = CombatManager::Get_Message_Window();
-    if (list_ctrl == NULL || message_window == NULL) {
+    if (list_ctrl == nullptr || message_window == nullptr) {
         return;
     }
 

@@ -75,9 +75,9 @@ TransitionDialogClass::TransitionDialogClass()
     Get_BackDrop()->Set_Model(modelname);
     Get_BackDrop()->Set_Animation(animname);
 
-    // Null materials.
+    // nullptr materials.
     for (unsigned mesh = 0; mesh < MESH_COUNT; mesh++) {
-        Materials[mesh] = NULL;
+        Materials[mesh] = nullptr;
     }
 }
 

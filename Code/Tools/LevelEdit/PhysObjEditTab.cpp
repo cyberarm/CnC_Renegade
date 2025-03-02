@@ -43,8 +43,8 @@ static char THIS_FILE[] = __FILE__;
 //
 /////////////////////////////////////////////////////////////////////////////
 PhysObjEditTabClass::PhysObjEditTabClass(void)
-    : m_ParamSheet(NULL),
-      m_PhysDefParam(NULL),
+    : m_ParamSheet(nullptr),
+      m_PhysDefParam(nullptr),
       m_DefinitionID(0),
       m_IsTemp(false),
       m_ReadOnly(false),
@@ -99,15 +99,15 @@ void PhysObjEditTabClass::HandleInitDialog(void)
         = DefinitionMgrClass::Find_Definition(m_DefinitionID, false);
     uint32 default_classid = 0;
 
-    if (default_definition != NULL) {
+    if (default_definition != nullptr) {
         default_classid = default_definition->Get_Class_ID();
     }
 
     //
     //	Fill in the list of all the definition types
     //
-    DefinitionFactoryClass* factory = NULL;
-    for (factory = DefinitionFactoryMgrClass::Get_First(CLASSID_PHYSICS); factory != NULL;
+    DefinitionFactoryClass* factory = nullptr;
+    for (factory = DefinitionFactoryMgrClass::Get_First(CLASSID_PHYSICS); factory != nullptr;
          factory = DefinitionFactoryMgrClass::Get_Next(factory, CLASSID_PHYSICS)) {
         //
         //	If this is the default definition, then add the existing
@@ -121,7 +121,7 @@ void PhysObjEditTabClass::HandleInitDialog(void)
         else {
 
             DefinitionClass* definition = factory->Create();
-            if (definition != NULL) {
+            if (definition != nullptr) {
 
                 //
                 //	If this definition passes the filter, then add it to
@@ -160,7 +160,7 @@ bool PhysObjEditTabClass::Apply_Changes(void)
 {
     CWaitCursor wait_cursor;
 
-    if (m_ParamSheet != NULL) {
+    if (m_ParamSheet != nullptr) {
 
         // Save the UI changes to the definition
         m_ParamSheet->Apply();
@@ -170,7 +170,7 @@ bool PhysObjEditTabClass::Apply_Changes(void)
         //
         DefinitionClass* definition = m_ParamSheet->Get_Definition();
         m_DefinitionID = 0;
-        if (definition != NULL) {
+        if (definition != nullptr) {
 
             //
             //	Does the definition already have an ID?
@@ -199,7 +199,7 @@ bool PhysObjEditTabClass::Apply_Changes(void)
             //	Pass this new definition ID onto the parameter-object we
             //	are editing (if there was one...)
             //
-            if (m_PhysDefParam != NULL) {
+            if (m_PhysDefParam != nullptr) {
                 m_PhysDefParam->Set_Value(m_DefinitionID);
             }
         }
@@ -219,7 +219,7 @@ void PhysObjEditTabClass::OnDestroy(void)
 
     for (int index = 0; index < m_ObjTypeCombo.GetCount(); index++) {
         DefinitionClass* definition = (DefinitionClass*)m_ObjTypeCombo.GetItemData(index);
-        if (definition != NULL) {
+        if (definition != nullptr) {
 
             //
             //	Delete all the definitions EXCEPT for the one we
@@ -249,7 +249,7 @@ void PhysObjEditTabClass::OnSelChangeTypeCombo(void)
         //
         //	Free the old param sheet if necessary
         //
-        if (m_ParamSheet != NULL) {
+        if (m_ParamSheet != nullptr) {
             m_ParamSheet->Apply();
             m_ParamSheet->DestroyWindow();
             SAFE_DELETE(m_ParamSheet);
@@ -279,7 +279,7 @@ void PhysObjEditTabClass::OnSelChangeTypeCombo(void)
         }
 
         SetRedraw(true);
-        InvalidateRect(NULL, FALSE);
+        InvalidateRect(nullptr, FALSE);
         UpdateWindow();
     }
 

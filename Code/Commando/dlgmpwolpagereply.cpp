@@ -43,7 +43,7 @@
 #include "consolemode.h"
 #include <WWUI\ListCtrl.h>
 
-DlgWOLPageReply* DlgWOLPageReply::_mInstance = NULL;
+DlgWOLPageReply* DlgWOLPageReply::_mInstance = nullptr;
 
 /******************************************************************************
  *
@@ -67,7 +67,7 @@ bool DlgWOLPageReply::DoDialog(void)
 {
     DlgWOLPageReply* dialog = _mInstance;
 
-    if (dialog == NULL) {
+    if (dialog == nullptr) {
         dialog = new DlgWOLPageReply;
 
         if (dialog) {
@@ -79,7 +79,7 @@ bool DlgWOLPageReply::DoDialog(void)
         }
     }
 
-    return (dialog != NULL);
+    return (dialog != nullptr);
 }
 
 /******************************************************************************
@@ -100,7 +100,7 @@ bool DlgWOLPageReply::DoDialog(void)
 
 bool DlgWOLPageReply::IsOpen(void)
 {
-    return (NULL != _mInstance);
+    return (nullptr != _mInstance);
 }
 
 /******************************************************************************
@@ -121,10 +121,10 @@ bool DlgWOLPageReply::IsOpen(void)
 
 DlgWOLPageReply::DlgWOLPageReply(void)
     : PopupDialogClass(IDD_MP_WOL_PAGE_REPLY),
-      mBuddyMgr(NULL)
+      mBuddyMgr(nullptr)
 {
     WWDEBUG_SAY(("DlgWOLPageReply Instantiated\n"));
-    WWASSERT(_mInstance == NULL);
+    WWASSERT(_mInstance == nullptr);
     _mInstance = this;
 }
 
@@ -152,7 +152,7 @@ DlgWOLPageReply::~DlgWOLPageReply()
         mBuddyMgr->Release_Ref();
     }
 
-    _mInstance = NULL;
+    _mInstance = nullptr;
 }
 
 /******************************************************************************
@@ -174,7 +174,7 @@ DlgWOLPageReply::~DlgWOLPageReply()
 bool DlgWOLPageReply::FinalizeCreate(void)
 {
     mBuddyMgr = WOLBuddyMgr::GetInstance(false);
-    return (mBuddyMgr != NULL);
+    return (mBuddyMgr != nullptr);
 }
 
 /******************************************************************************
@@ -356,9 +356,9 @@ void DlgWOLPageReply::Add_Message(const WCHAR* username, const WCHAR* message)
 void DlgWOLPageReply::HandleNotification(WOLPagedEvent& event)
 {
     WWOnline::PageMessage* page = event.Subject();
-    WWASSERT(page && "NULL page in WOLPagedEvent");
+    WWASSERT(page && "nullptr page in WOLPagedEvent");
 
-    const WCHAR* pager = NULL;
+    const WCHAR* pager = nullptr;
     if (!ConsoleBox.Is_Exclusive()) {
         if (PAGE_RECEIVED == event.GetAction()) {
             pager = page->GetPagersName();

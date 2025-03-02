@@ -71,7 +71,7 @@ static bool _is_left_track_name(const char* name)
     ** after the hierarchy name.
     */
     const char* sub_name = strchr(name, '.');
-    if (sub_name != NULL) {
+    if (sub_name != nullptr) {
         sub_name++;
         if ((strnicmp(sub_name, LEFT_TRACK_NAME0, strlen(LEFT_TRACK_NAME0)) == 0)
             || (strnicmp(sub_name, LEFT_TRACK_NAME1, strlen(LEFT_TRACK_NAME1)) == 0)
@@ -95,7 +95,7 @@ static bool _is_right_track_name(const char* name)
     ** after the hierarchy name.
     */
     const char* sub_name = strchr(name, '.');
-    if (sub_name != NULL) {
+    if (sub_name != nullptr) {
         sub_name++;
         if ((strnicmp(sub_name, RIGHT_TRACK_NAME0, strlen(RIGHT_TRACK_NAME0)) == 0)
             || (strnicmp(sub_name, RIGHT_TRACK_NAME1, strlen(RIGHT_TRACK_NAME1)) == 0)
@@ -212,7 +212,7 @@ void TrackedVehicleClass::Update_Cached_Model_Parameters(void)
     ** Make sure that this model has unique meshes for its tracks
     ** and grab pointers to the mappers.
     */
-    if (Model != NULL) {
+    if (Model != nullptr) {
         Grab_Track_Mappers(Model);
     }
 }
@@ -244,12 +244,12 @@ void TrackedVehicleClass::Add_Track_Mappers(MeshClass* mesh, int track_type)
     bool has_mapper = false;
     MaterialInfoClass* matinfo = mesh->Get_Material_Info();
 
-    if (matinfo != NULL) {
+    if (matinfo != nullptr) {
         for (int i = 0; i < matinfo->Vertex_Material_Count(); i++) {
             VertexMaterialClass* vmtl = matinfo->Peek_Vertex_Material(i);
-            if (vmtl != NULL) {
+            if (vmtl != nullptr) {
                 TextureMapperClass* mapper = vmtl->Get_Mapper(0);
-                if ((mapper != NULL)
+                if ((mapper != nullptr)
                     && (mapper->Mapper_ID() == TextureMapperClass::MAPPER_ID_LINEAR_OFFSET)) {
                     has_mapper = true;
                 }
@@ -267,12 +267,12 @@ void TrackedVehicleClass::Add_Track_Mappers(MeshClass* mesh, int track_type)
 
         MaterialInfoClass* matinfo = mesh->Get_Material_Info();
 
-        if (matinfo != NULL) {
+        if (matinfo != nullptr) {
             for (int i = 0; i < matinfo->Vertex_Material_Count(); i++) {
                 VertexMaterialClass* vmtl = matinfo->Peek_Vertex_Material(i);
-                if (vmtl != NULL) {
+                if (vmtl != nullptr) {
                     TextureMapperClass* mapper = vmtl->Get_Mapper(0);
-                    if ((mapper != NULL)
+                    if ((mapper != nullptr)
                         && (mapper->Mapper_ID() == TextureMapperClass::MAPPER_ID_LINEAR_OFFSET)) {
                         TrackMapperStruct ts;
                         ts.Mapper = (LinearOffsetTextureMapperClass*)mapper;
@@ -304,7 +304,7 @@ void TrackedVehicleClass::Compute_Force_And_Torque(Vector3* force, Vector3* torq
         WWPROFILE("TrackedVehicleClass::Compute_Force_And_Torque");
 
         const TrackedVehicleDefClass* def = Get_TrackedVehicleDef();
-        WWASSERT(def != NULL);
+        WWASSERT(def != nullptr);
 
         /*
         ** Compute the left and right track torque

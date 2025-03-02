@@ -123,7 +123,7 @@ void SphereKeysClass::Free_Keys(void)
 /////////////////////////////////////////////////////////////
 void SphereKeysClass::Detach(void)
 {
-    m_Keys = NULL;
+    m_Keys = nullptr;
     m_KeyCount = 0;
     m_MaxKeys = 0;
     return;
@@ -138,8 +138,8 @@ void SphereKeysClass::Detach(void)
 /////////////////////////////////////////////////////////////
 static int Key_Compare(const void* arg1, const void* arg2)
 {
-    ASSERT(arg1 != NULL);
-    ASSERT(arg2 != NULL);
+    ASSERT(arg1 != nullptr);
+    ASSERT(arg2 != nullptr);
     W3dSphereKeyFrameStruct* key1 = (W3dSphereKeyFrameStruct*)arg1;
     W3dSphereKeyFrameStruct* key2 = (W3dSphereKeyFrameStruct*)arg2;
 
@@ -163,7 +163,7 @@ static int Key_Compare(const void* arg1, const void* arg2)
 /////////////////////////////////////////////////////////////
 void SphereKeysClass::Sort(void)
 {
-    if (m_Keys != NULL && m_KeyCount > 0) {
+    if (m_Keys != nullptr && m_KeyCount > 0) {
         ::qsort(m_Keys, m_KeyCount, sizeof(W3dSphereKeyFrameStruct), Key_Compare);
     }
 

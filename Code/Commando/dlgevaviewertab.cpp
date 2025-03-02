@@ -60,10 +60,10 @@
 //
 ////////////////////////////////////////////////////////////////
 EvaViewerTabClass::EvaViewerTabClass(int resource_id)
-    : ListCtrl(NULL),
-      DescriptionCtrl(NULL),
-      AffiliationCtrl(NULL),
-      ViewerCtrl(NULL),
+    : ListCtrl(nullptr),
+      DescriptionCtrl(nullptr),
+      AffiliationCtrl(nullptr),
+      ViewerCtrl(nullptr),
       EncyclopediaType(EncyclopediaMgrClass::TYPE_CHARACTER),
       ChildDialogClass(resource_id)
 {
@@ -137,7 +137,7 @@ void EvaViewerTabClass::On_Init_Dialog(void)
     }
     else {
 
-        if (AffiliationCtrl != NULL) {
+        if (AffiliationCtrl != nullptr) {
             AffiliationCtrl->Set_Text(L"");
         }
     }
@@ -153,8 +153,8 @@ void EvaViewerTabClass::On_Init_Dialog(void)
 ////////////////////////////////////////////////////////////////
 void EvaViewerTabClass::On_Destroy_Dialog(void)
 {
-    if (ViewerCtrl != NULL) {
-        ViewerCtrl->Set_Model((RenderObjClass*)NULL);
+    if (ViewerCtrl != nullptr) {
+        ViewerCtrl->Set_Model((RenderObjClass*)nullptr);
     }
 
     return;
@@ -173,13 +173,13 @@ void EvaViewerTabClass::Build_Object_List(void)
     //	Get the INI file which contains the data for this viewer
     //
     INIClass* ini_file = ::Get_INI(INIFilename);
-    if (ini_file != NULL) {
+    if (ini_file != nullptr) {
 
         //
         //	Loop over all the sections in the INI
         //
         List<INISection*>& section_list = ini_file->Get_Section_List();
-        for (INISection* section = section_list.First(); section != NULL;
+        for (INISection* section = section_list.First(); section != nullptr;
              section = section->Next_Valid()) {
             //
             //	Read this object's data from the INI file
@@ -293,15 +293,15 @@ void EvaViewerTabClass::View_Entry(int entry_index)
     //
     //	Display the data
     //
-    if (DescriptionCtrl != NULL) {
+    if (DescriptionCtrl != nullptr) {
         DescriptionCtrl->Set_Text(description);
     }
 
-    if (AffiliationCtrl != NULL) {
+    if (AffiliationCtrl != nullptr) {
         AffiliationCtrl->Set_Text(affiliation);
     }
 
-    if (ViewerCtrl != NULL) {
+    if (ViewerCtrl != nullptr) {
         ViewerCtrl->Set_Camera_Min_Dist(min_dist);
 
         //
@@ -309,23 +309,23 @@ void EvaViewerTabClass::View_Entry(int entry_index)
         //
         if (EncyclopediaType == EncyclopediaMgrClass::TYPE_VEHICLE) {
 
-            RenderObjClass* new_model = NULL;
+            RenderObjClass* new_model = nullptr;
 
             //
             //	Try to find the definition that this vehicle is defined by
             //
             DefinitionClass* definition
                 = DefinitionMgrClass::Find_Typed_Definition(definition_name, CLASSID_GAME_OBJECTS);
-            if (definition != NULL) {
+            if (definition != nullptr) {
 
                 PhysicalGameObj* game_obj = (PhysicalGameObj*)definition->Create();
-                if (game_obj != NULL) {
+                if (game_obj != nullptr) {
 
                     //
                     //	Is the physics object associated with this game object a vehicle?
                     //
                     PhysClass* phys_obj = game_obj->Peek_Physical_Object();
-                    if (phys_obj != NULL && phys_obj->As_VehiclePhysClass() != NULL) {
+                    if (phys_obj != nullptr && phys_obj->As_VehiclePhysClass() != nullptr) {
 
                         //
                         //	Drop the wheels on this object and clone its model
@@ -345,7 +345,7 @@ void EvaViewerTabClass::View_Entry(int entry_index)
             //	Set the model we dug out of the definition, or
             // simply create the object from its W3D
             //
-            if (new_model != NULL) {
+            if (new_model != nullptr) {
                 ViewerCtrl->Set_Model(new_model);
             }
             else {
@@ -373,7 +373,7 @@ void EvaViewerTabClass::View_Entry(int entry_index)
 void EvaViewerTabClass::On_ViewerCtrl_Model_Loaded(ViewerCtrlClass* viewer_ctrl, int ctrl_id,
                                                    RenderObjClass* model)
 {
-    if (model != NULL) {
+    if (model != nullptr) {
         Prepare_Model(model);
 
         //
@@ -392,7 +392,7 @@ void EvaViewerTabClass::On_ViewerCtrl_Model_Loaded(ViewerCtrlClass* viewer_ctrl,
 ////////////////////////////////////////////////////////////////
 void EvaViewerTabClass::Prepare_Model(RenderObjClass* model)
 {
-    if (model != NULL) {
+    if (model != nullptr) {
 
         //
         //	Attempt to hide the muzzle flashes
@@ -403,7 +403,7 @@ void EvaViewerTabClass::Prepare_Model(RenderObjClass* model)
             //
             //	Hide the muzzle flash (if necessary)
             //
-            if (::strstr(sub_obj->Get_Name(), "MUZZLEFLASH") != NULL) {
+            if (::strstr(sub_obj->Get_Name(), "MUZZLEFLASH") != nullptr) {
                 sub_obj->Set_Hidden(true);
             }
 

@@ -70,7 +70,7 @@ namespace WWOnline
 
         if (!session.IsValid()) {
             WWDEBUG_SAY(("WOLERROR: WWOnline session not instantiated\n"));
-            return NULL;
+            return nullptr;
         }
 
         return new ServerListWait(session);
@@ -231,7 +231,7 @@ namespace WWOnline
 
         if (!session.IsValid()) {
             WWDEBUG_SAY(("WOLERROR: WWOnline session not instantiated\n"));
-            return NULL;
+            return nullptr;
         }
 
         return new DisconnectWait(session);
@@ -304,7 +304,7 @@ namespace WWOnline
         mSession->AddObserver(*static_cast<Observer<ServerError>*>(this));
         mSession->AddObserver(*static_cast<Observer<ConnectionStatus>*>(this));
 
-        WWASSERT((mSession->GetChatObject() != NULL) && "DisconnectWait");
+        WWASSERT((mSession->GetChatObject() != nullptr) && "DisconnectWait");
         HRESULT hr = mSession->GetChatObject()->RequestLogout();
 
         if (SUCCEEDED(hr)) {
@@ -420,7 +420,7 @@ namespace WWOnline
         WWASSERT(login.IsValid() && "ConnectWait");
 
         if (!session.IsValid() || !server.IsValid() || !login.IsValid()) {
-            return NULL;
+            return nullptr;
         }
 
         return new ConnectWait(session, server, login);
@@ -503,7 +503,7 @@ namespace WWOnline
         wcstombs((char*)server.password, (const WCHAR*)mLogin->GetPassword(),
                  sizeof(server.password));
 
-        WWASSERT((mSession->GetChatObject() != NULL) && "ConnectWait");
+        WWASSERT((mSession->GetChatObject() != nullptr) && "ConnectWait");
         HRESULT hr = mSession->GetChatObject()->RequestConnection(&server, 20,
                                                                   !mLogin->IsPasswordEncrypted());
 
@@ -612,7 +612,7 @@ namespace WWOnline
         WWASSERT(session.IsValid() && "ChannelListWait");
 
         if (!session.IsValid()) {
-            return NULL;
+            return nullptr;
         }
 
         return new ChannelListWait(session, type);
@@ -787,7 +787,7 @@ namespace WWOnline
         WWASSERT(session.IsValid() && "LeaveChannelWait");
 
         if (!session.IsValid()) {
-            return NULL;
+            return nullptr;
         }
 
         return new LeaveChannelWait(session);
@@ -981,7 +981,7 @@ namespace WWOnline
         WWASSERT(session.IsValid() && "JoinChannelWait");
 
         if (!session.IsValid()) {
-            return NULL;
+            return nullptr;
         }
 
         return new JoinChannelWait(session, channel, password);
@@ -1007,8 +1007,8 @@ namespace WWOnline
         WWASSERT(session.IsValid() && "JoinChannelWait");
         WWASSERT(channelName && "JoinChannelWait");
 
-        if (!session.IsValid() || (channelName == NULL)) {
-            return NULL;
+        if (!session.IsValid() || (channelName == nullptr)) {
+            return nullptr;
         }
 
         return new JoinChannelWait(session, channelName, password, type);
@@ -1236,7 +1236,7 @@ namespace WWOnline
         WWASSERT(session.IsValid() && "CreateChannelWait");
 
         if (!session.IsValid()) {
-            return NULL;
+            return nullptr;
         }
 
         return new CreateChannelWait(session, channel, password);
@@ -1318,7 +1318,7 @@ namespace WWOnline
         WOL::Channel& channel = mChannel->GetData();
         wcstombs((char*)channel.key, (const WCHAR*)mPassword, sizeof(channel.key));
 
-        WWASSERT((mSession->GetChatObject() != NULL) && "CreateChannelWait");
+        WWASSERT((mSession->GetChatObject() != nullptr) && "CreateChannelWait");
         HRESULT hr = mSession->GetChatObject()->RequestChannelCreate(&channel);
 
         if (FAILED(hr)) {
@@ -1425,7 +1425,7 @@ namespace WWOnline
         WWASSERT(session.IsValid() && "UserListWait");
 
         if (!session.IsValid()) {
-            return NULL;
+            return nullptr;
         }
 
         return new UserListWait(session);
@@ -1560,8 +1560,8 @@ namespace WWOnline
         WWASSERT(session.IsValid() && "GetUserWait");
         WWASSERT(userName && "GetUserWait");
 
-        if (!session.IsValid() || (userName == NULL)) {
-            return NULL;
+        if (!session.IsValid() || (userName == nullptr)) {
+            return nullptr;
         }
 
         return new GetUserWait(session, userName);
@@ -1697,8 +1697,8 @@ namespace WWOnline
         WWASSERT(session.IsValid() && "LocateUserWait");
         WWASSERT(userName && "LocateUserWait");
 
-        if (!session.IsValid() || (userName == NULL)) {
-            return NULL;
+        if (!session.IsValid() || (userName == nullptr)) {
+            return nullptr;
         }
 
         return new LocateUserWait(session, userName);
@@ -1849,7 +1849,7 @@ namespace WWOnline
         WWASSERT(session.IsValid() && "SendMsgWait");
 
         if (!session.IsValid()) {
-            return NULL;
+            return nullptr;
         }
 
         return new SendMsgWait(session, message);

@@ -64,7 +64,7 @@ public:
     //////////////////////////////////////////////////////////////////
     //	Public constructors/destructors
     //////////////////////////////////////////////////////////////////
-    CoverAttackPointNodeClass(PresetClass* preset = NULL);
+    CoverAttackPointNodeClass(PresetClass* preset = nullptr);
     CoverAttackPointNodeClass(const CoverAttackPointNodeClass& src);
     ~CoverAttackPointNodeClass(void);
 
@@ -140,7 +140,7 @@ protected:
 //////////////////////////////////////////////////////////////////
 inline void CoverAttackPointNodeClass::On_Rotate(void)
 {
-    if (m_CoverSpot != NULL) {
+    if (m_CoverSpot != nullptr) {
         m_CoverSpot->Update_Lines();
     }
 
@@ -153,7 +153,7 @@ inline void CoverAttackPointNodeClass::On_Rotate(void)
 //////////////////////////////////////////////////////////////////
 inline void CoverAttackPointNodeClass::On_Translate(void)
 {
-    if (m_CoverSpot != NULL) {
+    if (m_CoverSpot != nullptr) {
         m_CoverSpot->Update_Lines();
     }
 
@@ -166,7 +166,7 @@ inline void CoverAttackPointNodeClass::On_Translate(void)
 //////////////////////////////////////////////////////////////////
 inline void CoverAttackPointNodeClass::On_Transform(void)
 {
-    if (m_CoverSpot != NULL) {
+    if (m_CoverSpot != nullptr) {
         m_CoverSpot->Update_Lines();
     }
 

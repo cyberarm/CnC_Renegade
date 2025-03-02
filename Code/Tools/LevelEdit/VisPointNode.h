@@ -60,7 +60,7 @@ public:
     //////////////////////////////////////////////////////////////////
     //	Public constructors/destructors
     //////////////////////////////////////////////////////////////////
-    VisPointNodeClass(PresetClass* preset = NULL);
+    VisPointNodeClass(PresetClass* preset = nullptr);
     VisPointNodeClass(const VisPointNodeClass& src);
     ~VisPointNodeClass(void);
 

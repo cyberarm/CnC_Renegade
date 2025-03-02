@@ -71,7 +71,7 @@ BOOL CVidinitApp::InitInstance()
     Enable3dControlsStatic(); // Call this when linking to MFC statically
 #endif
 
-    CVidinitDlg dlg(NULL);
+    CVidinitDlg dlg(nullptr);
     m_pMainWnd = &dlg;
     int nResponse = dlg.DoModal();
     if (nResponse == IDOK) {

@@ -74,7 +74,7 @@ bool GetVersionInfo(char* filename, VS_FIXEDFILEINFO* fileInfo)
             // Query the block for the file version information
             //
             UINT version_len = 0;
-            VS_FIXEDFILEINFO* pversion_info = NULL;
+            VS_FIXEDFILEINFO* pversion_info = nullptr;
             if (::VerQueryValue(pblock, "\\", (LPVOID*)&pversion_info, &version_len)) {
                 memcpy(fileInfo, pversion_info, sizeof(VS_FIXEDFILEINFO));
             }
@@ -83,7 +83,7 @@ bool GetVersionInfo(char* filename, VS_FIXEDFILEINFO* fileInfo)
             }
         }
         delete[] pblock;
-        pblock = NULL;
+        pblock = nullptr;
     }
     return verok;
 }
@@ -99,7 +99,7 @@ bool GetFileCreationTime(char* filename, FILETIME* createTime)
             HANDLE handle = file->Get_File_Handle();
 
             if (handle != INVALID_HANDLE_VALUE) {
-                if (GetFileTime(handle, NULL, NULL, createTime)) {
+                if (GetFileTime(handle, nullptr, nullptr, createTime)) {
                     return true;
                 }
             }
@@ -148,7 +148,7 @@ bool Get_Image_File_Header(const char* filename, IMAGE_FILE_HEADER* file_header)
     }
 
     _TheFileFactory->Return_File(file);
-    file = NULL;
+    file = nullptr;
 
     return retval;
 }
@@ -166,7 +166,7 @@ bool Get_Image_File_Header(HINSTANCE app_instance, IMAGE_FILE_HEADER* file_heade
     //	Read the dos header (all PE exectuable files begin with this)
     //
     IMAGE_DOS_HEADER* dos_header = (IMAGE_DOS_HEADER*)app_instance;
-    if (dos_header != NULL) {
+    if (dos_header != nullptr) {
 
         //
         //	Determine the offset where the image header resides

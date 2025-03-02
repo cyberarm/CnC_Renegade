@@ -64,7 +64,7 @@
 *were *	specified, then the compiler would have ambiguous conversion situation in the case of
 *constant
 ** integers (e.g. 1, 10, 32, etc). This is most important for the constructor when dealing with the
-**	"0" parameter case. In that situation the compiler might interpret the "0" as a null pointer
+**	"0" parameter case. In that situation the compiler might interpret the "0" as a nullptr pointer
 *rather *	than an unsigned integer. There should be no adverse consequences of using signed
 *integer parameters *	since the precision/magnitude of these integers far exceeds the fixed point
 *component counterparts.

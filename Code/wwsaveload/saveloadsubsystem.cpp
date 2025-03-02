@@ -38,7 +38,7 @@
 #include "saveload.h"
 
 SaveLoadSubSystemClass::SaveLoadSubSystemClass(void)
-    : NextSubSystem(NULL)
+    : NextSubSystem(nullptr)
 {
     // All Sub-Systems are automatically registered with the SaveLoadSystem
     SaveLoadSystemClass::Register_Sub_System(this);

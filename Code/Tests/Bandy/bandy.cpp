@@ -80,7 +80,7 @@ BandtestSettingsStruct DefaultSettings = {
 
 ULONG Enumerate_Nics(ULONG* addresses, ULONG max_nics)
 {
-    assert(addresses != NULL);
+    assert(addresses != nullptr);
     assert(max_nics > 0);
 
     ULONG num_addresses = 0;
@@ -99,9 +99,9 @@ ULONG Enumerate_Nics(ULONG* addresses, ULONG max_nics)
     // This does a DNS lookup (name resolution)
     //
     LPHOSTENT p_hostent = gethostbyname(local_host_name);
-    if (p_hostent == NULL) { }
+    if (p_hostent == nullptr) { }
 
-    while (num_addresses < max_nics && p_hostent->h_addr_list[num_addresses] != NULL) {
+    while (num_addresses < max_nics && p_hostent->h_addr_list[num_addresses] != nullptr) {
         IN_ADDR in_addr;
         memcpy(&in_addr, p_hostent->h_addr_list[num_addresses], sizeof(in_addr));
         addresses[num_addresses] = in_addr.s_addr;
@@ -176,7 +176,7 @@ int main(int argc, char** argv)
 
         case 'S':
             host = gethostbyname(&argv[a][2]);
-            if (host == NULL) {
+            if (host == nullptr) {
                 printf("Unable to resolve host name %s\n", &argv[a][2]);
                 WSACleanup();
                 return (0);
@@ -228,7 +228,7 @@ int main(int argc, char** argv)
         }
     }
 
-    if (host == NULL) {
+    if (host == nullptr) {
         printf("Unable to resolve host name\n");
         WSACleanup();
         return (0);

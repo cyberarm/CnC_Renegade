@@ -88,7 +88,7 @@ DECLARE_SCRIPT(M00_Objective_Controller_For_Objects_RMV,
                                         OBJECTIVE_STATUS_PENDING, description_id);
                 break;
             }
-            if ((blip) && (Commands->Find_Object(object_id) != NULL)) {
+            if ((blip) && (Commands->Find_Object(object_id) != nullptr)) {
                 Commands->Set_Objective_Radar_Blip_Object(objective_id,
                                                           Commands->Find_Object(object_id));
             }
@@ -108,7 +108,7 @@ DECLARE_SCRIPT(M00_Objective_Controller_For_Objects_RMV,
                                         OBJECTIVE_STATUS_HIDDEN, description_id);
                 break;
             }
-            if ((blip) && (Commands->Find_Object(object_id) != NULL)) {
+            if ((blip) && (Commands->Find_Object(object_id) != nullptr)) {
                 Commands->Set_Objective_Radar_Blip_Object(objective_id,
                                                           Commands->Find_Object(object_id));
             }
@@ -132,7 +132,7 @@ DECLARE_SCRIPT(M00_Objective_Controller_For_Objects_RMV,
                                         OBJECTIVE_STATUS_PENDING, description_id);
                 break;
             }
-            if ((blip) && (Commands->Find_Object(object_id) != NULL)) {
+            if ((blip) && (Commands->Find_Object(object_id) != nullptr)) {
                 Commands->Set_Objective_Radar_Blip_Object(objective_id,
                                                           Commands->Find_Object(object_id));
             }

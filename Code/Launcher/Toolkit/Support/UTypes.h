@@ -88,8 +88,8 @@ typedef enum
 } TriState;
 
 //! Empty pointer
-#ifndef NULL
-#define NULL (0L)
+#ifndef nullptr
+#define nullptr (0L)
 #endif
 
 #endif // UTYPES_H

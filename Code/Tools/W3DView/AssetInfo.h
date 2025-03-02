@@ -62,17 +62,17 @@ public:
     AssetInfoClass(void)
         : m_AssetType(TypeUnknown),
           m_dwUserData(0L),
-          m_pRenderObj(NULL)
+          m_pRenderObj(nullptr)
     {
         Initialize();
     }
 
-    AssetInfoClass(LPCTSTR passet_name, ASSET_TYPE type, RenderObjClass* prender_obj = NULL,
+    AssetInfoClass(LPCTSTR passet_name, ASSET_TYPE type, RenderObjClass* prender_obj = nullptr,
                    DWORD user_data = 0L)
         : m_Name(passet_name),
           m_AssetType(type),
           m_dwUserData(user_data),
-          m_pRenderObj(NULL)
+          m_pRenderObj(nullptr)
     {
         MEMBER_ADD(m_pRenderObj, prender_obj);
         Initialize();

@@ -49,7 +49,7 @@ static char THIS_FILE[] = __FILE__;
 // PhysObjectEditDialogClass
 //
 /////////////////////////////////////////////////////////////////////////////
-PhysObjectEditDialogClass::PhysObjectEditDialogClass(CWnd* pParent /*=NULL*/)
+PhysObjectEditDialogClass::PhysObjectEditDialogClass(CWnd* pParent /*=nullptr*/)
     : CDialog(PhysObjectEditDialogClass::IDD, pParent)
 {
     //{{AFX_DATA_INIT(PhysObjectEditDialogClass)
@@ -95,7 +95,7 @@ BOOL PhysObjectEditDialogClass::OnInitDialog(void)
     //	Setup the form we use to edit the physics object
     //
     m_ObjectEditForm.Create(this, 101);
-    m_ObjectEditForm.SetWindowPos(NULL, rect.left, rect.top, rect.Width(), rect.Height(), 0);
+    m_ObjectEditForm.SetWindowPos(nullptr, rect.left, rect.top, rect.Width(), rect.Height(), 0);
     return TRUE;
 }
 

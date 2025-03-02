@@ -154,7 +154,7 @@ StaticPhysClass::~StaticPhysClass(void)
 void StaticPhysClass::Init(const StaticPhysDefClass& def)
 {
     PhysClass::Init(def);
-    if (Model != NULL && Model->Class_ID() == RenderObjClass::CLASSID_PARTICLEEMITTER) {
+    if (Model != nullptr && Model->Class_ID() == RenderObjClass::CLASSID_PARTICLEEMITTER) {
         ((ParticleEmitterClass*)Model)->Start();
     }
 }
@@ -217,7 +217,7 @@ void StaticPhysClass::Set_Model(RenderObjClass* model)
  *=============================================================================================*/
 void StaticPhysClass::Update_Cached_Model_Parameters(void)
 {
-    if (Model == NULL) {
+    if (Model == nullptr) {
         return;
     }
 
@@ -235,7 +235,7 @@ void StaticPhysClass::Update_Cached_Model_Parameters(void)
 
 #if (UMBRASUPPORT)
     // update the umbra model(s)
-    Umbra::Model* test_model = NULL;
+    Umbra::Model* test_model = nullptr;
 
     if (Model->Class_ID() == RenderObjClass::CLASSID_MESH) {
         MeshClass& mesh = *((MeshClass*)Model);
@@ -270,7 +270,7 @@ void StaticPhysClass::Update_Cached_Model_Parameters(void)
  *=============================================================================================*/
 void StaticPhysClass::Render_Vis_Meshes(RenderInfoClass& rinfo)
 {
-    if (Model == NULL) {
+    if (Model == nullptr) {
         return;
     }
 
@@ -382,7 +382,7 @@ int StaticPhysClass::Is_Occluder(void)
 {
     StaticPhysDefClass* def = Get_StaticPhysDef();
 
-    if ((def != NULL) && (def->IsNonOccluder)) {
+    if ((def != nullptr) && (def->IsNonOccluder)) {
         return false;
     }
     else if (Model) {
@@ -413,7 +413,7 @@ bool StaticPhysClass::Is_Model_Pre_Lit(void)
     // if the model is a light-mapped mesh, we want to exclude it from the static lights
     if (Model->Class_ID() == RenderObjClass::CLASSID_MESH) {
         MeshModelClass* mesh_model = ((MeshClass*)Model)->Get_Model();
-        WWASSERT(mesh_model != NULL);
+        WWASSERT(mesh_model != nullptr);
         if (mesh_model) {
             bool isprelit = (mesh_model->Get_Flag(MeshModelClass::PRELIT_MASK) != 0);
             mesh_model->Release_Ref();
@@ -429,7 +429,7 @@ bool StaticPhysClass::Is_Model_Pre_Lit(void)
 
 bool StaticPhysClass::Is_Model_User_Lit(void)
 {
-    if (Model != NULL) {
+    if (Model != nullptr) {
         return !!(Model->Has_User_Lighting());
     }
     return false;
@@ -442,7 +442,7 @@ bool StaticPhysClass::Is_Model_User_Lit(void)
  *    are marked as VIS polys                                                                  *
  *                                                                                             *
  * INPUT:                                                                                      *
- *    model - typically leave the default of NULL, this function will be called recursively    *
+ *    model - typically leave the default of nullptr, this function will be called recursively    *
  *            on sub-objects                                                                   *
  *                                                                                             *
  * OUTPUT:                                                                                     *
@@ -457,9 +457,9 @@ bool StaticPhysClass::Is_Vis_Sector(RenderObjClass* model) const
     bool retval = false;
 
     /*
-    ** If NULL was passed in, start with the render object for this StaticPhysClass.
+    ** If nullptr was passed in, start with the render object for this StaticPhysClass.
     */
-    if (model == NULL) {
+    if (model == nullptr) {
         model = Model;
     }
 
@@ -467,7 +467,7 @@ bool StaticPhysClass::Is_Vis_Sector(RenderObjClass* model) const
     ** If we have a valid model to check; either recurse into its sub objects or
     ** check if it is a vis-collideable mesh
     */
-    if (model != NULL) {
+    if (model != nullptr) {
 
         /*
         ** Check each sub-object
@@ -476,7 +476,7 @@ bool StaticPhysClass::Is_Vis_Sector(RenderObjClass* model) const
         for (int index = 0; (index < count) && !retval; index++) {
 
             RenderObjClass* sub_object = model->Get_Sub_Object(index);
-            if (sub_object != NULL) {
+            if (sub_object != nullptr) {
                 retval |= Is_Vis_Sector(sub_object);
                 REF_PTR_RELEASE(sub_object);
             }
@@ -642,16 +642,16 @@ float StaticPhysClass::Compute_Vis_Mesh_Ram(RenderObjClass* model)
 {
     float total = 0.0f;
 
-    if (model == NULL) {
+    if (model == nullptr) {
         model = Model;
     }
 
-    if (model != NULL) {
+    if (model != nullptr) {
         if (model->Class_ID() == RenderObjClass::CLASSID_MESH) {
 
             if (model->Get_Collision_Type() & COLLISION_TYPE_VIS) {
                 MeshModelClass* mdl = ((MeshClass*)model)->Get_Model();
-                if (mdl != NULL) {
+                if (mdl != nullptr) {
                     total += sizeof(MeshClass) + sizeof(MeshModelClass);
                     total += sizeof(Vector3) * mdl->Get_Vertex_Count();
                     total += sizeof(TriIndex) * mdl->Get_Polygon_Count();
@@ -663,7 +663,7 @@ float StaticPhysClass::Compute_Vis_Mesh_Ram(RenderObjClass* model)
         else {
             for (int i = 0; i < model->Get_Num_Sub_Objects(); i++) {
                 RenderObjClass* sub_obj = model->Get_Sub_Object(i);
-                if (sub_obj != NULL) {
+                if (sub_obj != nullptr) {
                     total += Compute_Vis_Mesh_Ram(sub_obj);
                     REF_PTR_RELEASE(sub_obj);
                 }

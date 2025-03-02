@@ -178,7 +178,7 @@ public:
 struct DistLODNodeDefStruct
 {
     DistLODNodeDefStruct(void)
-        : Name(NULL),
+        : Name(nullptr),
           ResDownDist(0.0f),
           ResUpDist(0.0f)
     {

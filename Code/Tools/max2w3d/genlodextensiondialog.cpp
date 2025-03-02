@@ -64,10 +64,10 @@
  * HISTORY:                                                                                    *
  *=============================================================================================*/
 GenLodExtensionDialogClass::GenLodExtensionDialogClass(Interface* maxinterface)
-    : Hwnd(NULL),
-      Options(NULL),
+    : Hwnd(nullptr),
+      Options(nullptr),
       MaxInterface(maxinterface),
-      LodIndexSpin(NULL)
+      LodIndexSpin(nullptr)
 {
 }
 
@@ -172,7 +172,7 @@ bool GenLodExtensionDialogClass::Dialog_Proc(HWND hWnd, UINT message, WPARAM wPa
  *=============================================================================================*/
 static BOOL CALLBACK _gen_lod_ext_dialog_proc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam)
 {
-    static GenLodExtensionDialogClass* dialog = NULL;
+    static GenLodExtensionDialogClass* dialog = nullptr;
 
     if (message == WM_INITDIALOG) {
         dialog = (GenLodExtensionDialogClass*)lparam;

@@ -42,7 +42,7 @@ class ParameterInheritanceDialogClass : public CDialog
 {
     // Construction
 public:
-    ParameterInheritanceDialogClass(CWnd* pParent = NULL);
+    ParameterInheritanceDialogClass(CWnd* pParent = nullptr);
 
     // Dialog Data
     //{{AFX_DATA(ParameterInheritanceDialogClass)

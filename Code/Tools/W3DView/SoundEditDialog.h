@@ -91,7 +91,7 @@ public:
     void Set_Sound(SoundRenderObjClass* sound) { REF_PTR_SET(SoundRObj, sound); }
     SoundRenderObjClass* Get_Sound(void) const
     {
-        if (SoundRObj != NULL) {
+        if (SoundRObj != nullptr) {
             SoundRObj->Add_Ref();
         }
         return SoundRObj;

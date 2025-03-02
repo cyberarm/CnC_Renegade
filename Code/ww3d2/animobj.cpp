@@ -84,24 +84,24 @@ Animatable3DObjClass::Animatable3DObjClass(const char* htree_name)
       CurMotionMode(BASE_POSE)
 {
     // Inline struct members can't be initialized in init list for some reason...
-    ModeAnim.Motion = NULL;
+    ModeAnim.Motion = nullptr;
     ModeAnim.Frame = 0.0f;
     ModeAnim.PrevFrame = 0.0f;
     ModeAnim.LastSyncTime = WW3D::Get_Sync_Time();
-    ModeInterp.Motion0 = NULL;
-    ModeInterp.Motion1 = NULL;
+    ModeInterp.Motion0 = nullptr;
+    ModeInterp.Motion1 = nullptr;
     ModeInterp.Frame0 = 0.0f;
     ModeInterp.PrevFrame0 = 0.0f;
     ModeInterp.PrevFrame1 = 0.0f;
     ModeInterp.Frame1 = 0.0f;
     ModeInterp.Percentage = 0.0f;
-    ModeCombo.AnimCombo = NULL;
+    ModeCombo.AnimCombo = nullptr;
 
     /*
     ** Store a pointer to the htree
     */
-    if (htree_name == NULL) {
-        HTree = NULL;
+    if (htree_name == nullptr) {
+        HTree = nullptr;
     }
     else if (htree_name[0] == 0) {
         HTree = new HTreeClass;
@@ -109,7 +109,7 @@ Animatable3DObjClass::Animatable3DObjClass(const char* htree_name)
     }
     else {
         HTreeClass* source = WW3DAssetManager::Get_Instance()->Get_HTree(htree_name);
-        if (source != NULL) {
+        if (source != nullptr) {
             HTree = new HTreeClass(*source);
         }
         else {
@@ -137,21 +137,21 @@ Animatable3DObjClass::Animatable3DObjClass(const Animatable3DObjClass& src)
     : CompositeRenderObjClass(src),
       IsTreeValid(0),
       CurMotionMode(BASE_POSE),
-      HTree(NULL)
+      HTree(nullptr)
 {
     // Inline struct members can't be initialized in init list for some reason...
-    ModeAnim.Motion = NULL;
+    ModeAnim.Motion = nullptr;
     ModeAnim.Frame = 0.0f;
     ModeAnim.PrevFrame = 0.0f;
     ModeAnim.LastSyncTime = WW3D::Get_Sync_Time();
-    ModeInterp.Motion0 = NULL;
-    ModeInterp.Motion1 = NULL;
+    ModeInterp.Motion0 = nullptr;
+    ModeInterp.Motion1 = nullptr;
     ModeInterp.Frame0 = 0.0f;
     ModeInterp.PrevFrame0 = 0.0f;
     ModeInterp.PrevFrame1 = 0.0f;
     ModeInterp.Frame1 = 0.0f;
     ModeInterp.Percentage = 0.0f;
-    ModeCombo.AnimCombo = NULL;
+    ModeCombo.AnimCombo = nullptr;
 
     *this = src;
 }
@@ -201,18 +201,18 @@ Animatable3DObjClass& Animatable3DObjClass::operator=(const Animatable3DObjClass
 
         IsTreeValid = 0;
         CurMotionMode = BASE_POSE;
-        ModeAnim.Motion = NULL;
+        ModeAnim.Motion = nullptr;
         ModeAnim.Frame = 0.0f;
         ModeAnim.PrevFrame = 0.0f;
         ModeAnim.LastSyncTime = WW3D::Get_Sync_Time();
-        ModeInterp.Motion0 = NULL;
-        ModeInterp.Motion1 = NULL;
+        ModeInterp.Motion0 = nullptr;
+        ModeInterp.Motion1 = nullptr;
         ModeInterp.Frame0 = 0.0f;
         ModeInterp.PrevFrame0 = 0.0f;
         ModeInterp.PrevFrame1 = 0.0f;
         ModeInterp.Frame1 = 0.0f;
         ModeInterp.Percentage = 0.0f;
-        ModeCombo.AnimCombo = NULL;
+        ModeCombo.AnimCombo = nullptr;
 
         HTree = new HTreeClass(*that.HTree);
     }
@@ -239,21 +239,21 @@ void Animatable3DObjClass::Release(void)
         break;
 
     case SINGLE_ANIM:
-        if (ModeAnim.Motion != NULL) {
+        if (ModeAnim.Motion != nullptr) {
             ModeAnim.Motion->Release_Ref();
-            ModeAnim.Motion = NULL;
+            ModeAnim.Motion = nullptr;
         }
         break;
 
     case DOUBLE_ANIM:
-        if (ModeInterp.Motion0 != NULL) {
+        if (ModeInterp.Motion0 != nullptr) {
             ModeInterp.Motion0->Release_Ref();
-            ModeInterp.Motion0 = NULL;
+            ModeInterp.Motion0 = nullptr;
         }
 
-        if (ModeInterp.Motion1 != NULL) {
+        if (ModeInterp.Motion1 != nullptr) {
             ModeInterp.Motion1->Release_Ref();
-            ModeInterp.Motion1 = NULL;
+            ModeInterp.Motion1 = nullptr;
         }
         break;
 
@@ -279,7 +279,7 @@ void Animatable3DObjClass::Release(void)
  *=============================================================================================*/
 void Animatable3DObjClass::Render(RenderInfoClass& rinfo)
 {
-    if (HTree == NULL) {
+    if (HTree == nullptr) {
         return;
     }
 
@@ -312,7 +312,7 @@ void Animatable3DObjClass::Render(RenderInfoClass& rinfo)
  *=============================================================================================*/
 void Animatable3DObjClass::Special_Render(SpecialRenderInfoClass& rinfo)
 {
-    if (HTree == NULL) {
+    if (HTree == nullptr) {
         return;
     }
 
@@ -509,11 +509,11 @@ void Animatable3DObjClass::Set_Animation(HAnimClass* motion0, float frame0, HAni
     ModeInterp.Percentage = percentage;
     Set_Hierarchy_Valid(false);
 
-    if (ModeInterp.Motion0 != NULL) {
+    if (ModeInterp.Motion0 != nullptr) {
         ModeInterp.Motion0->Add_Ref();
     }
 
-    if (ModeInterp.Motion1 != NULL) {
+    if (ModeInterp.Motion1 != nullptr) {
         ModeInterp.Motion1->Add_Ref();
     }
 }
@@ -558,7 +558,7 @@ HAnimClass* Animatable3DObjClass::Peek_Animation(void)
         return ModeAnim.Motion;
     }
     else {
-        return NULL;
+        return nullptr;
     }
 }
 
@@ -782,7 +782,7 @@ void Animatable3DObjClass::Update_Sub_Object_Transforms(void)
         for (int index = 0; index < count; index++) {
             HAnimClass* motion = ModeCombo.AnimCombo->Peek_Motion(index);
 
-            if (motion != NULL && motion->Has_Embedded_Sounds()) {
+            if (motion != nullptr && motion->Has_Embedded_Sounds()) {
                 float prev_frame = AnimatedSoundMgrClass::Trigger_Sound(
                     motion, ModeCombo.AnimCombo->Get_Prev_Frame(index),
                     ModeCombo.AnimCombo->Get_Frame(index), Get_Transform());
@@ -857,7 +857,7 @@ bool Animatable3DObjClass::Simple_Evaluate_Bone(int boneindex, float frame, Matr
     //
     //	Only do this for simple animations
     //
-    if (HTree != NULL) {
+    if (HTree != nullptr) {
 
         if (CurMotionMode == SINGLE_ANIM) {
             retval = HTree->Simple_Evaluate_Pivot(ModeAnim.Motion, boneindex, frame,
@@ -996,7 +996,7 @@ void Animatable3DObjClass::Set_HTree(HTreeClass* new_htree)
     WWASSERT(new_htree->Num_Pivots() == HTree->Num_Pivots());
 
     // just assign it...
-    if (HTree != NULL) {
+    if (HTree != nullptr) {
         delete HTree;
     }
     HTree = new HTreeClass(*new_htree);

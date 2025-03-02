@@ -303,7 +303,7 @@ void InputCtrlClass::On_Kill_Focus(DialogControlClass* focus)
 ////////////////////////////////////////////////////////////////
 void InputCtrlClass::On_New_Key(int vkey_id)
 {
-    if (Parent != NULL) {
+    if (Parent != nullptr) {
         WideStringClass key_name;
         int game_key_id = 0;
 

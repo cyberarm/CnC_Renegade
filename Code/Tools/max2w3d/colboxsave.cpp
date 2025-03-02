@@ -62,7 +62,7 @@ CollisionBoxSaveClass::CollisionBoxSaveClass(char* mesh_name, char* container_na
     memset(&BoxData, 0, sizeof(BoxData));
 
     BoxData.Version = W3D_BOX_CURRENT_VERSION;
-    if ((container_name != NULL) && (strlen(container_name) > 0)) {
+    if ((container_name != nullptr) && (strlen(container_name) > 0)) {
         strcpy(BoxData.Name, container_name);
         strcat(BoxData.Name, ".");
     }

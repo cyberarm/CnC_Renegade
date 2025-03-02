@@ -809,7 +809,7 @@ public:
     ** with the updated node id.  The first time this method is called, initialize the node_id to
     *zero.
     */
-    uint32 Get_Dynamic_Object_Vis_ID(const AABoxClass& obj_bounds, int* node_id = NULL);
+    uint32 Get_Dynamic_Object_Vis_ID(const AABoxClass& obj_bounds, int* node_id = nullptr);
     void Debug_Display_Dynamic_Vis_Node(int node_id);
 
     /*
@@ -843,7 +843,7 @@ public:
     VisSampleClass Update_Vis(const Matrix3D& camera, VisDirBitsType direction_bits = VIS_ALL);
     VisSampleClass Update_Vis(const Vector3& sample_point, const Matrix3D& camera,
                               VisDirBitsType direction_bits = VIS_ALL,
-                              CameraClass* alternate_camera = NULL, int user_vis_id = -1);
+                              CameraClass* alternate_camera = nullptr, int user_vis_id = -1);
     int Get_Static_Light_Count(void);
     void Generate_Vis_For_Light(int light_index);
 
@@ -916,7 +916,7 @@ public:
     */
     int Create_Decal(const Matrix3D& tm, const char* texture_name, float radius,
                      bool is_permanent = false, bool apply_to_translucent_polys = false,
-                     PhysClass* only_this_obj = NULL);
+                     PhysClass* only_this_obj = nullptr);
 
     bool Remove_Decal(uint32 id);
 
@@ -986,7 +986,7 @@ public:
     virtual SceneIterator* Create_Iterator(bool /*onlyvisible = false*/)
     {
         assert(0);
-        return NULL;
+        return nullptr;
     }
     virtual void Destroy_Iterator(SceneIterator* /*it*/) { assert(0); }
     virtual void Register(RenderObjClass* obj, RegType for_what);

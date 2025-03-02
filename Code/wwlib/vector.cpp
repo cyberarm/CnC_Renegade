@@ -228,7 +228,7 @@ int BooleanVectorClass::Resize(unsigned size)
  *                                                                                             *
  * OUTPUT:  none                                                                               *
  *                                                                                             *
- * WARNINGS:   The boolean vector cannot be used until it is resized to a non null condition.  *
+ * WARNINGS:   The boolean vector cannot be used until it is resized to a non nullptr condition.  *
  *                                                                                             *
  * HISTORY:                                                                                    *
  *   07/18/1995 JLB : Created.                                                                 *

@@ -434,7 +434,7 @@ void ThumbnailManagerClass::Save(bool force)
 // ----------------------------------------------------------------------------
 ThumbnailManagerClass::ThumbnailManagerClass(const char* thumbnail_filename,
                                              const char* mix_filename)
-    : ThumbnailMemory(NULL),
+    : ThumbnailMemory(nullptr),
       ThumbnailFileName(thumbnail_filename),
       MixFileName(mix_filename),
       PerTextureTimeStampUsed(false),
@@ -460,7 +460,7 @@ ThumbnailManagerClass::~ThumbnailManagerClass()
     if (ThumbnailMemory) {
         delete[] ThumbnailMemory;
     }
-    ThumbnailMemory = NULL;
+    ThumbnailMemory = nullptr;
 }
 
 // ----------------------------------------------------------------------------
@@ -506,7 +506,7 @@ ThumbnailClass* ThumbnailManagerClass::Peek_Thumbnail_Instance(const StringClass
             thumb = new ThumbnailClass(this, name);
             if (!thumb->Peek_Bitmap()) {
                 delete thumb;
-                thumb = NULL;
+                thumb = nullptr;
             }
         }
     }
@@ -594,7 +594,7 @@ void ThumbnailManagerClass::Update_Thumbnail_File(const char* mix_file_name,
 
     if (display_message_box && !message_box_displayed) {
         message_box_displayed = true;
-        ::MessageBox(NULL,
+        ::MessageBox(nullptr,
                      "Some or all texture thumbnails need to be updated.\n"
                      "This will take a while. The update will only be done once\n"
                      "each time a mix file changes and thumb database hasn't been\n"

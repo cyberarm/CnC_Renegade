@@ -26,8 +26,8 @@
 #include <stdio.h>
 
 TextTextureClass::TextTextureClass(void)
-    : TextureString(NULL),
-      Texture(NULL),
+    : TextureString(nullptr),
+      Texture(nullptr),
       TextureSize(0),
       ForegroundColor(0),
       BackgroundColor(0),

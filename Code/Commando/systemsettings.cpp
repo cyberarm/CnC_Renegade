@@ -814,7 +814,7 @@ MenuEntryClass	* SystemSettings::Create_Menu_Entry( const char * setting_name )
                         return entry;
                 }
         }
-        return NULL;
+        return nullptr;
 }
 #endif //DEADMENU
 

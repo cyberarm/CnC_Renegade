@@ -96,7 +96,7 @@ void ConversationEditorMgrClass::Save_Global_Database(void)
     //
     //	Create the file
     //
-    HANDLE file = ::CreateFile(filename, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, 0L, NULL);
+    HANDLE file = ::CreateFile(filename, GENERIC_WRITE, 0, nullptr, CREATE_ALWAYS, 0L, nullptr);
 
     ASSERT(file != INVALID_HANDLE_VALUE);
     if (file != INVALID_HANDLE_VALUE) {
@@ -128,7 +128,7 @@ void ConversationEditorMgrClass::Load_Global_Database(void)
     //	Open the file
     //
     HANDLE file
-        = ::CreateFile(filename, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, 0L, NULL);
+        = ::CreateFile(filename, GENERIC_READ, FILE_SHARE_READ, nullptr, OPEN_EXISTING, 0L, nullptr);
 
     ASSERT(file != INVALID_HANDLE_VALUE);
     if (file != INVALID_HANDLE_VALUE) {

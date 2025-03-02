@@ -351,10 +351,10 @@ BeaconGameObj::BeaconGameObj(void)
       WarningTimer(0.0f),
       State(0),
       IsArmed(false),
-      WeaponDefinition(NULL),
-      MessageSound(NULL),
-      ArmedSound(NULL),
-      OwnerBackup(NULL)
+      WeaponDefinition(nullptr),
+      MessageSound(nullptr),
+      ArmedSound(nullptr),
+      OwnerBackup(nullptr)
 {
     Set_App_Packet_Type(APPPACKETTYPE_BEACON);
     return;
@@ -371,7 +371,7 @@ BeaconGameObj::~BeaconGameObj(void)
     Stop_Armed_Sound();
     Stop_Owner_Animation();
 
-    CinematicObject = NULL;
+    CinematicObject = nullptr;
     return;
 }
 
@@ -441,7 +441,7 @@ void BeaconGameObj::Init_Beacon(const WeaponDefinitionClass* definition, Soldier
     //	Become part of the same team as the player who is
     // dropping us
     //
-    if (Owner != NULL) {
+    if (Owner != nullptr) {
         Set_Player_Type(Owner.Get_Ptr()->As_SmartGameObj()->Get_Player_Type());
     }
 
@@ -470,13 +470,13 @@ bool BeaconGameObj::Save(ChunkSaveClass& csave)
     //
     //	Save the owner (if necessary)
     //
-    if (Owner != NULL) {
+    if (Owner != nullptr) {
         csave.Begin_Chunk(CHUNKID_OWNER);
         Owner.Save(csave);
         csave.End_Chunk();
     }
 
-    if (CinematicObject != NULL) {
+    if (CinematicObject != nullptr) {
         csave.Begin_Chunk(CHUNKID_CINEMATIC);
         CinematicObject.Save(csave);
         csave.End_Chunk();
@@ -586,7 +586,7 @@ void BeaconGameObj::Think(void)
             // return the ammo that created the beacon to its owner.
             //
             SoldierGameObj* soldier = Get_Owner();
-            if (soldier != NULL) {
+            if (soldier != nullptr) {
                 WeaponBagClass* weapon_bag = soldier->Get_Weapon_Bag();
                 weapon_bag->Add_Weapon(WeaponDefinition, 1, false);
 
@@ -595,7 +595,7 @@ void BeaconGameObj::Think(void)
                 // sound.
                 //
                 WeaponClass* curr_weapon = weapon_bag->Get_Weapon();
-                if (curr_weapon != NULL && curr_weapon->Get_ID() == WeaponDefinition->Get_ID()) {
+                if (curr_weapon != nullptr && curr_weapon->Get_ID() == WeaponDefinition->Get_ID()) {
                     curr_weapon->Stop_Firing_Sound();
                 }
             }
@@ -633,7 +633,7 @@ void BeaconGameObj::Start_Cinematic(int id)
     //
     if (id != 0) {
         PhysicalGameObj* game_obj = ObjectLibraryManager::Create_Object(id);
-        if (game_obj != NULL) {
+        if (game_obj != nullptr) {
             game_obj->Start_Observers();
 
             //
@@ -658,7 +658,7 @@ void BeaconGameObj::Start_Cinematic(int id)
 ////////////////////////////////////////////////////////////////
 void BeaconGameObj::Stop_Armed_Sound(void)
 {
-    if (ArmedSound != NULL) {
+    if (ArmedSound != nullptr) {
         ArmedSound->Remove_From_Scene();
         REF_PTR_RELEASE(ArmedSound);
     }
@@ -689,7 +689,7 @@ void BeaconGameObj::Set_State(int state)
     bool is_nuke = !!Get_Definition().IsNuke;
 
     switch (state) {
-    case STATE_NULL:
+    case STATE_nullptr:
         Stop_Armed_Sound();
         Display_Message(Get_Definition().ArmingInterruptedTextID);
         break;
@@ -715,7 +715,7 @@ void BeaconGameObj::Set_State(int state)
             //
             ArmedSound = WWAudioClass::Get_Instance()->Create_Continuous_Sound(
                 Get_Definition().ArmedSoundDefID);
-            if (ArmedSound != NULL) {
+            if (ArmedSound != nullptr) {
 
                 //
                 //	Insert the sound object into the world
@@ -782,9 +782,9 @@ void BeaconGameObj::Set_State(int state)
         }
 
         // Stop cinematic
-        if (CinematicObject.Get_Ptr() != NULL) {
+        if (CinematicObject.Get_Ptr() != nullptr) {
             CinematicObject.Get_Ptr()->Set_Delete_Pending();
-            CinematicObject = NULL;
+            CinematicObject = nullptr;
         }
 
         Set_Delete_Pending();
@@ -852,7 +852,7 @@ void BeaconGameObj::Update_State(void)
         //
         //	Tweak the pitch of the armed sound
         //
-        if (ArmedSound != NULL) {
+        if (ArmedSound != nullptr) {
             float percent = (1.0F - DetonateTimer / Get_Definition().DetonateTime);
             ArmedSound->Set_Pitch_Factor(1.0F + (percent * 5.0F));
         }
@@ -884,7 +884,7 @@ void BeaconGameObj::Update_State(void)
     //	Handle each state independently
     //
     switch (State) {
-    case STATE_NULL:
+    case STATE_nullptr:
         break;
 
     case STATE_ARMING: {
@@ -930,7 +930,7 @@ void BeaconGameObj::Update_State(void)
                 if (CombatManager::Does_Beacon_Placement_Ends_Game() && Is_In_Enemy_Base()) {
                     BaseControllerClass* base = Get_Enemy_Base();
 
-                    if (base != NULL) {
+                    if (base != nullptr) {
                         //
                         //	Destroy the enemy base
                         //
@@ -1005,7 +1005,7 @@ bool BeaconGameObj::Is_In_Enemy_Base(void)
     //	Lookup the enemy's base
     //
     BaseControllerClass* base = Get_Enemy_Base();
-    if (base != NULL) {
+    if (base != nullptr) {
 
         //
         //	Check to see if the point is inside the beacon's zone
@@ -1028,7 +1028,7 @@ bool BeaconGameObj::Is_In_Enemy_Base(void)
 ////////////////////////////////////////////////////////////////
 void BeaconGameObj::Stop_Current_Message_Sound(void)
 {
-    if (MessageSound != NULL) {
+    if (MessageSound != nullptr) {
         MessageSound->Remove_From_Scene();
         REF_PTR_RELEASE(MessageSound);
     }
@@ -1049,7 +1049,7 @@ void BeaconGameObj::Display_Message(int text_id)
     //	Lookup the translation object from the strings database
     //
     TDBObjClass* translate_obj = TranslateDBClass::Find_Object(text_id);
-    if (translate_obj != NULL) {
+    if (translate_obj != nullptr) {
 
         const WCHAR* string = translate_obj->Get_String();
         int sound_def_id = (int)translate_obj->Get_Sound_ID();
@@ -1065,7 +1065,7 @@ void BeaconGameObj::Display_Message(int text_id)
             //	Create the sound object
             //
             MessageSound = WWAudioClass::Get_Instance()->Create_Sound(sound_def_id);
-            if (MessageSound != NULL) {
+            if (MessageSound != nullptr) {
                 duration = (MessageSound->Get_Duration() / 1000.0F);
 
                 //
@@ -1080,9 +1080,9 @@ void BeaconGameObj::Display_Message(int text_id)
         //
         //	Display the text on the screen
         //
-        if (display_text && string != NULL) {
+        if (display_text && string != nullptr) {
             float message_duration = max(duration, 5.0F);
-            CombatManager::Get_Message_Window()->Add_Message(string, Vector3(1, 1, 1), NULL,
+            CombatManager::Get_Message_Window()->Add_Message(string, Vector3(1, 1, 1), nullptr,
                                                              message_duration);
         }
     }
@@ -1117,7 +1117,7 @@ void BeaconGameObj::Start_Owner_Animation(void)
     //	Release control of the human's animation (if possible)
     //
     SoldierGameObj* soldier = Get_Owner();
-    if (soldier != NULL) {
+    if (soldier != nullptr) {
 
         //
         //	Play the animation looped until we detect its time to stop
@@ -1146,12 +1146,12 @@ void BeaconGameObj::Stop_Owner_Animation(void)
     //	Release control of the human's animation (if possible)
     //
     SoldierGameObj* soldier = Get_Owner();
-    if (soldier != NULL) {
+    if (soldier != nullptr) {
 
         //
         //	Stop the animation
         //
-        soldier->Set_Animation(NULL);
+        soldier->Set_Animation(nullptr);
     }
 
     // Only show the HUD if the owner if the star
@@ -1176,7 +1176,7 @@ bool BeaconGameObj::Was_Owner_Interrupted(void)
     //	The owner is interrupted if he's dead
     //
     SoldierGameObj* soldier = Get_Owner();
-    if (soldier == NULL || soldier->Is_Dead()) {
+    if (soldier == nullptr || soldier->Is_Dead()) {
         retval = true;
     }
     else {
@@ -1228,14 +1228,14 @@ bool BeaconGameObj::Was_Owner_Interrupted(void)
 ////////////////////////////////////////////////////////////////
 SoldierGameObj* BeaconGameObj::Get_Owner(void)
 {
-    SoldierGameObj* soldier = NULL;
+    SoldierGameObj* soldier = nullptr;
 
     //
     //	Dig the soldier pointer out of the referencer object
     //
-    if (Owner != NULL) {
+    if (Owner != nullptr) {
         PhysicalGameObj* physical_obj = Owner.Get_Ptr()->As_PhysicalGameObj();
-        if (physical_obj != NULL) {
+        if (physical_obj != nullptr) {
             soldier = physical_obj->As_SoldierGameObj();
         }
     }
@@ -1278,7 +1278,7 @@ void BeaconGameObj::Create_Explosion(void)
     //
     // (gth) don't explode if the owner is gone
     //
-    if (Get_Owner() != NULL) {
+    if (Get_Owner() != nullptr) {
 
         ExplosionManager::Create_Explosion_At(Get_Definition().ExplosionDefID, Get_Transform(),
                                               Get_Owner());
@@ -1290,19 +1290,19 @@ void BeaconGameObj::Create_Explosion(void)
             ExplosionDefinitionClass* explosion_def
                 = (ExplosionDefinitionClass*)DefinitionMgrClass::Find_Definition(
                     Get_Definition().ExplosionDefID);
-            if (explosion_def != NULL) {
+            if (explosion_def != nullptr) {
                 float outter_radius = explosion_def->DamageRadius;
                 float outter_radius2 = outter_radius * outter_radius;
 
                 //
                 //	Loop over all the buildings in the level
                 //
-                SLNode<BuildingGameObj>* obj_node = NULL;
+                SLNode<BuildingGameObj>* obj_node = nullptr;
                 for (obj_node = GameObjManager::Get_Building_Game_Obj_List()->Head();
-                     obj_node != NULL; obj_node = obj_node->Next()) {
-                    WWASSERT(obj_node->Data() != NULL);
+                     obj_node != nullptr; obj_node = obj_node->Next()) {
+                    WWASSERT(obj_node->Data() != nullptr);
                     BuildingGameObj* building = obj_node->Data();
-                    if (building != NULL) {
+                    if (building != nullptr) {
 
                         //
                         //	Check to see if any part of the building is inside our damage sphere
@@ -1375,7 +1375,7 @@ void BeaconGameObj::Import_Rare(BitStreamClass& packet)
 
 void BeaconGameObj::Restore_Owner(void)
 {
-    if (Get_Owner() == NULL && OwnerBackup != NULL) {
+    if (Get_Owner() == nullptr && OwnerBackup != nullptr) {
         // Try and find a smart game obj with the same playerdata
 
         SLNode<SmartGameObj>* smart_objnode;
@@ -1388,7 +1388,7 @@ void BeaconGameObj::Restore_Owner(void)
             }
         }
 
-        if (Get_Owner() == NULL) {
+        if (Get_Owner() == nullptr) {
             Debug_Say(("Didn't find Beacon owner\n"));
         }
     }

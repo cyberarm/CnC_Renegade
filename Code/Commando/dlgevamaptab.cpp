@@ -69,7 +69,7 @@ void EvaMapTabClass::On_Init_Dialog(void)
     Set_Dlg_Item_Text(IDC_MAP_TITLE, TRANSLATE(MapMgrClass::Get_Map_Title()));
 
     MapCtrlClass* map_ctrl = (MapCtrlClass*)Get_Dlg_Item(IDC_MAP_CTRL);
-    if (map_ctrl != NULL) {
+    if (map_ctrl != nullptr) {
 
         //
         //	Configure the map
@@ -113,7 +113,7 @@ void EvaMapTabClass::On_Init_Dialog(void)
             //
             //	Is this an objective we should put on the map?
             //
-            if (objective != NULL && objective->Status == ObjectiveManager::STATUS_IS_PENDING) {
+            if (objective != nullptr && objective->Status == ObjectiveManager::STATUS_IS_PENDING) {
                 //
                 //	Now add a marker that represents this objective
                 //
@@ -127,7 +127,7 @@ void EvaMapTabClass::On_Init_Dialog(void)
         //
         //	Make sure that Havoc is in view
         //
-        if (COMBAT_STAR != NULL && MapMgrClass::Is_Player_Marker_Visible()) {
+        if (COMBAT_STAR != nullptr && MapMgrClass::Is_Player_Marker_Visible()) {
             map_ctrl->Center_View_About_Marker(0);
         }
     }
@@ -136,7 +136,7 @@ void EvaMapTabClass::On_Init_Dialog(void)
     //	Configure the list control
     //
     ListCtrlClass* list_ctrl = (ListCtrlClass*)Get_Dlg_Item(IDC_OBJECT_DESC_LIST);
-    if (list_ctrl != NULL) {
+    if (list_ctrl != nullptr) {
         list_ctrl->Add_Column(L"", 1.0F, Vector3(1, 1, 1));
     }
 
@@ -154,7 +154,7 @@ void EvaMapTabClass::On_MapCtrl_Marker_Hilighted(MapCtrlClass* map_ctrl, int ctr
 {
     ListCtrlClass* list_ctrl = (ListCtrlClass*)Get_Dlg_Item(IDC_OBJECT_DESC_LIST);
     ImageCtrlClass* image_ctrl = (ImageCtrlClass*)Get_Dlg_Item(IDC_IMAGE);
-    if (list_ctrl == NULL || image_ctrl == NULL) {
+    if (list_ctrl == nullptr || image_ctrl == nullptr) {
         return;
     }
 
@@ -162,7 +162,7 @@ void EvaMapTabClass::On_MapCtrl_Marker_Hilighted(MapCtrlClass* map_ctrl, int ctr
     //	Reset the objective description list
     //
     list_ctrl->Delete_All_Entries();
-    image_ctrl->Set_Texture(NULL);
+    image_ctrl->Set_Texture(nullptr);
 
     if (marker_index == 0) {
 
@@ -177,7 +177,7 @@ void EvaMapTabClass::On_MapCtrl_Marker_Hilighted(MapCtrlClass* map_ctrl, int ctr
         //	Display the objective information
         //
         Objective* objective = (Objective*)map_ctrl->Get_Marker_Data(marker_index);
-        if (objective != NULL) {
+        if (objective != nullptr) {
 
             WideStringClass name = TRANSLATE(objective->ShortDescriptionID);
             WideStringClass string;
@@ -197,7 +197,7 @@ void EvaMapTabClass::On_MapCtrl_Marker_Hilighted(MapCtrlClass* map_ctrl, int ctr
             //
             TDBObjClass* translate_obj
                 = TranslateDBClass::Find_Object(objective->LongDescriptionID);
-            if (translate_obj != NULL) {
+            if (translate_obj != nullptr) {
                 list_ctrl->Insert_Entry(4, translate_obj->Get_String());
             }
 

@@ -32,7 +32,7 @@ class FileCopyDialogClass : public CDialog
 {
     // Construction
 public:
-    FileCopyDialogClass(CWnd* pParent = NULL); // standard constructor
+    FileCopyDialogClass(CWnd* pParent = nullptr); // standard constructor
 
     // Dialog Data
     //{{AFX_DATA(FileCopyDialogClass)
@@ -62,7 +62,7 @@ protected:
 public:
     void Set_Current_File(LPCTSTR filename)
     {
-        if (m_hWnd != NULL) {
+        if (m_hWnd != nullptr) {
             SetDlgItemText(IDC_FILENAME_TEXT, filename);
         }
     }

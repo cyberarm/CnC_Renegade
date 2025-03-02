@@ -139,7 +139,7 @@ void GeneratingVisDialogClass::OnCancel(void)
 void GeneratingVisDialogClass::Reset_Vis_Data_For_Nodes(NODE_LIST& node_list)
 {
     SceneEditorClass* scene = ::Get_Scene_Editor();
-    if (scene == NULL) {
+    if (scene == nullptr) {
         return;
     }
 
@@ -148,7 +148,7 @@ void GeneratingVisDialogClass::Reset_Vis_Data_For_Nodes(NODE_LIST& node_list)
     //
     for (int index = 0; index < node_list.Count(); index++) {
         NodeClass* node = node_list[index];
-        if (node != NULL) {
+        if (node != nullptr) {
             scene->Reset_Vis_For_Node(node);
         }
     }
@@ -402,7 +402,7 @@ void GeneratingVisDialogClass::Generate_Points(NODE_LIST& node_list,
     for (int index = 0; (index < count) && !m_bStop; index++) {
         NodeClass* node = node_list[index];
         RenderObjClass* rendobj = node->Peek_Render_Obj();
-        if (rendobj != NULL) {
+        if (rendobj != nullptr) {
             total_polys += rendobj->Get_Num_Polys();
         }
     }

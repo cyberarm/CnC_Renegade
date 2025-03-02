@@ -69,7 +69,7 @@ public:
     virtual PersistClass* Create(void) const
     {
         WWASSERT(0);
-        return NULL;
+        return nullptr;
     }
     virtual bool Save(ChunkSaveClass& csave);
     virtual bool Load(ChunkLoadClass& cload);
@@ -137,7 +137,7 @@ public:
     virtual PersistClass* Create(void) const
     {
         WWASSERT(0);
-        return NULL;
+        return nullptr;
     }
     virtual bool Save(ChunkSaveClass& csave);
     virtual bool Load(ChunkLoadClass& cload);

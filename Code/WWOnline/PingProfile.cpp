@@ -169,9 +169,9 @@ long ComparePingProfile(const PingProfile& ping1, const PingProfile& ping2)
 
 int EncodePingProfile(const PingProfile& pings, char* buffer)
 {
-    assert(buffer != NULL);
+    assert(buffer != nullptr);
 
-    if (buffer == NULL) {
+    if (buffer == nullptr) {
         return 0;
     }
 

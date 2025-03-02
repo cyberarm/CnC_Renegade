@@ -65,8 +65,8 @@ public:
     virtual void Set_Name(const char* name);
     virtual const char* Get_Base_Model_Name(void) const
     {
-        return NULL;
-    } // BaseModelName.Is_Empty () ? NULL : BaseModelName; }
+        return nullptr;
+    } // BaseModelName.Is_Empty () ? nullptr : BaseModelName; }
     virtual void Set_Base_Model_Name(const char* name);
     virtual int Get_Num_Polys(void) const;
     virtual void Notify_Added(SceneClass* scene);

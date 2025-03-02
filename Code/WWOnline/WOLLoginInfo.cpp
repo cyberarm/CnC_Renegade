@@ -80,8 +80,8 @@ namespace WWOnline
                 const CComPtr<WOL::IChat>& chat = session->GetChatObject();
 
                 for (int index = 1; index <= MAX_NICKNAMES; ++index) {
-                    const char* nickname = NULL;
-                    const char* password = NULL;
+                    const char* nickname = nullptr;
+                    const char* password = nullptr;
                     chat->GetNick(index, &nickname, &password);
 
                     if (nickname && (strlen(nickname) > 0)) {
@@ -158,7 +158,7 @@ namespace WWOnline
             }
         }
 
-        return NULL;
+        return nullptr;
     }
 
     RefPtr<LoginInfo> LoginInfo::Find(const char* nickname)
@@ -193,7 +193,7 @@ namespace WWOnline
             return new LoginInfo(nickname, password, isEncrypted);
         }
 
-        return NULL;
+        return nullptr;
     }
 
     RefPtr<LoginInfo> LoginInfo::Create(const char* nickname, const char* password,
@@ -209,7 +209,7 @@ namespace WWOnline
             return new LoginInfo(name, pass, isEncrypted);
         }
 
-        return NULL;
+        return nullptr;
     }
 
     /******************************************************************************
@@ -282,7 +282,7 @@ namespace WWOnline
 
     void LoginInfo::SetPassword(const wchar_t* password, bool isEncrypted)
     {
-        if (password != NULL) {
+        if (password != nullptr) {
             mPassword = password;
             mIsPasswordEncrypted = isEncrypted;
         }
@@ -487,8 +487,8 @@ namespace WWOnline
             const CComPtr<WOL::IChat>& chat = session->GetChatObject();
 
             for (int index = 1; index <= MAX_NICKNAMES; ++index) {
-                const char* nickname = NULL;
-                const char* password = NULL;
+                const char* nickname = nullptr;
+                const char* password = nullptr;
                 HRESULT result = chat->GetNick(index, &nickname, &password);
 
                 if (SUCCEEDED(result)) {
@@ -550,11 +550,11 @@ namespace WWOnline
 
             // Find the next empty slot
             for (int index = 1; index <= MAX_NICKNAMES; ++index) {
-                const char* slotNick = NULL;
-                const char* slotPass = NULL;
+                const char* slotNick = nullptr;
+                const char* slotPass = nullptr;
                 chat->GetNick(index, &slotNick, &slotPass);
 
-                if ((slotNick == NULL) || strlen(slotNick) == 0) {
+                if ((slotNick == nullptr) || strlen(slotNick) == 0) {
                     break;
                 }
             }

@@ -71,7 +71,7 @@ float CombatDazzleClass::Compute_Dazzle_Visibility(RenderInfoClass& rinfo,
     */
     bool ignore_player = CombatManager::Is_First_Person();
     if (ignore_player) {
-        if (COMBAT_STAR != NULL) {
+        if (COMBAT_STAR != nullptr) {
             COMBAT_STAR->Peek_Physical_Object()->Inc_Ignore_Counter();
         }
     }
@@ -84,7 +84,7 @@ float CombatDazzleClass::Compute_Dazzle_Visibility(RenderInfoClass& rinfo,
     PhysRayCollisionTestClass raytest(ray, &res, 0, COLLISION_TYPE_PROJECTILE);
 
     PhysicsSceneClass* scene = PhysicsSceneClass::Get_Instance();
-    if (scene != NULL) {
+    if (scene != nullptr) {
         scene->Cast_Ray(raytest);
     }
 
@@ -92,7 +92,7 @@ float CombatDazzleClass::Compute_Dazzle_Visibility(RenderInfoClass& rinfo,
     ** Done
     */
     if (ignore_player) {
-        if (COMBAT_STAR != NULL) {
+        if (COMBAT_STAR != nullptr) {
             COMBAT_STAR->Peek_Physical_Object()->Dec_Ignore_Counter();
         }
     }

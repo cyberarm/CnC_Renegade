@@ -76,7 +76,7 @@
 **	handler object outside of the context of a member function. This will be set to the
 **	mouse object most recently created.
 */
-static WWMouseClass* _MousePtr = NULL;
+static WWMouseClass* _MousePtr = nullptr;
 
 /***********************************************************************************************
  * Callback_Process_Mouse -- Mouse O/S callback function.                                      *
@@ -95,7 +95,7 @@ static WWMouseClass* _MousePtr = NULL;
  *=============================================================================================*/
 void CALLBACK Callback_Process_Mouse(UINT, UINT, DWORD, DWORD, DWORD)
 {
-    if (_MousePtr != NULL) {
+    if (_MousePtr != nullptr) {
         _MousePtr->Process_Mouse();
     }
 }
@@ -126,13 +126,13 @@ WWMouseClass::WWMouseClass(Surface* surfaceptr, HWND window)
       MouseY(0),
       SurfacePtr(surfaceptr),
       Window(window),
-      MouseShape(NULL),
+      MouseShape(nullptr),
       ShapeNumber(0),
       MouseXHot(0),
       MouseYHot(0),
-      Background(NULL),
-      Alternate(NULL),
-      SidebarAlternate(NULL),
+      Background(nullptr),
+      Alternate(nullptr),
+      SidebarAlternate(nullptr),
       ConditionalRect(0, 0, 0, 0),
       ConditionalState(-1),
       TimerHandle(0)
@@ -163,16 +163,16 @@ WWMouseClass::~WWMouseClass(void)
 {
     if (TimerHandle != 0) {
         timeKillEvent(TimerHandle);
-        _MousePtr = NULL;
+        _MousePtr = nullptr;
     }
 
     delete Background;
-    Background = NULL;
+    Background = nullptr;
 
     delete Alternate;
-    Alternate = NULL;
+    Alternate = nullptr;
     delete SidebarAlternate;
-    SidebarAlternate = NULL;
+    SidebarAlternate = nullptr;
 }
 
 void WWMouseClass::Calc_Confining_Rect(void)
@@ -244,7 +244,7 @@ int WWMouseClass::Get_Mouse_State(void) const
  *=============================================================================================*/
 void WWMouseClass::Set_Cursor(int xhotspot, int yhotspot, ShapeSet const* cursor, int shape)
 {
-    if (cursor != NULL) {
+    if (cursor != nullptr) {
         if (Is_Captured()) {
             Block_Mouse();
             if (!Is_Hidden()) {
@@ -287,7 +287,7 @@ void WWMouseClass::Set_Cursor(int xhotspot, int yhotspot, ShapeSet const* cursor
  *=============================================================================================*/
 bool WWMouseClass::Is_Data_Valid(void) const
 {
-    if (MouseShape != NULL) {
+    if (MouseShape != nullptr) {
         return (true);
     }
     return (false);
@@ -318,28 +318,28 @@ bool WWMouseClass::Validate_Copy_Buffer(void)
         **	it is large enough for the current shape data. If not, then free the
         **	buffer and reallocate it at the larger size.
         */
-        if (Background != NULL) {
+        if (Background != nullptr) {
             if (MouseShape->Get_Width() > Background->Get_Width()
                 || MouseShape->Get_Height() > Background->Get_Height()) {
 
                 delete Background;
-                Background = NULL;
+                Background = nullptr;
             }
         }
-        if (Alternate != NULL) {
+        if (Alternate != nullptr) {
             if (MouseShape->Get_Width() > Alternate->Get_Width()
                 || MouseShape->Get_Height() > Alternate->Get_Height()) {
 
                 delete Alternate;
-                Alternate = NULL;
+                Alternate = nullptr;
             }
         }
-        if (SidebarAlternate != NULL) {
+        if (SidebarAlternate != nullptr) {
             if (MouseShape->Get_Width() > SidebarAlternate->Get_Width()
                 || MouseShape->Get_Height() > SidebarAlternate->Get_Height()) {
 
                 delete SidebarAlternate;
-                SidebarAlternate = NULL;
+                SidebarAlternate = nullptr;
             }
         }
 
@@ -347,20 +347,20 @@ bool WWMouseClass::Validate_Copy_Buffer(void)
         **	Allocate a new background buffer if necessary. This must be big enough to
         **	hold the largest sized shape from the currently assigned shape set data.
         */
-        if (Background == NULL) {
+        if (Background == nullptr) {
             Background = new BSurface(MouseShape->Get_Width(), MouseShape->Get_Height(),
                                       SurfacePtr->Bytes_Per_Pixel());
         }
-        if (Alternate == NULL) {
+        if (Alternate == nullptr) {
             Alternate = new BSurface(MouseShape->Get_Width(), MouseShape->Get_Height(),
                                      SurfacePtr->Bytes_Per_Pixel());
         }
-        if (SidebarAlternate == NULL) {
+        if (SidebarAlternate == nullptr) {
             SidebarAlternate = new BSurface(MouseShape->Get_Width(), MouseShape->Get_Height(),
                                             SurfacePtr->Bytes_Per_Pixel());
         }
 
-        return (Background != NULL && Alternate != NULL && SidebarAlternate != NULL);
+        return (Background != nullptr && Alternate != nullptr && SidebarAlternate != nullptr);
     }
     return (false);
 }
@@ -511,7 +511,7 @@ void WWMouseClass::Draw_Mouse(Surface* surface, bool issidebarsurface)
         savedregion = &AltRegion;
     }
 
-    if (!Is_Hidden() && surface != NULL && surface != SurfacePtr && savesurface != NULL) {
+    if (!Is_Hidden() && surface != nullptr && surface != SurfacePtr && savesurface != nullptr) {
         Block_Mouse();
 
         /*
@@ -562,8 +562,8 @@ void WWMouseClass::Draw_Mouse(Surface* surface, bool issidebarsurface)
  *=============================================================================================*/
 void WWMouseClass::Erase_Mouse(Surface* surface, bool issidebarsurface)
 {
-    if (!Is_Hidden() && surface != NULL && surface != SurfacePtr && Alternate != NULL
-        && SidebarAlternate != NULL) {
+    if (!Is_Hidden() && surface != nullptr && surface != SurfacePtr && Alternate != nullptr
+        && SidebarAlternate != nullptr) {
 
         BSurface* savesurface;
         Rect savedregion;
@@ -607,7 +607,7 @@ void WWMouseClass::Erase_Mouse(Surface* surface, bool issidebarsurface)
  *=============================================================================================*/
 void WWMouseClass::Raw_Draw_Mouse(Surface* surface, int xoffset, int yoffset)
 {
-    if (Is_Data_Valid() && surface != NULL) {
+    if (Is_Data_Valid() && surface != nullptr) {
 
         /*
         **	Determine the rectangle that the mouse will be drawn
@@ -764,7 +764,7 @@ void WWMouseClass::Hide_Mouse(void)
  *=============================================================================================*/
 void WWMouseClass::Capture_Mouse(void)
 {
-    if (this != NULL && !Is_Captured()) {
+    if (this != nullptr && !Is_Captured()) {
         Block_Mouse();
         while (ShowCursor(FALSE) > -1) { }
         while (ShowCursor(TRUE) < -1) { }
@@ -799,7 +799,7 @@ void WWMouseClass::Capture_Mouse(void)
  *=============================================================================================*/
 void WWMouseClass::Release_Mouse(void)
 {
-    if (this != NULL && Is_Captured()) {
+    if (this != nullptr && Is_Captured()) {
         Block_Mouse();
         Hide_Mouse();
         IsCaptured = false;

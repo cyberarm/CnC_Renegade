@@ -243,7 +243,7 @@ void cTeam::Get_Team_String(int rank, WideStringClass& string) const
 
     string.Format(L"");
 
-    WWASSERT(PTheGameData != NULL);
+    WWASSERT(PTheGameData != nullptr);
     // bool is_verbose = The_Game()->IsIntermission.Get() || MultiHUDClass::Get_Verbose_Lists();
     bool is_verbose = // force_verbose ||
         The_Game()->IsIntermission.Is_True() ||
@@ -315,7 +315,7 @@ void cTeam::Get_Team_String(int rank, WideStringClass& string) const
     //
     // Money
     //
-    WWASSERT(PTheGameData != NULL);
+    WWASSERT(PTheGameData != nullptr);
     if ((The_Game()->Is_Cnc() || The_Game()->Is_Skirmish()) && is_verbose) {
 
 #ifdef WWDEBUG
@@ -324,7 +324,7 @@ void cTeam::Get_Team_String(int rank, WideStringClass& string) const
         bool show =
 #endif // WWDEBUG
             cNetwork::I_Am_Only_Server()
-            || (cNetwork::I_Am_Client() && cNetwork::Get_My_Player_Object() != NULL
+            || (cNetwork::I_Am_Client() && cNetwork::Get_My_Player_Object() != nullptr
                 && (cNetwork::Get_My_Team_Number() == TeamNumber));
 
         if (show) {
@@ -357,9 +357,9 @@ int cTeam::Tally_Money(void) const
     int tally = 0;
 
     for (SLNode<cPlayer>* player_node = cPlayerManager::Get_Player_Object_List()->Head();
-         player_node != NULL; player_node = player_node->Next()) {
+         player_node != nullptr; player_node = player_node->Next()) {
         cPlayer* p_player = player_node->Data();
-        WWASSERT(p_player != NULL);
+        WWASSERT(p_player != nullptr);
 
         if (p_player->Get_Is_Active().Is_True() && p_player->Get_Player_Type() == TeamNumber) {
             tally += (int)p_player->Get_Money();

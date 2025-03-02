@@ -61,7 +61,7 @@ public:
     //////////////////////////////////////////////////////////////////
     //	Public constructors/destructors
     //////////////////////////////////////////////////////////////////
-    EditorOnlyObjectNodeClass(PresetClass* preset = NULL);
+    EditorOnlyObjectNodeClass(PresetClass* preset = nullptr);
     EditorOnlyObjectNodeClass(const EditorOnlyObjectNodeClass& src);
     ~EditorOnlyObjectNodeClass(void);
 

@@ -37,7 +37,7 @@ class ScriptEditDialogClass : public CDialog
 {
     // Construction
 public:
-    ScriptEditDialogClass(CWnd* pParent = NULL);
+    ScriptEditDialogClass(CWnd* pParent = nullptr);
     ~ScriptEditDialogClass(void);
 
     // Dialog Data

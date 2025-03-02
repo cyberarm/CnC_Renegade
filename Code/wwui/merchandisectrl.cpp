@@ -413,7 +413,7 @@ void MerchandiseCtrlClass::On_LButton_Down(const Vector2& mouse_pos)
         //
         TextureClass* texture = WW3DAssetManager::Get_Instance()->Get_Texture(
             TextureNameList[CurrentTextureIndex], TextureClass::MIP_LEVELS_1);
-        if (texture != NULL) {
+        if (texture != nullptr) {
             TextureRenderer.Set_Texture(texture);
             REF_PTR_RELEASE(texture);
         }

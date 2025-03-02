@@ -87,7 +87,7 @@ void cGameSpyCsChallengeResponseEvent::Act(void)
     WWASSERT(cNetwork::I_Am_Server());
 
     cPlayer* p_player = cPlayerManager::Find_Player(ClientId);
-    if (p_player != NULL) {
+    if (p_player != nullptr) {
         WWDEBUG_SAY(("  Validating client %d against validation server.\n", ClientId));
 
         CCDKeyAuth::AuthenticateUser(ClientId, p_player->Get_Ip_Address(),

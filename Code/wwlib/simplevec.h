@@ -91,7 +91,7 @@ public:
     virtual bool Uninitialised_Grow(int newsize);
     void Zero_Memory(void)
     {
-        if (Vector != NULL) {
+        if (Vector != nullptr) {
             memset(Vector, 0, VectorMax * sizeof(T));
         }
     }
@@ -116,7 +116,7 @@ protected:
  *=============================================================================================*/
 template <class T>
 inline SimpleVecClass<T>::SimpleVecClass(int size)
-    : Vector(NULL),
+    : Vector(nullptr),
       VectorMax(0)
 {
     if (size > 0) {
@@ -138,9 +138,9 @@ inline SimpleVecClass<T>::SimpleVecClass(int size)
  *=============================================================================================*/
 template <class T> inline SimpleVecClass<T>::~SimpleVecClass(void)
 {
-    if (Vector != NULL) {
+    if (Vector != nullptr) {
         delete[] Vector;
-        Vector = NULL;
+        Vector = nullptr;
         VectorMax = 0;
     }
 }
@@ -175,7 +175,7 @@ template <class T> inline bool SimpleVecClass<T>::Resize(int newsize)
         **	If there is an old vector, then it must be copied (as much as is feasible)
         **	to the new vector.
         */
-        if (Vector != NULL) {
+        if (Vector != nullptr) {
 
             /*
             **	Mem copy as much of the old vector into the new vector as possible.
@@ -187,7 +187,7 @@ template <class T> inline bool SimpleVecClass<T>::Resize(int newsize)
             **	Delete the old vector.
             */
             delete[] Vector;
-            Vector = NULL;
+            Vector = nullptr;
         }
 
         /*
@@ -202,9 +202,9 @@ template <class T> inline bool SimpleVecClass<T>::Resize(int newsize)
         ** Delete entire vector and reset counts
         */
         VectorMax = 0;
-        if (Vector != NULL) {
+        if (Vector != nullptr) {
             delete[] Vector;
-            Vector = NULL;
+            Vector = nullptr;
         }
     }
     return true;
@@ -334,9 +334,9 @@ inline SimpleDynVecClass<T>::SimpleDynVecClass(int size)
  *=============================================================================================*/
 template <class T> inline SimpleDynVecClass<T>::~SimpleDynVecClass(void)
 {
-    if (Vector != NULL) {
+    if (Vector != nullptr) {
         delete[] Vector;
-        Vector = NULL;
+        Vector = nullptr;
     }
 }
 

@@ -64,7 +64,7 @@ const char* RENEGADE_SUB_KEY_NAME_AUDIO = "Software\\Westwood\\Renegade\\Sound";
 // AudioConfigDialogClass
 //
 /////////////////////////////////////////////////////////////////////////////
-AudioConfigDialogClass::AudioConfigDialogClass(CWnd* pParent /*=NULL*/)
+AudioConfigDialogClass::AudioConfigDialogClass(CWnd* pParent /*=nullptr*/)
     : CDialog(AudioConfigDialogClass::IDD, pParent)
 {
     //{{AFX_DATA_INIT(AudioConfigDialogClass)
@@ -301,7 +301,7 @@ BOOL AudioConfigDialogClass::OnInitDialog(void)
         //
         //	Get information about this sound driver
         //
-        WWAudioClass::DRIVER_INFO_STRUCT* driver_info = NULL;
+        WWAudioClass::DRIVER_INFO_STRUCT* driver_info = nullptr;
         if (WWAudioClass::Get_Instance()->Get_3D_Device(index, &driver_info)) {
 
             //

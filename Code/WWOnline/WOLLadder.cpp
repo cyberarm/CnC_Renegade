@@ -81,7 +81,7 @@ namespace WWOnline
     {
         //	WWDEBUG_SAY(("WOL: Instantiating LadderData\n"));
         memcpy(&mData, &ladder, sizeof(mData));
-        mData.next = NULL;
+        mData.next = nullptr;
     }
 
     /******************************************************************************
@@ -125,7 +125,7 @@ namespace WWOnline
     {
         if (time > mTimeStamp) {
             memcpy(&mData, &ladder, sizeof(mData));
-            mData.next = NULL;
+            mData.next = nullptr;
             return true;
         }
 

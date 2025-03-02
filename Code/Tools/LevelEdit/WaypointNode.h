@@ -78,7 +78,7 @@ public:
     //////////////////////////////////////////////////////////////////
     //	Public constructors/destructors
     //////////////////////////////////////////////////////////////////
-    WaypointNodeClass(PresetClass* preset = NULL);
+    WaypointNodeClass(PresetClass* preset = nullptr);
     WaypointNodeClass(const WaypointNodeClass& src);
     ~WaypointNodeClass(void);
 

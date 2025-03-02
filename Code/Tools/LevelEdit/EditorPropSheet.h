@@ -89,7 +89,7 @@ public:
     ///////////////////////////////////////////////////
     virtual void Add_Page(DockableFormClass* pnew_tab)
     {
-        if (m_hWnd == NULL) {
+        if (m_hWnd == nullptr) {
             m_TabList.Add(pnew_tab);
         }
     }

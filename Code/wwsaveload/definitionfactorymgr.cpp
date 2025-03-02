@@ -142,7 +142,7 @@ DefinitionFactoryClass* DefinitionFactoryMgrClass::Get_Next(DefinitionFactoryCla
     //	Loop through all the factories and see if we can
     // find the next one that belongs to the given superclass
     //
-    while ((factory == NULL) && ((curr_factory = curr_factory->m_NextFactory) != NULL)) {
+    while ((factory == nullptr) && ((curr_factory = curr_factory->m_NextFactory) != nullptr)) {
 
         //
         //	Is this the factory we were looking for?
@@ -177,7 +177,7 @@ DefinitionFactoryClass* DefinitionFactoryMgrClass::Get_Next(DefinitionFactoryCla
     //
     //	Simply return the next factory in the chain
     //
-    if (curr_factory != NULL) {
+    if (curr_factory != nullptr) {
         factory = curr_factory->m_NextFactory;
     }
 

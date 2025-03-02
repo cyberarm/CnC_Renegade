@@ -48,8 +48,8 @@ int WideStringClass::m_UsedTempStringCount = 0;
 
 FastCriticalSectionClass WideStringClass::m_TempMutex;
 
-WCHAR WideStringClass::m_NullChar = 0;
-WCHAR* WideStringClass::m_EmptyString = &m_NullChar;
+WCHAR WideStringClass::m_nullptrChar = 0;
+WCHAR* WideStringClass::m_EmptyString = &m_nullptrChar;
 
 //
 // A trick to optimize strings that are allocated from the stack and used only temporarily
@@ -65,7 +65,7 @@ WCHAR* WideStringClass::m_FreeTempPtr[MAX_TEMP_STRING]
         reinterpret_cast<WCHAR*>(m_TempString3 + sizeof(WideStringClass::_HEADER)),
         reinterpret_cast<WCHAR*>(m_TempString4 + sizeof(WideStringClass::_HEADER)) };
 
-WCHAR* WideStringClass::m_ResTempPtr[MAX_TEMP_STRING] = { NULL, NULL, NULL, NULL };
+WCHAR* WideStringClass::m_ResTempPtr[MAX_TEMP_STRING] = { nullptr, nullptr, nullptr, nullptr };
 
 ///////////////////////////////////////////////////////////////////
 //
@@ -79,7 +79,7 @@ void WideStringClass::Get_String(int length, bool is_temp)
     }
     else {
 
-        WCHAR* string = NULL;
+        WCHAR* string = nullptr;
 
         //
         //	Should we attempt to use a temp buffer for this string?
@@ -96,14 +96,14 @@ void WideStringClass::Get_String(int length, bool is_temp)
             //	Try to find an available temporary buffer
             //
             for (int index = 0; index < MAX_TEMP_STRING; index++) {
-                if (m_FreeTempPtr[index] != NULL) {
+                if (m_FreeTempPtr[index] != nullptr) {
 
                     //
                     //	Grab this unused buffer for our string
                     //
                     string = m_FreeTempPtr[index];
                     m_ResTempPtr[index] = m_FreeTempPtr[index];
-                    m_FreeTempPtr[index] = NULL;
+                    m_FreeTempPtr[index] = nullptr;
                     Set_Buffer_And_Allocated_Length(string, MAX_TEMP_LEN);
 
                     //
@@ -115,7 +115,7 @@ void WideStringClass::Get_String(int length, bool is_temp)
             }
         }
 
-        if (string == NULL) {
+        if (string == nullptr) {
             Set_Buffer_And_Allocated_Length(Allocate_Buffer(length), length);
         }
     }
@@ -230,7 +230,7 @@ void WideStringClass::Free_String(void)
 ///////////////////////////////////////////////////////////////////
 int _cdecl WideStringClass::Format_Args(const WCHAR* format, const va_list& arg_list)
 {
-    if (format == NULL) {
+    if (format == nullptr) {
         return 0;
     }
 
@@ -259,7 +259,7 @@ int _cdecl WideStringClass::Format_Args(const WCHAR* format, const va_list& arg_
 ///////////////////////////////////////////////////////////////////
 int _cdecl WideStringClass::Format(const WCHAR* format, ...)
 {
-    if (format == NULL) {
+    if (format == nullptr) {
         return 0;
     }
 
@@ -300,11 +300,11 @@ void WideStringClass::Release_Resources(void)
 ///////////////////////////////////////////////////////////////////
 bool WideStringClass::Convert_From(const char* text)
 {
-    if (text != NULL) {
+    if (text != nullptr) {
 
         int length;
 
-        length = MultiByteToWideChar(CP_ACP, 0, text, -1, NULL, 0);
+        length = MultiByteToWideChar(CP_ACP, 0, text, -1, nullptr, 0);
         if (length > 0) {
 
             Uninitialised_Grow(length);

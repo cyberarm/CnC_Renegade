@@ -80,12 +80,12 @@ const float COINCIDENCE_EPSILON = 0.001f;
  * HISTORY:                                                                                    *
  *=============================================================================================*/
 AABTreeBuilderClass::AABTreeBuilderClass(void)
-    : Root(NULL),
+    : Root(nullptr),
       CurPolyIndex(0),
       PolyCount(0),
-      Polys(NULL),
+      Polys(nullptr),
       VertCount(0),
-      Verts(NULL)
+      Verts(nullptr)
 {
 }
 
@@ -122,17 +122,17 @@ void AABTreeBuilderClass::Reset(void)
 {
     if (Root) {
         delete Root;
-        Root = NULL;
+        Root = nullptr;
     }
 
-    if (Verts != NULL) {
+    if (Verts != nullptr) {
         delete[] Verts;
-        Verts = NULL;
+        Verts = nullptr;
     }
 
-    if (Polys != NULL) {
+    if (Polys != nullptr) {
         delete[] Polys;
-        Polys = NULL;
+        Polys = nullptr;
     }
 }
 
@@ -153,8 +153,8 @@ void AABTreeBuilderClass::Build_AABTree(int polycount, TriIndex* polys, int vert
 {
     WWASSERT(polycount > 0);
     WWASSERT(vertcount > 0);
-    WWASSERT(polys != NULL);
-    WWASSERT(verts != NULL);
+    WWASSERT(polys != nullptr);
+    WWASSERT(verts != nullptr);
 
     /*
     ** If we already have allocated data, release it
@@ -190,7 +190,7 @@ void AABTreeBuilderClass::Build_AABTree(int polycount, TriIndex* polys, int vert
     */
     Root = new CullNodeStruct;
     Build_Tree(Root, PolyCount, polyindices);
-    polyindices = NULL;
+    polyindices = nullptr;
 
     /*
     ** fill in the remaining information needed in the tree:
@@ -269,10 +269,10 @@ void AABTreeBuilderClass::Build_Tree(CullNodeStruct* node, int polycount, int* p
     ** deletes the poly array.
     */
     if (arrays.FrontCount) {
-        WWASSERT(arrays.FrontPolys != NULL);
+        WWASSERT(arrays.FrontPolys != nullptr);
         node->Front = new CullNodeStruct;
         Build_Tree(node->Front, arrays.FrontCount, arrays.FrontPolys);
-        arrays.FrontPolys = NULL;
+        arrays.FrontPolys = nullptr;
     }
 
     /*
@@ -280,11 +280,11 @@ void AABTreeBuilderClass::Build_Tree(CullNodeStruct* node, int polycount, int* p
     ** deletes the tile array.
     */
     if (arrays.BackCount) {
-        WWASSERT(arrays.BackPolys != NULL);
+        WWASSERT(arrays.BackPolys != nullptr);
 
         node->Back = new CullNodeStruct;
         Build_Tree(node->Back, arrays.BackCount, arrays.BackPolys);
-        arrays.BackPolys = NULL;
+        arrays.BackPolys = nullptr;
     }
 }
 
@@ -303,7 +303,7 @@ void AABTreeBuilderClass::Build_Tree(CullNodeStruct* node, int polycount, int* p
 AABTreeBuilderClass::SplitChoiceStruct AABTreeBuilderClass::Select_Splitting_Plane(int polycount,
                                                                                    int* polyindices)
 {
-    WWASSERT(polyindices != NULL);
+    WWASSERT(polyindices != nullptr);
 
     const int NUM_TRYS = 50;
 
@@ -923,9 +923,9 @@ void AABTreeBuilderClass::Build_W3D_AABTree_Recursive(AABTreeBuilderClass::CullN
     /*
     ** If this is a non-leaf node, set up the child indices, otherwise set up the polygon indices
     */
-    if (node->Front != NULL) {
+    if (node->Front != nullptr) {
 
-        WWASSERT(node->Back != NULL); // if we have one child, we better have both!
+        WWASSERT(node->Back != nullptr); // if we have one child, we better have both!
         newnode->FrontOrPoly0 = node->Front->Index;
         newnode->BackOrPolyCount = node->Back->Index;
     }

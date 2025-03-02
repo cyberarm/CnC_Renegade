@@ -57,8 +57,8 @@ class W3dMapClass
 {
 public:
     W3dMapClass(void)
-        : Filename(NULL),
-          AnimInfo(NULL) { };
+        : Filename(nullptr),
+          AnimInfo(nullptr) { };
     W3dMapClass(const W3dMapClass& that);
     ~W3dMapClass(void);
 
@@ -167,7 +167,7 @@ public:
     ** order, then use their indices to find the remapped vertex materials, textures,
     ** and shaders...
     */
-    ErrorType Add_Material(const W3dMaterialClass& mat, const char* name = NULL);
+    ErrorType Add_Material(const W3dMaterialClass& mat, const char* name = nullptr);
 
     /*
     ** Global Information.  These methods give access to all of the unique vertex materials,

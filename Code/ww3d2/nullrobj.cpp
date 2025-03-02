@@ -22,7 +22,7 @@
  *                                                                                             *
  *                 Project Name : WW3D                                                         *
  *                                                                                             *
- *                     $Archive:: /Commando/Code/ww3d2/nullrobj.cpp                           $*
+ *                     $Archive:: /Commando/Code/ww3d2/nullptrrobj.cpp                           $*
  *                                                                                             *
  *                       Author:: Greg Hjelstrom                                               *
  *                                                                                             *
@@ -34,23 +34,23 @@
  * Functions:                                                                                  *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
-#include "nullrobj.h"
+#include "nullptrrobj.h"
 #include "chunkio.h"
 #include <string.h>
 
-NullLoaderClass _NullLoader;
+nullptrLoaderClass _nullptrLoader;
 
-Null3DObjClass::Null3DObjClass(const char* name)
+nullptr3DObjClass::nullptr3DObjClass(const char* name)
 {
     strcpy(Name, name);
 }
 
-Null3DObjClass::Null3DObjClass(const Null3DObjClass& src)
+nullptr3DObjClass::nullptr3DObjClass(const nullptr3DObjClass& src)
 {
     strcpy(Name, src.Name);
 }
 
-Null3DObjClass& Null3DObjClass::operator=(const Null3DObjClass& that)
+nullptr3DObjClass& nullptr3DObjClass::operator=(const nullptr3DObjClass& that)
 {
     strcpy(Name, that.Name);
 
@@ -58,55 +58,55 @@ Null3DObjClass& Null3DObjClass::operator=(const Null3DObjClass& that)
     return *this;
 }
 
-int Null3DObjClass::Class_ID(void) const
+int nullptr3DObjClass::Class_ID(void) const
 {
-    return CLASSID_NULL;
+    return CLASSID_nullptr;
 }
 
-RenderObjClass* Null3DObjClass::Clone(void) const
+RenderObjClass* nullptr3DObjClass::Clone(void) const
 {
-    return NEW_REF(Null3DObjClass, (*this));
+    return NEW_REF(nullptr3DObjClass, (*this));
 }
 
-void Null3DObjClass::Render(RenderInfoClass& rinfo)
+void nullptr3DObjClass::Render(RenderInfoClass& rinfo)
 {
 }
 
-void Null3DObjClass::Get_Obj_Space_Bounding_Sphere(SphereClass& sphere) const
+void nullptr3DObjClass::Get_Obj_Space_Bounding_Sphere(SphereClass& sphere) const
 {
     sphere.Center.Set(0, 0, 0);
     sphere.Radius = 0.1f;
 }
 
-void Null3DObjClass::Get_Obj_Space_Bounding_Box(AABoxClass& box) const
+void nullptr3DObjClass::Get_Obj_Space_Bounding_Box(AABoxClass& box) const
 {
     box.Center.Set(0, 0, 0);
     box.Extent.Set(0.1f, 0.1f, 0.1f);
 }
 
 /*
-** NullPrototypeClass
+** nullptrPrototypeClass
 */
 
-NullPrototypeClass::NullPrototypeClass(void)
+nullptrPrototypeClass::nullptrPrototypeClass(void)
 {
     // Note that the other members of the definition are uninitialized..
-    // So don't rely on them if the name is "NULL".
-    strcpy(Definition.Name, "NULL");
+    // So don't rely on them if the name is "nullptr".
+    strcpy(Definition.Name, "nullptr");
 }
 
-NullPrototypeClass::NullPrototypeClass(const W3dNullObjectStruct& null)
+nullptrPrototypeClass::nullptrPrototypeClass(const W3dnullptrObjectStruct& nullptr)
 {
-    Definition = null;
+    Definition = nullptr;
 }
 
 /*
-** NullLoaderClass
+** nullptrLoaderClass
 */
 
-PrototypeClass* NullLoaderClass::Load_W3D(ChunkLoadClass& cload)
+PrototypeClass* nullptrLoaderClass::Load_W3D(ChunkLoadClass& cload)
 {
-    W3dNullObjectStruct null;
-    cload.Read(&null, sizeof(null));
-    return new NullPrototypeClass(null);
+    W3dnullptrObjectStruct nullptr;
+    cload.Read(&nullptr, sizeof(nullptr));
+    return new nullptrPrototypeClass(nullptr);
 }

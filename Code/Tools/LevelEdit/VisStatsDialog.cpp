@@ -54,7 +54,7 @@ static int CALLBACK VisSectorSortCompareFn(LPARAM param1, LPARAM param2, LPARAM 
 // VisStatsDialogClass
 //
 /////////////////////////////////////////////////////////////////////////////
-VisStatsDialogClass::VisStatsDialogClass(CWnd* pParent /*=NULL*/)
+VisStatsDialogClass::VisStatsDialogClass(CWnd* pParent /*=nullptr*/)
     : m_CurrentColSort(COL_NAME),
       m_AscendingSort(true),
       CDialog(VisStatsDialogClass::IDD, pParent)
@@ -129,7 +129,7 @@ BOOL VisStatsDialogClass::OnInitDialog(void)
         VisSectorStatsClass& sector_stats = stats_list[index];
 
         LPCTSTR name = sector_stats.Get_Name();
-        if (name != NULL) {
+        if (name != nullptr) {
 
             //
             //	Add this sector to the list
@@ -191,7 +191,7 @@ void VisStatsDialogClass::OnDblclkSectorList(NMHDR* pNMHDR, LRESULT* pResult)
         //	Snap the camera to the point
         //
         VisSectorStatsClass* stats = (VisSectorStatsClass*)m_SectorList.GetItemData(index);
-        if (stats != NULL) {
+        if (stats != nullptr) {
             ::Get_Camera_Mgr()->Set_Position(stats->Get_Position());
             ::Refresh_Main_View();
         }
@@ -213,10 +213,10 @@ void VisStatsDialogClass::OnDeleteitemSectorList(NMHDR* pNMHDR, LRESULT* pResult
     //
     //	Free the vector3 we kept around for this sector
     //
-    VisSectorStatsClass* stats = NULL;
+    VisSectorStatsClass* stats = nullptr;
     stats = (VisSectorStatsClass*)m_SectorList.GetItemData(pNMListView->iItem);
     SAFE_DELETE(stats);
-    m_SectorList.SetItemData(pNMListView->iItem, NULL);
+    m_SectorList.SetItemData(pNMListView->iItem, nullptr);
     return;
 }
 
@@ -256,7 +256,7 @@ int CALLBACK VisSectorSortCompareFn(LPARAM param1, LPARAM param2, LPARAM sort_in
     LONG column_id = LOWORD(sort_info);
     BOOL ascending = HIWORD(sort_info);
 
-    if (stats1 != NULL && stats2 != NULL) {
+    if (stats1 != nullptr && stats2 != nullptr) {
 
         //
         //	Determine the order based on which column the user clicked on

@@ -71,7 +71,7 @@ public:
         FACE_UNDERSIZED,
         EDGE_MATCH,
         ALL_FILL_COLOR,
-        NULL_TEXTURE,
+        nullptr_TEXTURE,
         SOLVE_STATISTIC_COUNT
     };
 
@@ -331,7 +331,7 @@ private:
 
     // Static data.
     static LightscapeSolve*
-        _ActiveImporter; // Object currently importing (reading a solution file) (otherwise NULL).
+        _ActiveImporter; // Object currently importing (reading a solution file) (otherwise nullptr).
 };
 
 class LsInformationFactory : public LtTBuilderFactory

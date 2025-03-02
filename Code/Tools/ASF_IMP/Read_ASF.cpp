@@ -112,7 +112,7 @@ void ASF_Lexer::advance()
 Skeleton_Class::Skeleton_Class(const char* file_name, ImpInterface* iface, Interface* gi)
     : Angle_multiplier(DEGREES_TO_RADIANS),
       Length_multiplier(1.0f),
-      First_bone(NULL),
+      First_bone(nullptr),
       Import_interface(iface),
       Max_interface(gi)
 {
@@ -132,7 +132,7 @@ Skeleton_Class::~Skeleton_Class()
 {
     Bone_Class* p = First_bone;
 
-    while (p != NULL) {
+    while (p != nullptr) {
         Bone_Class* delete_p = p;
         p = p->next_bone();
 
@@ -362,14 +362,14 @@ void Skeleton_Class::parse_hierarchy_line(ASF_Lexer& lexer)
 {
     verify_token(lexer);
     Bone_Class* parent_bone = find_bone(lexer.text());
-    if (parent_bone == NULL) {
+    if (parent_bone == nullptr) {
         throw Parse_Error("Undefined parent bone.");
     }
     lexer.advance();
 
     while (lexer.type() == TOKEN) {
         Bone_Class* child_bone = find_bone(lexer.text());
-        if (child_bone == NULL) {
+        if (child_bone == nullptr) {
             throw Parse_Error("Undefined child bone.");
         }
 
@@ -389,7 +389,7 @@ Bone_Class* Skeleton_Class::find_bone(const char* name)
 {
     Bone_Class* p = First_bone;
 
-    while (p != NULL) {
+    while (p != nullptr) {
         if (strcmp(name, p->name()) == 0) {
             break;
         }
@@ -639,7 +639,7 @@ void Skeleton_Class::skip_token(ASF_Lexer& lexer)
 float Skeleton_Class::float_token(ASF_Lexer& lexer)
 {
     verify_token(lexer);
-    float value = (float)strtod(lexer.text(), NULL);
+    float value = (float)strtod(lexer.text(), nullptr);
     lexer.advance();
     return value;
 }

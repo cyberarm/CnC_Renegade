@@ -223,7 +223,7 @@ void cNicEnum::Init(void)
 ULONG
 cNicEnum::Enumerate_Nics(ULONG* addresses, ULONG max_nics)
 {
-    WWASSERT(addresses != NULL);
+    WWASSERT(addresses != nullptr);
     WWASSERT(max_nics > 0);
 
     WWDEBUG_SAY(("cNicEnum::Enumerate_Nics\n"));
@@ -240,12 +240,12 @@ cNicEnum::Enumerate_Nics(ULONG* addresses, ULONG max_nics)
     // This does a DNS lookup (name resolution)
     //
     LPHOSTENT p_hostent = ::gethostbyname(local_host_name);
-    if (p_hostent == NULL) {
+    if (p_hostent == nullptr) {
         DIE;
     }
 
     ULONG num_addresses = 0;
-    while (num_addresses < max_nics && p_hostent->h_addr_list[num_addresses] != NULL) {
+    while (num_addresses < max_nics && p_hostent->h_addr_list[num_addresses] != nullptr) {
         IN_ADDR in_addr;
         ::memcpy(&in_addr, p_hostent->h_addr_list[num_addresses], sizeof(in_addr));
         addresses[num_addresses] = in_addr.s_addr;

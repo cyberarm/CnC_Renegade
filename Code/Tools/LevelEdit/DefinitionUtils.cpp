@@ -55,21 +55,21 @@
 ///////////////////////////////////////////////////////////////////////
 DefinitionClass* Create_Physics_Definition(LPCTSTR base_class_name, bool is_temp)
 {
-    DefinitionClass* definition = NULL;
+    DefinitionClass* definition = nullptr;
 
     //
     //	Loop over all the factories, until we've found one that matches
     // the base we are looking for
     //
-    DefinitionFactoryClass* factory = NULL;
+    DefinitionFactoryClass* factory = nullptr;
     for (factory = DefinitionFactoryMgrClass::Get_First(CLASSID_PHYSICS);
-         factory != NULL && definition == NULL;
+         factory != nullptr && definition == nullptr;
          factory = DefinitionFactoryMgrClass::Get_Next(factory, CLASSID_PHYSICS)) {
         //
         //	Instantiate a definition
         //
         definition = factory->Create();
-        if (definition != NULL) {
+        if (definition != nullptr) {
 
             //
             //	Is this the definition 'type' we want?
@@ -99,19 +99,19 @@ DefinitionClass* Create_Physics_Definition(LPCTSTR base_class_name, bool is_temp
 ///////////////////////////////////////////////////////////////////////
 DefinitionClass* Create_Definition(int class_id, bool is_temp)
 {
-    DefinitionClass* definition = NULL;
+    DefinitionClass* definition = nullptr;
 
     //
     //	Attempt to find a factory for this definition
     //
     DefinitionFactoryClass* factory = DefinitionFactoryMgrClass::Find_Factory(class_id);
-    if (factory != NULL) {
+    if (factory != nullptr) {
 
         //
         //	Create a new instance of the definition
         //
         definition = factory->Create();
-        ASSERT(definition != NULL);
+        ASSERT(definition != nullptr);
 
         //
         //	Give the definition a new id
@@ -134,7 +134,7 @@ DefinitionClass* Create_Definition(int class_id, bool is_temp)
 ///////////////////////////////////////////////////////////////////////
 void Copy_Definition(DefinitionClass* src_def, DefinitionClass* dest_def, bool is_temp)
 {
-    SANITY_CHECK(src_def != NULL && dest_def != NULL)
+    SANITY_CHECK(src_def != nullptr && dest_def != nullptr)
     {
         return;
     }
@@ -154,7 +154,7 @@ void Copy_Definition(DefinitionClass* src_def, DefinitionClass* dest_def, bool i
             ParameterClass* dest_param = dest_def->Lock_Parameter(index);
             ParameterClass* src_param = src_def->Lock_Parameter(index);
 
-            if ((dest_param != NULL) && (src_param != NULL)) {
+            if ((dest_param != nullptr) && (src_param != nullptr)) {
 
                 //
                 //	Is this parameter type a 'phys-def' parameter?
@@ -174,9 +174,9 @@ void Copy_Definition(DefinitionClass* src_def, DefinitionClass* dest_def, bool i
                     //
                     //	Create a new phys-def for the destination param
                     //
-                    if (dest_phys_def == NULL && src_phys_def != NULL) {
+                    if (dest_phys_def == nullptr && src_phys_def != nullptr) {
                         dest_phys_def = ::Create_Definition(src_phys_def->Get_Class_ID(), is_temp);
-                        if (dest_phys_def != NULL) {
+                        if (dest_phys_def != nullptr) {
                             ((ModelDefParameterClass*)dest_param)
                                 ->Set_Value(dest_phys_def->Get_ID());
                             DefinitionMgrClass::Register_Definition(dest_phys_def);
@@ -187,7 +187,7 @@ void Copy_Definition(DefinitionClass* src_def, DefinitionClass* dest_def, bool i
                     //	If both the src and dest params point to valid physics-definitions,
                     //	then, copy the properties from the src to the dest (recursion)
                     //
-                    if (dest_phys_def != NULL && src_phys_def != NULL) {
+                    if (dest_phys_def != nullptr && src_phys_def != nullptr) {
                         ::Copy_Definition(src_phys_def, dest_phys_def, is_temp);
                     }
                 }
@@ -234,7 +234,7 @@ void Copy_Definition(DefinitionClass* src_def, DefinitionClass* dest_def, bool i
 ///////////////////////////////////////////////////////////////////////
 void Build_Embedded_Definition_List(DEFINITION_LIST& list, DefinitionClass* parent)
 {
-    SANITY_CHECK(parent != NULL)
+    SANITY_CHECK(parent != nullptr)
     {
         return;
     }
@@ -250,12 +250,12 @@ void Build_Embedded_Definition_List(DEFINITION_LIST& list, DefinitionClass* pare
         //	If this is the paramter type we are looking for, get the
         // definition pointer from it and return the pointer to the caller
         //
-        if (param != NULL) {
+        if (param != nullptr) {
 
             if (param->Get_Type() == ParameterClass::TYPE_MODELDEFINITIONID) {
                 int def_id = ((ModelDefParameterClass*)param)->Get_Value();
                 DefinitionClass* definition = DefinitionMgrClass::Find_Definition(def_id, false);
-                if (definition != NULL) {
+                if (definition != nullptr) {
                     list.Add(definition);
 
                     //
@@ -267,7 +267,7 @@ void Build_Embedded_Definition_List(DEFINITION_LIST& list, DefinitionClass* pare
             else if (param->Get_Type() == ParameterClass::TYPE_PHYSDEFINITIONID) {
                 int def_id = ((PhysDefParameterClass*)param)->Get_Value();
                 DefinitionClass* definition = DefinitionMgrClass::Find_Definition(def_id, false);
-                if (definition != NULL) {
+                if (definition != nullptr) {
                     list.Add(definition);
                 }
             }
@@ -286,7 +286,7 @@ void Build_Embedded_Definition_List(DEFINITION_LIST& list, DefinitionClass* pare
 ///////////////////////////////////////////////////////////////////////
 void Fix_Embedded_Definition_IDs(DefinitionClass* parent)
 {
-    SANITY_CHECK(parent != NULL)
+    SANITY_CHECK(parent != nullptr)
     {
         return;
     }
@@ -302,12 +302,12 @@ void Fix_Embedded_Definition_IDs(DefinitionClass* parent)
         //	If this is the paramter type we are looking for, get the
         // definition pointer from it and return the pointer to the caller
         //
-        if (param != NULL) {
+        if (param != nullptr) {
 
             if (param->Get_Type() == ParameterClass::TYPE_MODELDEFINITIONID) {
                 int def_id = ((ModelDefParameterClass*)param)->Get_Value();
                 DefinitionClass* definition = DefinitionMgrClass::Find_Definition(def_id, false);
-                if (definition != NULL) {
+                if (definition != nullptr) {
 
                     //
                     //	Give this definition a new ID if necessary
@@ -328,7 +328,7 @@ void Fix_Embedded_Definition_IDs(DefinitionClass* parent)
 
                 int def_id = ((PhysDefParameterClass*)param)->Get_Value();
                 DefinitionClass* definition = DefinitionMgrClass::Find_Definition(def_id, false);
-                if (definition != NULL) {
+                if (definition != nullptr) {
 
                     //
                     //	Give this definition a new ID if necessary
@@ -355,25 +355,25 @@ void Fix_Embedded_Definition_IDs(DefinitionClass* parent)
 ///////////////////////////////////////////////////////////////////////
 DefinitionClass* Find_Physics_Definition(DefinitionClass* parent)
 {
-    SANITY_CHECK(parent != NULL)
+    SANITY_CHECK(parent != nullptr)
     {
-        return NULL;
+        return nullptr;
     }
 
-    DefinitionClass* definition = NULL;
+    DefinitionClass* definition = nullptr;
 
     //
     //	Loop over all the parameters of this definition
     //
     int count = parent->Get_Parameter_Count();
-    for (int index = 0; index < count && definition == NULL; index++) {
+    for (int index = 0; index < count && definition == nullptr; index++) {
         ParameterClass* param = parent->Lock_Parameter(index);
 
         //
         //	If this is the paramter type we are looking for, get the
         // definition pointer from it and return the pointer to the caller
         //
-        if (param != NULL && param->Get_Type() == ParameterClass::TYPE_MODELDEFINITIONID) {
+        if (param != nullptr && param->Get_Type() == ParameterClass::TYPE_MODELDEFINITIONID) {
             int def_id = ((ModelDefParameterClass*)param)->Get_Value();
             definition = DefinitionMgrClass::Find_Definition(def_id, false);
         }
@@ -391,12 +391,12 @@ DefinitionClass* Find_Physics_Definition(DefinitionClass* parent)
 ///////////////////////////////////////////////////////////////////////
 PhysClass* Get_Phys_Obj_From_Definition(DefinitionClass* definition)
 {
-    SANITY_CHECK(definition != NULL)
+    SANITY_CHECK(definition != nullptr)
     {
-        return NULL;
+        return nullptr;
     }
 
-    PhysClass* retval = NULL;
+    PhysClass* retval = nullptr;
 
     //
     //	What type of object will this definition create?
@@ -409,7 +409,7 @@ PhysClass* Get_Phys_Obj_From_Definition(DefinitionClass* definition)
                 //	Create the terrain and pull out its physics object
                 //
                 TerrainNodeClass *node = (TerrainNodeClass *)definition->Create ();
-                if (node != NULL) {
+                if (node != nullptr) {
                         MEMBER_ADD (retval, node->Peek_Physics_Obj ());
                         MEMBER_RELEASE (node);
                 }
@@ -423,7 +423,7 @@ PhysClass* Get_Phys_Obj_From_Definition(DefinitionClass* definition)
         int phys_def_id = ((TileDefinitionClass*)definition)->Get_Phys_Def_ID();
         if (phys_def_id != 0) {
             DefinitionClass* phys_def = DefinitionMgrClass::Find_Definition(phys_def_id, false);
-            if (phys_def != NULL) {
+            if (phys_def != nullptr) {
                 retval = (PhysClass*)phys_def->Create();
             }
         }
@@ -434,9 +434,9 @@ PhysClass* Get_Phys_Obj_From_Definition(DefinitionClass* definition)
         //	Create the game object and pull out its physics object
         //
         BaseGameObj* game_obj = (BaseGameObj*)definition->Create();
-        if (game_obj != NULL) {
+        if (game_obj != nullptr) {
             PhysicalGameObj* phys_game_obj = game_obj->As_PhysicalGameObj();
-            if (phys_game_obj != NULL) {
+            if (phys_game_obj != nullptr) {
                 MEMBER_ADD(retval, phys_game_obj->Peek_Physical_Object());
             }
 

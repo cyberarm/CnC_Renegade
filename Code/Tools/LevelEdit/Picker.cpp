@@ -44,8 +44,8 @@ const int EDIT_ID = 102;
 //
 ///////////////////////////////////////////////////////////
 PickerClass::PickerClass(void)
-    : m_BrowseButton(NULL),
-      m_Icon(NULL),
+    : m_BrowseButton(nullptr),
+      m_Icon(nullptr),
       CStatic()
 {
     //
@@ -158,7 +158,7 @@ void PickerClass::Initialize_Control(void)
     m_EditCtrl
         = ::CreateWindowEx(0, "EDIT", "", WS_CHILD | WS_VISIBLE | ES_AUTOHSCROLL, 2,
                            (rect.Height() >> 1) - ((size.cy) >> 1), rect.Width() - BUTTON_WIDTH - 3,
-                           size.cy, m_hWnd, (HMENU)EDIT_ID, ::AfxGetInstanceHandle(), NULL);
+                           size.cy, m_hWnd, (HMENU)EDIT_ID, ::AfxGetInstanceHandle(), nullptr);
     CRect rect2;
     GetWindowRect(&rect2);
 
@@ -170,9 +170,9 @@ void PickerClass::Initialize_Control(void)
     m_BrowseButton
         = ::CreateWindow("BUTTON", "", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON | BS_OWNERDRAW,
                          rect.Width() - BUTTON_WIDTH, 0, BUTTON_WIDTH, rect.Height(), m_hWnd,
-                         (HMENU)BUTTON_ID, ::AfxGetInstanceHandle(), NULL);
+                         (HMENU)BUTTON_ID, ::AfxGetInstanceHandle(), nullptr);
 
-    ASSERT(m_BrowseButton != NULL);
+    ASSERT(m_BrowseButton != nullptr);
     return;
 }
 
@@ -206,13 +206,13 @@ void PickerClass::OnSize(UINT nType, int cx, int cy)
     //
     // Resize the edit control
     //
-    ::SetWindowPos(m_EditCtrl, NULL, 2, (client_rect.Height() >> 1) - ((size.cy) >> 1),
+    ::SetWindowPos(m_EditCtrl, nullptr, 2, (client_rect.Height() >> 1) - ((size.cy) >> 1),
                    client_rect.Width() - BUTTON_WIDTH - 3, size.cy, SWP_NOZORDER);
 
     //
     // Reposition the file button
     //
-    ::SetWindowPos(m_BrowseButton, NULL, client_rect.Width() - BUTTON_WIDTH, 0, BUTTON_WIDTH,
+    ::SetWindowPos(m_BrowseButton, nullptr, client_rect.Width() - BUTTON_WIDTH, 0, BUTTON_WIDTH,
                    client_rect.Height(), SWP_NOZORDER);
 
     CStatic::OnSize(nType, cx, cy);
@@ -268,7 +268,7 @@ void PickerClass::OnDrawItem(int nIDCtl, LPDRAWITEMSTRUCT pDrawItemStruct)
     //
     // Paint the icon
     //
-    ::DrawIconEx(pDrawItemStruct->hDC, xpos, ypos, m_Icon, 16, 16, 0, NULL, DI_NORMAL);
+    ::DrawIconEx(pDrawItemStruct->hDC, xpos, ypos, m_Icon, 16, 16, 0, nullptr, DI_NORMAL);
 
     CStatic::OnDrawItem(nIDCtl, pDrawItemStruct);
     return;
@@ -320,8 +320,8 @@ void PickerClass::OnPaint(void)
     //
     //	Force the child windows to be repainted
     //
-    ::InvalidateRect(m_EditCtrl, NULL, TRUE);
-    ::InvalidateRect(m_BrowseButton, NULL, TRUE);
+    ::InvalidateRect(m_EditCtrl, nullptr, TRUE);
+    ::InvalidateRect(m_BrowseButton, nullptr, TRUE);
 
     CPaintDC dc(this);
     return;

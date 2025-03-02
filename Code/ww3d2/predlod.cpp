@@ -58,10 +58,10 @@
 class LODHeapNode
 {
 public:
-    LODHeapNode(void) { Item = NULL; }
+    LODHeapNode(void) { Item = nullptr; }
     LODHeapNode(float key)
     {
-        Item = NULL;
+        Item = nullptr;
         Key = key;
     }
     LODHeapNode(RenderObjClass* item, float key)
@@ -197,7 +197,7 @@ private:
 };
 
 // Static PredictiveLODOptimizerClass data members:
-RenderObjClass** PredictiveLODOptimizerClass::ObjectArray = NULL;
+RenderObjClass** PredictiveLODOptimizerClass::ObjectArray = nullptr;
 int PredictiveLODOptimizerClass::ArraySize = 0;
 int PredictiveLODOptimizerClass::NumObjects = 0;
 float PredictiveLODOptimizerClass::TotalCost = 0.0f;
@@ -224,7 +224,7 @@ void PredictiveLODOptimizerClass::Clear(void)
         for (int i = 0; i < NumObjects; i++) {
             if (ObjectArray[i]) {
                 ObjectArray[i]->Release_Ref();
-                ObjectArray[i] = NULL;
+                ObjectArray[i] = nullptr;
             }
         }
     }
@@ -320,8 +320,8 @@ void PredictiveLODOptimizerClass::Optimize_LODs(float max_cost)
     LODHeap min_current_value_queue(NumObjects, VisibleObjArray1);
     LODHeap max_post_increment_value_queue(NumObjects, VisibleObjArray2);
     // These memory areas now are pointed to within the heaps:
-    //	visible_obj_array1 = NULL;
-    //	visible_obj_array2 = NULL;
+    //	visible_obj_array1 = nullptr;
+    //	visible_obj_array2 = nullptr;
 
     // Main loop: iteratively increment/decrement tuples.
     bool done = false;
@@ -329,8 +329,8 @@ void PredictiveLODOptimizerClass::Optimize_LODs(float max_cost)
 
     while (!done) {
         // Initialize max_data and min_data so comparison at end of loop uses correct values.
-        max_data = NULL;
-        min_data = NULL;
+        max_data = nullptr;
+        min_data = nullptr;
 
         // Increment incrementable tuple with maximum next value.
         if (TotalCost <= max_cost) {
@@ -407,7 +407,7 @@ void PredictiveLODOptimizerClass::Free(void)
 
     if (ObjectArray) {
         delete[] ObjectArray;
-        ObjectArray = NULL;
+        ObjectArray = nullptr;
         ArraySize = 0;
     }
 
@@ -415,8 +415,8 @@ void PredictiveLODOptimizerClass::Free(void)
     if (VisibleObjArray1) {
         delete[] VisibleObjArray1;
     }
-    VisibleObjArray1 = NULL;
-    VisibleObjArray2 = NULL;
+    VisibleObjArray1 = nullptr;
+    VisibleObjArray2 = nullptr;
     VisibleObjArraySize = 0;
 }
 

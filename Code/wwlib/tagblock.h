@@ -80,13 +80,13 @@ public:
 
     // Creation of a Handle so block can be crated/writen/read.
     // Use delete to destroy handle or use Close_Tag().
-    // Open_Tag() returns NULL if tag not found.
-    // Create_Tag() returns NULL if tag already exists.
+    // Open_Tag() returns nullptr if tag not found.
+    // Create_Tag() returns nullptr if tag already exists.
     TagBlockHandle* Open_Tag(const char* tagname);
     TagBlockHandle* Create_Tag(const char* tagname);
     void Close_Tag(TagBlockHandle* handle);
 
-    int Does_Tag_Exist(const char* tagname) { return (Find_Block(tagname) != NULL); }
+    int Does_Tag_Exist(const char* tagname) { return (Find_Block(tagname) != nullptr); }
 
     virtual unsigned long Get_Date_Time(void) { return (FileTime); }
 
@@ -142,13 +142,13 @@ protected:
         // Used to verify file integrity.
         int Index;
 
-        // Size of tagname (including NULL) that follows this block.
+        // Size of tagname (including nullptr) that follows this block.
         int TagSize;
 
         // Size of block not including header.
         int DataSize;
 
-        // A variable length name (NULL terminated) follows this structure.
+        // A variable length name (nullptr terminated) follows this structure.
         // The name is then followed by the Data.
 
         // The entire length of the block is sizeof(BlockHeader) + TagSize + DataSize.

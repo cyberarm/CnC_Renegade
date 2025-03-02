@@ -42,7 +42,7 @@ static char THIS_FILE[] = __FILE__;
 //
 //  CDeviceSelectionDialog
 //
-CDeviceSelectionDialog::CDeviceSelectionDialog(BOOL bLookupCachedInfo, CWnd* pParent /*=NULL*/
+CDeviceSelectionDialog::CDeviceSelectionDialog(BOOL bLookupCachedInfo, CWnd* pParent /*=nullptr*/
                                                )
     : m_iDeviceIndex(1),
       m_iBitsPerPixel(16),

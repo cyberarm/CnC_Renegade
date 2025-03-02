@@ -437,7 +437,7 @@ DECLARE_SCRIPT(DME_Test_Worker_Wander, "Work_Area=3:int")
             anim_playing = false;
 
             Commands->Action_Reset(obj, 99);
-            Commands->Set_Animation(obj, NULL, false);
+            Commands->Set_Animation(obj, nullptr, false);
 
             destination_object = Commands->Find_Object(loc_id[choice]);
             Commands->Send_Custom_Event(obj, destination_object, 90, 90);
@@ -863,7 +863,7 @@ DECLARE_SCRIPT(M05_Tech_Wander_DME, "Work_Area=1:int")
             anim_playing = false;
 
             Commands->Action_Reset(obj, 99);
-            Commands->Set_Animation(obj, NULL, false);
+            Commands->Set_Animation(obj, nullptr, false);
 
             destination_object = Commands->Find_Object(loc_id[choice]);
             Commands->Send_Custom_Event(obj, destination_object, 90, 90);

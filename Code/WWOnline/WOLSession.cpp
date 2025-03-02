@@ -126,7 +126,7 @@ namespace WWOnline
         WWDEBUG_SAY(("WOL: Session instantiated\n"));
 
         // Initailize COM
-        HRESULT hr = CoInitialize(NULL);
+        HRESULT hr = CoInitialize(nullptr);
 
         if (FAILED(hr)) {
             WWDEBUG_SAY(("WOLERROR: CoInitialize() failed!\n"));
@@ -160,8 +160,8 @@ namespace WWOnline
         // Create chat object
         //---------------------------------------------------------------------------
         WWDEBUG_SAY(("WOL: Creating IID_IChat object\n"));
-        WOL::IChat* chatObject = NULL;
-        HRESULT hr = CoCreateInstance(WOL::CLSID_Chat, NULL, CLSCTX_INPROC_SERVER, WOL::IID_IChat,
+        WOL::IChat* chatObject = nullptr;
+        HRESULT hr = CoCreateInstance(WOL::CLSID_Chat, nullptr, CLSCTX_INPROC_SERVER, WOL::IID_IChat,
                                       (void**)&chatObject);
 
         if (FAILED(hr)) {
@@ -177,7 +177,7 @@ namespace WWOnline
             CComPtr<ChatObserver> chatEvents;
             chatEvents.Attach(new ChatObserver);
 
-            if (chatEvents == NULL) {
+            if (chatEvents == nullptr) {
                 WWDEBUG_SAY(("WOLERROR: Failed to create IChatEvents observer\n"));
                 return false;
             }
@@ -199,8 +199,8 @@ namespace WWOnline
         //---------------------------------------------------------------------------
         WWDEBUG_SAY(("WOL: Creating IID_INetUtil object\n"));
 
-        WOL::INetUtil* utilObject = NULL;
-        hr = CoCreateInstance(WOL::CLSID_NetUtil, NULL, CLSCTX_INPROC_SERVER, WOL::IID_INetUtil,
+        WOL::INetUtil* utilObject = nullptr;
+        hr = CoCreateInstance(WOL::CLSID_NetUtil, nullptr, CLSCTX_INPROC_SERVER, WOL::IID_INetUtil,
                               (void**)&utilObject);
 
         if (FAILED(hr)) {
@@ -216,7 +216,7 @@ namespace WWOnline
             CComPtr<NetUtilObserver> utilEvents;
             utilEvents.Attach(new NetUtilObserver);
 
-            if (utilEvents == NULL) {
+            if (utilEvents == nullptr) {
                 WWDEBUG_SAY(("WOLERROR: Failed to create INetUtilEvents observer\n"));
                 return false;
             }
@@ -601,7 +601,7 @@ namespace WWOnline
         mPendingServer = server;
         mPendingLogin = login;
 
-        // Server == NULL is just a logout
+        // Server == nullptr is just a logout
         if (!server.IsValid()) {
             return serverWait;
         }
@@ -749,8 +749,8 @@ namespace WWOnline
 
     RefPtr<ChannelData> Session::FindChannel(const wchar_t* channelName)
     {
-        if (channelName == NULL) {
-            return NULL;
+        if (channelName == nullptr) {
+            return nullptr;
         }
 
         if (mCurrentChannel.IsValid()) {
@@ -772,8 +772,8 @@ namespace WWOnline
 
     RefPtr<ChannelData> Session::FindChannel(const char* channelName)
     {
-        if (channelName == NULL) {
-            return NULL;
+        if (channelName == nullptr) {
+            return nullptr;
         }
 
         if (mCurrentChannel.IsValid()) {
@@ -829,7 +829,7 @@ namespace WWOnline
         }
 
         // Use default product password if one is not provided
-        if (password == NULL) {
+        if (password == nullptr) {
             RefPtrConst<Product> product = Product::Current();
             WWASSERT(product.IsValid());
             password = product->GetChannelPassword();
@@ -881,7 +881,7 @@ namespace WWOnline
         }
 
         // Use default product password if one is not provided
-        if (password == NULL) {
+        if (password == nullptr) {
             RefPtrConst<Product> product = Product::Current();
             WWASSERT(product.IsValid());
             password = product->GetChannelPassword();
@@ -1068,7 +1068,7 @@ namespace WWOnline
             return ChannelListWait::Create(this, channelType);
         }
 
-        return NULL;
+        return nullptr;
     }
 
     /******************************************************************************
@@ -1259,7 +1259,7 @@ namespace WWOnline
      *     NONE
      *
      * RESULT
-     *     Topic - Channel topic or NULL if no topic or not in channel.
+     *     Topic - Channel topic or nullptr if no topic or not in channel.
      *
      ******************************************************************************/
 
@@ -1271,7 +1271,7 @@ namespace WWOnline
             return channel->GetTopic();
         }
 
-        return NULL;
+        return nullptr;
     }
 
     /******************************************************************************
@@ -1808,7 +1808,7 @@ namespace WWOnline
                     user.name[sizeof(user.name) - 1] = 0;
 
                     if (index == (count - 1)) {
-                        user.next = NULL;
+                        user.next = nullptr;
                     }
                     else {
                         user.next = &users[index + 1];
@@ -2022,7 +2022,7 @@ namespace WWOnline
                     user.name[sizeof(user.name) - 1] = 0;
 
                     if (index == count - 1) {
-                        user.next = NULL;
+                        user.next = nullptr;
                     }
                     else {
                         user.next = users + index + 1;
@@ -2148,7 +2148,7 @@ namespace WWOnline
 
                     // The request name follows the type
                     WCHAR* widename = wcschr(*request, L':');
-                    WWASSERT(widename != NULL && "Invalid Ladder Request");
+                    WWASSERT(widename != nullptr && "Invalid Ladder Request");
                     widename++;
 
                     // Add the request
@@ -2745,7 +2745,7 @@ namespace WWOnline
         mChat->GetLocaleCount(&numLocales);
 
         for (int index = 0; index < numLocales; index++) {
-            const char* name = NULL;
+            const char* name = nullptr;
             mChat->GetLocaleString(&name, (WOL::Locale)index);
             localeStrings.push_back(name);
         }
@@ -2971,7 +2971,7 @@ namespace WWOnline
 
     void Session::RequestInsiderStatus(void)
     {
-        if (mChat != NULL && mCurrentUser.IsValid()) {
+        if (mChat != nullptr && mCurrentUser.IsValid()) {
             WOL::User& user = mCurrentUser->GetData();
             mChat->RequestInsiderStatus(&user);
         }
@@ -2995,7 +2995,7 @@ namespace WWOnline
 
     void Session::RequestServerTime(void)
     {
-        if (mChat != NULL) {
+        if (mChat != nullptr) {
             mChat->RequestServerTime();
         }
     }
@@ -3016,11 +3016,11 @@ namespace WWOnline
 
     const CComPtr<WOL::IIGROptions>& Session::GetIGRObject(void)
     {
-        if (mIGRObject == NULL) {
+        if (mIGRObject == nullptr) {
             WWDEBUG_SAY(("WOL: Creating IID_IIGROptions object\n"));
-            WOL::IIGROptions* igrObject = NULL;
+            WOL::IIGROptions* igrObject = nullptr;
 
-            HRESULT hr = CoCreateInstance(WOL::CLSID_IGROptions, NULL, CLSCTX_INPROC_SERVER,
+            HRESULT hr = CoCreateInstance(WOL::CLSID_IGROptions, nullptr, CLSCTX_INPROC_SERVER,
                                           WOL::IID_IIGROptions, (void**)&igrObject);
 
             if (SUCCEEDED(hr)) {

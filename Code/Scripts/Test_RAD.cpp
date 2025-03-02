@@ -777,7 +777,7 @@ DECLARE_SCRIPT(MX0_A02_Controller, "")
             GameObject* debris = Commands->Find_Object(MX0_A02_BLOCKAGE_ID);
             if (debris) {
                 Commands->Create_Explosion("Ground Explosion 01 - Harmless",
-                                           Vector3(-71.233f, -41.517f, 0.181f), NULL);
+                                           Vector3(-71.233f, -41.517f, 0.181f), nullptr);
                 Commands->Set_Animation(debris, "AG_L0_BLOCKAGE1.AG_L0_BLOCKAGE1", false);
                 Commands->Start_Timer(obj, this, 2.0f, MX0_A02_TIMER_DESTROY_RUBBLE);
             }
@@ -819,7 +819,7 @@ DECLARE_SCRIPT(MX0_A02_Controller, "")
         switch (timer_id) {
         case (MX0_A02_TIMER_PRE_AMBIENT): {
             if (pre_ambient_on) {
-                GameObject* soldier = NULL;
+                GameObject* soldier = nullptr;
                 switch (pre_ambient_count) {
                 case (1): {
                     soldier = Commands->Find_Object(MX0_A02_UNIT_ID[2]);
@@ -2080,7 +2080,7 @@ DECLARE_SCRIPT(MX0_A02_ACTOR, "ActorID=0:int")
                     break;
                 }
                 case (MX0_A02_ACTION_RETREAT_MOVE): {
-                    Commands->Apply_Damage(obj, 10000.0f, "Blamokiller", NULL);
+                    Commands->Apply_Damage(obj, 10000.0f, "Blamokiller", nullptr);
                     break;
                 }
                 case (MX0_A02_ACTION_ENGINEER_01_MEDTANK): {
@@ -2726,7 +2726,7 @@ void Killed(GameObject* obj, GameObject* killer)
 void Timer_Expired(GameObject* obj, int timer_id)
 {
     if (timer_id == MX0_A02_TIMER_DESTROY_HELI_02) {
-        Commands->Apply_Damage(obj, 10000.0f, "Blamokiller", NULL);
+        Commands->Apply_Damage(obj, 10000.0f, "Blamokiller", nullptr);
     }
 }
 }
@@ -2854,7 +2854,7 @@ DECLARE_SCRIPT(M03_A05_Evac_Zone, "")
 DECLARE_SCRIPT(M00_Test_Sound_RAD, "") { void Created(GameObject * obj) {
     int id = Commands->Create_Conversation("M00_TEST_CONVERSATION", 100, 300, true);
 Commands->Stop_All_Conversations(); /// <--- This cancels the following conversation!
-Commands->Join_Conversation(NULL, id);
+Commands->Join_Conversation(nullptr, id);
 Commands->Join_Conversation(STAR, id, true, false, false);
 Commands->Start_Conversation(id);
 }

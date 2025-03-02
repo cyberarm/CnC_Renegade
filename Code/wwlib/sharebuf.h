@@ -103,7 +103,7 @@ template <class T> ShareBufferClass<T>::~ShareBufferClass(void)
 {
     if (Array) {
         delete[] Array;
-        Array = NULL;
+        Array = nullptr;
     }
 }
 

@@ -62,7 +62,7 @@ public:
     //	Public constructors/destructors
     //////////////////////////////////////////////////////////////
     NTreeClass(void)
-        : m_Root(NULL)
+        : m_Root(nullptr)
     {
     }
     virtual ~NTreeClass(void) { Reset(); }
@@ -92,9 +92,9 @@ protected:
 /////////////////////////////////////////////////////////
 template <class T> NTreeLeafClass<T>* NTreeClass<T>::Add(const T& value)
 {
-    NTreeLeafClass<T>* retval = NULL;
+    NTreeLeafClass<T>* retval = nullptr;
 
-    if (m_Root == NULL) {
+    if (m_Root == nullptr) {
 
         //
         //	Allocate a new root node
@@ -119,13 +119,13 @@ template <class T> NTreeLeafClass<T>* NTreeClass<T>::Add(const T& value)
 /////////////////////////////////////////////////////////
 template <class T> void NTreeClass<T>::Reset(void)
 {
-    if (m_Root != NULL) {
+    if (m_Root != nullptr) {
 
         //
         //	Find the last leaf in the root
         //
         NTreeLeafClass<T>* end_leaf = m_Root;
-        while (end_leaf->Peek_Next() != NULL) {
+        while (end_leaf->Peek_Next() != nullptr) {
             end_leaf = end_leaf->Peek_Next();
         }
 
@@ -135,7 +135,7 @@ template <class T> void NTreeClass<T>::Reset(void)
         // leaf along the way is guarenteed to have at least 1
         // reference count on it.
         //
-        for (NTreeLeafClass<T>* leaf = end_leaf; leaf != NULL;) {
+        for (NTreeLeafClass<T>* leaf = end_leaf; leaf != nullptr;) {
             NTreeLeafClass<T>* curr_leaf = leaf;
             leaf = leaf->Peek_Prev();
 
@@ -182,9 +182,9 @@ protected:
 template <class T>
 SortedNTreeLeafClass<T>* SortedNTreeClass<T>::Add_Sorted(const T& value, const char* name)
 {
-    SortedNTreeLeafClass<T>* retval = NULL;
+    SortedNTreeLeafClass<T>* retval = nullptr;
 
-    if (m_Root == NULL) {
+    if (m_Root == nullptr) {
 
         //
         //	Allocate a new root node
@@ -206,7 +206,7 @@ SortedNTreeLeafClass<T>* SortedNTreeClass<T>::Add_Sorted(const T& value, const c
         //	Make sure our 'root' pointer is the first one in the list
         //
         NTreeLeafClass<T>* prev = m_Root->Peek_Prev();
-        if (prev != NULL) {
+        if (prev != nullptr) {
             REF_PTR_SET(m_Root, prev);
         }
     }
@@ -226,10 +226,10 @@ public:
     //	Public constructors/destructors
     //////////////////////////////////////////////////////////////
     NTreeLeafClass(void)
-        : m_Parent(NULL),
-          m_Child(NULL),
-          m_PrevSibling(NULL),
-          m_NextSibling(NULL)
+        : m_Parent(nullptr),
+          m_Child(nullptr),
+          m_PrevSibling(nullptr),
+          m_NextSibling(nullptr)
     {
     }
 
@@ -307,7 +307,7 @@ template <class T> NTreeLeafClass<T>* NTreeLeafClass<T>::Add_Child(const T& valu
     //
     //	Link this new leaf into the hierarchy
     //
-    if (m_Child != NULL) {
+    if (m_Child != nullptr) {
         m_Child->Set_Prev(new_child);
         new_child->Set_Next(m_Child);
     }
@@ -350,26 +350,26 @@ template <class T> void NTreeLeafClass<T>::Remove(void)
     //
     //	Fixup the parent's child leaf object
     //
-    if (m_Parent != NULL && m_Parent->Peek_Child() == this) {
+    if (m_Parent != nullptr && m_Parent->Peek_Child() == this) {
         m_Parent->Set_Child(m_NextSibling);
     }
 
     //
     //	Remove all our children
     //
-    while (m_Child != NULL) {
+    while (m_Child != nullptr) {
         m_Child->Remove();
     }
 
     //
     //	Unlink ourselves from our siblings
     //
-    if (m_NextSibling != NULL) {
-        m_NextSibling->Set_Prev(NULL);
+    if (m_NextSibling != nullptr) {
+        m_NextSibling->Set_Prev(nullptr);
     }
 
-    if (m_PrevSibling != NULL) {
-        m_PrevSibling->Set_Next(NULL);
+    if (m_PrevSibling != nullptr) {
+        m_PrevSibling->Set_Next(nullptr);
     }
 
     REF_PTR_RELEASE(m_Parent);
@@ -433,7 +433,7 @@ SortedNTreeLeafClass<T>* SortedNTreeLeafClass<T>::Add_Sorted(const T& value, con
     //	Find the first-most sibling
     //
     SortedNTreeLeafClass<T>* start = this;
-    while (start->Peek_Prev() != NULL) {
+    while (start->Peek_Prev() != nullptr) {
         start = (SortedNTreeLeafClass<T>*)start->Peek_Prev();
     }
 
@@ -463,7 +463,7 @@ SortedNTreeLeafClass<T>* SortedNTreeLeafClass<T>::Add_Child_Sorted(const T& valu
     new_child->Set_Name(name);
     new_child->Set_Parent(this);
 
-    if (m_Child == NULL) {
+    if (m_Child == nullptr) {
         m_Child = new_child;
     }
     else {
@@ -477,7 +477,7 @@ SortedNTreeLeafClass<T>* SortedNTreeLeafClass<T>::Add_Child_Sorted(const T& valu
         //	Make sure our 'child' pointer is the first one in the list
         //
         NTreeLeafClass<T>* prev = m_Child->Peek_Prev();
-        if (prev != NULL) {
+        if (prev != nullptr) {
             REF_PTR_SET(m_Child, prev);
         }
 
@@ -503,7 +503,7 @@ void SortedNTreeLeafClass<T>::Insertion_Sort(SortedNTreeLeafClass<T>* start,
     //	Determine where to insert the new sibling
     //
     bool inserted = false;
-    for (SortedNTreeLeafClass<T>* leaf = start; leaf != NULL && !inserted;
+    for (SortedNTreeLeafClass<T>* leaf = start; leaf != nullptr && !inserted;
          leaf = (SortedNTreeLeafClass<T>*)leaf->Peek_Next()) {
         //
         //	Does the new sibling come before the current leaf?
@@ -517,13 +517,13 @@ void SortedNTreeLeafClass<T>::Insertion_Sort(SortedNTreeLeafClass<T>* start,
             new_sibling->Set_Prev(prev);
             new_sibling->Set_Next(leaf);
             leaf->Set_Prev(new_sibling);
-            if (prev != NULL) {
+            if (prev != nullptr) {
                 prev->Set_Next(new_sibling);
             }
 
             inserted = true;
         }
-        else if (leaf->Peek_Next() == NULL) {
+        else if (leaf->Peek_Next() == nullptr) {
 
             //
             //	Put the new sibling on the end of the list

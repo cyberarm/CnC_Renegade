@@ -85,9 +85,9 @@ PathActionClass::PathActionClass(void)
       LadderState(LADDER_STATE_NONE),
       State(STATE_FINISHED),
       Type(TYPE_UNKNOWN),
-      Mechanism(NULL),
-      GameObj(NULL),
-      Path(NULL),
+      Mechanism(nullptr),
+      GameObj(nullptr),
+      Path(nullptr),
       LadderIndex(-1),
       Destination(0, 0, 0),
       FacePos(0, 0, 0),
@@ -127,7 +127,7 @@ void PathActionClass::Initialize(TYPE type, PathClass* path, SmartGameObj* game_
     DoorState = DOOR_STATE_GETTING_IN_POSITION;
     LadderState = LADDER_STATE_WAITING;
     Timer = 5;
-    assert(Path != NULL);
+    assert(Path != nullptr);
     assert(Path->Get_Path_Vector_Length() >= Path->Get_Path_Vector_Count());
     Path->Get_Action_Entrance(Destination);
     return;
@@ -173,14 +173,14 @@ bool PathActionClass::Process(void)
 void PathActionClass::Handle_Ladder(void)
 {
     SoldierGameObj* soldier = GameObj->As_SoldierGameObj();
-    WWASSERT(soldier != NULL);
+    WWASSERT(soldier != nullptr);
 
     switch (LadderState) {
     case LADDER_STATE_WAITING: {
         //
         //	Is there already someone on the ladder?
         //
-        if (Get_Ladder_Occupant(LadderIndex) == NULL) {
+        if (Get_Ladder_Occupant(LadderIndex) == nullptr) {
             Set_Ladder_Occupant(LadderIndex, GameObj);
 
             //
@@ -205,7 +205,7 @@ void PathActionClass::Handle_Ladder(void)
             //
             State = STATE_MOVING;
             LadderState = LADDER_STATE_CLIMBING;
-            assert(Path != NULL);
+            assert(Path != nullptr);
             assert(Path->Get_Path_Vector_Length() > Path->Get_Path_Vector_Count());
             Path->Get_Action_Destination(Destination);
             Path->Set_Movement_Directions(PathClass::MOVE_Z);
@@ -223,7 +223,7 @@ void PathActionClass::Handle_Ladder(void)
         //
         if (soldier->Is_On_Ladder() == false) {
             LadderState = LADDER_STATE_NONE;
-            Set_Ladder_Occupant(LadderIndex, NULL);
+            Set_Ladder_Occupant(LadderIndex, nullptr);
             Set_Finished();
         }
         else {
@@ -266,10 +266,10 @@ void PathActionClass::Handle_Jump(void)
     // Is this a human?
     //
     SoldierGameObj* soldier_obj = GameObj->As_SoldierGameObj();
-    if (soldier_obj != NULL) {
+    if (soldier_obj != nullptr) {
 
         HumanPhysClass* human_phys = soldier_obj->Peek_Physical_Object()->As_HumanPhysClass();
-        if (human_phys != NULL) {
+        if (human_phys != nullptr) {
 
             //
             //	If we are still in the air, then turn to face
@@ -277,7 +277,7 @@ void PathActionClass::Handle_Jump(void)
             //
             if (soldier_obj->Is_Airborne()) {
                 Vector3 dest(0, 0, 0);
-                assert(Path != NULL);
+                assert(Path != nullptr);
                 assert(Path->Get_Path_Vector_Length() > Path->Get_Path_Vector_Count());
                 Path->Get_Action_Destination(dest);
 
@@ -309,7 +309,7 @@ void PathActionClass::Handle_Jump(void)
 void PathActionClass::Handle_Elevator(void)
 {
     ElevatorPhysClass* elevator = Mechanism->As_ElevatorPhysClass();
-    WWASSERT(elevator != NULL);
+    WWASSERT(elevator != nullptr);
 
     switch (ElevatorState) {
     case ELEVATOR_STATE_WAITING:
@@ -350,7 +350,7 @@ void PathActionClass::Handle_Elevator(void)
             ElevatorState = ELEVATOR_STATE_EXITING;
             State = STATE_MOVING;
             Timer = 5.0F;
-            assert(Path != NULL);
+            assert(Path != nullptr);
             assert(Path->Get_Path_Vector_Length() > Path->Get_Path_Vector_Count());
             Path->Get_Action_Destination(Destination);
         }
@@ -401,7 +401,7 @@ void PathActionClass::Handle_Elevator(void)
             //	Let the elevator know that its rider has left
             //
             if (elevator->Get_Current_Rider() == GameObj) {
-                elevator->Set_Current_Rider(NULL);
+                elevator->Set_Current_Rider(nullptr);
             }
 
             //
@@ -424,7 +424,7 @@ void PathActionClass::Handle_Elevator(void)
 void PathActionClass::Handle_Door(void)
 {
     DoorPhysClass* door = Mechanism->As_DoorPhysClass();
-    WWASSERT(door != NULL);
+    WWASSERT(door != nullptr);
 
     switch (DoorState) {
     case DOOR_STATE_GETTING_IN_POSITION: {
@@ -456,7 +456,7 @@ void PathActionClass::Handle_Door(void)
             DoorState = DOOR_STATE_ENTERING;
             State = STATE_MOVING;
             Timer = 5.0F;
-            assert(Path != NULL);
+            assert(Path != nullptr);
             assert(Path->Get_Path_Vector_Length() >= Path->Get_Path_Vector_Count());
             Path->Get_Action_Destination(Destination);
         }
@@ -514,13 +514,13 @@ bool PathActionClass::Has_Arrived(void)
 ////////////////////////////////////////////////////////////////////////////////////////////
 void PathActionClass::Get_Elevator_Zone_Pos(ELEVATOR_ZONE zone_id, Vector3* position)
 {
-    WWASSERT(position != NULL);
+    WWASSERT(position != nullptr);
 
     //
     //	Make sure we have an elevator
     //
     ElevatorPhysClass* elevator = Mechanism->As_ElevatorPhysClass();
-    WWASSERT(elevator != NULL);
+    WWASSERT(elevator != nullptr);
 
     //
     //	Get information about this type of elevator
@@ -623,21 +623,21 @@ void PathActionClass::Load_Variables(ChunkLoadClass& cload)
     //
     //	Request that the mechanism ptr gets remapped
     //
-    if (GameObj != NULL) {
+    if (GameObj != nullptr) {
         REQUEST_POINTER_REMAP((void**)&GameObj);
     }
 
     //
     //	Request that the mechanism ptr gets remapped
     //
-    if (Mechanism != NULL) {
+    if (Mechanism != nullptr) {
         REQUEST_REF_COUNTED_POINTER_REMAP((RefCountClass**)&Mechanism);
     }
 
     //
     //	Request that the path ptr gets remapped
     //
-    if (Path != NULL) {
+    if (Path != nullptr) {
         REQUEST_REF_COUNTED_POINTER_REMAP((RefCountClass**)&Path);
     }
 
@@ -660,7 +660,7 @@ void PathActionClass::Set_Ladder_Occupant(int ladder_index, ScriptableGameObj* o
     //	Grow the ladder list until it contains enough entries
     //
     while (ladder_index >= LadderList.Count()) {
-        LadderList.Add(NULL);
+        LadderList.Add(nullptr);
     }
 
     //
@@ -677,7 +677,7 @@ void PathActionClass::Set_Ladder_Occupant(int ladder_index, ScriptableGameObj* o
 ///////////////////////////////////////////////////////////////////////
 ScriptableGameObj* PathActionClass::Get_Ladder_Occupant(int ladder_index)
 {
-    ScriptableGameObj* object = NULL;
+    ScriptableGameObj* object = nullptr;
 
     //
     //	Return the object that's in this slot
@@ -696,7 +696,7 @@ ScriptableGameObj* PathActionClass::Get_Ladder_Occupant(int ladder_index)
 ///////////////////////////////////////////////////////////////////////
 void PathActionClass::Reset(void)
 {
-    if (GameObj != NULL) {
+    if (GameObj != nullptr) {
 
         //
         //	Check to see if this unit is "reserving" any of the ladders...
@@ -707,15 +707,15 @@ void PathActionClass::Reset(void)
                 //
                 //	Clear the ladder reservation
                 //
-                LadderList[index] = NULL;
+                LadderList[index] = nullptr;
                 break;
             }
         }
     }
 
-    GameObj = NULL;
-    Mechanism = NULL;
-    Path = NULL;
+    GameObj = nullptr;
+    Mechanism = nullptr;
+    Path = nullptr;
     State = STATE_FINISHED;
     Type = TYPE_UNKNOWN;
     return;

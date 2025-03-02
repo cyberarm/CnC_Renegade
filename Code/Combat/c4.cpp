@@ -160,13 +160,13 @@ const PersistFactoryClass& C4GameObj::Get_Factory(void) const
 **
 */
 C4GameObj::C4GameObj(void)
-    : AmmoDefinition(NULL),
+    : AmmoDefinition(nullptr),
       Stuck(false),
       StuckMCT(false),
       StuckToObject(false),
       StuckBone(0),
-      StuckStaticAnimObj(NULL),
-      OwnerBackup(NULL),
+      StuckStaticAnimObj(nullptr),
+      OwnerBackup(nullptr),
       Age(0)
 {
     Set_App_Packet_Type(APPPACKETTYPE_C4);
@@ -203,7 +203,7 @@ const C4GameObjDef& C4GameObj::Get_Definition(void) const
 void C4GameObj::Init_C4(const AmmoDefinitionClass* def, SoldierGameObj* owner, int detonation_mode,
                         const Matrix3D& tm)
 {
-    WWASSERT(AmmoDefinition == NULL);
+    WWASSERT(AmmoDefinition == nullptr);
     AmmoDefinition = def;
 
     if (!def->ModelName.Is_Empty()) {
@@ -217,7 +217,7 @@ void C4GameObj::Init_C4(const AmmoDefinitionClass* def, SoldierGameObj* owner, i
     StuckMCT = false;
     StuckToObject = false;
     Peek_Physical_Object()->Set_Collision_Group(DEFAULT_COLLISION_GROUP);
-    OwnerBackup = NULL;
+    OwnerBackup = nullptr;
 
     if (owner) {
         Set_Player_Type(owner->Get_Player_Type());
@@ -274,11 +274,11 @@ CollisionReactionType C4GameObj::Collision_Occurred(const CollisionEventClass& e
     //	if ( ( !Stuck ) && (CombatManager::I_Am_Server()) )
     if (!Stuck) {
         // Figure out who/what/where we hit
-        PhysicalGameObj* other = NULL;
-        BuildingGameObj* building = NULL;
-        bool hit_projectile = event.OtherObj->As_ProjectileClass() != NULL;
+        PhysicalGameObj* other = nullptr;
+        BuildingGameObj* building = nullptr;
+        bool hit_projectile = event.OtherObj->As_ProjectileClass() != nullptr;
 
-        if (event.OtherObj->Get_Observer() != NULL) {
+        if (event.OtherObj->Get_Observer() != nullptr) {
             other
                 = ((CombatPhysObserverClass*)event.OtherObj->Get_Observer())->As_PhysicalGameObj();
             building
@@ -288,10 +288,10 @@ CollisionReactionType C4GameObj::Collision_Occurred(const CollisionEventClass& e
         Restore_Owner();
 
         // Ignore my owner and my owners vehicle
-        if (other != NULL && Get_Owner() != NULL) {
+        if (other != nullptr && Get_Owner() != nullptr) {
             VehicleGameObj* vehicle = other->As_VehicleGameObj();
             SoldierGameObj* soldier = Get_Owner()->As_SoldierGameObj();
-            if (vehicle != NULL && vehicle == soldier->Get_Vehicle()) {
+            if (vehicle != nullptr && vehicle == soldier->Get_Vehicle()) {
                 return COLLISION_REACTION_NO_BOUNCE;
             }
             if (other == Get_Owner()) {
@@ -323,7 +323,7 @@ CollisionReactionType C4GameObj::Collision_Occurred(const CollisionEventClass& e
                 return COLLISION_REACTION_STOP_MOTION;
             }
         }
-        else if (building != NULL) {
+        else if (building != nullptr) {
 
             // Stick to the building
             Stuck = true;
@@ -344,10 +344,10 @@ CollisionReactionType C4GameObj::Collision_Occurred(const CollisionEventClass& e
             }
             return COLLISION_REACTION_STOP_MOTION;
         }
-        else if (other == NULL && !hit_projectile) {
+        else if (other == nullptr && !hit_projectile) {
 
             // if this is a static anim, then try to stick to it
-            if (event.OtherObj->As_StaticAnimPhysClass() != NULL) {
+            if (event.OtherObj->As_StaticAnimPhysClass() != nullptr) {
 
                 Debug_Say(("Sticking to static anim object %p (%p)\n", event.OtherObj));
                 REF_PTR_SET(StuckStaticAnimObj, (StaticAnimPhysClass*)event.OtherObj);
@@ -365,7 +365,7 @@ CollisionReactionType C4GameObj::Collision_Occurred(const CollisionEventClass& e
             }
 
             // If we hit permiable, pass through
-            if (event.CollisionResult != NULL
+            if (event.CollisionResult != nullptr
                 && SurfaceEffectsManager::Is_Surface_Permeable(
                     event.CollisionResult->SurfaceType)) {
                 Debug_Say(("C4 passes through permeable\n"));
@@ -428,20 +428,20 @@ bool C4GameObj::Save(ChunkSaveClass& csave)
     WRITE_MICRO_CHUNK(csave, MICROCHUNKID_STUCK_MCT, StuckMCT);
     WRITE_MICRO_CHUNK(csave, MICROCHUNKID_STUCK_BONE, StuckBone);
     WRITE_MICRO_CHUNK(csave, MICROCHUNKID_STUCK_TO_OBJECT, StuckToObject);
-    if (StuckStaticAnimObj != NULL) {
+    if (StuckStaticAnimObj != nullptr) {
         uint32 id = StuckStaticAnimObj->Get_ID();
         WRITE_MICRO_CHUNK(csave, MICROCHUNKID_STUCK_STATIC_ANIM_OBJ_ID, id);
     }
     WRITE_MICRO_CHUNK(csave, MICROCHUNKID_AGE, Age);
     csave.End_Chunk();
 
-    if (Owner != NULL) {
+    if (Owner != nullptr) {
         csave.Begin_Chunk(CHUNKID_OWNER);
         Owner.Save(csave);
         csave.End_Chunk();
     }
 
-    if (StuckObject != NULL) {
+    if (StuckObject != nullptr) {
         csave.Begin_Chunk(CHUNKID_STUCK_OBJECT);
         StuckObject.Save(csave);
         csave.End_Chunk();
@@ -486,9 +486,9 @@ bool C4GameObj::Load(ChunkLoadClass& cload)
                 cload.Close_Micro_Chunk();
             }
 
-            WWASSERT(AmmoDefinition == NULL);
+            WWASSERT(AmmoDefinition == nullptr);
             AmmoDefinition = WeaponManager::Find_Ammo_Definition(ammo_def_id);
-            WWASSERT(AmmoDefinition != NULL);
+            WWASSERT(AmmoDefinition != nullptr);
             break;
         }
 
@@ -510,7 +510,7 @@ bool C4GameObj::Load(ChunkLoadClass& cload)
     if (static_anim_obj_id != 0xFFFFFFFF) {
         StaticPhysClass* pobj
             = PhysicsSceneClass::Get_Instance()->Get_Static_Object_By_ID(static_anim_obj_id);
-        if (pobj && (pobj->As_StaticAnimPhysClass() != NULL)) {
+        if (pobj && (pobj->As_StaticAnimPhysClass() != nullptr)) {
             REF_PTR_SET(StuckStaticAnimObj, (StaticAnimPhysClass*)pobj);
         }
         REF_PTR_RELEASE(pobj);
@@ -542,7 +542,7 @@ void C4GameObj::Think(void)
         if (CombatManager::I_Am_Server()) {
             // Check for owner to detonate
             SoldierGameObj* owner = Get_Owner();
-            if (owner == NULL) {
+            if (owner == nullptr) {
                 Defuse();
             }
             else if (owner->Detonate_C4()) {
@@ -605,7 +605,7 @@ void C4GameObj::Post_Think(void)
 
     // Follow your stuck object
     if (Stuck) {
-        if (StuckObject.Get_Ptr() != NULL) {
+        if (StuckObject.Get_Ptr() != nullptr) {
             PhysicalGameObj* obj = StuckObject.Get_Ptr()->As_PhysicalGameObj();
             if (obj) {
                 RenderObjClass* parent_model = obj->Peek_Model();
@@ -619,14 +619,14 @@ void C4GameObj::Post_Think(void)
                 Set_Position(pos);
 
                 if (obj->As_SoldierGameObj()) {
-                    bool hide = (obj->As_SoldierGameObj()->Get_Vehicle() != NULL);
+                    bool hide = (obj->As_SoldierGameObj()->Get_Vehicle() != nullptr);
                     if (Peek_Model()) {
                         Peek_Model()->Set_Hidden(hide);
                     }
                 }
             }
         }
-        else if (StuckStaticAnimObj != NULL) {
+        else if (StuckStaticAnimObj != nullptr) {
 
             Vector3 pos;
             pos = StuckStaticAnimObj->Peek_Model()->Get_Bone_Transform(StuckBone) * StuckOffset;
@@ -651,7 +651,7 @@ void C4GameObj::Detonate(void)
             if (Get_Owner()) {
                 owner_id = Get_Owner()->Get_ID();
             }
-            DamageableGameObj* force_victim = NULL;
+            DamageableGameObj* force_victim = nullptr;
             if (Stuck && StuckToObject) {
                 force_victim = (DamageableGameObj*)StuckObject.Get_Ptr();
             }
@@ -662,7 +662,7 @@ void C4GameObj::Detonate(void)
 
         // If I am stuck to a building, apply damage to that building
         if (Stuck) {
-            if (StuckObject.Get_Ptr() != NULL) {
+            if (StuckObject.Get_Ptr() != nullptr) {
                 BuildingGameObj* building = StuckObject.Get_Ptr()->As_BuildingGameObj();
                 if (building) {
                     ExplosionManager::Explosion_Damage_Building(AmmoDefinition->ExplosionDefID,
@@ -703,7 +703,7 @@ void C4GameObj::Export_Rare(BitStreamClass& packet)
     SimpleGameObj::Export_Rare(packet);
 
     int ammo_def_id = 0;
-    if (AmmoDefinition != NULL) {
+    if (AmmoDefinition != nullptr) {
         ammo_def_id = AmmoDefinition->Get_ID();
     }
     packet.Add(ammo_def_id);
@@ -754,7 +754,7 @@ void C4GameObj::Export_Rare(BitStreamClass& packet)
             packet.Add(StuckBone);
         }
 
-        bool stuck_static_anim = (StuckStaticAnimObj != NULL);
+        bool stuck_static_anim = (StuckStaticAnimObj != nullptr);
         packet.Add(stuck_static_anim);
         if (stuck_static_anim) {
             packet.Add(StuckStaticAnimObj->Get_ID());
@@ -779,7 +779,7 @@ void C4GameObj::Import_Rare(BitStreamClass& packet)
         Owner = GameObjManager::Find_SmartGameObj(owner_id);
     }
     else {
-        Owner = NULL;
+        Owner = nullptr;
     }
 
     Vector3 vel;
@@ -840,7 +840,7 @@ void C4GameObj::Import_Rare(BitStreamClass& packet)
             if (static_anim_obj_id != 0xFFFFFFFF) {
                 StaticPhysClass* pobj = PhysicsSceneClass::Get_Instance()->Get_Static_Object_By_ID(
                     static_anim_obj_id);
-                if (pobj && (pobj->As_StaticAnimPhysClass() != NULL)) {
+                if (pobj && (pobj->As_StaticAnimPhysClass() != nullptr)) {
                     REF_PTR_SET(StuckStaticAnimObj, (StaticAnimPhysClass*)pobj);
                 }
                 REF_PTR_RELEASE(pobj);
@@ -869,7 +869,7 @@ void C4GameObj::Defuse(void)
 
 void C4GameObj::Restore_Owner(void)
 {
-    if (Get_Owner() == NULL && OwnerBackup != NULL && AmmoDefinition
+    if (Get_Owner() == nullptr && OwnerBackup != nullptr && AmmoDefinition
         && (int)AmmoDefinition->AmmoType != (int)AmmoDefinitionClass::AMMO_TYPE_C4_REMOTE) {
         // Try and find a smart game obj with the same playerdata
 
@@ -883,8 +883,8 @@ void C4GameObj::Restore_Owner(void)
             }
         }
 
-        if (Get_Owner() == NULL) {
-            OwnerBackup = NULL;
+        if (Get_Owner() == nullptr) {
+            OwnerBackup = nullptr;
             Defuse();
             Debug_Say(("Didn't find C4 owner\n"));
         }
@@ -904,7 +904,7 @@ void C4GameObj::Maintain_C4_Limit(int player_type)
     }
 
     SLNode<BaseGameObj>* objnode;
-    C4GameObj* oldest_c4 = NULL;
+    C4GameObj* oldest_c4 = nullptr;
     int count = 0;
 
     for (objnode = GameObjManager::Get_Game_Obj_List()->Head(); objnode;
@@ -917,14 +917,14 @@ void C4GameObj::Maintain_C4_Limit(int player_type)
                     != (int)AmmoDefinitionClass::AMMO_TYPE_C4_TIMED) {
                 count++;
 
-                if ((oldest_c4 == NULL) || (c4->Age > oldest_c4->Age)) {
+                if ((oldest_c4 == nullptr) || (c4->Age > oldest_c4->Age)) {
                     oldest_c4 = c4;
                 }
             }
         }
     }
 
-    if (count > C4_LIMIT && oldest_c4 != NULL) {
+    if (count > C4_LIMIT && oldest_c4 != nullptr) {
         oldest_c4->Defuse();
     }
 }

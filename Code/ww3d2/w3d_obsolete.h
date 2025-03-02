@@ -74,7 +74,7 @@ enum
     W3D_CHUNK_MATERIALS3
     = 0x00000015, // array of version 3 materials (all new surrender features supported)
     W3D_CHUNK_MATERIAL3 = 0x00000016, // Each version 3 material wrapped with this chunk ID
-    W3D_CHUNK_MATERIAL3_NAME = 0x00000017, // Name of the material (array of chars, null terminated)
+    W3D_CHUNK_MATERIAL3_NAME = 0x00000017, // Name of the material (array of chars, nullptr terminated)
     W3D_CHUNK_MATERIAL3_INFO = 0x00000018, // contains a W3dMaterial3Struct, general material info
     W3D_CHUNK_MATERIAL3_DC_MAP
     = 0x00000019, // wraps the following two chunks, diffuse color texture
@@ -91,9 +91,9 @@ enum
 /////////////////////////////////////////////////////////////////////////////////////////////
 struct W3dMaterialStruct
 {
-    char MaterialName[W3D_NAME_LEN]; // name of the material (NULL terminated)
-    char PrimaryName[W3D_NAME_LEN]; // primary texture name (NULL terminated)
-    char SecondaryName[W3D_NAME_LEN]; // secondary texture name (NULL terminated)
+    char MaterialName[W3D_NAME_LEN]; // name of the material (nullptr terminated)
+    char PrimaryName[W3D_NAME_LEN]; // primary texture name (nullptr terminated)
+    char SecondaryName[W3D_NAME_LEN]; // secondary texture name (nullptr terminated)
     uint32 RenderFlags; // Rendering flags
     uint8 Red; // Rgb colors
     uint8 Green;
@@ -105,9 +105,9 @@ struct W3dMaterialStruct
 /////////////////////////////////////////////////////////////////////////////////////////////
 struct W3dMaterial2Struct
 {
-    char MaterialName[W3D_NAME_LEN]; // name of the material (NULL terminated)
-    char PrimaryName[W3D_NAME_LEN]; // primary texture name (NULL terminated)
-    char SecondaryName[W3D_NAME_LEN]; // secondary texture name (NULL terminated)
+    char MaterialName[W3D_NAME_LEN]; // name of the material (nullptr terminated)
+    char PrimaryName[W3D_NAME_LEN]; // primary texture name (nullptr terminated)
+    char SecondaryName[W3D_NAME_LEN]; // secondary texture name (nullptr terminated)
     uint32 RenderFlags; // Rendering flags
     uint8 Red; // Rgb colors
     uint8 Green;
@@ -218,7 +218,7 @@ struct W3dSurrenderTriStruct
 struct W3dMeshHeaderStruct
 {
     uint32 Version; // Currently version 0x100
-    char MeshName[W3D_NAME_LEN]; // name of the mesh (Null terminated)
+    char MeshName[W3D_NAME_LEN]; // name of the mesh (nullptr terminated)
     uint32 Attributes;
 
     //
@@ -317,7 +317,7 @@ struct W3dHModelAuxDataStruct
     uint32 CollisionCount;
     uint32 SkinCount;
     uint32 ShadowCount;
-    uint32 NullCount;
+    uint32 nullptrCount;
     uint32 FutureCounts[6];
 
     float32 LODMin;

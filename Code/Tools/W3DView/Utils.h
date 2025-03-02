@@ -38,13 +38,13 @@ class RenderObjClass;
 #define SAFE_DELETE(pobject)                                                                       \
     if (pobject) {                                                                                 \
         delete pobject;                                                                            \
-        pobject = NULL;                                                                            \
+        pobject = nullptr;                                                                            \
     }
 
 #define SAFE_DELETE_ARRAY(pobject)                                                                 \
     if (pobject) {                                                                                 \
         delete[] pobject;                                                                          \
-        pobject = NULL;                                                                            \
+        pobject = nullptr;                                                                            \
     }
 
 #define SAFE_ADD_REF(pobject)                                                                      \
@@ -59,7 +59,7 @@ class RenderObjClass;
 
 #define MEMBER_RELEASE(pmember)                                                                    \
     SAFE_RELEASE_REF(pmember);                                                                     \
-    pmember = NULL;
+    pmember = nullptr;
 
 #define MEMBER_ADD(pmember, pnew)                                                                  \
     MEMBER_RELEASE(pmember);                                                                       \
@@ -70,7 +70,7 @@ class RenderObjClass;
     if (pobject) {                                                                                 \
         pobject->Release();                                                                        \
     }                                                                                              \
-    pobject = NULL;
+    pobject = nullptr;
 
 #define SAFE_CLOSE(handle)                                                                         \
     if (handle != INVALID_HANDLE_VALUE) {                                                          \
@@ -140,8 +140,8 @@ CString Filename_From_Asset_Name(LPCTSTR asset_name);
 //
 //	File routines
 //
-bool Get_File_Time(LPCTSTR path, LPFILETIME pcreation_time, LPFILETIME paccess_time = NULL,
-                   LPFILETIME pwrite_time = NULL);
+bool Get_File_Time(LPCTSTR path, LPFILETIME pcreation_time, LPFILETIME paccess_time = nullptr,
+                   LPFILETIME pwrite_time = nullptr);
 bool Are_Glide_Drivers_Acceptable(void);
 bool Copy_File(LPCTSTR existing_filename, LPCTSTR new_filename, bool bforce_copy = false);
 

@@ -44,22 +44,22 @@
 ConvertClass::ConvertClass(PaletteClass const& artpalette, PaletteClass const& screenpalette,
                            Surface const& surface)
     : BBP(surface.Bytes_Per_Pixel()),
-      PlainBlitter(NULL),
-      TransBlitter(NULL),
-      ShadowBlitter(NULL),
-      RemapBlitter(NULL),
-      Translucent1Blitter(NULL),
-      Translucent2Blitter(NULL),
-      Translucent3Blitter(NULL),
-      RLETransBlitter(NULL),
-      RLEShadowBlitter(NULL),
-      RLERemapBlitter(NULL),
-      RLETranslucent1Blitter(NULL),
-      RLETranslucent2Blitter(NULL),
-      RLETranslucent3Blitter(NULL),
-      Translator(NULL),
-      ShadowTable(NULL),
-      RemapTable(NULL)
+      PlainBlitter(nullptr),
+      TransBlitter(nullptr),
+      ShadowBlitter(nullptr),
+      RemapBlitter(nullptr),
+      Translucent1Blitter(nullptr),
+      Translucent2Blitter(nullptr),
+      Translucent3Blitter(nullptr),
+      RLETransBlitter(nullptr),
+      RLEShadowBlitter(nullptr),
+      RLERemapBlitter(nullptr),
+      RLETranslucent1Blitter(nullptr),
+      RLETranslucent2Blitter(nullptr),
+      RLETranslucent3Blitter(nullptr),
+      Translator(nullptr),
+      ShadowTable(nullptr),
+      RemapTable(nullptr)
 {
     /*
     **	The draw data initialization is greatly dependant upon the pixel format
@@ -173,49 +173,49 @@ ConvertClass::ConvertClass(PaletteClass const& artpalette, PaletteClass const& s
 ConvertClass::~ConvertClass(void)
 {
     delete PlainBlitter;
-    PlainBlitter = NULL;
+    PlainBlitter = nullptr;
 
     delete TransBlitter;
-    TransBlitter = NULL;
+    TransBlitter = nullptr;
 
     delete ShadowBlitter;
-    ShadowBlitter = NULL;
+    ShadowBlitter = nullptr;
 
     delete RemapBlitter;
-    RemapBlitter = NULL;
+    RemapBlitter = nullptr;
 
     delete Translucent1Blitter;
-    Translucent1Blitter = NULL;
+    Translucent1Blitter = nullptr;
 
     delete Translucent2Blitter;
-    Translucent2Blitter = NULL;
+    Translucent2Blitter = nullptr;
 
     delete Translucent3Blitter;
-    Translucent3Blitter = NULL;
+    Translucent3Blitter = nullptr;
 
     delete[] Translator;
-    Translator = NULL;
+    Translator = nullptr;
 
     delete[] ShadowTable;
-    ShadowTable = NULL;
+    ShadowTable = nullptr;
 
     delete RLETransBlitter;
-    RLETransBlitter = NULL;
+    RLETransBlitter = nullptr;
 
     delete RLEShadowBlitter;
-    RLEShadowBlitter = NULL;
+    RLEShadowBlitter = nullptr;
 
     delete RLERemapBlitter;
-    RLERemapBlitter = NULL;
+    RLERemapBlitter = nullptr;
 
     delete RLETranslucent1Blitter;
-    RLETranslucent1Blitter = NULL;
+    RLETranslucent1Blitter = nullptr;
 
     delete RLETranslucent2Blitter;
-    RLETranslucent2Blitter = NULL;
+    RLETranslucent2Blitter = nullptr;
 
     delete RLETranslucent3Blitter;
-    RLETranslucent3Blitter = NULL;
+    RLETranslucent3Blitter = nullptr;
 }
 
 Blitter const* ConvertClass::Blitter_From_Flags(ShapeFlags_Type flags) const

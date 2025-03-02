@@ -100,7 +100,7 @@ void MultiplayOptionsMenuClass::On_Init_Dialog(void)
     //
     bool is_send_delay = false;
     int port_number = 0;
-    WOLNATInterface.Get_Config(NULL, port_number, is_send_delay);
+    WOLNATInterface.Get_Config(nullptr, port_number, is_send_delay);
 
     //
     //	Configure the firewall options
@@ -185,6 +185,6 @@ void MultiplayOptionsMenuClass::Save_Settings(void)
     bool is_send_delay = Is_Dlg_Button_Checked(IDC_SEND_DELAY_CHECK);
     int port_number = Get_Dlg_Item_Int(IDC_PORT_EDIT);
 
-    WOLNATInterface.Set_Config(NULL, port_number, is_send_delay);
+    WOLNATInterface.Set_Config(nullptr, port_number, is_send_delay);
     return;
 }

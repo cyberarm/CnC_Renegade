@@ -89,14 +89,14 @@ namespace WWOnline
           mState(DLPending),
           mStatusCode(DOWNLOADSTATUS_DONE),
           mErrorCode(0),
-          mErrorText(NULL),
+          mErrorText(nullptr),
           mBytesRead(0),
           mTotalSize(0),
           mTimeElapsed(0),
           mTimeRemaining(0)
     {
         memcpy(&mWOLUpdate, &update, sizeof(mWOLUpdate));
-        mWOLUpdate.next = NULL;
+        mWOLUpdate.next = nullptr;
 
         WWDEBUG_SAY(("WOL: Download instantiated '%s'\n", GetFilename()));
     }
@@ -145,8 +145,8 @@ namespace WWOnline
         //---------------------------------------------------------------------------
         WWDEBUG_SAY(("WOL: Creating IID_IDownload object\n"));
 
-        WOL::IDownload* downloadObject = NULL;
-        HRESULT hr = CoCreateInstance(WOL::CLSID_Download, NULL, CLSCTX_INPROC_SERVER,
+        WOL::IDownload* downloadObject = nullptr;
+        HRESULT hr = CoCreateInstance(WOL::CLSID_Download, nullptr, CLSCTX_INPROC_SERVER,
                                       WOL::IID_IDownload, (void**)&downloadObject);
 
         if (FAILED(hr)) {
@@ -242,7 +242,7 @@ namespace WWOnline
 
         // Attempt to create the target path for the download file.
         const char* localPath = GetLocalPath();
-        int dirCreated = CreateDirectory(localPath, NULL);
+        int dirCreated = CreateDirectory(localPath, nullptr);
 
         if (!dirCreated && (ERROR_ALREADY_EXISTS != GetLastError())) {
             WWDEBUG_SAY(("WOLERROR: Failed to create download directory '%s'\n", localPath));
@@ -542,7 +542,7 @@ namespace WWOnline
             *ppv = static_cast<WOL::IDownloadEvent*>(this);
         }
         else {
-            *ppv = NULL;
+            *ppv = nullptr;
             return E_NOINTERFACE;
         }
 
@@ -610,7 +610,7 @@ namespace WWOnline
     {
         WWDEBUG_SAY(("WOL: Download End '%s'\n", GetFilename()));
 
-        SetError(0, NULL);
+        SetError(0, nullptr);
         mState = DLComplete;
 
         DownloadEvent event(DownloadEvent::DOWNLOAD_END, this);
@@ -762,7 +762,7 @@ namespace WWOnline
     RefPtr<DownloadWait> DownloadWait::Create(const DownloadList& files)
     {
         if (files.empty()) {
-            return NULL;
+            return nullptr;
         }
 
         return new DownloadWait(files);
@@ -788,7 +788,7 @@ namespace WWOnline
         : SingleWait(WOLSTRING("WOL_DOWNLOADING")),
           mFiles(files),
           mFileIndex(-1),
-          mCallback(NULL)
+          mCallback(nullptr)
     {
         WWDEBUG_SAY(("WOL: DownloadWait Create\n"));
     }

@@ -224,11 +224,11 @@ private:
 ** _MemLogMutex - handle to the mutex used to arbtirate access to the logging data structures
 ** _MemLogLockCounter - count of the active mutex locks.
 */
-static MemLogClass* _TheMemLog = NULL;
+static MemLogClass* _TheMemLog = nullptr;
 static bool _MemLogAllocated = false;
 
 #if MEMLOG_USE_MUTEX
-static void* _MemLogMutex = NULL;
+static void* _MemLogMutex = nullptr;
 static int _MemLogLockCounter = 0;
 #endif
 
@@ -248,8 +248,8 @@ WWINLINE void* Get_Mem_Log_Mutex(void)
 {
 #if MEMLOG_USE_MUTEX
 
-    if (_MemLogMutex == NULL) {
-        _MemLogMutex = CreateMutex(NULL, false, NULL);
+    if (_MemLogMutex == nullptr) {
+        _MemLogMutex = CreateMutex(nullptr, false, nullptr);
         WWASSERT(_MemLogMutex);
     }
     return _MemLogMutex;
@@ -496,7 +496,7 @@ MemLogClass* WWMemoryLogClass::Get_Log(void)
 {
     MemLogMutexLockClass lock;
 
-    if (_TheMemLog == NULL) {
+    if (_TheMemLog == nullptr) {
         // assert(!_MemLogAllocated);
         _TheMemLog = new MemLogClass;
 
@@ -540,7 +540,7 @@ void __cdecl WWMemoryLogClass::Release_Log(void)
     MemLogMutexLockClass lock;
     if (_TheMemLog) {
         delete _TheMemLog;
-        _TheMemLog = NULL;
+        _TheMemLog = nullptr;
     }
 }
 
@@ -623,7 +623,7 @@ void* WWMemoryLogClass::Allocate_Memory(size_t size)
         */
         void* ptr = ALLOC_MEMORY(size + sizeof(MemoryLogStruct));
 
-        if (ptr != NULL) {
+        if (ptr != nullptr) {
             /*
             ** Record this allocation
             */

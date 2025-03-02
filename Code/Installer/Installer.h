@@ -225,7 +225,7 @@ protected:
     bool Create_File_Link(const WideStringClass& linkpath, const WideStringClass& title,
                           const WideStringClass& targetpathname,
                           const WideStringClass& iconpathname,
-                          const WideStringClass* arguments = NULL);
+                          const WideStringClass* arguments = nullptr);
     bool Create_URL_Link(const WideStringClass& linkpath, const WideStringClass& title,
                          const WideStringClass& url);
     bool Has_WOL_Account();

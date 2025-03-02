@@ -32,7 +32,7 @@ static char THIS_FILE[] = __FILE__;
 /////////////////////////////////////////////////////////////////////////////
 // GenerateBaseDialogClass dialog
 
-GenerateBaseDialogClass::GenerateBaseDialogClass(CWnd* pParent /*=NULL*/)
+GenerateBaseDialogClass::GenerateBaseDialogClass(CWnd* pParent /*=nullptr*/)
     : CDialog(GenerateBaseDialogClass::IDD, pParent)
 {
     //{{AFX_DATA_INIT(GenerateBaseDialogClass)

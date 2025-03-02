@@ -126,7 +126,7 @@ public:
     // Create texture from a file. If format is specified the texture is converted to that format.
     // Note that the format must be supported by the current device and that a texture can't exist
     // in the system with the same name in multiple formats.
-    TextureClass(const char* name, const char* full_path = NULL,
+    TextureClass(const char* name, const char* full_path = nullptr,
                  MipCountType mip_level_count = MIP_LEVELS_ALL,
                  WW3DFormat texture_format = WW3D_FORMAT_UNKNOWN, bool allow_compression = true);
 
@@ -239,8 +239,8 @@ private:
     void Apply(unsigned int stage);
     void Load_Locked_Surface();
 
-    // Apply a Null texture's settings into D3D
-    static void Apply_Null(unsigned int stage);
+    // Apply a nullptr texture's settings into D3D
+    static void Apply_nullptr(unsigned int stage);
 
     // State not contained in the Direct3D texture object:
     FilterType TextureMinFilter;

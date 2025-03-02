@@ -78,7 +78,7 @@ public:
     void Set_Transform(const Matrix3D& tm);
     void Set_Transform(const Quaternion& q, const Vector3& p);
 
-    bool Is_Intersecting(NonRefPhysListClass* result_list = NULL, bool check_static_objs = true,
+    bool Is_Intersecting(NonRefPhysListClass* result_list = nullptr, bool check_static_objs = true,
                          bool check_dyn_objs = true);
     bool Is_In_Contact_Zone(void);
     CollisionResult Compute_Contacts(bool lock_to_centroids = false);
@@ -171,7 +171,7 @@ inline PhysClass* OctBoxClass::Peek_Contacted_Object(int index)
         return ContactedObject[index];
     }
     else {
-        return NULL;
+        return nullptr;
     }
 }
 

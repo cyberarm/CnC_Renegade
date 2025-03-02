@@ -61,7 +61,7 @@ DynamicVectorClass<AnimatedSoundMgrClass::ANIM_SOUND_LIST*> AnimatedSoundMgrClas
 //////////////////////////////////////////////////////////////////////
 static WWINLINE INIClass* Get_INI(const char* filename)
 {
-    INIClass* ini = NULL;
+    INIClass* ini = nullptr;
 
     //
     //	Get the file from our filefactory
@@ -90,16 +90,16 @@ static int Build_List_From_String(const char* buffer, const char* delimiter,
 {
     int count = 0;
 
-    WWASSERT(buffer != NULL);
-    WWASSERT(delimiter != NULL);
-    WWASSERT(string_list != NULL);
-    if ((buffer != NULL) && (delimiter != NULL) && (string_list != NULL)) {
+    WWASSERT(buffer != nullptr);
+    WWASSERT(delimiter != nullptr);
+    WWASSERT(string_list != nullptr);
+    if ((buffer != nullptr) && (delimiter != nullptr) && (string_list != nullptr)) {
         int delim_len = ::strlen(delimiter);
 
         //
         // Determine how many entries there will be in the list
         //
-        for (const char* entry = buffer; (entry != NULL) && (entry[1] != 0);
+        for (const char* entry = buffer; (entry != nullptr) && (entry[1] != 0);
              entry = ::strstr(entry, delimiter)) {
 
             //
@@ -124,7 +124,7 @@ static int Build_List_From_String(const char* buffer, const char* delimiter,
             // Parse the string and pull out its entries.
             //
             count = 0;
-            for (entry = buffer; (entry != NULL) && (entry[1] != 0);
+            for (entry = buffer; (entry != nullptr) && (entry[1] != 0);
                  entry = ::strstr(entry, delimiter)) {
 
                 //
@@ -139,7 +139,7 @@ static int Build_List_From_String(const char* buffer, const char* delimiter,
                 //
                 StringClass entry_string = entry;
                 char* delim_start = ::strstr(entry_string, delimiter);
-                if (delim_start != NULL) {
+                if (delim_start != nullptr) {
                     delim_start[0] = 0;
                 }
 
@@ -184,7 +184,7 @@ void AnimatedSoundMgrClass::Initialize(const char* ini_filename)
     //	Determine which filename to use
     //
     const char* filename_to_use = ini_filename;
-    if (filename_to_use == NULL) {
+    if (filename_to_use == nullptr) {
         filename_to_use = DEFAULT_INI_FILENAME;
     }
 
@@ -192,13 +192,13 @@ void AnimatedSoundMgrClass::Initialize(const char* ini_filename)
     //	Get the INI file which contains the data for this viewer
     //
     INIClass* ini_file = ::Get_INI(filename_to_use);
-    if (ini_file != NULL) {
+    if (ini_file != nullptr) {
 
         //
         //	Loop over all the sections in the INI
         //
         List<INISection*>& section_list = ini_file->Get_Section_List();
-        for (INISection* section = section_list.First(); section != NULL && section->Is_Valid();
+        for (INISection* section = section_list.First(); section != nullptr && section->Is_Valid();
              section = section->Next_Valid()) {
             //
             //	Get the animation name from the section name
@@ -234,7 +234,7 @@ void AnimatedSoundMgrClass::Initialize(const char* ini_filename)
                 //
                 //	Separate the parameters into an easy-to-handle data structure
                 //
-                StringClass* param_list = NULL;
+                StringClass* param_list = nullptr;
                 int param_count = ::Build_List_From_String(value, ",", &param_list);
                 if (param_count == 2) {
                     frame_start = ::atoi(param_list[0]);
@@ -247,7 +247,7 @@ void AnimatedSoundMgrClass::Initialize(const char* ini_filename)
                     //
                     DefinitionClass* definition
                         = DefinitionMgrClass::Find_Typed_Definition(definition_name, CLASSID_SOUND);
-                    if (definition != NULL) {
+                    if (definition != nullptr) {
 
                         //
                         //	Tie the relevant information together and store it
@@ -312,7 +312,7 @@ void AnimatedSoundMgrClass::Shutdown(void)
 //////////////////////////////////////////////////////////////////////
 bool AnimatedSoundMgrClass::Does_Animation_Have_Embedded_Sounds(HAnimClass* anim)
 {
-    return (Find_Sound_List(anim) != NULL);
+    return (Find_Sound_List(anim) != nullptr);
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -348,7 +348,7 @@ AnimatedSoundMgrClass::ANIM_SOUND_LIST* AnimatedSoundMgrClass::Find_Sound_List(H
 float AnimatedSoundMgrClass::Trigger_Sound(HAnimClass* anim, float old_frame, float new_frame,
                                            const Matrix3D& tm)
 {
-    if (anim == NULL) {
+    if (anim == nullptr) {
         return old_frame;
     }
 
@@ -358,7 +358,7 @@ float AnimatedSoundMgrClass::Trigger_Sound(HAnimClass* anim, float old_frame, fl
     //	Lookup the sound list for this animation
     //
     ANIM_SOUND_LIST* sound_list = Find_Sound_List(anim);
-    if (sound_list != NULL) {
+    if (sound_list != nullptr) {
 
         for (int index = 0; index < sound_list->Count(); index++) {
             int frame = (*sound_list)[index].Frame;

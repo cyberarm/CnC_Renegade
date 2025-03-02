@@ -118,7 +118,7 @@ void Custom(GameObject* obj, int type, int param, GameObject* sender)
     {
         // check to see if health needs to be regenerated.
         if (Commands->Get_Health(obj) < Commands->Get_Max_Health(obj)) {
-            Commands->Apply_Damage(obj, -10, "RegenHealth", NULL);
+            Commands->Apply_Damage(obj, -10, "RegenHealth", nullptr);
         }
         // restart the timer
         Commands->Send_Custom_Event(obj, obj, 0, 0, 5);
@@ -149,12 +149,12 @@ void Custom(GameObject* obj, int type, int param, GameObject* sender)
 
         Commands->Attach_Script(new_object, "DAK_Electric_Death_DAK", "");
 
-        Commands->Apply_Damage(obj, 10, "Electric", NULL);
+        Commands->Apply_Damage(obj, 10, "Electric", nullptr);
     }
 
     if (type == 1) // apply next ammount of electric damage.
     {
-        Commands->Apply_Damage(obj, 10, "Electric", NULL);
+        Commands->Apply_Damage(obj, 10, "Electric", nullptr);
     }
 }
 }
@@ -169,7 +169,7 @@ DECLARE_SCRIPT(DAK_PCT_Pokable_DAK, "") {
 
 DECLARE_SCRIPT(M00_BUILDING_EXPLODE_NO_DAMAGE_DAK,
                "") { void Killed(GameObject * obj, GameObject* killer) {
-    // Commands->Create_Explosion ( "Building_Explode_No_Damage", position, NULL );
+    // Commands->Create_Explosion ( "Building_Explode_No_Damage", position, nullptr );
     Commands->Shake_Camera(Commands->Get_Position(obj), 25, 0.1f, 4.0f);
 }
 }

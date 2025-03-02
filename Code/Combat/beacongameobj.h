@@ -211,7 +211,7 @@ private:
     ////////////////////////////////////////////////////////////////
     enum
     {
-        STATE_NULL = 0,
+        STATE_nullptr = 0,
         STATE_ARMING,
         STATE_ARMED,
         STATE_DISARMED,

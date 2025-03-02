@@ -277,11 +277,11 @@ private:
     struct TargaCacheStruct
     {
 
-        TargaCacheStruct() { Ptr = NULL; }
+        TargaCacheStruct() { Ptr = nullptr; }
 
         ~TargaCacheStruct()
         {
-            if (Ptr != NULL) {
+            if (Ptr != nullptr) {
                 delete Ptr;
             }
         }
@@ -390,7 +390,7 @@ private:
 
     public:
         // Public functions.
-        SampleSurface(unsigned width, unsigned height, ProceduralTexture* blendtexture = NULL);
+        SampleSurface(unsigned width, unsigned height, ProceduralTexture* blendtexture = nullptr);
 
         bool Sample(const Vector2& samplepoint, const ProjectionTriangle& projectiontriangle,
                     unsigned priority);
@@ -519,7 +519,7 @@ public:
     void Submit(PackingTriangle* principaltriangleptr,
                 const DynamicVectorClass<Triangle>& adjtriangles);
     TrianglePacker* Merge(TrianglePacker* trianglepackerptr);
-    void Pack(ProceduralTexture* proceduraltexture = NULL);
+    void Pack(ProceduralTexture* proceduraltexture = nullptr);
     void Pack(TrueColorTarga& targa, DynamicVectorClass<PackingTriangle*>& triangleptrs);
 
     static const char* Lightmap_Pathname(unsigned pageindex);
@@ -597,7 +597,7 @@ inline bool TrueColorTarga::Get_Color(const Vector2& t, W3dRGBStruct& color) con
     x = t.U * Width();
     y = t.V * Height();
     texelptr = Get_Texel(x, y);
-    if (texelptr == NULL) {
+    if (texelptr == nullptr) {
         return (false);
     }
     Unpack_Texel(texelptr, TGA_BytesPerPixel(Pixel_Depth()), unpackedtexel);
@@ -625,7 +625,7 @@ inline bool TrueColorTarga::Set_Color(unsigned x, unsigned y, const W3dRGBStruct
     unsigned char* texelptr;
 
     texelptr = Get_Texel(x, y);
-    if (texelptr != NULL) {
+    if (texelptr != nullptr) {
         Pack_Texel(unpackedtexel, texelptr, TGA_BytesPerPixel(Pixel_Depth()));
         return (true);
     }
@@ -651,10 +651,10 @@ inline unsigned char* TrueColorTarga::Get_Texel(int x, int y) const
 {
     // Check for (x, y) out of range.
     if ((x < 0) || (x >= ((int)Width()))) {
-        return (NULL);
+        return (nullptr);
     }
     if ((y < 0) || (y >= ((int)Height()))) {
-        return (NULL);
+        return (nullptr);
     }
 
     return ((unsigned char*)GetImage()) + (((Width() * y) + x) * TGA_BytesPerPixel(Pixel_Depth()));

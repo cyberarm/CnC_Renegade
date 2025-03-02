@@ -127,20 +127,20 @@ BOOL WINAPI FormClass::fnFormProc(HWND dlg_wnd, UINT message, WPARAM wparam, LPA
 BOOL FormClass::ExecuteDlgInit(LPCTSTR lpszResourceName)
 {
     // find resource handle
-    LPVOID lpResource = NULL;
-    HGLOBAL hResource = NULL;
-    if (lpszResourceName != NULL) {
+    LPVOID lpResource = nullptr;
+    HGLOBAL hResource = nullptr;
+    if (lpszResourceName != nullptr) {
         HINSTANCE hInst = AppInstance;
         HRSRC hDlgInit = ::FindResource(hInst, lpszResourceName, RT_DLGINIT);
-        if (hDlgInit != NULL) {
+        if (hDlgInit != nullptr) {
             // load it
             hResource = LoadResource(hInst, hDlgInit);
-            if (hResource == NULL) {
+            if (hResource == nullptr) {
                 return FALSE;
             }
             // lock it
             lpResource = LockResource(hResource);
-            assert(lpResource != NULL);
+            assert(lpResource != nullptr);
         }
     }
 
@@ -148,7 +148,7 @@ BOOL FormClass::ExecuteDlgInit(LPCTSTR lpszResourceName)
     BOOL bResult = ExecuteDlgInit(lpResource);
 
     // cleanup
-    if (lpResource != NULL && hResource != NULL) {
+    if (lpResource != nullptr && hResource != nullptr) {
         UnlockResource(hResource);
         FreeResource(hResource);
     }
@@ -172,7 +172,7 @@ BOOL FormClass::ExecuteDlgInit(LPCTSTR lpszResourceName)
 BOOL FormClass::ExecuteDlgInit(LPVOID lpResource)
 {
     BOOL bSuccess = TRUE;
-    if (lpResource != NULL) {
+    if (lpResource != nullptr) {
         UNALIGNED WORD* lpnRes = (WORD*)lpResource;
         while (bSuccess && *lpnRes != 0) {
             WORD nIDC = *lpnRes++;

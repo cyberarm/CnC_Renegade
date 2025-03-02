@@ -35,7 +35,7 @@ static char THIS_FILE[] = __FILE__;
 // NewAssetPackageDialogClass
 //
 /////////////////////////////////////////////////////////////////////////////
-NewAssetPackageDialogClass::NewAssetPackageDialogClass(CWnd* pParent /*=NULL*/)
+NewAssetPackageDialogClass::NewAssetPackageDialogClass(CWnd* pParent /*=nullptr*/)
     : CDialog(NewAssetPackageDialogClass::IDD, pParent)
 {
     //{{AFX_DATA_INIT(NewAssetPackageDialogClass)

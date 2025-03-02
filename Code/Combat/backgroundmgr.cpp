@@ -73,8 +73,8 @@ unsigned BackgroundMgrClass::_LightningOverrideCount;
 unsigned BackgroundMgrClass::_SkyTintOverrideCount;
 bool BackgroundMgrClass::_Dirty;
 
-SkyClass* BackgroundMgrClass::_Sky = NULL;
-DazzleRenderObjClass* BackgroundMgrClass::_Dazzle = NULL;
+SkyClass* BackgroundMgrClass::_Sky = nullptr;
+DazzleRenderObjClass* BackgroundMgrClass::_Dazzle = nullptr;
 
 static Random2Class _RandomNumber(0x1f855092);
 
@@ -110,7 +110,7 @@ HazeClass::HazeClass(float radius)
 
     // Define vertices.
     VertexArray = new Vector3[VertexCount];
-    WWASSERT(VertexArray != NULL);
+    WWASSERT(VertexArray != nullptr);
     v = 0;
     for (segment = 0; segment < segmentcount; segment++) {
         latitude = segment * twopioosegmentcount;
@@ -165,7 +165,7 @@ HazeClass::HazeClass(float radius)
     Shader.Set_Cull_Mode(ShaderClass::CULL_MODE_DISABLE);
 
     DiffuseArray = new unsigned[VertexCount];
-    WWASSERT(DiffuseArray != NULL);
+    WWASSERT(DiffuseArray != nullptr);
 
     Configure(white, white, 1.0f);
 }
@@ -370,7 +370,7 @@ StarfieldClass::StarfieldClass(float extent, unsigned starcount)
     TriangleCount = starcount;
 
     VertexArray = new Vector3[VertexCount];
-    WWASSERT(VertexArray != NULL);
+    WWASSERT(VertexArray != nullptr);
 
     // Define triangles.
     IndexBuffer = NEW_REF(DX8IndexBufferClass, (VertexCount));
@@ -398,7 +398,7 @@ StarfieldClass::StarfieldClass(float extent, unsigned starcount)
 #endif
 
     DiffuseArray = new unsigned[VertexCount];
-    WWASSERT(DiffuseArray != NULL);
+    WWASSERT(DiffuseArray != nullptr);
 
     Configure(Vector3(1.0f, 0.0f, 0.0f), 1.0f, 1.0f, white, white, 0.0f);
 }
@@ -692,7 +692,7 @@ SkyObjectClass::SkyObjectClass(ShaderClass shader)
     const Vector3 white(1.0f, 1.0f, 1.0f);
 
     VertexArray = new Vector3[VertexCount];
-    WWASSERT(VertexArray != NULL);
+    WWASSERT(VertexArray != nullptr);
 
     // Define triangles.
     // NOTE: For simplicity, assume that there are exactly 8 vertices and 6 triangles.
@@ -716,15 +716,15 @@ SkyObjectClass::SkyObjectClass(ShaderClass shader)
     Shader.Set_Src_Blend_Func(ShaderClass::SRCBLEND_SRC_ALPHA);
     Shader.Set_Cull_Mode(ShaderClass::CULL_MODE_DISABLE);
 
-    Texture = NULL;
+    Texture = nullptr;
 
     // Define texture coordinates.
     // NOTE: Must be in clockwise order.
     TexCoordArray = new Vector2[VertexCount];
-    WWASSERT(TexCoordArray != NULL);
+    WWASSERT(TexCoordArray != nullptr);
 
     DiffuseArray = new unsigned[VertexCount];
-    WWASSERT(DiffuseArray != NULL);
+    WWASSERT(DiffuseArray != nullptr);
 
     Configure(Vector3(1.0f, 0.0f, 0.0f), 1.0f, 1.0f, white);
 }
@@ -1021,7 +1021,7 @@ CloudLayerClass::CloudLayerClass(float maxdistance, const char* texturename,
 
     // Define vertices.
     VertexArray = new Vector3[VertexCount];
-    WWASSERT(VertexArray != NULL);
+    WWASSERT(VertexArray != nullptr);
     v = 0;
     for (segment = 0; segment < segmentcount; segment++) {
         latitude = segment * twopioosegmentcount;
@@ -1087,7 +1087,7 @@ CloudLayerClass::CloudLayerClass(float maxdistance, const char* texturename,
 
     // Define texture UV's.
     TexCoordArray = new Vector2[VertexCount];
-    WWASSERT(TexCoordArray != NULL);
+    WWASSERT(TexCoordArray != nullptr);
 
     scale = tilefactor / (radius * sinf(maxlongitude));
     for (v = 0; v < VertexCount; v++) {
@@ -1109,7 +1109,7 @@ CloudLayerClass::CloudLayerClass(float maxdistance, const char* texturename,
     Velocity *= tilefactor;
 
     DiffuseArray = new unsigned[VertexCount];
-    WWASSERT(DiffuseArray != NULL);
+    WWASSERT(DiffuseArray != nullptr);
 
     WarmColor = white;
     ColdColor = white;
@@ -1384,7 +1384,7 @@ SkyGlowClass::SkyGlowClass(float radius)
 
     // Define vertices.
     VertexArray = new Vector3[VertexCount];
-    WWASSERT(VertexArray != NULL);
+    WWASSERT(VertexArray != nullptr);
     v = 0;
     for (segment = 0; segment < segmentcount; segment++) {
         latitude = segment * twopioosegmentcount;
@@ -1439,7 +1439,7 @@ SkyGlowClass::SkyGlowClass(float radius)
     Shader.Set_Cull_Mode(ShaderClass::CULL_MODE_DISABLE);
 
     DiffuseArray = new unsigned[VertexCount];
-    WWASSERT(DiffuseArray != NULL);
+    WWASSERT(DiffuseArray != nullptr);
 
     Configure(Vector2(1.0f, 0.0f), white, 1.0f);
 }
@@ -1589,7 +1589,7 @@ void SkyGlowClass::Render()
  *=============================================================================================*/
 LightningBoltClass::LightningBoltClass(int branchcount, Matrix3D& m, float length,
                                        float childlength, float width, float amplitude)
-    : Branches(NULL)
+    : Branches(nullptr)
 {
     const int randomness = 100;
     const float oorandomness = 1.0f / randomness;
@@ -1651,7 +1651,7 @@ LightningBoltClass::LightningBoltClass(int branchcount, Matrix3D& m, float lengt
         float minlength, maxlength, w, a;
 
         Branches = new BranchStruct[BranchCount];
-        WWASSERT(Branches != NULL);
+        WWASSERT(Branches != nullptr);
         oobranchcount = 1.0f / BranchCount;
         branchrandomness = vertexcount / (BranchCount * 2);
         branchcount = BranchCount * branchfactor;
@@ -1683,10 +1683,10 @@ LightningBoltClass::LightningBoltClass(int branchcount, Matrix3D& m, float lengt
                     = NEW_REF(LightningBoltClass, (branchcount, m0, l, l, w, a));
             }
             else {
-                Branches[b].LightningBolt = NULL;
+                Branches[b].LightningBolt = nullptr;
             }
 
-            WWASSERT(Branches != NULL);
+            WWASSERT(Branches != nullptr);
         }
     }
 
@@ -1716,7 +1716,7 @@ LightningBoltClass::~LightningBoltClass()
         REF_PTR_RELEASE(Branches[b].LightningBolt);
     }
 
-    if (Branches != NULL) {
+    if (Branches != nullptr) {
         delete Branches;
     }
 }
@@ -1739,7 +1739,7 @@ void LightningBoltClass::Set_Visibility(bool visible, bool recurse)
     VisibilityClass::Set_Visibility(visible);
     if (recurse) {
         for (int b = 0; b < BranchCount; b++) {
-            if (Branches[b].LightningBolt != NULL) {
+            if (Branches[b].LightningBolt != nullptr) {
                 Branches[b].LightningBolt->Set_Visibility(visible, recurse);
             }
         }
@@ -1763,7 +1763,7 @@ void LightningBoltClass::Configure(Vector3& color)
 {
     Set_Color(color);
     for (int b = 0; b < BranchCount; b++) {
-        if (Branches[b].LightningBolt != NULL) {
+        if (Branches[b].LightningBolt != nullptr) {
             Branches[b].LightningBolt->Configure(color);
         }
     }
@@ -1786,7 +1786,7 @@ void LightningBoltClass::Set_Transform(Matrix3D& t)
 {
     ((SegmentedLineClass*)this)->Set_Transform(t);
     for (int b = 0; b < BranchCount; b++) {
-        if (Branches[b].LightningBolt != NULL) {
+        if (Branches[b].LightningBolt != nullptr) {
             Branches[b].LightningBolt->Set_Transform(t);
         }
     }
@@ -1819,7 +1819,7 @@ void LightningBoltClass::Render(RenderInfoClass& rinfo)
             DX8Wrapper::Set_Transform(D3DTS_WORLD, t);
         }
         for (int b = 0; b < BranchCount; b++) {
-            if (Branches[b].LightningBolt != NULL) {
+            if (Branches[b].LightningBolt != nullptr) {
                 Branches[b].LightningBolt->Render(rinfo);
             }
         }
@@ -1882,7 +1882,7 @@ LightningClass::LightningClass(float extent, float startdistance, float enddista
         = WWMath::Lerp((float)minthunderdelaytime, (float)maxthunderdelaytime, Distance);
 
     LightningGlow = new SkyGlowClass(extent);
-    WWASSERT(LightningGlow != NULL);
+    WWASSERT(LightningGlow != nullptr);
 
     branchcount = WWMath::Lerp((float)maxbranchcount, (float)minbranchcount, Distance);
     latitude = heading + (0.5f * WWMATH_PI)
@@ -1904,10 +1904,10 @@ LightningClass::LightningClass(float extent, float startdistance, float enddista
     width = WWMath::Lerp(maxwidth, minwidth, Distance);
     LightningBolt
         = NEW_REF(LightningBoltClass, (branchcount, m, length, childlength, width, amplitude));
-    WWASSERT(LightningBolt != NULL);
+    WWASSERT(LightningBolt != nullptr);
 
     LightningSource = new SkyObjectClass(ShaderClass::_PresetAdditive2DShader);
-    WWASSERT(LightningSource != NULL);
+    WWASSERT(LightningSource != nullptr);
     lightningsourcewidth = WWMath::Lerp(maxlightningsourcewidth, minlightningsourcewidth, Distance);
     lightningsourceheight
         = WWMath::Lerp(maxlightningsourceheight, minlightningsourceheight, Distance);
@@ -2021,9 +2021,9 @@ bool LightningClass::Update(Matrix3D& t, Vector3& additivecolor,
 
                 AudibleSoundClass* sound;
 
-                sound = WWAudioClass::Get_Instance()->Create_Sound(ThunderSampleName, NULL, 0,
+                sound = WWAudioClass::Get_Instance()->Create_Sound(ThunderSampleName, nullptr, 0,
                                                                    CLASSID_PSEUDO3D);
-                if (sound != NULL) {
+                if (sound != nullptr) {
 
                     Matrix3D m(t);
 
@@ -2105,7 +2105,7 @@ WarBlitzClass::WarBlitzClass(float extent, float startdistance, float enddistanc
     SamplePosition.Set(position.X, position.Y, 0.0f);
 
     WarBlitzGlow = new SkyGlowClass(extent);
-    WWASSERT(WarBlitzGlow != NULL);
+    WWASSERT(WarBlitzGlow != nullptr);
 }
 
 /***********************************************************************************************
@@ -2174,9 +2174,9 @@ bool WarBlitzClass::Update(Matrix3D& t, Vector3& additivecolor)
 
                 AudibleSoundClass* sound;
 
-                sound = WWAudioClass::Get_Instance()->Create_Sound(samplename, NULL, 0,
+                sound = WWAudioClass::Get_Instance()->Create_Sound(samplename, nullptr, 0,
                                                                    CLASSID_PSEUDO3D);
-                if (sound != NULL) {
+                if (sound != nullptr) {
 
                     Matrix3D m(t);
 
@@ -2239,7 +2239,7 @@ SkyClass::SkyClass(SoundEnvironmentClass* soundenvironment)
       LightningEndDistance(1.0f),
       LightningHeading(0.0f),
       LightningDistribution(0.5f),
-      SoundEnvironment(NULL),
+      SoundEnvironment(nullptr),
       WarBlitzIntensity(0.0f),
       WarBlitzStartDistance(0.0f),
       WarBlitzEndDistance(1.0f),
@@ -2248,46 +2248,46 @@ SkyClass::SkyClass(SoundEnvironmentClass* soundenvironment)
 {
     const unsigned starcount = 200;
 
-    WWASSERT(soundenvironment != NULL);
+    WWASSERT(soundenvironment != nullptr);
     REF_PTR_SET(SoundEnvironment, soundenvironment);
     SoundEnvironment->Add_User();
 
     Haze = new HazeClass(Extent);
-    WWASSERT(Haze != NULL);
+    WWASSERT(Haze != nullptr);
 
     Starfield = new StarfieldClass(Extent, starcount);
-    WWASSERT(Starfield != NULL);
+    WWASSERT(Starfield != nullptr);
 
     Sun = new SkyObjectClass(ShaderClass::_PresetAdditive2DShader);
-    WWASSERT(Sun != NULL);
+    WWASSERT(Sun != nullptr);
     Sun->Set_Texture("Sun.tga");
 
     SunHalo = new SkyObjectClass(ShaderClass::_PresetAdditive2DShader);
-    WWASSERT(SunHalo != NULL);
+    WWASSERT(SunHalo != nullptr);
     SunHalo->Set_Texture("SunHalo.tga");
 
     Moon = new SkyObjectClass(ShaderClass::_PresetAlpha2DShader);
-    WWASSERT(Moon != NULL);
+    WWASSERT(Moon != nullptr);
     Set_Moon_Type(MOON_TYPE_FULL);
 
     MoonHalo = new SkyObjectClass(ShaderClass::_PresetAdditive2DShader);
-    WWASSERT(MoonHalo != NULL);
+    WWASSERT(MoonHalo != nullptr);
     MoonHalo->Set_Texture("MoonHalo.tga");
 
     CloudLayer0
         = new CloudLayerClass(Extent, "CloudLayer.tga", Vector2(0.0030f, 0.0006f), 1.2f, false);
-    WWASSERT(CloudLayer0 != NULL);
+    WWASSERT(CloudLayer0 != nullptr);
 
     CloudLayer1
         = new CloudLayerClass(Extent, "CloudLayer.tga", Vector2(0.0050f, 0.0010f), 0.8f, true);
-    WWASSERT(CloudLayer1 != NULL);
+    WWASSERT(CloudLayer1 != nullptr);
 
     for (unsigned l = 0; l < LIGHTNING_COUNT; l++) {
-        Lightning[l] = NULL;
+        Lightning[l] = nullptr;
         LightningCountdown[l] = Lightning_Delay();
     }
 
-    WarBlitz = NULL;
+    WarBlitz = nullptr;
     WarBlitzCountdown = War_Blitz_Delay();
 }
 
@@ -2307,11 +2307,11 @@ SkyClass::SkyClass(SoundEnvironmentClass* soundenvironment)
 SkyClass::~SkyClass()
 {
     // Clean-up.
-    if (WarBlitz != NULL) {
+    if (WarBlitz != nullptr) {
         delete WarBlitz;
     }
     for (unsigned l = 0; l < LIGHTNING_COUNT; l++) {
-        if (Lightning[l] != NULL) {
+        if (Lightning[l] != nullptr) {
             delete Lightning[l];
         }
     }
@@ -2902,19 +2902,19 @@ void SkyClass::Update(SceneClass* mainscene, const Vector3& cameraposition)
         if (LightningCountdown[l] <= 0) {
 
             LightningCountdown[l] = Lightning_Delay();
-            if (Lightning[l] == NULL) {
+            if (Lightning[l] == nullptr) {
 
                 // Is lightning enabled?
                 if (LightningIntensity > 0.0f) {
                     Lightning[l]
                         = new LightningClass(Extent, LightningStartDistance, LightningEndDistance,
                                              LightningHeading, LightningDistribution);
-                    WWASSERT(Lightning[l] != NULL);
+                    WWASSERT(Lightning[l] != nullptr);
                 }
             }
         }
 
-        if (Lightning[l] != NULL) {
+        if (Lightning[l] != nullptr) {
 
             Vector3 lightningcolor;
 
@@ -2922,7 +2922,7 @@ void SkyClass::Update(SceneClass* mainscene, const Vector3& cameraposition)
 
                 // Lightning has played out - so remove it.
                 delete Lightning[l];
-                Lightning[l] = NULL;
+                Lightning[l] = nullptr;
             }
             else {
                 colorsum += lightningcolor;
@@ -2937,18 +2937,18 @@ void SkyClass::Update(SceneClass* mainscene, const Vector3& cameraposition)
     if (WarBlitzCountdown <= 0) {
 
         WarBlitzCountdown = War_Blitz_Delay();
-        if (WarBlitz == NULL) {
+        if (WarBlitz == nullptr) {
 
             // Is war blitz enabled?
             if (WarBlitzIntensity > 0.0f) {
                 WarBlitz = new WarBlitzClass(Extent, WarBlitzStartDistance, WarBlitzEndDistance,
                                              WarBlitzHeading, WarBlitzDistribution);
-                WWASSERT(WarBlitz != NULL);
+                WWASSERT(WarBlitz != nullptr);
             }
         }
     }
 
-    if (WarBlitz != NULL) {
+    if (WarBlitz != nullptr) {
 
         Vector3 warblitzcolor;
 
@@ -2956,7 +2956,7 @@ void SkyClass::Update(SceneClass* mainscene, const Vector3& cameraposition)
 
             // War blitz has played out - so remove it.
             delete WarBlitz;
-            WarBlitz = NULL;
+            WarBlitz = nullptr;
         }
         else {
             colorsum += warblitzcolor;
@@ -2996,11 +2996,11 @@ void SkyClass::Render(RenderInfoClass& rinfo)
     CloudLayer1->Render();
     Sun->Render();
     for (unsigned l = 0; l < LIGHTNING_COUNT; l++) {
-        if (Lightning[l] != NULL) {
+        if (Lightning[l] != nullptr) {
             Lightning[l]->Render(rinfo);
         }
     }
-    if (WarBlitz != NULL) {
+    if (WarBlitz != nullptr) {
         WarBlitz->Render(rinfo);
     }
 }
@@ -3211,9 +3211,9 @@ BackgroundMgrClass::BackgroundMgrClass()
 void BackgroundMgrClass::Init(SimpleSceneClass* renderscene,
                               SoundEnvironmentClass* soundenvironment, bool render_available)
 {
-    WWASSERT(renderscene != NULL);
-    WWASSERT(_Sky == NULL);
-    WWASSERT(_Dazzle == NULL);
+    WWASSERT(renderscene != nullptr);
+    WWASSERT(_Sky == nullptr);
+    WWASSERT(_Dazzle == nullptr);
 
     if (render_available) {
         _Sky = NEW_REF(SkyClass, (soundenvironment));
@@ -3278,8 +3278,8 @@ void BackgroundMgrClass::Reset()
  *=============================================================================================*/
 void BackgroundMgrClass::Shutdown()
 {
-    // WWASSERT (_Dazzle != NULL);
-    // WWASSERT (_Sky != NULL);
+    // WWASSERT (_Dazzle != nullptr);
+    // WWASSERT (_Sky != nullptr);
     if (_Dazzle) {
         _Dazzle->Remove();
         REF_PTR_RELEASE(_Dazzle);
@@ -3798,14 +3798,14 @@ void BackgroundMgrClass::Update(PhysicsSceneClass* mainscene, CameraClass* camer
     float cloudcover, gloominess;
     float intensity, dazzleintensity, lensflareintensity;
 
-    if (_Sky == NULL) {
+    if (_Sky == nullptr) {
         return;
     }
 
-    WWASSERT(mainscene != NULL);
-    WWASSERT(camera != NULL);
-    WWASSERT(_Sky != NULL);
-    WWASSERT(_Dazzle != NULL);
+    WWASSERT(mainscene != nullptr);
+    WWASSERT(camera != nullptr);
+    WWASSERT(_Sky != nullptr);
+    WWASSERT(_Dazzle != nullptr);
 
     if (Is_Dirty()) {
         _Sky->Set_Time_Of_Day(_Hours, _Minutes);

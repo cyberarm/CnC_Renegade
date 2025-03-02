@@ -86,7 +86,7 @@ WOLQuickMatch* WOLQuickMatch::Create(void)
         match->Release_Ref();
     }
 
-    return NULL;
+    return nullptr;
 }
 
 /******************************************************************************
@@ -251,7 +251,7 @@ RefPtr<WaitCondition> WOLQuickMatch::Disconnect(void)
         }
     }
 
-    return NULL;
+    return nullptr;
 }
 
 /******************************************************************************
@@ -398,7 +398,7 @@ void WOLQuickMatch::ParseResponse(const wchar_t* message)
         static QMResponseDispatch _dispatch[] = { { L"INFO ", WOLQuickMatch::ProcessInfo },
                                                   { L"ERROR ", WOLQuickMatch::ProcessError },
                                                   { L"START ", WOLQuickMatch::ProcessStart },
-                                                  { NULL, WOLQuickMatch::ProcessUnknown } };
+                                                  { nullptr, WOLQuickMatch::ProcessUnknown } };
 
         int index = 0;
         const wchar_t* token = _dispatch[index].Token;

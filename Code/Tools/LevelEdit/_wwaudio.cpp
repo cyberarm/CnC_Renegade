@@ -38,4 +38,4 @@
 #include "StdAfx.h"
 #include "WWAudio.H"
 
-WWAudioClass* _pTheAudioManager = NULL;
+WWAudioClass* _pTheAudioManager = nullptr;

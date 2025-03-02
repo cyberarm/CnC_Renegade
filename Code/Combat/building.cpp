@@ -322,10 +322,10 @@ BuildingGameObj::BuildingGameObj(void)
       CurrentState(-1),
       AnnouncementSphere(Vector3(0, 0, 0), 1.0F),
       CollectionSphere(Vector3(0, 0, 0), 50.0F),
-      CurrentAnnouncement(NULL),
+      CurrentAnnouncement(nullptr),
       IsDestroyed(false),
-      BuildingMonitor(NULL),
-      BaseController(NULL)
+      BuildingMonitor(nullptr),
+      BaseController(nullptr)
 {
     GameObjManager::Add_Building(this);
     Update_State();
@@ -344,10 +344,10 @@ BuildingGameObj::~BuildingGameObj(void)
     //
     //	Free the building monitor (if we have one)
     //
-    if (BuildingMonitor != NULL) {
+    if (BuildingMonitor != nullptr) {
         Remove_Observer(BuildingMonitor);
         delete BuildingMonitor;
-        BuildingMonitor = NULL;
+        BuildingMonitor = nullptr;
     }
 
     GameObjManager::Remove_Building(this);
@@ -484,7 +484,7 @@ void BuildingGameObj::Enable_Power(bool onoff)
         // Notify the observers
         const GameObjObserverList& observer_list = Get_Observers();
         for (int index = 0; index < observer_list.Count(); index++) {
-            observer_list[index]->Custom(this, CUSTOM_EVENT_BUILDING_POWER_CHANGED, onoff, NULL);
+            observer_list[index]->Custom(this, CUSTOM_EVENT_BUILDING_POWER_CHANGED, onoff, nullptr);
         }
     }
 
@@ -536,8 +536,8 @@ void BuildingGameObj::Apply_Damage(const OffenseObjectClass& damager, float scal
 
     // Stats
     if (DefenseObject.Get_Health() <= 0) {
-        if (damager.Get_Owner() != NULL && damager.Get_Owner()->As_SoldierGameObj() != NULL
-            && damager.Get_Owner()->As_SoldierGameObj()->Get_Player_Data() != NULL) {
+        if (damager.Get_Owner() != nullptr && damager.Get_Owner()->As_SoldierGameObj() != nullptr
+            && damager.Get_Owner()->As_SoldierGameObj()->Get_Player_Data() != nullptr) {
             damager.Get_Owner()
                 ->As_SoldierGameObj()
                 ->Get_Player_Data()
@@ -601,13 +601,13 @@ bool BuildingGameObj::Is_Interior_Mesh_Name(const char* name)
 // (gth) Renegade day 120 patch, accept tiles as building "parts"
 #if 0
 	char * meshname = strchr(name,'.');
-	if (meshname != NULL) {
-		return strchr(meshname,'#') != NULL;
+	if (meshname != nullptr) {
+		return strchr(meshname,'#') != nullptr;
 	} else {
 		return false;
 	}
 #else
-    return strchr(name, '#') != NULL;
+    return strchr(name, '#') != nullptr;
 #endif
 }
 
@@ -621,13 +621,13 @@ bool BuildingGameObj::Is_Exterior_Mesh_Name(const char* name)
 // (gth) Renegade day 120 patch, accept tiles as building "parts"
 #if 0
 	char * meshname = strchr(name,'.');
-	if (meshname != NULL) {
-		return strchr(meshname,'^') != NULL;
+	if (meshname != nullptr) {
+		return strchr(meshname,'^') != nullptr;
 	} else {
 		return false;
 	}
 #else
-    return strchr(name, '^') != NULL;
+    return strchr(name, '^') != nullptr;
 #endif
 }
 
@@ -640,10 +640,10 @@ bool BuildingGameObj::Name_Prefix_Matches_This_Building(const char* name)
 {
     bool retval = false;
 
-    if (name != NULL) {
+    if (name != nullptr) {
         StringClass prefex(Get_Definition().MeshPrefix, true);
         char* meshname = strchr(name, '.');
-        if (meshname != NULL) {
+        if (meshname != nullptr) {
             meshname++;
             retval = (strnicmp(meshname, prefex, strlen(prefex)) == 0);
         }
@@ -703,7 +703,7 @@ void BuildingGameObj::Update_State(bool force_update)
 
             const GameObjObserverList& observer_list = Get_Observers();
             for (int index = 0; index < observer_list.Count(); index++) {
-                observer_list[index]->Custom(this, event, health_percentage, NULL);
+                observer_list[index]->Custom(this, event, health_percentage, nullptr);
             }
         }
 
@@ -814,7 +814,7 @@ void BuildingGameObj::Play_Announcement(int text_id, bool broadcast)
         //	Display the text on the screen
         if (display_text && string) {
             float message_duration = max(duration, 5.0F);
-            CombatManager::Get_Message_Window()->Add_Message(string, Vector3(1, 1, 1), NULL,
+            CombatManager::Get_Message_Window()->Add_Message(string, Vector3(1, 1, 1), nullptr,
                                                              message_duration);
         }
     }
@@ -833,7 +833,7 @@ void BuildingGameObj::Stop_Current_Announcement(void)
         CurrentAnnouncement->Stop();
         CurrentAnnouncement->Remove_From_Scene();
         CurrentAnnouncement->Release_Ref();
-        CurrentAnnouncement = NULL;
+        CurrentAnnouncement = nullptr;
     }
 }
 
@@ -866,7 +866,7 @@ void BuildingGameObj::Initialize_Building(void)
     //	If we can find a base for our team, then add ourselves to it.
     //
     BaseControllerClass* base = BaseControllerClass::Find_Base(Get_Player_Type());
-    if (base != NULL) {
+    if (base != nullptr) {
         base->Add_Building(this);
     }
 
@@ -884,17 +884,17 @@ void BuildingGameObj::Reset_Components(void)
 
     for (mesh_iterator.First(); !mesh_iterator.Is_Done(); mesh_iterator.Next()) {
         WWASSERT(mesh_iterator.Peek_Obj()->Get_Observer() == this);
-        mesh_iterator.Peek_Obj()->Set_Observer(NULL);
+        mesh_iterator.Peek_Obj()->Set_Observer(nullptr);
     }
     for (mesh_iterator.First(&ExteriorMeshes); !mesh_iterator.Is_Done(); mesh_iterator.Next()) {
         WWASSERT(mesh_iterator.Peek_Obj()->Get_Observer() == this);
-        mesh_iterator.Peek_Obj()->Set_Observer(NULL);
+        mesh_iterator.Peek_Obj()->Set_Observer(nullptr);
     }
 
     RefMultiListIterator<BuildingAggregateClass> agg_iterator(&Aggregates);
     for (agg_iterator.First(); !agg_iterator.Is_Done(); agg_iterator.Next()) {
         WWASSERT(agg_iterator.Peek_Obj()->Get_Observer() == this);
-        agg_iterator.Peek_Obj()->Set_Observer(NULL);
+        agg_iterator.Peek_Obj()->Set_Observer(nullptr);
     }
 
     InteriorMeshes.Reset_List();
@@ -911,14 +911,14 @@ void BuildingGameObj::Reset_Components(void)
 /////////////////////////////////////////////////////////////////////////////
 void BuildingGameObj::Add_Mesh(StaticPhysClass* terrain)
 {
-    WWASSERT(terrain != NULL);
+    WWASSERT(terrain != nullptr);
     if (Is_Interior_Mesh_Name(terrain->Peek_Model()->Get_Name())) {
-        WWASSERT(terrain->Get_Observer() == NULL);
+        WWASSERT(terrain->Get_Observer() == nullptr);
         InteriorMeshes.Add(terrain);
         terrain->Set_Observer(this);
     }
     else if (Is_Exterior_Mesh_Name(terrain->Peek_Model()->Get_Name())) {
-        WWASSERT(terrain->Get_Observer() == NULL);
+        WWASSERT(terrain->Get_Observer() == nullptr);
         ExteriorMeshes.Add(terrain);
         terrain->Set_Observer(this);
     }
@@ -931,15 +931,15 @@ void BuildingGameObj::Add_Mesh(StaticPhysClass* terrain)
 /////////////////////////////////////////////////////////////////////////////
 void BuildingGameObj::Remove_Mesh(StaticPhysClass* terrain)
 {
-    WWASSERT(terrain != NULL);
+    WWASSERT(terrain != nullptr);
     if (Is_Interior_Mesh_Name(terrain->Peek_Model()->Get_Name())) {
         WWASSERT(terrain->Get_Observer() == this);
-        terrain->Set_Observer(NULL);
+        terrain->Set_Observer(nullptr);
         InteriorMeshes.Remove(terrain);
     }
     else if (Is_Exterior_Mesh_Name(terrain->Peek_Model()->Get_Name())) {
         WWASSERT(terrain->Get_Observer() == this);
-        terrain->Set_Observer(NULL);
+        terrain->Set_Observer(nullptr);
         ExteriorMeshes.Remove(terrain);
     }
 }
@@ -951,9 +951,9 @@ void BuildingGameObj::Remove_Mesh(StaticPhysClass* terrain)
 /////////////////////////////////////////////////////////////////////////////
 void BuildingGameObj::Add_Aggregate(BuildingAggregateClass* aggregate)
 {
-    WWASSERT(aggregate != NULL);
+    WWASSERT(aggregate != nullptr);
     Aggregates.Add(aggregate);
-    WWASSERT(aggregate->Get_Observer() == NULL);
+    WWASSERT(aggregate->Get_Observer() == nullptr);
     aggregate->Set_Observer(this);
 }
 
@@ -964,9 +964,9 @@ void BuildingGameObj::Add_Aggregate(BuildingAggregateClass* aggregate)
 /////////////////////////////////////////////////////////////////////////////
 void BuildingGameObj::Remove_Aggregate(BuildingAggregateClass* aggregate)
 {
-    WWASSERT(aggregate != NULL);
+    WWASSERT(aggregate != nullptr);
     WWASSERT(aggregate->Get_Observer() == this);
-    aggregate->Set_Observer(NULL);
+    aggregate->Set_Observer(nullptr);
     Aggregates.Remove(aggregate);
 }
 
@@ -977,7 +977,7 @@ void BuildingGameObj::Remove_Aggregate(BuildingAggregateClass* aggregate)
 /////////////////////////////////////////////////////////////////////////////
 void BuildingGameObj::Add_Light(LightPhysClass* light)
 {
-    WWASSERT(light != NULL);
+    WWASSERT(light != nullptr);
     if (light->Get_Group_ID() == 0) {
         PowerOnLights.Add(light);
     }
@@ -1007,7 +1007,7 @@ void BuildingGameObj::Enable_Alternate_Materials(RefMultiListClass<StaticPhysCla
 /////////////////////////////////////////////////////////////////////////////
 void BuildingGameObj::Enable_Alternate_Materials(RenderObjClass* model, bool onoff)
 {
-    if (model == NULL) {
+    if (model == nullptr) {
         return;
     }
 
@@ -1052,7 +1052,7 @@ void BuildingGameObj::On_Damaged(void)
     //
     //	Notify the controller that the building has been damaged
     //
-    if (BaseController != NULL) {
+    if (BaseController != nullptr) {
         BaseController->On_Building_Damaged(this);
     }
 
@@ -1071,7 +1071,7 @@ void BuildingGameObj::On_Destroyed(void)
     //
     //	Notify the controller that the building has been destroyed
     //
-    if (BaseController != NULL) {
+    if (BaseController != nullptr) {
         BaseController->On_Building_Destroyed(this);
     }
 
@@ -1186,8 +1186,8 @@ void BuildingGameObj::Collect_Building_Components(void)
     for (staticobj_iterator.First(); !staticobj_iterator.Is_Done(); staticobj_iterator.Next()) {
 
         StaticPhysClass* obj = staticobj_iterator.Peek_Obj()->As_StaticPhysClass();
-        WWASSERT(obj != NULL);
-        WWASSERT(obj->Peek_Model() != NULL);
+        WWASSERT(obj != nullptr);
+        WWASSERT(obj->Peek_Model() != nullptr);
 
         const char* obj_name = obj->Peek_Model()->Get_Name();
 
@@ -1213,11 +1213,11 @@ void BuildingGameObj::Collect_Building_Components(void)
                     // Check for an existing building owner
                     CombatPhysObserverClass* old_observer
                         = (CombatPhysObserverClass*)obj->Get_Observer();
-                    BuildingGameObj* existing_building = NULL;
-                    if (old_observer != NULL) {
+                    BuildingGameObj* existing_building = nullptr;
+                    if (old_observer != nullptr) {
                         existing_building = old_observer->As_BuildingGameObj();
                     }
-                    if (existing_building != NULL) {
+                    if (existing_building != nullptr) {
                         // Another building already has this
                         float existing_dist2
                             = (existing_building->CollectionSphere.Center - obj_pos).Length2();
@@ -1258,11 +1258,11 @@ void BuildingGameObj::Collect_Building_Components(void)
                     // Check for an existing building owner
                     CombatPhysObserverClass* old_observer
                         = (CombatPhysObserverClass*)obj->Get_Observer();
-                    BuildingGameObj* existing_building = NULL;
-                    if (old_observer != NULL) {
+                    BuildingGameObj* existing_building = nullptr;
+                    if (old_observer != nullptr) {
                         existing_building = old_observer->As_BuildingGameObj();
                     }
-                    if (existing_building != NULL) {
+                    if (existing_building != nullptr) {
                         // Another building already has this
                         float existing_dist2
                             = (existing_building->CollectionSphere.Center - obj_pos).Length2();
@@ -1293,8 +1293,8 @@ void BuildingGameObj::Collect_Building_Components(void)
          staticlight_iterator.Next()) {
 
         LightPhysClass* light = staticlight_iterator.Peek_Obj()->As_LightPhysClass();
-        WWASSERT(light != NULL);
-        WWASSERT(light->Peek_Model() != NULL);
+        WWASSERT(light != nullptr);
+        WWASSERT(light->Peek_Model() != nullptr);
 
         //
         //	Does this light match the prefix that this building is expecting?
@@ -1442,7 +1442,7 @@ BuildingGameObj::Get_Description(StringClass& description)
     line.Format("POS:   %-5.2f, %-5.2f, %-5.2f\n", position.X, position.Y, position.Z);
     description += line;
 
-    if (Get_Defense_Object() != NULL) {
+    if (Get_Defense_Object() != nullptr) {
         line.Format("HLTH:  %-5.2f\n", Get_Defense_Object()->Get_Health());
         description += line;
     }
@@ -1468,7 +1468,7 @@ BuildingGameObj::Get_Description(StringClass& description)
 void BuildingGameObj::Find_Closest_Poly_For_Model(RenderObjClass* model, const Vector3& pos,
                                                   float* distance2)
 {
-    if (model == NULL) {
+    if (model == nullptr) {
         return;
     }
 
@@ -1484,7 +1484,7 @@ void BuildingGameObj::Find_Closest_Poly_For_Model(RenderObjClass* model, const V
         //
         //	Recurse into this sub-object
         //
-        if (sub_obj != NULL) {
+        if (sub_obj != nullptr) {
             Find_Closest_Poly_For_Model(sub_obj, pos, distance2);
         }
 
@@ -1496,7 +1496,7 @@ void BuildingGameObj::Find_Closest_Poly_For_Model(RenderObjClass* model, const V
     //
     if (model->Class_ID() == RenderObjClass::CLASSID_MESH) {
         MeshModelClass* mesh_model = ((MeshClass*)model)->Peek_Model();
-        if (mesh_model != NULL) {
+        if (mesh_model != nullptr) {
 
             const TriIndex* tri_array = mesh_model->Get_Polygon_Array();
             Vector3* vert_array = mesh_model->Get_Vertex_Array();

@@ -43,7 +43,7 @@ int DlgMpChangeLanNickname::DialogCount = 0;
 //-----------------------------------------------------------------------------
 bool DlgMpChangeLanNickname::DoDialog(void)
 {
-    DlgMpChangeLanNickname* dialog = NULL;
+    DlgMpChangeLanNickname* dialog = nullptr;
 
     if (DialogCount == 0) {
         dialog = new DlgMpChangeLanNickname;
@@ -54,7 +54,7 @@ bool DlgMpChangeLanNickname::DoDialog(void)
         dialog->Release_Ref();
     }
 
-    return (dialog != NULL);
+    return (dialog != nullptr);
 }
 
 //-----------------------------------------------------------------------------

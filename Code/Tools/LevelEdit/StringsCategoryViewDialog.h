@@ -42,7 +42,7 @@ class StringsCategoryViewDialogClass : public CDialog
 {
     // Construction
 public:
-    StringsCategoryViewDialogClass(CWnd* pParent = NULL); // standard constructor
+    StringsCategoryViewDialogClass(CWnd* pParent = nullptr); // standard constructor
 
     // Dialog Data
     //{{AFX_DATA(StringsCategoryViewDialogClass)

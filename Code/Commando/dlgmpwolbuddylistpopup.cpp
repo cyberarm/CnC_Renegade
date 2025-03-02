@@ -46,7 +46,7 @@
 //
 ////////////////////////////////////////////////////////////////
 MPWolBuddyListPopupClass::MPWolBuddyListPopupClass(void)
-    : Observer(NULL),
+    : Observer(nullptr),
       PopupDialogClass(IDD_MP_WOL_BUDDY_LIST_POPUP)
 {
     return;
@@ -63,7 +63,7 @@ void MPWolBuddyListPopupClass::On_Init_Dialog(void)
     //	Configure the list ctrl
     //
     ListCtrlClass* list_ctrl = (ListCtrlClass*)Get_Dlg_Item(IDC_BUDDY_LIST_CTRL);
-    if (list_ctrl != NULL) {
+    if (list_ctrl != nullptr) {
         list_ctrl->Add_Column(L"", 1.0F, Vector3(1, 1, 1));
 
         //
@@ -128,7 +128,7 @@ void MPWolBuddyListPopupClass::On_ListCtrl_DblClk(ListCtrlClass* list_ctrl, int 
 void MPWolBuddyListPopupClass::On_Select(void)
 {
     ListCtrlClass* list_ctrl = (ListCtrlClass*)Get_Dlg_Item(IDC_BUDDY_LIST_CTRL);
-    if (list_ctrl == NULL) {
+    if (list_ctrl == nullptr) {
         return;
     }
 
@@ -146,7 +146,7 @@ void MPWolBuddyListPopupClass::On_Select(void)
         //
         //	Notify the observer (if necessary)
         //
-        if (Observer != NULL) {
+        if (Observer != nullptr) {
             Observer->Set_Buddy_Name(SelectedUserName);
         }
 

@@ -20,8 +20,8 @@
 
 LoadBmp::LoadBmp()
 {
-    BitmapHandle_ = NULL;
-    PalHandle_ = NULL;
+    BitmapHandle_ = nullptr;
+    PalHandle_ = nullptr;
 }
 
 LoadBmp::~LoadBmp()
@@ -54,8 +54,8 @@ bit8 LoadBmp::init(char* filename, HWND hwnd)
     WindowHandle_ = hwnd;
 
     // Retrieve a handle identifying the file.
-    hBitmapFile = CreateFile(filename, GENERIC_READ, FILE_SHARE_READ, (LPSECURITY_ATTRIBUTES)NULL,
-                             OPEN_EXISTING, FILE_ATTRIBUTE_READONLY, (HANDLE)NULL);
+    hBitmapFile = CreateFile(filename, GENERIC_READ, FILE_SHARE_READ, (LPSECURITY_ATTRIBUTES)nullptr,
+                             OPEN_EXISTING, FILE_ATTRIBUTE_READONLY, (HANDLE)nullptr);
 
     // Exit early if the file failed to open
     if (hBitmapFile == INVALID_HANDLE_VALUE) {
@@ -63,10 +63,10 @@ bit8 LoadBmp::init(char* filename, HWND hwnd)
     }
 
     // Retrieve the BITMAPFILEHEADER structure.
-    ReadFile(hBitmapFile, &bitmapHeader, sizeof(BITMAPFILEHEADER), &dwRead, (LPOVERLAPPED)NULL);
+    ReadFile(hBitmapFile, &bitmapHeader, sizeof(BITMAPFILEHEADER), &dwRead, (LPOVERLAPPED)nullptr);
 
     // Retrieve the BITMAPFILEHEADER structure.
-    ReadFile(hBitmapFile, &bitmapInfoHeader, sizeof(BITMAPINFOHEADER), &dwRead, (LPOVERLAPPED)NULL);
+    ReadFile(hBitmapFile, &bitmapInfoHeader, sizeof(BITMAPINFOHEADER), &dwRead, (LPOVERLAPPED)nullptr);
 
     // Allocate memory for the BITMAPINFO structure.
     HGLOBAL infoHeaderMem = GlobalAlloc(
@@ -90,7 +90,7 @@ bit8 LoadBmp::init(char* filename, HWND hwnd)
     // Retrieve the color table.
     // 1 << bitmapInfoHeader.biBitCount == 2 ^ bitmapInfoHeader.biBitCount
     ReadFile(hBitmapFile, lpHeaderMem->bmiColors,
-             ((1 << bitmapInfoHeader.biBitCount) * sizeof(RGBQUAD)), &dwRead, (LPOVERLAPPED)NULL);
+             ((1 << bitmapInfoHeader.biBitCount) * sizeof(RGBQUAD)), &dwRead, (LPOVERLAPPED)nullptr);
 
     lpLogPalette = (LPLOGPALETTE) new char[(sizeof(LOGPALETTE) + sizeof(PALETTEENTRY) * 256)];
     lpLogPalette->palVersion = 0x300;
@@ -114,12 +114,12 @@ bit8 LoadBmp::init(char* filename, HWND hwnd)
 
     // Retrieve the bitmap data.
     ReadFile(hBitmapFile, lpvBits, (bitmapHeader.bfSize - bitmapHeader.bfOffBits), &dwRead,
-             (LPOVERLAPPED)NULL);
+             (LPOVERLAPPED)nullptr);
 
     // Create a bitmap from the data stored in the .BMP file.
     hdc = GetDC(hwnd);
     select = SelectPalette(hdc, PalHandle_, 0);
-    if (select == NULL) {
+    if (select == nullptr) {
         return (FALSE);
     }
     realize = RealizePalette(hdc);
@@ -130,7 +130,7 @@ bit8 LoadBmp::init(char* filename, HWND hwnd)
         = CreateDIBitmap(hdc, &bitmapInfoHeader, CBM_INIT, lpvBits, lpHeaderMem, DIB_RGB_COLORS);
     ReleaseDC(hwnd, hdc);
 
-    if (BitmapHandle_ == NULL) {
+    if (BitmapHandle_ == nullptr) {
         return (FALSE);
     }
 
@@ -139,7 +139,7 @@ bit8 LoadBmp::init(char* filename, HWND hwnd)
     GlobalUnlock(hmem2);
     CloseHandle(hBitmapFile);
 
-    if (BitmapHandle_ == NULL) {
+    if (BitmapHandle_ == nullptr) {
         return (FALSE);
     }
 
@@ -159,24 +159,24 @@ bit8 LoadBmp::drawBmp(void)
     HDC hdc;
     char string[128];
 
-    if (BitmapHandle_ == NULL) {
+    if (BitmapHandle_ == nullptr) {
         return (FALSE);
     }
 
-    InvalidateRect(WindowHandle_, NULL, FALSE); // keep windows from screwing up the
+    InvalidateRect(WindowHandle_, nullptr, FALSE); // keep windows from screwing up the
                                                 //  redrawing (as much).
     hdc = BeginPaint(WindowHandle_, &ps);
 
     // Do palette stuff
     HPALETTE select = SelectPalette(ps.hdc, PalHandle_, 0);
-    if (select == NULL) {
+    if (select == nullptr) {
         sprintf(string, "Select Pal Fail: %d", GetLastError());
-        MessageBox(NULL, string, "OK", MB_OK);
+        MessageBox(nullptr, string, "OK", MB_OK);
     }
     UINT realize = RealizePalette(ps.hdc);
     if (realize == GDI_ERROR) {
         sprintf(string, "Realize Pal Fail: %d", GetLastError());
-        MessageBox(NULL, string, "OK", MB_OK);
+        MessageBox(nullptr, string, "OK", MB_OK);
     }
 
     HDC hdcMem = CreateCompatibleDC(ps.hdc);

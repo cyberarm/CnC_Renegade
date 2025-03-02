@@ -66,7 +66,7 @@ static enum { COL_DATE = 0, COL_TIME, COL_NAME };
 ////////////////////////////////////////////////////////////////
 //	Static member initialization
 ////////////////////////////////////////////////////////////////
-LoadSPGameMenuClass* LoadSPGameMenuClass::_TheInstance = NULL;
+LoadSPGameMenuClass* LoadSPGameMenuClass::_TheInstance = nullptr;
 
 ////////////////////////////////////////////////////////////////
 //
@@ -79,7 +79,7 @@ void LoadSPGameMenuClass::On_Init_Dialog(void)
     //	Get a pointer to the list control
     //
     ListCtrlClass* list_ctrl = (ListCtrlClass*)Get_Dlg_Item(IDC_LOAD_GAME_LIST_CTRL);
-    if (list_ctrl != NULL) {
+    if (list_ctrl != nullptr) {
 
         //
         //	Configure the columns
@@ -136,14 +136,14 @@ int LoadSPGameMenuClass::Build_List(const char* search_string, int start_index)
 
     WIN32_FIND_DATA find_info = { 0 };
     BOOL keep_going = TRUE;
-    HANDLE file_find = NULL;
+    HANDLE file_find = nullptr;
 
     //
     //	Get the path to the directory we'll be searching
     //
     StringClass path_name;
     const char* search_dir = ::strrchr(search_string, '\\');
-    if (search_dir != NULL) {
+    if (search_dir != nullptr) {
 
         //
         //	Strip the search mask from the string
@@ -409,15 +409,15 @@ void LoadSPGameMenuClass::On_ListCtrl_Delete_Entry(ListCtrlClass* list_ctrl, int
         //
         //	Free the data
         //
-        if (file_time != NULL) {
+        if (file_time != nullptr) {
             delete file_time;
         }
 
-        if (path != NULL) {
+        if (path != nullptr) {
             delete path;
         }
 
-        if (filename != NULL) {
+        if (filename != nullptr) {
             delete filename;
         }
     }
@@ -505,7 +505,7 @@ void LoadSPGameMenuClass::Load_Game(void)
     //	Get a pointer to the list control
     //
     ListCtrlClass* list_ctrl = (ListCtrlClass*)Get_Dlg_Item(IDC_LOAD_GAME_LIST_CTRL);
-    if (list_ctrl == NULL) {
+    if (list_ctrl == nullptr) {
         return;
     }
 
@@ -598,7 +598,7 @@ void LoadSPGameMenuClass::Update_Button_State(void)
     //	Get a pointer to the list control
     //
     ListCtrlClass* list_ctrl = (ListCtrlClass*)Get_Dlg_Item(IDC_LOAD_GAME_LIST_CTRL);
-    if (list_ctrl == NULL) {
+    if (list_ctrl == nullptr) {
         return;
     }
 
@@ -611,7 +611,7 @@ void LoadSPGameMenuClass::Update_Button_State(void)
         //
         //	Get the filename associated with this entry
         //
-        if (list_ctrl->Get_Entry_Data(item_index, 0) != NULL) {
+        if (list_ctrl->Get_Entry_Data(item_index, 0) != nullptr) {
             StringClass filename
                 = ((StringClass*)list_ctrl->Get_Entry_Data(item_index, 1))->Peek_Buffer();
 
@@ -655,7 +655,7 @@ void LoadSPGameMenuClass::Delete_Game(bool prompt)
     //	Get a pointer to the list control
     //
     ListCtrlClass* list_ctrl = (ListCtrlClass*)Get_Dlg_Item(IDC_LOAD_GAME_LIST_CTRL);
-    if (list_ctrl == NULL) {
+    if (list_ctrl == nullptr) {
         return;
     }
 
@@ -668,7 +668,7 @@ void LoadSPGameMenuClass::Delete_Game(bool prompt)
         //
         //	Determine what filename this entry refers to
         //
-        if (list_ctrl->Get_Entry_Data(item_index, 0) != NULL) {
+        if (list_ctrl->Get_Entry_Data(item_index, 0) != nullptr) {
             StringClass filename
                 = ((StringClass*)list_ctrl->Get_Entry_Data(item_index, 1))->Peek_Buffer();
 
@@ -740,7 +740,7 @@ void LoadSPGameMenuClass::Display(void)
     //
     //	Create the dialog if necessary, otherwise simply bring it to the front
     //
-    if (_TheInstance == NULL) {
+    if (_TheInstance == nullptr) {
         START_DIALOG(LoadSPGameMenuClass);
     }
     else {

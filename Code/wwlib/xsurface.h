@@ -99,7 +99,7 @@ public:
     virtual void* Lock(Point2D = Point2D(0, 0)) const
     {
         LockCount++;
-        return (NULL);
+        return (nullptr);
     }
     virtual bool Unlock(void) const
     {

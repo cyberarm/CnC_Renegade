@@ -115,7 +115,7 @@ public:
     };
 
     // Functions.
-    bool Is_Open() { return (W3dFile != NULL); }
+    bool Is_Open() { return (W3dFile != nullptr); }
     bool Can_Insert_Solve() { return (CanInsertSolve && SolveCount < MAX_SOLVE_COUNT); }
 
     void Insert_Solve(const char* solvedirectoryname, const char* solvefilenamelist,

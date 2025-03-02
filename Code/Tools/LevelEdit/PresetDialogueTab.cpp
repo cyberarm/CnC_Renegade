@@ -55,8 +55,8 @@ enum
 //
 /////////////////////////////////////////////////////////////////////////////
 PresetDialogueTabClass::PresetDialogueTabClass(PresetClass* preset)
-    : m_Definition(NULL),
-      m_DialogueList(NULL),
+    : m_Definition(nullptr),
+      m_DialogueList(nullptr),
       m_IsReadOnly(false),
       DockableFormClass(PresetDialogueTabClass::IDD)
 {
@@ -67,9 +67,9 @@ PresetDialogueTabClass::PresetDialogueTabClass(PresetClass* preset)
     //
     //	Dig the soldier game object definition out from the preset
     //
-    if (preset != NULL) {
+    if (preset != nullptr) {
         DefinitionClass* definition = preset->Get_Definition();
-        if (definition != NULL && definition->Get_Class_ID() == CLASSID_GAME_OBJECT_DEF_SOLDIER) {
+        if (definition != nullptr && definition->Get_Class_ID() == CLASSID_GAME_OBJECT_DEF_SOLDIER) {
             m_Definition = (SoldierGameObjDef*)definition;
         }
     }
@@ -130,7 +130,7 @@ void PresetDialogueTabClass::Dump(CDumpContext& dc) const
 /////////////////////////////////////////////////////////////////////////////
 void PresetDialogueTabClass::HandleInitDialog(void)
 {
-    ASSERT(m_Definition != NULL);
+    ASSERT(m_Definition != nullptr);
 
     //
     //	Configure the list control
@@ -228,7 +228,7 @@ void PresetDialogueTabClass::OnDblclkDialogueList(NMHDR* pNMHDR, LRESULT* pResul
         dialog.Set_Dialogue(&m_DialogueList[index]);
         if (dialog.DoModal() == IDOK) {
             Update_Entry(index);
-            InvalidateRect(NULL, TRUE);
+            InvalidateRect(nullptr, TRUE);
             // UpdateWindow ();
         }
     }
@@ -254,7 +254,7 @@ void PresetDialogueTabClass::Update_Entry(int index)
         //
         int conversation_id = option_list[0]->Get_Conversation_ID();
         ConversationClass* conversation = ConversationMgrClass::Find_Conversation(conversation_id);
-        if (conversation != NULL) {
+        if (conversation != nullptr) {
 
             //
             //	Put this text into the appropriate column in the list control

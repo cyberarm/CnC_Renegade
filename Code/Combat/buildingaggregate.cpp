@@ -169,7 +169,7 @@ void BuildingAggregateClass::Set_Current_State(int new_state, bool force_update)
     if ((new_state != CurrentState) || (force_update == true)) {
         AnimCollisionManagerClass& anim_mgr = Get_Animation_Manager();
         const BuildingAggregateDefClass* def = Get_BuildingAggregateDef();
-        WWASSERT(def != NULL);
+        WWASSERT(def != nullptr);
 
         switch (def->AnimLogicMode) {
         case BuildingAggregateDefClass::ANIM_LOGIC_LOOP: {

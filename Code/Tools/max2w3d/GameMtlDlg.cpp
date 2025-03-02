@@ -77,12 +77,12 @@ GameMtlDlg::GameMtlDlg(HWND hwMtlEdit, IMtlParams* imp, GameMtl* m)
 {
     Ip = GetCOREInterface();
     HwndEdit = hwMtlEdit;
-    HwndPassCount = NULL;
-    HwndSurfaceType = NULL;
-    HwndDisplacementMap = NULL;
-    HpalOld = NULL;
+    HwndPassCount = nullptr;
+    HwndSurfaceType = nullptr;
+    HwndDisplacementMap = nullptr;
+    HpalOld = nullptr;
     for (int i = 0; i < MAX_PASSES; i++) {
-        PassDialog[i] = NULL;
+        PassDialog[i] = nullptr;
     }
 
     TheMtl = m;
@@ -123,23 +123,23 @@ GameMtlDlg::~GameMtlDlg()
 
     IParams->UnRegisterDlgWnd(HwndSurfaceType);
     IParams->DeleteRollupPage(HwndSurfaceType);
-    HwndSurfaceType = NULL;
+    HwndSurfaceType = nullptr;
 
 #ifdef WANT_DISPLACEMENT_MAPS
     IParams->UnRegisterDlgWnd(HwndDisplacementMap);
     IParams->DeleteRollupPage(HwndDisplacementMap);
-    HwndDisplacementMap = NULL;
+    HwndDisplacementMap = nullptr;
 #endif // #ifdef WANT_DISPLACEMENT_MAPS
 
     IParams->UnRegisterDlgWnd(HwndPassCount);
     IParams->DeleteRollupPage(HwndPassCount);
-    HwndPassCount = NULL;
+    HwndPassCount = nullptr;
     for (int i = 0; i < MAX_PASSES; i++) {
         if (PassDialog[i]) {
             delete PassDialog[i];
         }
     }
-    TheMtl->SetParamDlg(NULL);
+    TheMtl->SetParamDlg(nullptr);
 }
 
 /***********************************************************************************************
@@ -183,11 +183,11 @@ void GameMtlDlg::SetThing(ReferenceTarget* m)
     // destroy our old pass dialogs
     for (pass = 0; pass < TheMtl->Get_Pass_Count(); pass++) {
         delete PassDialog[pass];
-        PassDialog[pass] = NULL;
+        PassDialog[pass] = nullptr;
     }
 
     // install the new material
-    TheMtl->SetParamDlg(NULL);
+    TheMtl->SetParamDlg(nullptr);
     TheMtl = (GameMtl*)m;
     TheMtl->SetParamDlg(this);
 
@@ -298,13 +298,13 @@ void GameMtlDlg::ActivateDlg(BOOL onoff)
  *=============================================================================================*/
 void GameMtlDlg::Invalidate()
 {
-    InvalidateRect(HwndSurfaceType, NULL, 0);
+    InvalidateRect(HwndSurfaceType, nullptr, 0);
 
 #ifdef WANT_DISPLACEMENT_MAPS
-    InvalidateRect(HwndDisplacementMap, NULL, 0);
+    InvalidateRect(HwndDisplacementMap, nullptr, 0);
 #endif // WANT_DISPLACEMENT_MAPS
 
-    InvalidateRect(HwndPassCount, NULL, 0);
+    InvalidateRect(HwndPassCount, nullptr, 0);
 }
 
 BOOL GameMtlDlg::DisplacementMapProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
@@ -321,7 +321,7 @@ BOOL GameMtlDlg::DisplacementMapProc(HWND hDlg, UINT message, WPARAM wParam, LPA
                         TheMtl->Get_Displacement_Amount() * 100);
 
         Texmap* map = TheMtl->Get_Displacement_Map();
-        if (map != NULL) {
+        if (map != nullptr) {
             SetDlgItemText(hDlg, IDC_TEXTURE_BUTTON, map->GetFullName());
         }
     } break;
@@ -467,7 +467,7 @@ static BOOL CALLBACK DisplacementMapDlgProc(HWND hwndDlg, UINT msg, WPARAM wPara
         SetWindowLong(hwndDlg, GWL_USERDATA, (LPARAM)theDlg);
     }
     else {
-        if ((theDlg = (GameMtlDlg*)GetWindowLong(hwndDlg, GWL_USERDATA)) == NULL) {
+        if ((theDlg = (GameMtlDlg*)GetWindowLong(hwndDlg, GWL_USERDATA)) == nullptr) {
             return FALSE;
         }
     }
@@ -488,7 +488,7 @@ static BOOL CALLBACK SurfaceTypePanelDlgProc(HWND hwndDlg, UINT msg, WPARAM wPar
         SetWindowLong(hwndDlg, GWL_USERDATA, (LPARAM)theDlg);
     }
     else {
-        if ((theDlg = (GameMtlDlg*)GetWindowLong(hwndDlg, GWL_USERDATA)) == NULL) {
+        if ((theDlg = (GameMtlDlg*)GetWindowLong(hwndDlg, GWL_USERDATA)) == nullptr) {
             return FALSE;
         }
     }
@@ -511,7 +511,7 @@ static BOOL CALLBACK PassCountPanelDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam
         return FALSE;
     }
     }
-    if ((theDlg = (GameMtlDlg*)GetWindowLong(hwndDlg, GWL_USERDATA)) == NULL) {
+    if ((theDlg = (GameMtlDlg*)GetWindowLong(hwndDlg, GWL_USERDATA)) == nullptr) {
         return FALSE;
     }
     theDlg->IsActive = 1;
@@ -540,7 +540,7 @@ void GameMtlDlg::Set_Pass_Count_Dialog(void)
         if (TheMtl->Get_Pass_Count() != res) {
             for (int i = 0; i < TheMtl->Get_Pass_Count(); i++) {
                 delete PassDialog[i];
-                PassDialog[i] = NULL;
+                PassDialog[i] = nullptr;
             }
 
             TheMtl->Set_Pass_Count(res);
@@ -597,7 +597,7 @@ static BOOL CALLBACK PassCountDialogDlgProc(HWND hwndDlg, UINT msg, WPARAM wPara
  * HISTORY:                                                                                    *
  *   06/26/1997 GH  : Created.                                                                 *
  *=============================================================================================*/
-void GameMtlDlg::Build_Dialog(HWND hParent) // = NULL
+void GameMtlDlg::Build_Dialog(HWND hParent) // = nullptr
 {
     if ((TheMtl->Flags & (GAMEMTL_ROLLUP_FLAGS)) == 0) {
         TheMtl->Set_Flag(GAMEMTL_PASS0_ROLLUP_OPEN, TRUE);

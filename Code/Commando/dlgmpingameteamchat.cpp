@@ -50,7 +50,7 @@
 ////////////////////////////////////////////////////////////////
 void MPIngameTeamChatPopupClass::On_Init_Dialog(void)
 {
-    WWASSERT(The_Game() != NULL);
+    WWASSERT(The_Game() != nullptr);
 
     Set_Background_Darkened(false);
 

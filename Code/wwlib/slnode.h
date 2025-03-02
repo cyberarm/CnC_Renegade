@@ -51,8 +51,8 @@
 
 #include "mempool.h"
 
-#ifndef NULL
-#define NULL 0
+#ifndef nullptr
+#define nullptr 0
 #endif
 
 //	Forward references for friend	classes

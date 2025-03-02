@@ -81,7 +81,7 @@ bool DlgMsgBox::DoDialog(const WCHAR* title, const WCHAR* text, DlgMsgBox::Type 
         popup->Release_Ref();
     }
 
-    return (popup != NULL);
+    return (popup != nullptr);
 }
 
 /******************************************************************************

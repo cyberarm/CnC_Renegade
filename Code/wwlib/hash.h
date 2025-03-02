@@ -54,7 +54,7 @@ class HashableClass
 
 public:
     HashableClass(void)
-        : NextHash(NULL)
+        : NextHash(nullptr)
     {
     }
     virtual ~HashableClass(void) { }
@@ -108,7 +108,7 @@ public:
 
     void First(void);
     void Next(void);
-    bool Is_Done(void) { return CurrentEntry == NULL; }
+    bool Is_Done(void) { return CurrentEntry == nullptr; }
     HashableClass* Get_Current(void) { return CurrentEntry; }
 
 private:

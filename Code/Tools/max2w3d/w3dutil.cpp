@@ -129,7 +129,7 @@ private:
     void Init(void);
     void Destroy(void);
     void Disable_Controls(void);
-    void Update_Controls(INodeListClass* nodelist = NULL);
+    void Update_Controls(INodeListClass* nodelist = nullptr);
 
     HWND Hwnd;
     ISpinnerControl* RegionSpin;
@@ -220,7 +220,7 @@ public:
         bool GeometryNormal;
         bool GeometryAABox;
         bool GeometryOBBox;
-        bool GeometryNull;
+        bool Geometrynullptr;
         bool GeometryDazzle;
         bool GeometryAggregate;
 
@@ -238,7 +238,7 @@ public:
     /*
     ** Update the controls in any active settings panels
     */
-    static void update_settings_controls(INodeListClass* node_list = NULL);
+    static void update_settings_controls(INodeListClass* node_list = nullptr);
 
     /*
     ** Modify the state of all selected nodes
@@ -331,9 +331,9 @@ ClassDesc* Get_W3D_Utility_Desc(void)
 **********************************************************************************************/
 W3DUtilityClass::W3DUtilityClass(void)
 {
-    InterfacePtr = NULL;
-    SettingsPanelHWND = NULL;
-    ToolsPanelHWND = NULL;
+    InterfacePtr = nullptr;
+    SettingsPanelHWND = nullptr;
+    ToolsPanelHWND = nullptr;
     UpdateSpinnerValue = true;
 }
 
@@ -371,13 +371,13 @@ void W3DUtilityClass::BeginEditParams(Interface* ip, IUtil* iu)
 
 void W3DUtilityClass::EndEditParams(Interface* ip, IUtil* iu)
 {
-    InterfacePtr = NULL;
+    InterfacePtr = nullptr;
 
     ip->DeleteRollupPage(SettingsPanelHWND);
     ip->DeleteRollupPage(ToolsPanelHWND);
 
-    SettingsPanelHWND = NULL;
-    ToolsPanelHWND = NULL;
+    SettingsPanelHWND = nullptr;
+    ToolsPanelHWND = nullptr;
 }
 
 void W3DUtilityClass::SelectionSetChanged(Interface* ip, IUtil* iu)
@@ -421,7 +421,7 @@ void W3DUtilityClass::eval_node_states(INodeListClass* list, NodeStatesStruct* n
     ns->GeometryNormal = false;
     ns->GeometryAABox = false;
     ns->GeometryOBBox = false;
-    ns->GeometryNull = false;
+    ns->Geometrynullptr = false;
     ns->GeometryDazzle = false;
     ns->GeometryAggregate = false;
 
@@ -493,8 +493,8 @@ void W3DUtilityClass::eval_node_states(INodeListClass* list, NodeStatesStruct* n
         case W3DAppData2Struct::GEO_TYPE_OBBOX:
             ns->GeometryOBBox = true;
             break;
-        case W3DAppData2Struct::GEO_TYPE_NULL:
-            ns->GeometryNull = true;
+        case W3DAppData2Struct::GEO_TYPE_nullptr:
+            ns->Geometrynullptr = true;
             break;
         case W3DAppData2Struct::GEO_TYPE_DAZZLE:
             ns->GeometryDazzle = true;
@@ -762,7 +762,7 @@ void W3DUtilityClass::generate_lod_ext(INode* node)
     char* oldname = node->GetName();
     char* ext = strrchr(oldname, '.');
     int old_lod;
-    if ((ext != NULL) && (sscanf(ext, ".%d", &old_lod) == 1)) {
+    if ((ext != nullptr) && (sscanf(ext, ".%d", &old_lod) == 1)) {
         /*
         ** An existing LOD index. If it's different than the new
         ** one, replace it.
@@ -789,7 +789,7 @@ void W3DUtilityClass::generate_lod_ext(INode* node)
                     "extension to \"%s\" will pass this limit! Please shorten its name.",
                     W3D_NAME_LEN - 1, oldname);
             *ext = '.';
-            MessageBox(NULL, msg, "Error", MB_OK);
+            MessageBox(nullptr, msg, "Error", MB_OK);
         }
     }
     else {
@@ -807,7 +807,7 @@ void W3DUtilityClass::generate_lod_ext(INode* node)
                     "The maximum W3D object name is %d characters. Adding the LOD "
                     "extension to \"%s\" will pass this limit! Please shorten its name.",
                     W3D_NAME_LEN - 1, oldname);
-            MessageBox(NULL, msg, "Error", MB_OK);
+            MessageBox(nullptr, msg, "Error", MB_OK);
         }
     }
 }
@@ -823,28 +823,28 @@ void W3DUtilityClass::export_with_standard_materials()
     char* convertingmessage = "Converting materials...";
 
     // Count the no. of references to game materials.
-    MaterialReferenceMaker::ReferenceCount = convert_materials(GAME_REFERENCE_COUNT, NULL);
+    MaterialReferenceMaker::ReferenceCount = convert_materials(GAME_REFERENCE_COUNT, nullptr);
 
-    MaterialReferenceMaker* gamenodematerials = NULL;
+    MaterialReferenceMaker* gamenodematerials = nullptr;
 
     if (MaterialReferenceMaker::ReferenceCount > 0) {
         gamenodematerials = new MaterialReferenceMaker[MaterialReferenceMaker::ReferenceCount];
-        assert(gamenodematerials != NULL);
+        assert(gamenodematerials != nullptr);
     }
 
     InterfacePtr->PushPrompt(convertingmessage);
-    SetCursor(LoadCursor(NULL, IDC_WAIT));
+    SetCursor(LoadCursor(nullptr, IDC_WAIT));
     convert_materials(GAME_TO_STANDARD, gamenodematerials);
     InterfacePtr->PopPrompt();
     InterfacePtr->FileExport();
     UpdateWindow(InterfacePtr->GetMAXHWnd());
     InterfacePtr->PushPrompt(convertingmessage);
-    SetCursor(LoadCursor(NULL, IDC_WAIT));
+    SetCursor(LoadCursor(nullptr, IDC_WAIT));
     convert_materials(STANDARD_TO_GAME, gamenodematerials);
     InterfacePtr->PopPrompt();
 
     // Clean-up.
-    if (gamenodematerials != NULL) {
+    if (gamenodematerials != nullptr) {
         delete[] gamenodematerials;
     }
 }
@@ -855,17 +855,17 @@ int W3DUtilityClass::convert_materials(MaterialConversionEnum conversion,
     int gamenodematerialindex = 0;
 
     INode* rootnode = InterfacePtr->GetRootNode();
-    if (rootnode != NULL) {
+    if (rootnode != nullptr) {
 
         INodeListClass* meshlist = new INodeListClass(rootnode, 0);
-        if (meshlist != NULL) {
+        if (meshlist != nullptr) {
 
             for (unsigned nodeindex = 0; nodeindex < meshlist->Num_Nodes(); nodeindex++) {
 
                 Mtl* nodemtl = ((*meshlist)[nodeindex])->GetMtl();
 
-                // Is this a non-null material?
-                if (nodemtl != NULL) {
+                // Is this a non-nullptr material?
+                if (nodemtl != nullptr) {
 
                     // Is this not a multi-material?
                     if (!nodemtl->IsMultiMtl()) {
@@ -874,7 +874,7 @@ int W3DUtilityClass::convert_materials(MaterialConversionEnum conversion,
 
                         case GAME_REFERENCE_COUNT:
                             if (nodemtl->ClassID() == GameMaterialClassID) {
-                                assert(((GameMtl*)nodemtl)->Substitute_Material() == NULL);
+                                assert(((GameMtl*)nodemtl)->Substitute_Material() == nullptr);
                             }
                             break;
 
@@ -888,7 +888,7 @@ int W3DUtilityClass::convert_materials(MaterialConversionEnum conversion,
                                     FOREVER, gamenodematerialindex, nodemtl);
 
                                 // Does this material already have an equivalent standard material?
-                                if (((GameMtl*)nodemtl)->Substitute_Material() == NULL) {
+                                if (((GameMtl*)nodemtl)->Substitute_Material() == nullptr) {
                                     ((GameMtl*)nodemtl)
                                         ->Set_Substitute_Material(
                                             new_standard_material((GameMtl*)nodemtl));
@@ -897,7 +897,7 @@ int W3DUtilityClass::convert_materials(MaterialConversionEnum conversion,
                                     ->SetMtl(((GameMtl*)nodemtl)->Substitute_Material());
                             }
                             else {
-                                gamenodematerials[gamenodematerialindex].MaterialPtr = NULL;
+                                gamenodematerials[gamenodematerialindex].MaterialPtr = nullptr;
                             }
                             break;
 
@@ -905,11 +905,11 @@ int W3DUtilityClass::convert_materials(MaterialConversionEnum conversion,
 
                             // Change materials to game materials if they were previously game
                             // materials before being converted to standard materials.
-                            if (gamenodematerials[gamenodematerialindex].MaterialPtr != NULL) {
+                            if (gamenodematerials[gamenodematerialindex].MaterialPtr != nullptr) {
                                 ((*meshlist)[nodeindex])
                                     ->SetMtl(gamenodematerials[gamenodematerialindex].MaterialPtr);
                                 ((GameMtl*)gamenodematerials[gamenodematerialindex].MaterialPtr)
-                                    ->Set_Substitute_Material(NULL);
+                                    ->Set_Substitute_Material(nullptr);
                             }
                             break;
                         }
@@ -923,15 +923,15 @@ int W3DUtilityClass::convert_materials(MaterialConversionEnum conversion,
 
                             Mtl* submaterial = nodemtl->GetSubMtl(materialindex);
 
-                            // Is this a non-null submaterial?
-                            if (submaterial != NULL) {
+                            // Is this a non-nullptr submaterial?
+                            if (submaterial != nullptr) {
 
                                 switch (conversion) {
 
                                 case GAME_REFERENCE_COUNT:
                                     if (submaterial->ClassID() == GameMaterialClassID) {
                                         assert(((GameMtl*)submaterial)->Substitute_Material()
-                                               == NULL);
+                                               == nullptr);
                                     }
                                     break;
 
@@ -947,7 +947,7 @@ int W3DUtilityClass::convert_materials(MaterialConversionEnum conversion,
                                         // Does this material already have an equivalent standard
                                         // material?
                                         if (((GameMtl*)submaterial)->Substitute_Material()
-                                            == NULL) {
+                                            == nullptr) {
                                             ((GameMtl*)submaterial)
                                                 ->Set_Substitute_Material(
                                                     new_standard_material((GameMtl*)submaterial));
@@ -957,7 +957,7 @@ int W3DUtilityClass::convert_materials(MaterialConversionEnum conversion,
                                             ((GameMtl*)submaterial)->Substitute_Material());
                                     }
                                     else {
-                                        gamenodematerials[gamenodematerialindex].MaterialPtr = NULL;
+                                        gamenodematerials[gamenodematerialindex].MaterialPtr = nullptr;
                                     }
                                     break;
 
@@ -966,13 +966,13 @@ int W3DUtilityClass::convert_materials(MaterialConversionEnum conversion,
                                     // Change materials to game materials if they were previously
                                     // game materials before being converted to standard materials.
                                     if (gamenodematerials[gamenodematerialindex].MaterialPtr
-                                        != NULL) {
+                                        != nullptr) {
                                         nodemtl->SetSubMtl(
                                             materialindex,
                                             gamenodematerials[gamenodematerialindex].MaterialPtr);
                                         ((GameMtl*)gamenodematerials[gamenodematerialindex]
                                              .MaterialPtr)
-                                            ->Set_Substitute_Material(NULL);
+                                            ->Set_Substitute_Material(nullptr);
                                     }
                                     break;
                                 }
@@ -1018,7 +1018,7 @@ StdMat* W3DUtilityClass::new_standard_material(GameMtl* gamemtl)
 
 void W3DUtilityClass::Select_Hierarchy(void)
 {
-    InterfacePtr->SelectNode(NULL);
+    InterfacePtr->SelectNode(nullptr);
     INode* root = InterfacePtr->GetRootNode();
     descend_tree(root, SELECT_HIER);
     InterfacePtr->ForceCompleteRedraw();
@@ -1027,7 +1027,7 @@ void W3DUtilityClass::Select_Hierarchy(void)
 //============================================================================================
 void W3DUtilityClass::CSRemoveNonUniformScale(void)
 {
-    InterfacePtr->SelectNode(NULL);
+    InterfacePtr->SelectNode(nullptr);
     INode* root = InterfacePtr->GetRootNode();
     descend_tree(root, CS_REMOVE_NUSCALE);
     InterfacePtr->ForceCompleteRedraw();
@@ -1036,7 +1036,7 @@ void W3DUtilityClass::CSRemoveNonUniformScale(void)
 //============================================================================================
 void W3DUtilityClass::Select_Geometry(void)
 {
-    InterfacePtr->SelectNode(NULL);
+    InterfacePtr->SelectNode(nullptr);
     INode* root = InterfacePtr->GetRootNode();
     descend_tree(root, SELECT_GEOM);
     InterfacePtr->ForceCompleteRedraw();
@@ -1044,7 +1044,7 @@ void W3DUtilityClass::Select_Geometry(void)
 
 void W3DUtilityClass::Select_Alpha(void)
 {
-    InterfacePtr->SelectNode(NULL);
+    InterfacePtr->SelectNode(nullptr);
     INode* root = InterfacePtr->GetRootNode();
     descend_tree(root, SELECT_ALPHA);
     InterfacePtr->ForceCompleteRedraw();
@@ -1052,7 +1052,7 @@ void W3DUtilityClass::Select_Alpha(void)
 
 void W3DUtilityClass::Select_Physical(void)
 {
-    InterfacePtr->SelectNode(NULL);
+    InterfacePtr->SelectNode(nullptr);
     INode* root = InterfacePtr->GetRootNode();
     descend_tree(root, SELECT_PHYSICAL);
     InterfacePtr->ForceCompleteRedraw();
@@ -1060,7 +1060,7 @@ void W3DUtilityClass::Select_Physical(void)
 
 void W3DUtilityClass::Select_Projectile(void)
 {
-    InterfacePtr->SelectNode(NULL);
+    InterfacePtr->SelectNode(nullptr);
     INode* root = InterfacePtr->GetRootNode();
     descend_tree(root, SELECT_PROJECTILE);
     InterfacePtr->ForceCompleteRedraw();
@@ -1068,7 +1068,7 @@ void W3DUtilityClass::Select_Projectile(void)
 
 void W3DUtilityClass::Select_Vis(void)
 {
-    InterfacePtr->SelectNode(NULL);
+    InterfacePtr->SelectNode(nullptr);
     INode* root = InterfacePtr->GetRootNode();
     descend_tree(root, SELECT_VIS);
     InterfacePtr->ForceCompleteRedraw();
@@ -1213,7 +1213,7 @@ void W3DUtilityClass::select_vis_node(INode* node)
 
 bool W3DUtilityClass::is_alpha_material(Mtl* nodemtl)
 {
-    if (nodemtl == NULL) {
+    if (nodemtl == nullptr) {
         return false;
     }
 
@@ -1244,13 +1244,13 @@ bool W3DUtilityClass::is_alpha_mesh(INode* node, Mtl* nodemtl)
     Object* obj = node->EvalWorldState(0).obj;
     TriObject* tri = (TriObject*)obj->ConvertToType(0, triObjectClassID);
 
-    if (tri != NULL) {
+    if (tri != nullptr) {
         Mesh& mesh = tri->mesh;
 
         int face_index;
         int mat_index;
 
-        if (nodemtl == NULL) {
+        if (nodemtl == nullptr) {
 
             return false;
         }
@@ -1339,7 +1339,7 @@ void W3DUtilityClass::generate_material_names_for_node(INode* node)
 
 void W3DUtilityClass::generate_material_names(Mtl* mtl)
 {
-    if (mtl == NULL) {
+    if (mtl == nullptr) {
         return;
     }
 
@@ -1362,11 +1362,11 @@ W3DAppData0Struct* W3DUtilityClass::get_app_data_0(INode* node)
     /*
     ** Try to get our AppData which has the export flags
     */
-    W3DAppData0Struct* wdata = NULL;
+    W3DAppData0Struct* wdata = nullptr;
     AppDataChunk* appdata = node->GetAppDataChunk(W3DUtilityClassID, UTILITY_CLASS_ID, 0);
 
     /*
-    ** If there wasn't one, return NULL since this app data chunk is obsolete now.
+    ** If there wasn't one, return nullptr since this app data chunk is obsolete now.
     ** If there was one, get the data from it
     */
     if (appdata) {
@@ -1379,7 +1379,7 @@ W3DAppData0Struct* W3DUtilityClass::get_app_data_0(INode* node)
 W3DAppData1Struct* W3DUtilityClass::get_app_data_1(INode* node)
 {
     // Try to get our AppData which has the damage region
-    W3DAppData1Struct* wdata = NULL;
+    W3DAppData1Struct* wdata = nullptr;
     AppDataChunk* appdata = node->GetAppDataChunk(W3DUtilityClassID, UTILITY_CLASS_ID, 1);
 
     // If there wasn't one, add one.  If there was one, get the data from it
@@ -1524,7 +1524,7 @@ static BOOL CALLBACK _w3d_utility_tools_dlg_proc(HWND hWnd, UINT msg, WPARAM wPa
 ** the window is destroyed.
 **
 **********************************************************************************************/
-SettingsFormClass* SettingsFormClass::ActiveList = NULL;
+SettingsFormClass* SettingsFormClass::ActiveList = nullptr;
 
 BOOL CALLBACK _settings_form_dlg_proc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
@@ -1549,7 +1549,7 @@ static void _settings_form_selection_changed_callback(void* param, NotifyInfo* i
 
 SettingsFormClass::SettingsFormClass(HWND hwnd)
     : Hwnd(hwnd),
-      RegionSpin(NULL)
+      RegionSpin(nullptr)
 {
     /*
     ** Link into the active list
@@ -1583,7 +1583,7 @@ SettingsFormClass::~SettingsFormClass(void)
         SettingsFormClass* prev = ActiveList;
         SettingsFormClass* cur = ActiveList->Next;
 
-        while ((cur != this) && (cur != NULL)) {
+        while ((cur != this) && (cur != nullptr)) {
             cur = cur->Next;
             prev = prev->Next;
         }
@@ -1594,12 +1594,12 @@ SettingsFormClass::~SettingsFormClass(void)
         }
     }
 
-    Hwnd = NULL;
+    Hwnd = nullptr;
 }
 
 void SettingsFormClass::Update_All_Instances(void)
 {
-    if (ActiveList == NULL) {
+    if (ActiveList == nullptr) {
         return;
     }
 
@@ -1613,7 +1613,7 @@ void SettingsFormClass::Update_All_Instances(void)
     ** Update all settings forms
     */
     SettingsFormClass* form = ActiveList;
-    while (form != NULL) {
+    while (form != nullptr) {
         form->Update_Controls(&node_list);
         form = form->Next;
     }
@@ -1624,11 +1624,11 @@ void SettingsFormClass::Init(void)
     // Initialize the contents of the dazzle combo
     // Reset the dazzle combo
     HWND dazzle_combo = GetDlgItem(Hwnd, IDC_DAZZLE_COMBO);
-    assert(dazzle_combo != NULL);
+    assert(dazzle_combo != nullptr);
     SendMessage(dazzle_combo, CB_RESETCONTENT, 0, 0);
 
     // Load the section of Dazzle.INI that defines all of the types.  The windows function
-    // that I'm using here, reads in a NULL-terminated string for each entry in the section.  Each
+    // that I'm using here, reads in a nullptr-terminated string for each entry in the section.  Each
     // string is of the form 'key=value'.  Based on my testing, it appears that windows removes any
     // white space before or after the equal sign as well.
     char dllpath[_MAX_PATH];
@@ -1646,10 +1646,10 @@ void SettingsFormClass::Init(void)
     // Now we need to handle each string in the section buffer; skipping the 'key=' and adding
     // the dazzle type name into the combo box.
     char* entry = dazzle_types_buffer;
-    if (entry != NULL) {
-        while (*entry != NULL) {
+    if (entry != nullptr) {
+        while (*entry != nullptr) {
             entry = strchr(entry, '=');
-            if (entry != NULL) {
+            if (entry != nullptr) {
                 entry++;
                 ::SendMessage(dazzle_combo, CB_ADDSTRING, 0, (LPARAM)entry);
                 entry += strlen(entry) + 1;
@@ -1674,7 +1674,7 @@ void SettingsFormClass::Init(void)
 void SettingsFormClass::Destroy(void)
 {
     ReleaseISpinner(RegionSpin);
-    RegionSpin = NULL;
+    RegionSpin = nullptr;
 }
 
 bool SettingsFormClass::Dialog_Proc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
@@ -1794,9 +1794,9 @@ bool SettingsFormClass::Dialog_Proc(HWND hWnd, UINT message, WPARAM wParam, LPAR
                 &node_list, W3DAppData2Struct::GEO_TYPE_CAMERA_ORIENTED);
             break;
 
-        case IDC_GEOMETRY_NULL:
+        case IDC_GEOMETRY_nullptr:
             W3DUtilityClass::set_geometry_type_in_all_selected(&node_list,
-                                                               W3DAppData2Struct::GEO_TYPE_NULL);
+                                                               W3DAppData2Struct::GEO_TYPE_nullptr);
             break;
 
         case IDC_GEOMETRY_AABOX:
@@ -1827,7 +1827,7 @@ bool SettingsFormClass::Dialog_Proc(HWND hWnd, UINT message, WPARAM wParam, LPAR
             if (HIWORD(wParam) == CBN_SELCHANGE) {
 
                 HWND dazzle_combo = GetDlgItem(hWnd, IDC_DAZZLE_COMBO);
-                if (dazzle_combo != NULL) {
+                if (dazzle_combo != nullptr) {
 
                     char dazzle_type[128];
                     int cursel = ::SendMessage(dazzle_combo, CB_GETCURSEL, 0, 0);
@@ -1896,7 +1896,7 @@ void SettingsFormClass::Update_Controls(INodeListClass* node_list)
     ** "Multiple" if more than one, "None" if no selected objs...
     */
     ICustEdit* edit_ctrl = GetICustEdit(GetDlgItem(Hwnd, IDC_OBJ_NAME));
-    if (edit_ctrl != NULL) {
+    if (edit_ctrl != nullptr) {
         if (node_list->Num_Nodes() == 0) {
             edit_ctrl->Enable(FALSE);
             edit_ctrl->SetText(Get_String(IDS_NO_OBJECT));
@@ -1935,7 +1935,7 @@ void SettingsFormClass::Update_Controls(INodeListClass* node_list)
         EnableWindow(GetDlgItem(Hwnd, IDC_GEOMETRY_CAMERA_ALIGNED), TRUE);
         EnableWindow(GetDlgItem(Hwnd, IDC_GEOMETRY_CAMERA_ORIENTED), TRUE);
         EnableWindow(GetDlgItem(Hwnd, IDC_GEOMETRY_NORMAL), TRUE);
-        EnableWindow(GetDlgItem(Hwnd, IDC_GEOMETRY_NULL), TRUE);
+        EnableWindow(GetDlgItem(Hwnd, IDC_GEOMETRY_nullptr), TRUE);
         EnableWindow(GetDlgItem(Hwnd, IDC_GEOMETRY_AABOX), TRUE);
         EnableWindow(GetDlgItem(Hwnd, IDC_GEOMETRY_OBBOX), TRUE);
         EnableWindow(GetDlgItem(Hwnd, IDC_GEOMETRY_AGGREGATE), TRUE);
@@ -1959,7 +1959,7 @@ void SettingsFormClass::Update_Controls(INodeListClass* node_list)
         EnableWindow(GetDlgItem(Hwnd, IDC_GEOMETRY_CAMERA_ALIGNED), FALSE);
         EnableWindow(GetDlgItem(Hwnd, IDC_GEOMETRY_CAMERA_ORIENTED), FALSE);
         EnableWindow(GetDlgItem(Hwnd, IDC_GEOMETRY_NORMAL), FALSE);
-        EnableWindow(GetDlgItem(Hwnd, IDC_GEOMETRY_NULL), FALSE);
+        EnableWindow(GetDlgItem(Hwnd, IDC_GEOMETRY_nullptr), FALSE);
         EnableWindow(GetDlgItem(Hwnd, IDC_GEOMETRY_AABOX), FALSE);
         EnableWindow(GetDlgItem(Hwnd, IDC_GEOMETRY_OBBOX), FALSE);
         EnableWindow(GetDlgItem(Hwnd, IDC_GEOMETRY_AGGREGATE), FALSE);
@@ -2050,7 +2050,7 @@ void SettingsFormClass::Update_Controls(INodeListClass* node_list)
     CheckDlgButton(Hwnd, IDC_GEOMETRY_CAMERA_ORIENTED,
                    (ns.GeometryCameraOriented ? BST_CHECKED : BST_UNCHECKED));
     CheckDlgButton(Hwnd, IDC_GEOMETRY_NORMAL, (ns.GeometryNormal ? BST_CHECKED : BST_UNCHECKED));
-    CheckDlgButton(Hwnd, IDC_GEOMETRY_NULL, (ns.GeometryNull ? BST_CHECKED : BST_UNCHECKED));
+    CheckDlgButton(Hwnd, IDC_GEOMETRY_nullptr, (ns.Geometrynullptr ? BST_CHECKED : BST_UNCHECKED));
     CheckDlgButton(Hwnd, IDC_GEOMETRY_AABOX, (ns.GeometryAABox ? BST_CHECKED : BST_UNCHECKED));
     CheckDlgButton(Hwnd, IDC_GEOMETRY_OBBOX, (ns.GeometryOBBox ? BST_CHECKED : BST_UNCHECKED));
     CheckDlgButton(Hwnd, IDC_GEOMETRY_AGGREGATE,
@@ -2072,7 +2072,7 @@ void SettingsFormClass::Disable_Controls(void)
     EnableWindow(GetDlgItem(Hwnd, IDC_GEOMETRY_CAMERA_ORIENTED), FALSE);
     EnableWindow(GetDlgItem(Hwnd, IDC_GEOMETRY_AABOX), FALSE);
     EnableWindow(GetDlgItem(Hwnd, IDC_GEOMETRY_OBBOX), FALSE);
-    EnableWindow(GetDlgItem(Hwnd, IDC_GEOMETRY_NULL), FALSE);
+    EnableWindow(GetDlgItem(Hwnd, IDC_GEOMETRY_nullptr), FALSE);
     EnableWindow(GetDlgItem(Hwnd, IDC_GEOMETRY_AGGREGATE), FALSE);
     EnableWindow(GetDlgItem(Hwnd, IDC_GEOMETRY_DAZZLE), FALSE);
 
@@ -2100,7 +2100,7 @@ void SettingsFormClass::Disable_Controls(void)
     CheckDlgButton(Hwnd, IDC_GEOMETRY_NORMAL, BST_UNCHECKED);
     CheckDlgButton(Hwnd, IDC_GEOMETRY_AABOX, BST_UNCHECKED);
     CheckDlgButton(Hwnd, IDC_GEOMETRY_OBBOX, BST_UNCHECKED);
-    CheckDlgButton(Hwnd, IDC_GEOMETRY_NULL, BST_UNCHECKED);
+    CheckDlgButton(Hwnd, IDC_GEOMETRY_nullptr, BST_UNCHECKED);
     CheckDlgButton(Hwnd, IDC_GEOMETRY_AGGREGATE, BST_UNCHECKED);
     CheckDlgButton(Hwnd, IDC_GEOMETRY_DAZZLE, BST_UNCHECKED);
 

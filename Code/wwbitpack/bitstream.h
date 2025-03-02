@@ -79,14 +79,14 @@ public:
     UINT Get_Compression_Pc() const;
 
     //
-    // For data which may include NULL's.
+    // For data which may include nullptr's.
     // Data will not be compressed.
     //
     void Add_Raw_Data(LPCSTR data, USHORT data_size);
     void Get_Raw_Data(char* buffer, USHORT buffer_size, USHORT data_size);
 
     //
-    // For data terminated with NULL.
+    // For data terminated with nullptr.
     // Data will not be compressed.
     // You may permit or disallow empty strings to be passed.
     //
@@ -94,7 +94,7 @@ public:
     void Get_Terminated_String(char* buffer, USHORT buffer_size, bool permit_empty = false);
 
     //
-    // For data terminated with NULL.
+    // For data terminated with nullptr.
     // Data will not be compressed.
     // You may permit or disallow empty strings to be passed.
     //

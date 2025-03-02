@@ -56,10 +56,10 @@ DlgConfigAudioTabClass::DlgConfigAudioTabClass(void)
       InitialIsStereo(true),
       InitialHertz(44100),
       InitialBits(16),
-      SoundVolumeTestSound(NULL),
-      MusicVolumeTestSound(NULL),
-      DialogVolumeTestSound(NULL),
-      CinematicVolumeTestSound(NULL),
+      SoundVolumeTestSound(nullptr),
+      MusicVolumeTestSound(nullptr),
+      DialogVolumeTestSound(nullptr),
+      CinematicVolumeTestSound(nullptr),
       SoundVolumeTestSoundStartTime(0),
       MusicVolumeTestSoundStartTime(0),
       DialogVolumeTestSoundStartTime(0),
@@ -68,26 +68,26 @@ DlgConfigAudioTabClass::DlgConfigAudioTabClass(void)
 {
     SoundVolumeTestSound
         = WWAudioClass::Get_Instance()->Create_Sound_Effect("laser_rifle_fire_01.wav");
-    if (SoundVolumeTestSound != NULL) {
+    if (SoundVolumeTestSound != nullptr) {
         SoundVolumeTestSound->Set_Loop_Count(0);
         SoundVolumeTestSound->Set_Type(AudibleSoundClass::TYPE_SOUND_EFFECT);
     }
 
     MusicVolumeTestSound
         = WWAudioClass::Get_Instance()->Create_Sound_Effect("sakura battle theme.mp3");
-    if (MusicVolumeTestSound != NULL) {
+    if (MusicVolumeTestSound != nullptr) {
         MusicVolumeTestSound->Set_Type(AudibleSoundClass::TYPE_MUSIC);
     }
 
     DialogVolumeTestSound
         = WWAudioClass::Get_Instance()->Create_Sound_Effect("m00s1_s1s1gbmg_snd.wav");
-    if (DialogVolumeTestSound != NULL) {
+    if (DialogVolumeTestSound != nullptr) {
         DialogVolumeTestSound->Set_Loop_Count(0);
         DialogVolumeTestSound->Set_Type(AudibleSoundClass::TYPE_DIALOG);
     }
 
     CinematicVolumeTestSound = WWAudioClass::Get_Instance()->Create_Sound_Effect("00-n000e.wav");
-    if (CinematicVolumeTestSound != NULL) {
+    if (CinematicVolumeTestSound != nullptr) {
         CinematicVolumeTestSound->Set_Loop_Count(0);
         CinematicVolumeTestSound->Set_Type(AudibleSoundClass::TYPE_CINEMATIC);
     }
@@ -102,22 +102,22 @@ DlgConfigAudioTabClass::DlgConfigAudioTabClass(void)
 ////////////////////////////////////////////////////////////////
 DlgConfigAudioTabClass::~DlgConfigAudioTabClass(void)
 {
-    if (SoundVolumeTestSound != NULL) {
+    if (SoundVolumeTestSound != nullptr) {
         SoundVolumeTestSound->Stop();
         REF_PTR_RELEASE(SoundVolumeTestSound);
     }
 
-    if (MusicVolumeTestSound != NULL) {
+    if (MusicVolumeTestSound != nullptr) {
         MusicVolumeTestSound->Stop();
         REF_PTR_RELEASE(MusicVolumeTestSound);
     }
 
-    if (DialogVolumeTestSound != NULL) {
+    if (DialogVolumeTestSound != nullptr) {
         DialogVolumeTestSound->Stop();
         REF_PTR_RELEASE(DialogVolumeTestSound);
     }
 
-    if (CinematicVolumeTestSound != NULL) {
+    if (CinematicVolumeTestSound != nullptr) {
         CinematicVolumeTestSound->Stop();
         REF_PTR_RELEASE(CinematicVolumeTestSound);
     }
@@ -156,7 +156,7 @@ void DlgConfigAudioTabClass::On_Init_Dialog(void)
     //	Setup the sound volume controls
     //
     Check_Dlg_Button(IDC_SOUND_EFFECTS_CHECK, sound_on);
-    if (snd_vol_slider != NULL) {
+    if (snd_vol_slider != nullptr) {
         snd_vol_slider->Set_Range(0, 100);
         snd_vol_slider->Set_Pos(static_cast<int>(sound_vol * 100), false);
     }
@@ -165,7 +165,7 @@ void DlgConfigAudioTabClass::On_Init_Dialog(void)
     //	Setup the music volume controls
     //
     Check_Dlg_Button(IDC_MUSIC_CHECK, music_on);
-    if (mus_vol_slider != NULL) {
+    if (mus_vol_slider != nullptr) {
         mus_vol_slider->Set_Range(0, 100);
         mus_vol_slider->Set_Pos(static_cast<int>(music_vol * 100), false);
     }
@@ -174,7 +174,7 @@ void DlgConfigAudioTabClass::On_Init_Dialog(void)
     //	Setup the dialog volume controls
     //
     Check_Dlg_Button(IDC_DIALOG_CHECK, dialog_on);
-    if (dia_vol_slider != NULL) {
+    if (dia_vol_slider != nullptr) {
         dia_vol_slider->Set_Range(0, 100);
         dia_vol_slider->Set_Pos(static_cast<int>(dialog_vol * 100), false);
     }
@@ -183,7 +183,7 @@ void DlgConfigAudioTabClass::On_Init_Dialog(void)
     //	Setup the dialog volume controls
     //
     Check_Dlg_Button(IDC_CINEMATIC_CHECK, cinematic_on);
-    if (cin_vol_slider != NULL) {
+    if (cin_vol_slider != nullptr) {
         cin_vol_slider->Set_Range(0, 100);
         cin_vol_slider->Set_Pos(static_cast<int>(cinematic_vol * 100), false);
     }
@@ -247,7 +247,7 @@ void DlgConfigAudioTabClass::Update_Slider_Enable_State(void)
 void DlgConfigAudioTabClass::Configure_Rate_Combobox(void)
 {
     ComboBoxCtrlClass* combo_box = (ComboBoxCtrlClass*)Get_Dlg_Item(IDC_RATE_COMBO);
-    if (combo_box == NULL) {
+    if (combo_box == nullptr) {
         return;
     }
 
@@ -285,7 +285,7 @@ void DlgConfigAudioTabClass::Configure_Rate_Combobox(void)
 void DlgConfigAudioTabClass::Configure_Speaker_Combobox(void)
 {
     ComboBoxCtrlClass* combo_box = (ComboBoxCtrlClass*)Get_Dlg_Item(IDC_SPEAKER_SETUP_COMBO);
-    if (combo_box == NULL) {
+    if (combo_box == nullptr) {
         return;
     }
 
@@ -331,7 +331,7 @@ void DlgConfigAudioTabClass::Configure_Speaker_Combobox(void)
 void DlgConfigAudioTabClass::Configure_Quality_Combobox(void)
 {
     ComboBoxCtrlClass* combo_box = (ComboBoxCtrlClass*)Get_Dlg_Item(IDC_QUALITY_COMBO);
-    if (combo_box == NULL) {
+    if (combo_box == nullptr) {
         return;
     }
 
@@ -392,7 +392,7 @@ void DlgConfigAudioTabClass::On_Command(int ctrl_id, int message_id, DWORD param
 void DlgConfigAudioTabClass::Configure_Driver_List(void)
 {
     ListCtrlClass* list_ctrl = (ListCtrlClass*)Get_Dlg_Item(IDC_DRIVER_LIST);
-    if (list_ctrl == NULL) {
+    if (list_ctrl == nullptr) {
         return;
     }
 
@@ -416,7 +416,7 @@ void DlgConfigAudioTabClass::Configure_Driver_List(void)
         //
         //	Get information about this sound driver
         //
-        WWAudioClass::DRIVER_INFO_STRUCT* driver_info = NULL;
+        WWAudioClass::DRIVER_INFO_STRUCT* driver_info = nullptr;
         if (WWAudioClass::Get_Instance()->Get_3D_Device(index, &driver_info)) {
 
             WideStringClass wide_driver_name;
@@ -595,7 +595,7 @@ void DlgConfigAudioTabClass::On_SliderCtrl_Pos_Changed(SliderCtrlClass* slider_c
         //
         //	Start the sound effect sound playing
         //
-        if (SoundVolumeTestSound != NULL
+        if (SoundVolumeTestSound != nullptr
             && (SoundVolumeTestSound->Is_Playing() == false
                 || ((DialogMgrClass::Get_Time() - SoundVolumeTestSoundStartTime) > 150))) {
             SoundVolumeTestSound->Stop();
@@ -619,7 +619,7 @@ void DlgConfigAudioTabClass::On_SliderCtrl_Pos_Changed(SliderCtrlClass* slider_c
         //
         //	Start the music sound playing
         //
-        if (MusicVolumeTestSound != NULL && MusicVolumeTestSound->Is_Playing() == false) {
+        if (MusicVolumeTestSound != nullptr && MusicVolumeTestSound->Is_Playing() == false) {
             MusicVolumeTestSound->Play();
         }
 
@@ -639,7 +639,7 @@ void DlgConfigAudioTabClass::On_SliderCtrl_Pos_Changed(SliderCtrlClass* slider_c
         //
         //	Start the dialog effect sound playing
         //
-        if (DialogVolumeTestSound != NULL) {
+        if (DialogVolumeTestSound != nullptr) {
             DialogVolumeTestSound->Set_Loop_Count(0);
             DialogVolumeTestSound->Play();
 
@@ -660,7 +660,7 @@ void DlgConfigAudioTabClass::On_SliderCtrl_Pos_Changed(SliderCtrlClass* slider_c
         //
         //	Start the dialog effect sound playing
         //
-        if (CinematicVolumeTestSound != NULL) {
+        if (CinematicVolumeTestSound != nullptr) {
             CinematicVolumeTestSound->Set_Loop_Count(0);
             CinematicVolumeTestSound->Play();
 
@@ -686,28 +686,28 @@ void DlgConfigAudioTabClass::On_Frame_Update(void)
     //
     //	Stop the sound volume test sound if necessary
     //
-    if (SoundVolumeTestSound != NULL && (curr_time - SoundVolumeTestSoundStartTime) > 500) {
+    if (SoundVolumeTestSound != nullptr && (curr_time - SoundVolumeTestSoundStartTime) > 500) {
         SoundVolumeTestSound->Set_Loop_Count(1);
     }
 
     //
     //	Stop the sound volume test sound if necessary
     //
-    if (MusicVolumeTestSound != NULL && (curr_time - MusicVolumeTestSoundStartTime) > 2000) {
+    if (MusicVolumeTestSound != nullptr && (curr_time - MusicVolumeTestSoundStartTime) > 2000) {
         MusicVolumeTestSound->Stop();
     }
 
     //
     //	Stop the dialog test sound if necessary
     //
-    if (DialogVolumeTestSound != NULL && (curr_time - DialogVolumeTestSoundStartTime) > 2000) {
+    if (DialogVolumeTestSound != nullptr && (curr_time - DialogVolumeTestSoundStartTime) > 2000) {
         DialogVolumeTestSound->Set_Loop_Count(1);
     }
 
     //
     //	Stop the cinematic test sound if necessary
     //
-    if (CinematicVolumeTestSound != NULL
+    if (CinematicVolumeTestSound != nullptr
         && (curr_time - CinematicVolumeTestSoundStartTime) > 2000) {
         CinematicVolumeTestSound->Set_Loop_Count(1);
     }

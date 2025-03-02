@@ -115,7 +115,7 @@ namespace WWOnline
         WWDEBUG_SAY(("WOL: Instantiating UserData '%S'\n", (const WCHAR*)mUserName));
         memcpy(&mData, &user, sizeof(mData));
         mKickTimer = 0;
-        mData.next = NULL;
+        mData.next = nullptr;
     }
 
     /******************************************************************************
@@ -348,7 +348,7 @@ namespace WWOnline
             return mSquad->GetLadder();
         }
 
-        return NULL;
+        return nullptr;
     }
 
     /******************************************************************************
@@ -443,7 +443,7 @@ namespace WWOnline
      ******************************************************************************/
 
     NativeWOLUserList::NativeWOLUserList(const UserList& users)
-        : mNativeList(NULL)
+        : mNativeList(nullptr)
     {
         int count = users.size();
 
@@ -456,7 +456,7 @@ namespace WWOnline
                     memcpy(&mNativeList[index], wolUser, sizeof(WOL::User));
 
                     if (index == (count - 1)) {
-                        mNativeList[index].next = NULL;
+                        mNativeList[index].next = nullptr;
                     }
                     else {
                         mNativeList[index].next = &mNativeList[index + 1];

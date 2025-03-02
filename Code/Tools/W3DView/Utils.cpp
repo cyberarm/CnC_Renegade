@@ -43,7 +43,7 @@
 CW3DViewDoc* GetCurrentDocument(void)
 {
     // Assume failure
-    CW3DViewDoc* pCDoc = NULL;
+    CW3DViewDoc* pCDoc = nullptr;
 
     // Get a pointer to the main window
     CMainFrame* pCMainWnd = (CMainFrame*)::AfxGetMainWnd();
@@ -87,7 +87,7 @@ void CenterDialogAroundTreeView(HWND hDlg)
                 ::GetWindowRect(hDlg, &dialogRect);
 
                 // Move the dialog so its centered in the data tree view
-                ::SetWindowPos(hDlg, NULL,
+                ::SetWindowPos(hDlg, nullptr,
                                rect.left + ((rect.right - rect.left) >> 1)
                                    - ((dialogRect.right - dialogRect.left) >> 1),
                                rect.top + ((rect.bottom - rect.top) >> 1)
@@ -136,7 +136,7 @@ void Paint_Gradient(HWND hWnd, BYTE baseRed, BYTE baseGreen, BYTE baseBlue)
     ::ReleaseDC(hWnd, hDC);
 
     // Validate the contents of the window so the control won't paint itself
-    ::ValidateRect(hWnd, NULL);
+    ::ValidateRect(hWnd, nullptr);
     return;
 }
 
@@ -185,7 +185,7 @@ void Initialize_Spinner(CSpinButtonCtrl& ctrl, float pos, float min, float max)
     //	Set the buddy's text accordingly
     //
     CWnd* buddy = ctrl.GetBuddy();
-    if (buddy != NULL) {
+    if (buddy != nullptr) {
         ::SetWindowFloat(*buddy, pos);
     }
 
@@ -203,7 +203,7 @@ void Update_Spinner_Buddy(CSpinButtonCtrl& ctrl, int delta)
     //
     if ((::GetWindowLong(ctrl, GWL_STYLE) & UDS_SETBUDDYINT) == 0) {
         CWnd* buddy = ctrl.GetBuddy();
-        if (buddy != NULL) {
+        if (buddy != nullptr) {
 
             // Get the current value, increment it, and put it back into the control
             float value = ::GetWindowFloat(*buddy);
@@ -274,7 +274,7 @@ void Enable_Dialog_Controls(HWND dlg, bool onoff)
     // Loop over all sub-windows enable/disabling everything except for
     // the static text controls
     //
-    for (HWND child = ::GetWindow(dlg, GW_CHILD); child != NULL;
+    for (HWND child = ::GetWindow(dlg, GW_CHILD); child != nullptr;
          child = ::GetWindow(child, GW_HWNDNEXT)) {
         char buf[64];
         ::GetClassName(child, buf, sizeof(buf));
@@ -356,7 +356,7 @@ CString Get_Filename_From_Path(LPCTSTR path)
 {
     // Find the last occurance of the directory deliminator
     LPCTSTR filename = ::strrchr(path, '\\');
-    if (filename != NULL) {
+    if (filename != nullptr) {
         // Increment past the directory deliminator
         filename++;
     }
@@ -380,7 +380,7 @@ CString Strip_Filename_From_Path(LPCTSTR path)
 
     // Find the last occurance of the directory deliminator
     LPTSTR filename = ::strrchr(temp_path, '\\');
-    if (filename != NULL) {
+    if (filename != nullptr) {
         // Strip off the filename
         filename[0] = 0;
     }
@@ -411,14 +411,14 @@ Create_DIB_Section(UCHAR** pbits, int width, int height)
     bitmap_info.biClrImportant = 0;
 
     // Get a temporary screen DC
-    HDC hscreen_dc = ::GetDC(NULL);
+    HDC hscreen_dc = ::GetDC(nullptr);
 
     // Create a bitmap that we can access the bits directly of
     HBITMAP hbitmap = ::CreateDIBSection(hscreen_dc, (const BITMAPINFO*)&bitmap_info,
-                                         DIB_RGB_COLORS, (void**)pbits, NULL, 0L);
+                                         DIB_RGB_COLORS, (void**)pbits, nullptr, 0L);
 
     // Release our temporary screen DC
-    ::ReleaseDC(NULL, hscreen_dc);
+    ::ReleaseDC(nullptr, hscreen_dc);
     return hbitmap;
 }
 
@@ -429,9 +429,9 @@ Create_DIB_Section(UCHAR** pbits, int width, int height)
 HBITMAP
 Make_Bitmap_From_Texture(TextureClass& texture, int width, int height)
 {
-    HBITMAP hbitmap = NULL;
+    HBITMAP hbitmap = nullptr;
 #ifdef WW3D_DX8
-    srColorSurfaceIFace* surface = NULL;
+    srColorSurfaceIFace* surface = nullptr;
 
     // What type of texture is this?
     switch (texture.getClassID()) {
@@ -447,7 +447,7 @@ Make_Bitmap_From_Texture(TextureClass& texture, int width, int height)
     case ID_TIME_ANIM_TEXTURE_INSTANCE_CLASS:
     case ID_RESIZEABLE_TEXTURE_INSTANCE_CLASS: {
         VariableTextureClass* psource = ((ResizeableTextureInstanceClass&)texture).Peek_Source();
-        if (psource != NULL) {
+        if (psource != nullptr) {
 
             // Hopefully get the image data
             srTextureIFace::MultiRequest info = { 0 };
@@ -469,18 +469,18 @@ Make_Bitmap_From_Texture(TextureClass& texture, int width, int height)
         break;
     }
 
-    if (surface != NULL) {
+    if (surface != nullptr) {
 
         int src_width = surface->getWidth();
         int src_height = surface->getHeight();
 
         // Create a DIB section for fast 'blitting'
-        UCHAR* pbits = NULL;
+        UCHAR* pbits = nullptr;
         hbitmap = ::Create_DIB_Section(&pbits, width, height);
 
-        ASSERT(hbitmap != NULL);
-        ASSERT(pbits != NULL);
-        if (pbits != NULL) {
+        ASSERT(hbitmap != nullptr);
+        ASSERT(pbits != nullptr);
+        if (pbits != nullptr) {
 
             float src_bits_per_pixel = (float)src_width / (float)width;
             float src_bits_per_scanline = (float)src_height / (float)height;
@@ -542,14 +542,14 @@ CString Get_Texture_Name(TextureClass& texture)
     case ID_TIME_ANIM_TEXTURE_INSTANCE_CLASS:
     case ID_RESIZEABLE_TEXTURE_INSTANCE_CLASS: {
         VariableTextureClass* psource = ((ResizeableTextureInstanceClass&)texture).Peek_Source();
-        if (psource != NULL) {
+        if (psource != nullptr) {
             name = psource->getName();
         }
     } break;
 
     case ID_INDIRECT_TEXTURE_CLASS: {
         srTextureIFace* preal_texture = ((IndirectTextureClass&)texture).Get_Texture();
-        if (preal_texture != NULL) {
+        if (preal_texture != nullptr) {
             name = ::Get_Texture_Name(*preal_texture);
             SR_RELEASE(preal_texture);
         }
@@ -577,7 +577,7 @@ void Build_Emitter_List(RenderObjClass& render_obj, DynamicVectorClass<CString>&
     // Loop through all this render obj's sub-obj's
     for (int index = 0; index < render_obj.Get_Num_Sub_Objects(); index++) {
         RenderObjClass* psub_obj = render_obj.Get_Sub_Object(index);
-        if (psub_obj != NULL) {
+        if (psub_obj != nullptr) {
 
             // Is this sub-obj an emitter?
             if (psub_obj->Class_ID() == RenderObjClass::CLASSID_PARTICLEEMITTER) {
@@ -616,7 +616,7 @@ bool Is_Aggregate(const char* asset_name)
 
     // Check to see if this object is an aggregate
     RenderObjClass* prender_obj = WW3DAssetManager::Get_Instance()->Create_Render_Obj(asset_name);
-    if ((prender_obj != NULL) && (prender_obj->Get_Base_Model_Name() != NULL)) {
+    if ((prender_obj != nullptr) && (prender_obj->Get_Base_Model_Name() != nullptr)) {
         retval = true;
     }
 
@@ -634,13 +634,13 @@ bool Is_Aggregate(const char* asset_name)
 void Rename_Aggregate_Prototype(const char* old_name, const char* new_name)
 {
     // Params valid?
-    if ((old_name != NULL) && (new_name != NULL) && (::lstrcmpi(old_name, new_name) != 0)) {
+    if ((old_name != nullptr) && (new_name != nullptr) && (::lstrcmpi(old_name, new_name) != 0)) {
 
         // Get the prototype from the asset manager
-        AggregatePrototypeClass* proto = NULL;
+        AggregatePrototypeClass* proto = nullptr;
         proto
             = (AggregatePrototypeClass*)WW3DAssetManager::Get_Instance()->Find_Prototype(old_name);
-        if (proto != NULL) {
+        if (proto != nullptr) {
 
             // Copy the definition from the prototype and remove the prototype
             AggregateDefClass* pdefinition = proto->Get_Definition();
@@ -668,7 +668,7 @@ bool Is_Real_LOD(const char* asset_name)
 
     // Check to see if this object is an aggregate
     RenderObjClass* prender_obj = WW3DAssetManager::Get_Instance()->Create_Render_Obj(asset_name);
-    if ((prender_obj != NULL) && (prender_obj->Class_ID() == RenderObjClass::CLASSID_HLOD)
+    if ((prender_obj != nullptr) && (prender_obj->Class_ID() == RenderObjClass::CLASSID_HLOD)
         && (((HLodClass*)prender_obj)->Get_LOD_Count() > 1)) {
         retval = true;
     }
@@ -691,7 +691,7 @@ bool Get_File_Time(LPCTSTR path, LPFILETIME pcreation_time, LPFILETIME paccess_t
     bool retval = false;
 
     // Attempt to open the file
-    HANDLE hfile = ::CreateFile(path, 0, 0, NULL, OPEN_EXISTING, 0L, NULL);
+    HANDLE hfile = ::CreateFile(path, 0, 0, nullptr, OPEN_EXISTING, 0L, nullptr);
 
     ASSERT(hfile != INVALID_HANDLE_VALUE);
     if (hfile != INVALID_HANDLE_VALUE) {
@@ -734,14 +734,14 @@ bool Are_Glide_Drivers_Acceptable(void)
 
         // Get the creation time of the glide2x driver
         FILETIME file_time = { 0 };
-        if (::Get_File_Time(glide2x, NULL, NULL, &file_time)) {
+        if (::Get_File_Time(glide2x, nullptr, nullptr, &file_time)) {
             CTime time_obj(file_time);
             retval = ((time_obj.GetYear() == 1998) && (time_obj.GetMonth() == 12))
                 || (time_obj.GetYear() > 1998);
         }
 
         // Get the creation time of the glide3x driver
-        if (::Get_File_Time(glide3x, NULL, NULL, &file_time)) {
+        if (::Get_File_Time(glide3x, nullptr, nullptr, &file_time)) {
             CTime time_obj(file_time);
             retval = ((time_obj.GetYear() == 1998) && (time_obj.GetMonth() == 12))
                 || (time_obj.GetYear() > 1998);
@@ -758,7 +758,7 @@ bool Are_Glide_Drivers_Acceptable(void)
 //
 TextureClass* Load_RC_Texture(LPCTSTR resource_name)
 {
-    TextureClass* texture = NULL;
+    TextureClass* texture = nullptr;
 
     //
     //	Load the cursor file image from this binaries resources
@@ -774,10 +774,10 @@ TextureClass* Load_RC_Texture(LPCTSTR resource_name)
     srBinIMStream stream(res_data, data_size);
     srSurfaceIOManager::SurfaceImporter* importer
         = srCore.getSurfaceIOManager()->getImporter(".tga");
-    if (importer != NULL) {
+    if (importer != nullptr) {
         srColorSurfaceIFace* surface
             = importer->importSurface(stream, srSurfaceIOManager::ImportInfo());
-        if (surface != NULL) {
+        if (surface != nullptr) {
             texture = new srTextureMap(surface);
         }
     }
@@ -830,7 +830,7 @@ void Find_Missing_Textures(DynamicVectorClass<CString>& list, LPCTSTR name, int 
 ////////////////////////////////////////////////////////////////////////////
 bool Copy_File(LPCTSTR existing_filename, LPCTSTR new_filename, bool force_copy)
 {
-    SANITY_CHECK((existing_filename != NULL && new_filename != NULL))
+    SANITY_CHECK((existing_filename != nullptr && new_filename != nullptr))
     {
         return false;
     }
@@ -869,13 +869,13 @@ bool Copy_File(LPCTSTR existing_filename, LPCTSTR new_filename, bool force_copy)
 ////////////////////////////////////////////////////////////////////////////
 CGraphicView* Get_Graphic_View(void)
 {
-    CGraphicView* view = NULL;
+    CGraphicView* view = nullptr;
 
     //
     //	Get the view from the current document
     //
     CW3DViewDoc* doc = GetCurrentDocument();
-    if (doc != NULL) {
+    if (doc != nullptr) {
         view = doc->GetGraphicView();
     }
 

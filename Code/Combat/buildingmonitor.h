@@ -61,7 +61,7 @@ public:
     //	Public constructors/destructors
     ////////////////////////////////////////////////////////////////////
     BuildingMonitorClass(void)
-        : Building(NULL)
+        : Building(nullptr)
     {
     }
     ~BuildingMonitorClass(void) { }

@@ -78,9 +78,9 @@ enum
 //
 //////////////////////////////////////////////////////////////////////////////
 WaypathNodeClass::WaypathNodeClass(PresetClass* preset)
-    : m_PhysObj(NULL),
+    : m_PhysObj(nullptr),
       m_Flags(FLAG_HUMAN | FLAG_GROUND_VEHICLE),
-      m_RuntimeWaypath(NULL),
+      m_RuntimeWaypath(nullptr),
       m_HasLoadCompleted(true),
       NodeClass(preset)
 {
@@ -93,11 +93,11 @@ WaypathNodeClass::WaypathNodeClass(PresetClass* preset)
 //
 //////////////////////////////////////////////////////////////////////////////
 WaypathNodeClass::WaypathNodeClass(const WaypathNodeClass& src)
-    : m_PhysObj(NULL),
+    : m_PhysObj(nullptr),
       m_Flags(FLAG_HUMAN | FLAG_GROUND_VEHICLE),
-      m_RuntimeWaypath(NULL),
+      m_RuntimeWaypath(nullptr),
       m_HasLoadCompleted(true),
-      NodeClass(NULL)
+      NodeClass(nullptr)
 {
     *this = src;
     return;
@@ -244,7 +244,7 @@ bool WaypathNodeClass::Load(ChunkLoadClass& cload)
             //
             for (int index = 0; index < node_list.Count(); index++) {
                 WaypointNodeClass* node = node_list[index]->As_WaypointNodeClass();
-                if (node != NULL) {
+                if (node != nullptr) {
                     m_PointList.Add(node);
                 }
             }
@@ -278,7 +278,7 @@ bool WaypathNodeClass::Load_Variables(ChunkLoadClass& cload)
             //	Read the old waypoint ptr from the chunk and add it to our
             // list.  We will remap it later.
             //
-            WaypointNodeClass* waypoint = NULL;
+            WaypointNodeClass* waypoint = nullptr;
             cload.Read(&waypoint, sizeof(waypoint));
             m_OldStylePointList.Add(waypoint);
         } break;
@@ -288,7 +288,7 @@ bool WaypathNodeClass::Load_Variables(ChunkLoadClass& cload)
             //	Read the old pointer from the chunk and submit it
             // to the remapping system.
             //
-            WaypathNodeClass* old_ptr = NULL;
+            WaypathNodeClass* old_ptr = nullptr;
             cload.Read(&old_ptr, sizeof(old_ptr));
             SaveLoadSystemClass::Register_Pointer(old_ptr, this);
         } break;
@@ -326,7 +326,7 @@ void WaypathNodeClass::On_Post_Load(void)
         DynamicVectorClass<WaypointNodeClass*> new_point_list;
         for (int index = 0; index < m_OldStylePointList.Count(); index++) {
             WaypointNodeClass* waypoint = m_OldStylePointList[index];
-            if (waypoint != NULL) {
+            if (waypoint != nullptr) {
                 new_point_list.Add(waypoint);
                 SAFE_ADD_REF(waypoint);
 
@@ -366,7 +366,7 @@ void WaypathNodeClass::Set_Transform(const Matrix3D& tm)
 {
 
     SegmentedLineClass* line = Peek_Line();
-    if (line != NULL) {
+    if (line != nullptr) {
 
         //
         //	Transform all the points in the path
@@ -441,7 +441,7 @@ void WaypathNodeClass::Pre_Export(void)
     // saved during the export.
     //
     Add_Ref();
-    if (m_PhysObj != NULL && m_IsInScene) {
+    if (m_PhysObj != nullptr && m_IsInScene) {
         ::Get_Scene_Editor()->Remove_Object(m_PhysObj);
     }
 
@@ -460,7 +460,7 @@ void WaypathNodeClass::Pre_Export(void)
     for (int index = 0; index < m_PointList.Count(); index++) {
         Vector3 curr_pos(0, 0, 0);
         WaypointNodeClass* waypoint = m_PointList[index];
-        if (waypoint != NULL) {
+        if (waypoint != nullptr) {
 
             //
             //	Calculate the position of this waypoint
@@ -530,7 +530,7 @@ void WaypathNodeClass::Post_Export(void)
     //
     //	Put ourselves back into the system
     //
-    if (m_PhysObj != NULL && m_IsInScene) {
+    if (m_PhysObj != nullptr && m_IsInScene) {
         ::Get_Scene_Editor()->Add_Dynamic_Object(m_PhysObj);
     }
     Release_Ref();
@@ -538,7 +538,7 @@ void WaypathNodeClass::Post_Export(void)
     //
     //	Remove the waypath object we just exported from the system
     //
-    if (m_RuntimeWaypath != NULL) {
+    if (m_RuntimeWaypath != nullptr) {
         PathfindClass::Get_Instance()->Remove_Waypath(m_RuntimeWaypath);
         MEMBER_RELEASE(m_RuntimeWaypath);
     }
@@ -558,8 +558,8 @@ void WaypathNodeClass::Free_Waypoints(void)
     for (int index = 0; index < m_PointList.Count(); index++) {
         WaypointNodeClass* waypoint = m_PointList[index];
 
-        if (waypoint != NULL) {
-            waypoint->Set_Waypath(NULL);
+        if (waypoint != nullptr) {
+            waypoint->Set_Waypath(nullptr);
             waypoint->Remove_From_Scene();
         }
 
@@ -584,7 +584,7 @@ void WaypathNodeClass::Add_To_Scene(void)
     //
     for (int index = 0; index < m_PointList.Count(); index++) {
         WaypointNodeClass* waypoint = m_PointList[index];
-        if (waypoint != NULL) {
+        if (waypoint != nullptr) {
             waypoint->Add_To_Scene();
         }
     }
@@ -601,14 +601,14 @@ void WaypathNodeClass::Add_To_Scene(void)
 void WaypathNodeClass::Remove_From_Scene(void)
 {
     SceneEditorClass* scene = ::Get_Scene_Editor();
-    if (scene != NULL && m_IsInScene) {
+    if (scene != nullptr && m_IsInScene) {
 
         //
         //	Remove all the waypoints from the scene
         //
         for (int index = 0; index < m_PointList.Count(); index++) {
             WaypointNodeClass* waypoint = m_PointList[index];
-            if (waypoint != NULL) {
+            if (waypoint != nullptr) {
                 waypoint->Remove_From_Scene();
             }
         }
@@ -634,7 +634,7 @@ void WaypathNodeClass::Delete_Point(int index)
     //	Remove the point from this path
     //
     WaypointNodeClass* waypoint = m_PointList[index];
-    waypoint->Set_Waypath(NULL);
+    waypoint->Set_Waypath(nullptr);
     waypoint->Remove_From_Scene();
     // NodeMgrClass::Remove_Node (waypoint);
     MEMBER_RELEASE(waypoint);
@@ -735,7 +735,7 @@ int WaypathNodeClass::Add_Point(const Vector3& point)
 void WaypathNodeClass::On_Point_Moved(int index, const Vector3& new_pos)
 {
     SegmentedLineClass* line = Peek_Line();
-    if (line != NULL) {
+    if (line != nullptr) {
 
         //
         //	Convert the position from world-space to object-space
@@ -767,7 +767,7 @@ void WaypathNodeClass::On_Point_Moved(int index, const Vector3& new_pos)
 void WaypathNodeClass::Update_Line(void)
 {
     SegmentedLineClass* line = Peek_Line();
-    if (line != NULL) {
+    if (line != nullptr) {
 
         //
         //	Allocate a new array of points for the line render object
@@ -864,8 +864,8 @@ WaypointNodeClass* WaypathNodeClass::Create_Waypoint(const Vector3& point)
 //////////////////////////////////////////////////////////////////////////////
 SegmentedLineClass* WaypathNodeClass::Peek_Line(void)
 {
-    SegmentedLineClass* line = NULL;
-    if (m_PhysObj != NULL) {
+    SegmentedLineClass* line = nullptr;
+    if (m_PhysObj != nullptr) {
         line = (SegmentedLineClass*)m_PhysObj->Peek_Model();
     }
 
@@ -920,7 +920,7 @@ void WaypathNodeClass::Hide(bool hide)
     //
     for (int index = 0; index < m_PointList.Count(); index++) {
         WaypointNodeClass* waypoint = m_PointList[index];
-        if (waypoint != NULL) {
+        if (waypoint != nullptr) {
             waypoint->Hide(hide);
         }
     }

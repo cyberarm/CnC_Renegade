@@ -73,7 +73,7 @@ public:
         : m_DestSector1((uint16)-1),
           m_DestSector2((uint16)-1),
           m_HeapLocation(0),
-          m_ClosedListPtr(NULL),
+          m_ClosedListPtr(nullptr),
           m_ID(0)
     {
     }
@@ -83,8 +83,8 @@ public:
     ////////////////////////////////////////////////////////////////////
     //	RTTI
     ////////////////////////////////////////////////////////////////////
-    virtual PathfindActionPortalClass* As_PathfindActionPortalClass(void) { return NULL; }
-    virtual PathfindWaypathPortalClass* As_PathfindWaypathPortalClass(void) { return NULL; }
+    virtual PathfindActionPortalClass* As_PathfindActionPortalClass(void) { return nullptr; }
+    virtual PathfindWaypathPortalClass* As_PathfindWaypathPortalClass(void) { return nullptr; }
 
     ////////////////////////////////////////////////////////////////////
     //	Public methods
@@ -255,9 +255,9 @@ public:
     ////////////////////////////////////////////////////////////////////
     PathfindActionPortalClass(void)
         : m_Destination(0, 0, 0),
-          m_EntranceSector(NULL),
-          m_ExitPortal(NULL),
-          m_EnterPortal(NULL),
+          m_EntranceSector(nullptr),
+          m_ExitPortal(nullptr),
+          m_EnterPortal(nullptr),
           m_MechanismID(0),
           m_ActionID(PathClass::ACTION_NONE)
     {

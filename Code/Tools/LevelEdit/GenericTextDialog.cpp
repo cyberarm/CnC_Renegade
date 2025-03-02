@@ -34,7 +34,7 @@ static char THIS_FILE[] = __FILE__;
 //	GenericTextDialogClass
 //
 /////////////////////////////////////////////////////////////////////////////
-GenericTextDialogClass::GenericTextDialogClass(CWnd* pParent /*=NULL*/)
+GenericTextDialogClass::GenericTextDialogClass(CWnd* pParent /*=nullptr*/)
     : m_IconID(0),
       m_Title("Information"),
       CDialog(GenericTextDialogClass::IDD, pParent)
@@ -84,9 +84,9 @@ BOOL GenericTextDialogClass::OnInitDialog(void)
     //
     //	Load the icon
     //
-    HICON icon = NULL;
+    HICON icon = nullptr;
     if (m_IconID == 0) {
-        icon = ::LoadIcon(NULL, IDI_INFORMATION);
+        icon = ::LoadIcon(nullptr, IDI_INFORMATION);
     }
     else {
         icon = ::LoadIcon(::AfxGetResourceHandle(), MAKEINTRESOURCE(m_IconID));
@@ -95,7 +95,7 @@ BOOL GenericTextDialogClass::OnInitDialog(void)
     //
     //	Set the icon
     //
-    if (icon != NULL) {
+    if (icon != nullptr) {
         SendDlgItemMessage(IDC_GENERIC_ICON, STM_SETIMAGE, (WPARAM)IMAGE_ICON, (LPARAM)icon);
     }
 

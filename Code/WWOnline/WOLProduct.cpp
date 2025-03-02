@@ -140,7 +140,7 @@ namespace WWOnline
             DWORD type;
             DWORD sku = 0;
             DWORD sizeOfBuffer = sizeof(sku);
-            result = RegQueryValueEx(rKey, "SKU", NULL, &type, (unsigned char*)&sku, &sizeOfBuffer);
+            result = RegQueryValueEx(rKey, "SKU", nullptr, &type, (unsigned char*)&sku, &sizeOfBuffer);
 
             mProductSKU = sku;
             mLanguageCode = (sku & 0xFF);
@@ -149,7 +149,7 @@ namespace WWOnline
             // Get version
             DWORD version = 0;
             sizeOfBuffer = sizeof(version);
-            result = RegQueryValueEx(rKey, "Version", NULL, &type, (unsigned char*)&version,
+            result = RegQueryValueEx(rKey, "Version", nullptr, &type, (unsigned char*)&version,
                                      &sizeOfBuffer);
 
             mProductVersion = version;

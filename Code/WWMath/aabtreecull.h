@@ -329,8 +329,8 @@ class AABTreeLinkClass : public CullLinkClass, public AutoPoolClass<AABTreeLinkC
 public:
     AABTreeLinkClass(AABTreeCullSystemClass* system)
         : CullLinkClass(system),
-          Node(NULL),
-          NextObject(NULL)
+          Node(nullptr),
+          NextObject(nullptr)
     {
     }
 

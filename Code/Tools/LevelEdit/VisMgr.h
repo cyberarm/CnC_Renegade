@@ -83,7 +83,7 @@ public:
                                 bool selection_only = false);
     static void Render_Manual_Vis_Points(bool farm_mode = false, int processor_index = 0,
                                          int total_processors = 1,
-                                         VIS_POINT_RENDERED_CALLBACK callback = NULL,
+                                         VIS_POINT_RENDERED_CALLBACK callback = nullptr,
                                          DWORD param = 0);
 
 protected:

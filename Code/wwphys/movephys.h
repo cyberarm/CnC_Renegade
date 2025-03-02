@@ -102,7 +102,7 @@ public:
     ** Teleport support
     */
     virtual bool Can_Teleport(const Matrix3D& new_tm, bool check_dyn_only = false,
-                              NonRefPhysListClass* result_list = NULL)
+                              NonRefPhysListClass* result_list = nullptr)
     {
         return false;
     }
@@ -148,7 +148,7 @@ public:
     /*
     ** Rider support.  All moveable objects can be riders.
     */
-    virtual void Link_To_Carrier(PhysClass* carrier, RenderObjClass* carrier_sub_obj = NULL);
+    virtual void Link_To_Carrier(PhysClass* carrier, RenderObjClass* carrier_sub_obj = nullptr);
     virtual PhysClass* Peek_Carrier_Object(void); // TSS added 08-15-01
     virtual RenderObjClass* Peek_Carrier_Sub_Object(void);
 

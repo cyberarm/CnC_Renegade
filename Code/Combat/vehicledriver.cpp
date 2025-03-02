@@ -80,8 +80,8 @@ enum
 VehicleDriverClass::VehicleDriverClass(void)
     : m_CurrentDest(0, 0, 0),
       m_FinalDest(0, 0, 0),
-      m_CurrentPath(NULL),
-      m_GameObj(NULL),
+      m_CurrentPath(nullptr),
+      m_GameObj(nullptr),
       m_IsBackingUp(false),
       m_MaxSpeed(20.0F),
       m_SpeedFactor(1.0F),
@@ -119,7 +119,7 @@ void VehicleDriverClass::Get_Velocity(const Matrix3D& tm, Vector3& vel_vector)
     //	Get a pointer to the physics object for this vehicle
     //
     MoveablePhysClass* phys_obj = m_GameObj->Peek_Physical_Object()->As_MoveablePhysClass();
-    if (phys_obj != NULL) {
+    if (phys_obj != nullptr) {
 
         //
         //	Get the world-space velocity vector for this vehicle and transform
@@ -149,9 +149,9 @@ void VehicleDriverClass::Initialize(SmartGameObj* game_obj, PathClass* path)
     //	If the game object is driving a vehicle, then get the vehicle instead
     //
     SoldierGameObj* soldier_game_obj = game_obj->As_SoldierGameObj();
-    if (soldier_game_obj != NULL) {
+    if (soldier_game_obj != nullptr) {
         VehicleGameObj* vehicle_game_obj = soldier_game_obj->Get_Profile_Vehicle();
-        if (vehicle_game_obj != NULL) {
+        if (vehicle_game_obj != nullptr) {
             m_GameObj = vehicle_game_obj;
         }
     }
@@ -166,7 +166,7 @@ void VehicleDriverClass::Initialize(SmartGameObj* game_obj, PathClass* path)
     //	Determine if this game object is a vehicle or not (it better be...)
     //
     VehicleGameObj* vehicle = m_GameObj->As_VehicleGameObj();
-    if (vehicle != NULL) {
+    if (vehicle != nullptr) {
 
         //
         //	Start this vehicle's engine's running
@@ -294,7 +294,7 @@ PhysicsSceneClass::Get_Instance ()->Add_Debug_AABox (AABoxClass (tm.Get_Translat
     //
     //	Make sure we have the final destination point
     //
-    if (m_CurrentPath != NULL) {
+    if (m_CurrentPath != nullptr) {
         m_FinalDest = m_CurrentPath->Get_Dest_Pos();
     }
 
@@ -504,7 +504,7 @@ PhysicsSceneClass::Get_Instance ()->Add_Debug_AABox (AABoxClass (tm.Get_Translat
             //	Turn off the engine if we are finished moving
             //
             VehicleGameObj* vehicle = m_GameObj->As_VehicleGameObj();
-            if (vehicle != NULL) {
+            if (vehicle != nullptr) {
                 Apply_Controls(0, 0);
                 vehicle->Enable_Engine(false);
             }
@@ -527,7 +527,7 @@ float VehicleDriverClass::Calculate_Brake(float dist_to_goal, float expected_vel
     //
     //	Handle VTOL's differently
     //
-    if (m_GameObj->Peek_Physical_Object()->As_VTOLVehicleClass() == NULL) {
+    if (m_GameObj->Peek_Physical_Object()->As_VTOLVehicleClass() == nullptr) {
 
         //
         //	Start braking when the vehicle is 1 second away from its destination
@@ -598,7 +598,7 @@ bool VehicleDriverClass::Drive_Tracked(void)
     //
     //	Make sure we have the final destination point
     //
-    if (m_CurrentPath != NULL) {
+    if (m_CurrentPath != nullptr) {
         m_FinalDest = m_CurrentPath->Get_Dest_Pos();
         m_CurrentDest = m_CurrentPath->Get_Next_Pos();
     }
@@ -747,7 +747,7 @@ bool VehicleDriverClass::Drive_Tracked(void)
             //	Turn off the engine if we are finished moving
             //
             VehicleGameObj* vehicle = m_GameObj->As_VehicleGameObj();
-            if (vehicle != NULL) {
+            if (vehicle != nullptr) {
                 Apply_Controls(0, 0);
                 vehicle->Enable_Engine(false);
             }
@@ -915,14 +915,14 @@ void VehicleDriverClass::Load_Variables(ChunkLoadClass& cload)
     //
     //	Request that the game object ptr gets remapped
     //
-    if (m_GameObj != NULL) {
+    if (m_GameObj != nullptr) {
         REQUEST_POINTER_REMAP((void**)&m_GameObj);
     }
 
     //
     //	Request that the path ptr gets remapped
     //
-    if (m_CurrentPath != NULL) {
+    if (m_CurrentPath != nullptr) {
         REQUEST_REF_COUNTED_POINTER_REMAP((RefCountClass**)&m_CurrentPath);
     }
 
@@ -936,8 +936,8 @@ void VehicleDriverClass::Load_Variables(ChunkLoadClass& cload)
 ///////////////////////////////////////////////////////////////////////
 void VehicleDriverClass::Reset(void)
 {
-    m_CurrentPath = NULL;
-    m_GameObj = NULL;
+    m_CurrentPath = nullptr;
+    m_GameObj = nullptr;
     m_BrakingDist = 0;
     m_LastFrameExpectedVelocity = 0;
     m_TurnOffEngineWhenDone = false;

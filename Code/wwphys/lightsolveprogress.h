@@ -88,7 +88,7 @@ protected:
 inline LightSolveProgressClass::LightSolveProgressClass(void)
     : ObjectCount(0),
       ProcessedObjectCount(0),
-      CurrentMeshName(NULL),
+      CurrentMeshName(nullptr),
       CurrentVertexCount(0),
       CurrentVertex(0),
       CancelRequested(false)

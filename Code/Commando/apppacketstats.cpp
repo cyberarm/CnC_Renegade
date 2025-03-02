@@ -234,7 +234,7 @@ void cAppPacketStats::Update_Object_Tally(void)
     for (int index = 0; index < count; index++) {
         NetworkObjectClass* p_object = NetworkObjectMgrClass::Get_Object(index);
 
-        if (p_object != NULL) {
+        if (p_object != nullptr) {
             BYTE type = p_object->Get_App_Packet_Type();
             WWASSERT(type < APPPACKETTYPE_ALL);
 

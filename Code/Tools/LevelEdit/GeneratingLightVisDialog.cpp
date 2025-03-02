@@ -39,7 +39,7 @@ static char THIS_FILE[] = __FILE__;
 // GeneratingLightVisDialogClass dialog
 //
 //////////////////////////////////////////////////////////////////////////////
-GeneratingLightVisDialogClass::GeneratingLightVisDialogClass(CWnd* pParent /*=NULL*/)
+GeneratingLightVisDialogClass::GeneratingLightVisDialogClass(CWnd* pParent /*=nullptr*/)
     : CDialog(GeneratingLightVisDialogClass::IDD, pParent),
       m_IsCancelled(false),
       m_StartTicks(0),

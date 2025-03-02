@@ -40,7 +40,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////
 //	Static member initialization
 ///////////////////////////////////////////////////////////////////////////////////////////
-WWAudioThreadsClass::DELAYED_RELEASE_INFO* WWAudioThreadsClass::m_ReleaseListHead = NULL;
+WWAudioThreadsClass::DELAYED_RELEASE_INFO* WWAudioThreadsClass::m_ReleaseListHead = nullptr;
 CriticalSectionClass WWAudioThreadsClass::m_ListMutex;
 HANDLE WWAudioThreadsClass::m_hDelayedReleaseThread = (HANDLE)-1;
 HANDLE WWAudioThreadsClass::m_hDelayedReleaseEvent = (HANDLE)-1;
@@ -79,7 +79,7 @@ WWAudioThreadsClass::Create_Delayed_Release_Thread(LPVOID param)
     //	If the thread isn't already running, then
     //
     if (m_hDelayedReleaseThread == (HANDLE)-1) {
-        m_hDelayedReleaseEvent = ::CreateEvent(NULL, FALSE, FALSE, NULL);
+        m_hDelayedReleaseEvent = ::CreateEvent(nullptr, FALSE, FALSE, nullptr);
         m_hDelayedReleaseThread = (HANDLE)::_beginthread(Delayed_Release_Thread_Proc, 0, param);
     }
 
@@ -142,9 +142,9 @@ void WWAudioThreadsClass::Add_Delayed_Release_Object(RefCountClass* object, DWOR
             info->object = object;
             info->time = TIMEGETTIME() + delay;
             info->next = m_ReleaseListHead;
-            info->prev = NULL;
+            info->prev = nullptr;
 
-            if (info->next != NULL) {
+            if (info->next != nullptr) {
                 info->next->prev = info;
             }
 
@@ -169,9 +169,9 @@ void WWAudioThreadsClass::Flush_Delayed_Release_Objects(void)
     //	Loop through all the objects in our delay list, and
     // free them now.
     //
-    DELAYED_RELEASE_INFO* info = NULL;
-    DELAYED_RELEASE_INFO* next = NULL;
-    for (info = m_ReleaseListHead; info != NULL; info = next) {
+    DELAYED_RELEASE_INFO* info = nullptr;
+    DELAYED_RELEASE_INFO* next = nullptr;
+    for (info = m_ReleaseListHead; info != nullptr; info = next) {
         next = info->next;
 
         //
@@ -181,7 +181,7 @@ void WWAudioThreadsClass::Flush_Delayed_Release_Objects(void)
         SAFE_DELETE(info);
     }
 
-    m_ReleaseListHead = NULL;
+    m_ReleaseListHead = nullptr;
     return;
 }
 
@@ -208,10 +208,10 @@ void __cdecl WWAudioThreadsClass::Delayed_Release_Thread_Proc(LPVOID /*param*/)
             // free any that have expired.
             //
             DWORD current_time = TIMEGETTIME();
-            DELAYED_RELEASE_INFO* curr = NULL;
-            DELAYED_RELEASE_INFO* prev = NULL;
-            DELAYED_RELEASE_INFO* next = NULL;
-            for (curr = m_ReleaseListHead; curr != NULL; curr = next) {
+            DELAYED_RELEASE_INFO* curr = nullptr;
+            DELAYED_RELEASE_INFO* prev = nullptr;
+            DELAYED_RELEASE_INFO* next = nullptr;
+            for (curr = m_ReleaseListHead; curr != nullptr; curr = next) {
                 next = curr->next;
                 prev = curr->prev;
 
@@ -227,11 +227,11 @@ void __cdecl WWAudioThreadsClass::Delayed_Release_Thread_Proc(LPVOID /*param*/)
                         m_ReleaseListHead = next;
                     }
 
-                    if (prev != NULL) {
+                    if (prev != nullptr) {
                         prev->next = next;
                     }
 
-                    if (next != NULL) {
+                    if (next != nullptr) {
                         next->prev = prev;
                     }
 
@@ -268,7 +268,7 @@ WWAudioThreadsClass::Begin_Modify_List (void)
         //
         //	Wait for up to one second to modify the list object
         //
-        if (m_ListMutex != NULL) {
+        if (m_ListMutex != nullptr) {
                 retval = (::WaitForSingleObject (m_ListMutex, 1000) == WAIT_OBJECT_0);
                 WWASSERT (retval);
         }
@@ -288,7 +288,7 @@ WWAudioThreadsClass::End_Modify_List (void)
         //
         //	Release this thread's hold on the mutex object.
         //
-        if (m_ListMutex != NULL) {
+        if (m_ListMutex != nullptr) {
                 ::ReleaseMutex (m_ListMutex);
         }
 

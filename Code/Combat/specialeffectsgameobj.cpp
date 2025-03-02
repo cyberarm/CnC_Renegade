@@ -284,7 +284,7 @@ void SpecialEffectsGameObj::Init(const SpecialEffectsGameObjDef& definition)
     //	Make sure collisions are turned off on this effect
     //
     PhysClass* phys_obj = Peek_Physical_Object();
-    if (phys_obj != NULL) {
+    if (phys_obj != nullptr) {
         phys_obj->Set_Collision_Group(UNCOLLIDEABLE_GROUP);
     }
 
@@ -359,9 +359,9 @@ void SpecialEffectsGameObj::Do_Effect(void)
     //	Make sure we have a render object
     //
     RenderObjClass* model = Peek_Model();
-    WWASSERT(model != NULL);
+    WWASSERT(model != nullptr);
 
-    if (model != NULL) {
+    if (model != nullptr) {
 
         //
         //	Should we play an animation?
@@ -373,7 +373,7 @@ void SpecialEffectsGameObj::Do_Effect(void)
             //	Load the animation
             //
             HAnimClass* animation = WW3DAssetManager::Get_Instance()->Get_HAnim(anim_name);
-            if (animation != NULL) {
+            if (animation != nullptr) {
                 LifeRemaining = animation->Get_Total_Time();
                 model->Set_Animation(animation, 0, RenderObjClass::ANIM_MODE_ONCE);
                 REF_PTR_RELEASE(animation);

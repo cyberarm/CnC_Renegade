@@ -113,5 +113,5 @@ typedef struct tBandtestSettingsStruct
 BANDTEST_API unsigned long Detect_Bandwidth(unsigned long server_ip, unsigned long my_ip,
                                             int retries, int& failure_code,
                                             unsigned long& downstream, unsigned long api_version,
-                                            BandtestSettingsStruct* settings = NULL,
-                                            char* regpath = NULL);
+                                            BandtestSettingsStruct* settings = nullptr,
+                                            char* regpath = nullptr);

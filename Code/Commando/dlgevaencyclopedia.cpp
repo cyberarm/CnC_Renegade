@@ -64,7 +64,7 @@
 ////////////////////////////////////////////////////////////////
 //	Static member initialization
 ////////////////////////////////////////////////////////////////
-EVAEncyclopediaMenuClass* EVAEncyclopediaMenuClass::_TheInstance = NULL;
+EVAEncyclopediaMenuClass* EVAEncyclopediaMenuClass::_TheInstance = nullptr;
 int EVAEncyclopediaMenuClass::_NextTabIndex = -4;
 
 ////////////////////////////////////////////////////////////////
@@ -86,7 +86,7 @@ EVAEncyclopediaMenuClass::EVAEncyclopediaMenuClass(void)
 ////////////////////////////////////////////////////////////////
 EVAEncyclopediaMenuClass::~EVAEncyclopediaMenuClass(void)
 {
-    _TheInstance = NULL;
+    _TheInstance = nullptr;
     return;
 }
 
@@ -98,7 +98,7 @@ EVAEncyclopediaMenuClass::~EVAEncyclopediaMenuClass(void)
 void EVAEncyclopediaMenuClass::On_Init_Dialog(void)
 {
     TabCtrlClass* tab_ctrl = (TabCtrlClass*)Get_Dlg_Item(IDC_GENERIC_TABCTRL);
-    if (tab_ctrl != NULL) {
+    if (tab_ctrl != nullptr) {
 
         //
         //	Add the tabs to the control
@@ -136,8 +136,8 @@ void EVAEncyclopediaMenuClass::On_Init_Dialog(void)
     //
     // Enable or disable the suicide button
     //
-    bool is_suicide_enabled = The_Game() != NULL && !IS_MISSION && cNetwork::I_Am_Client()
-        && GameModeManager::Find("Combat") != NULL && GameModeManager::Find("Combat")->Is_Active();
+    bool is_suicide_enabled = The_Game() != nullptr && !IS_MISSION && cNetwork::I_Am_Client()
+        && GameModeManager::Find("Combat") != nullptr && GameModeManager::Find("Combat")->Is_Active();
 
     Get_Dlg_Item(IDC_OPTIONS_MULTIPLAY_SUICIDE)->Enable(is_suicide_enabled);
     Get_Dlg_Item(IDC_OPTIONS_MULTIPLAY_SUICIDE)->Show(is_suicide_enabled);
@@ -145,12 +145,12 @@ void EVAEncyclopediaMenuClass::On_Init_Dialog(void)
     //
     // Enable or disable the change teams button
     //
-    bool is_team_change_enabled = The_Game() != NULL && !IS_MISSION && cNetwork::I_Am_Client() &&
+    bool is_team_change_enabled = The_Game() != nullptr && !IS_MISSION && cNetwork::I_Am_Client() &&
         // The_Game()->Is_Team_Game() &&
         The_Game()->IsTeamChangingAllowed.Is_True()
-        && (!(GameModeManager::Find("WOL") != NULL && GameModeManager::Find("WOL")->Is_Active())
+        && (!(GameModeManager::Find("WOL") != nullptr && GameModeManager::Find("WOL")->Is_Active())
             || The_Game()->IsLaddered.Is_False())
-        && GameModeManager::Find("Combat") != NULL && GameModeManager::Find("Combat")->Is_Active();
+        && GameModeManager::Find("Combat") != nullptr && GameModeManager::Find("Combat")->Is_Active();
 
     Get_Dlg_Item(IDC_OPTIONS_MULTIPLAY_CHANGE_TEAMS)->Enable(is_team_change_enabled);
     Get_Dlg_Item(IDC_OPTIONS_MULTIPLAY_CHANGE_TEAMS)->Show(is_team_change_enabled);
@@ -167,7 +167,7 @@ void EVAEncyclopediaMenuClass::On_Init_Dialog(void)
 void EVAEncyclopediaMenuClass::On_Destroy(void)
 {
     TabCtrlClass* tab_ctrl = (TabCtrlClass*)Get_Dlg_Item(IDC_GENERIC_TABCTRL);
-    if (tab_ctrl == NULL) {
+    if (tab_ctrl == nullptr) {
         return;
     }
 
@@ -228,7 +228,7 @@ void EVAEncyclopediaMenuClass::Display(TAB_ID tab_id)
     //
     //	Create the dialog if necessary, otherwise simply bring it to the front
     //
-    if (_TheInstance == NULL) {
+    if (_TheInstance == nullptr) {
         if (tab_id != TAB_NONE) {
             _NextTabIndex = tab_id;
         }

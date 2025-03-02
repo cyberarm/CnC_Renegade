@@ -85,7 +85,7 @@ class GameMapsClassDesc : public ClassDesc
 {
 public:
     int IsPublic() { return 0; }
-    void* Create(BOOL loading) { return new GameMapsClass(NULL); }
+    void* Create(BOOL loading) { return new GameMapsClass(nullptr); }
     const TCHAR* ClassName() { return _T("GameMaps"); }
     SClass_ID SuperClassID() { return REF_MAKER_CLASS_ID; }
     Class_ID ClassID() { return _GameMapsClassID; }
@@ -176,11 +176,11 @@ RefResult GameMapsClass::NotifyRefChanged(Interval changeInt, RefTargetHandle hT
  *=============================================================================================*/
 RefTargetHandle GameMapsClass::Clone(RemapDir& remap)
 {
-    GameMapsClass* tm = new GameMapsClass(NULL);
+    GameMapsClass* tm = new GameMapsClass(nullptr);
 
     for (int i = 0; i < NTEXMAPS; i++) {
         tm->TextureSlot[i].MapOn = TextureSlot[i].MapOn;
-        tm->TextureSlot[i].Map = NULL;
+        tm->TextureSlot[i].Map = nullptr;
 
         if (TextureSlot[i].Map) {
             tm->ReplaceReference(i, remap.CloneRef(TextureSlot[i].Map));

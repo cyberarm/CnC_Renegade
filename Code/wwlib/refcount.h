@@ -72,7 +72,7 @@ struct ActiveRefStruct
 ** Macros for setting and releasing a pointer to a ref counted object.
 ** If you have a member variable which can be pointed at a ref counted object and
 ** you want to point it at some object.  You must release whatever it currently points at,
-** point it at the new object, and add-ref the new object (if its not null...)
+** point it at the new object, and add-ref the new object (if its not nullptr...)
 */
 #define REF_PTR_SET(dst, src)                                                                      \
     {                                                                                              \
@@ -86,7 +86,7 @@ struct ActiveRefStruct
     {                                                                                              \
         if (x)                                                                                     \
             x->Release_Ref();                                                                      \
-        x = NULL;                                                                                  \
+        x = nullptr;                                                                                  \
     }
 
 /*

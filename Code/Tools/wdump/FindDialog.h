@@ -35,11 +35,11 @@ class FindDialog : public CDialog
 {
     // Construction
 public:
-    FindDialog(CWnd* pParent = NULL); // standard constructor
+    FindDialog(CWnd* pParent = nullptr); // standard constructor
 
     static const char* String() { return (_FindString); }
 
-    static void Compare(const char* string) { _Found |= (strstr(string, _FindString) != NULL); }
+    static void Compare(const char* string) { _Found |= (strstr(string, _FindString) != nullptr); }
 
     static bool Found() { return (_Found); }
 

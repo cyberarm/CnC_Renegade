@@ -122,7 +122,7 @@ FileMgrClass::FileMgrClass(void)
     //
     m_TextureCachePath = m_BasePath + "EditorCache";
     if (::GetFileAttributes(m_TextureCachePath) == 0xFFFFFFFF) {
-        ::CreateDirectory(m_TextureCachePath, NULL);
+        ::CreateDirectory(m_TextureCachePath, nullptr);
     }
 
     return;
@@ -272,8 +272,8 @@ bool FileMgrClass::Does_File_Exist(LPCTSTR filename, bool update_from_vss)
     bool file_exists = false;
 
     // Param valid?
-    ASSERT(filename != NULL);
-    if (filename != NULL) {
+    ASSERT(filename != nullptr);
+    if (filename != nullptr) {
 
         // Ensure the path is complete
         CString path = Make_Full_Path(filename);
@@ -312,8 +312,8 @@ int FileMgrClass::Find_File(LPCTSTR filename) const
     int index = -1;
 
     // Can we add another property to our list?
-    ASSERT(filename != NULL);
-    if (filename != NULL) {
+    ASSERT(filename != nullptr);
+    if (filename != nullptr) {
 
         // Loop through all the files in our array
         for (int file_index = 0; (file_index < m_FileList.Count()) && (index == -1); file_index++) {
@@ -372,7 +372,7 @@ bool FileMgrClass::Add_Files_To_Database(LPCTSTR filename)
 {
     // Assume success
     // bool retval = true;
-    ASSERT(filename != NULL);
+    ASSERT(filename != nullptr);
 
     m_CurrentFile = filename;
     Add_Files_To_Database();
@@ -468,12 +468,12 @@ int FileMgrClass::Add_File(LPCTSTR filename, bool subdir_important)
     int index = -1;
 
     // Param valid?
-    ASSERT(filename != NULL);
-    if ((filename != NULL) && (index == -1)) {
+    ASSERT(filename != nullptr);
+    if ((filename != nullptr) && (index == -1)) {
 
         // Ensure the path is complete
         CString path = Make_Full_Path(filename);
-        LevelFileStruct* pentry = NULL;
+        LevelFileStruct* pentry = nullptr;
 
         // Is this file already in the list?
         index = Find_File(path);
@@ -481,7 +481,7 @@ int FileMgrClass::Add_File(LPCTSTR filename, bool subdir_important)
 
             // Allocate a new entry for our list
             pentry = new LevelFileStruct;
-            ASSERT(pentry != NULL);
+            ASSERT(pentry != nullptr);
 
             // Set the file information
             pentry->m_Filename = path;
@@ -519,8 +519,8 @@ bool FileMgrClass::Update_Texture_Cache(LPCTSTR start_path, RenderObjClass* pren
     // Assume failure
     bool retval = false;
 
-    ASSERT(prender_obj != NULL);
-    if (prender_obj != NULL) {
+    ASSERT(prender_obj != nullptr);
+    if (prender_obj != nullptr) {
 
         // Assume success from here on out
         retval = true;
@@ -562,7 +562,7 @@ int FileMgrClass::Build_Texture_List(LPCTSTR start_path, RenderObjClass* prender
                                      DynamicVectorClass<CString>& texture_list, bool brecurse)
 {
     // Param valid?
-    ASSERT(prender_obj != NULL);
+    ASSERT(prender_obj != nullptr);
     if (prender_obj) {
 
         CString path = start_path;
@@ -675,7 +675,7 @@ void FileMgrClass::Build_File_List(LPCTSTR start_path, RenderObjClass* render_ob
         //	Record that the subdir where this file lives is important
         // IF the subdir is returned by the render object.
         //
-        bool subdir_important = (::strstr(filename, "+\\") != NULL);
+        bool subdir_important = (::strstr(filename, "+\\") != nullptr);
 
         //
         //	Attempt to find the file
@@ -785,11 +785,11 @@ bool FileMgrClass::Update_Files(DynamicVectorClass<LevelFileStruct*>* pupdate_li
 
     // Do we need to build a list of files to generate ourselves?
     DynamicVectorClass<LevelFileStruct*>* plist = pupdate_list;
-    if (plist == NULL) {
+    if (plist == nullptr) {
 
         // Create a new list object
         plist = new DynamicVectorClass<LevelFileStruct*>;
-        ASSERT(plist != NULL);
+        ASSERT(plist != nullptr);
 
         // Generate a list of files that need to be updated from VSS
         Build_Update_List(*plist);
@@ -852,9 +852,9 @@ bool FileMgrClass::Update_File(LPCTSTR filename)
     bool retval = false;
 
     // State valid?
-    ASSERT(filename != NULL);
+    ASSERT(filename != nullptr);
     ASSERT(m_bVSSInitialized);
-    if ((filename != NULL) && m_bVSSInitialized) {
+    if ((filename != nullptr) && m_bVSSInitialized) {
 
         // Assume success from here on out
         retval = true;
@@ -889,9 +889,9 @@ bool FileMgrClass::Update_All_Files(LPCTSTR dest_path, LPCTSTR search_mask)
     bool retval = false;
 
     // State valid?
-    ASSERT(dest_path != NULL);
+    ASSERT(dest_path != nullptr);
     ASSERT(m_bVSSInitialized);
-    if ((dest_path != NULL) && m_bVSSInitialized) {
+    if ((dest_path != nullptr) && m_bVSSInitialized) {
 
         //
         // Assume success from here on out
@@ -913,9 +913,9 @@ bool FileMgrClass::Get_Subproject(LPCTSTR path)
     bool retval = false;
 
     // State valid?
-    ASSERT(path != NULL);
+    ASSERT(path != nullptr);
     ASSERT(m_bVSSInitialized);
-    if ((path != NULL) && m_bVSSInitialized) {
+    if ((path != nullptr) && m_bVSSInitialized) {
 
         // Ensure the path is complete for the file
         CString full_path = Make_Full_Path(path);
@@ -941,7 +941,7 @@ void FileMgrClass::Set_Base_Path(LPCTSTR base)
 
     // Ensure the directory is created
     if (Does_File_Exist(m_BasePath) == false) {
-        ::CreateDirectory(base, NULL);
+        ::CreateDirectory(base, nullptr);
     }
 
     // Ensure the new base has a directory delimiter on the end
@@ -952,7 +952,7 @@ void FileMgrClass::Set_Base_Path(LPCTSTR base)
     // The new cache directory is simply a subdirectory of the base
     m_TextureCachePath = m_BasePath + "EditorCache";
     if (::GetFileAttributes(m_TextureCachePath) == 0xFFFFFFFF) {
-        ::CreateDirectory(m_TextureCachePath, NULL);
+        ::CreateDirectory(m_TextureCachePath, nullptr);
     }
 
     //
@@ -1070,7 +1070,7 @@ bool FileMgrClass::Update_Model(LPCTSTR local_path, LPCTSTR new_filename)
         //
         //	Check to see if we need to maintain this file's subdirectory...
         //
-        bool subdir_important = (::strstr(full_path, "+\\") != NULL);
+        bool subdir_important = (::strstr(full_path, "+\\") != nullptr);
         if (subdir_important) {
 
             //
@@ -1130,7 +1130,7 @@ void FileMgrClass::Build_Dependency_List(LPCTSTR asset_filename, UniqueListClass
     // files this model is dependant on
     _pThe3DAssetManager->Set_Current_Directory(path);
     RenderObjClass* render_obj = _pThe3DAssetManager->Create_Render_Obj(asset_name);
-    if (render_obj != NULL) {
+    if (render_obj != nullptr) {
 
         // Build a list of all the files used by this render object
         FILE_LIST file_list;
@@ -1196,8 +1196,8 @@ void FileMgrClass::Build_Include_List(LPCTSTR ini_filename, DynamicVectorClass<C
     EditorINIClass* pini = _pThe3DAssetManager->Get_INI(ini_path);
 
     // Were we successful in getting a pointer to the INI file?
-    ASSERT(pini != NULL);
-    if (pini != NULL) {
+    ASSERT(pini != nullptr);
+    if (pini != nullptr) {
 
         // Loop through all the assets in the ini file
         int instance_count = pini->Entry_Count("Assets");
@@ -1266,7 +1266,7 @@ void FileMgrClass::Update(NodeClass* node, bool add_node)
     //	Update the files this preset is dependent on
     //
     PresetClass* preset = node->Get_Preset();
-    if (preset != NULL) {
+    if (preset != nullptr) {
         Update(preset, add_node);
     }
 
@@ -1277,7 +1277,7 @@ void FileMgrClass::Update(NodeClass* node, bool add_node)
     if (node->Get_Type() == NODE_TYPE_SPAWNER) {
 
         SpawnerDefClass* definition = static_cast<SpawnerDefClass*>(preset->Get_Definition());
-        if (definition != NULL) {
+        if (definition != nullptr) {
 
             //
             //	Loop over all the possible spawned objects and make sure to load their assets
@@ -1285,7 +1285,7 @@ void FileMgrClass::Update(NodeClass* node, bool add_node)
             const DynamicVectorClass<int>& list = definition->Get_Spawn_Definition_ID_List();
             for (int index = 0; index < list.Count(); index++) {
                 PresetClass* preset = PresetMgrClass::Find_Preset(list[index]);
-                if (preset != NULL) {
+                if (preset != nullptr) {
                     Update(preset, add_node);
                 }
             }
@@ -1334,7 +1334,7 @@ void FileMgrClass::Update(PresetClass* preset, bool add_node)
 /////////////////////////////////////////////////////////////////
 void FileMgrClass::Add_Asset(LPCTSTR filename)
 {
-    RenderObjClass* render_obj = NULL;
+    RenderObjClass* render_obj = nullptr;
 
     //
     //	If this is a render object, then build a list of
@@ -1345,7 +1345,7 @@ void FileMgrClass::Add_Asset(LPCTSTR filename)
         render_obj = ::Create_Render_Obj(asset_name);
     }
 
-    if (render_obj != NULL) {
+    if (render_obj != nullptr) {
 
         //
         // Build a list of all the files used by this render object
@@ -1378,7 +1378,7 @@ void FileMgrClass::Add_Asset(LPCTSTR filename)
 /////////////////////////////////////////////////////////////////
 void FileMgrClass::Remove_Asset(LPCTSTR filename)
 {
-    RenderObjClass* render_obj = NULL;
+    RenderObjClass* render_obj = nullptr;
 
     //
     //	If this is a render object, then build a list of
@@ -1389,7 +1389,7 @@ void FileMgrClass::Remove_Asset(LPCTSTR filename)
         render_obj = ::Create_Render_Obj(asset_name);
     }
 
-    if (render_obj != NULL) {
+    if (render_obj != nullptr) {
 
         // Build a list of all the files used by this render object
         CString full_path = Make_Full_Path(filename);

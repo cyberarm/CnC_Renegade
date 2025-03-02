@@ -69,7 +69,7 @@ template <class T> T* Binary_Search(T* A, int n, T const& target)
             stride -= pivot + 1;
         }
     }
-    return (NULL);
+    return (nullptr);
 }
 
 #endif

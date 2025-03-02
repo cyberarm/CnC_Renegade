@@ -169,13 +169,13 @@ public:
     //	Public constructors/destructors
     //////////////////////////////////////////////////////////
     Box3DPhysClass(void)
-        : m_pBox(NULL)
+        : m_pBox(nullptr)
     {
         Initialize(1, 1, 1);
     }
 
     Box3DPhysClass(const Vector3& dimensions)
-        : m_pBox(NULL)
+        : m_pBox(nullptr)
     {
         Initialize(dimensions.X, dimensions.Y, dimensions.Z);
     }

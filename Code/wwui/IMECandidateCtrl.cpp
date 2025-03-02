@@ -46,7 +46,7 @@ IMECandidateCtrl::IMECandidateCtrl()
       mCurrSel(-1),
       mScrollPos(0),
       mCellsPerPage(0),
-      mCandidate(NULL)
+      mCandidate(nullptr)
 {
     StyleMgrClass::Assign_Font(&mTextRenderer, StyleMgrClass::FONT_LISTS);
 
@@ -156,7 +156,7 @@ void IMECandidateCtrl::Reset(void)
     mScrollPos = 0;
     mCellsPerPage = 0;
     mScrollBarCtrl.Show(false);
-    mCandidate = NULL;
+    mCandidate = nullptr;
 }
 
 /******************************************************************************

@@ -81,7 +81,7 @@ bool DlgWOLLogon::DoDialog(const wchar_t* login, Observer<DlgWOLLogonEvent>* obs
         dialog->Release_Ref();
     }
 
-    return (dialog != NULL);
+    return (dialog != nullptr);
 }
 
 /******************************************************************************
@@ -234,7 +234,7 @@ void DlgWOLLogon::On_Command(int ctrl, int message, DWORD param)
 
         // Refresh the UI
         UpdatePersonas();
-        SelectPersona(NULL);
+        SelectPersona(nullptr);
     } break;
 
     case IDC_MANAGE_ACCOUNT_BUTTON:

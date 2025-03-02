@@ -221,7 +221,7 @@ bool XSurface::Draw_Line(Rect const& xcliprect, Point2D const& startpoint, Point
 
     int bbp = Bytes_Per_Pixel();
     void* buffer = Lock(start);
-    if (buffer != NULL) {
+    if (buffer != nullptr) {
 
         if (start.Y == end.Y) {
             if (bbp == 1) {
@@ -326,7 +326,7 @@ int XSurface::Get_Pixel(Point2D const& point) const
 {
     int color = 0;
     void* pointer = ((Surface*)this)->Lock(point);
-    if (pointer != NULL) {
+    if (pointer != nullptr) {
         if (Bytes_Per_Pixel() == 2) {
             color = *((unsigned short*)pointer);
         }
@@ -358,7 +358,7 @@ int XSurface::Get_Pixel(Point2D const& point) const
 bool XSurface::Put_Pixel(Point2D const& point, int color)
 {
     void* pointer = Lock(point);
-    if (pointer != NULL) {
+    if (pointer != nullptr) {
         if (Bytes_Per_Pixel() == 2) {
             *((unsigned short*)pointer) = (unsigned short)color;
         }
@@ -434,7 +434,7 @@ bool XSurface::Fill_Rect(Rect const& cliprect, Rect const& fillrect, int color)
     }
 
     void* buffer = Lock(crect.Top_Left());
-    if (buffer != NULL) {
+    if (buffer != nullptr) {
         if (Bytes_Per_Pixel() == 1) {
             for (int y = 0; y < crect.Height; y++) {
                 memset(buffer, color, crect.Width);
@@ -740,8 +740,8 @@ bool XSurface::Prep_For_Blit(Surface& dest, Rect& drect, Surface const& source, 
                                     overlapped, dbuffer, sbuffer));
 #ifdef NEVER
     overlapped = false;
-    dbuffer = NULL;
-    sbuffer = NULL;
+    dbuffer = nullptr;
+    sbuffer = nullptr;
 
     if (!drect.Is_Valid() || !srect.Is_Valid()) {
         return (false);
@@ -776,11 +776,11 @@ bool XSurface::Prep_For_Blit(Surface& dest, Rect& drect, Surface const& source, 
     **	respectively.
     */
     dbuffer = dest.Lock(drect.Point());
-    if (dbuffer == NULL) {
+    if (dbuffer == nullptr) {
         return (false);
     }
     sbuffer = ((Surface&)source).Lock(srect.Point());
-    if (sbuffer == NULL) {
+    if (sbuffer == nullptr) {
         dest.Unlock();
         return (false);
     }
@@ -835,8 +835,8 @@ bool XSurface::Prep_For_Blit(Surface& dest, Rect const& dcliprect, Rect& drect,
                              bool& overlapped, void*& dbuffer, void*& sbuffer)
 {
     overlapped = false;
-    dbuffer = NULL;
-    sbuffer = NULL;
+    dbuffer = nullptr;
+    sbuffer = nullptr;
 
     if (!drect.Is_Valid() || !dcliprect.Is_Valid() || !srect.Is_Valid() || !scliprect.Is_Valid()) {
         return (false);
@@ -869,11 +869,11 @@ bool XSurface::Prep_For_Blit(Surface& dest, Rect const& dcliprect, Rect& drect,
     **	respectively.
     */
     dbuffer = dest.Lock(dcliprect.Top_Left() + drect.Top_Left());
-    if (dbuffer == NULL) {
+    if (dbuffer == nullptr) {
         return (false);
     }
     sbuffer = source.Lock(scliprect.Top_Left() + srect.Top_Left());
-    if (sbuffer == NULL) {
+    if (sbuffer == nullptr) {
         dest.Unlock();
         return (false);
     }

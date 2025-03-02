@@ -29,10 +29,10 @@ public:
 
     ~File_Class()
     {
-        if (fp != NULL) {
+        if (fp != nullptr) {
             fclose(fp);
         }
-        fp = NULL;
+        fp = nullptr;
     }
 };
 
@@ -83,8 +83,8 @@ public:
     Bone_Class()
         : Name(""),
           Direction(Point3(0, 0, 0)),
-          Parent_bone(NULL),
-          Next_bone(NULL),
+          Parent_bone(nullptr),
+          Next_bone(nullptr),
           Length(0.0f)
     {
         Axis_tm.IdentityMatrix();

@@ -43,9 +43,9 @@ static TCHAR* GetString(int id)
 {
     static TCHAR buf[256];
     if (hInstance) {
-        return LoadString(hInstance, id, buf, sizeof(buf)) ? buf : NULL;
+        return LoadString(hInstance, id, buf, sizeof(buf)) ? buf : nullptr;
     }
-    return NULL;
+    return nullptr;
 }
 
 static int MessageBox(int s1, int s2, int option = MB_OK)

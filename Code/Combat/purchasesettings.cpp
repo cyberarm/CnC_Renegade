@@ -186,7 +186,7 @@ PurchaseSettingsDefClass::~PurchaseSettingsDefClass(void)
     //	Remove this entry from the static array
     //
     if (Type < TYPE_COUNT && Team < TEAM_COUNT) {
-        DefinitionArray[Type][Team] = NULL;
+        DefinitionArray[Type][Team] = nullptr;
     }
     return;
 }
@@ -219,7 +219,7 @@ const PersistFactoryClass& PurchaseSettingsDefClass::Get_Factory(void) const
 PersistClass* PurchaseSettingsDefClass::Create(void) const
 {
     WWASSERT(0);
-    return NULL;
+    return nullptr;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////
@@ -383,7 +383,7 @@ void PurchaseSettingsDefClass::Load_Variables(ChunkLoadClass& cload)
 ///////////////////////////////////////////////////////////////////////////////////////////
 const WCHAR* PurchaseSettingsDefClass::Get_Name(int index)
 {
-    const WCHAR* retval = NULL;
+    const WCHAR* retval = nullptr;
 
     //
     //	Return the translated string...
@@ -404,7 +404,7 @@ PurchaseSettingsDefClass* PurchaseSettingsDefClass::Find_Definition(TYPE type, T
 {
     PurchaseSettingsDefClass* retval = DefinitionArray[type][team];
 
-    if (retval == NULL) {
+    if (retval == nullptr) {
 
         //
         // If the type is "secret classes" try the base classes

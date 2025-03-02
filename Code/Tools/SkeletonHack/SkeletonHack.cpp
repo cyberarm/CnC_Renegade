@@ -119,8 +119,8 @@ int main(int argc, char* argv[])
 }
 
 HTreeHackClass::HTreeHackClass(void)
-    : Pivots(NULL),
-      PivotFixups(NULL)
+    : Pivots(nullptr),
+      PivotFixups(nullptr)
 {
 }
 

@@ -50,7 +50,7 @@
 /////////////////////////////////////////////////////////////////////
 ParameterClass* ParameterClass::Construct(Type type, void* data, const char* name)
 {
-    ParameterClass* new_param = NULL;
+    ParameterClass* new_param = nullptr;
     switch (type) {
 
     case TYPE_INT:
@@ -201,7 +201,7 @@ StringParameterClass::StringParameterClass(StringClass* string)
 //
 /////////////////////////////////////////////////////////////////////
 StringParameterClass::StringParameterClass(const StringParameterClass& src)
-    : m_String(NULL)
+    : m_String(nullptr)
 {
     (*this) = src;
     return;
@@ -228,7 +228,7 @@ bool StringParameterClass::operator==(const StringParameterClass& src)
 {
     bool retval = false;
 
-    if (m_String != NULL && src.m_String != NULL && (m_String->Compare(*(src.m_String)) == 0)) {
+    if (m_String != nullptr && src.m_String != nullptr && (m_String->Compare(*(src.m_String)) == 0)) {
         retval = true;
     }
 
@@ -273,8 +273,8 @@ void StringParameterClass::Copy_Value(const ParameterClass& src)
 /////////////////////////////////////////////////////////////////////
 const char* StringParameterClass::Get_String(void) const
 {
-    const char* string = NULL;
-    if (m_String != NULL) {
+    const char* string = nullptr;
+    if (m_String != nullptr) {
         string = (*m_String);
     }
     return string;
@@ -287,7 +287,7 @@ const char* StringParameterClass::Get_String(void) const
 /////////////////////////////////////////////////////////////////////
 void StringParameterClass::Set_String(const char* string)
 {
-    if (m_String != NULL) {
+    if (m_String != nullptr) {
         Set_Modified();
         (*m_String) = string;
     }
@@ -444,7 +444,7 @@ EnumParameterClass::EnumParameterClass(int* value)
 //
 /////////////////////////////////////////////////////////////////////
 EnumParameterClass::EnumParameterClass(const EnumParameterClass& src)
-    : m_Value(NULL)
+    : m_Value(nullptr)
 {
     (*this) = src;
     return;
@@ -474,7 +474,7 @@ bool EnumParameterClass::operator==(const EnumParameterClass& src)
 {
     bool retval = false;
 
-    if (m_Value != NULL && src.m_Value != NULL && (*m_Value) == (*src.m_Value)) {
+    if (m_Value != nullptr && src.m_Value != nullptr && (*m_Value) == (*src.m_Value)) {
         retval = true;
     }
 
@@ -546,7 +546,7 @@ void __cdecl EnumParameterClass::Add_Values(const char* first_name, int first_va
         //	Get the string param
         //
         const char* name = va_arg(arg_list, const char*);
-        if (name == NULL) {
+        if (name == nullptr) {
             more_params = false;
         }
         else {
@@ -586,7 +586,7 @@ PhysDefParameterClass::PhysDefParameterClass(int* id)
 //
 /////////////////////////////////////////////////////////////////////
 PhysDefParameterClass::PhysDefParameterClass(const PhysDefParameterClass& src)
-    : m_Value(NULL)
+    : m_Value(nullptr)
 {
     (*this) = src;
     return;
@@ -613,7 +613,7 @@ bool PhysDefParameterClass::operator==(const PhysDefParameterClass& src)
 {
     bool retval = false;
 
-    if (m_Value != NULL && src.m_Value != NULL && (*m_Value) == (*src.m_Value)) {
+    if (m_Value != nullptr && src.m_Value != nullptr && (*m_Value) == (*src.m_Value)) {
         retval = true;
     }
 
@@ -672,7 +672,7 @@ ModelDefParameterClass::ModelDefParameterClass(int* id)
 //
 /////////////////////////////////////////////////////////////////////
 ModelDefParameterClass::ModelDefParameterClass(const ModelDefParameterClass& src)
-    : m_Value(NULL)
+    : m_Value(nullptr)
 {
     (*this) = src;
     return;
@@ -699,7 +699,7 @@ bool ModelDefParameterClass::operator==(const ModelDefParameterClass& src)
 {
     bool retval = false;
 
-    if (m_Value != NULL && src.m_Value != NULL && (*m_Value) == (*src.m_Value)) {
+    if (m_Value != nullptr && src.m_Value != nullptr && (*m_Value) == (*src.m_Value)) {
         retval = true;
     }
 
@@ -758,7 +758,7 @@ DefParameterClass::DefParameterClass(int* id)
 //
 /////////////////////////////////////////////////////////////////////
 DefParameterClass::DefParameterClass(const DefParameterClass& src)
-    : m_Value(NULL)
+    : m_Value(nullptr)
 {
     (*this) = src;
     return;
@@ -785,7 +785,7 @@ bool DefParameterClass::operator==(const DefParameterClass& src)
 {
     bool retval = false;
 
-    if (m_Value != NULL && src.m_Value != NULL && (*m_Value) == (*src.m_Value)) {
+    if (m_Value != nullptr && src.m_Value != nullptr && (*m_Value) == (*src.m_Value)) {
         retval = true;
     }
 
@@ -875,7 +875,7 @@ bool GenericDefParameterClass::operator==(const GenericDefParameterClass& src)
 {
     bool retval = false;
 
-    if (m_Value != NULL && src.m_Value != NULL && (*m_Value) == (*src.m_Value)) {
+    if (m_Value != nullptr && src.m_Value != nullptr && (*m_Value) == (*src.m_Value)) {
         retval = true;
     }
 
@@ -963,7 +963,7 @@ bool GameObjDefParameterClass::operator==(const GameObjDefParameterClass& src)
 {
     bool retval = false;
 
-    if (m_Value != NULL && src.m_Value != NULL && (*m_Value) == (*src.m_Value)) {
+    if (m_Value != nullptr && src.m_Value != nullptr && (*m_Value) == (*src.m_Value)) {
         retval = true;
     }
 
@@ -1024,7 +1024,7 @@ WeaponObjDefParameterClass::WeaponObjDefParameterClass(int* id)
 //
 /////////////////////////////////////////////////////////////////////
 WeaponObjDefParameterClass::WeaponObjDefParameterClass(const WeaponObjDefParameterClass& src)
-    : GameObjDefParameterClass(NULL)
+    : GameObjDefParameterClass(nullptr)
 {
     (*this) = src;
     return;
@@ -1052,7 +1052,7 @@ bool WeaponObjDefParameterClass::operator==(const WeaponObjDefParameterClass& sr
 {
     bool retval = false;
 
-    if (m_Value != NULL && src.m_Value != NULL && (*m_Value) == (*src.m_Value)) {
+    if (m_Value != nullptr && src.m_Value != nullptr && (*m_Value) == (*src.m_Value)) {
         retval = true;
     }
 
@@ -1113,7 +1113,7 @@ AmmoObjDefParameterClass::AmmoObjDefParameterClass(int* id)
 //
 /////////////////////////////////////////////////////////////////////
 AmmoObjDefParameterClass::AmmoObjDefParameterClass(const AmmoObjDefParameterClass& src)
-    : GameObjDefParameterClass(NULL)
+    : GameObjDefParameterClass(nullptr)
 {
     (*this) = src;
     return;
@@ -1141,7 +1141,7 @@ bool AmmoObjDefParameterClass::operator==(const AmmoObjDefParameterClass& src)
 {
     bool retval = false;
 
-    if (m_Value != NULL && src.m_Value != NULL && (*m_Value) == (*src.m_Value)) {
+    if (m_Value != nullptr && src.m_Value != nullptr && (*m_Value) == (*src.m_Value)) {
         retval = true;
     }
 
@@ -1203,7 +1203,7 @@ ExplosionObjDefParameterClass::ExplosionObjDefParameterClass(int* id)
 /////////////////////////////////////////////////////////////////////
 ExplosionObjDefParameterClass::ExplosionObjDefParameterClass(
     const ExplosionObjDefParameterClass& src)
-    : GameObjDefParameterClass(NULL)
+    : GameObjDefParameterClass(nullptr)
 {
     (*this) = src;
     return;
@@ -1231,7 +1231,7 @@ bool ExplosionObjDefParameterClass::operator==(const ExplosionObjDefParameterCla
 {
     bool retval = false;
 
-    if (m_Value != NULL && src.m_Value != NULL && (*m_Value) == (*src.m_Value)) {
+    if (m_Value != nullptr && src.m_Value != nullptr && (*m_Value) == (*src.m_Value)) {
         retval = true;
     }
 
@@ -1319,7 +1319,7 @@ bool SoundDefParameterClass::operator==(const SoundDefParameterClass& src)
 {
     bool retval = false;
 
-    if (m_Value != NULL && src.m_Value != NULL && (*m_Value) == (*src.m_Value)) {
+    if (m_Value != nullptr && src.m_Value != nullptr && (*m_Value) == (*src.m_Value)) {
         retval = true;
     }
 
@@ -1366,8 +1366,8 @@ ScriptParameterClass::ScriptParameterClass(StringClass* name, StringClass* param
 //
 /////////////////////////////////////////////////////////////////////
 ScriptParameterClass::ScriptParameterClass(const ScriptParameterClass& src)
-    : m_ScriptName(NULL),
-      m_ScriptParams(NULL)
+    : m_ScriptName(nullptr),
+      m_ScriptParams(nullptr)
 {
     (*this) = src;
     return;
@@ -1398,8 +1398,8 @@ bool ScriptParameterClass::operator==(const ScriptParameterClass& src)
     //
     //	Data valid?
     //
-    if ((m_ScriptName != NULL) && (src.m_ScriptName != NULL) && (m_ScriptParams != NULL)
-        && (src.m_ScriptParams != NULL)) {
+    if ((m_ScriptName != nullptr) && (src.m_ScriptName != nullptr) && (m_ScriptParams != nullptr)
+        && (src.m_ScriptParams != nullptr)) {
 
         //
         //	Simple string compares should workd
@@ -1459,7 +1459,7 @@ void ScriptParameterClass::Copy_Value(const ParameterClass& src)
 DefIDListParameterClass::DefIDListParameterClass(DynamicVectorClass<int>* list)
     : m_IDList(list),
       m_ClassID(0),
-      m_SelectedClassID(NULL)
+      m_SelectedClassID(nullptr)
 {
     return;
 }
@@ -1470,9 +1470,9 @@ DefIDListParameterClass::DefIDListParameterClass(DynamicVectorClass<int>* list)
 //
 /////////////////////////////////////////////////////////////////////
 DefIDListParameterClass::DefIDListParameterClass(const DefIDListParameterClass& src)
-    : m_IDList(NULL),
+    : m_IDList(nullptr),
       m_ClassID(0),
-      m_SelectedClassID(NULL)
+      m_SelectedClassID(nullptr)
 {
     (*this) = src;
     return;
@@ -1506,7 +1506,7 @@ bool DefIDListParameterClass::operator==(const DefIDListParameterClass& src)
     //
     //	Data valid?
     //
-    if ((m_IDList != NULL) && (src.m_IDList != NULL)) {
+    if ((m_IDList != nullptr) && (src.m_IDList != nullptr)) {
         //
         //	Class IDs the same?
         //
@@ -1559,7 +1559,7 @@ void DefIDListParameterClass::Copy_Value(const ParameterClass& src)
         m_ClassID = real_src.m_ClassID;
         (*m_IDList) = (*real_src.m_IDList);
 
-        if (m_SelectedClassID != NULL && real_src.m_SelectedClassID != NULL) {
+        if (m_SelectedClassID != nullptr && real_src.m_SelectedClassID != nullptr) {
             (*m_SelectedClassID) = (*real_src.m_SelectedClassID);
         }
     }
@@ -1591,7 +1591,7 @@ ZoneParameterClass::ZoneParameterClass(OBBoxClass* box)
 //
 /////////////////////////////////////////////////////////////////////
 ZoneParameterClass::ZoneParameterClass(const ZoneParameterClass& src)
-    : m_OBBox(NULL)
+    : m_OBBox(nullptr)
 {
     (*this) = src;
     return;
@@ -1622,7 +1622,7 @@ bool ZoneParameterClass::operator==(const ZoneParameterClass& src)
     //
     //	Are the OBBoxes the same?
     //
-    if ((m_OBBox != NULL) && (src.m_OBBox != NULL)) {
+    if ((m_OBBox != nullptr) && (src.m_OBBox != nullptr)) {
         retval = (*m_OBBox) == (*src.m_OBBox);
     }
 
@@ -1685,7 +1685,7 @@ FilenameListParameterClass::FilenameListParameterClass(DynamicVectorClass<String
 //
 /////////////////////////////////////////////////////////////////////
 FilenameListParameterClass::FilenameListParameterClass(const FilenameListParameterClass& src)
-    : m_FilenameList(NULL)
+    : m_FilenameList(nullptr)
 {
     (*this) = src;
     return;
@@ -1717,7 +1717,7 @@ bool FilenameListParameterClass::operator==(const FilenameListParameterClass& sr
     //
     //	Data valid?
     //
-    if ((m_FilenameList != NULL) && (src.m_FilenameList != NULL)) {
+    if ((m_FilenameList != nullptr) && (src.m_FilenameList != nullptr)) {
         int count1 = m_FilenameList->Count();
         int count2 = src.m_FilenameList->Count();
 
@@ -1792,8 +1792,8 @@ ScriptListParameterClass::ScriptListParameterClass(DynamicVectorClass<StringClas
 //
 /////////////////////////////////////////////////////////////////////
 ScriptListParameterClass::ScriptListParameterClass(const ScriptListParameterClass& src)
-    : m_NameList(NULL),
-      m_ParamList(NULL)
+    : m_NameList(nullptr),
+      m_ParamList(nullptr)
 {
     (*this) = src;
     return;
@@ -1826,8 +1826,8 @@ bool ScriptListParameterClass::operator==(const ScriptListParameterClass& src)
     //
     //	Data valid?
     //
-    if ((m_NameList != NULL) && (src.m_NameList != NULL) && (m_ParamList != NULL)
-        && (src.m_ParamList != NULL)) {
+    if ((m_NameList != nullptr) && (src.m_NameList != nullptr) && (m_ParamList != nullptr)
+        && (src.m_ParamList != nullptr)) {
         retval = Are_Lists_Identical(*m_NameList, *(src.m_NameList));
         retval &= Are_Lists_Identical(*m_ParamList, *(src.m_ParamList));
     }

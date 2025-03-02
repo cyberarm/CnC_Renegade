@@ -66,7 +66,7 @@ bool DlgRestart::DoDialog(void)
         popup->Release_Ref();
     }
 
-    return (popup != NULL);
+    return (popup != nullptr);
 }
 
 /******************************************************************************

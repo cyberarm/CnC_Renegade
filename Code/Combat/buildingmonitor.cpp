@@ -45,7 +45,7 @@
 ////////////////////////////////////////////////////////////////
 void BuildingMonitorClass::Killed(GameObject* game_obj, GameObject* killer)
 {
-    WWASSERT(Building != NULL);
+    WWASSERT(Building != nullptr);
 
     //
     //	Notify the building
@@ -63,7 +63,7 @@ void BuildingMonitorClass::Damaged(GameObject* game_obj, GameObject* killer, flo
 {
     // Only report damage not heal
     if (amount > 0.0f) {
-        WWASSERT(Building != NULL);
+        WWASSERT(Building != nullptr);
 
         // If the building has been damaged to the point of being destroyed
         // then do not report the damaged event. A killed event will be sent
@@ -74,7 +74,7 @@ void BuildingMonitorClass::Damaged(GameObject* game_obj, GameObject* killer, flo
             return;
         }
 
-        DamageableGameObj* damager = NULL;
+        DamageableGameObj* damager = nullptr;
 
         if (killer) {
             damager = killer->As_DamageableGameObj();
@@ -97,7 +97,7 @@ void BuildingMonitorClass::Damaged(GameObject* game_obj, GameObject* killer, flo
 ////////////////////////////////////////////////////////////////
 void BuildingMonitorClass::Custom(GameObject* game_obj, int type, int param, GameObject* sender)
 {
-    WWASSERT(Building != NULL);
+    WWASSERT(Building != nullptr);
 
     //
     //	Notify the controller

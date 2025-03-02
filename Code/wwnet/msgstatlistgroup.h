@@ -34,8 +34,8 @@
 
 #include "msgstatlist.h"
 
-#ifndef NULL
-#define NULL 0L
+#ifndef nullptr
+#define nullptr 0L
 #endif
 
 //-----------------------------------------------------------------------------

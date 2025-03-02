@@ -220,13 +220,13 @@ bool GameObjObserverTimerClass::Load(ChunkLoadClass& cload)
 class GameObjCustomTimerClass
 {
 public:
-    GameObjCustomTimerClass(ScriptableGameObj* sender = NULL, float time = 0, int type = 0,
+    GameObjCustomTimerClass(ScriptableGameObj* sender = nullptr, float time = 0, int type = 0,
                             int param = 0)
         : RemainingTime(time),
           Type(type),
           Param(param)
     {
-        if (sender != NULL) {
+        if (sender != nullptr) {
             Sender = sender;
         }
     }
@@ -255,7 +255,7 @@ bool GameObjCustomTimerClass::Save(ChunkSaveClass& csave)
     WRITE_MICRO_CHUNK(csave, MICROCHUNKID_PARAM, Param);
     csave.End_Chunk();
 
-    if (Sender != NULL) {
+    if (Sender != nullptr) {
         csave.Begin_Chunk(CHUNKID_TIMER_SENDER);
         Sender.Save(csave);
         csave.End_Chunk();
@@ -482,7 +482,7 @@ bool ScriptableGameObj::Save(ChunkSaveClass& csave)
 
 bool ScriptableGameObj::Load(ChunkLoadClass& cload)
 {
-    ReferenceableGameObj* referenceable_ptr = NULL;
+    ReferenceableGameObj* referenceable_ptr = nullptr;
 
     WWASSERT(Observers.Count() == 0);
 
@@ -546,8 +546,8 @@ bool ScriptableGameObj::Load(ChunkLoadClass& cload)
         REQUEST_POINTER_REMAP((void**)&(Observers[ob_idx]));
     }
 
-    WWASSERT(referenceable_ptr != NULL);
-    if (referenceable_ptr != NULL) {
+    WWASSERT(referenceable_ptr != nullptr);
+    if (referenceable_ptr != nullptr) {
         SaveLoadSystemClass::Register_Pointer(referenceable_ptr, (ReferenceableGameObj*)this);
     }
 
@@ -560,10 +560,10 @@ void ScriptableGameObj::On_Post_Load(void)
 {
     BaseGameObj::On_Post_Load();
 
-    // Delete any NULL pointers
+    // Delete any nullptr pointers
     GameObjObserverList& observer_list = (GameObjObserverList&)Get_Observers();
     for (int index = 0; index < observer_list.Count(); index++) {
-        if (observer_list[index] == NULL) {
+        if (observer_list[index] == nullptr) {
             observer_list.Delete(index);
             index--;
         }
@@ -588,7 +588,7 @@ void ScriptableGameObj::Start_Observers(void)
 
 void ScriptableGameObj::Add_Observer(GameObjObserverClass* observer)
 {
-    WWASSERT(observer != NULL);
+    WWASSERT(observer != nullptr);
 
     Insert_Observer(observer);
 
@@ -600,7 +600,7 @@ void ScriptableGameObj::Add_Observer(GameObjObserverClass* observer)
 
 void ScriptableGameObj::Insert_Observer(GameObjObserverClass* observer)
 {
-    WWASSERT(observer != NULL);
+    WWASSERT(observer != nullptr);
 
     observer->Attach(this);
     Observers.Add(observer);
@@ -722,7 +722,7 @@ void ScriptableGameObj::Get_Information(StringClass& string)
 //------------------------------------------------------------------------------------
 void ScriptableGameObj::On_Sound_Ended(SoundSceneObjClass* sound_obj)
 {
-    if (sound_obj == NULL) {
+    if (sound_obj == nullptr) {
         return;
     }
 
@@ -737,7 +737,7 @@ void ScriptableGameObj::On_Sound_Ended(SoundSceneObjClass* sound_obj)
         //
         //	Send a custom event to this observer notifying it that this sound has ended
         //
-        observer_list[index]->Custom(this, CUSTOM_EVENT_SOUND_ENDED, sound_id, NULL);
+        observer_list[index]->Custom(this, CUSTOM_EVENT_SOUND_ENDED, sound_id, nullptr);
     }
 
     return;

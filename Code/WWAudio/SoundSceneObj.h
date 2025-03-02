@@ -105,11 +105,11 @@ public:
     //////////////////////////////////////////////////////////////////////
     //	Conversion methods
     //////////////////////////////////////////////////////////////////////
-    virtual Sound3DClass* As_Sound3DClass(void) { return NULL; }
-    virtual SoundPseudo3DClass* As_SoundPseudo3DClass(void) { return NULL; }
-    virtual FilteredSoundClass* As_FilteredSoundClass(void) { return NULL; }
-    virtual Listener3DClass* As_Listener3DClass(void) { return NULL; }
-    virtual AudibleSoundClass* As_AudibleSoundClass(void) { return NULL; }
+    virtual Sound3DClass* As_Sound3DClass(void) { return nullptr; }
+    virtual SoundPseudo3DClass* As_SoundPseudo3DClass(void) { return nullptr; }
+    virtual FilteredSoundClass* As_FilteredSoundClass(void) { return nullptr; }
+    virtual Listener3DClass* As_Listener3DClass(void) { return nullptr; }
+    virtual AudibleSoundClass* As_AudibleSoundClass(void) { return nullptr; }
 
     //////////////////////////////////////////////////////////////////////
     //	Identification methods
@@ -148,7 +148,7 @@ public:
     //////////////////////////////////////////////////////////////////////
     //	User data methods
     //////////////////////////////////////////////////////////////////////
-    virtual void Set_User_Data(RefCountClass* user_obj = NULL, uint32 user = 0)
+    virtual void Set_User_Data(RefCountClass* user_obj = nullptr, uint32 user = 0)
     {
         REF_PTR_SET(m_UserObj, user_obj);
         m_UserData = user;
@@ -170,7 +170,7 @@ public:
     //////////////////////////////////////////////////////////////////////
     virtual void Add_To_Scene(bool start_playing = true) = 0;
     virtual void Remove_From_Scene(void) = 0;
-    virtual bool Is_In_Scene(void) const { return m_Scene != NULL; }
+    virtual bool Is_In_Scene(void) const { return m_Scene != nullptr; }
 
     //////////////////////////////////////////////////////////////////////
     //	Attenuation settings
@@ -229,7 +229,7 @@ protected:
 __inline void SoundSceneObjClass::On_Event(AudioCallbackClass::EVENTS event, uint32 param1,
                                            uint32 param2)
 {
-    if ((m_pCallback != NULL) && (m_RegisteredEvents & event)) {
+    if ((m_pCallback != nullptr) && (m_RegisteredEvents & event)) {
 
         switch (event) {
         case AudioCallbackClass::EVENT_SOUND_STARTED:
@@ -259,7 +259,7 @@ __inline void SoundSceneObjClass::Register_Callback(AudioCallbackClass::EVENTS e
     //
     //	Unregister the old callback
     //
-    if (m_pCallback != NULL) {
+    if (m_pCallback != nullptr) {
         m_pCallback->On_UnRegistered(this);
     }
 
@@ -269,7 +269,7 @@ __inline void SoundSceneObjClass::Register_Callback(AudioCallbackClass::EVENTS e
     //
     //	Register the new callbcak
     //
-    if (m_pCallback != NULL) {
+    if (m_pCallback != nullptr) {
         m_pCallback->On_Registered(this);
     }
 
@@ -281,7 +281,7 @@ __inline void SoundSceneObjClass::Register_Callback(AudioCallbackClass::EVENTS e
 //////////////////////////////////////////////////////////////////////////////
 __inline void SoundSceneObjClass::Remove_Callback(void)
 {
-    m_pCallback = NULL;
+    m_pCallback = nullptr;
     m_RegisteredEvents = AudioCallbackClass::EVENT_NONE;
     return;
 }

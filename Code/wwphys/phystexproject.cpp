@@ -96,8 +96,8 @@ bool PhysTexProjectClass::Compute_Perspective_Projection(PhysClass* obj, const V
                                                          float nearz, float farz)
 {
     RenderObjClass* model = obj->Peek_Model();
-    if (model == NULL) {
-        WWDEBUG_SAY(("Attempting to generate projection for a NULL model\r\n"));
+    if (model == nullptr) {
+        WWDEBUG_SAY(("Attempting to generate projection for a nullptr model\r\n"));
         return false;
     }
 
@@ -124,8 +124,8 @@ bool PhysTexProjectClass::Compute_Ortho_Projection(PhysClass* obj, const Vector3
                                                    float nearz, float farz)
 {
     RenderObjClass* model = obj->Peek_Model();
-    if (model == NULL) {
-        WWDEBUG_SAY(("Attempting to generate projection for a NULL model\r\n"));
+    if (model == nullptr) {
+        WWDEBUG_SAY(("Attempting to generate projection for a nullptr model\r\n"));
         return false;
     }
 
@@ -154,14 +154,14 @@ bool PhysTexProjectClass::Compute_Texture(PhysClass* obj, bool additive_projecti
     ** Grab the shadow render context and the render object
     */
     RenderObjClass* model = obj->Peek_Model();
-    if (model == NULL) {
+    if (model == nullptr) {
         return false;
     }
 
     int tex_size = Get_Texture_Size();
     SpecialRenderInfoClass* context
         = PhysicsSceneClass::Get_Instance()->Get_Shadow_Render_Context(tex_size, tex_size);
-    if (context == NULL) {
+    if (context == nullptr) {
         return false;
     }
 

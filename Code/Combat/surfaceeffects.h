@@ -130,7 +130,7 @@ public:
 
     // The transform for Apply_Effect is in camera convention, +Z is the normal of the surface
     static void Apply_Effect(int surface_type, int hitter_type, const Matrix3D& tm,
-                             PhysClass* hit_obj = NULL, PhysicalGameObj* creator = NULL,
+                             PhysClass* hit_obj = nullptr, PhysicalGameObj* creator = nullptr,
                              bool allow_decals = true, bool allow_emitters = true);
 
     // Persist Effects

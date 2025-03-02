@@ -65,9 +65,9 @@
 //
 ////////////////////////////////////////////////////////////////
 ViewerCtrlClass::ViewerCtrlClass(void)
-    : Scene(NULL),
-      Camera(NULL),
-      Model(NULL),
+    : Scene(nullptr),
+      Camera(nullptr),
+      Model(nullptr),
       Distance(0),
       ZRotation(0),
       MinCameraDist(0),
@@ -259,7 +259,7 @@ void ViewerCtrlClass::Render(void)
     //
     //	Render the 3D object
     //
-    if (Scene != NULL) {
+    if (Scene != nullptr) {
         WW3D::Render(Scene, Camera);
     }
 
@@ -316,7 +316,7 @@ void ViewerCtrlClass::Set_Model(RenderObjClass* new_model)
     //
     Free_Model();
 
-    if (new_model != NULL) {
+    if (new_model != nullptr) {
         Model = new_model;
 
         //
@@ -352,7 +352,7 @@ void ViewerCtrlClass::Set_Model(RenderObjClass* new_model)
 ////////////////////////////////////////////////////////////////
 void ViewerCtrlClass::Calculate_Camera_Position(void)
 {
-    if (Model == NULL) {
+    if (Model == nullptr) {
         return;
     }
 
@@ -423,7 +423,7 @@ void ViewerCtrlClass::Calculate_Camera_Position(void)
 ////////////////////////////////////////////////////////////////
 void ViewerCtrlClass::Set_Animation(const char* anim_name)
 {
-    if (Model == NULL) {
+    if (Model == nullptr) {
         return;
     }
 
@@ -433,7 +433,7 @@ void ViewerCtrlClass::Set_Animation(const char* anim_name)
         //	Play the animation on the model
         //
         HAnimClass* anim = WW3DAssetManager::Get_Instance()->Get_HAnim(anim_name);
-        if (anim != NULL) {
+        if (anim != nullptr) {
             Model->Set_Animation(anim, 0, RenderObjClass::ANIM_MODE_LOOP);
             REF_PTR_RELEASE(anim);
         }
@@ -460,7 +460,7 @@ void ViewerCtrlClass::Set_Animation(const char* anim_name)
 ////////////////////////////////////////////////////////////////
 void ViewerCtrlClass::Free_Model(void)
 {
-    if (Model != NULL) {
+    if (Model != nullptr) {
         Model->Remove();
         REF_PTR_RELEASE(Model);
     }
@@ -597,7 +597,7 @@ void ViewerCtrlClass::On_Frame_Update(void)
 void ViewerCtrlClass::Get_Visible_Bounding_Box(AABoxClass* box, RenderObjClass* render_obj,
                                                bool& is_first)
 {
-    if (render_obj == NULL) {
+    if (render_obj == nullptr) {
         return;
     }
 
@@ -610,7 +610,7 @@ void ViewerCtrlClass::Get_Visible_Bounding_Box(AABoxClass* box, RenderObjClass* 
         //
         //	Recurse into this sub-object
         //
-        if (sub_obj != NULL && (sub_obj->Is_Hidden() == false)) {
+        if (sub_obj != nullptr && (sub_obj->Is_Hidden() == false)) {
             Get_Visible_Bounding_Box(box, sub_obj, is_first);
         }
         REF_PTR_RELEASE(sub_obj);
@@ -626,13 +626,13 @@ void ViewerCtrlClass::Get_Visible_Bounding_Box(AABoxClass* box, RenderObjClass* 
         //	Dig out the mesh's model
         //
         MeshModelClass* mesh_model = mesh->Get_Model();
-        if (mesh_model != NULL) {
+        if (mesh_model != nullptr) {
 
             //
             //	Get the vertex count
             //
             int vertex_count = mesh_model->Get_Vertex_Count();
-            Vector3* vertex_array = NULL;
+            Vector3* vertex_array = nullptr;
 
             //
             //	Get a pointer to the vertices
@@ -676,7 +676,7 @@ void ViewerCtrlClass::Get_Visible_Bounding_Box(AABoxClass* box, RenderObjClass* 
             //
             if (is_skin) {
                 delete[] vertex_array;
-                vertex_array = NULL;
+                vertex_array = nullptr;
             }
 
             REF_PTR_RELEASE(mesh_model);

@@ -60,7 +60,7 @@
  *	Globals
  *****************************************************************************/
 
-HINSTANCE AppInstance = NULL;
+HINSTANCE AppInstance = nullptr;
 static int ControlsInit = FALSE;
 static W3dClassDesc W3d_Export_Class_Descriptor;
 
@@ -180,7 +180,7 @@ DLLEXPORT ClassDesc* LibClassDesc(int i)
 #endif
 
     default:
-        return NULL;
+        return nullptr;
         break;
     }
 }
@@ -218,7 +218,7 @@ TCHAR* Get_String(int id)
 {
     static TCHAR buf[256];
     if (AppInstance) {
-        return LoadString(AppInstance, id, buf, sizeof(buf)) ? buf : NULL;
+        return LoadString(AppInstance, id, buf, sizeof(buf)) ? buf : nullptr;
     }
-    return NULL;
+    return nullptr;
 }

@@ -23,7 +23,7 @@
 CritSec::CritSec()
 {
 #ifdef _UNIX
-    pthread_mutex_init(&Mutex_, NULL);
+    pthread_mutex_init(&Mutex_, nullptr);
     RefCount_ = 0;
 #elif defined(_WIN32)
     InitializeCriticalSection(&CritSec_);
@@ -45,7 +45,7 @@ CritSec::~CritSec()
 // A thread that already has a lock will increment a reference count if it calls
 //  lock again.  It must then call unlock() enough times to get the reference to 0.
 //
-// If refcount is not null you can get the current ref counter after the lock.
+// If refcount is not nullptr you can get the current ref counter after the lock.
 //
 sint32 CritSec::lock(int* refcount) RO
 {

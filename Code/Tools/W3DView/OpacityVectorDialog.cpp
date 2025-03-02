@@ -40,9 +40,9 @@ static char THIS_FILE[] = __FILE__;
 // OpacityVectorDialogClass
 //
 /////////////////////////////////////////////////////////////////////////////
-OpacityVectorDialogClass::OpacityVectorDialogClass(CWnd* pParent /*=NULL*/)
-    : m_OpacityBar(NULL),
-      m_RenderObj(NULL),
+OpacityVectorDialogClass::OpacityVectorDialogClass(CWnd* pParent /*=nullptr*/)
+    : m_OpacityBar(nullptr),
+      m_RenderObj(nullptr),
       m_KeyIndex(0),
       CDialog(OpacityVectorDialogClass::IDD, pParent)
 {
@@ -221,7 +221,7 @@ AlphaVectorStruct OpacityVectorDialogClass::Update_Value(void)
 /////////////////////////////////////////////////////////////////////////////
 void OpacityVectorDialogClass::Update_Object(const AlphaVectorStruct& value)
 {
-    if (m_RenderObj != NULL) {
+    if (m_RenderObj != nullptr) {
 
         //
         //	Determine what type of object this is

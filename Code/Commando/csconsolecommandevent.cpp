@@ -59,7 +59,7 @@ void cCsConsoleCommandEvent::Init(LPCSTR command)
 {
     WWASSERT(cNetwork::I_Am_Only_Client());
 
-    WWASSERT(command != NULL);
+    WWASSERT(command != nullptr);
     WWASSERT(::strlen(command) > 0);
     WWASSERT(::strlen(command) < sizeof(Command));
 

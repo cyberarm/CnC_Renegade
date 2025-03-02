@@ -55,7 +55,7 @@
 DynamicVectorClass<RadarMarkerClass> RadarManager::Markers;
 Render2DClass* RadarManager::Renderer;
 unsigned long RadarManager::BlipColors[NUM_BLIP_COLOR_TYPES];
-const PhysicalGameObj* RadarManager::BracketObj = NULL;
+const PhysicalGameObj* RadarManager::BracketObj = nullptr;
 RectClass RadarManager::BlipUV[NUM_BLIP_TYPES];
 bool RadarManager::IsHidden = false;
 float RadarManager::HiddenTimer = 0.0f;
@@ -139,7 +139,7 @@ void RadarManager::Init()
 {
     int i;
 
-    BracketObj = NULL;
+    BracketObj = nullptr;
 
     Renderer = new Render2DClass();
     Renderer->Set_Texture(RADAR_TEXTURE);
@@ -149,7 +149,7 @@ void RadarManager::Init()
     for (i = 0; i < NUM_BLIP_COLOR_TYPES; i++) {
         BlipColors[i] = 0xFFFFFFFF;
     }
-    if (HUDGlobalSettingsDef::Get_Instance() != NULL) {
+    if (HUDGlobalSettingsDef::Get_Instance() != nullptr) {
         BlipColors[BLIP_COLOR_TYPE_NOD]
             = HUDGlobalSettingsDef::Get_Instance()->Get_Nod_Color().Convert_To_ARGB();
         BlipColors[BLIP_COLOR_TYPE_GDI]
@@ -199,7 +199,7 @@ void RadarManager::Init()
 
     // Clear radar renderer pointers, these are initialized on demand
     for (i = 0; i < 8; ++i) {
-        CompassRenderers[i] = NULL;
+        CompassRenderers[i] = nullptr;
     }
 
     // Don't reset the markers here, Some may have already been added when loading the level
@@ -215,7 +215,7 @@ void RadarManager::Shutdown()
 {
     if (Renderer) {
         delete Renderer;
-        Renderer = NULL;
+        Renderer = nullptr;
     }
 
     while (Blips.Count() > 0) {
@@ -226,7 +226,7 @@ void RadarManager::Shutdown()
 
     for (int i = 0; i < 8; ++i) {
         delete CompassRenderers[i];
-        CompassRenderers[i] = NULL;
+        CompassRenderers[i] = nullptr;
     }
 
     Markers.Delete_All();
@@ -530,7 +530,7 @@ void RadarManager::Update(const Matrix3D& player_tm, const Vector2& center)
                 if (obj == COMBAT_STAR) {
                     continue; // Don't draw the star
                 }
-                if (obj->Peek_Physical_Object() == NULL) {
+                if (obj->Peek_Physical_Object() == nullptr) {
                     continue;
                 }
 
@@ -543,7 +543,7 @@ void RadarManager::Update(const Matrix3D& player_tm, const Vector2& center)
                 //
                 // TSS: Filter blips based on RadarMode
                 //
-                if (COMBAT_STAR != NULL && RadarMode != RADAR_ALL) {
+                if (COMBAT_STAR != nullptr && RadarMode != RADAR_ALL) {
                     if (RadarMode == RADAR_NOBODY) {
                         continue;
                     }
@@ -562,7 +562,7 @@ void RadarManager::Update(const Matrix3D& player_tm, const Vector2& center)
                 // gth: don't show radar blips for enemy stealthed units
                 //
                 SmartGameObj* smart_obj = obj->As_SmartGameObj();
-                if ((smart_obj != NULL) && (smart_obj->Is_Stealthed())) {
+                if ((smart_obj != nullptr) && (smart_obj->Is_Stealthed())) {
 
                     int obj_pt = smart_obj->Get_Player_Type();
                     int my_pt = COMBAT_STAR->Get_Player_Type();
@@ -639,7 +639,7 @@ void RadarManager::Render(void)
     if ((HiddenTimer < 1) && Renderer) {
         Renderer->Render();
 
-        if (CompassRenderers[CurrentCompassRendererIndex] != NULL) {
+        if (CompassRenderers[CurrentCompassRendererIndex] != nullptr) {
             CompassRenderers[CurrentCompassRendererIndex]->Render();
         }
     }

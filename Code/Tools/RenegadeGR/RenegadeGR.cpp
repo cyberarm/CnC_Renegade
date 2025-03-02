@@ -33,8 +33,8 @@ JNIEXPORT jint JNICALL Java_RenegadeNet__1nativeSendGR(JNIEnv* env, jclass cls,
                                                        jdoubleArray scoreArray)
 {
     int i = 0;
-    char** packetLogins = NULL;
-    double* packetScores = NULL;
+    char** packetLogins = nullptr;
+    double* packetScores = nullptr;
 
     // Build packetLogins array
     jsize loginlen = env->GetArrayLength(loginArray);

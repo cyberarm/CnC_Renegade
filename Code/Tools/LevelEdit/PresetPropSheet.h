@@ -60,7 +60,7 @@ public:
     //	Public constructor
     /////////////////////////////////////////////////////////////////////////////
     PresetPropSheetClass(void)
-        : m_Preset(NULL)
+        : m_Preset(nullptr)
     {
     }
 

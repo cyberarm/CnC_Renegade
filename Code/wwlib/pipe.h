@@ -44,7 +44,7 @@
 **	A "push through" pipe interface abstract class used for such purposes as compression
 **	and translation of data. In STL terms, this is functionally similar to an output
 **	iterator but with a few enhancements. A pipe class object that is not derived into
-**	another useful class serves only as a pseudo null-pipe. It will accept data but
+**	another useful class serves only as a pseudo nullptr-pipe. It will accept data but
 **	just throw it away but pretend that it sent it somewhere.
 */
 class Pipe

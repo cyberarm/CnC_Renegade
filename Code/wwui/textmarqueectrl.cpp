@@ -268,7 +268,7 @@ void TextMarqueeCtrlClass::Build_Credit_Lines(void)
 //	Handy macro
 //
 #define COPY_LINE(dest, src_start, src_end)                                                        \
-    if (src_end == NULL) {                                                                         \
+    if (src_end == nullptr) {                                                                         \
         dest = src_start;                                                                          \
     }                                                                                              \
     else {                                                                                         \
@@ -285,7 +285,7 @@ void TextMarqueeCtrlClass::Build_Credit_Lines(void)
     //	Build an array of formatted text lines
     //
     const WCHAR* text = Title;
-    while (text != NULL) {
+    while (text != nullptr) {
 
         //
         //	Scan this line for formatting information
@@ -303,7 +303,7 @@ void TextMarqueeCtrlClass::Build_Credit_Lines(void)
         //	Loop over all the lines of text and check for wrapping...
         //
         const WCHAR* line_start = renderer->Find_Row_Start(line.Text, 0);
-        while (line_start != NULL) {
+        while (line_start != nullptr) {
 
             //
             //	Lookup the start of the next line...
@@ -393,7 +393,7 @@ int TextMarqueeCtrlClass::Read_Tag(const WCHAR* text, CREDIT_LINE& line)
                     WCHAR* buffer = temp_buffer.Peek_Buffer();
                     for (int color_index = 0; color_index < 3; color_index++) {
                         WCHAR* comma_str = ::wcschr(buffer, L',');
-                        if (comma_str != NULL) {
+                        if (comma_str != nullptr) {
                             comma_str[0] = 0;
                             color[color_index] = ::_wtoi(buffer);
                             buffer = &comma_str[1];

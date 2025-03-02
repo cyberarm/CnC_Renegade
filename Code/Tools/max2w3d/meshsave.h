@@ -109,7 +109,7 @@ public:
     MeshSaveClass(char* mesh_name, char* container_name, INode* inode, const Mesh* input_mesh,
                   Matrix3& exportspace, W3DAppData2Struct& exportoptions, HierarchySaveClass* htree,
                   TimeValue curtime, Progress_Meter_Class& meter,
-                  WorldInfoClass* world_info = NULL);
+                  WorldInfoClass* world_info = nullptr);
 
     ~MeshSaveClass(void);
 

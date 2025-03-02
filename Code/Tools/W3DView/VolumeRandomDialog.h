@@ -38,7 +38,7 @@ class VolumeRandomDialogClass : public CDialog
     // Construction
 public:
     VolumeRandomDialogClass(Vector3Randomizer* randomizer,
-                            CWnd* pParent = NULL); // standard constructor
+                            CWnd* pParent = nullptr); // standard constructor
 
     // Dialog Data
     //{{AFX_DATA(VolumeRandomDialogClass)

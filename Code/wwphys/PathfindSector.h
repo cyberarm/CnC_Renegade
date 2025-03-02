@@ -81,10 +81,10 @@ public:
     ////////////////////////////////////////////////////////////////////
     //	RTTI
     ////////////////////////////////////////////////////////////////////
-    virtual PathfindWaypathSectorClass* As_PathfindWaypathSectorClass(void) { return NULL; }
+    virtual PathfindWaypathSectorClass* As_PathfindWaypathSectorClass(void) { return nullptr; }
     virtual const PathfindWaypathSectorClass* As_PathfindWaypathSectorClass(void) const
     {
-        return NULL;
+        return nullptr;
     }
 
     ////////////////////////////////////////////////////////////////////

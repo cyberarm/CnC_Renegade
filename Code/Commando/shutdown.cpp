@@ -301,10 +301,10 @@ public:
     void Thread_Function()
     {
         DWORD written;
-        HANDLE file = CreateFile(Filename, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS,
-                                 FILE_ATTRIBUTE_NORMAL, NULL);
+        HANDLE file = CreateFile(Filename, GENERIC_WRITE, 0, nullptr, CREATE_ALWAYS,
+                                 FILE_ATTRIBUTE_NORMAL, nullptr);
         if (INVALID_HANDLE_VALUE != file) {
-            WriteFile(file, String, strlen(String), &written, NULL);
+            WriteFile(file, String, strlen(String), &written, nullptr);
             CloseHandle(file);
         }
     }
@@ -316,7 +316,7 @@ static void Log_System_Information()
     if (!DX8Wrapper::Is_Initted()) {
         return;
     }
-    if (DX8Wrapper::Get_Current_Caps() == NULL) {
+    if (DX8Wrapper::Get_Current_Caps() == nullptr) {
         return;
     }
 
@@ -383,10 +383,10 @@ static void Log_System_Information()
 #endif
 
     // Write log to local work folder
-    file = CreateFile("sysinfo.txt", GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL,
-                      NULL);
+    file = CreateFile("sysinfo.txt", GENERIC_WRITE, 0, nullptr, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL,
+                      nullptr);
     if (INVALID_HANDLE_VALUE != file) {
-        WriteFile(file, string, strlen(string), &written, NULL);
+        WriteFile(file, string, strlen(string), &written, nullptr);
         CloseHandle(file);
     }
 }
@@ -421,14 +421,14 @@ void Game_Shutdown(void)
     cGameData::Onetime_Shutdown();
     cBandwidthGraph::Onetime_Shutdown();
 
-    DebugManager::Set_Display_Handler(NULL);
+    DebugManager::Set_Display_Handler(nullptr);
 
     GameModeManager::Destroy_All();
     EncyclopediaMgrClass::Shutdown();
     RenegadeDialogMgrClass::Shutdown();
 
     // Free the sound library
-    if (WWAudioClass::Get_Instance() != NULL) {
+    if (WWAudioClass::Get_Instance() != nullptr) {
         // WWAudioClass::Get_Instance ()->Shutdown ();
         delete WWAudioClass::Get_Instance();
     }
@@ -479,12 +479,12 @@ void Game_Shutdown(void)
     /*
     ** Remove any old file factories still lying around.
     */
-    if (FileFactoryListClass::Get_Instance() != NULL) {
+    if (FileFactoryListClass::Get_Instance() != nullptr) {
         FileFactoryListClass::Get_Instance()->Remove_FileFactory(&RenegadeBaseFileFactory);
     }
-    while (FileFactoryListClass::Get_Instance() != NULL) {
+    while (FileFactoryListClass::Get_Instance() != nullptr) {
         FileFactoryClass* factory = FileFactoryListClass::Get_Instance()->Remove_FileFactory();
-        if (factory != NULL) {
+        if (factory != nullptr) {
             WWDEBUG_SAY(("Removing pesky old file factory\n"));
             delete factory;
         }
@@ -537,7 +537,7 @@ void Debug_Refs(void)
                 && (search_ref->Line == ref->Line)) {
                 count++;
             }
-            else if ((ref->File == NULL) && (search_ref->File == NULL)) {
+            else if ((ref->File == nullptr) && (search_ref->File == nullptr)) {
                 count++;
             }
 

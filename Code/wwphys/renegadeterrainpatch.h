@@ -321,7 +321,7 @@ WWINLINE bool RenegadeTerrainPatchClass::Collide_Quad(const LineSegClass& line_s
                 best_pass = index;
             }
         }
-        if (MaterialPassList[best_pass]->Material != NULL) {
+        if (MaterialPassList[best_pass]->Material != nullptr) {
             result.SurfaceType = MaterialPassList[best_pass]->Material->Get_Surface_Type();
         }
     }

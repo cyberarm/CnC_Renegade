@@ -86,7 +86,7 @@ class PrototypeClass
 
 public:
     PrototypeClass(void)
-        : NextHash(NULL)
+        : NextHash(nullptr)
     {
     }
     virtual ~PrototypeClass(void) { };

@@ -114,8 +114,8 @@ SphereRenderObjClass::SphereRenderObjClass(void)
     : anim_time(0.0F),
       IsAnimating(true),
       AnimDuration(0.0F),
-      SphereMaterial(NULL),
-      SphereTexture(NULL),
+      SphereMaterial(nullptr),
+      SphereTexture(nullptr),
       Color(0.75F, 0.75F, 0.75F),
       Scale(1, 1, 1),
       Alpha(1.0F),
@@ -153,8 +153,8 @@ SphereRenderObjClass::SphereRenderObjClass(const W3dSphereStruct& def)
     : anim_time(0.0F),
       IsAnimating(true),
       AnimDuration(0.0F),
-      SphereMaterial(NULL),
-      SphereTexture(NULL),
+      SphereMaterial(nullptr),
+      SphereTexture(nullptr),
       Color(0.75F, 0.75F, 0.75F),
       Scale(1, 1, 1),
       Alpha(1.0F),
@@ -200,8 +200,8 @@ SphereRenderObjClass::SphereRenderObjClass(const SphereRenderObjClass& src)
     : anim_time(0.0F),
       IsAnimating(true),
       AnimDuration(0.0F),
-      SphereMaterial(NULL),
-      SphereTexture(NULL),
+      SphereMaterial(nullptr),
+      SphereTexture(nullptr),
       Color(0.75F, 0.75F, 0.75F),
       Scale(1, 1, 1),
       Alpha(1.0F),
@@ -399,7 +399,7 @@ const char* SphereRenderObjClass::Get_Name(void) const
  *=============================================================================================*/
 void SphereRenderObjClass::Set_Name(const char* name)
 {
-    WWASSERT(name != NULL);
+    WWASSERT(name != nullptr);
     WWASSERT(strlen(name) < 2 * W3D_NAME_LEN);
     strcpy(Name, name);
 }
@@ -679,7 +679,7 @@ void SphereRenderObjClass::Special_Render(SpecialRenderInfoClass& rinfo)
     temp.Translate(Transform.Get_Translation());
 
     if (rinfo.RenderType == SpecialRenderInfoClass::RENDER_VIS) {
-        WWASSERT(rinfo.VisRasterizer != NULL);
+        WWASSERT(rinfo.VisRasterizer != nullptr);
         rinfo.VisRasterizer->Set_Model_Transform(temp);
         vis_render_sphere(rinfo, ObjSpaceCenter, ObjSpaceExtent);
     }
@@ -1032,10 +1032,10 @@ SpherePrototypeClass::SpherePrototypeClass(SphereRenderObjClass* sphere)
     //
     //	Determine the texture name for this sphere
     //
-    if (sphere->SphereTexture != NULL) {
+    if (sphere->SphereTexture != nullptr) {
         StringClass name = sphere->SphereTexture->Get_Full_Path();
         const char* filename = ::strrchr(name, '\\');
-        if (filename != NULL) {
+        if (filename != nullptr) {
             filename++;
         }
         else {
@@ -1210,17 +1210,17 @@ SphereMeshClass::SphereMeshClass(float radius, int slices, int stacks)
       Slices(slices),
       Stacks(stacks),
       Vertex_ct(0),
-      vtx(NULL),
-      vtx_normal(NULL),
-      vtx_uv(NULL),
+      vtx(nullptr),
+      vtx_normal(nullptr),
+      vtx_uv(nullptr),
       strip_ct(0),
       strip_size(0),
-      strips(NULL),
+      strips(nullptr),
       fan_ct(0),
       fan_size(0),
-      fans(NULL),
+      fans(nullptr),
       face_ct(0),
-      tri_poly(NULL),
+      tri_poly(nullptr),
       inverse_alpha(false)
 {
     // compute # of vertices
@@ -1248,17 +1248,17 @@ SphereMeshClass::SphereMeshClass(void)
       Slices(0),
       Stacks(0),
       Vertex_ct(0),
-      vtx(NULL),
-      vtx_normal(NULL),
-      vtx_uv(NULL),
+      vtx(nullptr),
+      vtx_normal(nullptr),
+      vtx_uv(nullptr),
       strip_ct(0),
       strip_size(0),
-      strips(NULL),
+      strips(nullptr),
       fan_ct(0),
       fan_size(0),
-      fans(NULL),
+      fans(nullptr),
       face_ct(0),
-      tri_poly(NULL),
+      tri_poly(nullptr),
       inverse_alpha(false)
 {
 
@@ -1596,13 +1596,13 @@ void SphereMeshClass::Free(void)
         delete[] tri_poly;
     }
 
-    vtx = NULL;
-    vtx_normal = NULL;
-    vtx_uv = NULL;
-    dcg = NULL;
-    strips = NULL;
-    fans = NULL;
-    tri_poly = NULL;
+    vtx = nullptr;
+    vtx_normal = nullptr;
+    vtx_uv = nullptr;
+    dcg = nullptr;
+    strips = nullptr;
+    fans = nullptr;
+    tri_poly = nullptr;
 }
 
 // EOF - sphereobj.cpp

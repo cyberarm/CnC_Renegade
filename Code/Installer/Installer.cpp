@@ -106,12 +106,12 @@
 
 // Macros.
 #define END_DIALOG(dialog)                                                                         \
-    if (dialog != NULL) {                                                                          \
+    if (dialog != nullptr) {                                                                          \
         dialog->End_Dialog();                                                                      \
     }
 
 #define REGISTER_DIALOG(dialogclass, dialog, args)                                                 \
-    if (dialog == NULL) {                                                                          \
+    if (dialog == nullptr) {                                                                          \
         dialog = NEW_REF(dialogclass, args);                                                       \
         dialog->Start_Dialog();                                                                    \
     }                                                                                              \
@@ -153,40 +153,40 @@ typedef HRESULT (*DLLUNREGISTERSERVER)(void);
  *   08/22/01    IML : Created.                                                                *
  *=============================================================================================*/
 InstallerClass::InstallerClass()
-    : SetupIni(NULL),
-      GameIni(NULL),
-      WOLIni(NULL),
-      AssetManager(NULL),
+    : SetupIni(nullptr),
+      GameIni(nullptr),
+      WOLIni(nullptr),
+      AssetManager(nullptr),
       FreshGameInstall(true),
       FreshWOLInstall(true),
       TargetWOLOlder(true),
       WwmathInitialized(false),
       DialogMgrInitialized(false),
-      AudioSystem(NULL),
-      TransitionMusic(NULL),
-      InstallMusic(NULL),
-      UIInput(NULL),
+      AudioSystem(nullptr),
+      TransitionMusic(nullptr),
+      InstallMusic(nullptr),
+      UIInput(nullptr),
       CancelIntroduction(false),
       CancelApplication(false),
-      WelcomeDialog(NULL),
-      NDADialog(NULL),
-      LicenseDialog(NULL),
-      SerialDialog(NULL),
-      WhatToInstallDialog(NULL),
-      GameDirectoryDialog(NULL),
-      GameFolderDialog(NULL),
-      WOLDirectoryDialog(NULL),
-      WOLFolderDialog(NULL),
-      ReviewDialog(NULL),
-      CopyDialog(NULL),
-      WOL1Dialog(NULL),
-      WOL2Dialog(NULL),
-      FinalDialog(NULL),
+      WelcomeDialog(nullptr),
+      NDADialog(nullptr),
+      LicenseDialog(nullptr),
+      SerialDialog(nullptr),
+      WhatToInstallDialog(nullptr),
+      GameDirectoryDialog(nullptr),
+      GameFolderDialog(nullptr),
+      WOLDirectoryDialog(nullptr),
+      WOLFolderDialog(nullptr),
+      ReviewDialog(nullptr),
+      CopyDialog(nullptr),
+      WOL1Dialog(nullptr),
+      WOL2Dialog(nullptr),
+      FinalDialog(nullptr),
       GameFileCount(0),
       GameSize(0),
       WOLFileCount(0),
       WOLSize(0),
-      CardSelectionDialog(NULL),
+      CardSelectionDialog(nullptr),
       ProgEndAction(ACTION_NONE)
 {
     SetupIni = new INIClass;
@@ -334,7 +334,7 @@ void InstallerClass::Install(MixFileFactoryClass* mixfilefactory)
                         transition->Start_Dialog();
 
                         // Start the transition music.
-                        if (TransitionMusic != NULL) {
+                        if (TransitionMusic != nullptr) {
                             TransitionMusic->Play();
                         }
 
@@ -348,7 +348,7 @@ void InstallerClass::Install(MixFileFactoryClass* mixfilefactory)
                             // Has the dialog 'played out'?
                             // NOTE: Wait for both video and audio to finish.
                             if (!transition->Is_Running()) {
-                                if (TransitionMusic != NULL) {
+                                if (TransitionMusic != nullptr) {
                                     if (!TransitionMusic->Is_Playing()) {
                                         break;
                                     }
@@ -361,7 +361,7 @@ void InstallerClass::Install(MixFileFactoryClass* mixfilefactory)
                             WW3D::Begin_Render(true, true, black);
                             if (GameInFocus) {
                                 DialogMgrClass::Render();
-                                if (TransitionMusic != NULL) {
+                                if (TransitionMusic != nullptr) {
                                     if (TransitionMusic->Get_State()
                                         == AudibleSoundClass::STATE_PAUSED) {
                                         TransitionMusic->Resume();
@@ -372,7 +372,7 @@ void InstallerClass::Install(MixFileFactoryClass* mixfilefactory)
                                 }
                             }
                             else {
-                                if (TransitionMusic != NULL) {
+                                if (TransitionMusic != nullptr) {
                                     if (TransitionMusic->Get_State()
                                         == AudibleSoundClass::STATE_PLAYING) {
                                         TransitionMusic->Pause();
@@ -392,7 +392,7 @@ void InstallerClass::Install(MixFileFactoryClass* mixfilefactory)
                             // Has the user cancelled the transition?
                             if (CancelIntroduction) {
                                 transition->End_Dialog();
-                                if (TransitionMusic != NULL) {
+                                if (TransitionMusic != nullptr) {
                                     TransitionMusic->Stop();
                                 }
                                 break;
@@ -406,10 +406,10 @@ void InstallerClass::Install(MixFileFactoryClass* mixfilefactory)
                 DialogBaseClass::Set_Default_Command_Handler(Default_On_Command);
 
                 // Put up the first dialog.
-                Default_On_Command(NULL, 0, 0, 0);
+                Default_On_Command(nullptr, 0, 0, 0);
 
                 // Start the install music.
-                if (InstallMusic != NULL) {
+                if (InstallMusic != nullptr) {
                     InstallMusic->Play();
                 }
 
@@ -423,7 +423,7 @@ void InstallerClass::Install(MixFileFactoryClass* mixfilefactory)
                     WW3D::Begin_Render(true, true, black);
                     if (GameInFocus) {
                         DialogMgrClass::Render();
-                        if (InstallMusic != NULL) {
+                        if (InstallMusic != nullptr) {
                             if (InstallMusic->Get_State() == AudibleSoundClass::STATE_PAUSED) {
                                 InstallMusic->Resume();
                             }
@@ -433,7 +433,7 @@ void InstallerClass::Install(MixFileFactoryClass* mixfilefactory)
                         }
                     }
                     else {
-                        if (InstallMusic != NULL) {
+                        if (InstallMusic != nullptr) {
                             if (InstallMusic->Get_State() == AudibleSoundClass::STATE_PLAYING) {
                                 InstallMusic->Pause();
                             }
@@ -635,7 +635,7 @@ void InstallerClass::Count_Source_Files(const WideStringClass& sourcepath, unsig
                 WCHAR extension[_MAX_EXT];
 
                 // Filter out CAB files.
-                _wsplitpath(filename, NULL, NULL, NULL, extension);
+                _wsplitpath(filename, nullptr, nullptr, nullptr, extension);
                 if (_wcsicmp(cabextension, extension) != 0) {
                     filecount++;
                     filesize += (finddata.nFileSizeHigh * ((__int64)MAXDWORD) + 1)
@@ -773,11 +773,11 @@ void InstallerClass::Initialize()
     WWAudioClass::Get_Instance()->Initialize();
     WWAudioClass::Get_Instance()->Set_File_Factory(_TheFileFactory);
     TransitionMusic = WWAudioClass::Get_Instance()->Create_Sound_Effect(transitionmusicfilename);
-    if (TransitionMusic != NULL) {
+    if (TransitionMusic != nullptr) {
         TransitionMusic->Set_Type(AudibleSoundClass::TYPE_MUSIC);
     }
     InstallMusic = WWAudioClass::Get_Instance()->Create_Sound_Effect(installmusicfilename);
-    if (InstallMusic != NULL) {
+    if (InstallMusic != nullptr) {
         InstallMusic->Set_Type(AudibleSoundClass::TYPE_MUSIC);
         InstallMusic->Set_Loop_Count(0);
     }
@@ -831,15 +831,15 @@ void InstallerClass::Shutdown()
     REF_PTR_RELEASE(CardSelectionDialog)
 
     // Shutdown the music.
-    if (TransitionMusic != NULL) {
+    if (TransitionMusic != nullptr) {
         TransitionMusic->Stop();
         TransitionMusic->Release_Ref();
     }
-    if (InstallMusic != NULL) {
+    if (InstallMusic != nullptr) {
         InstallMusic->Stop();
         InstallMusic->Release_Ref();
     }
-    if (AudioSystem != NULL) {
+    if (AudioSystem != nullptr) {
         WWAudioClass::Get_Instance()->Shutdown();
         delete AudioSystem;
     }
@@ -883,7 +883,7 @@ bool InstallerClass::WW3D_Initialize(int cardselection)
 
     ArgvClass commandlineparser(false, true);
 
-    windowedmode = (commandlineparser.Find("-W") != NULL);
+    windowedmode = (commandlineparser.Find("-W") != nullptr);
 
     // For each available video card...
     for (int d = 0; d < WW3D::Get_Render_Device_Count(); d++) {
@@ -966,7 +966,7 @@ void InstallerClass::WW3D_Shutdown()
     if (WW3D::Is_Initted()) {
         WW3D::Shutdown();
     }
-    if (AssetManager != NULL) {
+    if (AssetManager != nullptr) {
         AssetManager->Free_Assets();
         delete AssetManager;
     }
@@ -994,14 +994,14 @@ void InstallerClass::Auto_Configure()
     startupinfo.cb = sizeof(STARTUPINFO);
 
     // Start the child process.
-    if (CreateProcess(NULL, // Address of module name
+    if (CreateProcess(nullptr, // Address of module name
                       "WWConfig.exe -autoconfig", // Address of command line
-                      NULL, // Address of process security attributes
-                      NULL, // Address of thread security attributes
+                      nullptr, // Address of process security attributes
+                      nullptr, // Address of thread security attributes
                       FALSE, // Does new process inherit handles?
                       0, // Creation flags
-                      NULL, // Address of new environment block
-                      NULL, // Address of current directory name
+                      nullptr, // Address of new environment block
+                      nullptr, // Address of current directory name
                       &startupinfo, // Address of STARTUPINFO
                       &processinfo)) { // Address of PROCESS_INFORMATION
 
@@ -1029,19 +1029,19 @@ void InstallerClass::Auto_Configure()
  *=============================================================================================*/
 bool InstallerClass::Install_Game()
 {
-    WWASSERT(WhatToInstallDialog != NULL);
+    WWASSERT(WhatToInstallDialog != nullptr);
     return (WhatToInstallDialog->Install_Game());
 }
 
 bool InstallerClass::Install_WOL()
 {
-    WWASSERT(WhatToInstallDialog != NULL);
+    WWASSERT(WhatToInstallDialog != nullptr);
     return (WhatToInstallDialog->Install_WOL());
 }
 
 bool InstallerClass::Install_Game_Shortcut()
 {
-    WWASSERT(WhatToInstallDialog != NULL);
+    WWASSERT(WhatToInstallDialog != nullptr);
     return (WhatToInstallDialog->Install_Game() && WhatToInstallDialog->Install_Game_Shortcut());
 }
 
@@ -1060,25 +1060,25 @@ bool InstallerClass::Install_Game_Shortcut()
  *=============================================================================================*/
 const WCHAR* InstallerClass::Get_Target_Game_Path(WideStringClass& path)
 {
-    WWASSERT(GameDirectoryDialog != NULL);
+    WWASSERT(GameDirectoryDialog != nullptr);
     return (GameDirectoryDialog->Get_Path(path));
 }
 
 const WCHAR* InstallerClass::Get_Target_WOL_Path(WideStringClass& path)
 {
-    WWASSERT(WOLDirectoryDialog != NULL);
+    WWASSERT(WOLDirectoryDialog != nullptr);
     return (WOLDirectoryDialog->Get_Path(path));
 }
 
 const WCHAR* InstallerClass::Get_Target_Game_Folder(WideStringClass& folder)
 {
-    WWASSERT(GameFolderDialog != NULL);
+    WWASSERT(GameFolderDialog != nullptr);
     return (GameFolderDialog->Get_Folder(folder));
 }
 
 const WCHAR* InstallerClass::Get_Target_WOL_Folder(WideStringClass& folder)
 {
-    WWASSERT(WOLFolderDialog != NULL);
+    WWASSERT(WOLFolderDialog != nullptr);
     return (WOLFolderDialog->Get_Folder(folder));
 }
 
@@ -1251,7 +1251,7 @@ const char* InstallerClass::Get_Serial_Number(StringClass& serialnumber)
 {
     bool valid;
 
-    WWASSERT(SerialDialog != NULL);
+    WWASSERT(SerialDialog != nullptr);
     valid = SerialDialog->Get_Serial_Number(serialnumber);
     WWASSERT(valid);
     return (serialnumber);
@@ -1276,7 +1276,7 @@ void InstallerClass::Dialog_Callback(DialogBaseClass* dialog, int ctrl_id, int m
     InstallMenuDialogClass* installmenudialog = (InstallMenuDialogClass*)dialog;
 
     // If no dialog is currently active display the welcome dialog.
-    if (installmenudialog == NULL) {
+    if (installmenudialog == nullptr) {
 
         REGISTER_DIALOG(WelcomeDialogClass, WelcomeDialog, ())
     }
@@ -1629,11 +1629,11 @@ void InstallerClass::Dialog_Callback(DialogBaseClass* dialog, int ctrl_id, int m
                 UNREGISTER_DIALOG(dialog)
 
                 // If WOL2Dialog exists return to it - otherwise return to WOL1Dialog.
-                if (WOL2Dialog != NULL) {
+                if (WOL2Dialog != nullptr) {
                     REGISTER_DIALOG(WOL2DialogClass, WOL2Dialog, ())
                 }
                 else {
-                    WWASSERT(WOL1Dialog != NULL);
+                    WWASSERT(WOL1Dialog != nullptr);
                     REGISTER_DIALOG(WOL1DialogClass, WOL1Dialog, ())
                 }
                 return;
@@ -1730,7 +1730,7 @@ bool InstallerClass::Can_Use_IGR_Settings()
  *=============================================================================================*/
 bool InstallerClass::Use_IGR_Settings()
 {
-    WWASSERT(WhatToInstallDialog != NULL);
+    WWASSERT(WhatToInstallDialog != nullptr);
     return (WhatToInstallDialog->Use_IGR_Settings());
 }
 
@@ -1903,7 +1903,7 @@ void InstallerClass::Update_Registry()
  *=============================================================================================*/
 void InstallerClass::Create_Links()
 {
-    if (CoInitialize(NULL) != S_OK) {
+    if (CoInitialize(nullptr) != S_OK) {
         FATAL_APP_ERROR(IDS_COM_ERROR);
     }
 
@@ -2074,7 +2074,7 @@ bool InstallerClass::Create_File_Link(const WideStringClass& linkpath, const Wid
     // Remove previous icon (if it exists).
     DeleteFile(multibytelinkpathname);
 
-    success = CoCreateInstance(CLSID_ShellLink, NULL, CLSCTX_INPROC_SERVER, IID_IShellLink,
+    success = CoCreateInstance(CLSID_ShellLink, nullptr, CLSCTX_INPROC_SERVER, IID_IShellLink,
                                (void**)&psl)
         == S_OK;
     if (success) {
@@ -2090,7 +2090,7 @@ bool InstallerClass::Create_File_Link(const WideStringClass& linkpath, const Wid
             if (psl->SetIconLocation(multibyteiconpathname, 0) != NOERROR) {
                 throw(IDS_COM_ERROR);
             }
-            if (arguments != NULL) {
+            if (arguments != nullptr) {
 
                 StringClass multibytearguments(*arguments);
 
@@ -2160,7 +2160,7 @@ bool InstallerClass::Create_URL_Link(const WideStringClass& linkpath, const Wide
     DeleteFile(multibytelinkpathname);
 
     // Create an IUniformResourceLocator object
-    success = CoCreateInstance(CLSID_InternetShortcut, NULL, CLSCTX_INPROC_SERVER,
+    success = CoCreateInstance(CLSID_InternetShortcut, nullptr, CLSCTX_INPROC_SERVER,
                                IID_IUniformResourceLocator, (void**)&purl)
         == S_OK;
     if (success) {
@@ -2237,7 +2237,7 @@ void InstallerClass::Log(const WideStringClass& pathname, __int64 size)
     if (Install_Game()) {
 
         // Does the start of the pathname match either the game or WOL target path?
-        if (wcsstr(pathname, Get_Target_Game_Path(path)) != NULL) {
+        if (wcsstr(pathname, Get_Target_Game_Path(path)) != nullptr) {
 
             if (size == -1) {
 
@@ -2262,7 +2262,7 @@ void InstallerClass::Log(const WideStringClass& pathname, __int64 size)
 
     if (Install_WOL()) {
 
-        if (wcsstr(pathname, Get_Target_WOL_Path(path)) != NULL) {
+        if (wcsstr(pathname, Get_Target_WOL_Path(path)) != nullptr) {
 
             FileLogClass filelog;
 
@@ -2429,14 +2429,14 @@ void InstallerClass::Create_Game_Uninstall_Log()
     // Write the log file.
     // NOTE: Convert strings from wide to multibyte.
     multibytelogfilepathname = logfilepathname;
-    handle = CreateFile(multibytelogfilepathname, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS,
-                        FILE_ATTRIBUTE_NORMAL, NULL);
+    handle = CreateFile(multibytelogfilepathname, GENERIC_WRITE, 0, nullptr, CREATE_ALWAYS,
+                        FILE_ATTRIBUTE_NORMAL, nullptr);
     if (handle == INVALID_HANDLE_VALUE) {
         FATAL_SYSTEM_ERROR;
     }
     multibytelog = log;
     if (!WriteFile(handle, multibytelog.Peek_Buffer(), multibytelog.Get_Length() * sizeof(TCHAR),
-                   &byteswritten, NULL)) {
+                   &byteswritten, nullptr)) {
         FATAL_SYSTEM_ERROR;
     }
     if (!CloseHandle(handle)) {
@@ -2482,14 +2482,14 @@ void InstallerClass::Create_WOL_Uninstall_Log()
 
     // Write the log file.
     multibytelogfilepathname = logfilepathname;
-    handle = CreateFile(multibytelogfilepathname, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS,
-                        FILE_ATTRIBUTE_NORMAL, NULL);
+    handle = CreateFile(multibytelogfilepathname, GENERIC_WRITE, 0, nullptr, CREATE_ALWAYS,
+                        FILE_ATTRIBUTE_NORMAL, nullptr);
     if (handle == INVALID_HANDLE_VALUE) {
         FATAL_SYSTEM_ERROR;
     }
     multibytelog = log;
     if (!WriteFile(handle, multibytelog.Peek_Buffer(), multibytelog.Get_Length() * sizeof(TCHAR),
-                   &byteswritten, NULL)) {
+                   &byteswritten, nullptr)) {
         FATAL_SYSTEM_ERROR;
     }
     if (!CloseHandle(handle)) {
@@ -2517,8 +2517,8 @@ void InstallerClass::Create_Encryption_File(const WideStringClass& pathname)
     HANDLE handle;
     DWORD byteswritten;
 
-    handle = CreateFile(multibytepathname, GENERIC_WRITE, FILE_SHARE_READ, NULL, CREATE_ALWAYS, 0,
-                        NULL);
+    handle = CreateFile(multibytepathname, GENERIC_WRITE, FILE_SHARE_READ, nullptr, CREATE_ALWAYS, 0,
+                        nullptr);
     if (handle == INVALID_HANDLE_VALUE) {
         FATAL_SYSTEM_ERROR;
     }
@@ -2534,7 +2534,7 @@ void InstallerClass::Create_Encryption_File(const WideStringClass& pathname)
         stringbuffer[i] = digit + '0';
     }
 
-    if (!WriteFile(handle, stringbuffer, sizeof(stringbuffer), &byteswritten, NULL)) {
+    if (!WriteFile(handle, stringbuffer, sizeof(stringbuffer), &byteswritten, nullptr)) {
         FATAL_SYSTEM_ERROR;
     }
     if (!CloseHandle(handle)) {
@@ -2574,12 +2574,12 @@ void InstallerClass::Encrypt(const char* number, const WideStringClass& pathname
     s = new char[numberlength + 1];
     memcpy(s, number, numberlength + 1);
 
-    handle = CreateFile(multibytepathname, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, 0,
-                        NULL);
+    handle = CreateFile(multibytepathname, GENERIC_READ, FILE_SHARE_READ, nullptr, OPEN_EXISTING, 0,
+                        nullptr);
     if (handle == INVALID_HANDLE_VALUE) {
         FATAL_SYSTEM_ERROR;
     }
-    if (!ReadFile(handle, stringbuffer, sizeof(stringbuffer), &bytesread, NULL)) {
+    if (!ReadFile(handle, stringbuffer, sizeof(stringbuffer), &bytesread, nullptr)) {
         FATAL_SYSTEM_ERROR;
     }
 
@@ -2637,7 +2637,7 @@ bool InstallerClass::Register_COM_Server(const WideStringClass& comdll)
             hr = dllRegister();
         }
         FreeLibrary(module);
-        module = NULL;
+        module = nullptr;
         return (SUCCEEDED(hr));
     }
 
@@ -2705,12 +2705,12 @@ void InstallerClass::Run_Game()
     startupinfo.cb = sizeof(STARTUPINFO);
 
     if (!CreateProcess(multibytemodulepathname.Peek_Buffer(), // Address of module name
-                       NULL, // Address of command line
-                       NULL, // Address of process security attributes
-                       NULL, // Address of thread security attributes
+                       nullptr, // Address of command line
+                       nullptr, // Address of process security attributes
+                       nullptr, // Address of thread security attributes
                        FALSE, // Does new process inherit handles?
                        CREATE_NEW_PROCESS_GROUP | NORMAL_PRIORITY_CLASS, // Creation flags
-                       NULL, // Address of new environment block
+                       nullptr, // Address of new environment block
                        multibytetargetgamepath.Peek_Buffer(), // Address of current directory name
                        &startupinfo, // Address of STARTUPINFO
                        &processinfo)) { // Address of PROCESS_INFORMATION
@@ -2754,7 +2754,7 @@ void InstallerClass::Display_Readme()
     wcscpy(docapppathname, pathname);
     _wcsupr(docapppathname);
     t = wcsstr(docapppathname, winwordprogramname);
-    if (t != NULL) {
+    if (t != nullptr) {
 
         t += wcslen(winwordprogramname);
         *t = L'\0';
@@ -2770,14 +2770,14 @@ void InstallerClass::Display_Readme()
         memset(&startupinfo, 0, sizeof(STARTUPINFO));
         startupinfo.cb = sizeof(STARTUPINFO);
         multibytecommandline = commandline;
-        success = CreateProcess(NULL, // Address of module name
+        success = CreateProcess(nullptr, // Address of module name
                                 multibytecommandline.Peek_Buffer(), // Address of command line
-                                NULL, // Address of process security attributes
-                                NULL, // Address of thread security attributes
+                                nullptr, // Address of process security attributes
+                                nullptr, // Address of thread security attributes
                                 FALSE, // Does new process inherit handles?
                                 CREATE_NEW_PROCESS_GROUP | NORMAL_PRIORITY_CLASS, // Creation flags
-                                NULL, // Address of new environment block
-                                NULL, // Address of current directory name
+                                nullptr, // Address of new environment block
+                                nullptr, // Address of current directory name
                                 &startupinfo, // Address of STARTUPINFO
                                 &processinfo); // Address of PROCESS_INFORMATION
     }
@@ -2797,14 +2797,14 @@ void InstallerClass::Display_Readme()
         memset(&startupinfo, 0, sizeof(STARTUPINFO));
         startupinfo.cb = sizeof(STARTUPINFO);
         multibytecommandline = commandline;
-        success = CreateProcess(NULL, // Address of module name
+        success = CreateProcess(nullptr, // Address of module name
                                 multibytecommandline.Peek_Buffer(), // Address of command line
-                                NULL, // Address of process security attributes
-                                NULL, // Address of thread security attributes
+                                nullptr, // Address of process security attributes
+                                nullptr, // Address of thread security attributes
                                 FALSE, // Does new process inherit handles?
                                 CREATE_NEW_PROCESS_GROUP | NORMAL_PRIORITY_CLASS, // Creation flags
-                                NULL, // Address of new environment block
-                                NULL, // Address of current directory name
+                                nullptr, // Address of new environment block
+                                nullptr, // Address of current directory name
                                 &startupinfo, // Address of STARTUPINFO
                                 &processinfo); // Address of PROCESS_INFORMATION
 

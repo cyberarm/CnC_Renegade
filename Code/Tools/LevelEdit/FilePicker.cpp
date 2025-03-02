@@ -66,7 +66,7 @@ void FilePickerClass::On_Pick(void)
     if ((attribs != 0xFFFFFFFF) && !(attribs & FILE_ATTRIBUTE_DIRECTORY)) {
         path = ::Strip_Filename_From_Path(full_path);
     }
-    else if ((attribs == 0xFFFFFFFF) && (::strchr(filename, '*') != NULL)) {
+    else if ((attribs == 0xFFFFFFFF) && (::strchr(filename, '*') != nullptr)) {
         path = ::Strip_Filename_From_Path(full_path);
     }
     else if ((attribs == 0xFFFFFFFF) && m_AssetTreeOnly) {

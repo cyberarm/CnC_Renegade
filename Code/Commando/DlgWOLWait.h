@@ -79,15 +79,15 @@ public:
     };
 
     static bool DoDialog(const WCHAR* title, const WCHAR* button_text, RefPtr<WaitCondition>& wait,
-                         Observer<DlgWOLWaitEvent>* observer = NULL, unsigned long timeout = 0,
+                         Observer<DlgWOLWaitEvent>* observer = nullptr, unsigned long timeout = 0,
                          unsigned long dialog_timeout = 0);
 
     static bool DoDialog(const WCHAR* title, RefPtr<WaitCondition>& wait,
-                         Observer<DlgWOLWaitEvent>* observer = NULL, unsigned long timeout = 0,
+                         Observer<DlgWOLWaitEvent>* observer = nullptr, unsigned long timeout = 0,
                          unsigned long dialog_timeout = 0);
 
     static bool DoDialog(int titleID, RefPtr<WaitCondition>& wait,
-                         Observer<DlgWOLWaitEvent>* observer = NULL, unsigned long timeout = 0,
+                         Observer<DlgWOLWaitEvent>* observer = nullptr, unsigned long timeout = 0,
                          unsigned long dialog_timeout = 0);
 
     const RefPtr<WaitCondition>& GetWait(void) { return mWait; }

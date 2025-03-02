@@ -95,7 +95,7 @@ void SendGameResults(unsigned long gameID, cGameData* theGame, SList<cPlayer>* p
 
     // Version of executable.
     char filename[MAX_PATH];
-    GetModuleFileName(NULL, filename, sizeof(filename));
+    GetModuleFileName(nullptr, filename, sizeof(filename));
     VS_FIXEDFILEINFO version;
     GetVersionInfo(filename, &version);
     stats.Add_Field("VERS", version.dwFileVersionMS);
@@ -274,19 +274,19 @@ void SendGameResults(unsigned long gameID, cGameData* theGame, SList<cPlayer>* p
 
     unsigned long packetSize = 0;
     unsigned long sig_offset = 0;
-    unsigned char* packet = stats.Create_Comms_Packet(packetSize, NULL, sig_offset);
+    unsigned char* packet = stats.Create_Comms_Packet(packetSize, nullptr, sig_offset);
 
     WWDEBUG_SAY(("Sending game results packet. Size = %lu\n", packetSize));
 
 #if (0)
 #ifdef _DEBUG
-    HANDLE file = CreateFile("GameRes.dat", GENERIC_WRITE, 0, NULL, CREATE_ALWAYS,
-                             FILE_ATTRIBUTE_NORMAL, NULL);
+    HANDLE file = CreateFile("GameRes.dat", GENERIC_WRITE, 0, nullptr, CREATE_ALWAYS,
+                             FILE_ATTRIBUTE_NORMAL, nullptr);
 
     if (INVALID_HANDLE_VALUE != file) {
         // Write generic contents
         DWORD written;
-        WriteFile(file, packet, packetSize, &written, NULL);
+        WriteFile(file, packet, packetSize, &written, nullptr);
         CloseHandle(file);
     }
     else {

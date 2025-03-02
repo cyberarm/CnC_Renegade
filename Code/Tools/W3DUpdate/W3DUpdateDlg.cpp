@@ -106,7 +106,7 @@ bool Delete_File(LPCTSTR filename);
 /////////////////////////////////////////////////////////////////////////////
 // CW3DUpdateDlg dialog
 
-CW3DUpdateDlg::CW3DUpdateDlg(CWnd* pParent /*=NULL*/)
+CW3DUpdateDlg::CW3DUpdateDlg(CWnd* pParent /*=nullptr*/)
     : CDialog(CW3DUpdateDlg::IDD, pParent)
 {
     //{{AFX_DATA_INIT(CW3DUpdateDlg)
@@ -149,7 +149,7 @@ BOOL CW3DUpdateDlg::OnInitDialog()
     //
     for (int index = 0; index < APP_MAX; index++) {
         const APP_INFO& app_info = APPLICATIONS[index];
-        HKEY hreg_key = NULL;
+        HKEY hreg_key = nullptr;
         CString reg_key_name;
         reg_key_name.Format("Software\\Westwood Studios\\%s", app_info.reg_key);
 
@@ -167,7 +167,7 @@ BOOL CW3DUpdateDlg::OnInitDialog()
             //	Read the installation directory from the registry
             //
             DWORD size = sizeof(path);
-            ::RegQueryValueEx(hreg_key, INSTALL_REG_VALUE, 0L, NULL, (BYTE*)path, &size);
+            ::RegQueryValueEx(hreg_key, INSTALL_REG_VALUE, 0L, nullptr, (BYTE*)path, &size);
             ::RegCloseKey(hreg_key);
         }
         else {
@@ -330,9 +330,9 @@ void CW3DUpdateDlg::Get_Destination_Path(int app_id, CString& dest_path)
     //
     switch (app_id) {
     case APP_W3DSHELLEXT: {
-        // SHGetFolderPath(NULL,CSIDL_SYSTEM, NULL,SHGFP_TYPE_CURRENT,dest_path.GetBuffer(MAX_PATH)
+        // SHGetFolderPath(nullptr,CSIDL_SYSTEM, nullptr,SHGFP_TYPE_CURRENT,dest_path.GetBuffer(MAX_PATH)
         // );
-        SHGetSpecialFolderPath(NULL, dest_path.GetBuffer(MAX_PATH), CSIDL_SYSTEM, TRUE);
+        SHGetSpecialFolderPath(nullptr, dest_path.GetBuffer(MAX_PATH), CSIDL_SYSTEM, TRUE);
         dest_path.ReleaseBuffer();
         break;
     }
@@ -386,9 +386,9 @@ bool CW3DUpdateDlg::Install_App(const CString& title, const CString& src_path,
     //	installed it correctly.
     //
     if (ret_val) {
-        HKEY reg_key = NULL;
-        ret_val &= (::RegCreateKeyEx(HKEY_CURRENT_USER, reg_key_name, 0L, NULL,
-                                     REG_OPTION_NON_VOLATILE, KEY_ALL_ACCESS, NULL, &reg_key, NULL)
+        HKEY reg_key = nullptr;
+        ret_val &= (::RegCreateKeyEx(HKEY_CURRENT_USER, reg_key_name, 0L, nullptr,
+                                     REG_OPTION_NON_VOLATILE, KEY_ALL_ACCESS, nullptr, &reg_key, nullptr)
                     == ERROR_SUCCESS);
         if (ret_val) {
             ::RegSetValueEx(reg_key, INSTALL_REG_VALUE, 0L, REG_SZ, (BYTE*)(LPCTSTR)dest_path,
@@ -415,7 +415,7 @@ bool Get_Install_Directory(HWND hparent_wnd, LPCTSTR title, CString& folder)
     browse_info.lpszTitle = title;
     browse_info.ulFlags = BIF_RETURNONLYFSDIRS;
     LPITEMIDLIST pidl = ::SHBrowseForFolder(&browse_info);
-    if (pidl != NULL) {
+    if (pidl != nullptr) {
 
         // Convert the 'PIDL' into a string
         char path[MAX_PATH];
@@ -425,7 +425,7 @@ bool Get_Install_Directory(HWND hparent_wnd, LPCTSTR title, CString& folder)
         }
 
         // Free the 'PIDL'
-        LPMALLOC pmalloc = NULL;
+        LPMALLOC pmalloc = nullptr;
         if (SUCCEEDED(::SHGetMalloc(&pmalloc))) {
             pmalloc->Free(pidl);
             pmalloc->Release();
@@ -473,7 +473,7 @@ CString Strip_Filename_From_Path(LPCTSTR path)
 
     // Find the last occurance of the directory deliminator
     LPTSTR filename = ::strrchr(temp_path, '\\');
-    if (filename != NULL) {
+    if (filename != nullptr) {
         // Strip off the filename
         filename[0] = 0;
     }
@@ -492,8 +492,8 @@ bool Delete_File(LPCTSTR filename)
     // Assume failure
     bool ret_val = false;
 
-    ASSERT(filename != NULL);
-    if (filename != NULL) {
+    ASSERT(filename != nullptr);
+    if (filename != nullptr) {
 
         // Strip the readonly bit off if necessary
         DWORD attributes = ::GetFileAttributes(filename);
@@ -520,9 +520,9 @@ bool Copy_File(LPCTSTR existing_filename, LPCTSTR new_filename, bool bforce_copy
     // Assume failure
     bool ret_val = false;
 
-    ASSERT(existing_filename != NULL);
-    ASSERT(new_filename != NULL);
-    if ((existing_filename != NULL) && (new_filename != NULL)) {
+    ASSERT(existing_filename != nullptr);
+    ASSERT(new_filename != nullptr);
+    if ((existing_filename != nullptr) && (new_filename != nullptr)) {
 
         // Make sure we aren't copying over ourselves
         bool allow_copy = (::lstrcmpi(existing_filename, new_filename) != 0);
@@ -574,7 +574,7 @@ bool Clean_Directory(LPCTSTR local_dir)
                         "Cannot delete %s.  This may result in an incomplete update.  Please make "
                         "sure no applications are running before running the update.",
                         full_path);
-                    ::MessageBox(NULL, message, "Delete Error",
+                    ::MessageBox(nullptr, message, "Delete Error",
                                  MB_SETFOREGROUND | MB_TOPMOST | MB_ICONEXCLAMATION | MB_OK);
                     ret_val = false;
                 }
@@ -603,7 +603,7 @@ void Create_Dir_If_Necessary(LPCTSTR path)
 {
     if (::GetFileAttributes(path) == 0xFFFFFFFF) {
         Create_Dir_If_Necessary(::Strip_Filename_From_Path(path));
-        ::CreateDirectory(path, NULL);
+        ::CreateDirectory(path, nullptr);
     }
 
     return;
@@ -617,8 +617,8 @@ UINT fnUpdateAppDirectory(LPVOID pParam)
 {
     static call_depth(0);
     UPDATE_INFO* info = (UPDATE_INFO*)pParam;
-    ASSERT(info != NULL);
-    if (info != NULL) {
+    ASSERT(info != nullptr);
+    if (info != nullptr) {
         info->result = true;
 
         // Build a search mask from the directory
@@ -639,7 +639,7 @@ UINT fnUpdateAppDirectory(LPVOID pParam)
                     if (::Copy_File(src_path, dest_path, true) == FALSE) {
                         CString message;
                         message.Format(IDS_COPYFAIL, src_path, dest_path);
-                        ::MessageBox(NULL, message, "Copy Error",
+                        ::MessageBox(nullptr, message, "Copy Error",
                                      MB_SETFOREGROUND | MB_TOPMOST | MB_ICONEXCLAMATION | MB_OK);
                         info->result = false;
                     }
@@ -683,7 +683,7 @@ bool Update_App(CWnd* parent_wnd, LPCTSTR title, LPCTSTR src_dir, LPCTSTR dest_d
     //	Create the destination directory if necessary
     //
     if (::GetFileAttributes(dest_dir) == 0xFFFFFFFF) {
-        ::CreateDirectory(dest_dir, NULL);
+        ::CreateDirectory(dest_dir, nullptr);
     }
 
     //
@@ -767,8 +767,8 @@ void CW3DUpdateDlg::RegisterShellExt()
     CString reg_value(MAKEINTRESOURCE(IDS_SHELLEXT_NAME));
     CString value_name;
     //[HKEY_CLASSES_ROOT\CLSID\{556F8779-49C4-4e88-9CEF-0AC2CFD6B763}]
-    DWORD ret_val = ::RegCreateKeyEx(HKEY_CLASSES_ROOT, reg_key_name, 0L, NULL,
-                                     REG_OPTION_NON_VOLATILE, KEY_ALL_ACCESS, NULL, &reg_key, NULL);
+    DWORD ret_val = ::RegCreateKeyEx(HKEY_CLASSES_ROOT, reg_key_name, 0L, nullptr,
+                                     REG_OPTION_NON_VOLATILE, KEY_ALL_ACCESS, nullptr, &reg_key, nullptr);
     if (ERROR_SUCCESS == ret_val) {
         //   @="W3D Shell Extension"
         ret_val = ::RegSetValueEx(reg_key, "", 0L, REG_SZ, (BYTE*)(LPCTSTR)reg_value,
@@ -777,8 +777,8 @@ void CW3DUpdateDlg::RegisterShellExt()
     //[HKEY_CLASSES_ROOT\CLSID\{556F8779-49C4-4e88-9CEF-0AC2CFD6B763}\InProcServer32]
     ::RegCloseKey(reg_key);
     reg_key_name += "\\InProcServer32";
-    ret_val = ::RegCreateKeyEx(HKEY_CLASSES_ROOT, reg_key_name, 0L, NULL, REG_OPTION_NON_VOLATILE,
-                               KEY_ALL_ACCESS, NULL, &reg_key, NULL);
+    ret_val = ::RegCreateKeyEx(HKEY_CLASSES_ROOT, reg_key_name, 0L, nullptr, REG_OPTION_NON_VOLATILE,
+                               KEY_ALL_ACCESS, nullptr, &reg_key, nullptr);
     if (ERROR_SUCCESS == ret_val) {
         //@="W3Dshellext.dll"
         reg_value.LoadString(IDS_SHELLEXT_DLLNAME);
@@ -793,8 +793,8 @@ void CW3DUpdateDlg::RegisterShellExt()
     ::RegCloseKey(reg_key);
     //[HKEY_CLASSES_ROOT\.w3d]
     reg_key_name.LoadString(IDS_W3DFILEEXT);
-    ret_val = ::RegCreateKeyEx(HKEY_CLASSES_ROOT, reg_key_name, 0L, NULL, REG_OPTION_NON_VOLATILE,
-                               KEY_ALL_ACCESS, NULL, &reg_key, NULL);
+    ret_val = ::RegCreateKeyEx(HKEY_CLASSES_ROOT, reg_key_name, 0L, nullptr, REG_OPTION_NON_VOLATILE,
+                               KEY_ALL_ACCESS, nullptr, &reg_key, nullptr);
     if (ERROR_SUCCESS == ret_val) {
         //@="W3DFile"
         reg_value.LoadString(IDS_W3DFILETEXT);
@@ -804,8 +804,8 @@ void CW3DUpdateDlg::RegisterShellExt()
     ::RegCloseKey(reg_key);
     //[HKEY_CLASSES_ROOT\W3DFile]
     reg_key_name.LoadString(IDS_W3DFILEKEY);
-    ret_val = ::RegCreateKeyEx(HKEY_CLASSES_ROOT, reg_key_name, 0L, NULL, REG_OPTION_NON_VOLATILE,
-                               KEY_ALL_ACCESS, NULL, &reg_key, NULL);
+    ret_val = ::RegCreateKeyEx(HKEY_CLASSES_ROOT, reg_key_name, 0L, nullptr, REG_OPTION_NON_VOLATILE,
+                               KEY_ALL_ACCESS, nullptr, &reg_key, nullptr);
     if (ERROR_SUCCESS == ret_val) {
         //@="Shell Extension file"
         reg_value.LoadString(IDS_W3DSHELLEXT_TEXT);
@@ -815,8 +815,8 @@ void CW3DUpdateDlg::RegisterShellExt()
     ::RegCloseKey(reg_key);
     //[HKEY_CLASSES_ROOT\W3DFile\shellex\ContextMenuHandlers]
     reg_key_name.LoadString(IDS_CTXMENUHANDLERS);
-    ret_val = ::RegCreateKeyEx(HKEY_CLASSES_ROOT, reg_key_name, 0L, NULL, REG_OPTION_NON_VOLATILE,
-                               KEY_ALL_ACCESS, NULL, &reg_key, NULL);
+    ret_val = ::RegCreateKeyEx(HKEY_CLASSES_ROOT, reg_key_name, 0L, nullptr, REG_OPTION_NON_VOLATILE,
+                               KEY_ALL_ACCESS, nullptr, &reg_key, nullptr);
     if (ERROR_SUCCESS == ret_val) {
         //@="W3DCtxMenu"
         reg_value.LoadString(IDS_W3DMENU_TEXT);
@@ -826,8 +826,8 @@ void CW3DUpdateDlg::RegisterShellExt()
     ::RegCloseKey(reg_key);
     //[HKEY_CLASSES_ROOT\W3DFile\shellex\ContextMenuHandlers\W3DCtxMenu]
     reg_key_name.LoadString(IDS_W3DCTXMENU_KEY);
-    ret_val = ::RegCreateKeyEx(HKEY_CLASSES_ROOT, reg_key_name, 0L, NULL, REG_OPTION_NON_VOLATILE,
-                               KEY_ALL_ACCESS, NULL, &reg_key, NULL);
+    ret_val = ::RegCreateKeyEx(HKEY_CLASSES_ROOT, reg_key_name, 0L, nullptr, REG_OPTION_NON_VOLATILE,
+                               KEY_ALL_ACCESS, nullptr, &reg_key, nullptr);
     if (ERROR_SUCCESS == ret_val) {
         //@="{556F8779-49C4-4e88-9CEF-0AC2CFD6B763}"
         reg_value.LoadString(IDS_W3DSHELLEXT_GUID);
@@ -837,8 +837,8 @@ void CW3DUpdateDlg::RegisterShellExt()
     ::RegCloseKey(reg_key);
     //[HKEY_CLASSES_ROOT\W3DFile\shellex\PropertySheetHandlers]
     reg_key_name.LoadString(IDS_W3DPROPSHEETHANDLERS);
-    ret_val = ::RegCreateKeyEx(HKEY_CLASSES_ROOT, reg_key_name, 0L, NULL, REG_OPTION_NON_VOLATILE,
-                               KEY_ALL_ACCESS, NULL, &reg_key, NULL);
+    ret_val = ::RegCreateKeyEx(HKEY_CLASSES_ROOT, reg_key_name, 0L, nullptr, REG_OPTION_NON_VOLATILE,
+                               KEY_ALL_ACCESS, nullptr, &reg_key, nullptr);
     if (ERROR_SUCCESS == ret_val) {
         //@="W3DPropertyPage"
         reg_value.LoadString(IDS_W3DPROPPAGE_TEXT);
@@ -848,8 +848,8 @@ void CW3DUpdateDlg::RegisterShellExt()
     ::RegCloseKey(reg_key);
     //[HKEY_CLASSES_ROOT\W3DFile\shellex\PropertySheetHandlers\W3DPropertyPage]
     reg_key_name.LoadString(IDS_W3DPROPPAGE_KEY);
-    ret_val = ::RegCreateKeyEx(HKEY_CLASSES_ROOT, reg_key_name, 0L, NULL, REG_OPTION_NON_VOLATILE,
-                               KEY_ALL_ACCESS, NULL, &reg_key, NULL);
+    ret_val = ::RegCreateKeyEx(HKEY_CLASSES_ROOT, reg_key_name, 0L, nullptr, REG_OPTION_NON_VOLATILE,
+                               KEY_ALL_ACCESS, nullptr, &reg_key, nullptr);
     if (ERROR_SUCCESS == ret_val) {
         //@="{556F8779-49C4-4e88-9CEF-0AC2CFD6B763}"
         reg_value.LoadString(IDS_W3DSHELLEXT_GUID);
@@ -859,8 +859,8 @@ void CW3DUpdateDlg::RegisterShellExt()
     ::RegCloseKey(reg_key);
     //[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Shell Extensions\Approved]
     reg_key_name.LoadString(IDS_MSEXTENSIONS_KEY);
-    ret_val = ::RegCreateKeyEx(HKEY_LOCAL_MACHINE, reg_key_name, 0L, NULL, REG_OPTION_NON_VOLATILE,
-                               KEY_ALL_ACCESS, NULL, &reg_key, NULL);
+    ret_val = ::RegCreateKeyEx(HKEY_LOCAL_MACHINE, reg_key_name, 0L, nullptr, REG_OPTION_NON_VOLATILE,
+                               KEY_ALL_ACCESS, nullptr, &reg_key, nullptr);
     if (ERROR_SUCCESS == ret_val) {
         //"{556F8779-49C4-4e88-9CEF-0AC2CFD6B763}"="W3D Shell Extension"
         value_name.LoadString(IDS_W3DSHELLEXT_GUID);
@@ -871,15 +871,15 @@ void CW3DUpdateDlg::RegisterShellExt()
     ::RegCloseKey(reg_key);
     //[HKEY_CLASSES_ROOT\W3DFile\\DefaultIcon
     reg_key_name.LoadString(IDS_W3DDEFAULTICON_KEY);
-    ret_val = ::RegCreateKeyEx(HKEY_CLASSES_ROOT, reg_key_name, 0L, NULL, REG_OPTION_NON_VOLATILE,
-                               KEY_ALL_ACCESS, NULL, &reg_key, NULL);
+    ret_val = ::RegCreateKeyEx(HKEY_CLASSES_ROOT, reg_key_name, 0L, nullptr, REG_OPTION_NON_VOLATILE,
+                               KEY_ALL_ACCESS, nullptr, &reg_key, nullptr);
     if (ERROR_SUCCESS == ret_val) {
         //%SystemRoot%\\system32\\W3DShellExt.dll,0
         reg_value.LoadString(IDS_W3DDEFAULTICON_TEXT);
         ret_val = ::RegSetValueEx(reg_key, "", 0L, REG_SZ, (BYTE*)(LPCTSTR)reg_value,
                                   reg_value.GetLength() + 1);
     }
-    SHChangeNotify(SHCNE_ASSOCCHANGED, SHCNF_IDLIST, NULL, NULL);
+    SHChangeNotify(SHCNE_ASSOCCHANGED, SHCNF_IDLIST, nullptr, nullptr);
 }
 
 void CW3DUpdateDlg::RegisterViewer(int index)
@@ -891,8 +891,8 @@ void CW3DUpdateDlg::RegisterViewer(int index)
     CString reg_value(MAKEINTRESOURCE(IDS_VIEWERCOMMAND));
     reg_value = dest_path + reg_value;
     //[HKEY_CLASSES_ROOT\CLSID\{556F8779-49C4-4e88-9CEF-0AC2CFD6B763}]
-    DWORD ret_val = ::RegCreateKeyEx(HKEY_CLASSES_ROOT, reg_key_name, 0L, NULL,
-                                     REG_OPTION_NON_VOLATILE, KEY_ALL_ACCESS, NULL, &reg_key, NULL);
+    DWORD ret_val = ::RegCreateKeyEx(HKEY_CLASSES_ROOT, reg_key_name, 0L, nullptr,
+                                     REG_OPTION_NON_VOLATILE, KEY_ALL_ACCESS, nullptr, &reg_key, nullptr);
     if (ERROR_SUCCESS == ret_val) {
         //   @="W3D Shell Extension"
         ret_val = ::RegSetValueEx(reg_key, "", 0L, REG_SZ, (BYTE*)(LPCTSTR)reg_value,

@@ -42,7 +42,7 @@
 //
 // Class statics
 //
-cServerFps* cServerFps::TheInstance = NULL;
+cServerFps* cServerFps::TheInstance = nullptr;
 
 //-----------------------------------------------------------------------------
 cServerFps::cServerFps(void)
@@ -84,16 +84,16 @@ void cServerFps::Import_Frequent(BitStreamClass& packet)
 //-----------------------------------------------------------------------------
 void cServerFps::Create_Instance(void)
 {
-    WWASSERT(TheInstance == NULL);
+    WWASSERT(TheInstance == nullptr);
     TheInstance = new cServerFps;
 }
 
 //-----------------------------------------------------------------------------
 void cServerFps::Destroy_Instance(void)
 {
-    WWASSERT(TheInstance != NULL);
+    WWASSERT(TheInstance != nullptr);
     delete TheInstance;
-    TheInstance = NULL;
+    TheInstance = nullptr;
 }
 
 //-----------------------------------------------------------------------------

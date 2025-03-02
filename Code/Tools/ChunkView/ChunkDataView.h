@@ -75,13 +75,13 @@ public:
     void Set_Word_Size(WordSizeType wordsize)
     {
         WordSize = wordsize;
-        OnUpdate(NULL, 0, NULL);
+        OnUpdate(nullptr, 0, nullptr);
     }
     WordSizeType Get_Word_Size(void) { return WordSize; }
     void Set_Display_Mode(DisplayModeType displaymode)
     {
         DisplayMode = displaymode;
-        OnUpdate(NULL, 0, NULL);
+        OnUpdate(nullptr, 0, nullptr);
     }
     DisplayModeType Get_Display_Mode(void) { return DisplayMode; }
 

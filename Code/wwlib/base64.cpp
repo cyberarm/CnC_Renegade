@@ -144,7 +144,7 @@ int Base64_Encode(void const* source, int slen, void* dest, int dlen)
     /*
     **	Check the parameters for legality.
     */
-    if (source == NULL || slen == 0 || dest == NULL || dlen == 0) {
+    if (source == nullptr || slen == 0 || dest == nullptr || dlen == 0) {
         return (0);
     }
 
@@ -206,7 +206,7 @@ int Base64_Encode(void const* source, int slen, void* dest, int dlen)
     }
 
     /*
-    **	Add a trailing null as a courtesy measure.
+    **	Add a trailing nullptr as a courtesy measure.
     */
     if (dlen > 0) {
         *dptr = '\0';
@@ -248,7 +248,7 @@ int Base64_Decode(void const* source, int slen, void* dest, int dlen)
     /*
     **	Check the parameters for legality.
     */
-    if (source == NULL || slen == 0 || dest == NULL || dlen == 0) {
+    if (source == nullptr || slen == 0 || dest == nullptr || dlen == 0) {
         return (0);
     }
 

@@ -63,8 +63,8 @@ const int COL_ANIMATION = 1;
 PresetTransitionTabClass::PresetTransitionTabClass(PresetClass* preset)
     : m_Preset(preset),
       m_Height(0),
-      m_RenderObj(NULL),
-      m_TransitionList(NULL),
+      m_RenderObj(nullptr),
+      m_TransitionList(nullptr),
       DockableFormClass(PresetTransitionTabClass::IDD)
 {
     //{{AFX_DATA_INIT(PresetTransitionTabClass)
@@ -128,7 +128,7 @@ void PresetTransitionTabClass::Dump(CDumpContext& dc) const
 /////////////////////////////////////////////////////////////////////////////
 void PresetTransitionTabClass::HandleInitDialog(void)
 {
-    ASSERT(m_Preset != NULL);
+    ASSERT(m_Preset != nullptr);
 
     m_ListCtrl.InsertColumn(COL_NAME, "Name");
     m_ListCtrl.InsertColumn(COL_ANIMATION, "Animation");
@@ -143,7 +143,7 @@ void PresetTransitionTabClass::HandleInitDialog(void)
         //	Insert this transition into the control
         //
         TransitionDataClass* transition = (*m_TransitionList)[index];
-        if (transition != NULL) {
+        if (transition != nullptr) {
             TransitionDataClass* our_copy = new TransitionDataClass;
             (*our_copy) = (*transition);
             Insert_Transition(our_copy);
@@ -189,9 +189,9 @@ bool PresetTransitionTabClass::Apply_Changes(void)
     count = m_ListCtrl.GetItemCount();
     for (index = 0; index < count; index++) {
         TransitionDataClass* transition = (TransitionDataClass*)m_ListCtrl.GetItemData(index);
-        if (transition != NULL) {
+        if (transition != nullptr) {
             m_TransitionList->Add(transition);
-            m_ListCtrl.SetItemData(index, NULL);
+            m_ListCtrl.SetItemData(index, nullptr);
         }
     }
 
@@ -228,7 +228,7 @@ void PresetTransitionTabClass::OnAddButton(void)
     //
     //	Show the transition editor
     //
-    if (m_RenderObj != NULL) {
+    if (m_RenderObj != nullptr) {
 
         //
         //	Create a new transition
@@ -283,9 +283,9 @@ void PresetTransitionTabClass::OnDeleteButton(void)
         //	Delete the transition and remove it from the UI
         //
         TransitionDataClass* transition = (TransitionDataClass*)m_ListCtrl.GetItemData(index);
-        if (transition != NULL) {
+        if (transition != nullptr) {
             SAFE_DELETE(transition);
-            m_ListCtrl.SetItemData(index, NULL);
+            m_ListCtrl.SetItemData(index, nullptr);
         }
         m_ListCtrl.DeleteItem(index);
     }
@@ -301,7 +301,7 @@ void PresetTransitionTabClass::OnDeleteButton(void)
 void PresetTransitionTabClass::OnModifyButton(void)
 {
     Create_Render_Obj();
-    if (m_RenderObj != NULL) {
+    if (m_RenderObj != nullptr) {
 
         //
         //	Get the currently selected item
@@ -313,7 +313,7 @@ void PresetTransitionTabClass::OnModifyButton(void)
             //	Delete the transition and remove it from the UI
             //
             TransitionDataClass* transition = (TransitionDataClass*)m_ListCtrl.GetItemData(index);
-            if (transition != NULL) {
+            if (transition != nullptr) {
 
                 //
                 //	Show the transition edit dialog
@@ -370,25 +370,25 @@ void PresetTransitionTabClass::Create_Render_Obj(void)
 {
     CWaitCursor wait_cursor;
 
-    if (m_RenderObj == NULL && m_Preset != NULL) {
+    if (m_RenderObj == nullptr && m_Preset != nullptr) {
 
         //
         //	Instantiate the node
         //
         NodeClass* node = (NodeClass*)m_Preset->Create();
-        ASSERT(node != NULL);
-        if (node != NULL) {
+        ASSERT(node != nullptr);
+        if (node != nullptr) {
 
             //
             //	Initialize the game object and get its render object pointer
             //
             node->Initialize();
             RenderObjClass* render_obj = node->Peek_Render_Obj();
-            ASSERT(render_obj != NULL);
-            if (render_obj != NULL) {
+            ASSERT(render_obj != nullptr);
+            if (render_obj != nullptr) {
 
                 PhysClass* phys_obj = node->Peek_Physics_Obj();
-                if (phys_obj != NULL && phys_obj->As_DecorationPhysClass() == NULL) {
+                if (phys_obj != nullptr && phys_obj->As_DecorationPhysClass() == nullptr) {
 
                     SceneEditorClass* scene = ::Get_Scene_Editor();
 
@@ -397,14 +397,14 @@ void PresetTransitionTabClass::Create_Render_Obj(void)
                     //
                     PhysClass* phys_obj = node->Peek_Physics_Obj();
                     RenderObjClass* floor = ::Create_Render_Obj("GRID");
-                    if (floor != NULL) {
+                    if (floor != nullptr) {
                         phys_obj->Set_Transform(Matrix3D(Vector3(0, 0, DROP_POS)));
 
                         //
                         //	Determine what height we should drop the object from
                         //
                         float drop_height = DROP_HEIGHT;
-                        if (phys_obj->Peek_Model() != NULL) {
+                        if (phys_obj->Peek_Model() != nullptr) {
                             drop_height
                                 = (phys_obj->Peek_Model()->Get_Bounding_Box().Extent.Z * 2.0F);
                         }
@@ -431,7 +431,7 @@ void PresetTransitionTabClass::Create_Render_Obj(void)
                         //
                         for (int index = 0; index < 50; index++) {
                             phys_obj->Timestep(0.05F);
-                            if (phys_obj->As_VehiclePhysClass() != NULL) {
+                            if (phys_obj->As_VehiclePhysClass() != nullptr) {
                                 phys_obj->As_VehiclePhysClass()->Update_Wheels();
                             }
                             //::Refresh_Main_View ();
@@ -497,9 +497,9 @@ void PresetTransitionTabClass::OnDeleteitemTransitionList(NMHDR* pNMHDR, LRESULT
     //
     TransitionDataClass* transition
         = (TransitionDataClass*)m_ListCtrl.GetItemData(pNMListView->iItem);
-    if (transition != NULL) {
+    if (transition != nullptr) {
         SAFE_DELETE(transition);
-        m_ListCtrl.SetItemData(pNMListView->iItem, NULL);
+        m_ListCtrl.SetItemData(pNMListView->iItem, nullptr);
     }
 
     return;

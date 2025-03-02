@@ -92,7 +92,7 @@ END_MESSAGE_MAP()
  *   6/1/99    IML : Created.                                                                  *
  *=============================================================================================*/
 LightMapDoc::LightMapDoc()
-    : W3dFile(NULL),
+    : W3dFile(nullptr),
       MeshCount(0),
       TriangleCount(0),
       CanInsertSolve(false),
@@ -201,7 +201,7 @@ BOOL LightMapDoc::OnOpenDocument(LPCTSTR pathname)
 
             // Open a w3d document for read access.
             W3dFile = new RawFileClass(pathname);
-            ASSERT(W3dFile != NULL);
+            ASSERT(W3dFile != nullptr);
 
             // NOTE: RawFileClass will not keep a copy of the filename unless Set_Name()
             // is explicitly called.
@@ -214,7 +214,7 @@ BOOL LightMapDoc::OnOpenDocument(LPCTSTR pathname)
                 statusptr->SetPaneText(0, openedtext);
 
                 // Make a copy of the name of the file for later reference.
-                _splitpath(pathname, NULL, NULL, DocumentName, NULL);
+                _splitpath(pathname, nullptr, nullptr, DocumentName, nullptr);
 
                 return (TRUE);
             }
@@ -222,7 +222,7 @@ BOOL LightMapDoc::OnOpenDocument(LPCTSTR pathname)
 
                 // Clean-up.
                 delete W3dFile;
-                W3dFile = NULL;
+                W3dFile = nullptr;
 
                 // Return failure.
                 statusptr->SetPaneText(0, notopenedtext);
@@ -258,7 +258,7 @@ BOOL LightMapDoc::OnOpenDocument(LPCTSTR pathname)
  *=============================================================================================*/
 bool LightMapDoc::Check_Document()
 {
-    ASSERT(W3dFile != NULL);
+    ASSERT(W3dFile != nullptr);
     W3dFile->Open(FileClass::READ);
 
     ChunkLoadClass w3dchunk(W3dFile);
@@ -333,7 +333,7 @@ bool LightMapDoc::Check_Document()
                 char* meshfilebuffer;
 
                 meshfilebuffer = new char[w3dchunk.Cur_Chunk_Length()];
-                ASSERT(meshfilebuffer != NULL);
+                ASSERT(meshfilebuffer != nullptr);
                 if (w3dchunk.Read(meshfilebuffer, w3dchunk.Cur_Chunk_Length())
                     != w3dchunk.Cur_Chunk_Length()) {
                     throw("Cannot read data in W3D_CHUNK_MESH.");
@@ -376,7 +376,7 @@ bool LightMapDoc::Check_Document()
             StringBuilder anomalymessage(8192);
 
             anomalymessage.Copy(anomalytext, anomalycount);
-            MessageBox(NULL, anomalymessage.String(), "Attention",
+            MessageBox(nullptr, anomalymessage.String(), "Attention",
                        MB_ICONEXCLAMATION | MB_SETFOREGROUND);
         }
 
@@ -395,7 +395,7 @@ bool LightMapDoc::Check_Document()
         // Report to user why document cannot be opened.
         invalidmessage.Copy(invalidprefix);
         invalidmessage.Concatenate(message);
-        MessageBox(NULL, invalidmessage.String(), NULL, MB_ICONERROR | MB_SETFOREGROUND);
+        MessageBox(nullptr, invalidmessage.String(), nullptr, MB_ICONERROR | MB_SETFOREGROUND);
 
         return (false);
     }
@@ -423,14 +423,14 @@ LightMapDoc::MeshInfoStruct::MeshInfoStruct(FileClass& meshfile)
 
     // Initialize the member fields.
     memset(&Header, 0x0, sizeof(Header));
-    TriangleChunk = NULL;
-    VertexChunk = NULL;
+    TriangleChunk = nullptr;
+    VertexChunk = nullptr;
     for (s = 0; s < PrelitModeEnum::COUNT; s++) {
         memset(&MaterialInfo[s], 0x0, sizeof(MaterialInfo[s]));
-        VertexMaterials[s] = NULL;
-        ShaderChunk[s] = NULL;
+        VertexMaterials[s] = nullptr;
+        ShaderChunk[s] = nullptr;
         for (unsigned p = 0; p < MeshMatDescClass::MAX_PASSES; p++) {
-            ShaderIdChunk[s][p] = NULL;
+            ShaderIdChunk[s][p] = nullptr;
         }
     }
     DIGsExist = false;
@@ -462,16 +462,16 @@ LightMapDoc::MeshInfoStruct::MeshInfoStruct(FileClass& meshfile)
                 break;
 
             case W3D_CHUNK_TRIANGLES:
-                if (TriangleChunk == NULL) {
+                if (TriangleChunk == nullptr) {
                     TriangleChunk = new ChunkClass(w3dchunk);
-                    ASSERT(TriangleChunk != NULL);
+                    ASSERT(TriangleChunk != nullptr);
                 }
                 break;
 
             case W3D_CHUNK_VERTICES:
-                if (VertexChunk == NULL) {
+                if (VertexChunk == nullptr) {
                     VertexChunk = new ChunkClass(w3dchunk);
-                    ASSERT(VertexChunk != NULL);
+                    ASSERT(VertexChunk != nullptr);
                 }
                 break;
 
@@ -480,9 +480,9 @@ LightMapDoc::MeshInfoStruct::MeshInfoStruct(FileClass& meshfile)
                 break;
 
             case W3D_CHUNK_SHADERS:
-                if (ShaderChunk[PrelitModeEnum::UNLIT] == NULL) {
+                if (ShaderChunk[PrelitModeEnum::UNLIT] == nullptr) {
                     ShaderChunk[PrelitModeEnum::UNLIT] = new ChunkClass(w3dchunk);
-                    ASSERT(ShaderChunk[PrelitModeEnum::UNLIT] != NULL);
+                    ASSERT(ShaderChunk[PrelitModeEnum::UNLIT] != nullptr);
                 }
                 break;
 
@@ -549,12 +549,12 @@ LightMapDoc::MeshInfoStruct::MeshInfoStruct(FileClass& meshfile)
 void LightMapDoc::MeshInfoStruct::Parse_Vertex_Materials(ChunkLoadClass& w3dchunk,
                                                          unsigned prelitmode)
 {
-    if (VertexMaterials[prelitmode] == NULL) {
+    if (VertexMaterials[prelitmode] == nullptr) {
 
         W3dVertexMaterialStruct vertexmaterialinfo;
 
         VertexMaterials[prelitmode] = new DynamicVectorClass<W3dVertexMaterialStruct>;
-        ASSERT(VertexMaterials[prelitmode] != NULL);
+        ASSERT(VertexMaterials[prelitmode] != nullptr);
         while (w3dchunk.Open_Chunk()) {
 
             while (w3dchunk.Open_Chunk()) {
@@ -613,9 +613,9 @@ void LightMapDoc::MeshInfoStruct::Parse_Material_Pass(ChunkLoadClass& w3dchunk, 
 
         case W3D_CHUNK_SHADER_IDS:
             if ((materialpass < MeshMatDescClass::MAX_PASSES)
-                && (ShaderIdChunk[prelitmode][materialpass] == NULL)) {
+                && (ShaderIdChunk[prelitmode][materialpass] == nullptr)) {
                 ShaderIdChunk[prelitmode][materialpass] = new ChunkClass(w3dchunk);
-                ASSERT(ShaderIdChunk[prelitmode][materialpass] != NULL);
+                ASSERT(ShaderIdChunk[prelitmode][materialpass] != nullptr);
             }
             break;
 
@@ -631,7 +631,7 @@ void LightMapDoc::MeshInfoStruct::Parse_Material_Pass(ChunkLoadClass& w3dchunk, 
             W3dRGBAStruct* dcgs;
 
             dcgschunk = new ChunkClass(w3dchunk);
-            ASSERT(dcgschunk != NULL);
+            ASSERT(dcgschunk != nullptr);
 
             dcgs = (W3dRGBAStruct*)dcgschunk->Get_Data();
             for (unsigned v = 0; v < dcgschunk->Get_Size() / sizeof(*dcgs); v++) {
@@ -705,9 +705,9 @@ void LightMapDoc::MeshInfoStruct::Parse_Prelit_Chunk(ChunkLoadClass& w3dchunk, u
             break;
 
         case W3D_CHUNK_SHADERS:
-            if (ShaderChunk[prelitmode] == NULL) {
+            if (ShaderChunk[prelitmode] == nullptr) {
                 ShaderChunk[prelitmode] = new ChunkClass(w3dchunk);
-                ASSERT(ShaderChunk[prelitmode] != NULL);
+                ASSERT(ShaderChunk[prelitmode] != nullptr);
             }
             break;
 
@@ -743,21 +743,21 @@ LightMapDoc::MeshInfoStruct::~MeshInfoStruct()
 {
     unsigned s;
 
-    if (TriangleChunk != NULL) {
+    if (TriangleChunk != nullptr) {
         delete TriangleChunk;
     }
-    if (VertexChunk != NULL) {
+    if (VertexChunk != nullptr) {
         delete VertexChunk;
     }
     for (s = 0; s < PrelitModeEnum::COUNT; s++) {
-        if (VertexMaterials[s] != NULL) {
+        if (VertexMaterials[s] != nullptr) {
             delete VertexMaterials[s];
         }
-        if (ShaderChunk[s] != NULL) {
+        if (ShaderChunk[s] != nullptr) {
             delete ShaderChunk[s];
         }
         for (unsigned p = 0; p < MeshMatDescClass::MAX_PASSES; p++) {
-            if (ShaderIdChunk[s][p] != NULL) {
+            if (ShaderIdChunk[s][p] != nullptr) {
                 delete ShaderIdChunk[s][p];
             }
         }
@@ -833,7 +833,7 @@ LightMapDoc::MeshAnomalyStruct::MeshAnomalyStruct(const MeshInfoStruct& meshinfo
     }
 
     // For each vertex material...
-    if (meshinfo.VertexMaterials[PrelitModeEnum::UNLIT] != NULL) {
+    if (meshinfo.VertexMaterials[PrelitModeEnum::UNLIT] != nullptr) {
         for (int vm = 0; vm < meshinfo.VertexMaterials[PrelitModeEnum::UNLIT]->Count(); vm++) {
 
             //	Test for emissive.
@@ -851,7 +851,7 @@ LightMapDoc::MeshAnomalyStruct::MeshAnomalyStruct(const MeshInfoStruct& meshinfo
     }
 
     // Test shaders.
-    if (meshinfo.ShaderChunk[PrelitModeEnum::UNLIT] != NULL) {
+    if (meshinfo.ShaderChunk[PrelitModeEnum::UNLIT] != nullptr) {
 
         W3dShaderStruct* shaderptr
             = (W3dShaderStruct*)meshinfo.ShaderChunk[PrelitModeEnum::UNLIT]->Get_Data();
@@ -884,8 +884,8 @@ LightMapDoc::MeshAnomalyStruct::MeshAnomalyStruct(const MeshInfoStruct& meshinfo
     }
 
     // Determine if there is destination blending in pass 0.
-    if ((meshinfo.ShaderChunk[PrelitModeEnum::UNLIT] != NULL)
-        && (meshinfo.ShaderIdChunk[PrelitModeEnum::UNLIT][0] != NULL)) {
+    if ((meshinfo.ShaderChunk[PrelitModeEnum::UNLIT] != nullptr)
+        && (meshinfo.ShaderIdChunk[PrelitModeEnum::UNLIT][0] != nullptr)) {
         for (unsigned s = 0;
              s < meshinfo.ShaderIdChunk[PrelitModeEnum::UNLIT][0]->Get_Size() / sizeof(uint32);
              s++) {
@@ -939,14 +939,14 @@ LightMapDoc::SplitVertexInfoStruct::SplitVertexInfoStruct(const MeshInfoStruct& 
 
     // Allocate a remap table of worst case size ie. assume 3 vertices per triangle.
     RemapTable = new uint32[worstcasevertexcount];
-    ASSERT(RemapTable != NULL);
+    ASSERT(RemapTable != nullptr);
 
     IndexTable = new uint32[facevertexcount];
-    ASSERT(IndexTable != NULL);
+    ASSERT(IndexTable != nullptr);
 
     // Allocate and copy a table of lightmap UV's.
     UVTable = new W3dTexCoordStruct[facevertexcount];
-    ASSERT(UVTable != NULL);
+    ASSERT(UVTable != nullptr);
     if (meshsolve.Get_Statistics()->Valid_Lightmap_Solve()) {
         for (t = 0; t < facevertexcount; t++) {
             UVTable[t] = meshsolve.Lightmap_UV(t);
@@ -961,14 +961,14 @@ LightMapDoc::SplitVertexInfoStruct::SplitVertexInfoStruct(const MeshInfoStruct& 
 
     // Allocate and initialize a table of lightmap UV ptrs of worst case size.
     UVPtrTable = new W3dTexCoordStruct*[worstcasevertexcount];
-    ASSERT(UVPtrTable != NULL);
+    ASSERT(UVPtrTable != nullptr);
     for (t = 0; t < worstcasevertexcount; t++) {
-        UVPtrTable[t] = NULL;
+        UVPtrTable[t] = nullptr;
     }
 
     // Get the base address of the triangle chunk data.
     triangles = (W3dTriStruct*)meshinfo.TriangleChunk->Get_Data();
-    ASSERT(triangles != NULL);
+    ASSERT(triangles != nullptr);
 
     // For each face...
     splitvertexindex = vertexcount;
@@ -984,7 +984,7 @@ LightMapDoc::SplitVertexInfoStruct::SplitVertexInfoStruct(const MeshInfoStruct& 
             ASSERT(vertexindex < vertexcount);
 
             // Has this index not been used before?
-            if (UVPtrTable[vertexindex] == NULL) {
+            if (UVPtrTable[vertexindex] == nullptr) {
 
                 RemapTable[vertexindex] = vertexindex;
                 IndexTable[facevertexindex] = vertexindex;
@@ -1016,7 +1016,7 @@ LightMapDoc::SplitVertexInfoStruct::SplitVertexInfoStruct(const MeshInfoStruct& 
     // NOTE: The existence of these suggests some redundancy in the mesh data!
     for (v = 0; v < vertexcount; v++) {
 
-        if (UVPtrTable[v] == NULL) {
+        if (UVPtrTable[v] == nullptr) {
 
             // Remap it to the zeroth vertex in the zeroth triangle.
             RemapTable[v] = RemapTable[IndexTable[0]];
@@ -1305,7 +1305,7 @@ const char* LightMapDoc::Lightmap_Solve_Status_String(unsigned meshindex, String
  *=============================================================================================*/
 void LightMapDoc::Reorder()
 {
-    RawFileClass* reorderfile = NULL;
+    RawFileClass* reorderfile = nullptr;
 
     try {
 
@@ -1404,7 +1404,7 @@ void LightMapDoc::Reorder()
             strcat(temporarypathname, _TemporaryReorderFilename);
             strcat(temporarypathname, theApp.Instance_Name());
             reorderfile = new RawFileClass(temporarypathname);
-            ASSERT(reorderfile != NULL);
+            ASSERT(reorderfile != nullptr);
 
             // NOTE: RawFileClass will not keep a copy of the filename unless Set_Name() is
             // explicitly called.
@@ -1452,7 +1452,7 @@ void LightMapDoc::Reorder()
     } catch (const char* errormessage) {
 
         W3dFile->Close();
-        if (reorderfile != NULL) {
+        if (reorderfile != nullptr) {
             delete reorderfile;
         }
 
@@ -1476,7 +1476,7 @@ void LightMapDoc::Reorder()
  *=============================================================================================*/
 void LightMapDoc::Optimize()
 {
-    RawFileClass* optimizefile = NULL;
+    RawFileClass* optimizefile = nullptr;
 
     try {
 
@@ -1489,7 +1489,7 @@ void LightMapDoc::Optimize()
         strcat(temporarypathname, _TemporaryOptimizeFilename);
         strcat(temporarypathname, theApp.Instance_Name());
         optimizefile = new RawFileClass(temporarypathname);
-        ASSERT(optimizefile != NULL);
+        ASSERT(optimizefile != nullptr);
 
         // NOTE: RawFileClass will not keep a copy of the filename unless Set_Name() is explicitly
         // called.
@@ -1559,7 +1559,7 @@ void LightMapDoc::Optimize()
     } catch (const char* errormessage) {
 
         W3dFile->Close();
-        if (optimizefile != NULL) {
+        if (optimizefile != nullptr) {
             delete optimizefile;
         }
 
@@ -1591,7 +1591,7 @@ void LightMapDoc::Optimize_Prelit_Vertex_Material_Pass(ChunkLoadClass& w3dchunk,
     optimizechunk.Begin_Chunk(w3dchunk.Cur_Chunk_ID());
 
     digcount = 0;
-    dcgschunk = NULL;
+    dcgschunk = nullptr;
     while (w3dchunk.Open_Chunk()) {
 
         switch (w3dchunk.Cur_Chunk_ID()) {
@@ -1624,11 +1624,11 @@ void LightMapDoc::Optimize_Prelit_Vertex_Material_Pass(ChunkLoadClass& w3dchunk,
         optimizechunk.Begin_Chunk(W3D_CHUNK_DCG);
 
         digs = (W3dRGBStruct*)digschunk[i]->Get_Data();
-        if (dcgschunk != NULL) {
+        if (dcgschunk != nullptr) {
             dcgs = (W3dRGBAStruct*)dcgschunk->Get_Data();
         }
         else {
-            dcgs = NULL;
+            dcgs = nullptr;
         }
         for (unsigned v = 0; v < digschunk[i]->Get_Size() / sizeof(*digs); v++) {
 
@@ -1637,7 +1637,7 @@ void LightMapDoc::Optimize_Prelit_Vertex_Material_Pass(ChunkLoadClass& w3dchunk,
             W3dRGBAStruct outputcolor;
 
             blendcolor = digs[v];
-            if (dcgs != NULL) {
+            if (dcgs != nullptr) {
 
                 W3dRGBStruct color;
 
@@ -1661,7 +1661,7 @@ void LightMapDoc::Optimize_Prelit_Vertex_Material_Pass(ChunkLoadClass& w3dchunk,
     }
 
     // If there were no DIG chunks write the DCG chunk as is (if it exists).
-    if ((digcount == 0) && (dcgschunk != NULL)) {
+    if ((digcount == 0) && (dcgschunk != nullptr)) {
         optimizechunk.Begin_Chunk(W3D_CHUNK_DCG);
         optimizechunk.Write((W3dRGBAStruct*)dcgschunk->Get_Data(), dcgschunk->Get_Size());
         optimizechunk.End_Chunk();
@@ -1670,11 +1670,11 @@ void LightMapDoc::Optimize_Prelit_Vertex_Material_Pass(ChunkLoadClass& w3dchunk,
     optimizechunk.End_Chunk();
 
     // Clean-up.
-    if (dcgschunk != NULL) {
+    if (dcgschunk != nullptr) {
         delete dcgschunk;
     }
     for (i = 0; i < digcount; i++) {
-        if (digschunk[i] != NULL) {
+        if (digschunk[i] != nullptr) {
             delete digschunk[i];
         }
     }
@@ -1713,7 +1713,7 @@ void LightMapDoc::OnFileSave()
  *=============================================================================================*/
 void LightMapDoc::OnFileSaveAs()
 {
-    CFileDialog dialog(FALSE, LightMapApp::Document_File_Extension(), NULL,
+    CFileDialog dialog(FALSE, LightMapApp::Document_File_Extension(), nullptr,
                        LightMapApp::File_Dialog_Flags(), LightMapApp::File_Dialog_Filter());
 
     if (dialog.DoModal() == IDOK) {
@@ -1749,7 +1749,7 @@ BOOL LightMapDoc::OnSaveDocument(LPCTSTR pathname)
 
     try {
 
-        ASSERT(pathname != NULL);
+        ASSERT(pathname != nullptr);
 
         // Inform the user that the save has started.
         CWaitCursor waitcursor;
@@ -1772,7 +1772,7 @@ BOOL LightMapDoc::OnSaveDocument(LPCTSTR pathname)
             char lightmappathname[_MAX_PATH];
 
             // Extract the file name from the path name, check that the length is okay.
-            _splitpath(pathname, NULL, NULL, filename, NULL);
+            _splitpath(pathname, nullptr, nullptr, filename, nullptr);
             filenamesize = strlen(filename) + 1;
             if (filenamesize > W3D_NAME_LEN) {
 
@@ -1845,7 +1845,7 @@ BOOL LightMapDoc::OnSaveDocument(LPCTSTR pathname)
             }
 
             // Copy the lightmap assets.
-            _splitpath(pathname, drivename, directoryname, NULL, NULL);
+            _splitpath(pathname, drivename, directoryname, nullptr, nullptr);
             strcpy(lightmappathname, drivename);
             strcat(lightmappathname, directoryname);
             strcat(lightmappathname, lightmapdirectory);
@@ -1874,7 +1874,7 @@ BOOL LightMapDoc::OnSaveDocument(LPCTSTR pathname)
         W3dFile->Close();
 
         // Report why save failed to user.
-        MessageBox(NULL, message, NULL, MB_ICONERROR | MB_SETFOREGROUND);
+        MessageBox(nullptr, message, nullptr, MB_ICONERROR | MB_SETFOREGROUND);
 
         // Return failure.
         statusptr->SetPaneText(0, notsavedtext);
@@ -2035,7 +2035,7 @@ void LightMapDoc::Rename_Lightmaps(ChunkLoadClass& loadchunk, ChunkSaveClass& sa
                 char pathname[_MAX_PATH];
 
                 loadpathchunk = new ChunkClass(loadchunk);
-                ASSERT(loadpathchunk != NULL);
+                ASSERT(loadpathchunk != nullptr);
 
                 // Break the load pathname into its component parts.
                 _splitpath((const char*)loadpathchunk->Get_Data(), loaddrivename, loaddirectoryname,
@@ -2123,11 +2123,11 @@ void LightMapDoc::Rename_Collection(ChunkLoadClass& loadchunk, ChunkSaveClass& s
                 char *loadname, *savename, *suffix;
 
                 loadname = new char[loadchunk.Cur_Chunk_Length()];
-                ASSERT(loadname != NULL);
+                ASSERT(loadname != nullptr);
 
                 // Allocate a string long enough to hold the save string.
                 savename = new char[loadchunk.Cur_Chunk_Length() + filenamesize];
-                ASSERT(savename != NULL);
+                ASSERT(savename != nullptr);
 
                 if (loadchunk.Read(loadname, loadchunk.Cur_Chunk_Length())
                     != loadchunk.Cur_Chunk_Length()) {
@@ -2136,7 +2136,7 @@ void LightMapDoc::Rename_Collection(ChunkLoadClass& loadchunk, ChunkSaveClass& s
 
                 strcpy(savename, filename);
                 suffix = strrchr(loadname, '.');
-                if (suffix != NULL) {
+                if (suffix != nullptr) {
                     strcat(savename, suffix);
                 }
 
@@ -2220,7 +2220,7 @@ void LightMapDoc::Rename_HLOD(ChunkLoadClass& loadchunk, ChunkSaveClass& savechu
                     ASSERT(filenamesize <= sizeof(subobjectname));
                     strcpy(subobjectname, filename);
                     suffix = strrchr(subobject.Name, '.');
-                    if (suffix != NULL) {
+                    if (suffix != nullptr) {
                         ASSERT((filenamesize + strlen(suffix)) <= sizeof(subobjectname));
                         strcat(subobjectname, suffix);
                     }
@@ -2285,11 +2285,11 @@ void LightMapDoc::Rename_Dazzle(ChunkLoadClass& loadchunk, ChunkSaveClass& savec
                 char *loadname, *savename, *suffix;
 
                 loadname = new char[loadchunk.Cur_Chunk_Length()];
-                ASSERT(loadname != NULL);
+                ASSERT(loadname != nullptr);
 
                 // Allocate a string long enough to hold the save string.
                 savename = new char[loadchunk.Cur_Chunk_Length() + filenamesize];
-                ASSERT(savename != NULL);
+                ASSERT(savename != nullptr);
 
                 if (loadchunk.Read(loadname, loadchunk.Cur_Chunk_Length())
                     != loadchunk.Cur_Chunk_Length()) {
@@ -2298,7 +2298,7 @@ void LightMapDoc::Rename_Dazzle(ChunkLoadClass& loadchunk, ChunkSaveClass& savec
 
                 strcpy(savename, filename);
                 suffix = strrchr(loadname, '.');
-                if (suffix != NULL) {
+                if (suffix != nullptr) {
                     strcat(savename, suffix);
                 }
 
@@ -2345,14 +2345,14 @@ void LightMapDoc::Save_Lights(const char* pathname)
     char directoryname[_MAX_DIR];
     char filename[_MAX_FNAME];
 
-    _splitpath(pathname, drivename, directoryname, filename, NULL);
+    _splitpath(pathname, drivename, directoryname, filename, nullptr);
     strcpy(lightpathname, drivename);
     strcat(lightpathname, directoryname);
     strcat(lightpathname, filename);
     strcat(lightpathname, extension);
 
     RawFileClass* lightfile = new RawFileClass(lightpathname);
-    ASSERT(lightfile != NULL);
+    ASSERT(lightfile != nullptr);
 
     // NOTE: RawFileClass will not keep a copy of the filename unless Set_Name() is explicitly
     // called.
@@ -2413,9 +2413,9 @@ void LightMapDoc::DeleteContents()
     LightscapeSolve::Delete_Assets();
 
     // Close any previously opened document.
-    if (W3dFile != NULL) {
+    if (W3dFile != nullptr) {
         delete W3dFile;
-        W3dFile = NULL;
+        W3dFile = nullptr;
     }
 
     // Re-initialize data.
@@ -2497,14 +2497,14 @@ void LightMapDoc::Insert_Solve(const char* solvedirectoryname, const char* solve
     const char* notinsertedtext = " not inserted"; // Status bar message.
 
     char temporarypathname[_MAX_PATH];
-    char* meshfilebuffer = NULL;
+    char* meshfilebuffer = nullptr;
 
     ASSERT(CanInsertSolve);
     ASSERT(SolveCount < MAX_SOLVE_COUNT);
 
     CMainFrame* frameptr = (CMainFrame*)AfxGetApp()->m_pMainWnd;
     CStatusBar* statusptr = &(frameptr->m_wndStatusBar);
-    RawFileClass* solvefile = NULL;
+    RawFileClass* solvefile = nullptr;
 
     try {
 
@@ -2522,7 +2522,7 @@ void LightMapDoc::Insert_Solve(const char* solvedirectoryname, const char* solve
                _TemporarySolveFilename[SolveCount % TEMPORARY_SOLVE_FILENAME_COUNT]);
         strcat(temporarypathname, theApp.Instance_Name());
         solvefile = new RawFileClass(temporarypathname);
-        ASSERT(solvefile != NULL);
+        ASSERT(solvefile != nullptr);
 
         // NOTE: RawFileClass will not keep a copy of the filename unless Set_Name() is explicitly
         // called.
@@ -2566,13 +2566,13 @@ void LightMapDoc::Insert_Solve(const char* solvedirectoryname, const char* solve
                 // Currently, nothing has been inserted.
                 unsigned long insertedflags = 0;
 
-                // If this mesh name contains the inclusion character (if not null) and if a vertex
+                // If this mesh name contains the inclusion character (if not nullptr) and if a vertex
                 // solve and/or a lightmap solve can be inserted...
-                if (inclusionstring == NULL) {
+                if (inclusionstring == nullptr) {
                     includemesh = true;
                 }
                 else {
-                    includemesh = strstr(MeshStatus[meshindex].Name, inclusionstring) != NULL;
+                    includemesh = strstr(MeshStatus[meshindex].Name, inclusionstring) != nullptr;
                     if (invertselection) {
                         includemesh = !includemesh;
                     }
@@ -2586,7 +2586,7 @@ void LightMapDoc::Insert_Solve(const char* solvedirectoryname, const char* solve
                     ChunkLoadClass meshchunk(w3dchunk);
 
                     meshfilebuffer = new char[w3dchunk.Cur_Chunk_Length()];
-                    ASSERT(meshfilebuffer != NULL);
+                    ASSERT(meshfilebuffer != nullptr);
                     fileposition = W3dFile->Seek(0, SEEK_CUR);
                     if (meshchunk.Read(meshfilebuffer, w3dchunk.Cur_Chunk_Length())
                         != w3dchunk.Cur_Chunk_Length()) {
@@ -2714,7 +2714,7 @@ void LightMapDoc::Insert_Solve(const char* solvedirectoryname, const char* solve
 
                     // Clean-up.
                     delete[] meshfilebuffer;
-                    meshfilebuffer = NULL;
+                    meshfilebuffer = nullptr;
                 }
                 else {
 
@@ -2759,7 +2759,7 @@ void LightMapDoc::Insert_Solve(const char* solvedirectoryname, const char* solve
             StringBuilder anomalymessage(8192);
 
             anomalymessage.Copy(anomalytext, anomalycount);
-            MessageBox(NULL, anomalymessage.String(), "Attention",
+            MessageBox(nullptr, anomalymessage.String(), "Attention",
                        MB_ICONEXCLAMATION | MB_SETFOREGROUND);
         }
 
@@ -2793,7 +2793,7 @@ void LightMapDoc::Insert_Solve(const char* solvedirectoryname, const char* solve
         string.Copy("%s%d%s", solvetext, SolveCount, insertedtext);
         statusptr->SetPaneText(0, string.String());
 
-        UpdateAllViews(NULL);
+        UpdateAllViews(nullptr);
 
     } catch (const char* errormessage) {
 
@@ -2802,11 +2802,11 @@ void LightMapDoc::Insert_Solve(const char* solvedirectoryname, const char* solve
         char* messagebuffer;
 
         // Clean-up.
-        if (meshfilebuffer != NULL) {
+        if (meshfilebuffer != nullptr) {
             delete[] meshfilebuffer;
         }
         W3dFile->Close();
-        if (solvefile != NULL) {
+        if (solvefile != nullptr) {
             delete solvefile;
         }
 
@@ -2815,7 +2815,7 @@ void LightMapDoc::Insert_Solve(const char* solvedirectoryname, const char* solve
         ASSERT(messagebuffer);
         strcpy(messagebuffer, prefixmessage);
         strcat(messagebuffer, errormessage);
-        MessageBox(NULL, messagebuffer, NULL, MB_ICONERROR | MB_SETFOREGROUND);
+        MessageBox(nullptr, messagebuffer, nullptr, MB_ICONERROR | MB_SETFOREGROUND);
         delete messagebuffer;
 
         // Inform user that solve has NOT been inserted.
@@ -2823,7 +2823,7 @@ void LightMapDoc::Insert_Solve(const char* solvedirectoryname, const char* solve
         string.Copy("%s%d%s", solvetext, SolveCount, notinsertedtext);
         statusptr->SetPaneText(0, string.String());
 
-        UpdateAllViews(NULL);
+        UpdateAllViews(nullptr);
     }
 }
 
@@ -2884,7 +2884,7 @@ void LightMapDoc::Translate_Vertices(ChunkLoadClass& w3dchunk, ChunkSaveClass& s
     W3dVectorStruct* vertices;
 
     vertexchunk = new ChunkClass(w3dchunk);
-    ASSERT(vertexchunk != NULL);
+    ASSERT(vertexchunk != nullptr);
 
     vertices = (W3dVectorStruct*)vertexchunk->Get_Data();
 
@@ -2917,7 +2917,7 @@ void LightMapDoc::Translate_Vertex_Normals(ChunkLoadClass& w3dchunk, ChunkSaveCl
     W3dVectorStruct* vertexnormals;
 
     vertexnormalchunk = new ChunkClass(w3dchunk);
-    ASSERT(vertexnormalchunk != NULL);
+    ASSERT(vertexnormalchunk != nullptr);
 
     vertexnormals = (W3dVectorStruct*)vertexnormalchunk->Get_Data();
 
@@ -2950,7 +2950,7 @@ void LightMapDoc::Translate_Vertex_Influences(ChunkLoadClass& w3dchunk, ChunkSav
     W3dVertInfStruct* vertexinfluences;
 
     vertexinfluencechunk = new ChunkClass(w3dchunk);
-    ASSERT(vertexinfluencechunk != NULL);
+    ASSERT(vertexinfluencechunk != nullptr);
 
     vertexinfluences = (W3dVertInfStruct*)vertexinfluencechunk->Get_Data();
 
@@ -2986,7 +2986,7 @@ void LightMapDoc::Translate_Triangles(ChunkLoadClass& w3dchunk, ChunkSaveClass& 
     W3dTriStruct* triangles;
 
     trianglechunk = new ChunkClass(w3dchunk);
-    ASSERT(trianglechunk != NULL);
+    ASSERT(trianglechunk != nullptr);
     facecount = trianglechunk->Get_Size() / sizeof(W3dTriStruct);
     triangles = (W3dTriStruct*)trianglechunk->Get_Data();
 
@@ -3030,7 +3030,7 @@ void LightMapDoc::Translate_Vertex_Shade_Indices(ChunkLoadClass& w3dchunk,
     uint32* vertexshadeindices;
 
     vertexshadeindiceschunk = new ChunkClass(w3dchunk);
-    ASSERT(vertexshadeindiceschunk != NULL);
+    ASSERT(vertexshadeindiceschunk != nullptr);
 
     vertexshadeindices = (uint32*)vertexshadeindiceschunk->Get_Data();
 
@@ -3604,7 +3604,7 @@ void LightMapDoc::Translate_Textures(ChunkLoadClass& w3dchunk, PrelitModeEnum ou
             ChunkClass* datachunk;
 
             datachunk = new ChunkClass(w3dchunk);
-            ASSERT(datachunk != NULL);
+            ASSERT(datachunk != nullptr);
 
             solvechunk.Begin_Chunk(datachunk->ChunkType);
             solvechunk.Write(datachunk->Get_Data(), datachunk->Get_Size());
@@ -3786,7 +3786,7 @@ void LightMapDoc::Translate_DCGs(ChunkLoadClass& w3dchunk, ChunkSaveClass& solve
     W3dRGBAStruct* dcgs;
 
     dcgschunk = new ChunkClass(w3dchunk);
-    ASSERT(dcgschunk != NULL);
+    ASSERT(dcgschunk != nullptr);
 
     dcgs = (W3dRGBAStruct*)dcgschunk->Get_Data();
 
@@ -3822,7 +3822,7 @@ void LightMapDoc::Translate_DIGs(PrelitModeEnum inputmode, ChunkLoadClass& w3dch
     W3dRGBStruct* digs;
 
     digschunk = new ChunkClass(w3dchunk);
-    ASSERT(digschunk != NULL);
+    ASSERT(digschunk != nullptr);
 
     digs = (W3dRGBStruct*)digschunk->Get_Data();
 
@@ -3890,7 +3890,7 @@ void LightMapDoc::Translate_Vertex_Material_IDs(PrelitModeEnum inputmode, ChunkL
     unsigned vertexmaterialidcount;
 
     vertexmaterialidchunk = new ChunkClass(w3dchunk);
-    ASSERT(vertexmaterialidchunk != NULL);
+    ASSERT(vertexmaterialidchunk != nullptr);
     vertexmaterialidcount = vertexmaterialidchunk->Get_Size() / sizeof(uint32);
 
     vertexmaterialids = (uint32*)vertexmaterialidchunk->Get_Data();
@@ -3986,7 +3986,7 @@ void LightMapDoc::Translate_Stage_Texcoords(ChunkLoadClass& w3dchunk, ChunkSaveC
     W3dTexCoordStruct* texcoords;
 
     texcoordchunk = new ChunkClass(w3dchunk);
-    ASSERT(texcoordchunk != NULL);
+    ASSERT(texcoordchunk != nullptr);
 
     texcoords = (W3dTexCoordStruct*)texcoordchunk->Get_Data();
 
@@ -4041,7 +4041,7 @@ void LightMapDoc::Add_Lightmap_Material_Pass(PrelitModeEnum inputmode, unsigned 
         solvechunk.Write(&shaderid, sizeof(shaderid));
     }
     else {
-        ASSERT(meshinfo.ShaderIdChunk[inputmode][materialpass] != NULL);
+        ASSERT(meshinfo.ShaderIdChunk[inputmode][materialpass] != nullptr);
         for (unsigned s = 0;
              s < meshinfo.ShaderIdChunk[inputmode][materialpass]->Get_Size() / sizeof(uint32);
              s++) {
@@ -4196,7 +4196,7 @@ void LightMapDoc::Copy_Chunk(ChunkLoadClass& loadchunk, ChunkSaveClass& savechun
     ChunkClass* chunk;
 
     chunk = new ChunkClass(loadchunk);
-    ASSERT(chunk != NULL);
+    ASSERT(chunk != nullptr);
 
     savechunk.Begin_Chunk(chunk->ChunkType);
     savechunk.Write(chunk->Get_Data(), chunk->Get_Size());
@@ -4227,7 +4227,7 @@ ChunkClass::ChunkClass(ChunkLoadClass& loadchunk)
     ChunkSize = loadchunk.Cur_Chunk_Length();
 
     Data = new char[ChunkSize];
-    ASSERT(Data != NULL);
+    ASSERT(Data != nullptr);
 
     if (loadchunk.Read(Data, ChunkSize) != ChunkSize) {
 
@@ -4237,7 +4237,7 @@ ChunkClass::ChunkClass(ChunkLoadClass& loadchunk)
 
         // Clean-up.
         delete[] Data;
-        Data = NULL;
+        Data = nullptr;
 
         throw(errormessage.Copy(controlstring, ChunkType));
     }

@@ -56,7 +56,7 @@
  ******************************************************************************/
 
 BitPacker::BitPacker()
-    : mBuffer(NULL),
+    : mBuffer(nullptr),
       mBufferSize(0),
       mBytePosition(0),
       mBitMask(0x80),
@@ -82,7 +82,7 @@ BitPacker::BitPacker()
  ******************************************************************************/
 
 BitPacker::BitPacker(void* buffer, unsigned int bufferSize)
-    : mBuffer(NULL),
+    : mBuffer(nullptr),
       mBufferSize(0),
       mBytePosition(0),
       mBitMask(0x80),
@@ -130,7 +130,7 @@ BitPacker::~BitPacker()
 
 void BitPacker::SetBuffer(void* buffer, unsigned int bufferSize)
 {
-    assert(buffer != NULL);
+    assert(buffer != nullptr);
     mBuffer = (unsigned char*)buffer;
 
     assert(bufferSize > 0);

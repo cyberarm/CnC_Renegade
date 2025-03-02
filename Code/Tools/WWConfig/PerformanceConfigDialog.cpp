@@ -147,7 +147,7 @@ const char* VALUE_NAME_PARTICLE_DETAIL = "Particle_Detail";
 // PerformanceConfigDialogClass
 //
 /////////////////////////////////////////////////////////////////////////////
-PerformanceConfigDialogClass::PerformanceConfigDialogClass(CWnd* pParent /*=NULL*/)
+PerformanceConfigDialogClass::PerformanceConfigDialogClass(CWnd* pParent /*=nullptr*/)
     : CDialog(PerformanceConfigDialogClass::IDD, pParent)
 {
     //{{AFX_DATA_INIT(PerformanceConfigDialogClass)
@@ -269,7 +269,7 @@ void PerformanceConfigDialogClass::Build_Expert_Window_List(void)
     //
     //	Loop over all the child windows of the dialog
     //
-    for (HWND child_wnd = ::GetWindow(m_hWnd, GW_CHILD); child_wnd != NULL;
+    for (HWND child_wnd = ::GetWindow(m_hWnd, GW_CHILD); child_wnd != nullptr;
          child_wnd = ::GetWindow(child_wnd, GW_HWNDNEXT)) {
         //
         //	If this child window is below the expert checkbox then its
@@ -719,9 +719,9 @@ void AutoConfigSettings()
         return;
     }
 
-    IDirect3D8* d3d = NULL;
+    IDirect3D8* d3d = nullptr;
     D3DCAPS8 tmp_caps;
-    const D3DCAPS8* d3dcaps = NULL;
+    const D3DCAPS8* d3dcaps = nullptr;
     D3DADAPTER_IDENTIFIER8 adapter_id;
     D3DFORMAT display_format;
 

@@ -52,8 +52,8 @@ class DirectoryDialogClass : public InstallMenuDialogClass
 public:
     DirectoryDialogClass()
         : InstallMenuDialogClass(IDD_DIALOG_DIRECTORY),
-          Browser(NULL),
-          OverwriteDialog(NULL),
+          Browser(nullptr),
+          OverwriteDialog(nullptr),
           DriveLetter('\0')
     {
     }

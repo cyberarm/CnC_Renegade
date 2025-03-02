@@ -70,8 +70,8 @@ void EmitterInstanceListClass::Free_List(void)
 /////////////////////////////////////////////////////////////////////
 void EmitterInstanceListClass::Add_Emitter(ParticleEmitterClass* emitter)
 {
-    ASSERT(emitter != NULL);
-    if (emitter != NULL) {
+    ASSERT(emitter != nullptr);
+    if (emitter != nullptr) {
 
         //
         //	If this is the first emitter in the list, then initialize
@@ -79,7 +79,7 @@ void EmitterInstanceListClass::Add_Emitter(ParticleEmitterClass* emitter)
         //
         if (m_List.Count() == 0) {
             ParticleEmitterDefClass* def = emitter->Build_Definition();
-            if (def != NULL) {
+            if (def != nullptr) {
                 ParticleEmitterDefClass::operator=(*def);
                 SAFE_DELETE(def);
             }
@@ -198,7 +198,7 @@ void EmitterInstanceListClass::Set_Vel_Inherit(float value)
 void EmitterInstanceListClass::Set_Velocity_Random(Vector3Randomizer* randomizer)
 {
     ParticleEmitterDefClass::Set_Velocity_Random(randomizer);
-    if (randomizer != NULL) {
+    if (randomizer != nullptr) {
 
         //
         //	Pass this setting onto the emitters immediately

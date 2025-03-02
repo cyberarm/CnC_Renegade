@@ -67,8 +67,8 @@ static bool RendererVipStatus;
 //
 // Class statics
 //
-Render2DTextClass* cDiagnostics::PRenderer = NULL;
-Font3DInstanceClass* cDiagnostics::PFont = NULL;
+Render2DTextClass* cDiagnostics::PRenderer = nullptr;
+Font3DInstanceClass* cDiagnostics::PFont = nullptr;
 float cDiagnostics::DiagnosticX = 0;
 float cDiagnostics::DiagnosticY = 0;
 
@@ -76,14 +76,14 @@ float cDiagnostics::DiagnosticY = 0;
 void cDiagnostics::Init(void)
 {
     if (!ConsoleBox.Is_Exclusive()) {
-        WWASSERT(WW3DAssetManager::Get_Instance() != NULL);
+        WWASSERT(WW3DAssetManager::Get_Instance() != nullptr);
         PFont = WW3DAssetManager::Get_Instance()->Get_Font3DInstance("FONT6x8.TGA");
-        WWASSERT(PFont != NULL);
+        WWASSERT(PFont != nullptr);
         SET_REF_OWNER(PFont);
         PFont->Set_Mono_Spaced();
 
         PRenderer = new Render2DTextClass(PFont);
-        WWASSERT(PRenderer != NULL);
+        WWASSERT(PRenderer != nullptr);
 
         RectClass rect = Render2DClass::Get_Screen_Resolution();
         PRenderer->Set_Coordinate_Range(rect);
@@ -103,14 +103,14 @@ void cDiagnostics::Init(void)
 //-----------------------------------------------------------------------------
 void cDiagnostics::Close(void)
 {
-    if (PFont != NULL) {
+    if (PFont != nullptr) {
         PFont->Release_Ref();
-        PFont = NULL;
+        PFont = nullptr;
     }
 
-    if (PRenderer != NULL) {
+    if (PRenderer != nullptr) {
         delete PRenderer;
-        PRenderer = NULL;
+        PRenderer = nullptr;
     }
 }
 
@@ -138,11 +138,11 @@ void cDiagnostics::Add_Diagnostic(LPCSTR format, ...)
         va_start(va, format);
         ::vsprintf(buffer, format, va);
 
-        WWASSERT(PRenderer != NULL);
+        WWASSERT(PRenderer != nullptr);
         PRenderer->Set_Location(Vector2(DiagnosticX, DiagnosticY));
         PRenderer->Draw_Text(buffer);
 
-        WWASSERT(PRenderer->Peek_Font() != NULL);
+        WWASSERT(PRenderer->Peek_Font() != nullptr);
         DiagnosticY += (int)(PRenderer->Peek_Font()->Char_Height() * 1.2);
     }
 }
@@ -150,7 +150,7 @@ void cDiagnostics::Add_Diagnostic(LPCSTR format, ...)
 //-----------------------------------------------------------------------------
 void cDiagnostics::Render(void)
 {
-    if (PFont == NULL || PRenderer == NULL) {
+    if (PFont == nullptr || PRenderer == nullptr) {
         return;
     }
 
@@ -294,7 +294,7 @@ void cDiagnostics::Render(void)
     //
     if (god_status) {
         cPlayer* p_player = cNetwork::Get_My_Player_Object();
-        if (p_player != NULL && p_player->Invulnerable.Is_True()) {
+        if (p_player != nullptr && p_player->Invulnerable.Is_True()) {
 
             RectClass rect = Render2DClass::Get_Screen_Resolution();
             PRenderer->Set_Location(Vector2(rect.Left + 10, rect.Bottom - 20));
@@ -307,7 +307,7 @@ void cDiagnostics::Render(void)
     //
     if (vip_status) {
         cPlayer* p_player = cNetwork::Get_My_Player_Object();
-        if (p_player != NULL && p_player->Get_Damage_Scale_Factor() < 100) {
+        if (p_player != nullptr && p_player->Get_Damage_Scale_Factor() < 100) {
 
             RectClass rect = Render2DClass::Get_Screen_Resolution();
             PRenderer->Set_Location(Vector2(rect.Left + 10, rect.Bottom - 30));
@@ -366,7 +366,7 @@ void cDiagnostics::Render(void)
         if (cNetwork::I_Am_Client()) {
             SoldierGameObj* p_my_soldier
                 = GameObjManager::Find_Soldier_Of_Client_ID(cNetwork::Get_My_Id());
-            if (p_my_soldier != NULL) {
+            if (p_my_soldier != nullptr) {
 
                 int tally = p_my_soldier->Tally_Vis_Visible_Soldiers();
                 if (tally >= 0) {
@@ -381,7 +381,7 @@ void cDiagnostics::Render(void)
             }
         }
 
-        if (PTheGameData != NULL) {
+        if (PTheGameData != nullptr) {
             Add_Diagnostic("ip addy:            %s:%u",
                            cNetUtil::Address_To_String(PTheGameData->Get_Ip_Address()),
                            PTheGameData->Get_Port());
@@ -407,11 +407,11 @@ void cDiagnostics::Render(void)
         SLNode<BaseGameObj>* objnode;
         for (objnode = GameObjManager::Get_Game_Obj_List()->Head(); objnode;
              objnode = objnode->Next()) {
-            WWASSERT(objnode->Data() != NULL);
+            WWASSERT(objnode->Data() != nullptr);
             PhysicalGameObj* p_phys_obj = objnode->Data()->As_PhysicalGameObj();
-            if (p_phys_obj != NULL && p_phys_obj->As_VehicleGameObj() != NULL) {
+            if (p_phys_obj != nullptr && p_phys_obj->As_VehicleGameObj() != nullptr) {
                 vehicle_count++;
-                if (p_phys_obj->As_VehicleGameObj()->Get_Driver() != NULL) {
+                if (p_phys_obj->As_VehicleGameObj()->Get_Driver() != nullptr) {
                     vehicle_driven_count++;
                 }
             }
@@ -424,7 +424,7 @@ void cDiagnostics::Render(void)
         // VehicleGameObj::Get_Driver_Is_Always_Gunner()); Add_Diagnostic("CameraLockedToTurret:
         // %d", VehicleGameObj::Get_Camera_Locked_To_Turret());
 
-        if (PTheGameData != NULL) {
+        if (PTheGameData != nullptr) {
             Add_Diagnostic("SpawnWeapons:       %d", PTheGameData->SpawnWeapons.Get());
 
             /*
@@ -444,7 +444,7 @@ void cDiagnostics::Render(void)
 
 /*
                 Add_Diagnostic("PTheGameData:	%d", PTheGameData);
-                if (PTheGameData != NULL) {
+                if (PTheGameData != nullptr) {
                         Add_Diagnostic("ip addy:   %s", cNetUtil::Address_To_String(
                                 PTheGameData->Get_Ip_Address()));
                         Add_Diagnostic("owner:     %s", PTheGameData->Get_Owner());
@@ -482,10 +482,10 @@ void cDiagnostics::Render(void)
 
                 if (cNetwork::I_Am_Client()) {
                         cPlayer * p_me = cNetwork::Get_My_Player_Object();
-                        if (p_me == NULL) {
-                                Add_Diagnostic("p_me == NULL");
+                        if (p_me == nullptr) {
+                                Add_Diagnostic("p_me == nullptr");
                         } else {
-                                Add_Diagnostic("p_me != NULL");
+                                Add_Diagnostic("p_me != nullptr");
                                 if (p_me->Is_Living()) {
                                         Add_Diagnostic("p_me->Is_Living()");
                                 } else {
@@ -519,15 +519,15 @@ void cDiagnostics::Render(void)
                         SLNode<BaseGameObj> * objnode;
                         PhysicalGameObj * p_phys_obj;
                         for (objnode = GameObjManager::Get_Game_Obj_List()->Head(); objnode; objnode
-   = objnode->Next()) { WWASSERT(objnode->Data() != NULL); p_phys_obj =
-   objnode->Data()->As_PhysicalGameObj(); if (p_phys_obj != NULL && p_phys_obj->As_SoldierGameObj()
-   != NULL) { Add_Diagnostic("Soldier: ID %d, Type %d", p_phys_obj->Get_ID(),
+   = objnode->Next()) { WWASSERT(objnode->Data() != nullptr); p_phys_obj =
+   objnode->Data()->As_PhysicalGameObj(); if (p_phys_obj != nullptr && p_phys_obj->As_SoldierGameObj()
+   != nullptr) { Add_Diagnostic("Soldier: ID %d, Type %d", p_phys_obj->Get_ID(),
                                                 p_phys_obj->Get_Player_Type());
                                 }
                         }
 
 
-                        cRemoteHost * p_rhost = NULL;
+                        cRemoteHost * p_rhost = nullptr;
                         if (cNetwork::I_Am_Client_Server()) {
                                 p_rhost = cNetwork::Get_Server_Rhost(2);
                         } else if (cNetwork::I_Am_Only_Server()) {
@@ -536,7 +536,7 @@ void cDiagnostics::Render(void)
                                 p_rhost = cNetwork::Get_Client_Rhost();
                         }
 
-                        if (p_rhost != NULL) {
+                        if (p_rhost != nullptr) {
                                 float sample_target_bits = cNetUtil::Get_Net_Stats_Sample_Time_Ms()
    / 1000.0f * p_rhost->Get_Target_Bps(); Add_Diagnostic("TargetBps         : %d / %d", (int)
    sample_target_bits, p_rhost->Get_Target_Bps()); Add_Diagnostic("STAT_BitsSent     : %-d",
@@ -545,7 +545,7 @@ void cDiagnostics::Render(void)
 
                         if (cNetwork::I_Am_Server()) {
                                 for (int i = 0; i < 20; i++) {
-                                        if (cNetwork::Get_Server_Rhost(i) != NULL) {
+                                        if (cNetwork::Get_Server_Rhost(i) != nullptr) {
                                                 Add_Diagnostic("Server rhost %d", i);
                                         }
                                 }
@@ -586,10 +586,10 @@ void cDiagnostics::Render(void)
    MenuManager::Get_Menu_Direction()); Add_Diagnostic("COMBAT ACTIVE:		 %d",
    GameModeManager::Find("Combat")->Is_Active());
 
-                        if (PLC != NULL) {
+                        if (PLC != nullptr) {
                                 Add_Diagnostic("Location:         %s",
                                         Translate_Location(PLC->Get_Current_Location()));
-                        } else if (PWC != NULL) {
+                        } else if (PWC != nullptr) {
                                 Add_Diagnostic("Location:         %s",
                                         Translate_Location(PWC->CurrentLocation));
                         }
@@ -599,18 +599,18 @@ void cDiagnostics::Render(void)
                         MenuEntryClass * p_entry;
                         do {
                                 p_entry = MenuManager::Find_Entry(index);
-                                if (p_entry != NULL) {
+                                if (p_entry != nullptr) {
                                         Add_Diagnostic("%2d. %s (%d)",
                                                 index, p_entry->Get_Name(),
    p_entry->Is_Cancel_Option());
                                 }
                                 index++;
-                        } while (p_entry != NULL);
+                        } while (p_entry != nullptr);
 
-                        if (PWC != NULL) {
+                        if (PWC != nullptr) {
                                 SLNode<cNick> * objnode;
                                 for (objnode = PWC->Get_Banned_List()->Head(); objnode; objnode =
-   objnode->Next()) { cNick * p_nick = objnode->Data(); WWASSERT(p_nick != NULL);
+   objnode->Next()) { cNick * p_nick = objnode->Data(); WWASSERT(p_nick != nullptr);
                                         Add_Diagnostic("Banned : %s", p_nick->Nickname);
                                 }
                         }
@@ -712,8 +712,8 @@ WWASSERT(memcmp(source, source2, source_size) == 0);
 /*
 if (cNetwork::I_Am_Server() &&
          GameModeManager::Find("Combat")->Is_Active() &&
-         The_Game() != NULL &&
-         The_Game()->As_Lms() != NULL) {
+         The_Game() != nullptr &&
+         The_Game()->As_Lms() != nullptr) {
 
         Add_Diagnostic("ReaperCountdownSeconds = %d",
                 (int) The_Game()->As_Lms()->Get_Reaper_Countdown_Seconds());
@@ -738,7 +738,7 @@ PRenderer->Draw_Text(buffer);
 
 if (cNetwork::I_Am_Only_Client())
 {
-        WWASSERT(cServerFps::Get_Instance() != NULL);
+        WWASSERT(cServerFps::Get_Instance() != nullptr);
         sprintf(buffer, "SFPS %d", RendererSFps);
         rect = Render2DClass::Get_Screen_Resolution();
         PRenderer->Set_Location(Vector2(rect.Right - 70, rect.Top + 20));

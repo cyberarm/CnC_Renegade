@@ -75,7 +75,7 @@ enum
 //
 //////////////////////////////////////////////////////////////////////////////
 VisPointNodeClass::VisPointNodeClass(PresetClass* preset)
-    : m_PhysObj(NULL),
+    : m_PhysObj(nullptr),
       m_VisTileLocation(0, 0, 0),
       m_NearClipPlane(0),
       m_HFov(0),
@@ -91,9 +91,9 @@ VisPointNodeClass::VisPointNodeClass(PresetClass* preset)
 //
 //////////////////////////////////////////////////////////////////////////////
 VisPointNodeClass::VisPointNodeClass(const VisPointNodeClass& src)
-    : m_PhysObj(NULL),
+    : m_PhysObj(nullptr),
       m_VisTileLocation(0, 0, 0),
-      NodeClass(NULL)
+      NodeClass(nullptr)
 {
     *this = src;
     return;
@@ -127,8 +127,8 @@ void VisPointNodeClass::Initialize(void)
     //	Create the camera render object
     //
     RenderObjClass* render_obj = ::Create_Render_Obj("CAMERA");
-    WWASSERT(render_obj != NULL);
-    if (render_obj != NULL) {
+    WWASSERT(render_obj != nullptr);
+    if (render_obj != nullptr) {
 
         // Create the new physics object
         m_PhysObj = new DecorationPhysClass;
@@ -309,7 +309,7 @@ void VisPointNodeClass::Pre_Export(void)
     // saved during the export.
     //
     Add_Ref();
-    if (m_PhysObj != NULL && m_IsInScene) {
+    if (m_PhysObj != nullptr && m_IsInScene) {
         ::Get_Scene_Editor()->Remove_Object(m_PhysObj);
     }
     return;
@@ -325,7 +325,7 @@ void VisPointNodeClass::Post_Export(void)
     //
     //	Put ourselves back into the system
     //
-    if (m_PhysObj != NULL && m_IsInScene) {
+    if (m_PhysObj != nullptr && m_IsInScene) {
         ::Get_Scene_Editor()->Add_Dynamic_Object(m_PhysObj);
     }
     Release_Ref();

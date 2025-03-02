@@ -100,8 +100,8 @@ inline void ParameterListClass::Add(void* data, const char* param_name, Paramete
     //
     //	Add the new paramter object to our list
     //
-    WWASSERT(new_param != NULL);
-    if (new_param != NULL) {
+    WWASSERT(new_param != nullptr);
+    if (new_param != nullptr) {
         DynamicVectorClass<ParameterClass*>::Add(new_param);
     }
 
@@ -116,7 +116,7 @@ inline void ParameterListClass::Add(ParameterClass* new_param)
     //
     //	Add the new paramter object to our list
     //
-    if (new_param != NULL) {
+    if (new_param != nullptr) {
         DynamicVectorClass<ParameterClass*>::Add(new_param);
     }
 
@@ -134,7 +134,7 @@ inline void ParameterListClass::Free_Parameters(void)
         //
         //	Free the parameter object
         //
-        if (param != NULL) {
+        if (param != nullptr) {
             delete param;
         }
     }

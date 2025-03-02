@@ -33,7 +33,7 @@ static char THIS_FILE[] = __FILE__;
 // UpdatingDBDialogClass dialog
 
 UpdatingDBDialogClass::UpdatingDBDialogClass(HWND hparentwnd)
-    : CDialog(UpdatingDBDialogClass::IDD, NULL)
+    : CDialog(UpdatingDBDialogClass::IDD, nullptr)
 {
     //{{AFX_DATA_INIT(UpdatingDBDialogClass)
     // NOTE: the ClassWizard will add member initialization here
@@ -73,7 +73,7 @@ UpdatingDBDialogClass::WindowProc(UINT message, WPARAM wParam, LPARAM lParam)
         return 0;
     }
     else if (message == WM_SETCURSOR) {
-        SetCursor(::LoadCursor(NULL, IDC_WAIT));
+        SetCursor(::LoadCursor(nullptr, IDC_WAIT));
         return 0;
     }
 
@@ -114,7 +114,7 @@ BOOL UpdatingDBDialogClass::OnInitDialog(void)
         ::GetWindowRect(hparentwnd, &parent_rect);
 
         // Center the dialog ontop of its parent
-        ::SetWindowPos(m_hWnd, NULL,
+        ::SetWindowPos(m_hWnd, nullptr,
                        parent_rect.left + (parent_rect.Width() >> 1) - (rect.Width() >> 1),
                        parent_rect.top + (parent_rect.Height() >> 1) - (rect.Height() >> 1), 0, 0,
                        SWP_NOZORDER | SWP_NOSIZE);

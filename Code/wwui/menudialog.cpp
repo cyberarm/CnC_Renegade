@@ -46,8 +46,8 @@
 ////////////////////////////////////////////////////////////////
 //	Static member initialization
 ////////////////////////////////////////////////////////////////
-MenuDialogClass* MenuDialogClass::ActiveMenu = NULL;
-MenuBackDropClass* MenuDialogClass::BackDrop = NULL;
+MenuDialogClass* MenuDialogClass::ActiveMenu = nullptr;
+MenuBackDropClass* MenuDialogClass::BackDrop = nullptr;
 DynamicVectorClass<MenuDialogClass*> MenuDialogClass::MenuStack;
 
 ////////////////////////////////////////////////////////////////
@@ -73,7 +73,7 @@ MenuDialogClass::MenuDialogClass(int res_id)
 MenuDialogClass::~MenuDialogClass(void)
 {
     if (ActiveMenu == this) {
-        ActiveMenu = NULL;
+        ActiveMenu = nullptr;
     }
 
     //
@@ -105,9 +105,9 @@ void MenuDialogClass::Initialize(void)
 ////////////////////////////////////////////////////////////////
 void MenuDialogClass::Shutdown(void)
 {
-    if (BackDrop != NULL) {
+    if (BackDrop != nullptr) {
         delete BackDrop;
-        BackDrop = NULL;
+        BackDrop = nullptr;
     }
 
     return;
@@ -180,7 +180,7 @@ void MenuDialogClass::On_Activate(bool onoff)
         //
         //	Notify the old menu
         //
-        if (ActiveMenu != NULL) {
+        if (ActiveMenu != nullptr) {
             ActiveMenu->On_Menu_Activate(false);
         }
 

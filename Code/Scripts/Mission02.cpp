@@ -86,13 +86,13 @@ DECLARE_SCRIPT(M02_Objective_Controller, "")
 
         Commands->Set_HUD_Help_Text(IDS_M00DSGN_DSGN1004I1DSGN_TXT, TEXT_COLOR_OBJECTIVE_PRIMARY);
         Commands->Add_Objective(201, OBJECTIVE_TYPE_PRIMARY, OBJECTIVE_STATUS_PENDING,
-                                IDS_Enc_ObjTitle_Primary_M02_01, NULL, IDS_Enc_Obj_Primary_M02_01);
+                                IDS_Enc_ObjTitle_Primary_M02_01, nullptr, IDS_Enc_Obj_Primary_M02_01);
         Commands->Set_Objective_HUD_Info_Position(201, 50, "POG_M08_1_04.tga", IDS_POG_LOCATE,
                                                   Vector3(1208.31f, 562.49f, 55.02f));
         Commands->Add_Objective(223, OBJECTIVE_TYPE_TERTIARY, OBJECTIVE_STATUS_HIDDEN,
-                                IDS_Enc_ObjTitle_Hidden_M02_01, NULL, IDS_Enc_Obj_Hidden_M02_01);
+                                IDS_Enc_ObjTitle_Hidden_M02_01, nullptr, IDS_Enc_Obj_Hidden_M02_01);
         Commands->Add_Objective(222, OBJECTIVE_TYPE_TERTIARY, OBJECTIVE_STATUS_HIDDEN,
-                                IDS_Enc_ObjTitle_Hidden_M02_02, NULL, IDS_Enc_Obj_Hidden_M02_02);
+                                IDS_Enc_ObjTitle_Hidden_M02_02, nullptr, IDS_Enc_Obj_Hidden_M02_02);
         Commands->Start_Timer(obj, this, 2.0f, 201);
     }
 
@@ -136,7 +136,7 @@ DECLARE_SCRIPT(M02_Objective_Controller, "")
                     Commands->Stop_All_Conversations();
                     int id
                         = Commands->Create_Conversation("M02_SECONDARY_09_FINISH", 100, 300, true);
-                    Commands->Join_Conversation(NULL, id);
+                    Commands->Join_Conversation(nullptr, id);
                     Commands->Join_Conversation(STAR, id, true, false, false);
                     Commands->Start_Conversation(id);
                 }
@@ -164,7 +164,7 @@ DECLARE_SCRIPT(M02_Objective_Controller, "")
                                 Commands->Stop_All_Conversations();
                                 int id = Commands->Create_Conversation("M02_MORE_ROCKET_SOLDIERS",
                                                                        100, 300, true);
-                                Commands->Join_Conversation(NULL, id);
+                                Commands->Join_Conversation(nullptr, id);
                                 Commands->Join_Conversation(STAR, id, true, false, false);
                                 Commands->Start_Conversation(id);
                             }
@@ -305,7 +305,7 @@ DECLARE_SCRIPT(M02_Objective_Controller, "")
         }
         }
         if (id) {
-            Commands->Join_Conversation(NULL, id);
+            Commands->Join_Conversation(nullptr, id);
             Commands->Join_Conversation(STAR, id, true, false, false);
             Commands->Start_Conversation(id);
         }
@@ -321,7 +321,7 @@ DECLARE_SCRIPT(M02_Objective_Controller, "")
             Commands->Set_HUD_Help_Text(IDS_M00DSGN_DSGN1004I1DSGN_TXT,
                                         TEXT_COLOR_OBJECTIVE_PRIMARY);
             Commands->Add_Objective(id, OBJECTIVE_TYPE_SECONDARY, OBJECTIVE_STATUS_PENDING,
-                                    IDS_Enc_ObjTitle_Primary_M02_02, NULL,
+                                    IDS_Enc_ObjTitle_Primary_M02_02, nullptr,
                                     IDS_Enc_Obj_Primary_M02_02);
             Commands->Set_Objective_Radar_Blip(id, objective_pos);
             Commands->Set_Objective_HUD_Info_Position(id, 66, "POG_M07_2_05.tga", IDS_POG_DISABLE,
@@ -332,7 +332,7 @@ DECLARE_SCRIPT(M02_Objective_Controller, "")
             Commands->Set_HUD_Help_Text(IDS_M00DSGN_DSGN1004I1DSGN_TXT,
                                         TEXT_COLOR_OBJECTIVE_PRIMARY);
             Commands->Add_Objective(id, OBJECTIVE_TYPE_PRIMARY, OBJECTIVE_STATUS_PENDING,
-                                    IDS_Enc_ObjTitle_Primary_M02_03, NULL,
+                                    IDS_Enc_ObjTitle_Primary_M02_03, nullptr,
                                     IDS_Enc_Obj_Primary_M02_03);
             Commands->Set_Objective_Radar_Blip(id, objective_pos);
             Commands->Set_Objective_HUD_Info_Position(id, 67, "POG_M02_1_03.tga", IDS_POG_DESTROY,
@@ -343,7 +343,7 @@ DECLARE_SCRIPT(M02_Objective_Controller, "")
             Commands->Set_HUD_Help_Text(IDS_M00DSGN_DSGN1005I1DSGN_TXT,
                                         TEXT_COLOR_OBJECTIVE_PRIMARY);
             Commands->Add_Objective(id, OBJECTIVE_TYPE_SECONDARY, OBJECTIVE_STATUS_PENDING,
-                                    IDS_Enc_ObjTitle_Secondary_M02_01, NULL,
+                                    IDS_Enc_ObjTitle_Secondary_M02_01, nullptr,
                                     IDS_Enc_Obj_Secondary_M02_01);
             Commands->Set_Objective_Radar_Blip(id, objective_pos);
             Commands->Set_Objective_HUD_Info_Position(id, 80, "POG_M02_2_01.tga", IDS_POG_DESTROY,
@@ -354,7 +354,7 @@ DECLARE_SCRIPT(M02_Objective_Controller, "")
             Commands->Set_HUD_Help_Text(IDS_M00DSGN_DSGN1004I1DSGN_TXT,
                                         TEXT_COLOR_OBJECTIVE_PRIMARY);
             Commands->Add_Objective(id, OBJECTIVE_TYPE_PRIMARY, OBJECTIVE_STATUS_PENDING,
-                                    IDS_Enc_ObjTitle_Primary_M02_04, NULL,
+                                    IDS_Enc_ObjTitle_Primary_M02_04, nullptr,
                                     IDS_Enc_Obj_Primary_M02_04);
             Commands->Set_Objective_Radar_Blip(id, objective_pos);
             Commands->Set_Objective_HUD_Info_Position(id, 80, "POG_M02_1_04.tga", IDS_POG_CAPTURE,
@@ -365,7 +365,7 @@ DECLARE_SCRIPT(M02_Objective_Controller, "")
             Commands->Set_HUD_Help_Text(IDS_M00DSGN_DSGN1005I1DSGN_TXT,
                                         TEXT_COLOR_OBJECTIVE_PRIMARY);
             Commands->Add_Objective(id, OBJECTIVE_TYPE_SECONDARY, OBJECTIVE_STATUS_PENDING,
-                                    IDS_Enc_ObjTitle_Secondary_M02_02, NULL,
+                                    IDS_Enc_ObjTitle_Secondary_M02_02, nullptr,
                                     IDS_Enc_Obj_Secondary_M02_02);
             Commands->Set_Objective_Radar_Blip(id, objective_pos);
             Commands->Set_Objective_HUD_Info_Position(id, 53, "POG_M02_2_02.tga", IDS_POG_DESTROY,
@@ -376,7 +376,7 @@ DECLARE_SCRIPT(M02_Objective_Controller, "")
             Commands->Set_HUD_Help_Text(IDS_M00DSGN_DSGN1005I1DSGN_TXT,
                                         TEXT_COLOR_OBJECTIVE_PRIMARY);
             Commands->Add_Objective(id, OBJECTIVE_TYPE_SECONDARY, OBJECTIVE_STATUS_PENDING,
-                                    IDS_Enc_ObjTitle_Secondary_M02_03, NULL,
+                                    IDS_Enc_ObjTitle_Secondary_M02_03, nullptr,
                                     IDS_Enc_Obj_Secondary_M02_03);
             Commands->Set_Objective_Radar_Blip(id, objective_pos);
             Commands->Set_Objective_HUD_Info_Position(id, 54, "POG_M02_2_03.tga", IDS_POG_ELIMINATE,
@@ -387,7 +387,7 @@ DECLARE_SCRIPT(M02_Objective_Controller, "")
             Commands->Set_HUD_Help_Text(IDS_M00DSGN_DSGN1005I1DSGN_TXT,
                                         TEXT_COLOR_OBJECTIVE_PRIMARY);
             Commands->Add_Objective(id, OBJECTIVE_TYPE_SECONDARY, OBJECTIVE_STATUS_PENDING,
-                                    IDS_Enc_ObjTitle_Secondary_M02_05, NULL,
+                                    IDS_Enc_ObjTitle_Secondary_M02_05, nullptr,
                                     IDS_Enc_Obj_Secondary_M02_05);
             Commands->Set_Objective_Radar_Blip(id, objective_pos);
             Commands->Set_Objective_HUD_Info_Position(id, 56, "POG_M02_2_06.tga", IDS_POG_ELIMINATE,
@@ -398,7 +398,7 @@ DECLARE_SCRIPT(M02_Objective_Controller, "")
             Commands->Set_HUD_Help_Text(IDS_M00DSGN_DSGN1005I1DSGN_TXT,
                                         TEXT_COLOR_OBJECTIVE_PRIMARY);
             Commands->Add_Objective(id, OBJECTIVE_TYPE_SECONDARY, OBJECTIVE_STATUS_PENDING,
-                                    IDS_Enc_ObjTitle_Secondary_M02_04, NULL,
+                                    IDS_Enc_ObjTitle_Secondary_M02_04, nullptr,
                                     IDS_Enc_Obj_Secondary_M02_04);
             Commands->Set_Objective_Radar_Blip(id, objective_pos);
             Commands->Set_Objective_HUD_Info_Position(id, 55, "POG_M02_2_05.tga", IDS_POG_ELIMINATE,
@@ -409,7 +409,7 @@ DECLARE_SCRIPT(M02_Objective_Controller, "")
             Commands->Set_HUD_Help_Text(IDS_M00DSGN_DSGN1005I1DSGN_TXT,
                                         TEXT_COLOR_OBJECTIVE_PRIMARY);
             Commands->Add_Objective(id, OBJECTIVE_TYPE_SECONDARY, OBJECTIVE_STATUS_PENDING,
-                                    IDS_Enc_ObjTitle_Secondary_M02_06, NULL,
+                                    IDS_Enc_ObjTitle_Secondary_M02_06, nullptr,
                                     IDS_Enc_Obj_Secondary_M02_06);
             Commands->Set_Objective_Radar_Blip(id, objective_pos);
             Commands->Set_Objective_HUD_Info_Position(id, 57, "POG_M02_2_04.tga", IDS_POG_ELIMINATE,
@@ -420,7 +420,7 @@ DECLARE_SCRIPT(M02_Objective_Controller, "")
             Commands->Set_HUD_Help_Text(IDS_M00DSGN_DSGN1005I1DSGN_TXT,
                                         TEXT_COLOR_OBJECTIVE_PRIMARY);
             Commands->Add_Objective(id, OBJECTIVE_TYPE_SECONDARY, OBJECTIVE_STATUS_PENDING,
-                                    IDS_Enc_ObjTitle_Secondary_M02_07, NULL,
+                                    IDS_Enc_ObjTitle_Secondary_M02_07, nullptr,
                                     IDS_Enc_Obj_Secondary_M02_07);
             Commands->Set_Objective_Radar_Blip(id, objective_pos);
             Commands->Set_Objective_HUD_Info_Position(id, 61, "POG_M02_2_07.tga", IDS_POG_ELIMINATE,
@@ -431,7 +431,7 @@ DECLARE_SCRIPT(M02_Objective_Controller, "")
             Commands->Set_HUD_Help_Text(IDS_M00DSGN_DSGN1005I1DSGN_TXT,
                                         TEXT_COLOR_OBJECTIVE_PRIMARY);
             Commands->Add_Objective(id, OBJECTIVE_TYPE_SECONDARY, OBJECTIVE_STATUS_PENDING,
-                                    IDS_Enc_ObjTitle_Secondary_M02_08, NULL,
+                                    IDS_Enc_ObjTitle_Secondary_M02_08, nullptr,
                                     IDS_Enc_Obj_Secondary_M02_08);
             Commands->Set_Objective_Radar_Blip(id, objective_pos);
             Commands->Set_Objective_HUD_Info_Position(id, 59, "POG_M02_2_08.tga", IDS_POG_DESTROY,
@@ -442,7 +442,7 @@ DECLARE_SCRIPT(M02_Objective_Controller, "")
             Commands->Set_HUD_Help_Text(IDS_M00DSGN_DSGN1005I1DSGN_TXT,
                                         TEXT_COLOR_OBJECTIVE_PRIMARY);
             Commands->Add_Objective(id, OBJECTIVE_TYPE_SECONDARY, OBJECTIVE_STATUS_PENDING,
-                                    IDS_Enc_ObjTitle_Secondary_M02_09, NULL,
+                                    IDS_Enc_ObjTitle_Secondary_M02_09, nullptr,
                                     IDS_Enc_Obj_Secondary_M02_09);
             Commands->Set_Objective_Radar_Blip(id, objective_pos);
             Commands->Set_Objective_HUD_Info_Position(id, 60, "POG_M02_2_09.tga", IDS_POG_DESTROY,
@@ -453,7 +453,7 @@ DECLARE_SCRIPT(M02_Objective_Controller, "")
             Commands->Set_HUD_Help_Text(IDS_M00DSGN_DSGN1005I1DSGN_TXT,
                                         TEXT_COLOR_OBJECTIVE_PRIMARY);
             Commands->Add_Objective(id, OBJECTIVE_TYPE_SECONDARY, OBJECTIVE_STATUS_PENDING,
-                                    IDS_Enc_ObjTitle_Secondary_M02_10, NULL,
+                                    IDS_Enc_ObjTitle_Secondary_M02_10, nullptr,
                                     IDS_Enc_Obj_Secondary_M02_10);
             Commands->Set_Objective_Radar_Blip(id, objective_pos);
             Commands->Set_Objective_HUD_Info_Position(id, 62, "POG_M02_2_10.tga", IDS_POG_DESTROY,
@@ -464,7 +464,7 @@ DECLARE_SCRIPT(M02_Objective_Controller, "")
             Commands->Set_HUD_Help_Text(IDS_M00DSGN_DSGN1005I1DSGN_TXT,
                                         TEXT_COLOR_OBJECTIVE_PRIMARY);
             Commands->Add_Objective(id, OBJECTIVE_TYPE_SECONDARY, OBJECTIVE_STATUS_PENDING,
-                                    IDS_Enc_ObjTitle_Secondary_M02_11, NULL,
+                                    IDS_Enc_ObjTitle_Secondary_M02_11, nullptr,
                                     IDS_Enc_Obj_Secondary_M02_11);
             Commands->Set_Objective_Radar_Blip(id, objective_pos);
             Commands->Set_Objective_HUD_Info_Position(id, 63, "POG_M02_2_11.tga", IDS_POG_DESTROY,
@@ -475,7 +475,7 @@ DECLARE_SCRIPT(M02_Objective_Controller, "")
             Commands->Set_HUD_Help_Text(IDS_M00DSGN_DSGN1005I1DSGN_TXT,
                                         TEXT_COLOR_OBJECTIVE_PRIMARY);
             Commands->Add_Objective(id, OBJECTIVE_TYPE_SECONDARY, OBJECTIVE_STATUS_PENDING,
-                                    IDS_Enc_ObjTitle_Secondary_M02_12, NULL,
+                                    IDS_Enc_ObjTitle_Secondary_M02_12, nullptr,
                                     IDS_Enc_Obj_Secondary_M02_12);
             Commands->Set_Objective_Radar_Blip(id, objective_pos);
             Commands->Set_Objective_HUD_Info_Position(id, 64, "POG_M02_2_12.tga", IDS_POG_DESTROY,
@@ -486,7 +486,7 @@ DECLARE_SCRIPT(M02_Objective_Controller, "")
             Commands->Set_HUD_Help_Text(IDS_M00DSGN_DSGN1005I1DSGN_TXT,
                                         TEXT_COLOR_OBJECTIVE_PRIMARY);
             Commands->Add_Objective(id, OBJECTIVE_TYPE_SECONDARY, OBJECTIVE_STATUS_PENDING,
-                                    IDS_Enc_ObjTitle_Secondary_M02_13, NULL,
+                                    IDS_Enc_ObjTitle_Secondary_M02_13, nullptr,
                                     IDS_Enc_Obj_Secondary_M02_13);
             Commands->Set_Objective_Radar_Blip(id, objective_pos);
             Commands->Set_Objective_HUD_Info_Position(id, 65, "POG_M02_2_13.tga", IDS_POG_DESTROY,
@@ -497,7 +497,7 @@ DECLARE_SCRIPT(M02_Objective_Controller, "")
             Commands->Set_HUD_Help_Text(IDS_M00DSGN_DSGN1005I1DSGN_TXT,
                                         TEXT_COLOR_OBJECTIVE_PRIMARY);
             Commands->Add_Objective(id, OBJECTIVE_TYPE_SECONDARY, OBJECTIVE_STATUS_PENDING,
-                                    IDS_Enc_ObjTitle_Secondary_M02_14, NULL,
+                                    IDS_Enc_ObjTitle_Secondary_M02_14, nullptr,
                                     IDS_Enc_Obj_Secondary_M02_14);
             Commands->Set_Objective_Radar_Blip(id, objective_pos);
             Commands->Set_Objective_HUD_Info_Position(id, 70, "POG_M02_2_14.tga", IDS_POG_DESTROY,
@@ -508,7 +508,7 @@ DECLARE_SCRIPT(M02_Objective_Controller, "")
             Commands->Set_HUD_Help_Text(IDS_M00DSGN_DSGN1005I1DSGN_TXT,
                                         TEXT_COLOR_OBJECTIVE_PRIMARY);
             Commands->Add_Objective(id, OBJECTIVE_TYPE_SECONDARY, OBJECTIVE_STATUS_PENDING,
-                                    IDS_Enc_ObjTitle_Secondary_M02_15, NULL,
+                                    IDS_Enc_ObjTitle_Secondary_M02_15, nullptr,
                                     IDS_Enc_Obj_Secondary_M02_15);
             Commands->Set_Objective_Radar_Blip(id, objective_pos);
             Commands->Set_Objective_HUD_Info_Position(id, 71, "POG_M02_2_14.tga", IDS_POG_DESTROY,
@@ -519,7 +519,7 @@ DECLARE_SCRIPT(M02_Objective_Controller, "")
             Commands->Set_HUD_Help_Text(IDS_M00DSGN_DSGN1005I1DSGN_TXT,
                                         TEXT_COLOR_OBJECTIVE_PRIMARY);
             Commands->Add_Objective(id, OBJECTIVE_TYPE_SECONDARY, OBJECTIVE_STATUS_PENDING,
-                                    IDS_Enc_ObjTitle_Secondary_M02_16, NULL,
+                                    IDS_Enc_ObjTitle_Secondary_M02_16, nullptr,
                                     IDS_Enc_Obj_Secondary_M02_16);
             Commands->Set_Objective_Radar_Blip(id, objective_pos);
             Commands->Set_Objective_HUD_Info_Position(id, 72, "POG_M02_2_14.tga", IDS_POG_DESTROY,
@@ -530,7 +530,7 @@ DECLARE_SCRIPT(M02_Objective_Controller, "")
             Commands->Set_HUD_Help_Text(IDS_M00DSGN_DSGN1005I1DSGN_TXT,
                                         TEXT_COLOR_OBJECTIVE_PRIMARY);
             Commands->Add_Objective(id, OBJECTIVE_TYPE_SECONDARY, OBJECTIVE_STATUS_PENDING,
-                                    IDS_Enc_ObjTitle_Secondary_M02_17, NULL,
+                                    IDS_Enc_ObjTitle_Secondary_M02_17, nullptr,
                                     IDS_Enc_Obj_Secondary_M02_17);
             Commands->Set_Objective_Radar_Blip(id, objective_pos);
             Commands->Set_Objective_HUD_Info_Position(id, 58, "POG_M02_2_15.tga", IDS_POG_ACQUIRE,
@@ -580,7 +580,7 @@ DECLARE_SCRIPT(M02_Objective_Zone, "")
                 if (!Commands->Has_Key(STAR, 6)) {
                     Commands->Stop_All_Conversations();
                     int id = Commands->Create_Conversation("M02_BAY_DOOR_WARNING", 100, 300, true);
-                    Commands->Join_Conversation(NULL, id);
+                    Commands->Join_Conversation(nullptr, id);
                     Commands->Join_Conversation(STAR, id, true, false, false);
                     Commands->Start_Conversation(id);
                     destroy_zone = true;
@@ -590,7 +590,7 @@ DECLARE_SCRIPT(M02_Objective_Zone, "")
             case (303203): {
                 Commands->Stop_All_Conversations();
                 int id = Commands->Create_Conversation("M02_PRIMARY_03_GUIDE", 100, 300, true);
-                Commands->Join_Conversation(NULL, id);
+                Commands->Join_Conversation(nullptr, id);
                 Commands->Join_Conversation(STAR, id, true, false, false);
                 Commands->Start_Conversation(id);
                 destroy_zone = true;
@@ -600,7 +600,7 @@ DECLARE_SCRIPT(M02_Objective_Zone, "")
                 if (!was_entered) {
                     was_entered = true;
                     int id = Commands->Create_Conversation("MX2DSGN_DSGN0001", 100, 300, true);
-                    Commands->Join_Conversation(NULL, id);
+                    Commands->Join_Conversation(nullptr, id);
                     Commands->Join_Conversation(STAR, id, true, false, false);
                     Commands->Start_Conversation(id);
                     Commands->Set_HUD_Help_Text(IDS_M02DSGN_DSGN0186I1DSGN_TXT,
@@ -1013,7 +1013,7 @@ DECLARE_SCRIPT(M02_Objective_Zone, "")
 
                 Commands->Stop_All_Conversations();
                 int id = Commands->Create_Conversation("M02_PRIMARY_01_GUIDE", 100, 300, true);
-                Commands->Join_Conversation(NULL, id);
+                Commands->Join_Conversation(nullptr, id);
                 Commands->Join_Conversation(STAR, id, true, false, false);
                 Commands->Start_Conversation(id);
 
@@ -1541,7 +1541,7 @@ DECLARE_SCRIPT(M02_Objective_Zone, "")
                         Commands->Stop_All_Conversations();
                         int id = Commands->Create_Conversation("M02_SECONDARY_01_GUIDE", 100, 300,
                                                                true);
-                        Commands->Join_Conversation(NULL, id);
+                        Commands->Join_Conversation(nullptr, id);
                         Commands->Join_Conversation(STAR, id, true, false, false);
                         Commands->Start_Conversation(id);
                     }
@@ -1570,7 +1570,7 @@ DECLARE_SCRIPT(M02_Objective_Zone, "")
                         Commands->Stop_All_Conversations();
                         int id = Commands->Create_Conversation("M02_SECONDARY_01_GUIDE", 100, 300,
                                                                true);
-                        Commands->Join_Conversation(NULL, id);
+                        Commands->Join_Conversation(nullptr, id);
                         Commands->Join_Conversation(STAR, id, true, false, false);
                         Commands->Start_Conversation(id);
                     }
@@ -1600,7 +1600,7 @@ DECLARE_SCRIPT(M02_Objective_Zone, "")
 
                 Commands->Stop_All_Conversations();
                 int id = Commands->Create_Conversation("M02_SECONDARY_14_GUIDE", 100, 300, true);
-                Commands->Join_Conversation(NULL, id);
+                Commands->Join_Conversation(nullptr, id);
                 Commands->Join_Conversation(STAR, id, true, false, false);
                 Commands->Start_Conversation(id);
 
@@ -1617,7 +1617,7 @@ DECLARE_SCRIPT(M02_Objective_Zone, "")
 
                 Commands->Stop_All_Conversations();
                 int id = Commands->Create_Conversation("M02_SECONDARY_14_GUIDE", 100, 300, true);
-                Commands->Join_Conversation(NULL, id);
+                Commands->Join_Conversation(nullptr, id);
                 Commands->Join_Conversation(STAR, id, true, false, false);
                 Commands->Start_Conversation(id);
 
@@ -1658,7 +1658,7 @@ DECLARE_SCRIPT(M02_Objective_Zone, "")
             case (401982): {
                 Commands->Stop_All_Conversations();
                 int id = Commands->Create_Conversation("M02_SECONDARY_13_START", 100, 300, true);
-                Commands->Join_Conversation(NULL, id);
+                Commands->Join_Conversation(nullptr, id);
                 Commands->Join_Conversation(STAR, id, true, false, false);
                 Commands->Start_Conversation(id);
 
@@ -1675,7 +1675,7 @@ DECLARE_SCRIPT(M02_Objective_Zone, "")
             case (405116): {
                 Commands->Stop_All_Conversations();
                 int id = Commands->Create_Conversation("M02_OBELISK_APPROACH", 100, 300, true);
-                Commands->Join_Conversation(NULL, id);
+                Commands->Join_Conversation(nullptr, id);
                 Commands->Join_Conversation(STAR, id, true, false, false);
                 Commands->Start_Conversation(id);
                 destroy_zone = true;
@@ -1684,7 +1684,7 @@ DECLARE_SCRIPT(M02_Objective_Zone, "")
             case (405117): {
                 Commands->Stop_All_Conversations();
                 int id = Commands->Create_Conversation("M02_PRIMARY_02_REMIND", 100, 300, true);
-                Commands->Join_Conversation(NULL, id);
+                Commands->Join_Conversation(nullptr, id);
                 Commands->Join_Conversation(STAR, id, true, false, false);
                 Commands->Start_Conversation(id);
                 destroy_zone = true;
@@ -1697,7 +1697,7 @@ DECLARE_SCRIPT(M02_Objective_Zone, "")
             case (405119): {
                 Commands->Stop_All_Conversations();
                 int id = Commands->Create_Conversation("M02_SECONDARY_03_START", 100, 300, true);
-                Commands->Join_Conversation(NULL, id);
+                Commands->Join_Conversation(nullptr, id);
                 Commands->Join_Conversation(STAR, id, true, false, false);
                 Commands->Start_Conversation(id);
                 destroy_zone = true;
@@ -1719,7 +1719,7 @@ DECLARE_SCRIPT(M02_Objective_Zone, "")
             case (405122): {
                 Commands->Stop_All_Conversations();
                 int id = Commands->Create_Conversation("M02_SECONDARY_11_START", 100, 300, true);
-                Commands->Join_Conversation(NULL, id);
+                Commands->Join_Conversation(nullptr, id);
                 Commands->Join_Conversation(STAR, id, true, false, false);
                 Commands->Start_Conversation(id);
 
@@ -1832,7 +1832,7 @@ DECLARE_SCRIPT(M02_Objective_Zone, "")
                 float distance = Commands->Get_Distance(tank_pos, my_pos);
                 if (distance < 20.0f) {
                     int id = Commands->Create_Conversation("MX2DSGN_DSGN0009", 100, 300, true);
-                    Commands->Join_Conversation(NULL, id);
+                    Commands->Join_Conversation(nullptr, id);
                     Commands->Join_Conversation(STAR, id, true, false, false);
                     Commands->Start_Conversation(id);
                 }
@@ -1845,7 +1845,7 @@ DECLARE_SCRIPT(M02_Objective_Zone, "")
             GameObject* tank = Commands->Find_Object(401028);
             if (tank) {
                 int id = Commands->Create_Conversation("MX2DSGN_DSGN0010", 100, 300, true);
-                Commands->Join_Conversation(NULL, id);
+                Commands->Join_Conversation(nullptr, id);
                 Commands->Join_Conversation(STAR, id, true, false, false);
                 Commands->Start_Conversation(id);
             }
@@ -1854,7 +1854,7 @@ DECLARE_SCRIPT(M02_Objective_Zone, "")
             GameObject* tank = Commands->Find_Object(401036);
             if (tank) {
                 int id = Commands->Create_Conversation("MX2DSGN_DSGN0011", 100, 300, true);
-                Commands->Join_Conversation(NULL, id);
+                Commands->Join_Conversation(nullptr, id);
                 Commands->Join_Conversation(STAR, id, true, false, false);
                 Commands->Start_Conversation(id);
             }
@@ -1892,7 +1892,7 @@ DECLARE_SCRIPT(M02_Objective_Zone, "")
             gave_secure_warning = true;
             Commands->Stop_All_Conversations();
             int id = Commands->Create_Conversation("M02_EVAG_SECURE_WARNING", 100, 300, true);
-            Commands->Join_Conversation(NULL, id);
+            Commands->Join_Conversation(nullptr, id);
             Commands->Join_Conversation(STAR, id, true, false, false);
             Commands->Start_Conversation(id);
         }
@@ -2989,7 +2989,7 @@ DECLARE_SCRIPT(M02_Respawn_Controller, "")
                 Commands->Send_Custom_Event(obj, obj, 222, 1);
                 Commands->Stop_All_Conversations();
                 int id = Commands->Create_Conversation("M02_HIDDEN_02_FINISH", 100, 300, true);
-                Commands->Join_Conversation(NULL, id);
+                Commands->Join_Conversation(nullptr, id);
                 Commands->Join_Conversation(STAR, id, true, false, false);
                 Commands->Start_Conversation(id);
             }
@@ -3400,7 +3400,7 @@ DECLARE_SCRIPT(M02_Nod_Soldier, "Area_Number:int,Area_Officer:int,Pre_Placed:int
             float distance = Commands->Get_Distance(my_pos, star_pos);
             if (distance < 20.0f) {
                 int id = Commands->Create_Conversation("MX2DSGN_DSGN0014", 100, 300, true);
-                Commands->Join_Conversation(NULL, id);
+                Commands->Join_Conversation(nullptr, id);
                 Commands->Join_Conversation(STAR, id, true, false, false);
                 Commands->Start_Conversation(id);
                 Commands->Start_Timer(obj, this, 3.0f, 11);
@@ -3411,7 +3411,7 @@ DECLARE_SCRIPT(M02_Nod_Soldier, "Area_Number:int,Area_Officer:int,Pre_Placed:int
         }
         else if (timer_id == 11) {
             int id = Commands->Create_Conversation("MX2DSGN_DSGN0015", 100, 300, true);
-            Commands->Join_Conversation(NULL, id);
+            Commands->Join_Conversation(nullptr, id);
             Commands->Join_Conversation(STAR, id, true, false, false);
             Commands->Start_Conversation(id);
         }
@@ -3534,7 +3534,7 @@ DECLARE_SCRIPT(M02_Nod_Soldier, "Area_Number:int,Area_Officer:int,Pre_Placed:int
 
     void Damaged(GameObject * obj, GameObject * damager, float amount)
     {
-        if (!initial_damage && damager == NULL) {
+        if (!initial_damage && damager == nullptr) {
             initial_damage = true;
             Commands->Set_Health(obj, initial_health);
         }
@@ -3574,7 +3574,7 @@ DECLARE_SCRIPT(M02_Obelisk, "")
                     Commands->Stop_All_Conversations();
                     int id
                         = Commands->Create_Conversation("M02_EVA_OBELISK_REPAIR", 100, 300, true);
-                    Commands->Join_Conversation(NULL, id);
+                    Commands->Join_Conversation(nullptr, id);
                     Commands->Join_Conversation(STAR, id, true, false, false);
                     Commands->Start_Conversation(id);
                 }
@@ -3640,7 +3640,7 @@ DECLARE_SCRIPT(M02_Power_Plant, "")
                 info_given = true;
                 Commands->Stop_All_Conversations();
                 int id = Commands->Create_Conversation("M02_EVA_POWER_REPAIR", 100, 300, true);
-                Commands->Join_Conversation(NULL, id);
+                Commands->Join_Conversation(nullptr, id);
                 Commands->Join_Conversation(STAR, id, true, false, false);
                 Commands->Start_Conversation(id);
             }
@@ -4040,7 +4040,7 @@ void Killed(GameObject* obj, GameObject* killer)
     if (area_id == 2) {
         if (my_id == 401016) {
             int id = Commands->Create_Conversation("MX2DSGN_DSGN0008", 100, 300, true);
-            Commands->Join_Conversation(NULL, id);
+            Commands->Join_Conversation(nullptr, id);
             Commands->Join_Conversation(STAR, id, true, false, false);
             Commands->Start_Conversation(id);
         }
@@ -4626,7 +4626,7 @@ DECLARE_SCRIPT(M02_Mendoza, "")
                 int id = Commands->Create_Conversation("MX2DSGN_DSGN0025", 100, 300, true);
                 Commands->Join_Conversation(obj, id, true, false, false);
                 Commands->Join_Conversation(STAR, id, true, false, false);
-                Commands->Join_Conversation(NULL, id);
+                Commands->Join_Conversation(nullptr, id);
                 Commands->Start_Conversation(id);
             }
         }

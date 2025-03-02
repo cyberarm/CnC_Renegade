@@ -250,11 +250,11 @@ int cNetUtil::Get_Local_Tcpip_Addresses(SOCKADDR_IN ip_address[], USHORT max_add
 
     int num_adapters = 0;
 
-    if (p_hostent == NULL) {
+    if (p_hostent == nullptr) {
         num_adapters = 0;
     }
     else {
-        while (num_adapters < max_addresses && p_hostent->h_addr_list[num_adapters] != NULL) {
+        while (num_adapters < max_addresses && p_hostent->h_addr_list[num_adapters] != nullptr) {
 
             ZeroMemory(&ip_address[num_adapters], sizeof(SOCKADDR_IN));
             ip_address[num_adapters].sin_family = AF_INET;
@@ -277,8 +277,8 @@ bool cNetUtil::Is_Same_Address(LPSOCKADDR_IN p_address1, const SOCKADDR_IN* p_ad
     //
 
     WWASSERT(!cSinglePlayerData::Is_Single_Player());
-    WWASSERT(p_address1 != NULL);
-    WWASSERT(p_address2 != NULL);
+    WWASSERT(p_address1 != nullptr);
+    WWASSERT(p_address2 != nullptr);
 
     return p_address1->sin_addr.s_addr == p_address2->sin_addr.s_addr
         && p_address1->sin_port == p_address2->sin_port;
@@ -287,8 +287,8 @@ bool cNetUtil::Is_Same_Address(LPSOCKADDR_IN p_address1, const SOCKADDR_IN* p_ad
 //-------------------------------------------------------------------------------
 void cNetUtil::Address_To_String(LPSOCKADDR_IN p_address, char* str, UINT len, USHORT& port)
 {
-    WWASSERT(p_address != NULL);
-    WWASSERT(str != NULL);
+    WWASSERT(p_address != nullptr);
+    WWASSERT(str != nullptr);
 
     char temp_str[1000];
 
@@ -305,7 +305,7 @@ LPCSTR cNetUtil::Address_To_String(ULONG ip)
     IN_ADDR in_addr;
     in_addr.s_addr = ip;
     char* p = ::inet_ntoa(in_addr);
-    if (p == NULL) {
+    if (p == nullptr) {
         ::sprintf(WorkingAddressBuffer, "Invalid ip (%u)", ip);
     }
     else {
@@ -318,7 +318,7 @@ LPCSTR cNetUtil::Address_To_String(ULONG ip)
 //-------------------------------------------------------------------------------
 void cNetUtil::String_To_Address(LPSOCKADDR_IN p_address, LPCSTR str, USHORT port)
 {
-    WWASSERT(p_address != NULL);
+    WWASSERT(p_address != nullptr);
     ZeroMemory(p_address, sizeof(SOCKADDR_IN));
 
     p_address->sin_family = AF_INET;
@@ -452,7 +452,7 @@ void cNetUtil::Onetime_Init()
 {
         FileClass * p_ini_file = _TheFileFactory->Get_File("netparams.ini");
 
-        if (p_ini_file != NULL) {
+        if (p_ini_file != nullptr) {
 
                 INIClass netparams_ini(*p_ini_file);
 
@@ -613,7 +613,7 @@ void cNetUtil::Broadcast(SOCKET& sock, USHORT port, cPacket& packet)
 //-------------------------------------------------------------------------------
 void cNetUtil::Create_Broadcast_Address(LPSOCKADDR_IN p_broadcast_address, USHORT port)
 {
-    WWASSERT(p_broadcast_address != NULL);
+    WWASSERT(p_broadcast_address != nullptr);
     ZeroMemory(p_broadcast_address, sizeof(SOCKADDR_IN));
 
     p_broadcast_address->sin_family = AF_INET;
@@ -624,7 +624,7 @@ void cNetUtil::Create_Broadcast_Address(LPSOCKADDR_IN p_broadcast_address, USHOR
 //-------------------------------------------------------------------------------
 void cNetUtil::Create_Local_Address(LPSOCKADDR_IN p_local_address, USHORT port)
 {
-    WWASSERT(p_local_address != NULL);
+    WWASSERT(p_local_address != nullptr);
     ZeroMemory(p_local_address, sizeof(SOCKADDR_IN));
 
     p_local_address->sin_family = AF_INET;
@@ -635,7 +635,7 @@ void cNetUtil::Create_Local_Address(LPSOCKADDR_IN p_local_address, USHORT port)
 //-------------------------------------------------------------------------------
 bool cNetUtil::Get_Local_Address(LPSOCKADDR_IN p_local_address)
 {
-    WWASSERT(p_local_address != NULL);
+    WWASSERT(p_local_address != nullptr);
 
     /*
     const USHORT MAX_ADDRESSES = 1;

@@ -72,7 +72,7 @@ void ChunkTableClass::AddItem(CListCtrl* List, int& Counter, const char* Name, c
                               const char* Type)
 {
 
-    if (List != NULL) {
+    if (List != nullptr) {
         int list_item = List->InsertItem(Counter++, Name);
         List->SetItemText(list_item, 1, Type);
         List->SetItemText(list_item, 2, Value);
@@ -2262,16 +2262,16 @@ void ChunkTableClass::List_W3D_CHUNK_BOX(ChunkItem* Item, CListCtrl* List)
     AddItem(List, counter, "Extent", &(box->Extent));
 }
 
-void ChunkTableClass::List_W3D_CHUNK_NULL_OBJECT(ChunkItem* Item, CListCtrl* List)
+void ChunkTableClass::List_W3D_CHUNK_nullptr_OBJECT(ChunkItem* Item, CListCtrl* List)
 {
-    W3dNullObjectStruct* null = (W3dNullObjectStruct*)Item->Data;
+    W3dnullptrObjectStruct* nullptr = (W3dnullptrObjectStruct*)Item->Data;
     int counter = 0;
-    AddItemVersion(List, counter, null->Version);
-    AddItem(List, counter, "Attributes", null->Attributes);
+    AddItemVersion(List, counter, nullptr->Version);
+    AddItem(List, counter, "Attributes", nullptr->Attributes);
 
     // No attributes are currently used
 
-    AddItem(List, counter, "Name", null->Name);
+    AddItem(List, counter, "Name", nullptr->Name);
 }
 
 void ChunkTableClass::List_W3D_CHUNK_PRELIT_UNLIT(ChunkItem* Item, CListCtrl* List)
@@ -2514,7 +2514,7 @@ ChunkTableClass::ChunkTableClass()
 
     NewType(W3D_CHUNK_BOX, "W3D_CHUNK_BOX", List_W3D_CHUNK_BOX);
 
-    NewType(W3D_CHUNK_NULL_OBJECT, "W3D_CHUNK_NULL_OBJECT", List_W3D_CHUNK_NULL_OBJECT);
+    NewType(W3D_CHUNK_nullptr_OBJECT, "W3D_CHUNK_nullptr_OBJECT", List_W3D_CHUNK_nullptr_OBJECT);
 
     NewType(W3D_CHUNK_PRELIT_UNLIT, "W3D_CHUNK_PRELIT_UNLIT", List_W3D_CHUNK_PRELIT_UNLIT, true);
     NewType(W3D_CHUNK_PRELIT_VERTEX, "W3D_CHUNK_PRELIT_VERTEX", List_W3D_CHUNK_PRELIT_VERTEX, true);

@@ -46,7 +46,7 @@
 //////////////////////////////////////////////////////////////////////////
 //	Static member initialization
 //////////////////////////////////////////////////////////////////////////
-BodyBoxCullObj* BodyBoxCullObj::m_First = NULL;
+BodyBoxCullObj* BodyBoxCullObj::m_First = nullptr;
 
 //////////////////////////////////////////////////////////////////////////
 //	Local constants
@@ -101,12 +101,12 @@ static const SimDirInfoClass DIR_INFO[DIR_MAX]
 //
 //////////////////////////////////////////////////////////////////////////
 PathfindSectorBuilderClass::PathfindSectorBuilderClass(void)
-    : m_PhysicsSim(NULL),
+    : m_PhysicsSim(nullptr),
       m_RecurseLevel(0),
       m_RepartitionCount(0),
-      m_CurrentSector(NULL),
+      m_CurrentSector(nullptr),
       m_SimBoundingBox(Vector3(0.5F, 0.5F, 1.8F)),
-      m_DirInfo(NULL),
+      m_DirInfo(nullptr),
       m_bCancel(false)
 {
     //
@@ -118,12 +118,12 @@ PathfindSectorBuilderClass::PathfindSectorBuilderClass(void)
     _pThe3DAssetManager->Set_Current_Directory(full_path);
 
     RenderObjClass* commando_obj = WW3DAssetManager::Get_Instance()->Create_Render_Obj("COMMANDO");
-    if (commando_obj != NULL) {
+    if (commando_obj != nullptr) {
 
         //
         //	Attempt to find the collision box for this physics object
         //
-        RenderObjClass* collision_box = NULL;
+        RenderObjClass* collision_box = nullptr;
         if (commando_obj->Class_ID() == RenderObjClass::CLASSID_DISTLOD) {
             RenderObjClass* lod0 = commando_obj->Get_Sub_Object(0);
             collision_box = lod0->Get_Sub_Object_By_Name("WORLDBOX");
@@ -136,7 +136,7 @@ PathfindSectorBuilderClass::PathfindSectorBuilderClass(void)
         //
         //	Store the exents of the collision box for use in our simulation
         //
-        if (collision_box != NULL) {
+        if (collision_box != nullptr) {
             const AABoxClass& box = collision_box->Get_Bounding_Box();
             m_SimBoundingBox = box.Extent * 2;
             MEMBER_RELEASE(collision_box);
@@ -422,7 +422,7 @@ void PathfindSectorBuilderClass::Do_Physics_Sim(const Vector3& start_pos, PATHFI
         //	Is this cell already marked?
         //
         BodyBoxCullObj* occupant = Get_Sector_Occupant(new_pos);
-        if (occupant == NULL) {
+        if (occupant == nullptr) {
 
             //
             //	Mark this cell and add it to the list of sectors
@@ -471,7 +471,7 @@ void PathfindSectorBuilderClass::Floodfill(const Vector3& start_pos)
     //
     if (!m_bCancel && (::GetAsyncKeyState(VK_ESCAPE) < 0)) {
         m_bCancel = true;
-        ::MessageBox(NULL, "Operation cancelled.", "Pathfind", MB_OK | MB_SETFOREGROUND);
+        ::MessageBox(nullptr, "Operation cancelled.", "Pathfind", MB_OK | MB_SETFOREGROUND);
     }
 
     return;
@@ -495,7 +495,7 @@ BodyBoxCullObj* PathfindSectorBuilderClass::Get_Sector_Occupant(const Vector3& p
     m_BodyBoxCullingSystem.Collect_Objects(box_center_pos);
     BodyBoxCullObj* body_box = m_BodyBoxCullingSystem.Get_First_Collected_Object();
 
-    if (body_box == NULL) {
+    if (body_box == nullptr) {
 
         box_center_pos = pos;
         box_center_pos.Z += (m_SimBoundingBox.Z * 0.25F);
@@ -505,7 +505,7 @@ BodyBoxCullObj* PathfindSectorBuilderClass::Get_Sector_Occupant(const Vector3& p
         body_box = m_BodyBoxCullingSystem.Get_First_Collected_Object();
     }
 
-    if (body_box == NULL) {
+    if (body_box == nullptr) {
 
         box_center_pos = pos;
         box_center_pos.Z += (m_SimBoundingBox.Z * 0.5F);
@@ -588,19 +588,19 @@ void PathfindSectorBuilderClass::Compress_Sectors(void)
     int largest_area = 0;
     int largest_area_right = 0;
     int largest_area_down = 0;
-    BodyBoxCullObj* upper_left_ptr = NULL;
+    BodyBoxCullObj* upper_left_ptr = nullptr;
 
     //
     //	Keep looping until we've compressed all the body boxes into sectors
     //
-    while (BodyBoxCullObj::Get_First() != NULL) {
+    while (BodyBoxCullObj::Get_First() != nullptr) {
 
         //
         //	Find the largest possible rectangular area that's 'free'
         // in the world.
         //
         largest_area = 0;
-        for (BodyBoxCullObj* cull_obj = BodyBoxCullObj::Get_First(); cull_obj != NULL;
+        for (BodyBoxCullObj* cull_obj = BodyBoxCullObj::Get_First(); cull_obj != nullptr;
              cull_obj = cull_obj->Get_Next()) {
             int max_down = 0;
             int max_right = 0;
@@ -617,7 +617,7 @@ void PathfindSectorBuilderClass::Compress_Sectors(void)
             Vector3 pos = cull_obj->Get_Position();
             float min_z_pos = pos.Z - m_SimBoundingBox.Z;
             float max_z_pos = pos.Z + (m_SimBoundingBox.Z * 1.5F);
-            while (neighbor != NULL) {
+            while (neighbor != nullptr) {
                 curr_down
                     = min(neighbor->Get_Count(DIR_BACKWARD, min_z_pos, max_z_pos) + 1, curr_down);
 
@@ -669,10 +669,10 @@ void PathfindSectorBuilderClass::Compress_Sectors(void)
         //	Remove all the cells that compose this area from the list
         //
         BodyBoxCullObj* curr_cell = upper_left_ptr;
-        for (int right = 0; (right < largest_area_right) && (curr_cell != NULL); right++) {
+        for (int right = 0; (right < largest_area_right) && (curr_cell != nullptr); right++) {
 
             BodyBoxCullObj* down_obj = curr_cell;
-            for (int down = 0; (down < largest_area_down) && (down_obj != NULL); down++) {
+            for (int down = 0; (down < largest_area_down) && (down_obj != nullptr); down++) {
 
                 Matrix3D transform = down_obj->Get_Transform();
                 Vector3 position = transform.Get_Translation();
@@ -759,7 +759,7 @@ void PathfindSectorBuilderClass::Compress_Sectors(void)
         //
         cull_obj->Reset_Portal_Info();
         cull_obj->Set_Taken(false);
-        cull_obj->Set_Sector(NULL);
+        cull_obj->Set_Sector(nullptr);
         PathfindClass::Get_Instance()->Add_Body_Box(cull_obj);
         MEMBER_RELEASE(cull_obj);
     }

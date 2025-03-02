@@ -42,8 +42,8 @@
 //////////////////////////////////////////////////////////////////////////
 //	Static member initialization
 //////////////////////////////////////////////////////////////////////////
-FloodfillBoxClass* FloodfillBoxClass::m_First = NULL;
-FloodfillBoxClass* FloodfillBoxClass::m_Last = NULL;
+FloodfillBoxClass* FloodfillBoxClass::m_First = nullptr;
+FloodfillBoxClass* FloodfillBoxClass::m_Last = nullptr;
 
 ///////////////////////////////////////////////////////////////////////////
 //
@@ -55,7 +55,7 @@ bool FloodfillBoxClass::Is_Two_Way_Traversible(PATHFIND_DIR dir)
     bool retval = false;
 
     FloodfillBoxClass* neighbor = Peek_Neighbor(dir);
-    if (neighbor != NULL) {
+    if (neighbor != nullptr) {
         retval = (neighbor->Peek_Neighbor(::Inverse_Pathfind_Dir(dir)) == this);
     }
 
@@ -79,15 +79,15 @@ bool FloodfillBoxClass::Is_New_Portal(PATHFIND_DIR dir, PathfindSectorClass* des
     //		c) Its neighbor doesn't belong to the same sector OR
     //		c) Its neighbor is the sector we are looking for
     //
-    if ((Part_Of_Portal(dir) == false) && (m_Sector != NULL) && (m_Neighbors[dir] != NULL)
+    if ((Part_Of_Portal(dir) == false) && (m_Sector != nullptr) && (m_Neighbors[dir] != nullptr)
         && (Get_Traversible(dir))) {
 
-        if ((dest_sector != NULL) && (m_Neighbors[dir]->m_Sector == dest_sector)
+        if ((dest_sector != nullptr) && (m_Neighbors[dir]->m_Sector == dest_sector)
             && (m_Neighbors[dir]->m_Sector->Is_Valid())) {
             retval = true;
         }
-        else if ((dest_sector == NULL) && (m_Neighbors[dir]->m_Sector != m_Sector)
-                 && (m_Neighbors[dir]->m_Sector != NULL)
+        else if ((dest_sector == nullptr) && (m_Neighbors[dir]->m_Sector != m_Sector)
+                 && (m_Neighbors[dir]->m_Sector != nullptr)
                  && m_Neighbors[dir]->m_Sector->Is_Valid()) {
             retval = true;
         }
@@ -107,7 +107,7 @@ PathfindPortalClass* FloodfillBoxClass::Make_Portal(PATHFIND_DIR dir, const Vect
     PATHFIND_DIR slide_dir1 = PATHFIND_DIR((dir + 1) & 1);
     PATHFIND_DIR slide_dir2 = PATHFIND_DIR(slide_dir1 + 2);
 
-    WWASSERT(m_Neighbors[dir] != NULL);
+    WWASSERT(m_Neighbors[dir] != nullptr);
     PathfindSectorClass* dest_sector = m_Neighbors[dir]->m_Sector;
 
     FloodfillBoxClass* curr_box = this;
@@ -195,7 +195,7 @@ PathfindPortalClass* FloodfillBoxClass::Make_Portal(PATHFIND_DIR dir, const Vect
         //
         //	Should we keep going?
         //
-        keep_going = ((curr_box = curr_box->Peek_Neighbor(slide_dir1)) != NULL)
+        keep_going = ((curr_box = curr_box->Peek_Neighbor(slide_dir1)) != nullptr)
             && (curr_box->m_Sector == m_Sector) && (curr_box->Is_New_Portal(dir, dest_sector))
             && (curr_box->Is_Two_Way_Traversible(dir) == is_two_way);
     }
@@ -204,7 +204,7 @@ PathfindPortalClass* FloodfillBoxClass::Make_Portal(PATHFIND_DIR dir, const Vect
     //	Find the first box in the row that is a portal to the given sector.
     //
     curr_box = this;
-    while (((curr_box = curr_box->Peek_Neighbor(slide_dir2)) != NULL)
+    while (((curr_box = curr_box->Peek_Neighbor(slide_dir2)) != nullptr)
            && (curr_box->m_Sector == m_Sector) && (curr_box->Is_New_Portal(dir, dest_sector))
            && (curr_box->Is_Two_Way_Traversible(dir) == is_two_way)) {
         portal_list.Add(curr_box);
@@ -227,7 +227,7 @@ PathfindPortalClass* FloodfillBoxClass::Make_Portal(PATHFIND_DIR dir, const Vect
         max_point.Y = max(max_point.Y, position.Y - thickness.Y);
     }
 
-    PathfindPortalClass* portal = NULL;
+    PathfindPortalClass* portal = nullptr;
 
     //
     //	Choose the largest dimension

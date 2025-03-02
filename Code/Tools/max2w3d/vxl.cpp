@@ -84,7 +84,7 @@ VoxelClass::VoxelClass(INodeListClass& meshlist, int resolution, Matrix3 parentt
 
     // Allocate visibility flags array
     VisData = new uint8[XDim * YDim * ZDim];
-    if (VisData == NULL) {
+    if (VisData == nullptr) {
         throw ErrorClass("out of memory!");
     }
 
@@ -142,7 +142,7 @@ VoxelClass::VoxelClass(INodeListClass& meshlist, int resolution, Matrix3 parentt
  ************************************************************************/
 VoxelClass::~VoxelClass()
 {
-    if (VisData != NULL) {
+    if (VisData != nullptr) {
         delete[] VisData;
     }
 }

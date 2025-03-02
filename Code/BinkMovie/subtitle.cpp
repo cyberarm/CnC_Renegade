@@ -58,7 +58,7 @@ SubTitleClass::SubTitleClass()
       mRGBColor(0x00FFFFFF),
       mLinePosition(15),
       mAlignment(Center),
-      mCaption(NULL)
+      mCaption(nullptr)
 {
 }
 
@@ -79,7 +79,7 @@ SubTitleClass::SubTitleClass()
 
 SubTitleClass::~SubTitleClass()
 {
-    if (mCaption != NULL) {
+    if (mCaption != nullptr) {
         delete[] mCaption;
     }
 }
@@ -127,18 +127,18 @@ void SubTitleClass::Set_RGB_Color(unsigned char red, unsigned char green, unsign
 void SubTitleClass::Set_Caption(wchar_t* string)
 {
     // Release existing caption
-    if (mCaption != NULL) {
+    if (mCaption != nullptr) {
         delete[] mCaption;
-        mCaption = NULL;
+        mCaption = nullptr;
     }
 
     // Make a copy of caption
-    if (string != NULL) {
+    if (string != nullptr) {
         unsigned int length = wcslen(string);
         mCaption = new wchar_t[length + 1];
-        WWASSERT(mCaption != NULL);
+        WWASSERT(mCaption != nullptr);
 
-        if (mCaption != NULL) {
+        if (mCaption != nullptr) {
             wcscpy(mCaption, string);
         }
     }

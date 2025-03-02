@@ -170,7 +170,7 @@ bool cPlayer::Save(ChunkSaveClass& csave)
 //-----------------------------------------------------------------------------
 bool cPlayer::Load(ChunkLoadClass& cload)
 {
-    void* old_ptr = NULL;
+    void* old_ptr = nullptr;
 
     while (cload.Open_Chunk()) {
         switch (cload.Cur_Chunk_ID()) {
@@ -206,7 +206,7 @@ bool cPlayer::Load(ChunkLoadClass& cload)
         cload.Close_Chunk();
     }
 
-    if (old_ptr != NULL) {
+    if (old_ptr != nullptr) {
         SaveLoadSystemClass::Register_Pointer(old_ptr, this);
     }
 
@@ -229,7 +229,7 @@ void cPlayer::On_Create(void)
 
     if (!IS_MISSION && cPlayerManager::Is_Player_Present(cNetwork::Get_My_Id())) {
 
-        WWASSERT(CombatManager::Get_Message_Window() != NULL);
+        WWASSERT(CombatManager::Get_Message_Window() != nullptr);
 
         if (cNetwork::Show_Welcome_Message(Name)) {
             switch (PlayerType()) {
@@ -246,7 +246,7 @@ void cPlayer::On_Create(void)
             case PLAYERTYPE_NOD:
             case PLAYERTYPE_GDI: {
                 WideStringClass widestring;
-                WWASSERT(PTheGameData != NULL);
+                WWASSERT(PTheGameData != nullptr);
                 if (The_Game()->IsTeamChangingAllowed.Is_True()) {
                     widestring.Format(L"%s, %s.\n", TRANSLATION(IDS_MP_WELCOME_RENEGADE), Name);
                 }
@@ -286,7 +286,7 @@ void cPlayer::On_Create(void)
             case PLAYERTYPE_NOD:
             case PLAYERTYPE_GDI: {
                 WideStringClass widestring;
-                WWASSERT(PTheGameData != NULL);
+                WWASSERT(PTheGameData != nullptr);
                 if (The_Game()->IsTeamChangingAllowed.Is_True()) {
                     widestring.Format(L"%s %s\n", Name, TRANSLATION(IDS_MP_RENEGADE_JOINS));
                 }
@@ -315,7 +315,7 @@ void cPlayer::On_Create(void)
 void cPlayer::On_Destroy(void)
 {
     if (cNetwork::I_Am_Client() && GameModeManager::Find("Combat")->Is_Active()
-        && The_Game() != NULL && The_Game()->Is_Cnc()) {
+        && The_Game() != nullptr && The_Game()->Is_Cnc()) {
 
         WideStringClass message;
         message.Format(L"%s %s\n", Name, TRANSLATION(IDS_MP_PLAYER_LEFT_GAME));
@@ -427,7 +427,7 @@ void cPlayer::Get_Player_String(int rank, WideStringClass& string, bool force_ve
 
     string.Format(L"");
 
-    WWASSERT(The_Game() != NULL);
+    WWASSERT(The_Game() != nullptr);
     bool is_verbose = force_verbose || The_Game()->IsIntermission.Is_True() ||
         // MultiHUDClass::Get_Verbose_Lists();
         (MultiHUDClass::Get_Playerlist_Format() == PLAYERLIST_FORMAT_FULL);
@@ -509,7 +509,7 @@ void cPlayer::Get_Player_String(int rank, WideStringClass& string, bool force_ve
     // Money.
     // Do not show other team's money.
     //
-    WWASSERT(PTheGameData != NULL);
+    WWASSERT(PTheGameData != nullptr);
     if ((The_Game()->Is_Cnc() || The_Game()->Is_Skirmish()) && is_verbose) {
 #ifdef WWDEBUG
         bool show = cDevOptions::ShowMoney.Is_True() ||
@@ -517,7 +517,7 @@ void cPlayer::Get_Player_String(int rank, WideStringClass& string, bool force_ve
         bool show =
 #endif // WWDEBUG
             cNetwork::I_Am_Only_Server()
-            || (cNetwork::I_Am_Client() && cNetwork::Get_My_Player_Object() != NULL
+            || (cNetwork::I_Am_Client() && cNetwork::Get_My_Player_Object() != nullptr
                 && (cNetwork::Get_My_Team_Number() == (int)PlayerType));
 
         if (show) {
@@ -661,7 +661,7 @@ void cPlayer::Increment_Score(float add)
     //
     if (Is_Team_Player()) {
         cTeam* p_team = cTeamManager::Find_Team(Get_Player_Type());
-        WWASSERT(p_team != NULL);
+        WWASSERT(p_team != nullptr);
         p_team->Increment_Score(add);
     }
 
@@ -697,7 +697,7 @@ void cPlayer::Increment_Money(float add)
     //
     if (Is_Team_Player()) {
   cTeam * p_team = cTeamManager::Find_Team(Get_Player_Type());
-            WWASSERT(p_team != NULL);
+            WWASSERT(p_team != nullptr);
             p_team->Increment_Money(add);
     }
     */
@@ -853,15 +853,15 @@ int cPlayer::Get_Avg_Ping(void) const
    if (cNetwork::I_Am_Server()) {
       if (Id > 0) {
                         cRemoteHost * p_rhost = cNetwork::Get_Server_Rhost(Id);
-                        WWASSERT(p_rhost != NULL);
+                        WWASSERT(p_rhost != nullptr);
                         ping = p_rhost->Get_Average_Internal_Pingtime_Ms();
                 }
    } else if (Id == cNetwork::Get_My_Id()) {
       WWASSERT(cNetwork::I_Am_Only_Client());
       cRemoteHost * p_rhost = cNetwork::Get_Client_Rhost();
-      if (p_rhost != NULL) {
+      if (p_rhost != nullptr) {
          //
-         // It can be NULL as you are quitting
+         // It can be nullptr as you are quitting
          //
          ping = p_rhost->Get_Average_Internal_Pingtime_Ms();
       }
@@ -879,7 +879,7 @@ int cPlayer::Get_Ping(void)
     //
     if (cNetwork::I_Am_Server() && Id > 0) {
         cRemoteHost* p_rhost = cNetwork::Get_Server_Rhost(Id);
-        if (p_rhost != NULL) {
+        if (p_rhost != nullptr) {
             Ping = p_rhost->Get_Average_Internal_Pingtime_Ms();
         }
     }

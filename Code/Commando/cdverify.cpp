@@ -57,7 +57,7 @@ public:
     //	Public constructors/destructors
     ////////////////////////////////////////////////////////////////
     CDVerifyDialogClass(void)
-        : Object(NULL),
+        : Object(nullptr),
           PopupDialogClass(IDD_CDVERIFY)
     {
     }
@@ -99,8 +99,8 @@ bool CDVerifyClass::Get_CD_Path(StringClass& drive_path)
             //	Get the name of this volume
             //
             char volume_name[256] = { 0 };
-            if (::GetVolumeInformation(drive_root_name, volume_name, sizeof(volume_name), NULL,
-                                       NULL, NULL, NULL, NULL)) {
+            if (::GetVolumeInformation(drive_root_name, volume_name, sizeof(volume_name), nullptr,
+                                       nullptr, nullptr, nullptr, nullptr)) {
                 int cmp_len = ::lstrlen(volume_name);
                 cmp_len = max(cmp_len, 11);
 

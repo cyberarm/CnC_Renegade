@@ -41,7 +41,7 @@ static char THIS_FILE[] = __FILE__;
 //
 /////////////////////////////////////////////////////////////////////////////
 CoverSpotInfoPageClass::CoverSpotInfoPageClass(void)
-    : m_CoverSpot(NULL),
+    : m_CoverSpot(nullptr),
       DockableFormClass(CoverSpotInfoPageClass::IDD)
 {
     return;
@@ -114,7 +114,7 @@ void CoverSpotInfoPageClass::Dump(CDumpContext& dc) const
 /////////////////////////////////////////////////////////////////////////////
 void CoverSpotInfoPageClass::HandleInitDialog(void)
 {
-    ASSERT(m_CoverSpot != NULL);
+    ASSERT(m_CoverSpot != nullptr);
 
     SendDlgItemMessage(IDC_CROUCH_CHECK, BM_SETCHECK, m_CoverSpot->Requires_Crouch());
     return;
@@ -145,7 +145,7 @@ void CoverSpotInfoPageClass::OnAddAttackLocation(void)
     //	Add a new attack point to the world
     //
     CoverAttackPointNodeClass* attack_point = m_CoverSpot->Add_Attack_Point(Matrix3D(1));
-    if (attack_point != NULL) {
+    if (attack_point != nullptr) {
         ::Get_Mouse_Mgr()->Move_Node(attack_point);
     }
 

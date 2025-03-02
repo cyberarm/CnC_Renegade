@@ -91,7 +91,7 @@ bool Prompt_Install_CD(const WideStringClass& installvolumename, char& sourcedri
 
             // No CD-ROM with the correct label found. Ask user to insert the CD-ROM.
             ShowCursor(true);
-            cancel = MessageBoxExW(NULL, TxWideStringClass(IDS_INSERT_GAME_CD_ROM),
+            cancel = MessageBoxExW(nullptr, TxWideStringClass(IDS_INSERT_GAME_CD_ROM),
                                    TxWideStringClass(IDS_APPLICATION_NAME),
                                    MB_RETRYCANCEL | MB_APPLMODAL | MB_SETFOREGROUND,
                                    MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT))
@@ -148,7 +148,7 @@ bool Validate_Install_CD(const char driveletter, const WideStringClass& installv
     char rootpathname[] = "?:\\";
 
     rootpathname[0] = driveletter;
-    if (GetVolumeInformation(rootpathname, multibytevolumename, _MAX_PATH, NULL, &maxfilenamelength,
+    if (GetVolumeInformation(rootpathname, multibytevolumename, _MAX_PATH, nullptr, &maxfilenamelength,
                              &flags, filesystemname, _MAX_PATH)) {
 
         WideStringClass volumename(multibytevolumename);
@@ -191,7 +191,7 @@ bool Get_Disk_Space_Available(const WideStringClass& path, __int64& diskspace)
     // Extract the drive.
     // NOTE 0: Even though GetDiskFreeSpaceEx() will accept a full path, it will err if the path is
     // not valid. NOTE 1: _splitpath() automatically handles multi-byte character strings.
-    _splitpath(multibytepath, drive, NULL, NULL, NULL);
+    _splitpath(multibytepath, drive, nullptr, nullptr, nullptr);
 
     GetSystemDirectory(kernelpathname.Get_Buffer(_MAX_PATH), _MAX_PATH);
     kernelpathname += "\\";
@@ -199,11 +199,11 @@ bool Get_Disk_Space_Available(const WideStringClass& path, __int64& diskspace)
     getfreediskspaceex
         = (int(_stdcall*)(LPCTSTR, PULARGE_INTEGER, PULARGE_INTEGER, PULARGE_INTEGER))
             GetProcAddress(GetModuleHandle(kernelpathname.Peek_Buffer()), "GetDiskFreeSpaceExA");
-    if (getfreediskspaceex != NULL) {
+    if (getfreediskspaceex != nullptr) {
 
         // NOTE: This function uses GetDiskFreeSpaceEx() and therefore assumes Win '95 OSR2 or
         // greater.
-        if (!getfreediskspaceex(drive, &freebytecount, &totalbytecount, NULL)) {
+        if (!getfreediskspaceex(drive, &freebytecount, &totalbytecount, nullptr)) {
             return (false);
         }
 
@@ -280,7 +280,7 @@ bool Validate_Path(const WideStringClass& path, int& errorcode)
 
                         // Attempt to create (and then remove) the path.
                         if (Create_Directory(drive, directory.Peek_Buffer(),
-                                             directory.Peek_Buffer(), true, NULL)) {
+                                             directory.Peek_Buffer(), true, nullptr)) {
                             valid = true;
                         }
                         else {
@@ -362,7 +362,7 @@ bool Create_Directory(const WCHAR* drive, const WCHAR* directory, WCHAR* subdire
     c = subdirectory;
     if (*c != L'\0') {
 
-        // Step down the subdirectory to the next slash or null.
+        // Step down the subdirectory to the next slash or nullptr.
         while ((*c != L'\\') && (*c != L'/') && (*c != L'\0')) {
             c++;
         }
@@ -373,9 +373,9 @@ bool Create_Directory(const WCHAR* drive, const WCHAR* directory, WCHAR* subdire
         path += directory;
 
         path.Convert_To(multibytepath);
-        if (CreateDirectory(multibytepath, NULL)) {
+        if (CreateDirectory(multibytepath, nullptr)) {
             errorcode = 0;
-            if (log != NULL) {
+            if (log != nullptr) {
                 log->Add(multibytepath);
             }
         }
@@ -495,7 +495,7 @@ bool Is_Sub_Path(const WideStringClass& path0, const WideStringClass& path1, boo
         path1copy = path1;
     }
 
-    if (wcsstr(path0copy, path1copy) != NULL) {
+    if (wcsstr(path0copy, path1copy) != nullptr) {
 
         if (path0copy.Get_Length() == path1copy.Get_Length()) {
 
@@ -627,7 +627,7 @@ WCHAR* Extract_Suffix_Root(WideStringClass& path, const WideStringClass& prefixp
         }
         return (path.Peek_Buffer());
     }
-    return (NULL);
+    return (nullptr);
 }
 
 /***********************************************************************************************
@@ -674,7 +674,7 @@ bool Directory_Exists(const WideStringClass& path)
     StringClass multibytepath(path);
     DWORD errorcode;
 
-    if (CreateDirectory(multibytepath, NULL)) {
+    if (CreateDirectory(multibytepath, nullptr)) {
         errorcode = 0;
     }
     else {
@@ -759,20 +759,20 @@ bool Is_System_Directory(const WideStringClass& path)
     // Get a handle to the DLL module.
     result = false;
     hinstLib = LoadLibrary("shfolder.dll");
-    if (hinstLib != NULL) {
+    if (hinstLib != nullptr) {
 
         HRESULT(__stdcall * PFNSHGETFOLDERPATHA)(HWND, int, HANDLE, DWORD, LPSTR);
         PFNSHGETFOLDERPATHA = (HRESULT(__stdcall*)(HWND, int, HANDLE, DWORD, LPSTR))GetProcAddress(
             hinstLib, "SHGetFolderPathA");
 
-        if (PFNSHGETFOLDERPATHA != NULL) {
+        if (PFNSHGETFOLDERPATHA != nullptr) {
 
             HRESULT hr = 0;
 
             for (int i = 0; i < sizeof(DirectoryTypes) / sizeof(int); i++) {
 
                 // Get each of the known directories above and compare to the desired directory.
-                hr = (*PFNSHGETFOLDERPATHA)(NULL, DirectoryTypes[i], NULL, 0, multibytesystempath);
+                hr = (*PFNSHGETFOLDERPATHA)(nullptr, DirectoryTypes[i], nullptr, 0, multibytesystempath);
                 if (hr == S_OK) {
                     systempath = multibytesystempath;
                     if (Is_Sub_Path(path, systempath)) {
@@ -856,7 +856,7 @@ bool Generate_Temporary_Pathname(const WideStringClass& path,
 void Message_Box(const WideStringClass& header, const WideStringClass& errormessage)
 {
     ShowCursor(true);
-    MessageBoxExW(NULL, ((WideStringClass)errormessage).Peek_Buffer(),
+    MessageBoxExW(nullptr, ((WideStringClass)errormessage).Peek_Buffer(),
                   ((WideStringClass)header).Peek_Buffer(), MB_OK | MB_APPLMODAL | MB_SETFOREGROUND,
                   MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT));
     ShowCursor(false);

@@ -87,7 +87,7 @@ namespace WWOnline
             return new ChannelData(name, password, type);
         }
 
-        return NULL;
+        return nullptr;
     }
 
     /******************************************************************************
@@ -110,7 +110,7 @@ namespace WWOnline
         : mChannelName((char*)channel.name)
     {
         memcpy(&mData, &channel, sizeof(mData));
-        mData.next = NULL;
+        mData.next = nullptr;
     }
 
     /******************************************************************************
@@ -137,7 +137,7 @@ namespace WWOnline
         memset(&mData, 0, sizeof(mData));
         mData.type = type;
 
-        WWASSERT(name && "NULL channel name");
+        WWASSERT(name && "nullptr channel name");
         wcstombs((char*)mData.name, name, sizeof(mData.name));
         mData.name[sizeof(mData.name) - 1] = 0;
 
@@ -193,7 +193,7 @@ namespace WWOnline
 
         if (isValid) {
             memcpy(&mData, &wolChannel, sizeof(mData));
-            mData.next = NULL;
+            mData.next = nullptr;
         }
     }
 
@@ -427,7 +427,7 @@ namespace WWOnline
     // Find the channel node by name
     ChannelList::iterator FindChannelNode(ChannelList& list, const char* name)
     {
-        if (name == NULL) {
+        if (name == nullptr) {
             return list.end();
         }
 
@@ -463,7 +463,7 @@ namespace WWOnline
             }
         }
 
-        return NULL;
+        return nullptr;
     }
 
     // Find a channel in the specified list by Unicode name.
@@ -483,7 +483,7 @@ namespace WWOnline
             }
         }
 
-        return NULL;
+        return nullptr;
     }
 
 } // namespace WWOnline

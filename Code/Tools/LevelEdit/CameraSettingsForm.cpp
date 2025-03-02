@@ -109,7 +109,7 @@ void CameraSettingsFormClass::HandleInitDialog(void)
 void CameraSettingsFormClass::Update_Controls(void)
 {
     CameraMgr* pcamera_mgr = ::Get_Camera_Mgr();
-    if (pcamera_mgr != NULL) {
+    if (pcamera_mgr != nullptr) {
         const Matrix3D& transform = pcamera_mgr->Get_Camera()->Get_Transform();
         CString temp_string;
 
@@ -180,7 +180,7 @@ void CameraSettingsFormClass::OnUpdateDepthEdit(void)
 void CameraSettingsFormClass::Set_Depth(int new_depth)
 {
     CameraMgr* pcamera_mgr = ::Get_Camera_Mgr();
-    if (pcamera_mgr != NULL) {
+    if (pcamera_mgr != nullptr) {
 
         // Get the current 'near' clip plane
         double near_plane = 0;

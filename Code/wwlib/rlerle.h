@@ -83,7 +83,7 @@ public:
     RLEBlitTransXlat(T const* translator)
         : TranslateTable(translator)
     {
-        assert(TranslateTable != NULL);
+        assert(TranslateTable != nullptr);
     }
 
     virtual void Blit(void* dest, void const* source, int length, int leadskip = 0) const
@@ -133,8 +133,8 @@ public:
         : RemapTable(remapper),
           TranslateTable(translator)
     {
-        assert(TranslateTable != NULL);
-        assert(RemapTable != NULL);
+        assert(TranslateTable != nullptr);
+        assert(RemapTable != nullptr);
     }
 
     virtual void Blit(void* dest, void const* source, int length, int leadskip = 0) const
@@ -187,8 +187,8 @@ public:
         : RemapTable(remapper),
           TranslateTable(translator)
     {
-        assert(TranslateTable != NULL);
-        assert(RemapTable != NULL);
+        assert(TranslateTable != nullptr);
+        assert(RemapTable != nullptr);
     }
 
     virtual void Blit(void* dest, void const* source, int length, int leadskip = 0) const

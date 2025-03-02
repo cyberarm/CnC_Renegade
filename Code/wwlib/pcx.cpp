@@ -44,15 +44,15 @@
  *	GraphicBufferClass* Read_PCX_File (char* name, char* palette,void *Buff, long size );	*
  *  																								*
  *                                                                         *
- * INPUT: name is a NULL terminated string of the format [xxxx.pcx]        *
- *        palette is optional, if palette != NULL the the color palette of *
+ * INPUT: name is a nullptr terminated string of the format [xxxx.pcx]        *
+ *        palette is optional, if palette != nullptr the the color palette of *
  *					 the pcx file will be place in the memory block pointed	   *
  *               by palette.
- ** Buff is optional, if Buff == NULL a new memory Buffer		 		* will be
+ ** Buff is optional, if Buff == nullptr a new memory Buffer		 		* will be
  *allocated, otherwise the file will be placed 		* at location pointed by Buffer;
  ** Size is the size in bytes of the memory block pointed by Buff		* is also optional;
  **                                                                         * OUTPUT: on success a
- *pointer to a GraphicBufferClass containing the     * pcx file, NULL otherwise. *
+ *pointer to a GraphicBufferClass containing the     * pcx file, nullptr otherwise. *
  *																									*
  * WARNINGS:                                                               *
  *         Appears to be a comment-free zone                               *
@@ -89,7 +89,7 @@ Surface* Read_PCX_File(FileClass& file_handle, PaletteClass* palette, void* Buff
     BSurface* pic;
 
     if (!file_handle.Is_Available()) {
-        return (NULL);
+        return (nullptr);
     }
 
     file_handle.Open(FileClass::READ);
@@ -97,30 +97,30 @@ Surface* Read_PCX_File(FileClass& file_handle, PaletteClass* palette, void* Buff
     file_handle.Read(&header, sizeof(PCX_HEADER));
 
     if (header.id != 10 && header.version != 5 && header.pixelsize != 8) {
-        return NULL;
+        return nullptr;
     }
 
     width = header.width - header.x + 1;
     height = header.height - header.y + 1;
 
-    if (Buff != NULL) {
+    if (Buff != nullptr) {
         i = Size / width;
         height = MIN((int)(i - 1), (int)height);
         Buffer b(Buff, Size);
         pic = new BSurface(width, height, 1, &b);
-        if (pic == NULL) {
-            return NULL;
+        if (pic == nullptr) {
+            return nullptr;
         }
     }
     else {
         pic = new BSurface(width, height, 1);
-        if (pic == NULL) {
-            return NULL;
+        if (pic == nullptr) {
+            return nullptr;
         }
     }
 
     buffer = (char*)pic->Lock();
-    if (buffer != NULL) {
+    if (buffer != nullptr) {
         file_ptr = pool;
         file_handle.Read(pool, POOL_SIZE);
 

@@ -57,7 +57,7 @@ char* strtok_r(char* strptr, const char* delimiters, char** lasts)
     }
 
     if ((*lasts)[0] == 0) { // 0 length string?
-        return (NULL);
+        return (nullptr);
     }
 
     //
@@ -71,7 +71,7 @@ char* strtok_r(char* strptr, const char* delimiters, char** lasts)
         *lasts += dend;
 
         if ((*lasts)[0] == 0) { // 0 length string?
-            return (NULL);
+            return (nullptr);
         }
 
         dstart = strcspn(*lasts, delimiters);
@@ -83,7 +83,7 @@ char* strtok_r(char* strptr, const char* delimiters, char** lasts)
     }
     else // at least one more token to go...
     {
-        (*lasts)[dstart] = 0; // null out the end
+        (*lasts)[dstart] = 0; // nullptr out the end
         *lasts += (dstart + 1); // advance pointer
     }
     return (retval);

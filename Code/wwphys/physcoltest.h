@@ -65,7 +65,7 @@ public:
     PhysRayCollisionTestClass(const LineSegClass& ray, CastResultStruct* res, int group,
                               int type = COLLISION_TYPE_PROJECTILE)
         : RayCollisionTestClass(ray, res, type),
-          CollidedPhysObj(NULL),
+          CollidedPhysObj(nullptr),
           CollisionGroup(group),
           CheckStaticObjs(true),
           CheckDynamicObjs(true)
@@ -96,7 +96,7 @@ public:
     PhysAABoxCollisionTestClass(const AABoxClass& aabox, const Vector3& move, CastResultStruct* res,
                                 int group, int type = COLLISION_TYPE_PHYSICAL)
         : AABoxCollisionTestClass(aabox, move, res, type),
-          CollidedPhysObj(NULL),
+          CollidedPhysObj(nullptr),
           CollisionGroup(group),
           CheckStaticObjs(true),
           CheckDynamicObjs(true)
@@ -127,7 +127,7 @@ public:
     PhysOBBoxCollisionTestClass(const OBBoxClass& box, const Vector3& move, CastResultStruct* res,
                                 int group, int type = COLLISION_TYPE_PHYSICAL)
         : OBBoxCollisionTestClass(box, move, res, type),
-          CollidedPhysObj(NULL),
+          CollidedPhysObj(nullptr),
           CollisionGroup(group),
           CheckStaticObjs(true),
           CheckDynamicObjs(true)

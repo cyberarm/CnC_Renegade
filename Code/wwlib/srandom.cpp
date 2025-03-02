@@ -155,7 +155,7 @@ void SecureRandomClass::Generate_Seed(void)
     // Get free drive space
     //
     DWORD spc, bps, nfc, tnc; // various drive attributes (we don't care what they mean)
-    GetDiskFreeSpace(NULL, &spc, &bps, &nfc, &tnc);
+    GetDiskFreeSpace(nullptr, &spc, &bps, &nfc, &tnc);
     int_seeds[0] ^= spc;
     int_seeds[1 % int_seed_length] ^= bps;
     int_seeds[2 % int_seed_length] ^= nfc;
@@ -181,7 +181,7 @@ void SecureRandomClass::Generate_Seed(void)
 
     for (i = 0; i < int_seed_length; i++) {
         if ((i % 4) == 0) {
-            int_seeds[i] ^= time(NULL);
+            int_seeds[i] ^= time(nullptr);
         }
         else if ((i % 4) == 1) {
             int_seeds[i] ^= getpid();

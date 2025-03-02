@@ -181,7 +181,7 @@ int PASCAL WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     bool webInstalled = WebBrowser::InstallPrerequisites();
 
     if (!webInstalled) {
-        ::MessageBox(NULL,
+        ::MessageBox(nullptr,
                      "Embedded browser prerequisites missing\n\nBrowser functionality "
                      "questionable.\n\n(Please call Denzil @ 27272)",
                      "Renegade Warning!", MB_ICONWARNING | MB_OK);
@@ -232,7 +232,7 @@ static bool Graphics_Settings_Trouble_Shooting()
         ZeroMemory(&startup_info, sizeof(STARTUPINFO));
         startup_info.cb = sizeof(STARTUPINFO);
         PROCESS_INFORMATION process_info;
-        CreateProcess(NULL, opts, NULL, NULL, FALSE, 0, NULL, NULL, &startup_info, &process_info);
+        CreateProcess(nullptr, opts, nullptr, nullptr, FALSE, 0, nullptr, nullptr, &startup_info, &process_info);
 
         unsigned long exit_code = STILL_ACTIVE;
         unsigned res = 0;
@@ -249,8 +249,8 @@ static bool Graphics_Settings_Trouble_Shooting()
 }
 
 typedef IDirect3D8*(WINAPI* Direct3DCreate8Type)(UINT SDKVersion);
-static Direct3DCreate8Type Direct3DCreate8Ptr = NULL;
-static HINSTANCE D3D8Lib = NULL;
+static Direct3DCreate8Type Direct3DCreate8Ptr = nullptr;
+static HINSTANCE D3D8Lib = nullptr;
 
 static bool Video_Card_Driver_Check()
 {
@@ -264,9 +264,9 @@ static bool Video_Card_Driver_Check()
         return true;
     }
 
-    IDirect3D8* d3d = NULL;
+    IDirect3D8* d3d = nullptr;
     D3DCAPS8 tmp_caps;
-    const D3DCAPS8* d3dcaps = NULL;
+    const D3DCAPS8* d3dcaps = nullptr;
     D3DADAPTER_IDENTIFIER8 adapter_id;
 
     // Init D3D
@@ -274,7 +274,7 @@ static bool Video_Card_Driver_Check()
 
     D3D8Lib = LoadLibrary("D3D8.DLL");
 
-    if (D3D8Lib != NULL) {
+    if (D3D8Lib != nullptr) {
         Direct3DCreate8Ptr = (Direct3DCreate8Type)GetProcAddress(D3D8Lib, "Direct3DCreate8");
         if (Direct3DCreate8Ptr) {
             d3d = Direct3DCreate8Ptr(D3D_SDK_VERSION); // TODO: handle failure cases...
@@ -357,7 +357,7 @@ static bool Video_Card_Driver_Check()
     ZeroMemory(&startup_info, sizeof(STARTUPINFO));
     startup_info.cb = sizeof(STARTUPINFO);
     PROCESS_INFORMATION process_info;
-    if (!CreateProcess(NULL, opts, NULL, NULL, FALSE, 0, NULL, NULL, &startup_info,
+    if (!CreateProcess(nullptr, opts, nullptr, nullptr, FALSE, 0, nullptr, nullptr, &startup_info,
                        &process_info)) {
         return true;
     }
@@ -412,8 +412,8 @@ int Start_Application(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPSTR /*
         //
         char tmp_buffer[256];
         char* tmp_ptr;
-        if (!SearchPath("data", "always.dat", NULL, sizeof(tmp_buffer), tmp_buffer, &tmp_ptr)) {
-            MessageBox(NULL, "Set working folder and try again...", "Invalid working folder",
+        if (!SearchPath("data", "always.dat", nullptr, sizeof(tmp_buffer), tmp_buffer, &tmp_ptr)) {
+            MessageBox(nullptr, "Set working folder and try again...", "Invalid working folder",
                        MB_OK);
             return 0;
         }
@@ -547,7 +547,7 @@ long FAR PASCAL Main_Window_Proc(HWND hwnd, UINT message, WPARAM wParam, LPARAM 
         return 1;
 
     case WM_PAINT:
-        ValidateRect(hwnd, NULL);
+        ValidateRect(hwnd, nullptr);
         break;
 
     /*
@@ -698,10 +698,10 @@ static BOOL Create_Main_Window(HANDLE hInstance, int nCmdShow)
         wc.cbClsExtra = 0;
         wc.cbWndExtra = 0;
         wc.hInstance = (HINSTANCE)hInstance;
-        wc.hIcon = LoadIcon(NULL, IDI_APPLICATION);
-        wc.hCursor = LoadCursor(NULL, IDC_ARROW);
+        wc.hIcon = LoadIcon(nullptr, IDI_APPLICATION);
+        wc.hCursor = LoadCursor(nullptr, IDC_ARROW);
         wc.hbrBackground = (HBRUSH)GetStockObject(BLACK_BRUSH);
-        wc.lpszMenuName = NULL;
+        wc.lpszMenuName = nullptr;
         wc.lpszClassName = SingletonInstanceKeeperClass::Get_GUID();
 
         rc = RegisterClass(&wc);
@@ -712,7 +712,7 @@ static BOOL Create_Main_Window(HANDLE hInstance, int nCmdShow)
         // Assume windowed mode
         MainWindow = CreateWindowEx(0, SingletonInstanceKeeperClass::Get_GUID(), "Renegade",
                                     WS_SYSMENU | WS_CAPTION | WS_MINIMIZEBOX | WS_CLIPCHILDREN, 0,
-                                    0, 0, 0, NULL, NULL, ProgramInstance, NULL);
+                                    0, 0, 0, nullptr, nullptr, ProgramInstance, nullptr);
 
         if (!MainWindow) {
             return FALSE;
@@ -794,7 +794,7 @@ void Set_Working_Directory(HINSTANCE instance)
     char path[_MAX_PATH];
 
     GetModuleFileName(instance, path_to_exe, sizeof(path_to_exe));
-    _splitpath(path_to_exe, drive, dir, NULL, NULL);
-    _makepath(path, drive, dir, NULL, NULL);
+    _splitpath(path_to_exe, drive, dir, nullptr, nullptr);
+    _makepath(path, drive, dir, nullptr, nullptr);
     SetCurrentDirectory(path);
 }

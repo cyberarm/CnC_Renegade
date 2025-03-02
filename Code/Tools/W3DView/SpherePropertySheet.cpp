@@ -42,7 +42,7 @@ IMPLEMENT_DYNAMIC(SpherePropertySheetClass, CPropertySheet)
 /////////////////////////////////////////////////////////////////////////////
 SpherePropertySheetClass::SpherePropertySheetClass(SphereRenderObjClass* sphere, UINT nIDCaption,
                                                    CWnd* pParentWnd, UINT iSelectPage)
-    : m_RenderObj(NULL),
+    : m_RenderObj(nullptr),
       CPropertySheet(nIDCaption, pParentWnd, iSelectPage)
 {
     MEMBER_ADD(m_RenderObj, sphere);
@@ -57,7 +57,7 @@ SpherePropertySheetClass::SpherePropertySheetClass(SphereRenderObjClass* sphere,
 /////////////////////////////////////////////////////////////////////////////
 SpherePropertySheetClass::SpherePropertySheetClass(SphereRenderObjClass* sphere, LPCTSTR pszCaption,
                                                    CWnd* pParentWnd, UINT iSelectPage)
-    : m_RenderObj(NULL),
+    : m_RenderObj(nullptr),
       CPropertySheet(pszCaption, pParentWnd, iSelectPage)
 {
     MEMBER_ADD(m_RenderObj, sphere);
@@ -144,7 +144,7 @@ SpherePropertySheetClass::WindowProc(UINT message, WPARAM wParam, LPARAM lParam)
 void SpherePropertySheetClass::Add_Object_To_Viewer(void)
 {
     CW3DViewDoc* doc = ::GetCurrentDocument();
-    if ((doc != NULL) && (m_RenderObj != NULL)) {
+    if ((doc != nullptr) && (m_RenderObj != nullptr)) {
 
         //
         // Create a new prototype for this object
@@ -201,7 +201,7 @@ void SpherePropertySheetClass::Update_Object(void)
 /////////////////////////////////////////////////////////////
 void SpherePropertySheetClass::Initialize(void)
 {
-    if (m_RenderObj == NULL) {
+    if (m_RenderObj == nullptr) {
         Create_New_Object();
     }
     else {

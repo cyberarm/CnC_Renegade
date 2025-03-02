@@ -166,11 +166,11 @@ SmartGameObj::SmartGameObj(void)
       ControlEnabled(true),
       IsEnemySeenEnabled(false),
       MovingSoundTimer(0),
-      PlayerData(NULL),
+      PlayerData(nullptr),
       StealthEnabled(false),
       StealthPowerupTimer(0.0f),
       StealthFiringTimer(0.0f),
-      StealthEffect(NULL)
+      StealthEffect(nullptr)
 {
     GameObjManager::Add_Smart(this);
     Listener = WWAudioClass::Get_Instance()->Create_Logical_Listener();
@@ -204,7 +204,7 @@ void SmartGameObj::Copy_Settings(const SmartGameObjDef& definition)
 {
     WWASSERT(Peek_Physical_Object());
     MoveablePhysClass* moveable = Peek_Physical_Object()->As_MoveablePhysClass();
-    if (moveable != NULL) {
+    if (moveable != nullptr) {
         Peek_Physical_Object()->As_MoveablePhysClass()->Set_Controller(&Controller);
     }
     Register_Listener();
@@ -226,14 +226,14 @@ void SmartGameObj::Re_Init(const SmartGameObjDef& definition)
     //
     //	Remove the listener from the scene
     //
-    if (Listener != NULL) {
+    if (Listener != nullptr) {
         Listener->Remove_From_Scene();
     }
 
     //
     //	Free the stealth effect as necessary
     //
-    if (StealthEffect != NULL) {
+    if (StealthEffect != nullptr) {
         REF_PTR_RELEASE(StealthEffect);
         StealthEnabled = false;
         StealthPowerupTimer = 0.0F;
@@ -322,7 +322,7 @@ bool SmartGameObj::Save(ChunkSaveClass& csave)
     Action.Save(csave);
     csave.End_Chunk();
 
-    if (StealthEffect != NULL) {
+    if (StealthEffect != nullptr) {
         csave.Begin_Chunk(CHUNKID_STEALTH_EFFECT);
         StealthEffect->Save(csave);
         csave.End_Chunk();
@@ -335,7 +335,7 @@ bool SmartGameObj::Save(ChunkSaveClass& csave)
 
 bool SmartGameObj::Load(ChunkLoadClass& cload)
 {
-    WWASSERT(PlayerData == NULL);
+    WWASSERT(PlayerData == nullptr);
 
     int new_control_owner = 0;
 
@@ -353,7 +353,7 @@ bool SmartGameObj::Load(ChunkLoadClass& cload)
 
         case CHUNKID_VARIABLES:
             void* old_controller_ptr;
-            old_controller_ptr = NULL;
+            old_controller_ptr = nullptr;
 
             while (cload.Open_Micro_Chunk()) {
                 switch (cload.Cur_Micro_Chunk_ID()) {
@@ -406,7 +406,7 @@ bool SmartGameObj::Load(ChunkLoadClass& cload)
         cload.Close_Chunk();
     }
 
-    if (PlayerData != NULL) {
+    if (PlayerData != nullptr) {
         REQUEST_POINTER_REMAP((void**)&PlayerData);
     }
 
@@ -419,7 +419,7 @@ bool SmartGameObj::Load(ChunkLoadClass& cload)
 void SmartGameObj::On_Post_Load(void)
 {
     ArmedGameObj::On_Post_Load();
-    if (StealthEffect != NULL) {
+    if (StealthEffect != nullptr) {
         Peek_Physical_Object()->Add_Effect_To_Me(StealthEffect);
     }
     Register_Listener();
@@ -432,7 +432,7 @@ void SmartGameObj::On_Post_Load(void)
 void SmartGameObj::Set_Player_Data(PlayerDataClass* player_data)
 {
     if (PlayerData) {
-        PlayerData->Set_GameObj(NULL);
+        PlayerData->Set_GameObj(nullptr);
     }
     PlayerData = player_data;
     if (PlayerData) {
@@ -449,7 +449,7 @@ void SmartGameObj::Import_Frequent(BitStreamClass& packet)
     //
     //	Update the player data structure from the server
     //
-    if (PlayerData != NULL) {
+    if (PlayerData != nullptr) {
             PlayerData->Import_Frequent( packet );
     }
     */
@@ -481,7 +481,7 @@ void SmartGameObj::Export_Frequent(BitStreamClass& packet)
     //
     //	Send the player data to the client
     //
-    if (PlayerData != NULL) {
+    if (PlayerData != nullptr) {
             PlayerData->Export_Frequent( packet );
     }
     */
@@ -523,13 +523,13 @@ void SmartGameObj::Generate_Control(void)
         // Notify server
         //
         /*
-        if (PClientControl != NULL && !Is_Delete_Pending()) {
+        if (PClientControl != nullptr && !Is_Delete_Pending()) {
                 PClientControl->Set_Update_Flag(Get_ID());
         }
         */
 
         // TSS092101
-        if (PClientControl != NULL) {
+        if (PClientControl != nullptr) {
             if (Is_Delete_Pending()) {
                 PClientControl->Set_Update_Flag(-1);
             }
@@ -576,9 +576,9 @@ bool SmartGameObj::Is_Controlled_By_Me(void)
     //	If this is a vehicle, then passthru to the driver
     //
     VehicleGameObj* vehicle = As_VehicleGameObj();
-    if (vehicle != NULL) {
+    if (vehicle != nullptr) {
         SoldierGameObj* driver = vehicle->Get_Driver();
-        if (driver != NULL) {
+        if (driver != nullptr) {
             game_obj = driver;
         }
     }
@@ -591,11 +591,11 @@ void SmartGameObj::Apply_Control(void)
 {
     bool switched = false;
 
-    const char* change_type = NULL;
+    const char* change_type = nullptr;
 
     if (Control.Get_Boolean(ControlClass::BOOLEAN_WEAPON_NEXT)) {
 
-        if (COMBAT_CAMERA != NULL) {
+        if (COMBAT_CAMERA != nullptr) {
             COMBAT_CAMERA->Reset_First_Person_Offset_Tweak();
         }
 
@@ -606,7 +606,7 @@ void SmartGameObj::Apply_Control(void)
 
     if (Control.Get_Boolean(ControlClass::BOOLEAN_WEAPON_PREV)) {
 
-        if (COMBAT_CAMERA != NULL) {
+        if (COMBAT_CAMERA != nullptr) {
             COMBAT_CAMERA->Reset_First_Person_Offset_Tweak();
         }
 
@@ -624,7 +624,7 @@ void SmartGameObj::Apply_Control(void)
                 HUDClass::Force_Weapon_Chart_Display();
             }
 
-            if (COMBAT_CAMERA != NULL) {
+            if (COMBAT_CAMERA != nullptr) {
                 COMBAT_CAMERA->Reset_First_Person_Offset_Tweak();
             }
 
@@ -634,7 +634,7 @@ void SmartGameObj::Apply_Control(void)
         }
     }
 
-    if (this == COMBAT_STAR && change_type != NULL) {
+    if (this == COMBAT_STAR && change_type != nullptr) {
         Vector3 pos;
         Get_Position(&pos);
         const char* weapon_name = "";
@@ -649,9 +649,9 @@ void SmartGameObj::Apply_Control(void)
 
     // This is kinda ugly....
     SoldierGameObj* p_soldier = As_SoldierGameObj();
-    if (switched && p_soldier != NULL && p_soldier->Is_Sniping()) {
+    if (switched && p_soldier != nullptr && p_soldier->Is_Sniping()) {
         // If sniping, and you cannot snipe for the current weapon, exit sniping
-        if (Get_Weapon() == NULL || !Get_Weapon()->Get_Can_Snipe()) {
+        if (Get_Weapon() == nullptr || !Get_Weapon()->Get_Can_Snipe()) {
             Debug_Say(("Force Sniper exit\n"));
             p_soldier->Get_Human_State()->Toggle_State_Flag(HumanStateClass::SNIPING_FLAG);
         }
@@ -665,7 +665,7 @@ void SmartGameObj::Apply_Control(void)
     Controller.Set_Move_Left(Control.Get_Analog(ControlClass::ANALOG_MOVE_LEFT));
 
     if (ControlEnabled) {
-        if ((Get_Weapon() != NULL) && (!Is_Delete_Pending())) {
+        if ((Get_Weapon() != nullptr) && (!Is_Delete_Pending())) {
 
             Get_Weapon()->Set_Primary_Triggered(
                 Control.Get_Boolean(ControlClass::BOOLEAN_WEAPON_FIRE_PRIMARY));
@@ -705,7 +705,7 @@ void SmartGameObj::Think()
             }
             else {
                 Controller.Reset();
-                if (Get_Weapon() != NULL) {
+                if (Get_Weapon() != nullptr) {
                     Get_Weapon()->Set_Primary_Triggered(false);
                     Get_Weapon()->Set_Secondary_Triggered(false);
                 }
@@ -761,7 +761,7 @@ void SmartGameObj::Think()
             StealthFiringTimer -= TimeManager::Get_Frame_Seconds();
         }
 
-        if ((StealthEffect != NULL) && COMBAT_STAR) {
+        if ((StealthEffect != nullptr) && COMBAT_STAR) {
             StealthEffect->Set_Friendly(Is_Teammate(COMBAT_STAR));
         }
 
@@ -769,20 +769,20 @@ void SmartGameObj::Think()
             WWPROFILE("Stealh");
 
             Alloc_Stealth_Effect();
-            WWASSERT(StealthEffect != NULL);
+            WWASSERT(StealthEffect != nullptr);
             Peek_Physical_Object()->Add_Effect_To_Me(StealthEffect);
 
             StealthEffect->Enable_Stealth(true);
 
             const float STEALTH_BROKEN_FRACTION = 0.25f;
             DefenseObjectClass* defobj = Get_Defense_Object();
-            if (defobj != NULL) {
+            if (defobj != nullptr) {
                 StealthEffect->Set_Broken((defobj->Get_Health() / defobj->Get_Health_Max())
                                           < STEALTH_BROKEN_FRACTION);
             }
         }
         else {
-            if (StealthEffect != NULL) {
+            if (StealthEffect != nullptr) {
                 StealthEffect->Enable_Stealth(false);
             }
         }
@@ -810,7 +810,7 @@ void SmartGameObj::Post_Think(void)
 void SmartGameObj::Apply_Damage(const OffenseObjectClass& damager, float scale, int alternate_skin)
 {
     float damage = damager.Get_Damage() * scale;
-    if ((damage > 0) && (StealthEffect != NULL)) {
+    if ((damage > 0) && (StealthEffect != nullptr)) {
         StealthEffect->Damage_Occured();
     }
 
@@ -877,11 +877,11 @@ void SmartGameObj::On_Logical_Heard(LogicalListenerClass* listener, LogicalSound
     //	Dig the sound creator out from the logical sound object
     //
     RefCountedGameObjReference* creator = (RefCountedGameObjReference*)sound_obj->Peek_User_Obj();
-    if (creator != NULL) {
+    if (creator != nullptr) {
         sound.Creator = creator->Get_Ptr();
     }
     else {
-        sound.Creator = NULL;
+        sound.Creator = nullptr;
     }
 
     // Notify observers
@@ -895,7 +895,7 @@ void SmartGameObj::On_Logical_Heard(LogicalListenerClass* listener, LogicalSound
 
 void SmartGameObj::Register_Listener(void)
 {
-    if (Listener != NULL) {
+    if (Listener != nullptr) {
         const SmartGameObjDef& definition = Get_Definition();
         Listener->Set_Scale(definition.ListenerScale);
         Listener->Set_DropOff_Radius(0.001f);
@@ -914,7 +914,7 @@ void SmartGameObj::Begin_Hibernation(void)
     //
     //	Stop listening for sounds
     //
-    if (Listener != NULL) {
+    if (Listener != nullptr) {
         Listener->Remove_From_Scene();
     }
 
@@ -932,7 +932,7 @@ void SmartGameObj::End_Hibernation(void)
     //
     //	Make sure we are listening for logical sounds
     //
-    if (Listener != NULL) {
+    if (Listener != nullptr) {
         Listener->Add_To_Scene();
     }
 
@@ -1023,7 +1023,7 @@ bool SmartGameObj::Is_Stealth_Enabled(void)
 
 bool SmartGameObj::Is_Stealthed(void) const
 {
-    if (StealthEffect != NULL) {
+    if (StealthEffect != nullptr) {
         return StealthEffect->Is_Stealthed();
     }
     else {
@@ -1048,7 +1048,7 @@ StealthEffectClass* SmartGameObj::Peek_Stealth_Effect(void)
 
 void SmartGameObj::Alloc_Stealth_Effect(void)
 {
-    if (StealthEffect == NULL) {
+    if (StealthEffect == nullptr) {
         StealthEffect = NEW_REF(StealthEffectClass, ());
         StealthEffect->Set_Fade_Distance(Get_Stealth_Fade_Distance());
     }

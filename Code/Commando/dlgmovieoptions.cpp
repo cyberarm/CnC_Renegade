@@ -67,7 +67,7 @@ void MovieOptionsMenuClass::On_Init_Dialog(void)
     //	Get a pointer to the list control
     //
     ListCtrlClass* list_ctrl = (ListCtrlClass*)Get_Dlg_Item(IDC_LIST_CTRL);
-    if (list_ctrl != NULL) {
+    if (list_ctrl != nullptr) {
 
         //
         //	Configure the list control
@@ -160,7 +160,7 @@ void MovieOptionsMenuClass::On_ListCtrl_Delete_Entry(ListCtrlClass* list_ctrl, i
         //
         StringClass* filename = (StringClass*)list_ctrl->Get_Entry_Data(item_index, 0);
         list_ctrl->Set_Entry_Data(item_index, 0, 0);
-        if (filename != NULL) {
+        if (filename != nullptr) {
             delete filename;
         }
     }
@@ -195,7 +195,7 @@ void MovieOptionsMenuClass::Begin_Play_Movie(void)
     //	Get a pointer to the list control
     //
     ListCtrlClass* list_ctrl = (ListCtrlClass*)Get_Dlg_Item(IDC_LIST_CTRL);
-    if (list_ctrl == NULL) {
+    if (list_ctrl == nullptr) {
         return;
     }
 
@@ -219,7 +219,7 @@ void MovieOptionsMenuClass::Begin_Play_Movie(void)
             //
             StringClass filename_only(filename->Peek_Buffer(), true);
             const char* delimiter = ::strrchr(filename->Peek_Buffer(), '\\');
-            if (delimiter != NULL) {
+            if (delimiter != nullptr) {
                 filename_only = delimiter + 1;
             }
 

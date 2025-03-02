@@ -209,7 +209,7 @@ void CGameSpyQnR::LaunchArcade(void)
 {
     char* akey = "Software\\GameSpy\\GameSpy Arcade";
     BOOL launched = FALSE;
-    HKEY key = NULL;
+    HKEY key = nullptr;
     int result = 0;
 
     result = RegOpenKeyEx(HKEY_CURRENT_USER, akey, 0, KEY_READ, &key);
@@ -220,13 +220,13 @@ void CGameSpyQnR::LaunchArcade(void)
         //
         DWORD data_size = 0;
         DWORD type = 0;
-        result = ::RegQueryValueEx((HKEY)key, "InstDir", NULL, &type, NULL, &data_size);
+        result = ::RegQueryValueEx((HKEY)key, "InstDir", nullptr, &type, nullptr, &data_size);
         if (result == ERROR_SUCCESS && type == REG_SZ) {
 
             //
             //	Read the entry from the registry
             //
-            ::RegQueryValueEx((HKEY)key, "InstDir", NULL, &type,
+            ::RegQueryValueEx((HKEY)key, "InstDir", nullptr, &type,
                               (LPBYTE)value.Get_Buffer(data_size), &data_size);
         }
         if (!value.Is_Empty()) {
@@ -241,7 +241,7 @@ void CGameSpyQnR::LaunchArcade(void)
             if (file.Is_Available()) {
                 StringClass params("+svc ");
                 params += gamename;
-                if (((int)ShellExecute(NULL, "open", value, params, NULL, SW_SHOW)) > 32) {
+                if (((int)ShellExecute(nullptr, "open", value, params, nullptr, SW_SHOW)) > 32) {
                     launched = TRUE;
                 }
             }
@@ -260,7 +260,7 @@ void CGameSpyQnR::LaunchArcade(void)
                  "http://www.gamespyarcade.com/features/launch.asp?svcname=ccrenegade&distID=391");
 #endif
 
-        ShellExecute(NULL, "open", url, NULL, NULL, SW_SHOW);
+        ShellExecute(nullptr, "open", url, nullptr, nullptr, SW_SHOW);
     }
 }
 void CGameSpyQnR::Shutdown(void)
@@ -285,7 +285,7 @@ void CGameSpyQnR::TrackUsage(void)
 
 #ifndef WWDEBUG
     char filename[MAX_PATH];
-    GetModuleFileName(NULL, filename, sizeof(filename));
+    GetModuleFileName(nullptr, filename, sizeof(filename));
     VS_FIXEDFILEINFO version;
     GetVersionInfo(filename, &version);
     int ver = version.dwFileVersionMS;
@@ -320,7 +320,7 @@ void CGameSpyQnR::Init(void)
                 strcpy(ip, cNetUtil::Address_To_String(cUserOptions::PreferredGameSpyNic.Get()));
             }
             else {
-                ip = NULL;
+                ip = nullptr;
             }
         }
         else {
@@ -336,7 +336,7 @@ void CGameSpyQnR::Init(void)
         WWASSERT(!test);
         gcd_init_qr(query_reporting_rec, cdkey_id);
 
-        StartTime = time(NULL);
+        StartTime = time(nullptr);
         m_GSInit = TRUE;
     }
 #endif
@@ -487,10 +487,10 @@ void CGameSpyQnR::info_callback(char* outbuf, int maxlen)
 
         int pcount = 0;
         for (SLNode<cPlayer>* player_node = cPlayerManager::Get_Player_Object_List()->Head();
-             player_node != NULL; player_node = player_node->Next()) {
+             player_node != nullptr; player_node = player_node->Next()) {
 
             cPlayer* player = player_node->Data();
-            WWASSERT(player != NULL);
+            WWASSERT(player != nullptr);
 
             if (player->Get_Is_Active().Is_False()) {
                 //			if (player->Get_Is_Active().Is_False() ||
@@ -558,7 +558,7 @@ void CGameSpyQnR::rules_callback(char* outbuf, int maxlen)
 
         //		if (b.Is_Empty()) {
         //			char filename[MAX_PATH];
-        //			GetModuleFileName(NULL, filename, sizeof(filename));
+        //			GetModuleFileName(nullptr, filename, sizeof(filename));
         //			VS_FIXEDFILEINFO version;
         //			GetVersionInfo(filename, &version);
         //			int ver = version.dwFileVersionMS;
@@ -576,7 +576,7 @@ void CGameSpyQnR::rules_callback(char* outbuf, int maxlen)
         if (!Append_InfoKey_Pair(outbuf, maxlen, "BW", value)) {
             break;
         }
-        //		int utime = time(NULL) - StartTime;
+        //		int utime = time(nullptr) - StartTime;
         //		value.Format("%d:%d:%d:%d", utime/60/60/24, (utime/60/60)%24, (utime/60)%60,
         //utime%60); 		if (!Append_InfoKey_Pair(outbuf, maxlen, "Uptime", value)) break;
         if (!Append_InfoKey_Pair(outbuf, maxlen, "CSVR", ConsoleBox.Is_Exclusive() ? one : zero)) {
@@ -620,10 +620,10 @@ void CGameSpyQnR::rules_callback(char* outbuf, int maxlen)
 
         //		cTeam * p_team;
         //		for (SLNode<cTeam> * objnode = cTeamManager::Get_Team_Object_List()->Head()
-        //				; objnode != NULL; objnode = objnode->Next()) {
+        //				; objnode != nullptr; objnode = objnode->Next()) {
         //
         //			p_team = objnode->Data();
-        //			WWASSERT(p_team != NULL);
+        //			WWASSERT(p_team != nullptr);
         //
         //			if (p_team->Get_Id() == PLAYERTYPE_GDI) {
         //				value.Format("%.0f", p_team->Get_Score());
@@ -686,7 +686,7 @@ BOOL CGameSpyQnR::Parse_HeartBeat_List(const char* list)
             t++;
         }
         // process the address
-        if (*t && get_sockaddrin(t, port, &taddr, NULL)) {
+        if (*t && get_sockaddrin(t, port, &taddr, nullptr)) {
             add_master(&taddr);
             master_added = true;
         }
@@ -782,10 +782,10 @@ void CGameSpyQnR::players_callback(char* outbuf, int maxlen)
     outbuf[0] = 0;
 
     for (SLNode<cPlayer>* player_node = cPlayerManager::Get_Player_Object_List()->Head();
-         player_node != NULL; player_node = player_node->Next()) {
+         player_node != nullptr; player_node = player_node->Next()) {
 
         cPlayer* player = player_node->Data();
-        WWASSERT(player != NULL);
+        WWASSERT(player != nullptr);
 
         if (player->Get_Is_Active().Is_False()) {
             //		if (player->Get_Is_Active().Is_False() || !player->Is_Human()) {
@@ -842,7 +842,7 @@ void CGameSpyQnR::players_callback(char* outbuf, int maxlen)
         //break;
 
         /*		SmartGameObj *game_obj = player->Get_GameObj ();
-                        if (game_obj != NULL && game_obj->As_SoldierGameObj () != NULL) {
+                        if (game_obj != nullptr && game_obj->As_SoldierGameObj () != nullptr) {
 
                                 // Set the Player's Class (ie: Technician,Sakura,Havok)
                                 keyval.Format("class_%d", pindex);
@@ -855,7 +855,7 @@ void CGameSpyQnR::players_callback(char* outbuf, int maxlen)
 
                                 // If they're in a vehicle set the vehicle name
                                 keyval.Format("vehicle_%d", pindex);
-                                if (vehicle != NULL) {
+                                if (vehicle != nullptr) {
                                         if (!Append_InfoKey_Pair(outbuf, maxlen,
            keyval.Peek_Buffer(), WideStringClass(TRANSLATE(vehicle->Get_Translated_Name_ID())) ))
            break; } else { if (!Append_InfoKey_Pair(outbuf, maxlen, keyval.Peek_Buffer(), "None"))

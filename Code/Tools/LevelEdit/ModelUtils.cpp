@@ -46,7 +46,7 @@
 /////////////////////////////////////////////////////////////////////////
 void Set_Model_Collision_Type(RenderObjClass* model, int collision_type)
 {
-    if (model == NULL) {
+    if (model == nullptr) {
         return;
     }
 
@@ -60,7 +60,7 @@ void Set_Model_Collision_Type(RenderObjClass* model, int collision_type)
         // Get a pointer to this subobject
         //
         RenderObjClass* sub_object = model->Get_Sub_Object(index);
-        if (sub_object != NULL) {
+        if (sub_object != nullptr) {
 
             //
             //	Set the collision bits for this sub-object

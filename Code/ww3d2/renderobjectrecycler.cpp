@@ -81,7 +81,7 @@ RenderObjClass* RenderObjectRecyclerClass::Get_Render_Object(const char* name, c
 {
     RefRenderObjListIterator it(&InactiveModels);
 
-    RenderObjClass* found = NULL;
+    RenderObjClass* found = nullptr;
     while (!it.Is_Done()) {
         if (stricmp(it.Peek_Obj()->Get_Name(), name) == 0) {
             found = it.Peek_Obj();
@@ -90,7 +90,7 @@ RenderObjClass* RenderObjectRecyclerClass::Get_Render_Object(const char* name, c
         it.Next();
     }
 
-    if (found != NULL) {
+    if (found != nullptr) {
         found->Add_Ref();
         InactiveModels.Remove(found);
         found->Set_Transform(tm);
@@ -100,13 +100,13 @@ RenderObjClass* RenderObjectRecyclerClass::Get_Render_Object(const char* name, c
     else {
 
         RenderObjClass* new_model = WW3DAssetManager::Get_Instance()->Create_Render_Obj(name);
-        if (new_model != NULL) {
+        if (new_model != nullptr) {
             new_model->Set_Transform(tm);
             return new_model;
         }
     }
 
-    return NULL;
+    return nullptr;
 }
 
 /***********************************************************************************************
@@ -140,7 +140,7 @@ void RenderObjectRecyclerClass::Return_Render_Object(RenderObjClass* obj)
  *=============================================================================================*/
 void RenderObjectRecyclerClass::Insert_Inactive_Model(RenderObjClass* obj)
 {
-    WWASSERT(obj != NULL);
+    WWASSERT(obj != nullptr);
     InactiveModels.Add(obj);
 }
 
@@ -178,7 +178,7 @@ void RenderObjectRecyclerClass::Reset_Model(RenderObjClass* model)
     /*
     ** animated models must have their animation reset (if present)
     */
-    if (model->Peek_Animation() != NULL) {
+    if (model->Peek_Animation() != nullptr) {
         model->Set_Animation(model->Peek_Animation(), 0.0f, RenderObjClass::ANIM_MODE_ONCE);
     }
 }

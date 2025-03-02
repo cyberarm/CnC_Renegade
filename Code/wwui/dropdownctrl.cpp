@@ -58,7 +58,7 @@
 DropDownCtrlClass::DropDownCtrlClass(void)
     : CellSize(0, 0),
       CurrSel(-1),
-      ComboBox(NULL),
+      ComboBox(nullptr),
       ScrollPos(0),
       CountPerPage(0),
       FullRect(0, 0, 0, 0),
@@ -412,7 +412,7 @@ void DropDownCtrlClass::On_Kill_Focus(DialogControlClass* focus)
 ////////////////////////////////////////////////////////////////
 int DropDownCtrlClass::Add_String(const WCHAR* string)
 {
-    if (string == NULL) {
+    if (string == nullptr) {
         return -1;
     }
 
@@ -641,7 +641,7 @@ bool DropDownCtrlClass::Get_String(int index, WideStringClass& string) const
 ////////////////////////////////////////////////////////////////
 const WCHAR* DropDownCtrlClass::Get_String(int index) const
 {
-    const WCHAR* retval = NULL;
+    const WCHAR* retval = nullptr;
 
     if (index >= 0 && index < EntryList.Count()) {
 

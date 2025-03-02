@@ -129,7 +129,7 @@ public:
     // get the CRC of a block of memory
     static unsigned long Memory(unsigned char* data, unsigned long length, unsigned long crc = 0);
 
-    // get the CRC of a null-terminated string
+    // get the CRC of a nullptr-terminated string
     static unsigned long String(const char* string, unsigned long crc = 0);
 };
 

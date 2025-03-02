@@ -150,7 +150,7 @@ int WWFontClass::Char_Pixel_Width(char c) const
  *=============================================================================================*/
 int WWFontClass::String_Pixel_Width(char const* string) const
 {
-    if (string == NULL) {
+    if (string == nullptr) {
         return (0);
     }
     if (string[0] == 0) {
@@ -367,7 +367,7 @@ Point2D WWFontClass::Print(char const* string, Surface& surface, Rect const& cli
                            Point2D const& drawpoint, ConvertClass const& convertref,
                            unsigned char const* remap) const
 {
-    if (string == NULL) {
+    if (string == nullptr) {
         return (drawpoint);
     }
 
@@ -418,7 +418,7 @@ Point2D WWFontClass::Print(char const* string, Surface& surface, Rect const& cli
     **	Check to see if access to the surface buffer is possible.
     */
     void* buffer = surface.Lock();
-    if (buffer != NULL) {
+    if (buffer != nullptr) {
         int startx = xpos;
         unsigned char* fontwidth = ((unsigned char*)FontData) + FontData->WidthBlockOffset;
         unsigned short* fontheight

@@ -64,7 +64,7 @@ PresetMgrClass _ThePresetMgr;
 ///////////////////////////////////////////////////////////////////////
 // Static member initialization
 ///////////////////////////////////////////////////////////////////////
-PresetClass* PresetMgrClass::_PresetListHead = NULL;
+PresetClass* PresetMgrClass::_PresetListHead = nullptr;
 DynamicVectorClass<int> PresetMgrClass::_DirtyPresetList;
 bool PresetMgrClass::_PresetsDirty = false;
 bool PresetMgrClass::_ImmediateCheckInMode = false;
@@ -132,16 +132,16 @@ void PresetMgrClass::Shutdown(void)
 ////////////////////////////////////////////////////////////////////////////
 void PresetMgrClass::Free_Presets(void)
 {
-    PresetClass* curr_preset = NULL;
-    PresetClass* next_preset = NULL;
+    PresetClass* curr_preset = nullptr;
+    PresetClass* next_preset = nullptr;
 
     PresetClass* old_head = _PresetListHead;
-    _PresetListHead = NULL;
+    _PresetListHead = nullptr;
 
     //
     //	Delete all the presets that are currently in our list
     //
-    for (curr_preset = old_head; curr_preset != NULL; curr_preset = next_preset) {
+    for (curr_preset = old_head; curr_preset != nullptr; curr_preset = next_preset) {
         next_preset = curr_preset->m_NextPreset;
         delete curr_preset;
     }
@@ -156,13 +156,13 @@ void PresetMgrClass::Free_Presets(void)
 ////////////////////////////////////////////////////////////////////////////
 void PresetMgrClass::Add_Preset(PresetClass* preset)
 {
-    WWASSERT(preset->m_NextPreset == NULL);
-    WWASSERT(preset->m_PrevPreset == NULL);
+    WWASSERT(preset->m_NextPreset == nullptr);
+    WWASSERT(preset->m_PrevPreset == nullptr);
 
     //
     //	Don't link the new preset unless its not in the list.
     //
-    if ((preset->m_NextPreset == NULL) && (preset->m_PrevPreset == NULL)) {
+    if ((preset->m_NextPreset == nullptr) && (preset->m_PrevPreset == nullptr)) {
         Link_Preset(preset);
     }
 
@@ -181,7 +181,7 @@ void PresetMgrClass::Remove_Preset(PresetClass* preset)
     //
     //	Only unlink the preset if its in the list
     //
-    if ((preset->m_NextPreset != NULL) || (preset->m_PrevPreset != NULL)
+    if ((preset->m_NextPreset != nullptr) || (preset->m_PrevPreset != nullptr)
         || (preset == _PresetListHead)) {
         Unlink_Preset(preset);
     }
@@ -240,8 +240,8 @@ void PresetMgrClass::Unlink_Preset(PresetClass* preset)
     }
 
     // The preset is now un-linked
-    preset->m_NextPreset = NULL;
-    preset->m_PrevPreset = NULL;
+    preset->m_NextPreset = nullptr;
+    preset->m_PrevPreset = nullptr;
     return;
 }
 
@@ -262,7 +262,7 @@ uint32 PresetMgrClass::Chunk_ID(void) const
 ///////////////////////////////////////////////////////////////////////
 bool PresetMgrClass::Contains_Data(void) const
 {
-    return (_PresetListHead != NULL);
+    return (_PresetListHead != nullptr);
 }
 
 ///////////////////////////////////////////////////////////////////////
@@ -275,7 +275,7 @@ bool PresetMgrClass::Save_Embedded_Node_Data(ChunkSaveClass& csave)
     //
     //	Loop over all the presets
     //
-    for (PresetClass* preset = _PresetListHead; preset != NULL; preset = preset->m_NextPreset) {
+    for (PresetClass* preset = _PresetListHead; preset != nullptr; preset = preset->m_NextPreset) {
         //
         //	Does this preset have any embedded nodes?
         //
@@ -309,7 +309,7 @@ bool PresetMgrClass::Save_Embedded_Node_Data(ChunkSaveClass& csave)
 ///////////////////////////////////////////////////////////////////////
 bool PresetMgrClass::Load_Embedded_Node_Data(ChunkLoadClass& cload)
 {
-    PresetClass* curr_preset = NULL;
+    PresetClass* curr_preset = nullptr;
 
     while (cload.Open_Chunk()) {
         switch (cload.Cur_Chunk_ID()) {
@@ -328,7 +328,7 @@ bool PresetMgrClass::Load_Embedded_Node_Data(ChunkLoadClass& cload)
         //	Load the node list for the current preset
         //
         case CHUNKID_NODE_LIST:
-            if (curr_preset != NULL) {
+            if (curr_preset != nullptr) {
                 NodeMgrClass::Load_Node_List(cload, curr_preset->Get_Node_List());
             }
             break;
@@ -406,7 +406,7 @@ bool PresetMgrClass::Load(ChunkLoadClass& cload)
 ///////////////////////////////////////////////////////////////////////
 bool PresetMgrClass::Save_Presets(ChunkSaveClass& csave)
 {
-    for (PresetClass* preset = _PresetListHead; preset != NULL; preset = preset->m_NextPreset) {
+    for (PresetClass* preset = _PresetListHead; preset != nullptr; preset = preset->m_NextPreset) {
 
         //
         //	Save this preset to its own chunk
@@ -435,9 +435,9 @@ bool PresetMgrClass::Load_Presets(ChunkLoadClass& cload)
         //
         PersistFactoryClass* factory
             = SaveLoadSystemClass::Find_Persist_Factory(cload.Cur_Chunk_ID());
-        if (factory != NULL) {
+        if (factory != nullptr) {
             PresetClass* preset = (PresetClass*)factory->Load(cload);
-            if (preset != NULL) {
+            if (preset != nullptr) {
 
                 if (preset->Is_Valid()) {
                     Add_Preset(preset);
@@ -464,13 +464,13 @@ bool PresetMgrClass::Load_Presets(ChunkLoadClass& cload)
 ///////////////////////////////////////////////////////////////////////
 PresetClass* PresetMgrClass::Find_Preset(uint32 id)
 {
-    PresetClass* retval = NULL;
+    PresetClass* retval = nullptr;
 
     //
     //	Lookup the definition, then dig out the preset from the definition
     //
     DefinitionClass* definition = DefinitionMgrClass::Find_Definition(id, false);
-    if (definition != NULL) {
+    if (definition != nullptr) {
         retval = (PresetClass*)definition->Get_User_Data();
     }
 
@@ -484,13 +484,13 @@ PresetClass* PresetMgrClass::Find_Preset(uint32 id)
 ///////////////////////////////////////////////////////////////////////
 PresetClass* PresetMgrClass::Find_Typed_Preset(uint32 class_id, LPCTSTR name)
 {
-    PresetClass* retval = NULL;
+    PresetClass* retval = nullptr;
 
     //
     //	Lookup the definition, then dig out the preset from the definition
     //
     DefinitionClass* definition = DefinitionMgrClass::Find_Typed_Definition(name, class_id, false);
-    if (definition != NULL) {
+    if (definition != nullptr) {
         retval = (PresetClass*)definition->Get_User_Data();
     }
 
@@ -504,13 +504,13 @@ PresetClass* PresetMgrClass::Find_Typed_Preset(uint32 class_id, LPCTSTR name)
 ///////////////////////////////////////////////////////////////////////
 PresetClass* PresetMgrClass::Find_Preset(LPCTSTR name)
 {
-    PresetClass* retval = NULL;
+    PresetClass* retval = nullptr;
 
     //
     //	Lookup the definition, then dig out the preset from the definition
     //
     DefinitionClass* definition = DefinitionMgrClass::Find_Named_Definition(name, false);
-    if (definition != NULL) {
+    if (definition != nullptr) {
         retval = (PresetClass*)definition->Get_User_Data();
     }
 
@@ -538,7 +538,7 @@ bool PresetMgrClass::Is_One_Of(uint32 id_to_find, ID_TYPE type, bool include_twi
     bool retval = false;
 
     DefinitionClass* definition = preset->Get_Definition();
-    if (definition != NULL) {
+    if (definition != nullptr) {
 
         //
         //	Determine which class ID to check
@@ -578,13 +578,13 @@ bool PresetMgrClass::Is_One_Of(uint32 id_to_find, ID_TYPE type, bool include_twi
 ///////////////////////////////////////////////////////////////////////
 PresetClass* PresetMgrClass::Get_First(uint32 id, ID_TYPE type, bool include_twiddlers)
 {
-    PresetClass* req_preset = NULL;
+    PresetClass* req_preset = nullptr;
 
     //
     //	Loop through all the presets until we've found the
     // first one that matches the criteria
     //
-    for (PresetClass* preset = _PresetListHead; preset != NULL; preset = preset->m_NextPreset) {
+    for (PresetClass* preset = _PresetListHead; preset != nullptr; preset = preset->m_NextPreset) {
         if (Is_One_Of(id, type, include_twiddlers, preset)) {
             req_preset = preset;
             break;
@@ -602,20 +602,20 @@ PresetClass* PresetMgrClass::Get_First(uint32 id, ID_TYPE type, bool include_twi
 PresetClass* PresetMgrClass::Get_Next(PresetClass* current, uint32 id, ID_TYPE type,
                                       bool include_twiddlers)
 {
-    PresetClass* req_preset = NULL;
+    PresetClass* req_preset = nullptr;
 
     //
     //	Loop through all the presets until we've found the
     // first one that matches the criteria
     //
-    while ((current = current->m_NextPreset) != NULL) {
+    while ((current = current->m_NextPreset) != nullptr) {
         if (Is_One_Of(id, type, include_twiddlers, current)) {
             req_preset = current;
             break;
         }
 
         /*DefinitionClass *definition = current->Get_Definition ();
-        if (definition != NULL) {
+        if (definition != nullptr) {
                 uint32 class_id = definition->Get_Class_ID ();
 
                 if (type == ID_CLASS) {
@@ -642,7 +642,7 @@ PresetClass* PresetMgrClass::Get_Next(PresetClass* current, uint32 id, ID_TYPE t
                         //	Is this a child of the parent we were looking for?
                         //
                         PresetClass *parent = current->Get_Parent ();
-                        if (parent != NULL && parent->Get_ID () == id) {
+                        if (parent != nullptr && parent->Get_ID () == id) {
                                 req_preset = current;
                         }
                 }
@@ -674,7 +674,7 @@ void PresetMgrClass::Validate_Version(void)
             //
             //	Warn the user
             //
-            Message_Box(NULL, IDS_VERSION_ERROR_MSG, IDS_VERSION_ERROR_TITLE,
+            Message_Box(nullptr, IDS_VERSION_ERROR_MSG, IDS_VERSION_ERROR_TITLE,
                         MB_ICONEXCLAMATION | MB_OK | MB_SETFOREGROUND | MB_SYSTEMMODAL);
         }
     }
@@ -881,17 +881,17 @@ void PresetMgrClass::Build_Preset_Tree(uint32 class_id, PRESET_TREE& tree, bool 
     //
     //	Find all the presets that belong to this class
     //
-    PresetClass* preset = NULL;
-    for (preset = Get_First(class_id, ID_CLASS, include_twiddlers); preset != NULL;
+    PresetClass* preset = nullptr;
+    for (preset = Get_First(class_id, ID_CLASS, include_twiddlers); preset != nullptr;
          preset = Get_Next(preset, class_id, ID_CLASS, include_twiddlers)) {
 
         //
         //	Add this preset to the list
         //
-        if (preset->Get_Parent() == NULL
+        if (preset->Get_Parent() == nullptr
             || preset->Get_Definition()->Get_Class_ID() == CLASSID_TWIDDLERS) {
             PRESET_TREE_LEAF* leaf = tree.Add_Sorted(preset, preset->Get_Name());
-            if (leaf != NULL) {
+            if (leaf != nullptr) {
 
                 //
                 //	Recursively fill in this presets's children
@@ -916,7 +916,7 @@ void PresetMgrClass::Add_Children_To_Tree(uint32 parent_id, PRESET_TREE_LEAF* le
     //	Lookup the parent preset
     //
     PresetClass* parent_preset = Find_Preset(parent_id);
-    if (parent_preset != NULL) {
+    if (parent_preset != nullptr) {
 
         //
         //	Loop over all the children of this preset
@@ -924,7 +924,7 @@ void PresetMgrClass::Add_Children_To_Tree(uint32 parent_id, PRESET_TREE_LEAF* le
         int count = parent_preset->Get_Child_Preset_Count();
         for (int index = 0; index < count; index++) {
             PresetClass* child_preset = parent_preset->Get_Child_Preset(index);
-            if (child_preset != NULL) {
+            if (child_preset != nullptr) {
 
                 //
                 //	Check to see if this meets the twiddler requirement
@@ -935,9 +935,9 @@ void PresetMgrClass::Add_Children_To_Tree(uint32 parent_id, PRESET_TREE_LEAF* le
                     //
                     //	Add this preset to the tree
                     //
-                    PRESET_TREE_LEAF* child_leaf = NULL;
+                    PRESET_TREE_LEAF* child_leaf = nullptr;
                     child_leaf = leaf->Add_Child_Sorted(child_preset, child_preset->Get_Name());
-                    if (child_leaf != NULL) {
+                    if (child_leaf != nullptr) {
 
                         //
                         //	Recursively fill in this presets's children
@@ -979,10 +979,10 @@ void PresetMgrClass::Build_Factory_Tree(uint32 class_id, FACTORY_TREE& tree)
             //
             //	Find all the sub-factories
             //
-            if (DefinitionFactoryMgrClass::Find_Factory(PRESET_CATEGORIES[index].clsid) == NULL) {
+            if (DefinitionFactoryMgrClass::Find_Factory(PRESET_CATEGORIES[index].clsid) == nullptr) {
                 for (DefinitionFactoryClass* factory
                      = DefinitionFactoryMgrClass::Get_First(factory_class_id);
-                     factory != NULL;
+                     factory != nullptr;
                      factory = DefinitionFactoryMgrClass::Get_Next(factory, factory_class_id)) {
                     if (factory->Is_Displayed()) {
                         leaf->Add_Child_Sorted(factory->Get_Class_ID(), factory->Get_Name());
@@ -997,7 +997,7 @@ void PresetMgrClass::Build_Factory_Tree(uint32 class_id, FACTORY_TREE& tree)
         //	Find all the sub-factories
         //
         for (DefinitionFactoryClass* factory = DefinitionFactoryMgrClass::Get_First(class_id);
-             factory != NULL; factory = DefinitionFactoryMgrClass::Get_Next(factory, class_id)) {
+             factory != nullptr; factory = DefinitionFactoryMgrClass::Get_Next(factory, class_id)) {
             if (factory->Is_Displayed()) {
                 tree.Add_Sorted(factory->Get_Class_ID(), factory->Get_Name());
             }
@@ -1036,9 +1036,9 @@ void PresetMgrClass::Remove_Non_Matching_Presets(uint32 class_id, bool class_id_
     //
     //	Loop over all the presets in the system
     //
-    PresetClass* next_preset = NULL;
-    PresetClass* preset = NULL;
-    for (preset = Get_First(); preset != NULL; preset = next_preset) {
+    PresetClass* next_preset = nullptr;
+    PresetClass* preset = nullptr;
+    for (preset = Get_First(); preset != nullptr; preset = next_preset) {
         next_preset = Get_Next(preset);
 
         //
@@ -1046,7 +1046,7 @@ void PresetMgrClass::Remove_Non_Matching_Presets(uint32 class_id, bool class_id_
         //
         uint32 curr_class_id = 0;
         DefinitionClass* definition = preset->Get_Definition();
-        if (definition != NULL) {
+        if (definition != nullptr) {
             curr_class_id = definition->Get_Class_ID();
         }
 
@@ -1072,7 +1072,7 @@ void PresetMgrClass::Remove_Non_Matching_Presets(uint32 class_id, bool class_id_
 void PresetMgrClass::Discard_Preset_Changes(void)
 {
     PresetsFormClass* presets_form = ::Get_Presets_Form();
-    if (presets_form == NULL) {
+    if (presets_form == nullptr) {
         return;
     }
 
@@ -1116,7 +1116,7 @@ void PresetMgrClass::Discard_Preset_Changes(void)
 void PresetMgrClass::Check_In_Presets(void)
 {
     PresetsFormClass* presets_form = ::Get_Presets_Form();
-    if (presets_form == NULL) {
+    if (presets_form == nullptr) {
         return;
     }
 
@@ -1213,7 +1213,7 @@ void PresetMgrClass::Add_Dirty_Preset_Files_To_VSS(void)
         //	If this preset still exists, then update its files
         //
         PresetClass* preset = Find_Preset(preset_id);
-        if (preset != NULL) {
+        if (preset != nullptr) {
             preset->Add_Files_To_VSS();
         }
     }
@@ -1232,13 +1232,13 @@ void PresetMgrClass::Add_Dirty_Preset_Files_To_VSS(void)
 ///////////////////////////////////////////////////////////////////////
 PresetClass* PresetMgrClass::Create_Preset(uint32 class_id, const char* name, bool is_temp)
 {
-    PresetClass* new_preset = NULL;
+    PresetClass* new_preset = nullptr;
 
     //
     //	Lookup the factory for this definition
     //
     DefinitionFactoryClass* factory = DefinitionFactoryMgrClass::Find_Factory(class_id);
-    if (factory != NULL) {
+    if (factory != nullptr) {
 
         //
         //	Create a new definition for the preset
@@ -1265,7 +1265,7 @@ PresetClass* PresetMgrClass::Create_Preset(uint32 class_id, const char* name, bo
         //
         //	Give the preset a name (if necessary)
         //
-        if (name != NULL) {
+        if (name != nullptr) {
             new_preset->Set_Name(name);
         }
     }
@@ -1284,7 +1284,7 @@ void PresetMgrClass::Free_All_Embedded_Nodes(void)
     //	Simply ask each preset in the list to free its
     // embedded nodes
     //
-    for (PresetClass* preset = _PresetListHead; preset != NULL; preset = preset->m_NextPreset) {
+    for (PresetClass* preset = _PresetListHead; preset != nullptr; preset = preset->m_NextPreset) {
         preset->Free_Node_List();
     }
 

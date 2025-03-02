@@ -131,7 +131,7 @@
                 Code that consistently uses RefCountPtr should be safer, cleaner and easier to use
   than code than manually manages reference counts.
 
-                RefCountPtr<T> provides a default constructor, which corresponds to a null pointer,
+                RefCountPtr<T> provides a default constructor, which corresponds to a nullptr pointer,
   and a copy constructor, which handles initialization and an assignment operator, which handles
   pointer copying.
 
@@ -240,7 +240,7 @@ public:
         }
     }
 #else
-    // This allows construction of the smart pointer from 0 (null)
+    // This allows construction of the smart pointer from 0 (nullptr)
     // Without allows unwanted conversions from T * (and related types, including void *)
     RefCountPtr(DummyPtrType* dummy)
         : Referent(0)
@@ -331,7 +331,7 @@ public:
         }
     }
 
-    // This strange conversion allows us to test pointers against null (0) without
+    // This strange conversion allows us to test pointers against nullptr (0) without
     // providing an unsafe conversion to T * (very unsafe) or bool (which can be silently
     //  converted to int, defeating type-safety in some cases).
     //  The compiler will convert our smart pointer to this raw pointer of an undefined

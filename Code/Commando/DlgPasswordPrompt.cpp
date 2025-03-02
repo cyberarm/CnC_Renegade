@@ -67,7 +67,7 @@ bool DlgPasswordPrompt::DoDialog(Signaler<DlgPasswordPrompt>* target)
         dialog->Release_Ref();
     }
 
-    return (dialog != NULL);
+    return (dialog != nullptr);
 }
 
 /******************************************************************************

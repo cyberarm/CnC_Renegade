@@ -193,11 +193,11 @@ bool LineSegClass::Find_Intersection(const LineSegClass& other_line, Vector3* p1
         //
         //	Return the fractions if they caller wants them
         //
-        if (fraction1 != NULL) {
+        if (fraction1 != nullptr) {
             (*fraction1) = length1 / Length;
         }
 
-        if (fraction2 != NULL) {
+        if (fraction2 != nullptr) {
             (*fraction2) = length2 / Length;
         }
 

@@ -153,7 +153,7 @@ public:
     void Paste(HWND);
     void Delete(HWND);
 
-    BOOL Is_Empty() const { return first_pose == NULL; }
+    BOOL Is_Empty() const { return first_pose == nullptr; }
 
     void Update_Object_List(HWND hWnd);
 
@@ -336,10 +336,10 @@ static BOOL CALLBACK Pose_Name_Message_Handler(HWND hWnd, UINT msg, WPARAM wPara
 
 Clipboard_Class::Clipboard_Class()
 {
-    iu = NULL;
-    ip = NULL;
-    hPanel = NULL;
-    first_pose = NULL;
+    iu = nullptr;
+    ip = nullptr;
+    hPanel = nullptr;
+    first_pose = nullptr;
 }
 
 //----------------------------------------------------------------------------
@@ -348,7 +348,7 @@ Clipboard_Class::Clipboard_Class()
 
 Clipboard_Class::~Clipboard_Class()
 {
-    while (first_pose != NULL) {
+    while (first_pose != nullptr) {
         Pose* delete_p = first_pose;
         first_pose = first_pose->next;
         delete delete_p;
@@ -373,10 +373,10 @@ void Clipboard_Class::BeginEditParams(Interface* ip, IUtil* iu)
 
 void Clipboard_Class::EndEditParams(Interface* ip, IUtil* iu)
 {
-    this->iu = NULL;
-    this->ip = NULL;
+    this->iu = nullptr;
+    this->ip = nullptr;
     ip->DeleteRollupPage(hPanel);
-    hPanel = NULL;
+    hPanel = nullptr;
 }
 
 //----------------------------------------------------------------------------
@@ -470,7 +470,7 @@ void Clipboard_Class::Create(HWND hWnd)
 
 void Clipboard_Class::Paste(HWND hWnd)
 {
-    SetCursor(LoadCursor(NULL, IDC_WAIT));
+    SetCursor(LoadCursor(nullptr, IDC_WAIT));
 
     int sel = SendDlgItemMessage(hWnd, IDC_POSE_LIST, CB_GETCURSEL, 0, 0);
 
@@ -482,18 +482,18 @@ void Clipboard_Class::Paste(HWND hWnd)
 
     Pose* p = first_pose;
 
-    while (sel > 0 && p != NULL) {
+    while (sel > 0 && p != nullptr) {
         p = p->next;
         --sel;
     }
 
-    if (p == NULL) {
+    if (p == nullptr) {
         return;
     }
 
     p->Paste_Keys(ip);
 
-    SetCursor(LoadCursor(NULL, IDC_ARROW));
+    SetCursor(LoadCursor(nullptr, IDC_ARROW));
 }
 
 //----------------------------------------------------------------------------
@@ -515,13 +515,13 @@ void Clipboard_Class::Delete(HWND hWnd)
         Pose** pointer_to_p = &first_pose;
         Pose* p = first_pose;
 
-        while (sel > 0 && p != NULL) {
+        while (sel > 0 && p != nullptr) {
             pointer_to_p = &p->next;
             p = p->next;
             --sel;
         }
 
-        if (p != NULL) {
+        if (p != nullptr) {
             *pointer_to_p = p->next;
 
             delete p;
@@ -548,7 +548,7 @@ void Clipboard_Class::Update_Pose_List(HWND hWnd)
 
     // Rebuild the combo box.
 
-    for (Pose* p = first_pose; p != NULL; p = p->next) {
+    for (Pose* p = first_pose; p != nullptr; p = p->next) {
         SendDlgItemMessage(hWnd, IDC_POSE_LIST, CB_ADDSTRING, 0, (LPARAM)(LPCTSTR)p->name());
     }
 }
@@ -570,12 +570,12 @@ void Clipboard_Class::Update_Object_List(HWND hWnd)
     if (sel != CB_ERR) {
         Pose* p = first_pose;
 
-        while (sel > 0 && p != NULL) {
+        while (sel > 0 && p != nullptr) {
             p = p->next;
             --sel;
         }
 
-        if (p != NULL) {
+        if (p != nullptr) {
             p->Add_Objects_To_List(hWnd);
         }
     }
@@ -586,8 +586,8 @@ void Clipboard_Class::Update_Object_List(HWND hWnd)
 //----------------------------------------------------------------------------
 
 Pose::Pose(Interface* ip, const char* name, int first_frame, int last_frame)
-    : first_key(NULL),
-      next(NULL),
+    : first_key(nullptr),
+      next(nullptr),
       ticks_per_frame_(GetTicksPerFrame())
 {
     int number_of_nodes = ip->GetSelNodeCount();
@@ -607,7 +607,7 @@ Pose::Pose(Interface* ip, const char* name, int first_frame, int last_frame)
         INode* inode = ip->GetSelNode(i);
 
         Control* tm_controller = inode->GetTMController();
-        if (tm_controller == NULL) {
+        if (tm_controller == nullptr) {
             continue;
         }
 
@@ -628,7 +628,7 @@ Pose::Pose(Interface* ip, const char* name, int first_frame, int last_frame)
 
             c = tm_controller->GetRotationController();
 
-            if (c != NULL) {
+            if (c != nullptr) {
                 c->GetValue(key_time, &node_orientation, FOREVER);
             }
             else {
@@ -639,7 +639,7 @@ Pose::Pose(Interface* ip, const char* name, int first_frame, int last_frame)
 
             c = tm_controller->GetPositionController();
 
-            if (c != NULL) {
+            if (c != nullptr) {
                 c->GetValue(key_time, &node_position, FOREVER);
             }
             else {
@@ -667,12 +667,12 @@ void Pose::Paste_Keys(Interface* ip)
 
     Node_Key* p = first_key;
 
-    while (p != NULL) {
+    while (p != nullptr) {
         INode* inode = ip->GetINodeByName(p->name());
 
-        if (inode != NULL) {
+        if (inode != nullptr) {
             Control* tm_controller = inode->GetTMController();
-            if (tm_controller != NULL) {
+            if (tm_controller != nullptr) {
                 for (int frame = 0; frame < p->nr_frames(); ++frame) {
                     TimeValue key_time = current_time + frame * ticks_per_frame_;
                     Control* c;
@@ -681,7 +681,7 @@ void Pose::Paste_Keys(Interface* ip)
 
                     c = tm_controller->GetRotationController();
 
-                    if (c != NULL) {
+                    if (c != nullptr) {
                         c->EnableORTs(FALSE);
                         Quat orientation = p->orientation(frame);
                         c->SetValue(key_time, &orientation);
@@ -692,7 +692,7 @@ void Pose::Paste_Keys(Interface* ip)
 
                     c = tm_controller->GetPositionController();
 
-                    if (c != NULL) {
+                    if (c != nullptr) {
                         c->EnableORTs(FALSE);
                         Point3 position = p->position(frame);
                         c->SetValue(key_time, &position);
@@ -720,7 +720,7 @@ void Pose::Paste_Keys(Interface* ip)
 
 void Pose::delete_keys()
 {
-    while (first_key != NULL) {
+    while (first_key != nullptr) {
         Node_Key* delete_p = first_key;
         first_key = first_key->next();
         delete delete_p;
@@ -733,7 +733,7 @@ void Pose::delete_keys()
 
 void Pose::Add_Objects_To_List(HWND hWnd)
 {
-    for (Node_Key* k = first_key; k != NULL; k = k->next()) {
+    for (Node_Key* k = first_key; k != nullptr; k = k->next()) {
         SendDlgItemMessage(hWnd, IDC_OBJECT_LIST, LB_ADDSTRING, 0, (LPARAM)(LPCTSTR)k->name());
     }
 }

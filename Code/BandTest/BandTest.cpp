@@ -219,11 +219,11 @@ char* Addr_As_String(unsigned char* addr);
 // inline char * Addr_As_String(sockaddr_in *) {};
 inline char* Addr_As_String(unsigned char*)
 {
-    return NULL;
+    return nullptr;
 };
 inline char* Addr_As_String2(struct sockaddr_in*)
 {
-    return NULL;
+    return nullptr;
 };
 #endif //_DEBUG
 
@@ -289,7 +289,7 @@ BANDTEST_API unsigned long Detect_Bandwidth(unsigned long server_ip, unsigned lo
         return (BANDTEST_WRONG_API_VERSION);
     }
 
-    if (regpath == NULL) {
+    if (regpath == nullptr) {
         strcpy(RegistryPath, BandTestRegistryLocation);
     }
     else {
@@ -310,7 +310,7 @@ BANDTEST_API unsigned long Detect_Bandwidth(unsigned long server_ip, unsigned lo
 
     int tried = 0;
     int bps = 0;
-    if (settings == NULL) {
+    if (settings == nullptr) {
         settings = &DefaultSettings;
     }
 
@@ -1681,9 +1681,9 @@ bool Send_Raw_UDP(char* payload, int payload_size, SOCKET socket, struct sockadd
     assert(socket != INVALID_SOCKET);
     assert(source_port >= 1024);
     assert(dest_port >= 1024);
-    assert(address != NULL);
+    assert(address != nullptr);
 
-    if (address == NULL) {
+    if (address == nullptr) {
         return (false);
     }
     if (payload_size > 550) {
@@ -1761,9 +1761,9 @@ bool Send_Ping(char* payload, int payload_size, SOCKET socket, struct sockaddr* 
     */
     assert(payload_size < 550);
     assert(socket != INVALID_SOCKET);
-    assert(address != NULL);
+    assert(address != nullptr);
 
-    if (address == NULL) {
+    if (address == nullptr) {
         return (false);
     }
     if (payload_size > 550) {
@@ -1994,7 +1994,7 @@ bool Open_Raw_Sockets(int& failure_code)
     ** Create a socket for UDP packets.
     */
     if (use_group) {
-        RawSocket = WSASocket(AF_INET, SOCK_RAW, IPPROTO_UDP, NULL, SG_UNCONSTRAINED_GROUP, 0);
+        RawSocket = WSASocket(AF_INET, SOCK_RAW, IPPROTO_UDP, nullptr, SG_UNCONSTRAINED_GROUP, 0);
         if (RawSocket == INVALID_SOCKET) {
             DebugString(
                 "Unable to create raw UDP socket with SG_UNCONSTRAINED_GROUP - error code \n",
@@ -2038,7 +2038,7 @@ bool Open_Raw_Sockets(int& failure_code)
     ** Create a socket for ICMP packets.
     */
     if (use_group) {
-        ICMPRawSocket = WSASocket(AF_INET, SOCK_RAW, IPPROTO_ICMP, NULL, group, 0);
+        ICMPRawSocket = WSASocket(AF_INET, SOCK_RAW, IPPROTO_ICMP, nullptr, group, 0);
     }
     else {
         ICMPRawSocket = socket(AF_INET, SOCK_RAW, IPPROTO_ICMP);
@@ -2157,7 +2157,7 @@ int Get_Registry_Int(const char* name, int def_value)
     unsigned long data;
     unsigned long data_size = sizeof(data);
 
-    if (RegQueryValueEx(RegistryKey, name, NULL, &type, (unsigned char*)&data, &data_size)
+    if (RegQueryValueEx(RegistryKey, name, nullptr, &type, (unsigned char*)&data, &data_size)
         == ERROR_SUCCESS) {
         return (data);
     }
@@ -2168,7 +2168,7 @@ bool Open_Registry(void)
 {
     HKEY key;
     unsigned long disposition;
-    long result = RegCreateKeyEx(HKEY_LOCAL_MACHINE, RegistryPath, 0, NULL, 0, KEY_ALL_ACCESS, NULL,
+    long result = RegCreateKeyEx(HKEY_LOCAL_MACHINE, RegistryPath, 0, nullptr, 0, KEY_ALL_ACCESS, nullptr,
                                  &key, &disposition);
     if (result == ERROR_SUCCESS) {
         RegistryKey = key;
@@ -2215,21 +2215,21 @@ void DebugString(char const* string, ...)
 
     DWORD actual;
     if (DebugFile == INVALID_HANDLE_VALUE) {
-        GetModuleFileName(GetModuleHandle(NULL), &path_to_exe[0], 512);
-        _splitpath(path_to_exe, drive, dir, NULL, NULL);
+        GetModuleFileName(GetModuleHandle(nullptr), &path_to_exe[0], 512);
+        _splitpath(path_to_exe, drive, dir, nullptr, nullptr);
         _makepath(DebugFileName, drive, dir, "bandtest", "txt");
-        DebugFile = CreateFile(DebugFileName, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS,
-                               FILE_ATTRIBUTE_NORMAL, NULL);
+        DebugFile = CreateFile(DebugFileName, GENERIC_WRITE, 0, nullptr, CREATE_ALWAYS,
+                               FILE_ATTRIBUTE_NORMAL, nullptr);
     }
     else {
-        DebugFile = CreateFile(DebugFileName, GENERIC_WRITE, 0, NULL, OPEN_EXISTING,
-                               FILE_ATTRIBUTE_NORMAL, NULL);
+        DebugFile = CreateFile(DebugFileName, GENERIC_WRITE, 0, nullptr, OPEN_EXISTING,
+                               FILE_ATTRIBUTE_NORMAL, nullptr);
     }
 
     OutputDebugString(buffer);
 
     if (DebugFile != INVALID_HANDLE_VALUE) {
-        SetFilePointer(DebugFile, 0, NULL, FILE_END);
+        SetFilePointer(DebugFile, 0, nullptr, FILE_END);
 
         char* srcbuf = buffer;
         char* destbuf = filebuf;
@@ -2244,7 +2244,7 @@ void DebugString(char const* string, ...)
         }
         *destbuf = 0;
 
-        WriteFile(DebugFile, filebuf, strlen(filebuf), &actual, NULL);
+        WriteFile(DebugFile, filebuf, strlen(filebuf), &actual, nullptr);
         CloseHandle(DebugFile);
     }
 }

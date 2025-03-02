@@ -63,7 +63,7 @@ public:
     //
     GrabHandlePhysClass(void)
         : m_iVertex(0),
-          m_pParent(NULL),
+          m_pParent(nullptr),
           m_HitTestInfo(this),
           NodeFunctionClass(),
           Box3DPhysClass()

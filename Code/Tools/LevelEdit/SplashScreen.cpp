@@ -36,9 +36,9 @@ static char THIS_FILE[] = __FILE__;
 ///////////////////////////////////////////////////////////////////////
 SplashScreenClass::SplashScreenClass(void)
     : m_Size(0, 0),
-      m_hFont(NULL),
-      m_hBitmap(NULL),
-      m_hMemDC(NULL)
+      m_hFont(nullptr),
+      m_hBitmap(nullptr),
+      m_hMemDC(nullptr)
 {
     return;
 }
@@ -89,14 +89,14 @@ int SplashScreenClass::OnCreate(LPCREATESTRUCT lpCreateStruct)
         //
         m_Size.cx = bmp_info.bmWidth;
         m_Size.cy = bmp_info.bmHeight;
-        SetWindowPos(NULL, (::GetSystemMetrics(SM_CXSCREEN) >> 1) - (m_Size.cx >> 1),
+        SetWindowPos(nullptr, (::GetSystemMetrics(SM_CXSCREEN) >> 1) - (m_Size.cx >> 1),
                      (::GetSystemMetrics(SM_CYSCREEN) >> 1) - (m_Size.cy >> 1), m_Size.cx,
                      m_Size.cy, SWP_NOZORDER);
 
         //
         //	Create a memory DC (for drawing) and the font object we will use
         //
-        m_hMemDC = ::CreateCompatibleDC(NULL);
+        m_hMemDC = ::CreateCompatibleDC(nullptr);
         m_hFont = ::CreateFont(-::MulDiv(7, GetDeviceCaps(m_hMemDC, LOGPIXELSY), 72), 0, 0, 0,
                                FW_REGULAR, FALSE, FALSE, FALSE, ANSI_CHARSET, OUT_DEFAULT_PRECIS,
                                CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH, "Small Fonts");
@@ -115,7 +115,7 @@ void SplashScreenClass::OnPaint(void)
 {
     CPaintDC dc(this);
 
-    if (m_hMemDC != NULL && m_hBitmap != NULL) {
+    if (m_hMemDC != nullptr && m_hBitmap != nullptr) {
 
         //
         //	Paint the BMP into the window
@@ -178,7 +178,7 @@ void SplashScreenClass::Paint_Status_Text(HDC hdc)
         rect.top = 224;
         rect.bottom = 238;
         //::DrawText (hdc, m_StatusText, m_StatusText.GetLength (), &rect, DT_LEFT | DT_BOTTOM);
-        ::ExtTextOut(hdc, 15, 225, ETO_OPAQUE, &rect, m_StatusText, m_StatusText.GetLength(), NULL);
+        ::ExtTextOut(hdc, 15, 225, ETO_OPAQUE, &rect, m_StatusText, m_StatusText.GetLength(), nullptr);
 
         // Restore the original settings
         ::SelectObject(hdc, old_brush);
@@ -196,19 +196,19 @@ void SplashScreenClass::Paint_Status_Text(HDC hdc)
 ///////////////////////////////////////////////////////////////////////
 void SplashScreenClass::OnDestroy(void)
 {
-    if (m_hMemDC != NULL) {
+    if (m_hMemDC != nullptr) {
         ::DeleteDC(m_hMemDC);
-        m_hMemDC = NULL;
+        m_hMemDC = nullptr;
     }
 
-    if (m_hBitmap != NULL) {
+    if (m_hBitmap != nullptr) {
         ::DeleteObject(m_hBitmap);
-        m_hBitmap = NULL;
+        m_hBitmap = nullptr;
     }
 
-    if (m_hFont != NULL) {
+    if (m_hFont != nullptr) {
         ::DeleteObject(m_hFont);
-        m_hFont = NULL;
+        m_hFont = nullptr;
     }
 
     CWnd::OnDestroy();

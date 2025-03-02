@@ -55,7 +55,7 @@ static char _string[256];
 
 static int get_geometry_type(INode* node)
 {
-    assert(node != NULL);
+    assert(node != nullptr);
     return W3DAppData2Struct::Get_App_Data(node)->Get_Geometry_Type();
 
     // return (get_w3d_bits(node) & GEO_TYPE_MASK);
@@ -176,13 +176,13 @@ void Split_Node_Name(const char* name, char* set_base, char* set_exten, int* set
     assert(strlen(name) < MAX_NODE_NAME_LEN);
 
     // Initialize
-    if (set_base != NULL) {
+    if (set_base != nullptr) {
         set_base[0] = 0;
     }
-    if (set_exten != NULL) {
+    if (set_exten != nullptr) {
         set_exten[0] = 0;
     }
-    if (set_exten_index != NULL) {
+    if (set_exten_index != nullptr) {
         *set_exten_index = 0;
     }
 
@@ -197,26 +197,26 @@ void Split_Node_Name(const char* name, char* set_base, char* set_exten, int* set
 
         // copy what we have so far into set_base
         *ptr = 0;
-        if (set_base != NULL) {
+        if (set_base != nullptr) {
             strncpy(set_base, buf, MAX_NODE_NAME_LEN);
         }
 
         // copy the rest back into the extension
         ptr++;
-        if (set_exten != NULL) {
+        if (set_exten != nullptr) {
             strncpy(set_exten, ptr, MAX_NODE_NAME_LEN);
         }
 
         // now get the extension index
         ptr++;
-        if (set_exten_index != NULL) {
+        if (set_exten_index != nullptr) {
             *set_exten_index = atoi(ptr);
         }
     }
     else {
 
         // no extension, just copy the base name
-        if (set_base != NULL) {
+        if (set_base != nullptr) {
             strncpy(set_base, buf, MAX_NODE_NAME_LEN);
         }
         return;
@@ -225,7 +225,7 @@ void Split_Node_Name(const char* name, char* set_base, char* set_exten, int* set
 
 bool Append_Lod_Character(char* meshname, int lod_level, INodeListClass* origin_list)
 {
-    if (meshname == NULL || lod_level < 0) {
+    if (meshname == nullptr || lod_level < 0) {
         return false;
     }
 
@@ -240,7 +240,7 @@ bool Append_Lod_Character(char* meshname, int lod_level, INodeListClass* origin_
     ** If there is, we will append the current LOD level digit to the name.
     ** If there is not, the name will not be modified.
     */
-    INode *conflict = NULL, *cur_origin = NULL;
+    INode *conflict = nullptr, *cur_origin = nullptr;
     int i, lod;
     for (i = 0; i < num_lods; i++) {
         // Don't bother searching the current LOD.
@@ -287,10 +287,10 @@ void Create_Full_Path(char* full_path, const char* curr, const char* rel_path)
     // Copy current dir to full path. If it doesn't end with a slash, add one.
     strcpy(full_path, curr);
     int curr_len = strlen(curr);
-    char* full_p = full_path + curr_len; // Point at the terminating NULL
+    char* full_p = full_path + curr_len; // Point at the terminating nullptr
     if (curr_len == 0 || (*(full_p - 1) != '/' && *(full_p - 1) != '\\')) {
         *full_p = '\\';
-        *(++full_p) = '\000'; // Point at the terminating NULL
+        *(++full_p) = '\000'; // Point at the terminating nullptr
     }
 
     // Scan "..\"s at the beginning of the rel path, scan backwards on the
@@ -312,7 +312,7 @@ void Create_Full_Path(char* full_path, const char* curr, const char* rel_path)
 // This enum is used inside Create_Relative_Path:
 enum PathCharType
 {
-    NULL_CHAR,
+    nullptr_CHAR,
     SLASH_CHAR,
     PLAIN_CHAR
 };
@@ -347,11 +347,11 @@ void Create_Relative_Path(char* rel_path, const char* curr, const char* full_pat
         goto end;
     }
 
-    // The first different character for each string can be: a NULL, a slash,
+    // The first different character for each string can be: a nullptr, a slash,
     // or an ordinary character.
     PathCharType full_type, curr_type;
     if (*full_p == '\000') {
-        full_type = NULL_CHAR;
+        full_type = nullptr_CHAR;
     }
     else {
         if (*full_p == '/' || *full_p == '\\') {
@@ -362,7 +362,7 @@ void Create_Relative_Path(char* rel_path, const char* curr, const char* full_pat
         }
     }
     if (*curr_p == '\000') {
-        curr_type = NULL_CHAR;
+        curr_type = nullptr_CHAR;
     }
     else {
         if (*curr_p == '/' || *curr_p == '\\') {
@@ -372,17 +372,17 @@ void Create_Relative_Path(char* rel_path, const char* curr, const char* full_pat
             curr_type = PLAIN_CHAR;
         }
     }
-    // If the last fullpath char is a NULL or both are slashes, we have an
+    // If the last fullpath char is a nullptr or both are slashes, we have an
     // error - return full path
-    if (full_type == NULL_CHAR || (full_type == SLASH_CHAR && curr_type == SLASH_CHAR)) {
+    if (full_type == nullptr_CHAR || (full_type == SLASH_CHAR && curr_type == SLASH_CHAR)) {
         strcpy(rel_path, up_full);
         goto end;
     }
 
-    // If the current path has ended (last char is a NULL) and the full path's
+    // If the current path has ended (last char is a nullptr) and the full path's
     // last char is a slash, then just copy the remainder of the full path
     // (w/o the slash) to the relative path, and exit.
-    if (curr_type == NULL_CHAR && full_type == SLASH_CHAR) {
+    if (curr_type == nullptr_CHAR && full_type == SLASH_CHAR) {
         full_p++; // skip slash
         strcpy(rel_path, full_p);
         goto end;
@@ -390,7 +390,7 @@ void Create_Relative_Path(char* rel_path, const char* curr, const char* full_pat
 
     // If one of following holds:
     // 1) One of the last chars is a slash and the other is a plain char
-    // 2) The current path has ended (last char is NULL) and the last char
+    // 2) The current path has ended (last char is nullptr) and the last char
     //    of the full path is a plain char
     // 3) The last char of both are plain chars and the previous char is not a
     //    slash
@@ -398,7 +398,7 @@ void Create_Relative_Path(char* rel_path, const char* curr, const char* full_pat
     // are slashes. If there are no previous slashes, we have an error.
     if ((full_type == SLASH_CHAR && curr_type == PLAIN_CHAR)
         || (curr_type == SLASH_CHAR && full_type == PLAIN_CHAR)
-        || (curr_type == NULL_CHAR && full_type == PLAIN_CHAR)
+        || (curr_type == nullptr_CHAR && full_type == PLAIN_CHAR)
         || (curr_type == PLAIN_CHAR && full_type == PLAIN_CHAR && *(full_p - 1) != '/'
             && *(full_p - 1) != '\\')) {
         for (; full_p > up_full
@@ -448,7 +448,7 @@ end:
 bool Is_Full_Path(char* path)
 {
     // first scan for a drive letter (scan for a colon)
-    if (strchr(path, ':') != NULL) {
+    if (strchr(path, ':') != nullptr) {
         return true;
     }
 
@@ -487,7 +487,7 @@ bool Is_Max_Tri_Mesh(INode* node)
 
 bool Is_Damage_Root(INode* node)
 {
-    if (node == NULL) {
+    if (node == nullptr) {
         return false;
     }
 
@@ -640,12 +640,12 @@ int Get_Damage_State(INode* node)
 INode* Find_Named_Node(char* nodename, INode* root)
 {
     if (!root || !nodename) {
-        return NULL;
+        return nullptr;
     }
 
     // Perform a breadth-first search of the tree for a node
     // of the given name.
-    INode* child = NULL;
+    INode* child = nullptr;
     int i;
     char cur_name[W3D_NAME_LEN];
 
@@ -675,5 +675,5 @@ INode* Find_Named_Node(char* nodename, INode* root)
     }
 
     // Didn't find the node anywhere.
-    return NULL;
+    return nullptr;
 }

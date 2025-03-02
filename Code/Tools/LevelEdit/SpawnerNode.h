@@ -64,7 +64,7 @@ public:
     //////////////////////////////////////////////////////////////////
     //	Public constructors/destructors
     //////////////////////////////////////////////////////////////////
-    SpawnerNodeClass(PresetClass* preset = NULL);
+    SpawnerNodeClass(PresetClass* preset = nullptr);
     SpawnerNodeClass(const SpawnerNodeClass& src);
     ~SpawnerNodeClass(void);
 
@@ -170,7 +170,7 @@ inline void SpawnerNodeClass::On_Rotate(void)
 {
     Update_Lines();
 
-    if (m_SpawnerObj != NULL) {
+    if (m_SpawnerObj != nullptr) {
         m_SpawnerObj->Set_TM(m_Transform);
     }
     NodeClass::On_Rotate();
@@ -184,7 +184,7 @@ inline void SpawnerNodeClass::On_Translate(void)
 {
     Update_Lines();
 
-    if (m_SpawnerObj != NULL) {
+    if (m_SpawnerObj != nullptr) {
         m_SpawnerObj->Set_TM(m_Transform);
     }
     NodeClass::On_Translate();
@@ -198,7 +198,7 @@ inline void SpawnerNodeClass::On_Transform(void)
 {
     Update_Lines();
 
-    if (m_SpawnerObj != NULL) {
+    if (m_SpawnerObj != nullptr) {
         m_SpawnerObj->Set_TM(m_Transform);
     }
     NodeClass::On_Transform();

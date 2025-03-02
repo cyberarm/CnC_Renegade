@@ -273,8 +273,8 @@ DamageableStaticPhysClass::~DamageableStaticPhysClass(void)
 
 void DamageableStaticPhysClass::Init(const DamageableStaticPhysDefClass& def)
 {
-    // DamageableStaticPhys are not PhysicalGameObjs, so pass in a NULL owner
-    DefenseObject.Init(def.DefenseObjectDef, NULL);
+    // DamageableStaticPhys are not PhysicalGameObjs, so pass in a nullptr owner
+    DefenseObject.Init(def.DefenseObjectDef, nullptr);
     StaticAnimPhysClass::Init(def);
     Start_Loop();
 }
@@ -323,7 +323,7 @@ void DamageableStaticPhysClass::Apply_Damage_Static(const OffenseObjectClass& of
         */
         const DamageableStaticPhysDefClass* def = Get_DamageableStaticPhysDef();
         if (def->KilledExplosion != 0) {
-            ExplosionManager::Create_Explosion_At(def->KilledExplosion, Get_Transform(), NULL);
+            ExplosionManager::Create_Explosion_At(def->KilledExplosion, Get_Transform(), nullptr);
         }
     }
     else {
@@ -344,7 +344,7 @@ void DamageableStaticPhysClass::Reset_Health(void)
 void DamageableStaticPhysClass::Start_Loop(void)
 {
     const DamageableStaticPhysDefClass* def = Get_DamageableStaticPhysDef();
-    if (def != NULL) {
+    if (def != nullptr) {
 
         int frame0, frame1;
 
@@ -388,7 +388,7 @@ void DamageableStaticPhysClass::Play_Twitch(void)
     ** Play the appropriate twitch depending on whether we are alive or dead
     */
     const DamageableStaticPhysDefClass* def = Get_DamageableStaticPhysDef();
-    if (def != NULL) {
+    if (def != nullptr) {
 
         /*
         ** Don't interrupt other twitches if the designer doesn't want us to
@@ -424,7 +424,7 @@ void DamageableStaticPhysClass::Play_Twitch(void)
 void DamageableStaticPhysClass::Play_Death_Transition(void)
 {
     const DamageableStaticPhysDefClass* def = Get_DamageableStaticPhysDef();
-    if (def != NULL) {
+    if (def != nullptr) {
 
         if (def->DeathTransitionStart != def->DeathTransitionEnd) {
             CurState = STATE_DEATH_TRANSITION;

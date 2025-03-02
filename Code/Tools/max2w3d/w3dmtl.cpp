@@ -94,8 +94,8 @@ void W3dMapClass::Reset(void)
     if (AnimInfo) {
         delete AnimInfo;
     }
-    Filename = NULL;
-    AnimInfo = NULL;
+    Filename = nullptr;
+    AnimInfo = nullptr;
 }
 
 void W3dMapClass::Set_Filename(const char* fullpath)
@@ -108,28 +108,28 @@ void W3dMapClass::Set_Filename(const char* fullpath)
         char exten[_MAX_EXT];
         char fname[_MAX_FNAME + _MAX_EXT + 2];
 
-        _splitpath(fullpath, NULL, NULL, name, exten);
-        _makepath(fname, NULL, NULL, name, exten);
+        _splitpath(fullpath, nullptr, nullptr, name, exten);
+        _makepath(fname, nullptr, nullptr, name, exten);
         // strupr(fname);						(gth) need to preserve case
         // since unix/PS2 is case sensitive...
         Filename = strdup(fname);
     }
     else {
-        Filename = NULL;
+        Filename = nullptr;
     }
 }
 
 void W3dMapClass::Set_Anim_Info(const W3dTextureInfoStruct* info)
 {
-    if (info == NULL) {
+    if (info == nullptr) {
         if (AnimInfo) {
             delete AnimInfo;
-            AnimInfo = NULL;
+            AnimInfo = nullptr;
             return;
         }
     }
     else {
-        if (AnimInfo == NULL) {
+        if (AnimInfo == nullptr) {
             AnimInfo = new W3dTextureInfoStruct;
         }
         *AnimInfo = *info;
@@ -138,7 +138,7 @@ void W3dMapClass::Set_Anim_Info(const W3dTextureInfoStruct* info)
 
 void W3dMapClass::Set_Anim_Info(int framecount, float framerate)
 {
-    if (AnimInfo == NULL) {
+    if (AnimInfo == nullptr) {
         AnimInfo = new W3dTextureInfoStruct;
     }
 
@@ -159,12 +159,12 @@ W3dMaterialClass::W3dMaterialClass(void)
     PassCount = 0;
     SortLevel = SORT_LEVEL_NONE;
     for (int pass = 0; pass < MAX_PASSES; pass++) {
-        Materials[pass] = NULL;
+        Materials[pass] = nullptr;
         W3d_Shader_Reset(&(Shaders[pass]));
         for (int stage = 0; stage < MAX_STAGES; stage++) {
-            Textures[pass][stage] = NULL;
+            Textures[pass][stage] = nullptr;
             MapChannel[pass][stage] = 1;
-            MapperArgs[pass][stage] = NULL;
+            MapperArgs[pass][stage] = nullptr;
         }
     }
 }
@@ -180,18 +180,18 @@ void W3dMaterialClass::Free(void)
 
         if (Materials[pass]) {
             delete Materials[pass];
-            Materials[pass] = NULL;
+            Materials[pass] = nullptr;
         }
 
         for (int stage = 0; stage < MAX_STAGES; stage++) {
             if (Textures[pass][stage]) {
                 delete Textures[pass][stage];
-                Textures[pass][stage] = NULL;
+                Textures[pass][stage] = nullptr;
             }
 
             if (MapperArgs[pass][stage]) {
                 delete[] MapperArgs[pass][stage];
-                MapperArgs[pass][stage] = NULL;
+                MapperArgs[pass][stage] = nullptr;
             }
         }
     }
@@ -233,7 +233,7 @@ void W3dMaterialClass::Set_Vertex_Material(const W3dVertexMaterialStruct& vmat, 
     assert(pass >= 0);
     assert(pass < PassCount);
 
-    if (Materials[pass] == NULL) {
+    if (Materials[pass] == nullptr) {
         Materials[pass] = new W3dVertexMaterialStruct;
     }
     *(Materials[pass]) = vmat;
@@ -246,9 +246,9 @@ void W3dMaterialClass::Set_Mapper_Args(const char* args_buffer, int pass, int st
     assert(stage >= 0);
     assert(stage < MAX_STAGES);
 
-    if (MapperArgs[pass][stage] != NULL) {
+    if (MapperArgs[pass][stage] != nullptr) {
         delete[] MapperArgs[pass][stage];
-        MapperArgs[pass][stage] = NULL;
+        MapperArgs[pass][stage] = nullptr;
     }
     if (args_buffer) {
         int len = strlen(args_buffer);
@@ -270,7 +270,7 @@ void W3dMaterialClass::Set_Texture(const W3dMapClass& map, int pass, int stage)
     assert(pass >= 0);
     assert(pass < PassCount);
 
-    if (Textures[pass][stage] == NULL) {
+    if (Textures[pass][stage] == nullptr) {
         Textures[pass][stage] = new W3dMapClass;
     }
     *(Textures[pass][stage]) = map;
@@ -658,7 +658,7 @@ void W3dMaterialClass::Init(GameMtl* gamemtl)
         ** install the two textures if present
         */
         W3dMapClass w3dmap;
-        BitmapTex* tex = NULL;
+        BitmapTex* tex = nullptr;
 
         for (int stage = 0; stage < MAX_STAGES; stage++) {
 
@@ -745,10 +745,10 @@ bool W3dMaterialClass::Is_Multi_Pass_Transparent(void) const
 W3dMaterialDescClass::VertMatClass::VertMatClass(void)
     : PassIndex(-1),
       Crc(0),
-      Name(NULL)
+      Name(nullptr)
 {
     for (int stage = 0; stage < W3dMaterialClass::MAX_STAGES; ++stage) {
-        MapperArgs[stage] = NULL;
+        MapperArgs[stage] = nullptr;
     }
 }
 
@@ -761,7 +761,7 @@ W3dMaterialDescClass::VertMatClass::~VertMatClass(void)
     for (int stage = 0; stage < W3dMaterialClass::MAX_STAGES; ++stage) {
         if (MapperArgs[stage]) {
             delete[] (MapperArgs[stage]);
-            MapperArgs[stage] = NULL;
+            MapperArgs[stage] = nullptr;
         }
     }
 }
@@ -802,7 +802,7 @@ void W3dMaterialDescClass::VertMatClass::Set_Name(const char* name)
         Name = strdup(name);
     }
     else {
-        Name = NULL;
+        Name = nullptr;
     }
 }
 
@@ -810,7 +810,7 @@ void W3dMaterialDescClass::VertMatClass::Set_Mapper_Args(const char* args, int s
 {
     if (MapperArgs[stage]) {
         delete[] (MapperArgs[stage]);
-        MapperArgs[stage] = NULL;
+        MapperArgs[stage] = nullptr;
     }
 
     if (args) {
@@ -819,7 +819,7 @@ void W3dMaterialDescClass::VertMatClass::Set_Mapper_Args(const char* args, int s
         strcpy(MapperArgs[stage], args);
     }
     else {
-        MapperArgs[stage] = NULL;
+        MapperArgs[stage] = nullptr;
     }
 }
 
@@ -1048,7 +1048,7 @@ W3dVertexMaterialStruct* W3dMaterialDescClass::Get_Vertex_Material(int mat_index
 {
     int index = Get_Vertex_Material_Index(mat_index, pass);
     if (index == -1) {
-        return NULL;
+        return nullptr;
     }
     else {
         return Get_Vertex_Material(index);
@@ -1059,7 +1059,7 @@ const char* W3dMaterialDescClass::Get_Mapper_Args(int mat_index, int pass, int s
 {
     int index = Get_Vertex_Material_Index(mat_index, pass);
     if (index == -1) {
-        return NULL;
+        return nullptr;
     }
     else {
         return Get_Mapper_Args(index, stage);
@@ -1070,7 +1070,7 @@ W3dShaderStruct* W3dMaterialDescClass::Get_Shader(int mat_index, int pass)
 {
     int index = Get_Shader_Index(mat_index, pass);
     if (index == -1) {
-        return NULL;
+        return nullptr;
     }
     else {
         return Get_Shader(index);
@@ -1081,7 +1081,7 @@ W3dMapClass* W3dMaterialDescClass::Get_Texture(int mat_index, int pass, int stag
 {
     int index = Get_Texture_Index(mat_index, stage, pass);
     if (index == -1) {
-        return NULL;
+        return nullptr;
     }
     else {
         return Get_Texture(index);
@@ -1097,7 +1097,7 @@ const char* W3dMaterialDescClass::Get_Vertex_Material_Name(int mat_index, int pa
 {
     int index = Get_Vertex_Material_Index(mat_index, pass);
     if (index == -1) {
-        return NULL;
+        return nullptr;
     }
     else {
         return VertexMaterials[index].Name;
@@ -1171,7 +1171,7 @@ int W3dMaterialDescClass::Add_Vertex_Material(W3dVertexMaterialStruct* vmat,
                                               const char* mapper_args0, const char* mapper_args1,
                                               int pass, const char* name)
 {
-    if (vmat == NULL) {
+    if (vmat == nullptr) {
         return -1;
     }
 
@@ -1217,7 +1217,7 @@ int W3dMaterialDescClass::Add_Shader(const W3dShaderStruct& shader, int pass)
 
 int W3dMaterialDescClass::Add_Texture(W3dMapClass* map, int pass, int stage)
 {
-    if ((map == NULL) || (map->Filename == NULL)) {
+    if ((map == nullptr) || (map->Filename == nullptr)) {
         return -1;
     }
 
@@ -1270,7 +1270,7 @@ unsigned long W3dMaterialDescClass::Compute_Crc(const W3dShaderStruct& shader)
 unsigned long W3dMaterialDescClass::Compute_Crc(const W3dMapClass& map)
 {
     unsigned long crc = 0;
-    if (map.AnimInfo != NULL) {
+    if (map.AnimInfo != nullptr) {
         crc = CRC_Memory((const unsigned char*)&map.AnimInfo->Attributes,
                          sizeof(map.AnimInfo->Attributes), crc);
         crc = CRC_Memory((const unsigned char*)&map.AnimInfo->AnimType,
@@ -1313,7 +1313,7 @@ unsigned long W3dMaterialDescClass::Add_String_To_Crc(const char* str, unsigned 
 
         // Erase any trailing newlines:
         if (count) {
-            // p_out now points to the ending null - make it point to the
+            // p_out now points to the ending nullptr - make it point to the
             // character before it (the last character of the string proper)
             p_out--;
 

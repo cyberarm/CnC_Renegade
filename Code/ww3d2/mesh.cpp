@@ -163,14 +163,14 @@ enum
  *   1/6/98     GTH : Created.                                                                 *
  *=============================================================================================*/
 MeshClass::MeshClass(void)
-    : Model(NULL),
-      DecalMesh(NULL),
-      LightEnvironment(NULL),
+    : Model(nullptr),
+      DecalMesh(nullptr),
+      LightEnvironment(nullptr),
       BaseVertexOffset(0),
-      NextVisibleSkin(NULL),
+      NextVisibleSkin(nullptr),
       IsDisabledByDebugger(false),
       MeshDebugId(MeshDebugIdCount++),
-      UserLighting(NULL)
+      UserLighting(nullptr)
 {
 }
 
@@ -189,14 +189,14 @@ MeshClass::MeshClass(void)
  *=============================================================================================*/
 MeshClass::MeshClass(const MeshClass& that)
     : RenderObjClass(that),
-      Model(NULL),
-      DecalMesh(NULL),
-      LightEnvironment(NULL),
+      Model(nullptr),
+      DecalMesh(nullptr),
+      LightEnvironment(nullptr),
       BaseVertexOffset(that.BaseVertexOffset),
-      NextVisibleSkin(NULL),
+      NextVisibleSkin(nullptr),
       IsDisabledByDebugger(false),
       MeshDebugId(MeshDebugIdCount++),
-      UserLighting(NULL)
+      UserLighting(nullptr)
 {
     REF_PTR_SET(Model, that.Model); // mesh instances share models by default
 }
@@ -226,11 +226,11 @@ MeshClass& MeshClass::operator=(const MeshClass& that)
 
         // just dont copy the decals or light environment
         REF_PTR_RELEASE(DecalMesh);
-        LightEnvironment = NULL;
+        LightEnvironment = nullptr;
 
-        if (UserLighting != NULL) {
+        if (UserLighting != nullptr) {
             delete[] UserLighting;
-            UserLighting = NULL;
+            UserLighting = nullptr;
         }
     }
     return *this;
@@ -291,9 +291,9 @@ void MeshClass::Free(void)
 {
     REF_PTR_RELEASE(Model);
     REF_PTR_RELEASE(DecalMesh);
-    if (UserLighting != NULL) {
+    if (UserLighting != nullptr) {
         delete[] UserLighting;
-        UserLighting = NULL;
+        UserLighting = nullptr;
     }
 }
 
@@ -402,7 +402,7 @@ MaterialInfoClass* MeshClass::Get_Material_Info(void)
             return Model->MatInfo;
         }
     }
-    return NULL;
+    return nullptr;
 }
 
 /***********************************************************************************************
@@ -419,7 +419,7 @@ MaterialInfoClass* MeshClass::Get_Material_Info(void)
  *=============================================================================================*/
 MeshModelClass* MeshClass::Get_Model(void)
 {
-    if (Model != NULL) {
+    if (Model != nullptr) {
         Model->Add_Ref();
     }
     return Model;
@@ -523,8 +523,8 @@ void MeshClass::Get_Deformed_Vertices(Vector3* dst_vert, Vector3* dst_norm)
 void MeshClass::Get_Deformed_Vertices(Vector3* dst_vert)
 {
     WWASSERT(Model->Get_Flag(MeshGeometryClass::SKIN));
-    WWASSERT(Container != NULL);
-    WWASSERT(Container->Get_HTree() != NULL);
+    WWASSERT(Container != nullptr);
+    WWASSERT(Container->Get_HTree() != nullptr);
 
     Model->get_deformed_vertices(dst_vert, Container->Get_HTree());
 }
@@ -574,7 +574,7 @@ void MeshClass::Create_Decal(DecalGeneratorClass* generator)
         Model->Generate_Rigid_APT(localbox, temp_apt);
 
         if (temp_apt.Count() > 0) {
-            if (DecalMesh == NULL) {
+            if (DecalMesh == nullptr) {
                 DecalMesh = NEW_REF(RigidDecalMeshClass, (this, generator->Peek_Decal_System()));
             }
             DecalMesh->Create_Decal(generator, localbox, temp_apt);
@@ -604,7 +604,7 @@ void MeshClass::Create_Decal(DecalGeneratorClass* generator)
 
         // if it is not empty, add a decal
         if (temp_apt.Count() > 0) {
-            if (DecalMesh == NULL) {
+            if (DecalMesh == nullptr) {
                 DecalMesh = NEW_REF(SkinDecalMeshClass, (this, generator->Peek_Decal_System()));
             }
             DecalMesh->Create_Decal(generator, worldbox, temp_apt, &_TempVertexBuffer);
@@ -626,7 +626,7 @@ void MeshClass::Create_Decal(DecalGeneratorClass* generator)
  *=============================================================================================*/
 void MeshClass::Delete_Decal(uint32 decal_id)
 {
-    if (DecalMesh != NULL) {
+    if (DecalMesh != nullptr) {
         DecalMesh->Delete_Decal(decal_id);
     }
 }
@@ -789,14 +789,14 @@ void MeshClass::Render(RenderInfoClass& rinfo)
             ** to tell the mesh rendering system to process this skin
             */
             if (rendered_something && Model->Get_Flag(MeshGeometryClass::SKIN)) {
-                // WWASSERT(dynamic_cast<DX8SkinFVFCategoryContainer *>(fvf_container) != NULL);
+                // WWASSERT(dynamic_cast<DX8SkinFVFCategoryContainer *>(fvf_container) != nullptr);
                 static_cast<DX8SkinFVFCategoryContainer*>(fvf_container)->Add_Visible_Skin(this);
             }
 
             /*
             ** If we have a decal mesh, link it into the mesh rendering system
             */
-            if ((DecalMesh != NULL)
+            if ((DecalMesh != nullptr)
                 && ((rinfo.Current_Override_Flags()
                      & RenderInfoClass::RINFO_OVERRIDE_ADDITIONAL_PASSES_ONLY)
                     == 0)) {
@@ -828,7 +828,7 @@ void MeshClass::Render(RenderInfoClass& rinfo)
  *=============================================================================================*/
 void MeshClass::Render_Material_Pass(MaterialPassClass* pass, IndexBufferClass* ib)
 {
-    if (LightEnvironment != NULL) {
+    if (LightEnvironment != nullptr) {
         DX8Wrapper::Set_Light_Environment(LightEnvironment);
     }
 
@@ -849,7 +849,7 @@ void MeshClass::Render_Material_Pass(MaterialPassClass* pass, IndexBufferClass* 
             it.Next();
         }
     }
-    else if ((pass->Get_Cull_Volume() != NULL)
+    else if ((pass->Get_Cull_Volume() != nullptr)
              && (MaterialPassClass::Is_Per_Polygon_Culling_Enabled())) {
 
         /*
@@ -964,7 +964,7 @@ void MeshClass::Special_Render(SpecialRenderInfoClass& rinfo)
 
     if (rinfo.RenderType == SpecialRenderInfoClass::RENDER_VIS) {
 
-        WWASSERT(rinfo.VisRasterizer != NULL);
+        WWASSERT(rinfo.VisRasterizer != nullptr);
         rinfo.VisRasterizer->Enable_Two_Sided_Rendering(
             !!Model->Get_Flag(MeshGeometryClass::TWO_SIDED));
 
@@ -993,8 +993,8 @@ void MeshClass::Special_Render(SpecialRenderInfoClass& rinfo)
     }
 
     if (rinfo.RenderType == SpecialRenderInfoClass::RENDER_SHADOW) {
-        const HTreeClass* htree = NULL;
-        if (Container != NULL) {
+        const HTreeClass* htree = nullptr;
+        if (Container != nullptr) {
             htree = Container->Get_HTree();
         }
         Model->Shadow_Render(rinfo, Transform, htree);
@@ -1077,7 +1077,7 @@ WW3DErrorType MeshClass::Load_W3D(ChunkLoadClass& cload)
     ** Create empty MaterialInfo and Model
     */
     Model = NEW_REF(MeshModelClass, ());
-    if (Model == NULL) {
+    if (Model == nullptr) {
         WWDEBUG_SAY(("MeshClass::Load - Failed to allocate model\r\n"));
         return WW3D_ERROR_LOAD_FAILED;
     }
@@ -1402,7 +1402,7 @@ void MeshClass::Add_Dependencies_To_List(DynamicVectorClass<StringClass>& file_l
     // Get a pointer to this mesh's material information object
     //
     MaterialInfoClass* material = Get_Material_Info();
-    if (material != NULL) {
+    if (material != nullptr) {
 
         //
         // Loop through all the textures and add their filenames to our list
@@ -1413,7 +1413,7 @@ void MeshClass::Add_Dependencies_To_List(DynamicVectorClass<StringClass>& file_l
             //	Add this texture's filename to the list
             //
             TextureClass* texture = material->Peek_Texture(index);
-            if (texture != NULL) {
+            if (texture != nullptr) {
                 file_list.Add(texture->Get_Full_Path());
             }
         }
@@ -1504,7 +1504,7 @@ void MeshClass::Set_Sort_Level(int level)
 
 unsigned int* MeshClass::Get_User_Lighting_Array(bool alloc)
 {
-    if (alloc && (UserLighting == NULL)) {
+    if (alloc && (UserLighting == nullptr)) {
         UserLighting = new unsigned int[Model->Get_Vertex_Count()];
     }
     return UserLighting;
@@ -1513,7 +1513,7 @@ unsigned int* MeshClass::Get_User_Lighting_Array(bool alloc)
 DX8FVFCategoryContainer* MeshClass::Peek_FVF_Category_Container()
 {
     if (PolygonRendererList.Is_Empty()) {
-        return NULL;
+        return nullptr;
     }
     DX8PolygonRendererClass* polygon_renderer = PolygonRendererList.Get_Head();
     WWASSERT(polygon_renderer);
@@ -1578,7 +1578,7 @@ void MeshClass::setup_material_for_user_lighting(VertexMaterialClass* mtl)
 
 void MeshClass::Save_User_Lighting(ChunkSaveClass& csave)
 {
-    if (UserLighting != NULL) {
+    if (UserLighting != nullptr) {
         csave.Begin_Chunk(CHUNKID_USER_LIGHTING_ARRAY);
         csave.Write(&(UserLighting[0]), Model->Get_Vertex_Count() * 4);
         csave.End_Chunk();

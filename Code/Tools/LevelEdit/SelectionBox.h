@@ -58,7 +58,7 @@ public:
         }
         void Set_Color(const Vector3& color)
         {
-            if (m_pLine3D != NULL) {
+            if (m_pLine3D != nullptr) {
                 m_pLine3D->Re_Color(color.X, color.Y, color.Z);
             }
         }

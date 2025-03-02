@@ -114,9 +114,9 @@ BOOL CALLBACK UtilityDlgProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPar
  *=============================================================================================*/
 TransViewerUtility::TransViewerUtility(void)
 {
-    iu = NULL;
-    ip = NULL;
-    hPanel = NULL;
+    iu = nullptr;
+    ip = nullptr;
+    hPanel = nullptr;
 }
 
 /***********************************************************************************************
@@ -162,8 +162,8 @@ void TransViewerUtility::EndEditParams(Interface* ip, IUtil* iu)
     ip->DeleteRollupPage(hPanel);
 
     // The panel index is only valid within BeginEditParams and
-    // EndEditParams.  Set it to null for safety.
-    hPanel = NULL;
+    // EndEditParams.  Set it to nullptr for safety.
+    hPanel = nullptr;
 }
 
 /***********************************************************************************************

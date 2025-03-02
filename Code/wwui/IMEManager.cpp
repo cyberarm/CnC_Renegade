@@ -85,7 +85,7 @@ namespace IME
             }
         }
 
-        return NULL;
+        return nullptr;
     }
 
     /******************************************************************************
@@ -105,9 +105,9 @@ namespace IME
      ******************************************************************************/
 
     IMEManager::IMEManager()
-        : mHWND(NULL),
-          mHIMC(NULL),
-          mDisabledHIMC(NULL),
+        : mHWND(nullptr),
+          mHIMC(nullptr),
+          mDisabledHIMC(nullptr),
           mDisableCount(0),
           mCodePage(CP_ACP),
           mIMEProperties(0),
@@ -171,7 +171,7 @@ namespace IME
 
     bool IMEManager::FinalizeCreate(HWND hwnd)
     {
-        if (hwnd == NULL) {
+        if (hwnd == nullptr) {
             return false;
         }
 
@@ -193,7 +193,7 @@ namespace IME
         // Create new input context for the specified window.
         mHIMC = ImmCreateContext();
 
-        if (mHIMC == NULL) {
+        if (mHIMC == nullptr) {
             return false;
         }
 
@@ -333,7 +333,7 @@ namespace IME
         // If this is the first disable lock the perform the actuall disabling.
         if (1 == mDisableCount) {
             WWDEBUG_SAY(("IMEManager: Disabled\n"));
-            mDisabledHIMC = ImmAssociateContext(mHWND, NULL);
+            mDisabledHIMC = ImmAssociateContext(mHWND, nullptr);
 
             IMEEvent action(IME_DISABLED, this);
             NotifyObservers(action);
@@ -364,7 +364,7 @@ namespace IME
             if (0 == mDisableCount) {
                 WWDEBUG_SAY(("IMEManager: Enabled\n"));
                 ImmAssociateContext(mHWND, mDisabledHIMC);
-                mDisabledHIMC = NULL;
+                mDisabledHIMC = nullptr;
 
                 IMEEvent action(IME_ENABLED, this);
                 NotifyObservers(action);
@@ -785,7 +785,7 @@ namespace IME
         WWDEBUG_SAY(("IMEManager: Input language change request\n"));
 
         // Get the number of Keyboard layouts available to the system
-        UINT numLayouts = GetKeyboardLayoutList(0, NULL);
+        UINT numLayouts = GetKeyboardLayoutList(0, nullptr);
 
         if (numLayouts) {
             // Get the list of layouts
@@ -818,7 +818,7 @@ namespace IME
             }
         }
 
-        return NULL;
+        return nullptr;
     }
 
     /******************************************************************************
@@ -855,14 +855,14 @@ namespace IME
 
         // Get IME description
         if (mUseUnicode) {
-            UINT descSize = ImmGetDescriptionW(hkl, NULL, 0);
+            UINT descSize = ImmGetDescriptionW(hkl, nullptr, 0);
             ++descSize;
             wchar_t* descPtr = mIMEDescription.Get_Buffer(descSize);
 
             ImmGetDescriptionW(hkl, descPtr, descSize);
         }
         else {
-            UINT descSize = ImmGetDescription(hkl, NULL, 0);
+            UINT descSize = ImmGetDescription(hkl, nullptr, 0);
             ++descSize;
 
             StringClass desc((int)descSize, true);
@@ -1369,7 +1369,7 @@ namespace IME
     long IMEManager::ReadCursorPos(HIMC imc)
     {
         if (mUseUnicode) {
-            long cursorPos = ImmGetCompositionStringW(imc, GCS_CURSORPOS, NULL, 0);
+            long cursorPos = ImmGetCompositionStringW(imc, GCS_CURSORPOS, nullptr, 0);
             return (cursorPos & 0x0000FFFF);
         }
 
@@ -1383,7 +1383,7 @@ namespace IME
 
         string[size] = 0;
 
-        long cursorPos = ImmGetCompositionString(imc, GCS_CURSORPOS, NULL, 0);
+        long cursorPos = ImmGetCompositionString(imc, GCS_CURSORPOS, nullptr, 0);
         cursorPos = (cursorPos & 0x0000FFFF);
 
         // Convert multibyte character position in unicode position.
@@ -1558,7 +1558,7 @@ namespace IME
         HIMC imc = ImmGetContext(mHWND);
 
         if (imc) {
-            level = ImmGetGuideLine(imc, GGL_LEVEL, NULL, 0);
+            level = ImmGetGuideLine(imc, GGL_LEVEL, nullptr, 0);
 
             if ((GL_LEVEL_NOGUIDELINE != level) && outString) {
                 if (mUseUnicode) {

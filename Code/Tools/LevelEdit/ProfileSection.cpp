@@ -60,17 +60,17 @@ bool ProfileSectionClass::Get_Next_Key(CString* key_name, CString* key_value)
         //	Strip off the comments (if any)
         //
         LPTSTR comment = ::strchr(local_copy, ';');
-        if (comment != NULL) {
+        if (comment != nullptr) {
             comment[0] = 0;
         }
 
         comment = ::strchr(temp_string, ';');
-        if (comment != NULL) {
+        if (comment != nullptr) {
             comment[0] = 0;
         }
 
         // Did the caller want the key name back?
-        if (key_name != NULL) {
+        if (key_name != nullptr) {
             // Everything on the left side of the divider is the key name
             *key_name = local_copy;
             key_name->TrimLeft();
@@ -78,7 +78,7 @@ bool ProfileSectionClass::Get_Next_Key(CString* key_name, CString* key_value)
         }
 
         // Did the caller want the key value back?
-        if (key_value != NULL) {
+        if (key_value != nullptr) {
             // Everything on the right side of the divider is the key value
             *key_value = temp_string;
             key_value->TrimLeft();

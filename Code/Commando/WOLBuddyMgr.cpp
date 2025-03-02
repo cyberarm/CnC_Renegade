@@ -62,7 +62,7 @@ static const WCHAR DECLINE_CMD[] = L"<WWDECLINE>";
 static const unsigned long INVITE_CMD_LEN = ((sizeof(INVITE_CMD) / sizeof(WCHAR)) - 1);
 static const unsigned long DECLINE_CMD_LEN = ((sizeof(DECLINE_CMD) / sizeof(WCHAR)) - 1);
 
-WOLBuddyMgr* WOLBuddyMgr::_mInstance = NULL;
+WOLBuddyMgr* WOLBuddyMgr::_mInstance = nullptr;
 
 /******************************************************************************
  *
@@ -82,7 +82,7 @@ WOLBuddyMgr* WOLBuddyMgr::_mInstance = NULL;
 
 WOLBuddyMgr* WOLBuddyMgr::GetInstance(bool createOK)
 {
-    if (_mInstance == NULL) {
+    if (_mInstance == nullptr) {
         new WOLBuddyMgr;
 
         if (_mInstance) {
@@ -140,7 +140,7 @@ WOLBuddyMgr::WOLBuddyMgr()
 WOLBuddyMgr::~WOLBuddyMgr()
 {
     WWDEBUG_SAY(("WOLBuddyMgr: Destroyed\n"));
-    _mInstance = NULL;
+    _mInstance = nullptr;
 }
 
 /******************************************************************************
@@ -207,12 +207,12 @@ void WOLBuddyMgr::LoadIgnoreList(void)
         unsigned long valueSize = sizeof(valueName);
         int index = 0;
 
-        while (RegEnumValue(hKey, index, valueName, &valueSize, 0, NULL, NULL, NULL)
+        while (RegEnumValue(hKey, index, valueName, &valueSize, 0, nullptr, nullptr, nullptr)
                == ERROR_SUCCESS) {
             DWORD type = 0;
             char name[MAX_USERNAME_LEN];
             DWORD nameSize = sizeof(name);
-            result = RegQueryValueEx(hKey, valueName, NULL, &type, (LPBYTE)name, (DWORD*)&nameSize);
+            result = RegQueryValueEx(hKey, valueName, nullptr, &type, (LPBYTE)name, (DWORD*)&nameSize);
 
             if ((ERROR_SUCCESS == result) && (REG_SZ == type) && strlen(name)) {
                 // Add the name to the ignore list
@@ -745,7 +745,7 @@ void WOLBuddyMgr::ProcessPendingJoin(void)
                 }
                 else {
                     // Go ahead and attempt to join the pending location.
-                    GotoPendingJoinLocation(NULL);
+                    GotoPendingJoinLocation(nullptr);
                 }
 
                 return;
@@ -755,7 +755,7 @@ void WOLBuddyMgr::ProcessPendingJoin(void)
         // If we got here then we cannot join the pending location. Abort the request
         // and notify the user.
         mPendingJoin.Release();
-        DlgMsgBox::DoDialog(IDS_WOL_ERROR, IDS_BUDDY_CANNOTJOIN, DlgMsgBox::Okay, NULL);
+        DlgMsgBox::DoDialog(IDS_WOL_ERROR, IDS_BUDDY_CANNOTJOIN, DlgMsgBox::Okay, nullptr);
     }
 }
 
@@ -768,7 +768,7 @@ void WOLBuddyMgr::ProcessPendingJoin(void)
  *     Goto the pending chat lobby or game.
  *
  * INPUTS
- *     Password - Password to use to join chat lobby or game. Can be NULL if
+ *     Password - Password to use to join chat lobby or game. Can be nullptr if
  *                a password is not required.
  *
  * RESULT
@@ -1112,7 +1112,7 @@ void WOLBuddyMgr::InvitationDeclined(const WCHAR* username, DECLINE_REASON reaso
 
     if (!mHidePagedDialog) {
         // Let the user know they've been declined
-        DlgMsgBox::DoDialog(NULL, message, DlgMsgBox::Okay, NULL);
+        DlgMsgBox::DoDialog(nullptr, message, DlgMsgBox::Okay, nullptr);
     }
 
     Add_Ref();
@@ -1380,7 +1380,7 @@ void WOLBuddyMgr::HandleNotification(PageSendStatus& pageStatus)
 
     Add_Ref();
 
-    PageMessage page(NULL, TRANSLATE(msgID));
+    PageMessage page(nullptr, TRANSLATE(msgID));
     WOLPagedEvent event(action, &page);
     NotifyObservers(event);
 

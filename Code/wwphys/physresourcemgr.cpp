@@ -45,10 +45,10 @@
 /**
 ** Resources that the physics resource manager can allocate-on-demand
 */
-static TextureClass* _ShadowBlobTexture = NULL;
-static MaterialPassClass* _HighlightMaterialPass = NULL;
-static TextureClass* _StealthTexture = NULL;
-static TextureClass* _GridTexture = NULL;
+static TextureClass* _ShadowBlobTexture = nullptr;
+static MaterialPassClass* _HighlightMaterialPass = nullptr;
+static TextureClass* _StealthTexture = nullptr;
+static TextureClass* _GridTexture = nullptr;
 
 void PhysResourceMgrClass::Init(void)
 {
@@ -63,12 +63,12 @@ void PhysResourceMgrClass::Shutdown(void)
 
 bool PhysResourceMgrClass::Set_Shadow_Blob_Texture(const char* texname)
 {
-    if (texname == NULL) {
+    if (texname == nullptr) {
         return false;
     }
 
     TextureClass* tex = WW3DAssetManager::Get_Instance()->Get_Texture(texname);
-    if (tex == NULL) {
+    if (tex == nullptr) {
         return false;
     }
 
@@ -82,12 +82,12 @@ bool PhysResourceMgrClass::Set_Shadow_Blob_Texture(const char* texname)
 
 TextureClass* PhysResourceMgrClass::Get_Shadow_Blob_Texture(void)
 {
-    if (_ShadowBlobTexture == NULL) {
+    if (_ShadowBlobTexture == nullptr) {
         _ShadowBlobTexture = WW3DAssetManager::Get_Instance()->Get_Texture("shadowblob.tga");
         _ShadowBlobTexture->Set_U_Addr_Mode(TextureClass::TEXTURE_ADDRESS_CLAMP);
         _ShadowBlobTexture->Set_V_Addr_Mode(TextureClass::TEXTURE_ADDRESS_CLAMP);
     }
-    WWASSERT(_ShadowBlobTexture != NULL);
+    WWASSERT(_ShadowBlobTexture != nullptr);
     _ShadowBlobTexture->Add_Ref();
     return _ShadowBlobTexture;
 }
@@ -95,7 +95,7 @@ TextureClass* PhysResourceMgrClass::Get_Shadow_Blob_Texture(void)
 MaterialPassClass* PhysResourceMgrClass::Get_Highlight_Material_Pass(void)
 {
     // If we haven't initialized the highlight material, do it now.
-    if (_HighlightMaterialPass == NULL) {
+    if (_HighlightMaterialPass == nullptr) {
 
         // otherwise, create and initialize it
         _HighlightMaterialPass = NEW_REF(MaterialPassClass, ());
@@ -134,7 +134,7 @@ TextureClass* PhysResourceMgrClass::Get_Stealth_Texture(void)
 
 TextureClass* PhysResourceMgrClass::Peek_Stealth_Texture(void)
 {
-    if (_StealthTexture == NULL) {
+    if (_StealthTexture == nullptr) {
         _StealthTexture = WW3DAssetManager::Get_Instance()->Get_Texture("stealth_effect.tga");
     }
     return _StealthTexture;
@@ -156,7 +156,7 @@ VertexMaterialClass* PhysResourceMgrClass::Create_Emissive_Material(void)
 TextureClass* PhysResourceMgrClass::Get_Grid_Texture(void)
 {
     TextureClass* tex = Peek_Grid_Texture();
-    if (tex != NULL) {
+    if (tex != nullptr) {
         tex->Add_Ref();
     }
     return tex;
@@ -164,7 +164,7 @@ TextureClass* PhysResourceMgrClass::Get_Grid_Texture(void)
 
 TextureClass* PhysResourceMgrClass::Peek_Grid_Texture(void)
 {
-    if (_GridTexture == NULL) {
+    if (_GridTexture == nullptr) {
         _GridTexture = WW3DAssetManager::Get_Instance()->Get_Texture("grid_effect.tga");
     }
     return _GridTexture;

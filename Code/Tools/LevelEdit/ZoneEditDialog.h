@@ -46,7 +46,7 @@ class ZoneEditDialogClass : public CDialog
 {
     // Construction
 public:
-    ZoneEditDialogClass(CWnd* pParent = NULL); // standard constructor
+    ZoneEditDialogClass(CWnd* pParent = nullptr); // standard constructor
 
     // Dialog Data
     //{{AFX_DATA(ZoneEditDialogClass)

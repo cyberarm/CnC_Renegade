@@ -166,7 +166,7 @@ public:
     */
     MaterialPassClass* Get_Material(void)
     {
-        WWASSERT(Material != NULL);
+        WWASSERT(Material != nullptr);
         Material->Add_Ref();
         return Material;
     }

@@ -50,7 +50,7 @@ const int BORDER_RIGHT = 6;
 //  FormToolbarClass
 //
 FormToolbarClass::FormToolbarClass(void)
-    : m_pCForm(NULL)
+    : m_pCForm(nullptr)
 {
     m_minSize.cx = 100;
     m_minSize.cy = 100;
@@ -66,7 +66,7 @@ FormToolbarClass::~FormToolbarClass(void)
     if (m_pCForm) {
         // Free the dockable form
         delete m_pCForm;
-        m_pCForm = NULL;
+        m_pCForm = nullptr;
     }
 
     return;
@@ -84,7 +84,7 @@ BOOL FormToolbarClass::Create(DockableFormClass* pCFormClass, LPCTSTR pszWindowN
 
     // Allow the base class to process this message
     RECT rect = { 0 };
-    BOOL retval = CWnd::Create(NULL, pszWindowName, WS_CHILD | WS_VISIBLE, rect, pCParentWnd, uiID);
+    BOOL retval = CWnd::Create(nullptr, pszWindowName, WS_CHILD | WS_VISIBLE, rect, pCParentWnd, uiID);
     if (retval) {
 
         // Ask the dockable form to create itself
@@ -96,8 +96,8 @@ BOOL FormToolbarClass::Create(DockableFormClass* pCFormClass, LPCTSTR pszWindowN
         m_minSize.cy = rect.Height();
         m_minSize.cx += BORDER_LEFT + BORDER_RIGHT;
         m_minSize.cy += BORDER_TOP + BORDER_BOTTOM;
-        SetWindowPos(NULL, 0, 0, m_minSize.cx, m_minSize.cy, SWP_NOZORDER | SWP_NOMOVE);
-        m_pCForm->SetWindowPos(NULL, BORDER_LEFT, BORDER_TOP, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
+        SetWindowPos(nullptr, 0, 0, m_minSize.cx, m_minSize.cy, SWP_NOZORDER | SWP_NOMOVE);
+        m_pCForm->SetWindowPos(nullptr, BORDER_LEFT, BORDER_TOP, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
 
         // Allow the toolbar to be resized
         // Allow the toolbar to be docked either to the right or left
@@ -124,7 +124,7 @@ void FormToolbarClass::OnSize(UINT nType, int cx, int cy)
         GetClientRect(rect);
 
         // Resize the dockable form window
-        m_pCForm->SetWindowPos(NULL, 0, 0, rect.Width() - (BORDER_LEFT + BORDER_RIGHT),
+        m_pCForm->SetWindowPos(nullptr, 0, 0, rect.Width() - (BORDER_LEFT + BORDER_RIGHT),
                                rect.Height() - (BORDER_TOP + BORDER_BOTTOM),
                                SWP_NOZORDER | SWP_NOMOVE);
     }

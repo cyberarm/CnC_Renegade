@@ -92,7 +92,7 @@ namespace WWOnline
             }
         }
 
-        return NULL;
+        return nullptr;
     }
 
     /******************************************************************************
@@ -130,7 +130,7 @@ namespace WWOnline
             }
         }
 
-        return NULL;
+        return nullptr;
     }
 
     /******************************************************************************
@@ -152,7 +152,7 @@ namespace WWOnline
     RefPtr<SquadData> SquadData::Create(const WOL::Squad& wolSquad)
     {
         if (wolSquad.id == 0) {
-            return NULL;
+            return nullptr;
         }
 
         RefPtr<SquadData> squad = FindByID(wolSquad.id);
@@ -228,7 +228,7 @@ namespace WWOnline
     void SquadData::UpdateData(const WOL::Squad& squad)
     {
         memcpy(&mData, &squad, sizeof(mData));
-        mData.next = NULL;
+        mData.next = nullptr;
     }
 
     /******************************************************************************

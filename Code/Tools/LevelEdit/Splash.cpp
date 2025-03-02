@@ -50,7 +50,7 @@ UINT fnSplashScreenThread(DWORD, DWORD, DWORD, HRESULT*, HWND* phmain_wnd);
 //
 ///////////////////////////////////////////////////////////////////////
 SplashClass::SplashClass(void)
-    : m_hThreadWnd(NULL)
+    : m_hThreadWnd(nullptr)
 {
     return;
 }
@@ -73,7 +73,7 @@ SplashClass::~SplashClass(void)
 ///////////////////////////////////////////////////////////////////////
 void SplashClass::Set_Status_Text(LPCTSTR text)
 {
-    if (m_hThreadWnd != NULL) {
+    if (m_hThreadWnd != nullptr) {
         ::PostMessage(m_hThreadWnd, WM_USER + 102, 0, (LPARAM)text);
     }
 
@@ -90,8 +90,8 @@ void SplashClass::Show(bool show)
     //
     //	Kick off a thread that will display the splash screen
     //
-    if (m_hThreadWnd == NULL) {
-        ::Create_UI_Thread(fnSplashScreenThread, 0, 0, 0, NULL, &m_hThreadWnd);
+    if (m_hThreadWnd == nullptr) {
+        ::Create_UI_Thread(fnSplashScreenThread, 0, 0, 0, nullptr, &m_hThreadWnd);
     }
 
     ::ShowWindow(m_hThreadWnd, show ? SW_SHOW : SW_HIDE);
@@ -118,11 +118,11 @@ void SplashClass::Close(void)
     //
     if (::IsWindow(m_hThreadWnd)) {
         ::PostMessage(m_hThreadWnd, WM_USER + 101, 0, 0L);
-        m_hThreadWnd = NULL;
+        m_hThreadWnd = nullptr;
     }
 
     if (ProgressUIMgrClass::Get_Current_Progress_UI() == this) {
-        ProgressUIMgrClass::Set_Current_Progress_UI(NULL);
+        ProgressUIMgrClass::Set_Current_Progress_UI(nullptr);
     }
 
     return;
@@ -140,14 +140,14 @@ UINT fnSplashScreenThread(DWORD /*dwparam1*/, DWORD /*dwparam2*/, DWORD /*dwpara
     // Create a new instance of the 'updating' dialog
     //
     SplashScreenClass* splash_wnd = new SplashScreenClass;
-    splash_wnd->CreateEx(0, "STATIC", "Level Edit", WS_POPUP | WS_VISIBLE, 0, 0, 100, 100, NULL,
-                         NULL);
+    splash_wnd->CreateEx(0, "STATIC", "Level Edit", WS_POPUP | WS_VISIBLE, 0, 0, 100, 100, nullptr,
+                         nullptr);
     splash_wnd->ShowWindow(SW_SHOW);
 
     //
     // Return the window handle of the main wnd to the calling thread
     //
-    if (phmain_wnd != NULL) {
+    if (phmain_wnd != nullptr) {
         (*phmain_wnd) = splash_wnd->m_hWnd;
     }
 

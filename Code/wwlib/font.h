@@ -63,7 +63,7 @@ public:
     virtual int Get_Height(void) const = 0;
     virtual Point2D Print(char const* string, Surface& surface, Rect const& cliprect,
                           Point2D const& point, ConvertClass const& converter,
-                          unsigned char const* remap = NULL) const
+                          unsigned char const* remap = nullptr) const
         = 0;
 
     virtual int Set_XSpacing(int x) = 0;

@@ -63,7 +63,7 @@ public:
     //////////////////////////////////////////////////////////////////
     //	Public constructors/destructors
     //////////////////////////////////////////////////////////////////
-    SpawnPointNodeClass(PresetClass* preset = NULL);
+    SpawnPointNodeClass(PresetClass* preset = nullptr);
     SpawnPointNodeClass(const SpawnPointNodeClass& src);
     ~SpawnPointNodeClass(void);
 
@@ -137,7 +137,7 @@ protected:
 //////////////////////////////////////////////////////////////////
 inline void SpawnPointNodeClass::On_Rotate(void)
 {
-    if (SpawnerNode != NULL) {
+    if (SpawnerNode != nullptr) {
         SpawnerNode->Update_Lines();
     }
 
@@ -150,7 +150,7 @@ inline void SpawnPointNodeClass::On_Rotate(void)
 //////////////////////////////////////////////////////////////////
 inline void SpawnPointNodeClass::On_Translate(void)
 {
-    if (SpawnerNode != NULL) {
+    if (SpawnerNode != nullptr) {
         SpawnerNode->Update_Lines();
     }
 
@@ -163,7 +163,7 @@ inline void SpawnPointNodeClass::On_Translate(void)
 //////////////////////////////////////////////////////////////////
 inline void SpawnPointNodeClass::On_Transform(void)
 {
-    if (SpawnerNode != NULL) {
+    if (SpawnerNode != nullptr) {
         SpawnerNode->Update_Lines();
     }
 

@@ -107,7 +107,7 @@ BaseControllerClass::~BaseControllerClass(void)
 {
     WWASSERT(PlayerType == PLAYERTYPE_GDI || PlayerType == PLAYERTYPE_NOD);
     if (CurrentBases[PlayerType] == this) {
-        CurrentBases[PlayerType] = NULL;
+        CurrentBases[PlayerType] = nullptr;
     }
 
     Reset_Building_List();
@@ -354,7 +354,7 @@ void BaseControllerClass::On_Beacon_Armed(BeaconGameObj* beacon)
     if (cncDef) {
         bool isNuke = beacon->Get_Definition().Is_Nuke();
 
-        if (COMBAT_STAR != NULL) {
+        if (COMBAT_STAR != nullptr) {
             int team = COMBAT_STAR->Get_Player_Type();
 
             if (isNuke) {
@@ -375,7 +375,7 @@ void BaseControllerClass::On_Beacon_Disarmed(BeaconGameObj* beacon)
 
     if (cncDef) {
         bool isNuke = beacon->Get_Definition().Is_Nuke();
-        if (COMBAT_STAR != NULL) {
+        if (COMBAT_STAR != nullptr) {
             int team = COMBAT_STAR->Get_Player_Type();
 
             if (isNuke) {
@@ -396,7 +396,7 @@ void BaseControllerClass::On_Beacon_Warning(BeaconGameObj* beacon)
 
     if (cncDef) {
         bool isNuke = beacon->Get_Definition().Is_Nuke();
-        if (COMBAT_STAR != NULL) {
+        if (COMBAT_STAR != nullptr) {
             int team = COMBAT_STAR->Get_Player_Type();
 
             if (isNuke) {
@@ -587,7 +587,7 @@ void BaseControllerClass::Request_Harvester(int def_id)
     //	Find our vehicle factory
     //
     BuildingGameObj* building = Find_Building(TYPE_VEHICLE_FACTORY);
-    if (building != NULL) {
+    if (building != nullptr) {
         VehicleFactoryGameObj* factory = building->As_VehicleFactoryGameObj();
 
         //
@@ -603,7 +603,7 @@ void BaseControllerClass::Request_Harvester(int def_id)
         //	Find our refinery (if we have one)
         //
         BuildingGameObj* building = Find_Building(TYPE_REFINERY);
-        if (building != NULL) {
+        if (building != nullptr) {
             RefineryGameObj* refinery = building->As_RefineryGameObj();
 
             //
@@ -614,13 +614,13 @@ void BaseControllerClass::Request_Harvester(int def_id)
             DynamicVectorClass<SpawnerClass*> spawner_list = SpawnManager::Get_Spawner_List();
             for (int index = 0; index < spawner_list.Count(); index++) {
                 SpawnerClass* spawner = spawner_list[index];
-                if (spawner != NULL && spawner->Can_Spawn_Object(def_id)) {
+                if (spawner != nullptr && spawner->Can_Spawn_Object(def_id)) {
 
                     //
                     //	Try to spawn the harvester
                     //
                     PhysicalGameObj* new_obj = spawner->Spawn_Object(def_id);
-                    if (new_obj != NULL && new_obj->As_VehicleGameObj() != NULL) {
+                    if (new_obj != nullptr && new_obj->As_VehicleGameObj() != nullptr) {
                         refinery->Set_Harvester_Vehicle(new_obj->As_VehicleGameObj());
                         break;
                     }
@@ -686,7 +686,7 @@ void BaseControllerClass::Think(void)
 ////////////////////////////////////////////////////////////////
 BuildingGameObj* BaseControllerClass::Find_Building(BuildingConstants::BuildingType type)
 {
-    BuildingGameObj* building = NULL;
+    BuildingGameObj* building = nullptr;
 
     //
     //	Search through each building
@@ -723,19 +723,19 @@ void BaseControllerClass::Distribute_Funds_To_Each_Teammate(int funds)
     //	Loop over all the players in the game
     //
     SList<SoldierGameObj>* list = GameObjManager::Get_Star_Game_Obj_List();
-    SLNode<SoldierGameObj>* node = NULL;
-    for (node = list->Head(); node != NULL; node = node->Next()) {
+    SLNode<SoldierGameObj>* node = nullptr;
+    for (node = list->Head(); node != nullptr; node = node->Next()) {
         SoldierGameObj* player = node->Data();
 
         //
         //	Is this a player on our team?
         //
-        if (player != NULL && (player->Get_Player_Type() == PlayerType)) {
+        if (player != nullptr && (player->Get_Player_Type() == PlayerType)) {
             //
             //	Get the data associated with this player
             //
             PlayerDataClass* player_data = player->Get_Player_Data();
-            if (player_data != NULL) {
+            if (player_data != nullptr) {
 
                 //
                 //	Add the money to this player's total
@@ -770,14 +770,14 @@ BaseControllerClass::Deposit_Funds (int funds)
         //	Loop over all the players in the game
         //
         SList<SoldierGameObj> *list	= GameObjManager::Get_Star_Game_Obj_List ();
-        SLNode<SoldierGameObj> *node	= NULL;
-        for (node = list->Head(); node != NULL; node = node->Next()) {
+        SLNode<SoldierGameObj> *node	= nullptr;
+        for (node = list->Head(); node != nullptr; node = node->Next()) {
                 SoldierGameObj *player = node->Data();
 
                 //
                 //	Is this a player on our team?
                 //
-                if (	player != NULL &&
+                if (	player != nullptr &&
                                 (player->Get_Player_Type () == PLAYERTYPE_GDI && Team == TEAM_GDI)
 || (player->Get_Player_Type () == PLAYERTYPE_NOD && Team == TEAM_NOD))
                 {
@@ -796,7 +796,7 @@ BaseControllerClass::Deposit_Funds (int funds)
                 int funds_per_player = funds / team_players.Count ();
                 for (int index = 0; index < team_players.Count (); index ++) {
                         PlayerDataClass *player_data = team_players[index]->Get_Player_Data ();
-                        if (player_data != NULL) {
+                        if (player_data != nullptr) {
 
                                 //
                                 //	Add the money to this player's total
@@ -813,7 +813,7 @@ BaseControllerClass::Deposit_Funds (int funds)
                         index = FreeRandom.Get_Int ( team_players.Count () );
 
                         PlayerDataClass *player_data = team_players[index]->Get_Player_Data ();
-                        if (player_data != NULL) {
+                        if (player_data != nullptr) {
 
                                 //
                                 //	Add the money to this player's total
@@ -834,13 +834,13 @@ BaseControllerClass::Deposit_Funds (int funds)
 ////////////////////////////////////////////////////////////////
 BaseControllerClass* BaseControllerClass::Find_Base(int player_type)
 {
-    BaseControllerClass* base = NULL;
+    BaseControllerClass* base = nullptr;
 
     //
     //	Try to find a base of the appropriate team in our list
     //
     for (int index = 0; index < BASE_COUNT; index++) {
-        if (CurrentBases[index] != NULL && CurrentBases[index]->Get_Player_Type() == player_type) {
+        if (CurrentBases[index] != nullptr && CurrentBases[index]->Get_Player_Type() == player_type) {
             base = CurrentBases[index];
             break;
         }
@@ -857,7 +857,7 @@ BaseControllerClass* BaseControllerClass::Find_Base(int player_type)
 BaseControllerClass* BaseControllerClass::Find_Base_For_Star(void)
 {
     int player_type = PLAYERTYPE_GDI;
-    if (COMBAT_STAR != NULL) {
+    if (COMBAT_STAR != nullptr) {
         player_type = COMBAT_STAR->Get_Player_Type();
     }
 
@@ -925,7 +925,7 @@ void BaseControllerClass::Add_Building(BuildingGameObj* building)
     //
     //	Add the building to our list (if its not already there)
     //
-    if (building != NULL) {
+    if (building != nullptr) {
         if (BuildingList.ID(building) == -1) {
 
             //
@@ -948,9 +948,9 @@ void BaseControllerClass::Add_Building(BuildingGameObj* building)
                 //
                 //	Find the closest beacon zone to the building
                 //
-                ScriptZoneGameObj* zone = NULL;
+                ScriptZoneGameObj* zone = nullptr;
                 zone = ScriptZoneGameObj::Find_Closest_Zone(pos, ZoneConstants::TYPE_BEACON);
-                if (zone != NULL) {
+                if (zone != nullptr) {
                     BeaconZone = zone->Get_Bounding_Box();
 
                     //
@@ -1039,7 +1039,7 @@ void BaseControllerClass::Enable_Radar(bool onoff)
         //
         //	Check to see if the current player belongs to this base
         //
-        if (COMBAT_STAR != NULL && (COMBAT_STAR->Get_Player_Type() == PlayerType)) {
+        if (COMBAT_STAR != nullptr && (COMBAT_STAR->Get_Player_Type() == PlayerType)) {
             //
             //	Show or hide the radar
             //
@@ -1059,13 +1059,13 @@ void BaseControllerClass::Enable_Radar(bool onoff)
 ////////////////////////////////////////////////////////////////
 VehicleGameObj* BaseControllerClass::Get_Harvester_Vehicle(void)
 {
-    VehicleGameObj* retval = NULL;
+    VehicleGameObj* retval = nullptr;
 
     //
     //	Find our refinery (if we have one)
     //
     BuildingGameObj* building = Find_Building(TYPE_REFINERY);
-    if (building != NULL) {
+    if (building != nullptr) {
         RefineryGameObj* refinery = building->As_RefineryGameObj();
 
         //

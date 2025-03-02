@@ -235,9 +235,9 @@ private:
 //////////////////////////////////////////////////////////////
 inline const WCHAR* TranslateDBClass::Get_String(uint32 id)
 {
-    // ID of 0 (zero) is a special case NULL string.
+    // ID of 0 (zero) is a special case nullptr string.
     if (id == 0) {
-        return NULL;
+        return nullptr;
     }
 
     const WCHAR* string = STRING_NOT_FOUND;
@@ -263,8 +263,8 @@ inline const WCHAR* TranslateDBClass::Get_String(uint32 id)
         //	Get the translation object
         //
         TDBObjClass* trans_obj = m_ObjectList[index];
-        WWASSERT(trans_obj != NULL);
-        if (trans_obj != NULL) {
+        WWASSERT(trans_obj != nullptr);
+        if (trans_obj != nullptr) {
 
             //
             //	Get the string from the object and return it to the caller
@@ -281,9 +281,9 @@ inline const WCHAR* TranslateDBClass::Get_String(uint32 id)
 //////////////////////////////////////////////////////////////
 inline const WCHAR* TranslateDBClass::Get_String(const char* id_desc)
 {
-    // NULL description is a special case NULL string.
-    if (id_desc == NULL) {
-        return NULL;
+    // nullptr description is a special case nullptr string.
+    if (id_desc == nullptr) {
+        return nullptr;
     }
 
     const WCHAR* string = STRING_NOT_FOUND;
@@ -292,7 +292,7 @@ inline const WCHAR* TranslateDBClass::Get_String(const char* id_desc)
     //	Lookup the object based on its ID
     //
     TDBObjClass* translate_obj = Find_Object(id_desc);
-    if (translate_obj != NULL) {
+    if (translate_obj != nullptr) {
 
         //
         //	Get the string from the object and return it to the caller
@@ -308,9 +308,9 @@ inline const WCHAR* TranslateDBClass::Get_String(const char* id_desc)
 //////////////////////////////////////////////////////////////
 inline const char* TranslateDBClass::Get_English_String(uint32 id)
 {
-    // ID of 0 (zero) is a special case NULL string.
+    // ID of 0 (zero) is a special case nullptr string.
     if (id == 0) {
-        return NULL;
+        return nullptr;
     }
 
     const char* string = ENGLISH_STRING_NOT_FOUND;
@@ -336,8 +336,8 @@ inline const char* TranslateDBClass::Get_English_String(uint32 id)
         //	Get the translation object
         //
         TDBObjClass* trans_obj = m_ObjectList[index];
-        WWASSERT(trans_obj != NULL);
-        if (trans_obj != NULL) {
+        WWASSERT(trans_obj != nullptr);
+        if (trans_obj != nullptr) {
 
             //
             //	Get the string from the object and return it to the caller
@@ -366,7 +366,7 @@ WWINLINE TDBObjClass* TranslateDBClass::Find_Object(const char* id_desc)
 //////////////////////////////////////////////////////////////
 WWINLINE TDBObjClass* TranslateDBClass::Find_Object(uint32 id)
 {
-    TDBObjClass* object = NULL;
+    TDBObjClass* object = nullptr;
 
     //
     //	Calculate which index this ID refers to
@@ -382,9 +382,9 @@ WWINLINE TDBObjClass* TranslateDBClass::Find_Object(uint32 id)
         //
         //	Make sure this is the object the caller requested
         //
-        WWASSERT(object != NULL && object->Get_ID() == id);
-        if (object != NULL && object->Get_ID() != id) {
-            object = NULL;
+        WWASSERT(object != nullptr && object->Get_ID() == id);
+        if (object != nullptr && object->Get_ID() != id) {
+            object = nullptr;
         }
     }
 

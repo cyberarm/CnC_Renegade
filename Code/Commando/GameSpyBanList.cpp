@@ -84,7 +84,7 @@ BanEntry::BanEntry(const char* name, const char* ip, const char* hash_id, const 
 }
 
 cGameSpyBanList::cGameSpyBanList()
-    : BanList(NULL)
+    : BanList(nullptr)
 {
 
     BanList = new List<BanEntry*>();
@@ -100,10 +100,10 @@ cGameSpyBanList::~cGameSpyBanList()
 void cGameSpyBanList::Ban_User(const char* nickname, const char* challenge_response, DWORD ipaddr)
 {
 
-    char* buff = NULL;
-    char* q = NULL;
-    FILE* outf = NULL;
-    BanEntry* t = NULL;
+    char* buff = nullptr;
+    char* q = nullptr;
+    FILE* outf = nullptr;
+    BanEntry* t = nullptr;
 
     if (nickname && !challenge_response) {
         q = buff = new char[(strlen(nickname) * 2) + 1];
@@ -119,10 +119,10 @@ void cGameSpyBanList::Ban_User(const char* nickname, const char* challenge_respo
         delete[] buff;
     }
     else if (challenge_response) {
-        t = new BanEntry(NULL, NULL, challenge_response);
+        t = new BanEntry(nullptr, nullptr, challenge_response);
     }
     else if (ipaddr) {
-        t = new BanEntry(NULL, cNetUtil::Address_To_String(ipaddr));
+        t = new BanEntry(nullptr, cNetUtil::Address_To_String(ipaddr));
     }
     else {
         return;
@@ -143,12 +143,12 @@ void cGameSpyBanList::Ban_User(const char* nickname, const char* challenge_respo
 void cGameSpyBanList::Think(void)
 {
 
-    cPlayer* player = NULL;
+    cPlayer* player = nullptr;
     for (SLNode<cPlayer>* player_node = cPlayerManager::Get_Player_Object_List()->Head();
-         player_node != NULL; player_node = player_node->Next()) {
+         player_node != nullptr; player_node = player_node->Next()) {
 
         player = player_node->Data();
-        WWASSERT(player != NULL);
+        WWASSERT(player != nullptr);
 
         if (player->Get_Is_Active().Is_False() || !player->Is_Human()) {
             continue;
@@ -249,7 +249,7 @@ bool cGameSpyBanList::Is_User_Banned(const char* nickname, const char* challenge
                 a[0] = 0;
                 a[strlen(&a[1])] = 0;
                 Strip_Escapes(&a[1]);
-                ret = (strstr(b, &a[1]) != NULL);
+                ret = (strstr(b, &a[1]) != nullptr);
             }
             else if ((a[0] == '%') && (a[1] != '%')) {
                 a[0] = 0;
@@ -294,7 +294,7 @@ bool cGameSpyBanList::Is_User_Banned(const char* nickname, const char* challenge
 void cGameSpyBanList::Strip_Escapes(char* var)
 {
     char* q = (char*)var;
-    while ((q = strstr(q, "%%")) != NULL) {
+    while ((q = strstr(q, "%%")) != nullptr) {
         memmove(q, q + 1, strlen(q));
         q++;
     }
@@ -304,7 +304,7 @@ void cGameSpyBanList::LoadBans(void)
 {
 
     char buff[512];
-    FILE* outf = NULL;
+    FILE* outf = nullptr;
 
     if (!BanList->Is_Empty()) {
         BanList->Delete();
@@ -318,11 +318,11 @@ void cGameSpyBanList::LoadBans(void)
 
     while (fgets(buff, sizeof(buff) - 1, outf)) {
         // Format of each line "ruletype" "nickname" "hashid" "ip" "netmask"
-        char* nickname = NULL;
-        char* ruletype = NULL;
-        char* ip = NULL;
-        char* hashid = NULL;
-        char* ipmask = NULL;
+        char* nickname = nullptr;
+        char* ruletype = nullptr;
+        char* ip = nullptr;
+        char* hashid = nullptr;
+        char* ipmask = nullptr;
 
         if (strlen(buff) < 3) {
             continue;

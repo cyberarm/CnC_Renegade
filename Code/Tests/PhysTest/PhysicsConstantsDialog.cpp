@@ -38,7 +38,7 @@ const int MAX_GRAVITY = 0;
 /////////////////////////////////////////////////////////////////////////////
 // CPhysicsConstantsDialog dialog
 
-CPhysicsConstantsDialog::CPhysicsConstantsDialog(CWnd* pParent /*=NULL*/)
+CPhysicsConstantsDialog::CPhysicsConstantsDialog(CWnd* pParent /*=nullptr*/)
     : CDialog(CPhysicsConstantsDialog::IDD, pParent)
 {
     //{{AFX_DATA_INIT(CPhysicsConstantsDialog)

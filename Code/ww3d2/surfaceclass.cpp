@@ -198,7 +198,7 @@ void SurfaceClass::Convert_Pixel(unsigned char* pixel, const SurfaceClass::Surfa
 **                             SurfaceClass
 *************************************************************************/
 SurfaceClass::SurfaceClass(unsigned width, unsigned height, WW3DFormat format)
-    : D3DSurface(NULL),
+    : D3DSurface(nullptr),
       SurfaceFormat(format)
 {
     WWASSERT(width);
@@ -207,7 +207,7 @@ SurfaceClass::SurfaceClass(unsigned width, unsigned height, WW3DFormat format)
 }
 
 SurfaceClass::SurfaceClass(const char* filename)
-    : D3DSurface(NULL)
+    : D3DSurface(nullptr)
 {
     D3DSurface = DX8Wrapper::_Create_DX8_Surface(filename);
     SurfaceDescription desc;
@@ -216,7 +216,7 @@ SurfaceClass::SurfaceClass(const char* filename)
 }
 
 SurfaceClass::SurfaceClass(IDirect3DSurface8* d3d_surface)
-    : D3DSurface(NULL)
+    : D3DSurface(nullptr)
 {
     Attach(d3d_surface);
     SurfaceDescription desc;
@@ -228,7 +228,7 @@ SurfaceClass::~SurfaceClass(void)
 {
     if (D3DSurface) {
         D3DSurface->Release();
-        D3DSurface = NULL;
+        D3DSurface = nullptr;
     }
 }
 
@@ -482,7 +482,7 @@ void SurfaceClass::Copy(unsigned int dstx, unsigned int dsty, unsigned int srcx,
             dest.bottom = int(sd.Height);
         }
 
-        DX8_ErrorCode(D3DXLoadSurfaceFromSurface(D3DSurface, NULL, &dest, other->D3DSurface, NULL,
+        DX8_ErrorCode(D3DXLoadSurfaceFromSurface(D3DSurface, nullptr, &dest, other->D3DSurface, nullptr,
                                                  &src, D3DX_FILTER_NONE, 0));
     }
 }
@@ -525,7 +525,7 @@ void SurfaceClass::Stretch_Copy(unsigned int dstx, unsigned int dsty, unsigned i
     dest.top = dsty;
     dest.bottom = dsty + dstheight;
 
-    DX8_ErrorCode(D3DXLoadSurfaceFromSurface(D3DSurface, NULL, &dest, other->D3DSurface, NULL, &src,
+    DX8_ErrorCode(D3DXLoadSurfaceFromSurface(D3DSurface, nullptr, &dest, other->D3DSurface, nullptr, &src,
                                              D3DX_FILTER_TRIANGLE, 0));
 }
 
@@ -739,7 +739,7 @@ void SurfaceClass::Attach(IDirect3DSurface8* surface)
     //
     //	Lock a reference onto the object
     //
-    if (D3DSurface != NULL) {
+    if (D3DSurface != nullptr) {
         D3DSurface->AddRef();
     }
 
@@ -747,7 +747,7 @@ void SurfaceClass::Attach(IDirect3DSurface8* surface)
 }
 
 /***********************************************************************************************
- * SurfaceClass::Detach -- Releases the reference on the internal surface ptr, and NULLs it.	 .*
+ * SurfaceClass::Detach -- Releases the reference on the internal surface ptr, and nullptrs it.	 .*
  *                                                                                             *
  *                                                                                             *
  *                                                                                             *
@@ -766,11 +766,11 @@ void SurfaceClass::Detach(void)
     //
     //	Release the hold we have on the D3D object
     //
-    if (D3DSurface != NULL) {
+    if (D3DSurface != nullptr) {
         D3DSurface->Release();
     }
 
-    D3DSurface = NULL;
+    D3DSurface = nullptr;
     return;
 }
 

@@ -43,7 +43,7 @@
 //
 //////////////////////////////////////////////////////////////////////
 SoundHandleClass::SoundHandleClass(void)
-    : Buffer(NULL)
+    : Buffer(nullptr)
 {
     return;
 }
@@ -59,9 +59,9 @@ SoundHandleClass::~SoundHandleClass(void)
     //	Delay the release of the buffer (fixes a sync bug
     // with Miles internals).
     //
-    if (Buffer != NULL) {
+    if (Buffer != nullptr) {
         WWAudioThreadsClass::Add_Delayed_Release_Object(Buffer);
-        Buffer = NULL;
+        Buffer = nullptr;
     }
 
     return;

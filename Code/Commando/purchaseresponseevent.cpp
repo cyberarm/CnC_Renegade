@@ -99,7 +99,7 @@ void cPurchaseResponseEvent::Act(void)
         //
         // Play a custom SFX for feedback
         //
-        WWASSERT(WWAudioClass::Get_Instance() != NULL);
+        WWASSERT(WWAudioClass::Get_Instance() != nullptr);
         WWAudioClass::Get_Instance()->Create_Instant_Sound("Purchase_Granted", Matrix3D(1));
     }
     else if (ResponseId == VendorClass::PERR_NO_FUNDS) {

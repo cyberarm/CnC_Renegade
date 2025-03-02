@@ -49,10 +49,10 @@ DECLARE_SCRIPT(MXX_Group_Member_DEL, "GroupName:string")
     void Created(GameObject * owner)
     {
         mGroupName = Get_Parameter("GroupName");
-        assert(mGroupName != NULL);
+        assert(mGroupName != nullptr);
 
         GroupController* controller = GroupController::Instance();
-        assert(controller != NULL);
+        assert(controller != nullptr);
         controller->AddToGroup(mGroupName, owner);
     }
 
@@ -60,7 +60,7 @@ DECLARE_SCRIPT(MXX_Group_Member_DEL, "GroupName:string")
     void Destroyed(GameObject * owner)
     {
         GroupController* controller = GroupController::Instance();
-        assert(controller != NULL);
+        assert(controller != nullptr);
         controller->RemoveFromGroup(mGroupName, owner);
     }
 
@@ -68,7 +68,7 @@ DECLARE_SCRIPT(MXX_Group_Member_DEL, "GroupName:string")
     void Killed(GameObject * owner, GameObject * killer)
     {
         GroupController* controller = GroupController::Instance();
-        assert(controller != NULL);
+        assert(controller != nullptr);
 
         GroupEventInfo info;
         info.GroupName = mGroupName;
@@ -76,7 +76,7 @@ DECLARE_SCRIPT(MXX_Group_Member_DEL, "GroupName:string")
         info.Object = killer;
 
         Group* group = controller->FindGroup(mGroupName);
-        assert(group != NULL);
+        assert(group != nullptr);
         group->SendCustomEvent(owner, SCMD_GROUP_EVENT, (int)&info);
     }
 
@@ -84,7 +84,7 @@ DECLARE_SCRIPT(MXX_Group_Member_DEL, "GroupName:string")
     void Damaged(GameObject * owner, GameObject * damager)
     {
         GroupController* controller = GroupController::Instance();
-        assert(controller != NULL);
+        assert(controller != nullptr);
 
         GroupEventInfo info;
         info.GroupName = mGroupName;
@@ -92,7 +92,7 @@ DECLARE_SCRIPT(MXX_Group_Member_DEL, "GroupName:string")
         info.Object = damager;
 
         Group* group = controller->FindGroup(mGroupName);
-        assert(group != NULL);
+        assert(group != nullptr);
         group->SendCustomEvent(owner, SCMD_GROUP_EVENT, (int)&info);
     }
 
@@ -100,7 +100,7 @@ DECLARE_SCRIPT(MXX_Group_Member_DEL, "GroupName:string")
     void Sound_Heard(GameObject * owner, const CombatSound& sound)
     {
         GroupController* controller = GroupController::Instance();
-        assert(controller != NULL);
+        assert(controller != nullptr);
 
         GroupEventInfo info;
         info.GroupName = mGroupName;
@@ -108,7 +108,7 @@ DECLARE_SCRIPT(MXX_Group_Member_DEL, "GroupName:string")
         info.Sound = &sound;
 
         Group* group = controller->FindGroup(mGroupName);
-        assert(group != NULL);
+        assert(group != nullptr);
         group->SendCustomEvent(owner, SCMD_GROUP_EVENT, (int)&info);
     }
 
@@ -116,7 +116,7 @@ DECLARE_SCRIPT(MXX_Group_Member_DEL, "GroupName:string")
     void Enemy_Seen(GameObject * owner, GameObject * enemy)
     {
         GroupController* controller = GroupController::Instance();
-        assert(controller != NULL);
+        assert(controller != nullptr);
 
         GroupEventInfo info;
         info.GroupName = mGroupName;
@@ -124,7 +124,7 @@ DECLARE_SCRIPT(MXX_Group_Member_DEL, "GroupName:string")
         info.Object = enemy;
 
         Group* group = controller->FindGroup(mGroupName);
-        assert(group != NULL);
+        assert(group != nullptr);
         group->SendCustomEvent(owner, SCMD_GROUP_EVENT, (int)&info);
     }
 
@@ -133,7 +133,7 @@ DECLARE_SCRIPT(MXX_Group_Member_DEL, "GroupName:string")
     {
         if (SCMD_GROUP_EVENT == event) {
             GroupEventInfo* info = (GroupEventInfo*)data;
-            assert(info != NULL);
+            assert(info != nullptr);
 
             int senderID = Commands->Get_ID(sender);
             int objectID = Commands->Get_ID(info->Object);

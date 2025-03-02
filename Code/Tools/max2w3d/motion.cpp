@@ -77,7 +77,7 @@ MotionClass::MotionClass(IScene* scene, INode* rootnode, HierarchySaveClass* bas
     : BasePose(basepose),
       Scene(scene),
       RootNode(rootnode),
-      RootList(NULL),
+      RootList(nullptr),
       StartFrame(options.StartFrame),
       EndFrame(options.EndFrame),
       ReduceAnimation(options.ReduceAnimation),
@@ -115,7 +115,7 @@ MotionClass::MotionClass(IScene* scene, INodeListClass* rootlist, HierarchySaveC
                          Progress_Meter_Class* meter, HWND MaxHwnd, char* name, Matrix3& offset)
     : BasePose(basepose),
       Scene(scene),
-      RootNode(NULL),
+      RootNode(nullptr),
       RootList(rootlist),
       StartFrame(options.StartFrame),
       EndFrame(options.EndFrame),
@@ -163,18 +163,18 @@ void MotionClass::init(void)
     ** and an XYZEulers per frame per node.
     */
     MotionMatrix = new Matrix3*[BasePose->Num_Nodes()];
-    if (MotionMatrix == NULL) {
+    if (MotionMatrix == nullptr) {
         throw(ErrorClass("Out of Memory"));
     }
 
     EulerDelta = new Point3*[BasePose->Num_Nodes()];
-    if (EulerDelta == NULL) {
+    if (EulerDelta == nullptr) {
         throw(ErrorClass("Out of Memory"));
     }
 
     for (i = 0; i < BasePose->Num_Nodes(); i++) {
         MotionMatrix[i] = new Matrix3[NumFrames];
-        if (MotionMatrix[i] == NULL) {
+        if (MotionMatrix[i] == nullptr) {
             throw(ErrorClass("Out of Memory"));
         }
 
@@ -188,7 +188,7 @@ void MotionClass::init(void)
 
     for (i = 0; i < BasePose->Num_Nodes(); i++) {
         EulerDelta[i] = new Point3[NumFrames];
-        if (EulerDelta[i] == NULL) {
+        if (EulerDelta[i] == nullptr) {
             throw(ErrorClass("Out of Memory"));
         }
 
@@ -328,7 +328,7 @@ void MotionClass::compute_frame_motion(int frame)
     */
     HierarchySaveClass* tree;
 
-    if (RootNode != NULL) {
+    if (RootNode != nullptr) {
         tree = new HierarchySaveClass(RootNode, frametime, *Meter, "NoName", false, BasePose);
     }
     else {
@@ -336,7 +336,7 @@ void MotionClass::compute_frame_motion(int frame)
                                       Offset);
     }
 
-    if (tree == NULL) {
+    if (tree == nullptr) {
         throw(ErrorClass("Out of memory!"));
     }
 

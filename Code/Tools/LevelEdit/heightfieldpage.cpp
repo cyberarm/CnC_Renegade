@@ -66,7 +66,7 @@ static char THIS_FILE[] = __FILE__;
 ///////////////////////////////////////////////////////////////////////
 //	Static member initialization
 ///////////////////////////////////////////////////////////////////////
-HeightfieldPageClass* HeightfieldPageClass::_TheInstance = NULL;
+HeightfieldPageClass* HeightfieldPageClass::_TheInstance = nullptr;
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -92,7 +92,7 @@ HeightfieldPageClass::HeightfieldPageClass(CWnd* parent_wnd)
 /////////////////////////////////////////////////////////////////////////////
 HeightfieldPageClass::~HeightfieldPageClass(void)
 {
-    _TheInstance = NULL;
+    _TheInstance = nullptr;
     return;
 }
 
@@ -298,15 +298,15 @@ void HeightfieldPageClass::Update_Material_Button(int index)
     int ctrl_id = IDC_TEXTURE0_BUTTON + index;
     HWND button_wnd = ::GetDlgItem(m_hWnd, ctrl_id);
 
-    if (button_wnd != NULL) {
+    if (button_wnd != nullptr) {
 
-        HBITMAP thumbnail = NULL;
+        HBITMAP thumbnail = nullptr;
 
         //
         //	Get the material for this slot
         //
         TerrainMaterialClass* material = HeightfieldEditorClass::Get_Material(index);
-        if (material != NULL) {
+        if (material != nullptr) {
 
             //
             //	Create a bitmap from this material
@@ -320,13 +320,13 @@ void HeightfieldPageClass::Update_Material_Button(int index)
         //
         HBITMAP old_bmp = (HBITMAP)::SendMessage(button_wnd, BM_SETIMAGE, (WPARAM)IMAGE_BITMAP,
                                                  (LPARAM)thumbnail);
-        if (old_bmp != NULL) {
+        if (old_bmp != nullptr) {
 
             //
             //	Free the old button bitmap
             //
             ::DeleteObject(old_bmp);
-            old_bmp = NULL;
+            old_bmp = nullptr;
         }
     }
 

@@ -97,7 +97,7 @@ public:
     TextureMapperClass* Clone(void) const
     {
         WWASSERT(0);
-        return NULL;
+        return nullptr;
     }
 
     virtual void Apply(int uv_array_index);

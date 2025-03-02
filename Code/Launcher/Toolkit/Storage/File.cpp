@@ -260,8 +260,8 @@ bool File::IsAvailable(bool force)
     mName.ConvertToANSI(name, sizeof(name));
 
     // Attempt to open the file
-    mHandle = CreateFile(name, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING,
-                         FILE_ATTRIBUTE_NORMAL, NULL);
+    mHandle = CreateFile(name, GENERIC_READ, FILE_SHARE_READ, nullptr, OPEN_EXISTING,
+                         FILE_ATTRIBUTE_NORMAL, nullptr);
 
     // If the open failed then the file is not available.
     if (mHandle == INVALID_HANDLE) {
@@ -333,20 +333,20 @@ File::EFileError File::Open(ERights rights)
         switch (rights) {
         // Read only access
         case Rights_ReadOnly:
-            mHandle = CreateFile(name, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING,
-                                 FILE_ATTRIBUTE_NORMAL, NULL);
+            mHandle = CreateFile(name, GENERIC_READ, FILE_SHARE_READ, nullptr, OPEN_EXISTING,
+                                 FILE_ATTRIBUTE_NORMAL, nullptr);
             break;
 
         // Write only access
         case Rights_WriteOnly:
-            mHandle = CreateFile(name, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL,
-                                 NULL);
+            mHandle = CreateFile(name, GENERIC_WRITE, 0, nullptr, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL,
+                                 nullptr);
             break;
 
         // Read and Write access
         case Rights_ReadWrite:
-            mHandle = CreateFile(name, GENERIC_READ | GENERIC_WRITE, 0, NULL, OPEN_ALWAYS,
-                                 FILE_ATTRIBUTE_NORMAL, NULL);
+            mHandle = CreateFile(name, GENERIC_READ | GENERIC_WRITE, 0, nullptr, OPEN_ALWAYS,
+                                 FILE_ATTRIBUTE_NORMAL, nullptr);
             break;
 
         // Unknown rights access violation
@@ -517,7 +517,7 @@ File::EFileError File::Delete(void)
 
 File::EFileError File::Load(void*& outBuffer, UInt32& outSize)
 {
-    outBuffer = NULL;
+    outBuffer = nullptr;
     outSize = 0;
 
     // Enforce access control
@@ -543,7 +543,7 @@ File::EFileError File::Load(void*& outBuffer, UInt32& outSize)
     }
 
     // Get the size of the file
-    UInt32 size = GetFileSize(mHandle, NULL);
+    UInt32 size = GetFileSize(mHandle, nullptr);
 
     if (size == 0xFFFFFFFF) {
         PrintWin32Error("File::Load(%S) - GetFileSize", mName.Get());
@@ -557,13 +557,13 @@ File::EFileError File::Load(void*& outBuffer, UInt32& outSize)
         outSize = size;
 
         // If allocation succeded then load file data.
-        if (outBuffer != NULL) {
+        if (outBuffer != nullptr) {
             // Fill the buffer with the file contents
             while (size > 0) {
                 unsigned long bytesRead = 0;
 
                 // Read in some bytes.
-                if (ReadFile(mHandle, outBuffer, size, &bytesRead, NULL) == 0) {
+                if (ReadFile(mHandle, outBuffer, size, &bytesRead, nullptr) == 0) {
                     result = FileError_Read;
 
                     if (OnFileError(result, true) == false) {
@@ -637,7 +637,7 @@ File::EFileError File::Save(const void* buffer, UInt32 size)
         // Write the data to the file.
         unsigned long bytesWritten = 0;
 
-        if (WriteFile(mHandle, buffer, size, &bytesWritten, NULL) == 0) {
+        if (WriteFile(mHandle, buffer, size, &bytesWritten, nullptr) == 0) {
             result = FileError_Write;
             OnFileError(result, false);
         }
@@ -717,7 +717,7 @@ UInt32 File::GetLength(void)
         openedHere = true;
     }
 
-    UInt32 length = GetFileSize(mHandle, NULL);
+    UInt32 length = GetFileSize(mHandle, nullptr);
 
     if (length == 0xFFFFFFFF) {
         OnFileError(FileError_Fault, false);
@@ -750,15 +750,15 @@ UInt32 File::GetLength(void)
 void File::SetLength(UInt32 length)
 {
     // Get the current file position
-    UInt32 position = SetFilePointer(mHandle, 0, NULL, FILE_CURRENT);
+    UInt32 position = SetFilePointer(mHandle, 0, nullptr, FILE_CURRENT);
 
     // Extend the file size by positioning the Win32 file pointer to the
     // specified location then setting the end of file.
-    SetFilePointer(mHandle, length, NULL, FILE_BEGIN);
+    SetFilePointer(mHandle, length, nullptr, FILE_BEGIN);
     SetEndOfFile(mHandle);
 
     // Restore file position
-    SetFilePointer(mHandle, position, NULL, FILE_BEGIN);
+    SetFilePointer(mHandle, position, nullptr, FILE_BEGIN);
 }
 
 /******************************************************************************
@@ -779,7 +779,7 @@ void File::SetLength(UInt32 length)
 
 UInt32 File::GetMarker(void)
 {
-    return SetFilePointer(mHandle, 0, NULL, FILE_CURRENT);
+    return SetFilePointer(mHandle, 0, nullptr, FILE_CURRENT);
 }
 
 /******************************************************************************
@@ -823,7 +823,7 @@ void File::SetMarker(Int32 offset, EStreamFrom from)
             break;
         }
 
-        offset = SetFilePointer(mHandle, offset, NULL, dir);
+        offset = SetFilePointer(mHandle, offset, nullptr, dir);
 
         if (offset == 0xFFFFFFFF) {
             OnFileError(FileError_Seek, false);
@@ -871,8 +871,8 @@ bool File::AtEnd(void)
 
 UInt32 File::GetBytes(void* ptr, UInt32 bytes)
 {
-    // Parameter check; Null pointers are bad!
-    assert(ptr != NULL);
+    // Parameter check; nullptr pointers are bad!
+    assert(ptr != nullptr);
 
     // Enforce rights control
     if (GetRights() == Rights_WriteOnly) {
@@ -894,7 +894,7 @@ UInt32 File::GetBytes(void* ptr, UInt32 bytes)
     while (bytesToRead > 0) {
         unsigned long read;
 
-        if (ReadFile(mHandle, ptr, bytesToRead, &read, NULL) == 0) {
+        if (ReadFile(mHandle, ptr, bytesToRead, &read, nullptr) == 0) {
             if (OnFileError(FileError_Read, true) == false) {
                 return 0;
             }
@@ -932,8 +932,8 @@ UInt32 File::GetBytes(void* ptr, UInt32 bytes)
 
 UInt32 File::PutBytes(const void* ptr, UInt32 bytes)
 {
-    // Parameter check; Null pointers are bad!
-    assert(ptr != NULL);
+    // Parameter check; nullptr pointers are bad!
+    assert(ptr != nullptr);
 
     // Enforce access control
     if (GetRights() == Rights_ReadOnly) {
@@ -955,7 +955,7 @@ UInt32 File::PutBytes(const void* ptr, UInt32 bytes)
     while (bytesToWrite > 0) {
         unsigned long written;
 
-        if (WriteFile(mHandle, ptr, bytes, &written, NULL) == 0) {
+        if (WriteFile(mHandle, ptr, bytes, &written, nullptr) == 0) {
             if (OnFileError(FileError_Write, true) == false) {
                 return 0;
             }
@@ -987,8 +987,8 @@ UInt32 File::PutBytes(const void* ptr, UInt32 bytes)
 
 UInt32 File::PeekBytes(void* ptr, UInt32 bytes)
 {
-    // Parameter check; NULL pointers are bad!
-    assert(ptr != NULL);
+    // Parameter check; nullptr pointers are bad!
+    assert(ptr != nullptr);
 
     // Get current position
     UInt32 pos = GetMarker();

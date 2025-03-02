@@ -46,7 +46,7 @@ to work only with unsigned char buffers of least 15 bytes long.
 }*/
 /*------------------------------------------------------------------------------.
 | FUNCTION:  PrepareEncryptedPacket()
-| | If an error occurs, a NULL will be returned and the size value will be a		| | negative
+| | If an error occurs, a nullptr will be returned and the size value will be a		| | negative
 integer corresponding to an error in wencrypt.h.						| | JUL 20/99:  In the Windows WOLAPI, the function RequestGameresSend requires	| | a buffer that can
 be passed to the constructor of PacketClass.  Thus we need	| | to wrap our encrypted buffer in
 a packet with one big data field and pass		| | it's Comms Packet output back.
@@ -54,8 +54,8 @@ a packet with one big data field and pass		| | it's Comms Packet output back.
 `------------------------------------------------------------------------------*/
 unsigned char* PrepareEncryptedPacket(unsigned char* packet, int* size)
 {
-    unsigned char* rlebuf = NULL;
-    unsigned char* encbuf = NULL;
+    unsigned char* rlebuf = nullptr;
+    unsigned char* encbuf = nullptr;
     PacketClass wrap;
     static char field[5] = { "CNTL" };
 
@@ -66,11 +66,11 @@ unsigned char* PrepareEncryptedPacket(unsigned char* packet, int* size)
 
     // XOR encrypt
     encbuf = SimpleEncrypt(rlebuf, size);
-    if (rlebuf != NULL) {
+    if (rlebuf != nullptr) {
         free(rlebuf);
     }
-    if (encbuf == NULL) {
-        return NULL; // SimpleEncrypt fills the error in
+    if (encbuf == nullptr) {
+        return nullptr; // SimpleEncrypt fills the error in
     }
 
     // Now we have to wrap the encrypted data inside a valid PacketClass blob
@@ -82,7 +82,7 @@ unsigned char* PrepareEncryptedPacket(unsigned char* packet, int* size)
 
 /*------------------------------------------------------------------------------.
 | FUNCTION:  DecryptPacket()
-| | If an error occurs, a NULL will be returned and the size value will be a      | | negative
+| | If an error occurs, a nullptr will be returned and the size value will be a      | | negative
 integer corresponding to an error in wencrypt.h                      |
 `------------------------------------------------------------------------------*/
 #ifndef __CLIENT__
@@ -92,13 +92,13 @@ unsigned char* DecryptPacket(unsigned char* encbuf, int* size)
     unsigned char* packet;
 
     rlebuf = SimpleDecrypt(encbuf, size);
-    if (rlebuf == NULL) {
-        return NULL; // SimpleDecrypt fills the error in
+    if (rlebuf == nullptr) {
+        return nullptr; // SimpleDecrypt fills the error in
     }
 
     packet = RLDecode(rlebuf, size); // Allocates memory!!
-    if (packet == NULL) {
-        return NULL; // RLDecode fills the error in
+    if (packet == nullptr) {
+        return nullptr; // RLDecode fills the error in
     }
 
     return packet;
@@ -179,7 +179,7 @@ void RLEncode(unsigned char* src, unsigned char* dst, int* size)
 /*------------------------------------------------------------------------------.
 | FUNCTION:  RLDecode()                                                         |
 | Nothing special...just remember byte 0 is the escape and not part of the 		|
-| original buffer.  If there is an error, the returned pointer will be NULL		|
+| original buffer.  If there is an error, the returned pointer will be nullptr		|
 | and the size will contain a negative number indicating the error code.		|
 `------------------------------------------------------------------------------*/
 #ifndef __CLIENT__
@@ -204,7 +204,7 @@ unsigned char* RLDecode(unsigned char* src, int* size)
         }
         else if (src[i] == escape && i == (*size - 1)) {
             *size = ERR_SPURIOUS_ESCAPE;
-            return NULL;
+            return nullptr;
         }
         else {
             dstsize++;
@@ -231,7 +231,7 @@ unsigned char* RLDecode(unsigned char* src, int* size)
         else if (src[i] == escape && i == (*size - 1)) {
             *size = ERR_SPURIOUS_ESCAPE;
             delete[] dst;
-            return NULL;
+            return nullptr;
         }
         else {
             dst[j++] = src[i];
@@ -326,7 +326,7 @@ void GenerateKey(unsigned char* key, int len, long seed)
 /*--------------------------------------------------------------.
 | FUNCTON:  SimpleEncrypt() | | Ok, not entirely simple but it's not bad.  We generate the	| |
 key, then prepare a new buffer which will contain the 		| | encrypted data.  Byte 6 of the
-buffer is a random offset into	| | bytes 10 - 256 which will contain the four byte seed value	| | used to construct the key.									| | If there is an error, the returned pointer will be NULL and 	| | the len value will be filled
+buffer is a random offset into	| | bytes 10 - 256 which will contain the four byte seed value	| | used to construct the key.									| | If there is an error, the returned pointer will be nullptr and 	| | the len value will be filled
 with a negative number 			| | indicating the error code.
 |
 `--------------------------------------------------------------*/
@@ -349,11 +349,11 @@ unsigned char* SimpleEncrypt(const unsigned char* src, int* len)
         *len = -2;
         free(key);
         free(dst);
-        return NULL;
+        return nullptr;
     }
 
     // Generate the random stuff
-    seed = (long)time(NULL);
+    seed = (long)time(nullptr);
     if (seed > 0) {
         seed *= -1; // Don't check for seed == 0 because a ligit
                     // packet builder should never set a seed of
@@ -365,7 +365,7 @@ unsigned char* SimpleEncrypt(const unsigned char* src, int* len)
 
     // We want the offset to be somewhere between byte 10 and byte (255-14), or
     // (*len - 4), whichever is smaller
-    offsetseed = (long)time(NULL);
+    offsetseed = (long)time(nullptr);
     if (offsetseed > 0) {
         offsetseed *= -1;
     }
@@ -413,7 +413,7 @@ unsigned char* SimpleDecrypt(unsigned char* src, int* len)
         *len = -2;
         delete[] key;
         delete[] dst;
-        return NULL;
+        return nullptr;
     }
 
     // Generate the key
@@ -424,7 +424,7 @@ unsigned char* SimpleDecrypt(unsigned char* src, int* len)
         *len = -3;
         delete[] key;
         delete[] dst;
-        return NULL;
+        return nullptr;
     }
     GenerateKey(key, (*len) - 5, seed);
 

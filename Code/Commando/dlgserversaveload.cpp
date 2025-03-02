@@ -81,7 +81,7 @@ void ServerSaveLoadMenuClass::On_Init_Dialog(void)
     }
 
     ListCtrlClass* list_ctrl = (ListCtrlClass*)Get_Dlg_Item(IDC_LIST_CTRL);
-    if (list_ctrl != NULL) {
+    if (list_ctrl != nullptr) {
 
         //
         //	Configure the column
@@ -162,7 +162,7 @@ void ServerSaveLoadMenuClass::Next_Dialog(void)
 void ServerSaveLoadMenuClass::Delete_Config(void)
 {
     ListCtrlClass* list_ctrl = (ListCtrlClass*)Get_Dlg_Item(IDC_LIST_CTRL);
-    if (list_ctrl == NULL) {
+    if (list_ctrl == nullptr) {
         return;
     }
 
@@ -176,7 +176,7 @@ void ServerSaveLoadMenuClass::Delete_Config(void)
         //	Get the configuration object associated with this entry
         //
         ServerSettingsClass* config = (ServerSettingsClass*)list_ctrl->Get_Entry_Data(curr_sel, 0);
-        if (config != NULL) {
+        if (config != nullptr) {
 
             //
             //	Delete the configuration (if possible)
@@ -198,7 +198,7 @@ void ServerSaveLoadMenuClass::Delete_Config(void)
 void ServerSaveLoadMenuClass::Load_Config(void)
 {
     ListCtrlClass* list_ctrl = (ListCtrlClass*)Get_Dlg_Item(IDC_LIST_CTRL);
-    if (list_ctrl == NULL) {
+    if (list_ctrl == nullptr) {
         return;
     }
 
@@ -212,7 +212,7 @@ void ServerSaveLoadMenuClass::Load_Config(void)
         //	Get the configuration object associated with this entry
         //
         ServerSettingsClass* config = (ServerSettingsClass*)list_ctrl->Get_Entry_Data(curr_sel, 0);
-        if (config != NULL) {
+        if (config != nullptr) {
 
             if (FromSlaveConfig) {
                 //
@@ -242,7 +242,7 @@ void ServerSaveLoadMenuClass::Load_Config(void)
 void ServerSaveLoadMenuClass::Save_Config(bool prompt)
 {
     ListCtrlClass* list_ctrl = (ListCtrlClass*)Get_Dlg_Item(IDC_LIST_CTRL);
-    if (list_ctrl == NULL) {
+    if (list_ctrl == nullptr) {
         return;
     }
 
@@ -256,7 +256,7 @@ void ServerSaveLoadMenuClass::Save_Config(bool prompt)
         //	Get the configuration object associated with this entry
         //
         ServerSettingsClass* config = (ServerSettingsClass*)list_ctrl->Get_Entry_Data(curr_sel, 0);
-        if (config != NULL) {
+        if (config != nullptr) {
 
             //
             //	We can only save custom configurations...
@@ -294,7 +294,7 @@ void ServerSaveLoadMenuClass::Save_Config(bool prompt)
                         //	Let the user know they can't save a configuration without a name
                         //
                         DlgMsgBox::DoDialog(IDS_MENU_CANT_SAVE_CONFIG, IDS_MENU_CONFIG_NEEDS_NAME,
-                                            DlgMsgBox::Okay, NULL, 0);
+                                            DlgMsgBox::Okay, nullptr, 0);
                     }
                 }
                 else {
@@ -324,7 +324,7 @@ void ServerSaveLoadMenuClass::Save_Config(bool prompt)
                 //
                 WideStringClass name(display_name, true);
                 config = ServerSettingsManagerClass::Add_Configuration(&name);
-                if (config != NULL) {
+                if (config != nullptr) {
                     Insert_Configuration(config);
                     ServerSettingsManagerClass::Save_Configuration(config);
                     list_ctrl->Sort(ListSortCallback, 0);
@@ -336,7 +336,7 @@ void ServerSaveLoadMenuClass::Save_Config(bool prompt)
                 //	Let the user know they can't save a configuration without a name
                 //
                 DlgMsgBox::DoDialog(IDS_MENU_CANT_SAVE_CONFIG, IDS_MENU_CONFIG_NEEDS_NAME,
-                                    DlgMsgBox::Okay, NULL, 0);
+                                    DlgMsgBox::Okay, nullptr, 0);
             }
         }
     }
@@ -354,12 +354,12 @@ void ServerSaveLoadMenuClass::On_ListCtrl_Delete_Entry(ListCtrlClass* list_ctrl,
     //	Remove the data we associated with this entry
     //
     ServerSettingsClass* config = (ServerSettingsClass*)list_ctrl->Get_Entry_Data(item_index, 0);
-    list_ctrl->Set_Entry_Data(item_index, 0, NULL);
+    list_ctrl->Set_Entry_Data(item_index, 0, nullptr);
 
     //
     //	Free the config object
     //
-    if (config != NULL) {
+    if (config != nullptr) {
         delete config;
     }
 
@@ -374,7 +374,7 @@ void ServerSaveLoadMenuClass::On_ListCtrl_Delete_Entry(ListCtrlClass* list_ctrl,
 int ServerSaveLoadMenuClass::Insert_Configuration(ServerSettingsClass* config)
 {
     ListCtrlClass* list_ctrl = (ListCtrlClass*)Get_Dlg_Item(IDC_LIST_CTRL);
-    if (list_ctrl == NULL) {
+    if (list_ctrl == nullptr) {
         return -1;
     }
 
@@ -415,7 +415,7 @@ void ServerSaveLoadMenuClass::On_ListCtrl_Sel_Change(ListCtrlClass* list_ctrl, i
     //	Remove the data we associated with this entry
     //
     ServerSettingsClass* config = (ServerSettingsClass*)list_ctrl->Get_Entry_Data(new_index, 0);
-    if (config != NULL) {
+    if (config != nullptr) {
 
         //
         //	We want to disable the edit control if the user can't edit this entry
@@ -456,10 +456,10 @@ int CALLBACK ServerSaveLoadMenuClass::ListSortCallback(ListCtrlClass* list_ctrl,
     ServerSettingsClass* config1 = (ServerSettingsClass*)list_ctrl->Get_Entry_Data(item_index1, 0);
     ServerSettingsClass* config2 = (ServerSettingsClass*)list_ctrl->Get_Entry_Data(item_index2, 0);
 
-    if (config1 == NULL) {
+    if (config1 == nullptr) {
         return (1);
     }
-    else if (config2 == NULL) {
+    else if (config2 == nullptr) {
         return (-1);
     }
     else {
@@ -524,7 +524,7 @@ void ServerSaveLoadMenuClass::Save_Now(void)
 {
 
     ListCtrlClass* list_ctrl = (ListCtrlClass*)Get_Dlg_Item(IDC_LIST_CTRL);
-    if (list_ctrl == NULL) {
+    if (list_ctrl == nullptr) {
         return;
     }
 
@@ -539,7 +539,7 @@ void ServerSaveLoadMenuClass::Save_Now(void)
         //
         ServerSettingsClass* config = (ServerSettingsClass*)list_ctrl->Get_Entry_Data(curr_sel, 0);
 
-        if (config != NULL) {
+        if (config != nullptr) {
             //
             //	We can only save custom configurations...
             //
@@ -747,8 +747,8 @@ void ServerSettingsManagerClass::Clear_Settings_List(void)
  *=============================================================================================*/
 void ServerSettingsManagerClass::Load_Settings(ServerSettingsClass* settings)
 {
-    WWASSERT(settings != NULL);
-    WWASSERT(The_Game() != NULL);
+    WWASSERT(settings != nullptr);
+    WWASSERT(The_Game() != nullptr);
 
     if (settings && The_Game()) {
         char filename[MAX_PATH];
@@ -808,8 +808,8 @@ void ServerSettingsManagerClass::Delete_Configuration(ServerSettingsClass* setti
  *=============================================================================================*/
 void ServerSettingsManagerClass::Save_Configuration(ServerSettingsClass* settings)
 {
-    WWASSERT(settings != NULL);
-    WWASSERT(The_Game() != NULL);
+    WWASSERT(settings != nullptr);
+    WWASSERT(The_Game() != nullptr);
 
     if (settings && The_Game()) {
         char filename[MAX_PATH];
@@ -845,10 +845,10 @@ void ServerSettingsManagerClass::Save_Configuration(ServerSettingsClass* setting
  *=============================================================================================*/
 ServerSettingsClass* ServerSettingsManagerClass::Add_Configuration(WideStringClass* display_name)
 {
-    WWASSERT(display_name != NULL);
+    WWASSERT(display_name != nullptr);
     WWASSERT(The_Game());
 
-    if (display_name != NULL) {
+    if (display_name != nullptr) {
         if (The_Game()) {
 
             /*
@@ -884,5 +884,5 @@ ServerSettingsClass* ServerSettingsManagerClass::Add_Configuration(WideStringCla
             }
         }
     }
-    return (NULL);
+    return (nullptr);
 }

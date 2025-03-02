@@ -129,7 +129,7 @@
 /***********************************************************************************************
  * RawFileClass::RawFileClass -- Default constructor for a file object.                        *
  *                                                                                             *
- *    This constructs a null file object. A null file object has no file handle or filename    *
+ *    This constructs a nullptr file object. A nullptr file object has no file handle or filename    *
  *    associated with it. In order to use a file object created in this fashion it must be     *
  *    assigned a name and then opened.                                                         *
  *                                                                                             *
@@ -146,7 +146,7 @@ RawFileClass::RawFileClass(void)
     : Rights(READ),
       BiasStart(0),
       BiasLength(-1),
-      Handle(NULL_HANDLE),
+      Handle(nullptr_HANDLE),
       Filename(0),
       Date(0),
       Time(0),
@@ -171,7 +171,7 @@ RawFileClass::RawFileClass(void)
  *=============================================================================================*/
 bool RawFileClass::Is_Open(void) const
 {
-    return (Handle != NULL_HANDLE);
+    return (Handle != nullptr_HANDLE);
 }
 
 /***********************************************************************************************
@@ -245,7 +245,7 @@ RawFileClass::RawFileClass(char const* filename)
     : Rights(0),
       BiasStart(0),
       BiasLength(-1),
-      Handle(NULL_HANDLE),
+      Handle(nullptr_HANDLE),
       Filename(filename),
       Date(0),
       Time(0),
@@ -256,7 +256,7 @@ RawFileClass::RawFileClass(char const* filename)
 /***********************************************************************************************
  * RawFileClass::~RawFileClass -- Default deconstructor for a file object.                     *
  *                                                                                             *
- *    This constructs a null file object. A null file object has no file handle or filename    *
+ *    This constructs a nullptr file object. A nullptr file object has no file handle or filename    *
  *    associated with it. In order to use a file object created in this fashion it must be     *
  *    assigned a name and then opened.                                                         *
  *                                                                                             *
@@ -291,7 +291,7 @@ void RawFileClass::Reset(void)
     Close();
     if (Allocated && Filename) {
         free((char*)Filename);
-        Filename = NULL;
+        Filename = nullptr;
         Allocated = false;
     }
 }
@@ -318,20 +318,20 @@ void RawFileClass::Reset(void)
  *=============================================================================================*/
 char const* RawFileClass::Set_Name(char const* filename)
 {
-    if (Filename != NULL && Allocated) {
+    if (Filename != nullptr && Allocated) {
         free((char*)Filename);
-        Filename = NULL;
+        Filename = nullptr;
         Allocated = false;
     }
 
-    if (filename == NULL) {
-        return (NULL);
+    if (filename == nullptr) {
+        return (nullptr);
     }
 
     Bias(0);
 
     char* nameptr = strdup(filename);
-    if (nameptr == NULL) {
+    if (nameptr == nullptr) {
         Error(ENOMEM, false, filename);
     }
 
@@ -406,7 +406,7 @@ int RawFileClass::Open(int rights)
     **	Verify that there is a filename associated with this file object. If not, then this is a
     **	big error condition.
     */
-    if (Filename == NULL) {
+    if (Filename == nullptr) {
         Error(ENOENT, false);
     }
 
@@ -438,8 +438,8 @@ int RawFileClass::Open(int rights)
 #ifdef _UNIX
             Handle = fopen(Filename, "r");
 #else
-            Handle = CreateFileA(Filename, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING,
-                                 FILE_ATTRIBUTE_NORMAL, NULL);
+            Handle = CreateFileA(Filename, GENERIC_READ, FILE_SHARE_READ, nullptr, OPEN_EXISTING,
+                                 FILE_ATTRIBUTE_NORMAL, nullptr);
 #endif
             break;
 
@@ -447,8 +447,8 @@ int RawFileClass::Open(int rights)
 #ifdef _UNIX
             Handle = fopen(Filename, "w");
 #else
-            Handle = CreateFileA(Filename, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS,
-                                 FILE_ATTRIBUTE_NORMAL, NULL);
+            Handle = CreateFileA(Filename, GENERIC_WRITE, 0, nullptr, CREATE_ALWAYS,
+                                 FILE_ATTRIBUTE_NORMAL, nullptr);
 #endif
             break;
 
@@ -458,8 +458,8 @@ int RawFileClass::Open(int rights)
 #else
             // SKB 5/13/99 use OPEN_ALWAYS instead of CREATE_ALWAYS so that files
             //					does not get destroyed.
-            Handle = CreateFileA(Filename, GENERIC_READ | GENERIC_WRITE, 0, NULL, OPEN_ALWAYS,
-                                 FILE_ATTRIBUTE_NORMAL, NULL);
+            Handle = CreateFileA(Filename, GENERIC_READ | GENERIC_WRITE, 0, nullptr, OPEN_ALWAYS,
+                                 FILE_ATTRIBUTE_NORMAL, nullptr);
 #endif
             break;
         }
@@ -476,7 +476,7 @@ int RawFileClass::Open(int rights)
         **	For the case of the file cannot be found, then allow a retry. All other cases
         **	are fatal.
         */
-        if (Handle == NULL_HANDLE) {
+        if (Handle == nullptr_HANDLE) {
             return (false);
 
             //			Error(GetLastError(), false, Filename);
@@ -507,7 +507,7 @@ int RawFileClass::Open(int rights)
  *=============================================================================================*/
 bool RawFileClass::Is_Available(int forced)
 {
-    if (Filename == NULL) {
+    if (Filename == nullptr) {
         return (false);
     }
 
@@ -539,11 +539,11 @@ bool RawFileClass::Is_Available(int forced)
 #ifdef _UNIX
         Handle = fopen(Filename, "r");
 #else
-        Handle = CreateFileA(Filename, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING,
-                             FILE_ATTRIBUTE_NORMAL, NULL);
+        Handle = CreateFileA(Filename, GENERIC_READ, FILE_SHARE_READ, nullptr, OPEN_EXISTING,
+                             FILE_ATTRIBUTE_NORMAL, nullptr);
 #endif
 
-        if (Handle == NULL_HANDLE) {
+        if (Handle == nullptr_HANDLE) {
             return (false);
         }
         break;
@@ -561,7 +561,7 @@ bool RawFileClass::Is_Available(int forced)
     if (!closeok) {
         Error(GetLastError(), false, Filename);
     }
-    Handle = NULL_HANDLE;
+    Handle = nullptr_HANDLE;
 
     return (true);
 }
@@ -606,7 +606,7 @@ void RawFileClass::Close(void)
         /*
         **	At this point the file must have been closed. Mark the file as empty and return.
         */
-        Handle = NULL_HANDLE;
+        Handle = nullptr_HANDLE;
     }
 }
 
@@ -618,10 +618,10 @@ void RawFileClass::Close(void)
  *    the file. This condition can result in fewer bytes being read than requested. Determine  *
  *    this by examining the return value.                                                      *
  *                                                                                             *
- * INPUT:   buffer   -- Pointer to the buffer to read data into. If NULL is passed, no read    *
+ * INPUT:   buffer   -- Pointer to the buffer to read data into. If nullptr is passed, no read    *
  *                      is performed.                                                          *
  *                                                                                             *
- *          size     -- The number of bytes to read. If NULL is passed, then no read is        *
+ *          size     -- The number of bytes to read. If nullptr is passed, then no read is        *
  *                      performed.                                                             *
  *                                                                                             *
  * OUTPUT:  Returns with the number of bytes read into the buffer. If this number is less      *
@@ -674,7 +674,7 @@ int RawFileClass::Read(void* buffer, int size)
             readok = ferror(Handle);
         }
 #else
-        readok = ReadFile(Handle, buffer, size, &(unsigned long&)bytesread, NULL);
+        readok = ReadFile(Handle, buffer, size, &(unsigned long&)bytesread, nullptr);
 #endif
 
         if (!readok) {
@@ -743,7 +743,7 @@ int RawFileClass::Write(void const* buffer, int size)
         writeok = FALSE;
     }
 #else
-    writeok = WriteFile(Handle, buffer, size, &(unsigned long&)byteswritten, NULL);
+    writeok = WriteFile(Handle, buffer, size, &(unsigned long&)byteswritten, nullptr);
 #endif
 
     if (!writeok) {
@@ -892,7 +892,7 @@ int RawFileClass::Size(void)
         size = endpos - startpos;
         fsetpos(Handle, &curpos);
 #else
-        size = GetFileSize(Handle, NULL);
+        size = GetFileSize(Handle, nullptr);
 #endif
 
         /*
@@ -1186,7 +1186,7 @@ int RawFileClass::Raw_Seek(int pos, int dir)
         dir = FILE_END;
         break;
     }
-    pos = SetFilePointer(Handle, pos, NULL, dir);
+    pos = SetFilePointer(Handle, pos, nullptr, dir);
 #endif
 
     /*
@@ -1253,5 +1253,5 @@ void RawFileClass::Detach(void)
     Date = 0;
     Time = 0;
     Allocated = false;
-    Handle = NULL_HANDLE;
+    Handle = nullptr_HANDLE;
 }

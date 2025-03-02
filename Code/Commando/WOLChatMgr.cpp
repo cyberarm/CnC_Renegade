@@ -47,7 +47,7 @@
 
 using namespace WWOnline;
 
-WOLChatMgr* WOLChatMgr::_mInstance = NULL;
+WOLChatMgr* WOLChatMgr::_mInstance = nullptr;
 
 // Local prototypes
 typedef void (*SlashCommandFunc)(const wchar_t*);
@@ -81,7 +81,7 @@ static const wchar_t* Get_Parameter_From_String(const wchar_t* command_string,
 
 WOLChatMgr* WOLChatMgr::GetInstance(bool createOK)
 {
-    if (_mInstance == NULL) {
+    if (_mInstance == nullptr) {
         new WOLChatMgr;
 
         if (_mInstance) {
@@ -138,7 +138,7 @@ WOLChatMgr::WOLChatMgr()
 WOLChatMgr::~WOLChatMgr()
 {
     WWDEBUG_SAY(("WOLChatMgr: Destroyed\n"));
-    _mInstance = NULL;
+    _mInstance = nullptr;
 }
 
 /******************************************************************************
@@ -597,7 +597,7 @@ bool WOLChatMgr::SquelchUser(const RefPtr<UserData>& user, bool onoff)
 
         WideStringClass message(0, true);
         message.Format(text, user->GetName());
-        AddMessage(NULL, message, true, true);
+        AddMessage(nullptr, message, true, true);
     }
 
     return success;
@@ -659,7 +659,7 @@ void WOLChatMgr::SendPublicMessage(const wchar_t* message, bool isAction)
         mWOLSession->SendPublicMessage(message);
     }
 
-    const wchar_t* sender = NULL;
+    const wchar_t* sender = nullptr;
 
     RefPtr<UserData> me = mWOLSession->GetCurrentUser();
 
@@ -731,7 +731,7 @@ void WOLChatMgr::SendPrivateMessage(UserList& users, const wchar_t* message, boo
         mWOLSession->SendPrivateMessage(users, message);
     }
 
-    const wchar_t* sender = NULL;
+    const wchar_t* sender = nullptr;
 
     RefPtr<UserData> me = mWOLSession->GetCurrentUser();
 
@@ -1005,7 +1005,7 @@ void WOLChatMgr::HandleNotification(ChannelEvent& event)
             message.Format(TRANSLATE(IDS_CHAT_LOBBYLEFT), displayName);
         }
 
-        AddMessage(NULL, message, true, true);
+        AddMessage(nullptr, message, true, true);
 
         Add_Ref();
         WOLChatMgrEvent event = LobbyChanged;
@@ -1071,7 +1071,7 @@ void WOLChatMgr::HandleNotification(UserEvent& userEvent)
 
         WideStringClass kickMsg(0, true);
         kickMsg.Format(TRANSLATE(IDS_CHAT_USERKICKED), user->GetName());
-        AddMessage(NULL, kickMsg, true, true);
+        AddMessage(nullptr, kickMsg, true, true);
 
         Add_Ref();
         WOLChatMgrEvent event = UserOutListChanged;
@@ -1091,7 +1091,7 @@ void WOLChatMgr::HandleNotification(UserEvent& userEvent)
     case UserEvent::Banned: {
         WideStringClass banMsg(0, true);
         banMsg.Format(TRANSLATE(IDS_CHAT_USERBANNED), userEvent.Subject()->GetName());
-        AddMessage(NULL, banMsg, true, true);
+        AddMessage(nullptr, banMsg, true, true);
     } break;
 
     case UserEvent::Located: {
@@ -1111,7 +1111,7 @@ void WOLChatMgr::HandleNotification(UserEvent& userEvent)
             message += location;
 
             // Add this message to the UI
-            AddMessage(NULL, message, true, false);
+            AddMessage(nullptr, message, true, false);
             mLocatingUserName = L"";
         }
     } break;
@@ -1207,7 +1207,7 @@ bool WOLChatMgr::ProcessCommand(const wchar_t* message)
                 { L"page", SlashCmdPage },     { L"r", SlashCmdR },
                 { L"locate", SlashCmdLocate }, { L"msg", SlashCmdMsg },
                 { L"invite", SlashCmdInvite }, { L"kick", SlashCmdKick },
-                { L"join", SlashCmdJoin },     { NULL, NULL },
+                { L"join", SlashCmdJoin },     { nullptr, nullptr },
             };
 
             int index = 0;

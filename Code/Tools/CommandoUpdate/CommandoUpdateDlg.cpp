@@ -116,7 +116,7 @@ bool Delete_File(LPCTSTR filename);
 /////////////////////////////////////////////////////////////////////////////
 // CCommandoUpdateDlg dialog
 
-CCommandoUpdateDlg::CCommandoUpdateDlg(CWnd* pParent /*=NULL*/)
+CCommandoUpdateDlg::CCommandoUpdateDlg(CWnd* pParent /*=nullptr*/)
     : CDialog(CCommandoUpdateDlg::IDD, pParent)
 {
     //{{AFX_DATA_INIT(CCommandoUpdateDlg)
@@ -159,7 +159,7 @@ BOOL CCommandoUpdateDlg::OnInitDialog()
     //
     for (int index = 0; index < APP_MAX; index++) {
         const APP_INFO& app_info = APPLICATIONS[index];
-        HKEY hreg_key = NULL;
+        HKEY hreg_key = nullptr;
         CString reg_key_name;
         reg_key_name.Format("Software\\Westwood Studios\\%s", app_info.reg_key);
 
@@ -176,7 +176,7 @@ BOOL CCommandoUpdateDlg::OnInitDialog()
             //	Read the installation directory from the registry
             //
             DWORD size = sizeof(path);
-            ::RegQueryValueEx(hreg_key, INSTALL_REG_VALUE, 0L, NULL, (BYTE*)path, &size);
+            ::RegQueryValueEx(hreg_key, INSTALL_REG_VALUE, 0L, nullptr, (BYTE*)path, &size);
             ::RegCloseKey(hreg_key);
         }
         else {
@@ -255,7 +255,7 @@ void CCommandoUpdateDlg::OnOK(void)
         //	Does the user want to install this application?
         //
         if (SendDlgItemMessage(app_info.ctrl_id, BM_GETCHECK) == 1) {
-            HKEY hreg_key = NULL;
+            HKEY hreg_key = nullptr;
             CString reg_key_name;
             reg_key_name.Format("Software\\Westwood Studios\\%s", app_info.reg_key);
 
@@ -332,9 +332,9 @@ void CCommandoUpdateDlg::OnOK(void)
                 //	installed it correctly.
                 //
                 if (success) {
-                    success &= (::RegCreateKeyEx(HKEY_CURRENT_USER, reg_key_name, 0L, NULL,
-                                                 REG_OPTION_NON_VOLATILE, KEY_ALL_ACCESS, NULL,
-                                                 &hreg_key, NULL)
+                    success &= (::RegCreateKeyEx(HKEY_CURRENT_USER, reg_key_name, 0L, nullptr,
+                                                 REG_OPTION_NON_VOLATILE, KEY_ALL_ACCESS, nullptr,
+                                                 &hreg_key, nullptr)
                                 == ERROR_SUCCESS);
                     if (success) {
                         ::RegSetValueEx(hreg_key, INSTALL_REG_VALUE, 0L, REG_SZ,
@@ -365,7 +365,7 @@ bool Get_Install_Directory(HWND hparent_wnd, LPCTSTR title, CString& folder)
     browse_info.lpszTitle = title;
     browse_info.ulFlags = BIF_RETURNONLYFSDIRS;
     LPITEMIDLIST pidl = ::SHBrowseForFolder(&browse_info);
-    if (pidl != NULL) {
+    if (pidl != nullptr) {
 
         // Convert the 'PIDL' into a string
         char path[MAX_PATH];
@@ -375,7 +375,7 @@ bool Get_Install_Directory(HWND hparent_wnd, LPCTSTR title, CString& folder)
         }
 
         // Free the 'PIDL'
-        LPMALLOC pmalloc = NULL;
+        LPMALLOC pmalloc = nullptr;
         if (SUCCEEDED(::SHGetMalloc(&pmalloc))) {
             pmalloc->Free(pidl);
             pmalloc->Release();
@@ -423,7 +423,7 @@ CString Strip_Filename_From_Path(LPCTSTR path)
 
     // Find the last occurance of the directory deliminator
     LPTSTR filename = ::strrchr(temp_path, '\\');
-    if (filename != NULL) {
+    if (filename != nullptr) {
         // Strip off the filename
         filename[0] = 0;
     }
@@ -442,8 +442,8 @@ bool Delete_File(LPCTSTR filename)
     // Assume failure
     bool retval = false;
 
-    ASSERT(filename != NULL);
-    if (filename != NULL) {
+    ASSERT(filename != nullptr);
+    if (filename != nullptr) {
 
         // Strip the readonly bit off if necessary
         DWORD attributes = ::GetFileAttributes(filename);
@@ -476,9 +476,9 @@ bool Copy_File(LPCTSTR existing_filename, LPCTSTR new_filename, bool bforce_copy
     // Assume failure
     bool retval = false;
 
-    ASSERT(existing_filename != NULL);
-    ASSERT(new_filename != NULL);
-    if ((existing_filename != NULL) && (new_filename != NULL)) {
+    ASSERT(existing_filename != nullptr);
+    ASSERT(new_filename != nullptr);
+    if ((existing_filename != nullptr) && (new_filename != nullptr)) {
 
         // Make sure we aren't copying over ourselves
         bool allow_copy = (::lstrcmpi(existing_filename, new_filename) != 0);
@@ -559,14 +559,14 @@ bool Clean_Directory(LPCTSTR local_dir, bool is_recursive)
     }
 
     // Close the search handle
-    if (hfind != NULL) {
+    if (hfind != nullptr) {
         ::FindClose(hfind);
     }
 
     //
     //	Now loop through all the files and delete them
     //
-    for (POSITION pos = file_list.GetHeadPosition(); pos != NULL;) {
+    for (POSITION pos = file_list.GetHeadPosition(); pos != nullptr;) {
         CString& filename = file_list.GetNext(pos);
         CString full_path = local_dir + CString("\\") + filename;
         if (::Delete_File(full_path) == FALSE) {
@@ -574,7 +574,7 @@ bool Clean_Directory(LPCTSTR local_dir, bool is_recursive)
             message.Format("Cannot delete %s.  This may result in an incomplete update.  Please "
                            "make sure no applications are running before running the update.",
                            full_path);
-            ::MessageBox(NULL, message, "Delete Error",
+            ::MessageBox(nullptr, message, "Delete Error",
                          MB_SETFOREGROUND | MB_TOPMOST | MB_ICONEXCLAMATION | MB_OK);
             retval = false;
         }
@@ -592,7 +592,7 @@ void Create_Dir_If_Necessary(LPCTSTR path)
 {
     if (::GetFileAttributes(path) == 0xFFFFFFFF) {
         Create_Dir_If_Necessary(::Strip_Filename_From_Path(path));
-        ::CreateDirectory(path, NULL);
+        ::CreateDirectory(path, nullptr);
     }
 
     return;
@@ -625,7 +625,7 @@ void Build_File_List(LPCTSTR search_path, CStringList& file_list)
     }
 
     // Close the search handle
-    if (hfind != NULL) {
+    if (hfind != nullptr) {
         ::FindClose(hfind);
     }
 
@@ -643,15 +643,15 @@ int Quick_Compare_Files(LPCTSTR file1, LPCTSTR file2)
     int compare = 0;
 
     // Params OK?
-    ASSERT(file1 != NULL);
-    ASSERT(file2 != NULL);
-    if ((file1 != NULL) && (file2 != NULL)) {
+    ASSERT(file1 != nullptr);
+    ASSERT(file2 != nullptr);
+    if ((file1 != nullptr) && (file2 != nullptr)) {
 
         // Attempt to open file1
-        HANDLE hfile1 = ::CreateFile(file1, 0, 0, NULL, OPEN_EXISTING, 0L, NULL);
+        HANDLE hfile1 = ::CreateFile(file1, 0, 0, nullptr, OPEN_EXISTING, 0L, nullptr);
 
         // Attempt to open file2
-        HANDLE hfile2 = ::CreateFile(file2, 0, 0, NULL, OPEN_EXISTING, 0L, NULL);
+        HANDLE hfile2 = ::CreateFile(file2, 0, 0, nullptr, OPEN_EXISTING, 0L, nullptr);
 
         if ((hfile1 != INVALID_HANDLE_VALUE) && (hfile2 != INVALID_HANDLE_VALUE)) {
 
@@ -745,14 +745,14 @@ bool Update_App_Directory(FileCopyDialogClass* dialog, LPCTSTR src_dir, LPCTSTR 
     }
 
     // Close the search handle
-    if (hfind != NULL) {
+    if (hfind != nullptr) {
         ::FindClose(hfind);
     }
 
     //
     //	Now loop through all the files and copy them to the src
     //
-    for (POSITION pos = file_list.GetHeadPosition(); pos != NULL && retval;) {
+    for (POSITION pos = file_list.GetHeadPosition(); pos != nullptr && retval;) {
 
         CString& filename = file_list.GetNext(pos);
 
@@ -782,7 +782,7 @@ bool Update_App_Directory(FileCopyDialogClass* dialog, LPCTSTR src_dir, LPCTSTR 
                 message.Format("Cannot copy %s to %s.  Please make sure no applications are "
                                "running before running the update.",
                                src_file, dest_file);
-                ::MessageBox(NULL, message, "Copy Error",
+                ::MessageBox(nullptr, message, "Copy Error",
                              MB_SETFOREGROUND | MB_TOPMOST | MB_ICONEXCLAMATION | MB_OK);
                 retval = false;
             }
@@ -800,8 +800,8 @@ bool Update_App_Directory(FileCopyDialogClass* dialog, LPCTSTR src_dir, LPCTSTR 
 UINT fnUpdateAppDirectory(LPVOID pParam)
 {
     UPDATE_INFO* info = (UPDATE_INFO*)pParam;
-    ASSERT(info != NULL);
-    if (info != NULL) {
+    ASSERT(info != nullptr);
+    if (info != nullptr) {
 
         //
         //	Begin updating this directory...

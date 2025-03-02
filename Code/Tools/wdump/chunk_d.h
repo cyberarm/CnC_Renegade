@@ -220,7 +220,7 @@ protected:
 
     static void List_W3D_CHUNK_BOX(ChunkItem* Item, CListCtrl* List);
 
-    static void List_W3D_CHUNK_NULL_OBJECT(ChunkItem* Item, CListCtrl* List);
+    static void List_W3D_CHUNK_nullptr_OBJECT(ChunkItem* Item, CListCtrl* List);
 
     static void List_W3D_CHUNK_PRELIT_UNLIT(ChunkItem* Item, CListCtrl* List);
     static void List_W3D_CHUNK_PRELIT_VERTEX(ChunkItem* Item, CListCtrl* List);

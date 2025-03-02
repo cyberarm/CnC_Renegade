@@ -80,19 +80,19 @@ class SkeletonSceneClass;
 HINSTANCE hInst; // current instance
 TCHAR szTitle[MAX_LOADSTRING]; // The title bar text
 TCHAR szWindowClass[MAX_LOADSTRING]; // The title bar text
-WW3DAssetManager* AssetManager = NULL;
-SkeletonSceneClass* my_scene = NULL;
-SimpleSceneClass* my_2d_scene = NULL;
-CameraClass* my_camera = NULL;
-CameraClass* my_2d_camera = NULL;
-Render2DTextClass* mytext = NULL;
-RenderObjClass* my_object = NULL;
-HAnimClass* my_anim = NULL;
-TexProjectClass* my_texture_projector = NULL;
-MaterialPassClass* my_material_pass = NULL;
+WW3DAssetManager* AssetManager = nullptr;
+SkeletonSceneClass* my_scene = nullptr;
+SimpleSceneClass* my_2d_scene = nullptr;
+CameraClass* my_camera = nullptr;
+CameraClass* my_2d_camera = nullptr;
+Render2DTextClass* mytext = nullptr;
+RenderObjClass* my_object = nullptr;
+HAnimClass* my_anim = nullptr;
+TexProjectClass* my_texture_projector = nullptr;
+MaterialPassClass* my_material_pass = nullptr;
 LightClass* my_lights[3];
-Font3DInstanceClass* my_font_a = NULL;
-Font3DInstanceClass* my_font_b = NULL;
+Font3DInstanceClass* my_font_a = nullptr;
+Font3DInstanceClass* my_font_b = nullptr;
 
 DecalSystemClass TheDecalSystem;
 bool running = true;
@@ -187,7 +187,7 @@ class SkeletonSceneClass : public SimpleSceneClass
 {
 public:
     SkeletonSceneClass(void)
-        : TestPass(NULL)
+        : TestPass(nullptr)
     {
     }
     ~SkeletonSceneClass(void) { REF_PTR_RELEASE(TestPass); }
@@ -237,7 +237,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 
     hInst = hInstance; // Store instance handle in our global variable
     HWND hWnd = CreateWindow(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, 0,
-                             CW_USEDEFAULT, 0, NULL, NULL, hInstance, NULL);
+                             CW_USEDEFAULT, 0, nullptr, nullptr, hInstance, nullptr);
 
     ShowWindow(hWnd, nCmdShow);
     UpdateWindow(hWnd);
@@ -348,7 +348,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
             randtex = !randtex;
         }
 
-        if (my_texture_projector != NULL) {
+        if (my_texture_projector != nullptr) {
             my_texture_projector->Pre_Render_Update(my_camera->Get_Transform());
         }
 
@@ -441,7 +441,7 @@ ATOM MyRegisterClass(HINSTANCE hInstance)
     wcex.cbWndExtra = 0;
     wcex.hInstance = hInstance;
     wcex.hIcon = LoadIcon(hInstance, (LPCTSTR)IDI_SKELETON);
-    wcex.hCursor = LoadCursor(NULL, IDC_ARROW);
+    wcex.hCursor = LoadCursor(nullptr, IDC_ARROW);
     wcex.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
     wcex.lpszMenuName = (LPCSTR)IDC_SKELETON;
     wcex.lpszClassName = szWindowClass;
@@ -609,7 +609,7 @@ LRESULT CALLBACK About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 
 void Enable_Alternate_Materials(RenderObjClass* model, bool onoff)
 {
-    if (model == NULL) {
+    if (model == nullptr) {
         return;
     }
 
@@ -741,7 +741,7 @@ void Create_Decal(RenderObjClass* robj, Matrix3D& tm, float radius, char* textur
     ** Allocate the decal generator
     */
     DecalGeneratorClass* gen = TheDecalSystem.Lock_Decal_Generator();
-    WWASSERT(gen != NULL);
+    WWASSERT(gen != nullptr);
 
     /*
     ** Set up the transform, projection, and bounding volume parameters
@@ -941,7 +941,7 @@ void Debug_Refs(void)
                 && (search_ref->Line == ref->Line)) {
                 count++;
             }
-            else if ((ref->File == NULL) && (search_ref->File == NULL)) {
+            else if ((ref->File == nullptr) && (search_ref->File == nullptr)) {
                 count++;
             }
 
@@ -1101,7 +1101,7 @@ void Init_Assets()
     AssetManager->Load_3D_Assets("c_nod_rsold_L0.W3D");
     AssetManager->Load_3D_Assets("h_a_a0a1.W3D");
 
-    my_lights[0] = my_lights[1] = my_lights[2] = NULL;
+    my_lights[0] = my_lights[1] = my_lights[2] = nullptr;
     my_lights[0] = NEW_REF(LightClass, (LightClass::DIRECTIONAL));
     my_lights[0]->Set_Ambient(Vector3(0.1f, 0.1f, 0.1f));
     my_lights[0]->Set_Diffuse(Vector3(1.0f, 1.0f, 1.0f));
@@ -1137,13 +1137,13 @@ void Init_2D_Scene()
 	REF_PTR_RELEASE(bm);
 #else
 	RenderObjClass *my_object = AssetManager->Create_Render_Obj("TSI08A");
-	if (my_object != NULL) {
+	if (my_object != nullptr) {
 		my_2d_scene->Add_Render_Object(my_object);
 		REF_PTR_RELEASE(my_object);	
 	}
 
 	my_object = AssetManager->Create_Render_Obj("TSI01A");
-	if (my_object != NULL) {
+	if (my_object != nullptr) {
 		my_2d_scene->Add_Render_Object(my_object);
 		REF_PTR_RELEASE(my_object);	
 	}
@@ -1279,7 +1279,7 @@ void Init_3D_Scene()
 
     my_anim = AssetManager->Get_HAnim("S_A_HUMAN.H_A_A0A1");
 
-    if (my_object != NULL) {
+    if (my_object != nullptr) {
 #if 0
 		Enable_Alternate_Materials(my_object,true);
 #endif
@@ -1293,7 +1293,7 @@ void Init_3D_Scene()
 
         //		PredictiveLODOptimizerClass::Add_Object(my_object);
         my_object->Set_Position(Vector3(0, 0, 0));
-        if (my_anim != NULL) {
+        if (my_anim != nullptr) {
             my_object->Set_Animation(my_anim, 0, RenderObjClass::ANIM_MODE_LOOP);
         }
         my_scene->Add_Render_Object(my_object);
@@ -1309,7 +1309,7 @@ void Init_3D_Scene()
 
     // 3D line object ----------------------------------------------------------
 #if 0
-	Line3DClass *line = NULL;
+	Line3DClass *line = nullptr;
 	line = NEW_REF(Line3DClass,(Vector3(0,0,0),Vector3(100,100,0), 10,1,1,1,1));
 	my_scene->Add_Render_Object(line);
   	REF_PTR_RELEASE(line);	// Obejct can be freed after adding scene so that it gets killed when scene dies

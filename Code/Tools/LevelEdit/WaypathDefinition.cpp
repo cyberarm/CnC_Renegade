@@ -76,7 +76,7 @@ WaypathDefinitionClass::WaypathDefinitionClass(void)
 
 {
     ENUM_PARAM(WaypathDefinitionClass, m_PassableObjects,
-               ("All", 1, "Humans", 2, "Ground Vehicles", 3, "Flying Vehicles", 4, NULL));
+               ("All", 1, "Humans", 2, "Ground Vehicles", 3, "Flying Vehicles", 4, nullptr));
     return;
 }
 

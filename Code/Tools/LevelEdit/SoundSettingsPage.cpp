@@ -48,7 +48,7 @@ static char THIS_FILE[] = __FILE__;
 // SoundSettingsPageClass
 //
 SoundSettingsPageClass::SoundSettingsPageClass(void)
-    : Definition(NULL),
+    : Definition(nullptr),
       DockableFormClass(SoundSettingsPageClass::IDD)
 {
     return;
@@ -107,7 +107,7 @@ void SoundSettingsPageClass::Dump(CDumpContext& dc) const
 /////////////////////////////////////////////////////////////////////////////
 void SoundSettingsPageClass::HandleInitDialog(void)
 {
-    ASSERT(Definition != NULL);
+    ASSERT(Definition != nullptr);
 
     //
     // Set up the volume controls

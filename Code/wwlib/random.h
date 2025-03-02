@@ -219,7 +219,7 @@ protected:
 template <class T> int Pick_Random_Number(T& generator, int minval, int maxval)
 {
     /*
-    **	Test for shortcut case where the range is null and thus
+    **	Test for shortcut case where the range is nullptr and thus
     **	the number to return is actually implicit from the
     **	parameters.
     */

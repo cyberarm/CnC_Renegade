@@ -153,15 +153,15 @@ public:
         ControlLine* control = new ControlLine;
         control->Time = time;
         control->Command = strdup(command);
-        control->Next = NULL;
+        control->Next = nullptr;
 
-        if (Controls == NULL || Controls->Time > time) {
+        if (Controls == nullptr || Controls->Time > time) {
             control->Next = Controls;
             Controls = control;
         }
         else {
             ControlLine* node = Controls;
-            while ((node->Next != NULL) && (node->Next->Time <= time)) {
+            while ((node->Next != nullptr) && (node->Next->Time <= time)) {
                 node = node->Next;
             }
             control->Next = node->Next;
@@ -171,7 +171,7 @@ public:
 
     void Remove_Head_Control_Line(void)
     {
-        if (Controls != NULL) {
+        if (Controls != nullptr) {
             ControlLine* control = Controls;
             Controls = Controls->Next;
 
@@ -182,7 +182,7 @@ public:
 
     void Display_Control_Lines(void)
     {
-        for (ControlLine* node = Controls; node != NULL; node = node->Next) {
+        for (ControlLine* node = Controls; node != nullptr; node = node->Next) {
             //			Commands->Debug_Message( "%3.2f \"%s\"\n", node->Time, node->Command
             //);
         }
@@ -205,7 +205,7 @@ public:
         }
 
         char *line, line_data[200];
-        while (Commands->Text_File_Get_String(handle, line_data, sizeof(line_data) - 1) != NULL) {
+        while (Commands->Text_File_Get_String(handle, line_data, sizeof(line_data) - 1) != nullptr) {
             line = line_data;
             // Convert tabs to spaces
             for (char* l = line; *l; l++) {
@@ -250,13 +250,13 @@ public:
     /*
     **
     */
-    char* Get_Command_Parameter(char* string = NULL)
+    char* Get_Command_Parameter(char* string = nullptr)
     {
-        if (string != NULL) {
+        if (string != nullptr) {
             NextParameter = string;
         }
 
-        if (NextParameter == NULL || *NextParameter == 0) {
+        if (NextParameter == nullptr || *NextParameter == 0) {
             return "";
         }
 
@@ -344,7 +344,7 @@ public:
         // Save Control Lines
         Commands->Begin_Chunk(saver, CHUNKID_CONTROL_LINES);
         ControlLine* controls = Controls;
-        while (controls != NULL) {
+        while (controls != nullptr) {
             Commands->Save_Data(saver, CHUNKID_CONTROL_TIME, sizeof(controls->Time),
                                 &controls->Time);
             int len = strlen(controls->Command) + 1;
@@ -359,8 +359,8 @@ public:
 
     void Load(ScriptLoader & loader)
     {
-        Controls = NULL;
-        NextParameter = NULL;
+        Controls = nullptr;
+        NextParameter = nullptr;
 
         for (int i = 0; i < NUM_SLOTS; i++) {
             ObjectSlots[i] = 0;
@@ -519,8 +519,8 @@ public:
             //			Commands->Debug_Message( "Slot used by %d\n", ObjectSlots[ slot ] );
         }
 
-        GameObject* obj = NULL;
-        if ((host_slot_name != NULL) && (*host_slot_name != 0)) {
+        GameObject* obj = nullptr;
+        if ((host_slot_name != nullptr) && (*host_slot_name != 0)) {
             int host_slot = atoi(host_slot_name);
             GameObject* host_obj = Commands->Find_Object(ObjectSlots[host_slot]);
             obj = Commands->Create_Object_At_Bone(host_obj, preset_name, host_bone_name);
@@ -629,7 +629,7 @@ public:
         char* bone_name = Get_Next_Parameter();
 
         int slot = -1;
-        if ((slot_name != NULL) && (*slot_name != 0)) {
+        if ((slot_name != nullptr) && (*slot_name != 0)) {
             slot = atoi(slot_name);
         }
 
@@ -681,7 +681,7 @@ public:
             }
         }
         else {
-            Commands->Set_Camera_Host(NULL);
+            Commands->Set_Camera_Host(nullptr);
             Commands->Control_Enable(Commands->Get_The_Star(), true);
             Commands->Enable_HUD(1);
         }
@@ -695,7 +695,7 @@ public:
         char* parameter_name = Get_Next_Parameter();
 
         int to_id = -1;
-        if (::strchr(to_id_name, '#') != NULL) {
+        if (::strchr(to_id_name, '#') != nullptr) {
             int to_slot = atoi(::strchr(to_id_name, '#') + 1);
             if ((to_slot < 0) || (to_slot >= NUM_SLOTS)) {
                 //				Commands->Debug_Message( "Bad Slot Number %d\n",
@@ -710,7 +710,7 @@ public:
         }
 
         int parameter = 0;
-        if (::strchr(parameter_name, '#') != NULL) {
+        if (::strchr(parameter_name, '#') != nullptr) {
             int parameter_slot = atoi(::strchr(parameter_name, '#') + 1);
             if ((parameter_slot < 0) || (parameter_slot >= NUM_SLOTS)) {
                 //				Commands->Debug_Message( "Bad Slot Number %d\n",
@@ -768,7 +768,7 @@ public:
                     }
                 }
                 else {
-                    Commands->Attach_To_Object_Bone(obj, NULL, NULL);
+                    Commands->Attach_To_Object_Bone(obj, nullptr, nullptr);
                 }
             }
             else {
@@ -1031,24 +1031,24 @@ public:
         // If Primary Destroyed,
         if (PrimaryKilled) {
             // skip all timestamps < LAST_VALID_TIMESTAMP
-            while (Controls != NULL && Controls->Time <= LAST_VALID_TIMESTAMP) {
+            while (Controls != nullptr && Controls->Time <= LAST_VALID_TIMESTAMP) {
                 Remove_Head_Control_Line();
             }
 
             // Run all remaining commands
-            while (Controls != NULL) {
+            while (Controls != nullptr) {
                 Parse_Command(Controls->Command);
                 Remove_Head_Control_Line();
             }
         }
 
-        while (Controls != NULL && Controls->Time <= Time) {
+        while (Controls != nullptr && Controls->Time <= Time) {
             FrameSync = (Time - Controls->Time) * 30.0f;
             Parse_Command(Controls->Command);
             Remove_Head_Control_Line();
         }
 
-        if (Controls != NULL) {
+        if (Controls != nullptr) {
             // if the next command is > than the LAST_VALID_TIMESTAMP, we are done
             if (Controls->Time >= LAST_VALID_TIMESTAMP) {
                 Commands->Destroy_Object(obj);
@@ -1075,7 +1075,7 @@ public:
     {
         Commands->Enable_Hibernation(obj, false);
 
-        Controls = NULL;
+        Controls = nullptr;
         for (int i = 0; i < NUM_SLOTS; i++) {
             ObjectSlots[i] = 0;
         }

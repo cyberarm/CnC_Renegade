@@ -92,7 +92,7 @@ void LicenseDialogClass::Load_License(const char* licensefilename)
     // Load up the license agreement text.
     // NOTE: This agreement should be in Unicode.
     file
-        = CreateFile(licensefilename, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, 0L, NULL);
+        = CreateFile(licensefilename, GENERIC_READ, FILE_SHARE_READ, nullptr, OPEN_EXISTING, 0L, nullptr);
 
     // If the file exists...
     if (file != INVALID_HANDLE_VALUE) {
@@ -111,7 +111,7 @@ void LicenseDialogClass::Load_License(const char* licensefilename)
 
             length = fileinformation.nFileSizeLow / sizeof(WCHAR);
             buffer = new WCHAR[length + 1];
-            if (ReadFile(file, buffer, length * sizeof(WCHAR), &bytesreadcount, NULL)) {
+            if (ReadFile(file, buffer, length * sizeof(WCHAR), &bytesreadcount, nullptr)) {
 
                 unsigned s, d;
 

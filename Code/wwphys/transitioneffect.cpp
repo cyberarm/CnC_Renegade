@@ -80,8 +80,8 @@ TransitionEffectClass::TransitionEffectClass(void)
       IntensityScale(1.0f),
       UVOffset(0.0f, 0.0f),
       MaxIntensity(1.0f),
-      Mapper(NULL),
-      MaterialPass(NULL)
+      Mapper(nullptr),
+      MaterialPass(nullptr)
 {
     MaterialPass = NEW_REF(MaterialPassClass, ());
     MaterialPass->Enable_On_Translucent_Meshes(false);
@@ -201,7 +201,7 @@ void TransitionEffectClass::Render_Pop(RenderInfoClass& rinfo)
 
 void TransitionEffectClass::Set_Texture(TextureClass* texture)
 {
-    if (MaterialPass != NULL) {
+    if (MaterialPass != nullptr) {
         MaterialPass->Set_Texture(texture, 0);
     }
 }
@@ -231,9 +231,9 @@ enum
 
 bool TransitionEffectClass::Save(ChunkSaveClass& csave)
 {
-    const char* texname = NULL;
+    const char* texname = nullptr;
     TextureClass* tex = MaterialPass->Peek_Texture(0);
-    if (tex != NULL) {
+    if (tex != nullptr) {
         texname = tex->Get_Texture_Name();
     }
 
@@ -250,7 +250,7 @@ bool TransitionEffectClass::Save(ChunkSaveClass& csave)
     WRITE_MICRO_CHUNK(csave, TRANSITIONEFFECT_VARIABLE_INTENSITYSCALE, IntensityScale);
     WRITE_MICRO_CHUNK(csave, TRANSITIONEFFECT_VARIABLE_UVOFFSET, UVOffset);
 
-    if (texname != NULL) {
+    if (texname != nullptr) {
         WRITE_MICRO_CHUNK_STRING(csave, TRANSITIONEFFECT_VARIABLE_TEXTURENAME, texname);
     }
 

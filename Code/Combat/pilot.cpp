@@ -147,7 +147,7 @@ inline float Clamp_Angle(float angle, float min_angle, float max_angle)
 PilotClass::PilotClass(void)
     : m_FinalDest(0, 0, 0),
       m_NextPoint(0, 0, 0),
-      m_GameObj(NULL),
+      m_GameObj(nullptr),
       m_MaxSpeed(20.0F),
       m_SpeedFactor(1.0F),
       m_Aggressiveness(0.25F),
@@ -160,7 +160,7 @@ PilotClass::PilotClass(void)
       m_StrafeSpeed(0),
       m_LiftSpeed(0),
       m_TurnSharpness(0),
-      m_CurrentPath(NULL),
+      m_CurrentPath(nullptr),
       m_CircleAngle(0),
       m_CircleDist(0),
       m_MinCircleAngle(-DEG_TO_RADF(180)),
@@ -183,7 +183,7 @@ void PilotClass::Get_Object_Space_Velocity(Vector3& vel_vector) const
     //	Get a pointer to the physics object for this vehicle
     //
     MoveablePhysClass* phys_obj = m_GameObj->Peek_Physical_Object()->As_MoveablePhysClass();
-    WWASSERT(phys_obj != NULL);
+    WWASSERT(phys_obj != nullptr);
 
     //
     //	Get the world-space velocity vector for this vehicle and transform
@@ -202,7 +202,7 @@ void PilotClass::Get_Object_Space_Velocity(Vector3& vel_vector) const
 ////////////////////////////////////////////////////////////////
 void PilotClass::Set_Target(const Vector3* target)
 {
-    if (target != NULL) {
+    if (target != nullptr) {
         m_TargetLocation = *target;
 
         if (m_Mode != MODE_CIRCLE_POINT) {
@@ -224,15 +224,15 @@ void PilotClass::Set_Target(const Vector3* target)
 void PilotClass::Initialize(SmartGameObj* game_obj)
 {
     m_GameObj = game_obj;
-    m_CurrentPath = NULL;
+    m_CurrentPath = nullptr;
 
     //
     //	If the game object is flying a vehicle, then get the vehicle instead
     //
     SoldierGameObj* soldier_game_obj = game_obj->As_SoldierGameObj();
-    if (soldier_game_obj != NULL) {
+    if (soldier_game_obj != nullptr) {
         VehicleGameObj* vehicle_game_obj = soldier_game_obj->Get_Profile_Vehicle();
-        if (vehicle_game_obj != NULL) {
+        if (vehicle_game_obj != nullptr) {
             m_GameObj = vehicle_game_obj;
         }
     }
@@ -247,7 +247,7 @@ void PilotClass::Initialize(SmartGameObj* game_obj)
     //	Determine if this game object is a vehicle or not (it better be...)
     //
     VehicleGameObj* vehicle = m_GameObj->As_VehicleGameObj();
-    if (vehicle != NULL) {
+    if (vehicle != nullptr) {
 
         //
         //	Start this vehicle's engine's running
@@ -311,7 +311,7 @@ bool PilotClass::Think(void)
     //
     //	Update the current
     //
-    if (m_CurrentPath != NULL) {
+    if (m_CurrentPath != nullptr) {
         m_FinalDest = m_CurrentPath->Get_Dest_Pos();
         m_NextPoint = m_CurrentPath->Get_Next_Pos();
     }
@@ -655,7 +655,7 @@ void PilotClass::Check_Completion(void)
     //	Calculate the distance remaining on the path
     //
     float dist_to_goal = 0;
-    if (m_CurrentPath != NULL) {
+    if (m_CurrentPath != nullptr) {
         float dist_on_path = m_CurrentPath->Get_Remaining_Path_Length();
         dist_to_goal = (m_ObjSpaceWaypoint.Length() + dist_on_path);
     }
@@ -749,7 +749,7 @@ float PilotClass::Determine_Preferred_Height(void)
     //	Get a pointer to the physics object for this vehicle
     //
     MoveablePhysClass* phys_obj = m_GameObj->Peek_Physical_Object()->As_MoveablePhysClass();
-    WWASSERT(phys_obj != NULL);
+    WWASSERT(phys_obj != nullptr);
 
     //
     //	Get the world-space velocity vector for this vehicle and transform
@@ -839,8 +839,8 @@ void PilotClass::Apply_Controls(void)
     //
     SmartGameObj* game_obj = m_GameObj;
     VehicleGameObj* vehicle = m_GameObj->As_VehicleGameObj();
-    if (vehicle != NULL) {
-        if (vehicle->Get_Driver() != NULL) {
+    if (vehicle != nullptr) {
+        if (vehicle->Get_Driver() != nullptr) {
             // game_obj = vehicle->Get_Driver ();
         }
     }
@@ -931,7 +931,7 @@ void PilotClass::Set_Mode(PilotClass::MODE mode)
         // When we change modes, we reset the target in case we had
         // a fake target from hover mode
         //
-        Set_Target(NULL);
+        Set_Target(nullptr);
         m_Mode = mode;
     }
 
@@ -989,7 +989,7 @@ bool PilotClass::Has_Arrived(void) const
     if (m_Mode == MODE_HOVER) {
 
         /*bool
-        if (m_CurrentPath != NULL) {
+        if (m_CurrentPath != nullptr) {
                 m_ObjSpaceDest.Length ()
         }*/
 
@@ -1127,14 +1127,14 @@ void PilotClass::Load_Variables(ChunkLoadClass& cload)
     //
     //	Request that the game object ptr gets remapped
     //
-    if (m_GameObj != NULL) {
+    if (m_GameObj != nullptr) {
         REQUEST_POINTER_REMAP((void**)&m_GameObj);
     }
 
     //
     //	Request that the path object ptr gets remapped
     //
-    if (m_CurrentPath != NULL) {
+    if (m_CurrentPath != nullptr) {
         REQUEST_POINTER_REMAP((void**)&m_CurrentPath);
     }
 
@@ -1148,8 +1148,8 @@ void PilotClass::Load_Variables(ChunkLoadClass& cload)
 ///////////////////////////////////////////////////////////////////////
 void PilotClass::Reset(void)
 {
-    m_CurrentPath = NULL;
-    m_GameObj = NULL;
+    m_CurrentPath = nullptr;
+    m_GameObj = nullptr;
     m_Mode = MODE_HOVER, m_IsExactZImportant = false;
     return;
 }

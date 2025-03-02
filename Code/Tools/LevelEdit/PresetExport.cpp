@@ -154,13 +154,13 @@ bool PresetExportClass::Read_Column_Headers(TextFileClass& file,
             //
             //	Build a list from the column header string
             //
-            CString* temp_string_list = NULL;
+            CString* temp_string_list = nullptr;
             int count = ::Build_List_From_String(line, "\t", &temp_string_list);
             if (count > 0) {
 
                 //
                 //	Add the entries from our temp list to the list the
-                // caller supplied.  Also check for NULL entries
+                // caller supplied.  Also check for nullptr entries
                 //
                 for (int index = 0; index < count; index++) {
                     if (temp_string_list[index].IsEmpty() == false) {
@@ -192,7 +192,7 @@ bool PresetExportClass::Validate_Columns(int class_id,
     //	Lookup the first preset of the given class
     //
     PresetClass* first_preset = PresetMgrClass::Get_First(class_id, PresetMgrClass::ID_CLASS);
-    if (first_preset != NULL) {
+    if (first_preset != nullptr) {
 
         //
         //	Assume success from here on out
@@ -261,7 +261,7 @@ bool PresetExportClass::Import_Presets(TextFileClass& file, int class_id,
         //
         //	Build a list of values from the string
         //
-        CString* value_list = NULL;
+        CString* value_list = nullptr;
         int count = ::Build_List_From_String(line, "\t", &value_list);
 
         //
@@ -277,7 +277,7 @@ bool PresetExportClass::Import_Presets(TextFileClass& file, int class_id,
             //	Get the ID of the preset
             //
             int preset_id = ::atoi(value_list[1]);
-            PresetClass* preset = NULL;
+            PresetClass* preset = nullptr;
 
             if (preset_id == 0) {
 
@@ -285,7 +285,7 @@ bool PresetExportClass::Import_Presets(TextFileClass& file, int class_id,
                 //	Create a new preset...
                 //
                 preset = PresetMgrClass::Create_Preset(class_id, value_list[0], false);
-                if (preset != NULL) {
+                if (preset != nullptr) {
 
                     //
                     //	Add this preset to the framework
@@ -306,14 +306,14 @@ bool PresetExportClass::Import_Presets(TextFileClass& file, int class_id,
             //
             //	Did we find the preset and does its name match?
             //
-            if (preset != NULL && ::lstrcmpi(preset->Get_Name(), value_list[0]) == 0) {
+            if (preset != nullptr && ::lstrcmpi(preset->Get_Name(), value_list[0]) == 0) {
 
                 //
                 //	Import the remainder of the parameter values
                 //
                 for (int index = 2; retval && index < count; index++) {
                     ParameterClass* parameter = Find_Parameter(preset, column_headers[index]);
-                    if (parameter != NULL) {
+                    if (parameter != nullptr) {
 
                         //
                         //	Store the change in the preset
@@ -461,7 +461,7 @@ bool PresetExportClass::Import_Setting(PresetClass* preset, ParameterClass* para
 ///////////////////////////////////////////////////////////////////////
 ParameterClass* PresetExportClass::Find_Parameter(PresetClass* preset, const char* parameter_name)
 {
-    ParameterClass* parameter = NULL;
+    ParameterClass* parameter = nullptr;
 
     DefinitionClass* definition = preset->Get_Definition();
     int count = definition->Get_Parameter_Count();
@@ -547,8 +547,8 @@ void PresetExportClass::Export(uint32 class_id, const char* filename)
         //
         //	Export each preset
         //
-        PresetClass* preset = NULL;
-        for (preset = PresetMgrClass::Get_First(class_id, PresetMgrClass::ID_CLASS); preset != NULL;
+        PresetClass* preset = nullptr;
+        for (preset = PresetMgrClass::Get_First(class_id, PresetMgrClass::ID_CLASS); preset != nullptr;
              preset = PresetMgrClass::Get_Next(preset, class_id, PresetMgrClass::ID_CLASS)) {
             Export_Preset(file, preset);
         }
@@ -600,7 +600,7 @@ void PresetExportClass::Write_Column_Headers(uint32 class_id, TextFileClass& fil
     //	Write the column headers
     //
     PresetClass* first_preset = PresetMgrClass::Get_First(class_id, PresetMgrClass::ID_CLASS);
-    if (first_preset != NULL) {
+    if (first_preset != nullptr) {
         StringClass column_headers = "Name\tPreset ID\t";
 
         //

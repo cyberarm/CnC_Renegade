@@ -34,7 +34,7 @@ class VisStatsDialogClass : public CDialog
 {
     // Construction
 public:
-    VisStatsDialogClass(CWnd* pParent = NULL); // standard constructor
+    VisStatsDialogClass(CWnd* pParent = nullptr); // standard constructor
 
     // Dialog Data
     //{{AFX_DATA(VisStatsDialogClass)

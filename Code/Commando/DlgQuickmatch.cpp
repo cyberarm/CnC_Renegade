@@ -86,7 +86,7 @@ bool DlgQuickMatch::DoDialog(void)
         dialog->Release_Ref();
     }
 
-    return (dialog != NULL);
+    return (dialog != nullptr);
 }
 
 /******************************************************************************

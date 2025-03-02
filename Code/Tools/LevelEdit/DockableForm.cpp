@@ -65,7 +65,7 @@ BOOL DockableFormClass::Create(LPCTSTR /*lpszClassName*/, LPCTSTR /*lpszWindowNa
                                DWORD dwRequestedStyle, const RECT& rect, CWnd* pParentWnd, UINT nID,
                                CCreateContext* pContext)
 {
-    ASSERT(pParentWnd != NULL);
+    ASSERT(pParentWnd != nullptr);
 
     // call PreCreateWindow to get prefered extended style
     CREATESTRUCT cs;
@@ -92,7 +92,7 @@ BOOL DockableFormClass::Create(LPCTSTR /*lpszClassName*/, LPCTSTR /*lpszWindowNa
     GetWindowRect(m_rectForm);
 
     // force the size requested
-    SetWindowPos(NULL, rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top,
+    SetWindowPos(nullptr, rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top,
                  SWP_NOZORDER | SWP_NOACTIVATE);
 
     // make visible if requested

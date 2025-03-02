@@ -48,7 +48,7 @@ class OptionsDialog : public CDialog
 {
     // Construction
 public:
-    OptionsDialog(CWnd* parent = NULL);
+    OptionsDialog(CWnd* parent = nullptr);
 
     float Get_Spatial_Tolerance() { return (SpatialTolerance * 0.0001f); } // x 0.0001 metres.
     unsigned Get_Smoothing_Angle() { return (SmoothingAngle); }

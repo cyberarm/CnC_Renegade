@@ -73,8 +73,8 @@ Standard type definitions for the sake of portability and readability.
 #define MAX(x, y) (((x) > (y)) ? (x) : (y))
 #endif
 
-#ifndef NULL
-#define NULL 0
+#ifndef nullptr
+#define nullptr 0
 #endif
 
 // These are used for readability purposes mostly, when a method takes a

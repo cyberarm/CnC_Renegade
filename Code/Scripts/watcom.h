@@ -75,7 +75,7 @@
 // create them.
 #pragma warning 579 9
 
-// Disable the warning that suggests a null destructor be placed in class definition.
+// Disable the warning that suggests a nullptr destructor be placed in class definition.
 #pragma warning 656 9
 
 // Disable the warning about moving empty constructors/destructors to the class declaration.

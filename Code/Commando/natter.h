@@ -162,7 +162,7 @@ public:
     bool Get_Packet(char* packet_buffer, int buffer_size, IPAddressClass& address);
     void Intercept_Game_Packet(cPacket& packet);
     bool Send_Game_Format_Packet_To(IPAddressClass* address, char* payload, int payload_size,
-                                    SocketHandlerClass* socket_handler = NULL);
+                                    SocketHandlerClass* socket_handler = nullptr);
 
     /*
     ** General game helper functions.
@@ -248,7 +248,7 @@ public:
                 char LocalPort[5]; // 0000,
                 char ExternalIP[9]; // 00000000,
                 char FirewallType[9]; // 00000000,
-                char Queued[5]; //	0000(null)
+                char Queued[5]; //	0000(nullptr)
             } Invitation;
 
             /*
@@ -259,7 +259,7 @@ public:
                 char LocalIP[9]; // 00000000,
                 char LocalPort[5]; // 0000,
                 char ExternalIP[9]; // 00000000,
-                char FirewallType[9]; // 00000000(null)
+                char FirewallType[9]; // 00000000(nullptr)
             } Accept;
 
             /*
@@ -268,7 +268,7 @@ public:
             struct PortStruct
             {
                 char MangledPort[5]; //	0000,
-                char Name[64]; // "Players name......"(null)
+                char Name[64]; // "Players name......"(nullptr)
             } Port;
 
             /*
@@ -278,7 +278,7 @@ public:
             {
                 char Result[2]; // n,
                 char Port[5]; // 0000,
-                char Name[64]; // "Players name......"(null)
+                char Name[64]; // "Players name......"(nullptr)
             } ConnectionResult;
 
             /*
@@ -286,7 +286,7 @@ public:
             */
             struct QueueStateStruct
             {
-                char Position[3]; // 00(null)
+                char Position[3]; // 00(nullptr)
             } QueueState;
 
             /*
@@ -302,7 +302,7 @@ public:
             */
             struct ClientInChannelStruct
             {
-                char Name[64]; // "Players name......"(null)
+                char Name[64]; // "Players name......"(nullptr)
             } ClientInChannel;
 
         } OptionData;

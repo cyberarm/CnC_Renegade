@@ -41,7 +41,7 @@
 #include <string.h>
 
 // ScriptFactory list
-ScriptFactory* ScriptRegistrar::mScriptFactories = NULL;
+ScriptFactory* ScriptRegistrar::mScriptFactories = nullptr;
 
 /******************************************************************************
  *
@@ -61,7 +61,7 @@ ScriptFactory* ScriptRegistrar::mScriptFactories = NULL;
 
 void ScriptRegistrar::RegisterScript(ScriptFactory* factory)
 {
-    if (factory != NULL) {
+    if (factory != nullptr) {
         //		DebugPrint("Registering Script '%s'\n", factory->GetName());
 
         factory->SetNext(mScriptFactories);
@@ -87,15 +87,15 @@ void ScriptRegistrar::RegisterScript(ScriptFactory* factory)
 
 void ScriptRegistrar::UnregisterScript(ScriptFactory* factory)
 {
-    ScriptFactory* previous = NULL;
+    ScriptFactory* previous = nullptr;
     ScriptFactory* current = mScriptFactories;
 
-    while (current != NULL) {
+    while (current != nullptr) {
         ScriptFactory* next = current->GetNext();
 
         if (current == factory) {
             // Handle head of list condition
-            if (previous == NULL) {
+            if (previous == nullptr) {
                 mScriptFactories = next;
             }
             else {
@@ -129,12 +129,12 @@ void ScriptRegistrar::UnregisterScript(ScriptFactory* factory)
 
 ScriptImpClass* ScriptRegistrar::CreateScript(const char* scriptName)
 {
-    assert(scriptName != NULL);
+    assert(scriptName != nullptr);
 
-    if (scriptName != NULL) {
+    if (scriptName != nullptr) {
         ScriptFactory* factory = mScriptFactories;
 
-        while (factory != NULL) {
+        while (factory != nullptr) {
             if (stricmp(factory->GetName(), scriptName) == 0) {
                 //				DebugPrint("Creating Script '%s'\n",
                 //factory->GetName());
@@ -146,7 +146,7 @@ ScriptImpClass* ScriptRegistrar::CreateScript(const char* scriptName)
     }
 
     DebugPrint("Failed to find script '%s'\n", scriptName);
-    return NULL;
+    return nullptr;
 }
 
 /******************************************************************************
@@ -167,12 +167,12 @@ ScriptImpClass* ScriptRegistrar::CreateScript(const char* scriptName)
 
 ScriptFactory* ScriptRegistrar::GetScriptFactory(const char* name)
 {
-    assert(name != NULL);
+    assert(name != nullptr);
 
-    if (name != NULL) {
+    if (name != nullptr) {
         ScriptFactory* factory = mScriptFactories;
 
-        while (factory != NULL) {
+        while (factory != nullptr) {
             if (stricmp(factory->GetName(), name) == 0) {
                 return factory;
             }
@@ -181,7 +181,7 @@ ScriptFactory* ScriptRegistrar::GetScriptFactory(const char* name)
         }
     }
 
-    return NULL;
+    return nullptr;
 }
 
 /******************************************************************************
@@ -205,7 +205,7 @@ ScriptFactory* ScriptRegistrar::GetScriptFactory(int index)
     int count = 0;
     ScriptFactory* factory = mScriptFactories;
 
-    while (factory != NULL) {
+    while (factory != nullptr) {
         if (count == index) {
             return factory;
         }
@@ -214,7 +214,7 @@ ScriptFactory* ScriptRegistrar::GetScriptFactory(int index)
         factory = factory->GetNext();
     }
 
-    return NULL;
+    return nullptr;
 }
 
 /******************************************************************************
@@ -238,7 +238,7 @@ int ScriptRegistrar::Count(void)
     int count = 0;
     ScriptFactory* factory = mScriptFactories;
 
-    while (factory != NULL) {
+    while (factory != nullptr) {
         count++;
         factory = factory->GetNext();
     }

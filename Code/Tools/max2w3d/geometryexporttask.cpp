@@ -76,7 +76,7 @@ public:
     MeshGeometryExportTaskClass(INode* node, GeometryExportContextClass& context)
         : GeometryExportTaskClass(node, context),
           NameDirty(false),
-          SingleMtl(NULL)
+          SingleMtl(nullptr)
     {
         /*
         ** Copy the export options
@@ -233,20 +233,20 @@ protected:
 };
 
 /**
-** NullGeometryExportTaskClass
-** Export task for INodes which are to generate W3D NULL objects.  Note that this
+** nullptrGeometryExportTaskClass
+** Export task for INodes which are to generate W3D nullptr objects.  Note that this
 ** does not do anything in the Export_Geometry call, these only create entries in
 ** any Hierarhcical model or collection object being exported.
 */
-class NullGeometryExportTaskClass : public GeometryExportTaskClass
+class nullptrGeometryExportTaskClass : public GeometryExportTaskClass
 {
 public:
-    NullGeometryExportTaskClass(INode* node, GeometryExportContextClass& context)
+    nullptrGeometryExportTaskClass(INode* node, GeometryExportContextClass& context)
         : GeometryExportTaskClass(node, context)
     {
         memset(ContainerName, 0, sizeof(ContainerName));
         memset(Name, 0, sizeof(Name));
-        strcpy(Name, "NULL");
+        strcpy(Name, "nullptr");
     }
 
     virtual void Export_Geometry(GeometryExportContextClass& context)
@@ -255,14 +255,14 @@ public:
     };
 
 protected:
-    virtual int Get_Geometry_Type(void) { return NULLOBJ; }
+    virtual int Get_Geometry_Type(void) { return nullptrOBJ; }
 };
 
 /**
 ** AggregateGeometryExportTaskClass
 ** Export task for INodes which are to generate W3D Aggregates.  These are nodes
 ** that refer to some external W3D object.  This export task doesn't export any
-** geometry (similer to the Null export task) and it clears its container name
+** geometry (similer to the nullptr export task) and it clears its container name
 ** because the object to be attached is not a sub-object of the model we are
 ** currently exporting.
 */
@@ -357,9 +357,9 @@ GeometryExportTaskClass::GeometryExportTaskClass(INode* node, GeometryExportCont
     /*
     ** Set up the bone index and export coordinate system.
     */
-    if (context.HTree != NULL) {
+    if (context.HTree != nullptr) {
         if (!Is_Skin(node)) {
-            context.HTree->Get_Export_Coordinate_System(Node, &BoneIndex, NULL, &ExportSpace);
+            context.HTree->Get_Export_Coordinate_System(Node, &BoneIndex, nullptr, &ExportSpace);
         }
         else {
             BoneIndex = 0;
@@ -468,7 +468,7 @@ GeometryExportTaskClass* GeometryExportTaskClass::Create_Task(INode* node,
 #endif
 
     if (!::Is_Geometry(node)) {
-        return NULL;
+        return nullptr;
     }
 
     // NOTE: we *have* to check Is_Proxy first because it is tied to a naming convention
@@ -486,8 +486,8 @@ GeometryExportTaskClass* GeometryExportTaskClass::Create_Task(INode* node,
         return new CollisionBoxGeometryExportTaskClass(node, context);
     }
 
-    if (::Is_Null_Object(node)) {
-        return new NullGeometryExportTaskClass(node, context);
+    if (::Is_nullptr_Object(node)) {
+        return new nullptrGeometryExportTaskClass(node, context);
     }
 
     if (::Is_Dazzle(node)) {
@@ -498,7 +498,7 @@ GeometryExportTaskClass* GeometryExportTaskClass::Create_Task(INode* node,
         return new AggregateGeometryExportTaskClass(node, context);
     }
 
-    return NULL;
+    return nullptr;
 }
 
 /***********************************************************************************************
@@ -661,10 +661,10 @@ void GeometryExportTaskClass::Generate_Name(char* root, int index,
     char* exterior_prefix = strchr(prefix, '#');
 
     memset(Name, 0, sizeof(Name));
-    if (interior_prefix != NULL) {
+    if (interior_prefix != nullptr) {
         strncpy(Name, prefix, (int)(interior_prefix - prefix) + 1);
     }
-    else if (exterior_prefix != NULL) {
+    else if (exterior_prefix != nullptr) {
         strncpy(Name, prefix, (int)(exterior_prefix - prefix) + 1);
     }
 
@@ -699,16 +699,16 @@ void GeometryExportTaskClass::Generate_Name(char* root, int index,
  *=============================================================================================*/
 void MeshGeometryExportTaskClass::Update_Cached_Data(void)
 {
-    SingleMtl = NULL;
+    SingleMtl = nullptr;
     Mtl* nodemtl = Node->GetMtl();
 
     /*
     ** Set the SingleMtl pointer if this mesh uses only one material (again, even if its in a
     *Multi-Sub)
     */
-    if (nodemtl == NULL) {
+    if (nodemtl == nullptr) {
 
-        SingleMtl = NULL;
+        SingleMtl = nullptr;
     }
     else if (nodemtl->NumSubMtls() <= 1) {
 
@@ -749,7 +749,7 @@ void MeshGeometryExportTaskClass::Update_Cached_Data(void)
         }
 
         if (mat_count > 1) {
-            SingleMtl = NULL;
+            SingleMtl = nullptr;
         }
     }
 
@@ -796,7 +796,7 @@ void MeshGeometryExportTaskClass::Update_Cached_Data(void)
  *=============================================================================================*/
 bool MeshGeometryExportTaskClass::Is_Single_Material(void)
 {
-    return ((SingleMtl != NULL) || (Node->GetMtl() == NULL));
+    return ((SingleMtl != nullptr) || (Node->GetMtl() == nullptr));
 }
 
 /***********************************************************************************************
@@ -970,7 +970,7 @@ bool MeshGeometryExportTaskClass::Can_Combine_With(MeshGeometryExportTaskClass* 
     ** Does the mesh use the same (single) material that we do?
     */
     Mtl* other_mtl = other_mesh->Get_Single_Material();
-    if (other_mtl == NULL) {
+    if (other_mtl == nullptr) {
         return false;
     }
 

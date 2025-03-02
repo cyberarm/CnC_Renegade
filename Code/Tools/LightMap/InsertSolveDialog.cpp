@@ -46,17 +46,17 @@
 static char THIS_FILE[] = __FILE__;
 #endif
 
-InsertSolveDialog::InsertSolveDialog(const char* initialpathname, CWnd* pParent /*=NULL*/)
+InsertSolveDialog::InsertSolveDialog(const char* initialpathname, CWnd* pParent /*=nullptr*/)
     : CDialog(InsertSolveDialog::IDD, pParent)
 {
     InitialPathname = initialpathname;
     *DirectoryName = '\0';
-    FileListBuffer = NULL;
-    FilenameList = NULL;
+    FileListBuffer = nullptr;
+    FilenameList = nullptr;
     ApplySelective = false;
     InvertSelection = false;
     BlendNoise = false;
-    InclusionString = NULL;
+    InclusionString = nullptr;
 
     //{{AFX_DATA_INIT(InsertSolveDialog)
     // NOTE: the ClassWizard will add member initialization here
@@ -140,20 +140,20 @@ void InsertSolveDialog::OnBrowse()
     char initialpath[_MAX_PATH];
 
     // Select one or more solve files.
-    CFileDialog dialog(TRUE, NULL, NULL, LightMapApp::File_Dialog_Flags() | OFN_ALLOWMULTISELECT,
+    CFileDialog dialog(TRUE, nullptr, nullptr, LightMapApp::File_Dialog_Flags() | OFN_ALLOWMULTISELECT,
                        filefilter);
 
     // Allocate a buffer to contain the list of files selected.
-    // NOTE: Add one to buffer size in case an extra null must be added (see below).
+    // NOTE: Add one to buffer size in case an extra nullptr must be added (see below).
     FileListBuffer = new char[filelistbuffersize + 1];
-    ASSERT(FileListBuffer != NULL);
+    ASSERT(FileListBuffer != nullptr);
     *FileListBuffer = '\0';
     dialog.m_ofn.lpstrFile = FileListBuffer;
     dialog.m_ofn.nMaxFile = filelistbuffersize;
 
     // Specify initial path.
-    _splitpath(InitialPathname, initialdrivename, initialdirectoryname, NULL, NULL);
-    _makepath(initialpath, initialdrivename, initialdirectoryname, NULL, NULL);
+    _splitpath(InitialPathname, initialdrivename, initialdirectoryname, nullptr, nullptr);
+    _makepath(initialpath, initialdrivename, initialdirectoryname, nullptr, nullptr);
     dialog.m_ofn.lpstrInitialDir = initialpath;
 
     if (dialog.DoModal() == IDOK) {
@@ -162,10 +162,10 @@ void InsertSolveDialog::OnBrowse()
         char *windowtext, *windowtextptr;
 
         // NOTE: Old style (not Explorer style) dialog boxes separate strings in the file list
-        // buffer with spaces rather than null terminators.
+        // buffer with spaces rather than nullptr terminators.
         if (!LightMapApp::Explorer_Style()) {
 
-            // Replace all spaces in the string with null terminators.
+            // Replace all spaces in the string with nullptr terminators.
             cptr = FileListBuffer;
             while (*cptr != '\0') {
                 if (*cptr == ' ') {
@@ -174,11 +174,11 @@ void InsertSolveDialog::OnBrowse()
                 cptr++;
             }
 
-            // Append an extra null to indicate end of list.
+            // Append an extra nullptr to indicate end of list.
             *(cptr + 1) = '\0';
         }
 
-        // Must be room for directory name (including null terminator).
+        // Must be room for directory name (including nullptr terminator).
         ASSERT(dialog.m_ofn.nFileOffset < sizeof(DirectoryName));
 
         // Copy directory name from file list buffer and append a backslash.
@@ -195,7 +195,7 @@ void InsertSolveDialog::OnBrowse()
 
         // Set the solve file list edit control.
         windowtext = new char[filelistbuffersize];
-        ASSERT(windowtext != NULL);
+        ASSERT(windowtext != nullptr);
         cptr = FilenameList;
         windowtextptr = windowtext;
         while (true) {
@@ -315,12 +315,12 @@ void InsertSolveDialog::OnChangeInclusionString()
 {
     int textlength;
 
-    if (InclusionString != NULL) {
+    if (InclusionString != nullptr) {
         delete[] InclusionString;
     }
     textlength = GetDlgItem(IDC_INCLUSION_STRING)->GetWindowTextLength() + 1;
     InclusionString = new char[textlength];
-    ASSERT(InclusionString != NULL);
+    ASSERT(InclusionString != nullptr);
     GetDlgItem(IDC_INCLUSION_STRING)->GetWindowText(InclusionString, textlength);
 }
 

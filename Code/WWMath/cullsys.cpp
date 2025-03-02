@@ -44,8 +44,8 @@
 **
 *************************************************************************/
 CullableClass::CullableClass(void)
-    : CullLink(NULL),
-      NextCollected(NULL)
+    : CullLink(nullptr),
+      NextCollected(nullptr)
 {
     CullBox.Init(Vector3(0, 0, 0), Vector3(1, 1, 1));
 }
@@ -55,7 +55,7 @@ CullableClass::~CullableClass(void)
     // the cull system that contains us is responsible for any culling link
     // so we better be out of it and it should have cleared our pointer before
     // we are deleted.
-    WWASSERT(CullLink == NULL);
+    WWASSERT(CullLink == nullptr);
 }
 
 void CullableClass::Set_Cull_Box(const AABoxClass& box, bool just_loaded)
@@ -69,7 +69,7 @@ void CullableClass::Set_Cull_Box(const AABoxClass& box, bool just_loaded)
     // so you know you're in the right node of the culling system...
     if (!just_loaded) {
         CullSystemClass* sys = Get_Culling_System();
-        if (sys != NULL) {
+        if (sys != nullptr) {
             sys->Update_Culling(this);
         }
     }
@@ -87,7 +87,7 @@ CullSystemClass* CullableClass::Get_Culling_System(void) const
     if (CullLink) {
         return CullLink->Get_Culling_System();
     }
-    return NULL;
+    return nullptr;
 }
 
 /*************************************************************************
@@ -99,7 +99,7 @@ CullSystemClass* CullableClass::Get_Culling_System(void) const
 **
 *************************************************************************/
 CullSystemClass::CullSystemClass(void)
-    : CollectionHead(NULL)
+    : CollectionHead(nullptr)
 {
 }
 
@@ -116,10 +116,10 @@ CullableClass* CullSystemClass::Get_First_Collected_Object_Internal(void)
 
 CullableClass* CullSystemClass::Get_Next_Collected_Object_Internal(CullableClass* obj)
 {
-    if (obj != NULL) {
+    if (obj != nullptr) {
         return obj->NextCollected;
     }
-    return NULL;
+    return nullptr;
 }
 
 CullableClass* CullSystemClass::Peek_First_Collected_Object_Internal(void)
@@ -129,20 +129,20 @@ CullableClass* CullSystemClass::Peek_First_Collected_Object_Internal(void)
 
 CullableClass* CullSystemClass::Peek_Next_Collected_Object_Internal(CullableClass* obj)
 {
-    if (obj != NULL) {
+    if (obj != nullptr) {
         return obj->NextCollected;
     }
-    return NULL;
+    return nullptr;
 }
 
 void CullSystemClass::Reset_Collection(void)
 {
-    CollectionHead = NULL;
+    CollectionHead = nullptr;
 }
 
 void CullSystemClass::Add_To_Collection(CullableClass* obj)
 {
-    WWASSERT(obj != NULL);
+    WWASSERT(obj != nullptr);
     obj->NextCollected = CollectionHead;
     CollectionHead = obj;
 }

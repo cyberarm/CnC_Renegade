@@ -65,7 +65,7 @@ const Vector3& Objective::Type_To_Base_Color(void)
 {
     static Vector3 color(1.0F, 1.0F, 1.0F);
 
-    if (HUDGlobalSettingsDef::Get_Instance() != NULL) {
+    if (HUDGlobalSettingsDef::Get_Instance() != nullptr) {
         switch (Type) {
         case ObjectiveManager::TYPE_PRIMARY:
             color = HUDGlobalSettingsDef::Get_Instance()->Get_Primary_Objective_Color();
@@ -168,7 +168,7 @@ Objective::Objective(void)
 
 Objective::~Objective(void)
 {
-    Set_Object(NULL);
+    Set_Object(nullptr);
 }
 
 int Objective::Radar_Blip_Color_Type(void)
@@ -179,7 +179,7 @@ int Objective::Radar_Blip_Color_Type(void)
 void Objective::Set_Object(PhysicalGameObj* object)
 {
     PhysicalGameObj* obj = (PhysicalGameObj*)Object.Get_Ptr();
-    if (obj != NULL) {
+    if (obj != nullptr) {
         obj->Reset_Radar_Blip_Shape_Type();
         obj->Reset_Radar_Blip_Color_Type();
     }
@@ -190,7 +190,7 @@ void Objective::Set_Object(PhysicalGameObj* object)
 void Objective::Update_Object_Blip(void)
 {
     PhysicalGameObj* obj = (PhysicalGameObj*)Object.Get_Ptr();
-    if (obj != NULL) {
+    if (obj != nullptr) {
         if (Status == ObjectiveManager::STATUS_IS_PENDING) {
             obj->Set_Radar_Blip_Shape_Type(RadarManager::BLIP_SHAPE_TYPE_OBJECTIVE);
             obj->Set_Radar_Blip_Color_Type(Radar_Blip_Color_Type());
@@ -204,7 +204,7 @@ void Objective::Update_Object_Blip(void)
 
 Vector3 Objective::Get_Position(void)
 {
-    if (Object.Get_Ptr() != NULL) {
+    if (Object.Get_Ptr() != nullptr) {
         Vector3 pos;
         Object.Get_Ptr()->Get_Position(&pos);
         return pos;
@@ -255,7 +255,7 @@ bool Objective::Save(ChunkSaveClass& csave)
     WRITE_MICRO_CHUNK(csave, MICROCHUNKID_HUD_AGE, Age);
     csave.End_Chunk();
 
-    if (Object.Get_Ptr() != NULL) {
+    if (Object.Get_Ptr() != nullptr) {
         csave.Begin_Chunk(CHUNKID_OBJECT);
         Object.Save(csave);
         csave.End_Chunk();
@@ -328,7 +328,7 @@ Objective* ObjectiveManager::Find_Objective(int id)
             return ObjectiveList[i];
         }
     }
-    return NULL;
+    return nullptr;
 }
 
 /*
@@ -436,7 +436,7 @@ bool ObjectiveManager::Load(ChunkLoadClass& cload)
 void ObjectiveManager::Add_Objective(int id, int type, int status, int short_description_id,
                                      int long_description_id, char* description_sound_filename)
 {
-    if (Find_Objective(id) != NULL) {
+    if (Find_Objective(id) != nullptr) {
         Debug_Say(("Adding a duplicate Objective ID\n"));
         return;
     }
@@ -462,7 +462,7 @@ void ObjectiveManager::Add_Objective(int id, int type, int status, int short_des
         HUDClass::Add_Objective(type);
     }
 
-    const char* preset_name = NULL;
+    const char* preset_name = nullptr;
     switch (type) {
     case ObjectiveManager::TYPE_PRIMARY:
         preset_name = "EVA_Primary_Add";
@@ -486,7 +486,7 @@ void ObjectiveManager::Add_Objective(int id, int type, int status, int short_des
 void ObjectiveManager::Remove_Objective(int id)
 {
     Objective* objective = Find_Objective(id);
-    if (objective != NULL) {
+    if (objective != nullptr) {
 
 #if 01
         WideStringClass message;
@@ -511,7 +511,7 @@ void ObjectiveManager::Remove_Objective(int id)
 void ObjectiveManager::Set_Objective_Status(int id, int status)
 {
     Objective* objective = Find_Objective(id);
-    if (objective != NULL) {
+    if (objective != nullptr) {
 
         bool is_unhiding = (objective->Status == ObjectiveManager::STATUS_HIDDEN)
             && (status != ObjectiveManager::STATUS_HIDDEN);
@@ -567,7 +567,7 @@ void ObjectiveManager::Set_Objective_Status(int id, int status)
 void ObjectiveManager::Change_Objective_Type(int id, int type)
 {
     Objective* objective = Find_Objective(id);
-    if (objective != NULL) {
+    if (objective != nullptr) {
         objective->Type = type;
         objective->Update_Object_Blip();
         // DebugManager::Display_Text( "Mission objective priority changed\n",
@@ -585,8 +585,8 @@ void ObjectiveManager::Change_Objective_Type(int id, int type)
 void ObjectiveManager::Set_Objective_Radar_Blip(int id, Vector3 position)
 {
     Objective* objective = Find_Objective(id);
-    if (objective != NULL) {
-        objective->Set_Object(NULL);
+    if (objective != nullptr) {
+        objective->Set_Object(nullptr);
         objective->Position = position;
         objective->DrawBlip = true;
     }
@@ -598,7 +598,7 @@ void ObjectiveManager::Set_Objective_Radar_Blip(int id, Vector3 position)
 void ObjectiveManager::Set_Objective_Radar_Blip(int id, PhysicalGameObj* object)
 {
     Objective* objective = Find_Objective(id);
-    if (objective != NULL) {
+    if (objective != nullptr) {
         objective->Set_Object(object);
     }
     else {
@@ -613,8 +613,8 @@ void ObjectiveManager::Set_Objective_Radar_Blip(int id, PhysicalGameObj* object)
 ////////////////////////////////////////////////////////////////
 int __cdecl ObjectiveManager::ObjectiveSortCallback(const void* elem1, const void* elem2)
 {
-    WWASSERT(elem1 != NULL);
-    WWASSERT(elem2 != NULL);
+    WWASSERT(elem1 != nullptr);
+    WWASSERT(elem2 != nullptr);
     Objective* objective1 = *((Objective**)elem1);
     Objective* objective2 = *((Objective**)elem2);
 
@@ -651,7 +651,7 @@ void ObjectiveManager::Set_Objective_HUD_Info(int id, float priority, const char
                                               int message_id)
 {
     Objective* objective = Find_Objective(id);
-    if (objective != NULL) {
+    if (objective != nullptr) {
         objective->HUDPriority = priority;
         objective->HUDPogTextureName = texture_name;
         objective->HUDMessageStringID = message_id;
@@ -668,7 +668,7 @@ void ObjectiveManager::Set_Objective_HUD_Info(int id, float priority, const char
                                               int message_id, const Vector3& position)
 {
     Objective* objective = Find_Objective(id);
-    if (objective != NULL) {
+    if (objective != nullptr) {
         objective->HUDPriority = priority;
         objective->HUDPogTextureName = texture_name;
         objective->HUDMessageStringID = message_id;

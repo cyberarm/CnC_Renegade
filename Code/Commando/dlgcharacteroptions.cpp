@@ -91,7 +91,7 @@ void CharacterOptionsMenuClass::On_Init_Dialog(void)
     Ensure_Definitions_Are_Loaded();
 
     ComboBoxCtrlClass* combo_box = (ComboBoxCtrlClass*)Get_Dlg_Item(IDC_PACKAGE_COMBO);
-    if (combo_box != NULL) {
+    if (combo_box != nullptr) {
 
         const StringClass& curr_package_name
             = SkinPackageMgrClass::Get_Current_Package().Get_Name();
@@ -159,12 +159,12 @@ void CharacterOptionsMenuClass::Fill_Character_Combobox(void)
         PurchaseSettingsDefClass::TYPE_CLASSES, PurchaseSettingsDefClass::TEAM_GDI);
     PurchaseSettingsDefClass* settings2 = PurchaseSettingsDefClass::Find_Definition(
         PurchaseSettingsDefClass::TYPE_CLASSES, PurchaseSettingsDefClass::TEAM_NOD);
-    if (settings1 == NULL || settings2 == NULL) {
+    if (settings1 == nullptr || settings2 == nullptr) {
         return;
     }
 
     ComboBoxCtrlClass* combo_box = (ComboBoxCtrlClass*)Get_Dlg_Item(IDC_CHARACTER_COMBO);
-    if (combo_box == NULL) {
+    if (combo_box == nullptr) {
         return;
     }
 
@@ -229,7 +229,7 @@ void CharacterOptionsMenuClass::On_ComboBoxCtrl_Sel_Change(ComboBoxCtrlClass* co
 void CharacterOptionsMenuClass::On_Character_Selected(int index)
 {
     ComboBoxCtrlClass* combo_box = (ComboBoxCtrlClass*)Get_Dlg_Item(IDC_CHARACTER_COMBO);
-    if (combo_box == NULL) {
+    if (combo_box == nullptr) {
         return;
     }
 
@@ -252,7 +252,7 @@ void CharacterOptionsMenuClass::Display_Default_Model(int definition_id)
     //	Lookup the definition that goes with this character
     //
     DefinitionClass* definition = DefinitionMgrClass::Find_Definition(definition_id);
-    if (definition != NULL) {
+    if (definition != nullptr) {
         PhysicalGameObjDef* phys_game_obj_def = static_cast<PhysicalGameObjDef*>(definition);
 
         //
@@ -260,7 +260,7 @@ void CharacterOptionsMenuClass::Display_Default_Model(int definition_id)
         //
         DefinitionClass* phys_def
             = DefinitionMgrClass::Find_Definition(phys_game_obj_def->Get_Phys_Def_ID());
-        if (phys_def != NULL) {
+        if (phys_def != nullptr) {
 
             //
             //	Display the model that this physics definition requires
@@ -281,7 +281,7 @@ void CharacterOptionsMenuClass::Display_Default_Model(int definition_id)
 void CharacterOptionsMenuClass::Display_Model(const char* model_name)
 {
     ViewerCtrlClass* viewer_ctrl = (ViewerCtrlClass*)Get_Dlg_Item(IDC_MODEL_VIEWER);
-    if (viewer_ctrl == NULL) {
+    if (viewer_ctrl == nullptr) {
         return;
     }
 
@@ -302,7 +302,7 @@ void CharacterOptionsMenuClass::Display_Model(const char* model_name)
 ////////////////////////////////////////////////////////////////
 void CharacterOptionsMenuClass::Ensure_Definitions_Are_Loaded(void)
 {
-    if (DefinitionMgrClass::Get_First() != NULL) {
+    if (DefinitionMgrClass::Get_First() != nullptr) {
         return;
     }
 

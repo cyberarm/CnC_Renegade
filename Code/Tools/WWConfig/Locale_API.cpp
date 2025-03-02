@@ -59,7 +59,7 @@
 /* GLOBAL VARIABLES                                                         */
 /****************************************************************************/
 CHAR LanguageFile[_MAX_PATH];
-void* LocaleFile = NULL;
+void* LocaleFile = nullptr;
 int CodePage = GetACP();
 int LanguageID = 0;
 
@@ -95,7 +95,7 @@ int Locale_Init(int language, char* file)
     //-------------------------------------------------------------------------
     // Check for a file passed in.
     //-------------------------------------------------------------------------
-    if (file == NULL || file[0] == '/0') {
+    if (file == nullptr || file[0] == '/0') {
         return 0;
     }
 
@@ -196,7 +196,7 @@ int Locale_Init(int language, char* file)
     HGLOBAL hGlobal;
     int PrimaryLanguage = LANG_NEUTRAL;
     int SubLanguage = SUBLANG_DEFAULT;
-    HMODULE module = GetModuleHandle(NULL);
+    HMODULE module = GetModuleHandle(nullptr);
 
     //-------------------------------------------------------------------------
     // Find the string file in this program's resources.
@@ -246,7 +246,7 @@ int Locale_Init(int language, char* file)
     }
 
     hRsrc = FindResourceEx(module, RT_RCDATA, "STRINGS", MAKELANGID(PrimaryLanguage, SubLanguage));
-    if (hRsrc == NULL) {
+    if (hRsrc == nullptr) {
         hRsrc = FindResourceEx(module, RT_RCDATA, "STRINGS",
                                MAKELANGID(LANG_ENGLISH, SUBLANG_ENGLISH_US));
     }
@@ -269,11 +269,11 @@ int Locale_Init(int language, char* file)
         FreeResource(hGlobal);
     }
 
-    if (LocaleFile == NULL) {
+    if (LocaleFile == nullptr) {
         LocaleFile = Load_File(LanguageFile, &filesize);
     }
 
-    if (LocaleFile != NULL) {
+    if (LocaleFile != nullptr) {
         result = 1;
     }
 
@@ -295,7 +295,7 @@ void Locale_Restore(void)
 #else
     if (LocaleFile) {
         free(LocaleFile);
-        LocaleFile = NULL;
+        LocaleFile = nullptr;
     }
 #endif
 }
@@ -335,9 +335,9 @@ const CHAR* Locale_GetString(int StringID, CHAR* String)
 #endif
 
     Remove_Quotes_Around_String(wide_buffer);
-    WideCharToMultiByte(CodePage, 0, wide_buffer, _MAX_PATH, buffer, _MAX_PATH, NULL, NULL);
+    WideCharToMultiByte(CodePage, 0, wide_buffer, _MAX_PATH, buffer, _MAX_PATH, nullptr, nullptr);
 
-    if (String != NULL) {
+    if (String != nullptr) {
         strncpy(String, buffer, _MAX_PATH);
     }
     return buffer;
@@ -377,7 +377,7 @@ const WCHAR* Locale_GetString(int StringID, WCHAR* String)
 
     Remove_Quotes_Around_String(wide_buffer);
 
-    if (String != NULL) {
+    if (String != nullptr) {
         wcsncpy(String, wide_buffer, _MAX_PATH);
     }
     return wide_buffer;
@@ -431,7 +431,7 @@ WCHAR* Remove_Quotes_Around_String(WCHAR* old_string)
     int length;
 
     //----------------------------------------------------------------------
-    // If string is not NULL...
+    // If string is not nullptr...
     //----------------------------------------------------------------------
     if (*letter == '"') {
 
@@ -471,12 +471,12 @@ WCHAR* Remove_Quotes_Around_String(WCHAR* old_string)
 void* Load_File(const char* filename, long* filesize)
 {
     int size, bytes_read;
-    void* ptr = NULL;
+    void* ptr = nullptr;
     //	StandardFileClass	file;
     RawFileClass file;
 
-    if (filename == NULL || filename[0] == '\0') {
-        return (NULL);
+    if (filename == nullptr || filename[0] == '\0') {
+        return (nullptr);
     }
 
     //-------------------------------------------------------------------------
@@ -486,7 +486,7 @@ void* Load_File(const char* filename, long* filesize)
     file.Open(filename, FileClass::READ);
     //	if( !file.Query_Open()) {
     if (!file.Is_Open()) {
-        return (NULL);
+        return (nullptr);
     }
 
     //-------------------------------------------------------------------------
@@ -496,7 +496,7 @@ void* Load_File(const char* filename, long* filesize)
     size = file.Size();
     ptr = (void*)malloc(size + 1);
     if (!ptr) {
-        return (NULL);
+        return (nullptr);
     }
 
     //-------------------------------------------------------------------------
@@ -514,10 +514,10 @@ void* Load_File(const char* filename, long* filesize)
     assert(bytes_read == size);
     if (bytes_read != size) {
         free(ptr);
-        return (NULL);
+        return (nullptr);
     }
 
-    if (filesize != NULL) {
+    if (filesize != nullptr) {
         *filesize = (long)size;
     }
     return (ptr);

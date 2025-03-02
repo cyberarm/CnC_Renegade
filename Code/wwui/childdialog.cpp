@@ -46,7 +46,7 @@
 //
 ////////////////////////////////////////////////////////////////
 ChildDialogClass::ChildDialogClass(int res_id)
-    : ParentDialog(NULL),
+    : ParentDialog(nullptr),
       DialogBaseClass(res_id)
 {
     return;
@@ -100,7 +100,7 @@ bool ChildDialogClass::Is_Active(void)
     //
     //	We are automatically active if our parent is active
     //
-    if (IsVisible && ParentDialog != NULL && ParentDialog->Is_Active()) {
+    if (IsVisible && ParentDialog != nullptr && ParentDialog->Is_Active()) {
         // retval = true;
     }
 

@@ -93,7 +93,7 @@ public:
     // Arrived_Distance - radius around the destination where we are "close enough"
     // Hover_Distance - radius around the destination where we try to slow down and maintain
     //                  our position.  Should be at least 10m more than Arrived_Distance!
-    // Target - point to aim at (if NULL is passed, vehicle will not aim in any particular
+    // Target - point to aim at (if nullptr is passed, vehicle will not aim in any particular
     // direction)
     //
 

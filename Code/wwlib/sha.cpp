@@ -70,7 +70,7 @@
  *=============================================================================================*/
 void SHAEngine::Process_Partial(void const*& data, long& length)
 {
-    if (length == 0 || data == NULL) {
+    if (length == 0 || data == nullptr) {
         return;
     }
 

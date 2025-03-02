@@ -34,7 +34,7 @@ static char THIS_FILE[] = __FILE__;
 /////////////////////////////////////////////////////////////////////////////
 // MissingTranslationReportDialogClass dialog
 
-MissingTranslationReportDialogClass::MissingTranslationReportDialogClass(CWnd* pParent /*=NULL*/)
+MissingTranslationReportDialogClass::MissingTranslationReportDialogClass(CWnd* pParent /*=nullptr*/)
     : CDialog(MissingTranslationReportDialogClass::IDD, pParent)
 {
     //{{AFX_DATA_INIT(MissingTranslationReportDialogClass)

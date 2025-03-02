@@ -74,7 +74,7 @@ MPChatChildDialogClass::MPChatChildDialogClass(void)
 ////////////////////////////////////////////////////////////////
 void MPChatChildDialogClass::On_Init_Dialog(void)
 {
-    WWASSERT(The_Game() != NULL);
+    WWASSERT(The_Game() != nullptr);
 
     //
     //	Allow the base class to process the message
@@ -127,7 +127,7 @@ void MPChatChildDialogClass::Process_Message(void)
                 //
                 cPlayer* recipient = cPlayerManager::Find_Player(RecipientName);
 
-                if (recipient != NULL) {
+                if (recipient != nullptr) {
                     message_type = TEXT_MESSAGE_PRIVATE;
                     recipient_id = recipient->Get_Id();
                 }
@@ -362,7 +362,7 @@ const WCHAR* Get_Parameter_From_String(const WCHAR* command, WideStringClass& pa
 void MPChatChildDialogClass::Auto_Complete_Name(void)
 {
     EditCtrlClass* edit_ctrl = (EditCtrlClass*)Get_Dlg_Item(IDC_MESSAGE_EDIT);
-    if (edit_ctrl == NULL) {
+    if (edit_ctrl == nullptr) {
         return;
     }
 
@@ -477,9 +477,9 @@ void MPChatChildDialogClass::Complete_Player_Name(const WCHAR* typed_name,
     //	Find the player's name that most closely matches the typed name
     //
     for (SLNode<cPlayer>* player_node = cPlayerManager::Get_Player_Object_List()->Head();
-         player_node != NULL; player_node = player_node->Next()) {
+         player_node != nullptr; player_node = player_node->Next()) {
         cPlayer* player = player_node->Data();
-        WWASSERT(player != NULL);
+        WWASSERT(player != nullptr);
 
         if (player->Get_Is_Active().Is_False()) {
             continue;
@@ -572,7 +572,7 @@ bool MPChatChildDialogClass::Find_Current_Command(const WCHAR* message, int& sta
                                                   int& end_index)
 {
     EditCtrlClass* edit_ctrl = (EditCtrlClass*)Get_Dlg_Item(IDC_MESSAGE_EDIT);
-    if (edit_ctrl == NULL) {
+    if (edit_ctrl == nullptr) {
         return false;
     }
 
@@ -589,7 +589,7 @@ bool MPChatChildDialogClass::Find_Current_Command(const WCHAR* message, int& sta
         //	Look to see if there is a command designator preceding the caret.
         //
         const WCHAR* command_start = ::wcsrchr(message, L'/');
-        if (command_start != NULL) {
+        if (command_start != nullptr) {
             start_index = command_start - message;
             command_start++;
 
@@ -598,7 +598,7 @@ bool MPChatChildDialogClass::Find_Current_Command(const WCHAR* message, int& sta
             // and the caret
             //
             const WCHAR* first_space = ::wcschr(command_start, L' ');
-            if (first_space == NULL) {
+            if (first_space == nullptr) {
                 end_index = ::wcslen(message);
                 retval = true;
             }
@@ -705,7 +705,7 @@ void MPChatChildDialogClass::On_Command(int ctrl_id, int message_id, DWORD param
 ////////////////////////////////////////////////////////////////
 MPIngameChatPopupClass::MPIngameChatPopupClass(void)
     : DefaultType(TEXT_MESSAGE_PUBLIC),
-      ChatModule(NULL),
+      ChatModule(nullptr),
       PopupDialogClass(IDD_MULTIPLAY_INGAME_CHAT)
 {
     //
@@ -734,7 +734,7 @@ MPIngameChatPopupClass::~MPIngameChatPopupClass(void)
 ////////////////////////////////////////////////////////////////
 void MPIngameChatPopupClass::On_Init_Dialog(void)
 {
-    WWASSERT(The_Game() != NULL);
+    WWASSERT(The_Game() != nullptr);
 
     //
     //	Align the window with the bottom of the screen

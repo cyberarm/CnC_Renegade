@@ -58,13 +58,13 @@
 CLevelEditDoc* Get_Current_Document(void)
 {
     // Assume failure
-    CLevelEditDoc* pdoc = NULL;
+    CLevelEditDoc* pdoc = nullptr;
 
     // Get a pointer to the main window
     CMainFrame* pmainwnd = (CMainFrame*)theApp.GetMainWnd();
 
     // Did we successfully get a pointer to the main window?
-    if (pmainwnd != NULL) {
+    if (pmainwnd != nullptr) {
         // Use the main window pointer to get a pointer
         // to the current doc.
         // pdoc = (CLevelEditDoc *)pmainwnd->GetActiveDocument ();
@@ -94,12 +94,12 @@ NodeMgrClass& Get_Node_Mgr(void)
 ////////////////////////////////////////////////////////////////////////////
 SceneEditorClass* Get_Scene_Editor(void)
 {
-    SceneEditorClass* peditor = NULL;
+    SceneEditorClass* peditor = nullptr;
     CLevelEditDoc* pdoc = ::Get_Current_Document();
 
     // Were we successful in getting the document pointer?
-    ASSERT(pdoc != NULL);
-    if (pdoc != NULL) {
+    ASSERT(pdoc != nullptr);
+    if (pdoc != nullptr) {
 
         // Get a pointer to the editor
         peditor = pdoc->Get_Scene();
@@ -116,14 +116,14 @@ SceneEditorClass* Get_Scene_Editor(void)
 ////////////////////////////////////////////////////////////////////////////
 CameraMgr* Get_Camera_Mgr(void)
 {
-    CameraMgr* pcameramgr = NULL;
+    CameraMgr* pcameramgr = nullptr;
 
     // Get a pointer to the current view
     CLevelEditView* pview = ::Get_Main_View();
 
     // Were we successful in getting the view pointer?
-    ASSERT(pview != NULL);
-    if (pview != NULL) {
+    ASSERT(pview != nullptr);
+    if (pview != nullptr) {
         // Get a pointer to the camera maanager
         pcameramgr = pview->Get_Camera_Mgr();
     }
@@ -139,14 +139,14 @@ CameraMgr* Get_Camera_Mgr(void)
 ////////////////////////////////////////////////////////////////////////////
 MouseMgrClass* Get_Mouse_Mgr(void)
 {
-    MouseMgrClass* pmousemgr = NULL;
+    MouseMgrClass* pmousemgr = nullptr;
 
     // Get a pointer to the current view
     CLevelEditView* pview = ::Get_Main_View();
 
     // Were we successful in getting the view pointer?
-    ASSERT(pview != NULL);
-    if (pview != NULL) {
+    ASSERT(pview != nullptr);
+    if (pview != nullptr) {
         // Get a pointer to the mouse maanager
         pmousemgr = pview->Get_Mouse_Mgr();
     }
@@ -174,18 +174,18 @@ SelectionMgrClass& Get_Selection_Mgr(void)
 CLevelEditView* Get_Main_View(void)
 {
     // Assume failure
-    CLevelEditView* pview = NULL;
+    CLevelEditView* pview = nullptr;
 
     // Get a pointer to the main window
     CMainFrame* pmainwnd = (CMainFrame*)theApp.GetMainWnd();
 
     // Did we successfully get a pointer to the main window?
-    ASSERT(pmainwnd != NULL);
-    if (pmainwnd != NULL) {
+    ASSERT(pmainwnd != nullptr);
+    if (pmainwnd != nullptr) {
         // Use the main window pointer to get a pointer
         // to the current view.
         pview = (CLevelEditView*)pmainwnd->GetActiveView();
-        ASSERT(pview != NULL);
+        ASSERT(pview != nullptr);
     }
 
     // Return the view pointer
@@ -199,14 +199,14 @@ CLevelEditView* Get_Main_View(void)
 ////////////////////////////////////////////////////////////////////////////
 FileMgrClass* Get_File_Mgr(void)
 {
-    FileMgrClass* pfilemgr = NULL;
+    FileMgrClass* pfilemgr = nullptr;
 
     // Get a pointer to the current document
     CLevelEditDoc* pdoc = ::Get_Current_Document();
 
     // Were we successful in getting the document pointer?
-    ASSERT(pdoc != NULL);
-    if (pdoc != NULL) {
+    ASSERT(pdoc != nullptr);
+    if (pdoc != nullptr) {
         // Get a pointer to the file maanager
         pfilemgr = pdoc->Get_File_Mgr();
     }
@@ -225,7 +225,7 @@ void Refresh_Main_View(void)
     // Force the view to repaint itself,
     // but only if auto updating is turned off
     CLevelEditView* pview = Get_Main_View();
-    if ((pview != NULL) && (pview->Is_Updating() == false) && ::IsWindow(pview->m_hWnd)) {
+    if ((pview != nullptr) && (pview->Is_Updating() == false) && ::IsWindow(pview->m_hWnd)) {
         pview->Repaint_View();
         pview->Repaint_View();
     }
@@ -270,7 +270,7 @@ void Paint_Gradient(HWND hwnd, BYTE base_red, BYTE base_green, BYTE base_blue)
     ::ReleaseDC(hwnd, hdc);
 
     // Validate the contents of the window so the control won't paint itself
-    ::ValidateRect(hwnd, NULL);
+    ::ValidateRect(hwnd, nullptr);
     return;
 }
 
@@ -282,7 +282,7 @@ void Paint_Gradient(HWND hwnd, BYTE base_red, BYTE base_green, BYTE base_blue)
 CString Get_Startup_Directory(void)
 {
     TCHAR path[MAX_PATH];
-    ::GetModuleFileName(NULL, path, sizeof(path));
+    ::GetModuleFileName(nullptr, path, sizeof(path));
 
     LPTSTR filename = ::strrchr(path, '\\');
     if (filename) {
@@ -320,7 +320,7 @@ CString Get_Filename_From_Path(LPCTSTR path)
 {
     // Find the last occurance of the directory deliminator
     LPCTSTR filename = ::strrchr(path, '\\');
-    if (filename != NULL) {
+    if (filename != nullptr) {
         // Increment past the directory deliminator
         filename++;
     }
@@ -345,7 +345,7 @@ CString Strip_Filename_From_Path(LPCTSTR path)
 
     // Find the last occurance of the directory deliminator
     LPTSTR filename = ::strrchr(temp_path, '\\');
-    if (filename != NULL) {
+    if (filename != nullptr) {
 
         // Strip off the filename
         filename[0] = 0;
@@ -416,7 +416,7 @@ CString Up_One_Directory(LPCTSTR path)
 
     // Strip off the last subdir in the path
     LPTSTR plast_dir = ::strrchr(local_copy, '\\');
-    if (plast_dir != NULL) {
+    if (plast_dir != nullptr) {
         plast_dir[0] = 0;
     }
 
@@ -434,18 +434,18 @@ Get_File_Size(LPCTSTR path)
 {
     DWORD file_size = 0L;
 
-    ASSERT(path != NULL);
-    if (path != NULL) {
+    ASSERT(path != nullptr);
+    if (path != nullptr) {
 
         // Attempt to open the file
-        HANDLE hfile = ::CreateFile(path, 0, 0, NULL, OPEN_EXISTING, 0L, NULL);
+        HANDLE hfile = ::CreateFile(path, 0, 0, nullptr, OPEN_EXISTING, 0L, nullptr);
 
         ASSERT(hfile != INVALID_HANDLE_VALUE);
         if (hfile != INVALID_HANDLE_VALUE) {
 
             // Get the size in bytes of the file and return it
             // to the caller.
-            file_size = ::GetFileSize(hfile, NULL);
+            file_size = ::GetFileSize(hfile, nullptr);
 
             // Close the file
             ::CloseHandle(hfile);
@@ -468,15 +468,15 @@ void Output_Message(LPCTSTR message)
     CMainFrame* pmainwnd = (CMainFrame*)theApp.GetMainWnd();
 
     // Did we successfully get a pointer to the main window?
-    ASSERT(pmainwnd != NULL);
-    if (pmainwnd != NULL) {
+    ASSERT(pmainwnd != nullptr);
+    if (pmainwnd != nullptr) {
         FormToolbarClass& toolbar = pmainwnd->Get_Output_Toolbar();
 
         // Get a pointer to the output window
         OutputFormClass* form = (OutputFormClass*)toolbar.Get_Form();
 
         // Print the message to the window
-        if ((form != NULL) && IsWindow(form->m_hWnd)) {
+        if ((form != nullptr) && IsWindow(form->m_hWnd)) {
             form->Output_Message(message);
         }
     }
@@ -495,8 +495,8 @@ bool Is_Path_Relative(LPCTSTR path)
     bool relative = false;
 
     // Param valid?
-    ASSERT(path != NULL);
-    if (path != NULL && path[0] != 0) {
+    ASSERT(path != nullptr);
+    if (path != nullptr && path[0] != 0) {
 
         // Check for drive designation
         relative = bool(path[1] != ':');
@@ -519,9 +519,9 @@ bool Find_File(LPCTSTR filename, LPCTSTR start_dir, CString& full_path)
     bool bfound = false;
 
     // Params valid?
-    ASSERT(filename != NULL);
-    ASSERT(start_dir != NULL);
-    if ((filename != NULL) && (start_dir != NULL)) {
+    ASSERT(filename != nullptr);
+    ASSERT(start_dir != nullptr);
+    if ((filename != nullptr) && (start_dir != nullptr)) {
 
         // Make sure the current directory name doesn't end in a
         // directory delimiter.
@@ -584,15 +584,15 @@ int Quick_Compare_Files(LPCTSTR file1, LPCTSTR file2)
     int icompare = 0;
 
     // Params OK?
-    ASSERT(file1 != NULL);
-    ASSERT(file2 != NULL);
-    if ((file1 != NULL) && (file2 != NULL)) {
+    ASSERT(file1 != nullptr);
+    ASSERT(file2 != nullptr);
+    if ((file1 != nullptr) && (file2 != nullptr)) {
 
         // Attempt to open file1
-        HANDLE hfile1 = ::CreateFile(file1, 0, 0, NULL, OPEN_EXISTING, 0L, NULL);
+        HANDLE hfile1 = ::CreateFile(file1, 0, 0, nullptr, OPEN_EXISTING, 0L, nullptr);
 
         // Attempt to open file2
-        HANDLE hfile2 = ::CreateFile(file2, 0, 0, NULL, OPEN_EXISTING, 0L, NULL);
+        HANDLE hfile2 = ::CreateFile(file2, 0, 0, nullptr, OPEN_EXISTING, 0L, nullptr);
 
         if ((hfile1 != INVALID_HANDLE_VALUE) && (hfile2 != INVALID_HANDLE_VALUE)) {
 
@@ -635,15 +635,15 @@ int Build_List_From_String(LPCTSTR buffer, LPCTSTR delimiter, CString** pstring_
     // Start with zero list entries
     int count = 0;
 
-    ASSERT(buffer != NULL);
-    ASSERT(delimiter != NULL);
-    ASSERT(pstring_list != NULL);
-    if ((buffer != NULL) && (delimiter != NULL) && (pstring_list != NULL)) {
+    ASSERT(buffer != nullptr);
+    ASSERT(delimiter != nullptr);
+    ASSERT(pstring_list != nullptr);
+    if ((buffer != nullptr) && (delimiter != nullptr) && (pstring_list != nullptr)) {
 
         int delim_len = ::strlen(delimiter);
 
         // Determine how many entries there will be in the list
-        for (LPCTSTR entry = buffer; (entry != NULL) && (entry[1] != 0);
+        for (LPCTSTR entry = buffer; (entry != nullptr) && (entry[1] != 0);
              entry = ::strstr(entry, delimiter)) {
 
             // Move past the current delimiter (if necessary)
@@ -662,7 +662,7 @@ int Build_List_From_String(LPCTSTR buffer, LPCTSTR delimiter, CString** pstring_
 
             // Parse the string and pull out its entries.
             count = 0;
-            for (entry = buffer; (entry != NULL) && (entry[1] != 0);
+            for (entry = buffer; (entry != nullptr) && (entry[1] != 0);
                  entry = ::strstr(entry, delimiter)) {
 
                 // Move past the current delimiter (if necessary)
@@ -702,9 +702,9 @@ CString Build_String_From_List(const CString* pstring_list, int count, LPCTSTR d
     // Start an empty string
     CString composite_string;
 
-    ASSERT(delimiter != NULL);
-    ASSERT(pstring_list != NULL);
-    if ((delimiter != NULL) && (pstring_list != NULL)) {
+    ASSERT(delimiter != nullptr);
+    ASSERT(pstring_list != nullptr);
+    if ((delimiter != nullptr) && (pstring_list != nullptr)) {
 
         // Loop through all the entries in our list and add them
         // to the composite string
@@ -850,7 +850,7 @@ int Get_LOD_File_Count(LPCTSTR first_lod_filename, CString* pbase_filename)
         }
     }
 
-    if (pbase_filename != NULL) {
+    if (pbase_filename != nullptr) {
         *pbase_filename = base_filename;
     }
 
@@ -874,7 +874,7 @@ bool Browse_For_Folder(CString& folder, HWND hparentwnd, LPCTSTR default_path, L
     browse_info.lpszTitle = title;
     browse_info.ulFlags = flags;
     LPITEMIDLIST pidl = ::SHBrowseForFolder(&browse_info);
-    if (pidl != NULL) {
+    if (pidl != nullptr) {
 
         // Convert the 'PIDL' into a string
         char path[MAX_PATH];
@@ -884,7 +884,7 @@ bool Browse_For_Folder(CString& folder, HWND hparentwnd, LPCTSTR default_path, L
         }
 
         // Fre the 'PIDL'
-        LPMALLOC pmalloc = NULL;
+        LPMALLOC pmalloc = nullptr;
         if (SUCCEEDED(::SHGetMalloc(&pmalloc))) {
             pmalloc->Free(pidl);
             COM_RELEASE(pmalloc);
@@ -904,7 +904,7 @@ void General_Pump_Messages(void)
 {
     // Process any paint messages currently pending in the queue
     MSG msg = { 0 };
-    while (::PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)) {
+    while (::PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE)) {
         ::DispatchMessage(&msg);
     }
 
@@ -920,10 +920,10 @@ void Pump_Messages(void)
 {
     // Process any paint messages currently pending in the queue
     MSG msg = { 0 };
-    while (::PeekMessage(&msg, NULL, WM_PAINT, WM_PAINT, PM_REMOVE)
-           || ::PeekMessage(&msg, NULL, WM_NCPAINT, WM_NCPAINT, PM_REMOVE)
-           || ::PeekMessage(&msg, NULL, WM_ERASEBKGND, WM_ERASEBKGND, PM_REMOVE)
-           || ::PeekMessage(&msg, NULL, WM_SYNCPAINT, WM_SYNCPAINT, PM_REMOVE)) {
+    while (::PeekMessage(&msg, nullptr, WM_PAINT, WM_PAINT, PM_REMOVE)
+           || ::PeekMessage(&msg, nullptr, WM_NCPAINT, WM_NCPAINT, PM_REMOVE)
+           || ::PeekMessage(&msg, nullptr, WM_ERASEBKGND, WM_ERASEBKGND, PM_REMOVE)
+           || ::PeekMessage(&msg, nullptr, WM_SYNCPAINT, WM_SYNCPAINT, PM_REMOVE)) {
 
         ::DispatchMessage(&msg);
     }
@@ -950,7 +950,7 @@ typedef struct
 UINT fnWorkerThread(LPVOID pParam)
 {
     THREAD_PARAMS* pthread_params = (THREAD_PARAMS*)pParam;
-    if (pthread_params != NULL) {
+    if (pthread_params != nullptr) {
 
         // Call the user function
         MY_THREADPROC thread_proc = (MY_THREADPROC)pthread_params->ThreadProc;
@@ -979,8 +979,8 @@ void Create_Worker_Thread(MY_THREADPROC fnthread_proc, DWORD dwparam1, DWORD dwp
     pthread_params->dwparam2 = dwparam2;
     pthread_params->dwparam3 = dwparam3;
     pthread_params->presult = presult;
-    pthread_params->phmain_wnd = NULL;
-    pthread_params->hevent = NULL;
+    pthread_params->phmain_wnd = nullptr;
+    pthread_params->hevent = nullptr;
 
     // Kick off our own thread proc
     ::AfxBeginThread(fnWorkerThread, (LPVOID)pthread_params);
@@ -995,7 +995,7 @@ void Create_Worker_Thread(MY_THREADPROC fnthread_proc, DWORD dwparam1, DWORD dwp
 UINT fnUIThread(LPVOID pParam)
 {
     THREAD_PARAMS* pthread_params = (THREAD_PARAMS*)pParam;
-    if (pthread_params != NULL) {
+    if (pthread_params != nullptr) {
 
         // Call the user function
         MY_UITHREADPROC thread_proc = (MY_UITHREADPROC)pthread_params->ThreadProc;
@@ -1007,7 +1007,7 @@ UINT fnUIThread(LPVOID pParam)
 
         // Now pump messages until its time to quit the thread
         MSG msg = { 0 };
-        while (::GetMessage(&msg, NULL, 0, 0) > 0) {
+        while (::GetMessage(&msg, nullptr, 0, 0) > 0) {
             ::TranslateMessage(&msg);
             ::DispatchMessage(&msg);
         }
@@ -1036,7 +1036,7 @@ void Create_UI_Thread(MY_UITHREADPROC fnthread_proc, DWORD dwparam1, DWORD dwpar
     pthread_params->presult = presult;
     pthread_params->phmain_wnd = phmain_wnd;
     ;
-    pthread_params->hevent = ::CreateEvent(NULL, FALSE, FALSE, NULL);
+    pthread_params->hevent = ::CreateEvent(nullptr, FALSE, FALSE, nullptr);
 
     // Kick off our own thread proc
     ::AfxBeginThread(fnUIThread, (LPVOID)pthread_params);
@@ -1048,7 +1048,7 @@ void Create_UI_Thread(MY_UITHREADPROC fnthread_proc, DWORD dwparam1, DWORD dwpar
 
         // Dispatch all messages in the queue
         MSG msg = { 0 };
-        while (::PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)) {
+        while (::PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE)) {
             ::TranslateMessage(&msg);
             ::DispatchMessage(&msg);
         }
@@ -1070,8 +1070,8 @@ void Update_Frame_Count(int frame, int max_frames)
     CMainFrame* pmainwnd = (CMainFrame*)theApp.GetMainWnd();
 
     // Did we successfully get a pointer to the main window?
-    ASSERT(pmainwnd != NULL);
-    if (pmainwnd != NULL) {
+    ASSERT(pmainwnd != nullptr);
+    if (pmainwnd != nullptr) {
         pmainwnd->Update_Ani_Frame(frame, max_frames);
     }
 
@@ -1180,13 +1180,13 @@ ConversationPageClass* Get_Conversation_Form(void)
 ////////////////////////////////////////////////////////////////////////////
 OverlapPageClass* Get_Overlap_Form(void)
 {
-    OverlapPageClass* form = NULL;
+    OverlapPageClass* form = nullptr;
 
     //
     // Attempt to get a pointer to the form from the dialog bar
     //
     CMainFrame* main_wnd = (CMainFrame*)::AfxGetMainWnd();
-    if (main_wnd != NULL) {
+    if (main_wnd != nullptr) {
         MainDialogBarClass& toolbar = main_wnd->Get_Main_Dialog_Bar();
         form = toolbar.Get_Overlap_Form();
     }
@@ -1202,13 +1202,13 @@ OverlapPageClass* Get_Overlap_Form(void)
 ////////////////////////////////////////////////////////////////////////////
 InstancesPageClass* Get_Instances_Form(void)
 {
-    InstancesPageClass* form = NULL;
+    InstancesPageClass* form = nullptr;
 
     //
     // Attempt to get a pointer to the form from the dialog bar
     //
     CMainFrame* main_wnd = (CMainFrame*)::AfxGetMainWnd();
-    if (main_wnd != NULL) {
+    if (main_wnd != nullptr) {
         MainDialogBarClass& toolbar = main_wnd->Get_Main_Dialog_Bar();
         form = toolbar.Get_Instances_Form();
     }
@@ -1254,7 +1254,7 @@ void Fill_Node_Instance_Combo(HWND hcombobox, NodeClass* default_node)
 {
     // Loop through all the nodes in the level, and add them to the combobox
     NodeMgrClass& node_mgr = ::Get_Node_Mgr();
-    for (NodeClass* node = node_mgr.Get_First(); node != NULL; node = node_mgr.Get_Next(node)) {
+    for (NodeClass* node = node_mgr.Get_First(); node != nullptr; node = node_mgr.Get_Next(node)) {
 
         // Add this node to the combobox
         int index = ::SendMessage(hcombobox, CB_ADDSTRING, (WPARAM)0, (LPARAM)node->Get_Name());
@@ -1283,7 +1283,7 @@ void Fill_Group_Combo(HWND hcombobox, GroupMgrClass* pdefault)
     for (int index = 0; index < group_list.Count(); index++) {
 
         GroupMgrClass* pgroup = group_list[index];
-        if (pgroup != NULL) {
+        if (pgroup != nullptr) {
 
             // Add this group to the combobox
             int index = ::SendMessage(hcombobox, CB_ADDSTRING, (WPARAM)0,
@@ -1338,9 +1338,9 @@ bool Copy_File(LPCTSTR existing_filename, LPCTSTR new_filename, bool bforce_copy
     // Assume failure
     bool retval = false;
 
-    ASSERT(existing_filename != NULL);
-    ASSERT(new_filename != NULL);
-    if ((existing_filename != NULL) && (new_filename != NULL)) {
+    ASSERT(existing_filename != nullptr);
+    ASSERT(new_filename != nullptr);
+    if ((existing_filename != nullptr) && (new_filename != nullptr)) {
 
         // Make sure we aren't copying over ourselves
         bool allow_copy = (::lstrcmpi(existing_filename, new_filename) != 0);
@@ -1380,7 +1380,7 @@ UINT fnUpdatingVSSThread(DWORD dwparam1, DWORD /*dwparam2*/, DWORD /*dwparam3*/,
     pdialog->ShowWindow(SW_SHOW);
 
     // Return the window handle of the main wnd to the calling thread
-    if (phmain_wnd != NULL) {
+    if (phmain_wnd != nullptr) {
         (*phmain_wnd) = pdialog->m_hWnd;
     }
 
@@ -1395,8 +1395,8 @@ UINT fnUpdatingVSSThread(DWORD dwparam1, DWORD /*dwparam2*/, DWORD /*dwparam3*/,
 HWND Show_VSS_Update_Dialog(HWND hparent_wnd)
 {
     // Kick off a UI thread that will display the 'updating' dialog and animation for us
-    HWND hthread_wnd = NULL;
-    ::Create_UI_Thread(fnUpdatingVSSThread, (DWORD)hparent_wnd, 0, 0, NULL, &hthread_wnd);
+    HWND hthread_wnd = nullptr;
+    ::Create_UI_Thread(fnUpdatingVSSThread, (DWORD)hparent_wnd, 0, 0, nullptr, &hthread_wnd);
     return hthread_wnd;
 }
 
@@ -1427,7 +1427,7 @@ bool Get_File_Time(LPCTSTR path, LPFILETIME pcreation_time, LPFILETIME paccess_t
     bool retval = false;
 
     // Attempt to open the file
-    HANDLE hfile = ::CreateFile(path, 0, 0, NULL, OPEN_EXISTING, 0L, NULL);
+    HANDLE hfile = ::CreateFile(path, 0, 0, nullptr, OPEN_EXISTING, 0L, nullptr);
 
     if (hfile != INVALID_HANDLE_VALUE) {
 
@@ -1616,7 +1616,7 @@ LRESULT CALLBACK fnEditToFloatProc(HWND hwnd, UINT message, WPARAM wparam, LPARA
             result = ::CallWindowProc(old_proc, hwnd, message, wparam, lparam);
         }
     }
-    else if (old_proc != NULL) {
+    else if (old_proc != nullptr) {
         result = ::CallWindowProc(old_proc, hwnd, message, wparam, lparam);
     }
 
@@ -1673,7 +1673,7 @@ LRESULT CALLBACK fnEditToIntProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM 
             result = ::CallWindowProc(old_proc, hwnd, message, wparam, lparam);
         }
     }
-    else if (old_proc != NULL) {
+    else if (old_proc != nullptr) {
         result = ::CallWindowProc(old_proc, hwnd, message, wparam, lparam);
     }
 
@@ -1762,7 +1762,7 @@ bool Get_Collision_Box(const RenderObjClass* model, AABoxClass& box)
 {
     bool retval = false;
 
-    if (model != NULL) {
+    if (model != nullptr) {
 
         //
         //	Get the collision box for this render obj
@@ -1773,7 +1773,7 @@ bool Get_Collision_Box(const RenderObjClass* model, AABoxClass& box)
         // The LOD code generates a unique name for the mesh by appending A,B,C, etc to the name.
         // A is the lowest LOD, B is the next, and so on.  Our worldbox is specified in the highest
         // LOD so we have to construct the name by appending 'A'+LodCount to the name... icky
-        if ((world_box == NULL) && (model->Class_ID() == RenderObjClass::CLASSID_HLOD)) {
+        if ((world_box == nullptr) && (model->Class_ID() == RenderObjClass::CLASSID_HLOD)) {
             char namebuffer[64];
             sprintf(namebuffer, "WorldBox%c", 'A' + ((HLodClass*)model)->Get_Lod_Count() - 1);
 
@@ -1783,7 +1783,7 @@ bool Get_Collision_Box(const RenderObjClass* model, AABoxClass& box)
             }*/
         }
 
-        if (world_box != NULL) {
+        if (world_box != nullptr) {
             box = world_box->Get_Bounding_Box();
             world_box->Release_Ref();
             retval = true;
@@ -1810,7 +1810,7 @@ bool Get_Collision_Box(RenderObjClass* render_obj, AABoxClass& aabox, OBBoxClass
     obbox.Center.Set(0, 0, 0);
     obbox.Extent.Set(0, 0, 0);
 
-    if (render_obj != NULL) {
+    if (render_obj != nullptr) {
 
         //
         // Try to get the "WorldBox" from the model
@@ -1823,14 +1823,14 @@ bool Get_Collision_Box(RenderObjClass* render_obj, AABoxClass& aabox, OBBoxClass
         // A is the lowest LOD, B is the next, and so on.  Our worldbox is specified in the highest
         // LOD so we have to construct the name by appending 'A'+LodCount to the name... icky
         //
-        if ((world_box == NULL) && (render_obj->Class_ID() == RenderObjClass::CLASSID_HLOD)) {
+        if ((world_box == nullptr) && (render_obj->Class_ID() == RenderObjClass::CLASSID_HLOD)) {
 
             char namebuffer[64];
             sprintf(namebuffer, "WorldBox%c", 'A' + ((HLodClass*)render_obj)->Get_Lod_Count() - 1);
             world_box = render_obj->Get_Sub_Object_By_Name(namebuffer);
         }
 
-        if (world_box != NULL) {
+        if (world_box != nullptr) {
 
             //
             //	Determine which type of bounding box to return and OBBox or an AABox
@@ -1858,16 +1858,16 @@ bool Get_Collision_Box(RenderObjClass* render_obj, AABoxClass& aabox, OBBoxClass
 /////////////////////////////////////////////////////////////////////////////
 PersistClass* Instance_Definition(DefinitionClass* definition)
 {
-    PersistClass* new_object = NULL;
+    PersistClass* new_object = nullptr;
 
     //
     //	Create the new object
     //
-    if (definition != NULL) {
+    if (definition != nullptr) {
         new_object = definition->Create();
     }
 
-    if (new_object == NULL) {
+    if (new_object == nullptr) {
 
         LPCTSTR name = definition->Get_Name();
         CString message;
@@ -1894,7 +1894,7 @@ bool Check_Editor_Version(void)
 {
 #ifndef PUBLIC_EDITOR_VER
     char curr_filename[MAX_PATH];
-    ::GetModuleFileName(NULL, curr_filename, MAX_PATH);
+    ::GetModuleFileName(nullptr, curr_filename, MAX_PATH);
 
     CString filename = "\\\\mobius\\project7\\projects\\renegade\\programming\\tools\\level edit\\";
     filename += ::Get_Filename_From_Path(curr_filename);
@@ -1978,13 +1978,13 @@ void Perform_Job(LPCTSTR filename, bool delete_on_completion)
 LPCTSTR
 Get_Factory_Name(uint32 class_id)
 {
-    LPCTSTR name = NULL;
+    LPCTSTR name = nullptr;
 
     //
     //	Can we find the requested factory?
     //
     DefinitionFactoryClass* factory = DefinitionFactoryMgrClass::Find_Factory(class_id);
-    if (factory == NULL) {
+    if (factory == nullptr) {
 
         //
         //	Check to see if this is an abstract factory

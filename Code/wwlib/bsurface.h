@@ -49,7 +49,7 @@
 class BSurface : public XSurface
 {
 public:
-    BSurface(int width, int height, int bbp, void* buffer = NULL)
+    BSurface(int width, int height, int bbp, void* buffer = nullptr)
         : XSurface(width, height),
           BBP(bbp),
           Buff(buffer, width * height * bbp)

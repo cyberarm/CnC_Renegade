@@ -90,10 +90,10 @@ void PresetGeneralTabClass::Dump(CDumpContext& dc) const
 /////////////////////////////////////////////////////////////////////////////
 void PresetGeneralTabClass::HandleInitDialog(void)
 {
-    ASSERT(m_Preset != NULL);
+    ASSERT(m_Preset != nullptr);
 
     DefinitionClass* definition = m_Preset->Get_Definition();
-    if (definition != NULL) {
+    if (definition != nullptr) {
 
         //
         // Set the text of the respective dialog controls
@@ -124,7 +124,7 @@ bool PresetGeneralTabClass::Apply_Changes(void)
     bool retval = true;
 
     DefinitionClass* definition = m_Preset->Get_Definition();
-    if (definition != NULL) {
+    if (definition != nullptr) {
 
         // Pass the new name onto the base
         CString name;

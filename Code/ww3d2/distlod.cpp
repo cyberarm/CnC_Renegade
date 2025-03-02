@@ -102,14 +102,14 @@ RenderObjClass* DistLODPrototypeClass::Create(void)
     // and destroy the DistLOD so that the models are "containerless".  Also
     // invert the order of the models in the DistLOD
     char* name = nstrdup(dist->Get_Name());
-    WWASSERT(name != NULL);
+    WWASSERT(name != nullptr);
 
     int count = dist->Get_Num_Sub_Objects();
     RenderObjClass** robj = new RenderObjClass*[count];
     for (int i = 0; i < count; i++) {
 
         robj[count - 1 - i] = dist->Get_Sub_Object(i);
-        WWASSERT(robj[count - 1 - i] != NULL);
+        WWASSERT(robj[count - 1 - i] != nullptr);
     }
     dist->Release_Ref();
 
@@ -132,14 +132,14 @@ PrototypeClass* DistLODLoaderClass::Load_W3D(ChunkLoadClass& cload)
 {
     DistLODDefClass* pCDistLODClass = new DistLODDefClass;
 
-    if (pCDistLODClass == NULL) {
-        return NULL;
+    if (pCDistLODClass == nullptr) {
+        return nullptr;
     }
 
     if (pCDistLODClass->Load_W3D(cload) != WW3D_ERROR_OK) {
         // load failed, delete the model and return an error
         delete pCDistLODClass;
-        return NULL;
+        return nullptr;
     }
     else {
 
@@ -163,9 +163,9 @@ PrototypeClass* DistLODLoaderClass::Load_W3D(ChunkLoadClass& cload)
  * HISTORY:                                                                                    *
  *=============================================================================================*/
 DistLODDefClass::DistLODDefClass(void)
-    : Name(NULL),
+    : Name(nullptr),
       LodCount(0),
-      Lods(NULL)
+      Lods(nullptr)
 {
 }
 
@@ -186,11 +186,11 @@ DistLODDefClass::DistLODDefClass(void)
  *   7/15/98    GTH : Created.                                                                 *
  *=============================================================================================*/
 DistLODDefClass::DistLODDefClass(const char* name, int lodcount, DistLODNodeDefStruct* modeldefs)
-    : Name(NULL),
+    : Name(nullptr),
       LodCount(0),
-      Lods(NULL)
+      Lods(nullptr)
 {
-    assert(name != NULL);
+    assert(name != nullptr);
     Name = nstrdup(name);
 
     LodCount = lodcount;
@@ -233,18 +233,18 @@ DistLODDefClass::~DistLODDefClass(void)
  *=============================================================================================*/
 void DistLODDefClass::Free(void)
 {
-    if (Name != NULL) {
+    if (Name != nullptr) {
         delete[] Name;
-        Name = NULL;
+        Name = nullptr;
     }
-    if (Lods != NULL) {
+    if (Lods != nullptr) {
         for (int i = 0; i < LodCount; i++) {
-            if (Lods[i].Name != NULL) {
+            if (Lods[i].Name != nullptr) {
                 delete[] Lods[i].Name;
             }
         }
         delete[] Lods;
-        Lods = NULL;
+        Lods = nullptr;
     }
     LodCount = 0;
 }
@@ -389,7 +389,7 @@ DistLODClass::DistLODClass(const DistLODDefClass& def)
     for (int i = 0; i < LodCount; i++) {
         // create a render object
         Lods[i].Model = WW3DAssetManager::Get_Instance()->Create_Render_Obj(def.Lods[i].Name);
-        assert(Lods[i].Model != NULL);
+        assert(Lods[i].Model != nullptr);
         Lods[i].Model->Set_Container(this);
 
         // copy the distances
@@ -423,7 +423,7 @@ DistLODClass::DistLODClass(const DistLODClass& that)
     for (int i = 0; i < LodCount; i++) {
         // create a render object
         Lods[i].Model = that.Lods[i].Model->Clone();
-        assert(Lods[i].Model != NULL);
+        assert(Lods[i].Model != nullptr);
         Lods[i].Model->Set_Container(this);
 
         // copy the distances
@@ -464,16 +464,16 @@ DistLODClass::~DistLODClass(void)
  *=============================================================================================*/
 void DistLODClass::Free(void)
 {
-    if (Lods != NULL) {
+    if (Lods != nullptr) {
         for (int i = 0; i < LodCount; i++) {
-            if (Lods[i].Model != NULL) {
-                Lods[i].Model->Set_Container(NULL);
+            if (Lods[i].Model != nullptr) {
+                Lods[i].Model->Set_Container(nullptr);
                 Lods[i].Model->Release_Ref();
-                Lods[i].Model = NULL;
+                Lods[i].Model = nullptr;
             }
         }
         delete[] Lods;
-        Lods = NULL;
+        Lods = nullptr;
     }
     CurLod = 0;
     LodCount = 0;
@@ -571,8 +571,8 @@ RenderObjClass* DistLODClass::Get_Sub_Object(int index) const
     assert(index >= 0);
     assert(index < LodCount);
 
-    if (Lods[index].Model == NULL) {
-        return NULL;
+    if (Lods[index].Model == nullptr) {
+        return nullptr;
     }
     else {
         Lods[index].Model->Add_Ref();
@@ -615,7 +615,7 @@ void DistLODClass::Set_Transform(const Matrix3D& m)
 {
     RenderObjClass::Set_Transform(m);
     for (int i = 0; i < LodCount; i++) {
-        assert(Lods[i].Model != NULL);
+        assert(Lods[i].Model != nullptr);
         Lods[i].Model->Set_Transform(m);
     }
 }
@@ -638,7 +638,7 @@ void DistLODClass::Set_Position(const Vector3& v)
 {
     RenderObjClass::Set_Position(v);
     for (int i = 0; i < LodCount; i++) {
-        assert(Lods[i].Model != NULL);
+        assert(Lods[i].Model != nullptr);
         Lods[i].Model->Set_Position(v);
     }
 }
@@ -658,7 +658,7 @@ void DistLODClass::Set_Position(const Vector3& v)
 void DistLODClass::Set_Animation(void)
 {
     for (int i = 0; i < LodCount; i++) {
-        assert(Lods[i].Model != NULL);
+        assert(Lods[i].Model != nullptr);
         Lods[i].Model->Set_Animation();
     }
 }
@@ -678,7 +678,7 @@ void DistLODClass::Set_Animation(void)
 void DistLODClass::Set_Animation(HAnimClass* motion, float frame, int mode)
 {
     for (int i = 0; i < LodCount; i++) {
-        assert(Lods[i].Model != NULL);
+        assert(Lods[i].Model != nullptr);
         Lods[i].Model->Set_Animation(motion, frame, mode);
     }
 }
@@ -699,7 +699,7 @@ void DistLODClass::Set_Animation(HAnimClass* motion0, float frame0, HAnimClass* 
                                  float frame1, float percentage)
 {
     for (int i = 0; i < LodCount; i++) {
-        assert(Lods[i].Model != NULL);
+        assert(Lods[i].Model != nullptr);
         Lods[i].Model->Set_Animation(motion0, frame0, motion1, frame1, percentage);
     }
 }
@@ -719,7 +719,7 @@ void DistLODClass::Set_Animation(HAnimClass* motion0, float frame0, HAnimClass* 
 void DistLODClass::Set_Animation(HAnimComboClass* anim_combo)
 {
     for (int i = 0; i < LodCount; i++) {
-        assert(Lods[i].Model != NULL);
+        assert(Lods[i].Model != nullptr);
         Lods[i].Model->Set_Animation(anim_combo);
     }
 }
@@ -790,7 +790,7 @@ const char* DistLODClass::Get_Bone_Name(int bone_index)
  *=============================================================================================*/
 int DistLODClass::Get_Bone_Index(const char* bonename)
 {
-    // Highest LOD is used since lowest may be a Null3DObjClass.
+    // Highest LOD is used since lowest may be a nullptr3DObjClass.
     return Lods[0].Model->Get_Bone_Index(bonename);
 }
 
@@ -808,7 +808,7 @@ int DistLODClass::Get_Bone_Index(const char* bonename)
  *=============================================================================================*/
 const Matrix3D& DistLODClass::Get_Bone_Transform(const char* bonename)
 {
-    // Highest LOD is used since lowest may be a Null3DObjClass.
+    // Highest LOD is used since lowest may be a nullptr3DObjClass.
     return Lods[0].Model->Get_Bone_Transform(bonename);
 }
 
@@ -826,7 +826,7 @@ const Matrix3D& DistLODClass::Get_Bone_Transform(const char* bonename)
  *=============================================================================================*/
 const Matrix3D& DistLODClass::Get_Bone_Transform(int boneindex)
 {
-    // Highest LOD is used since lowest may be a Null3DObjClass.
+    // Highest LOD is used since lowest may be a nullptr3DObjClass.
     return Lods[0].Model->Get_Bone_Transform(boneindex);
 }
 
@@ -845,7 +845,7 @@ const Matrix3D& DistLODClass::Get_Bone_Transform(int boneindex)
 void DistLODClass::Capture_Bone(int bindex)
 {
     for (int i = 0; i < LodCount; i++) {
-        assert(Lods[i].Model != NULL);
+        assert(Lods[i].Model != nullptr);
         Lods[i].Model->Capture_Bone(bindex);
     }
 }
@@ -865,7 +865,7 @@ void DistLODClass::Capture_Bone(int bindex)
 void DistLODClass::Release_Bone(int bindex)
 {
     for (int i = 0; i < LodCount; i++) {
-        assert(Lods[i].Model != NULL);
+        assert(Lods[i].Model != nullptr);
         Lods[i].Model->Release_Bone(bindex);
     }
 }
@@ -884,7 +884,7 @@ void DistLODClass::Release_Bone(int bindex)
  *=============================================================================================*/
 bool DistLODClass::Is_Bone_Captured(int bindex) const
 {
-    // Highest LOD is used since lowest may be a Null3DObjClass.
+    // Highest LOD is used since lowest may be a nullptr3DObjClass.
     return Lods[0].Model->Is_Bone_Captured(bindex);
 }
 
@@ -903,7 +903,7 @@ bool DistLODClass::Is_Bone_Captured(int bindex) const
 void DistLODClass::Control_Bone(int bindex, const Matrix3D& tm, bool world_space_translation)
 {
     for (int i = 0; i < LodCount; i++) {
-        assert(Lods[i].Model != NULL);
+        assert(Lods[i].Model != nullptr);
         Lods[i].Model->Control_Bone(bindex, tm, world_space_translation);
     }
 }
@@ -1027,7 +1027,7 @@ void DistLODClass::Get_Snap_Point(int index, Vector3* set)
 void DistLODClass::Scale(float scale)
 {
     for (int i = 0; i < LodCount; i++) {
-        assert(Lods[CurLod].Model != NULL);
+        assert(Lods[CurLod].Model != nullptr);
         Lods[CurLod].Model->Scale(scale);
     }
 }
@@ -1047,7 +1047,7 @@ void DistLODClass::Scale(float scale)
 void DistLODClass::Scale(float scalex, float scaley, float scalez)
 {
     for (int i = 0; i < LodCount; i++) {
-        assert(Lods[i].Model != NULL);
+        assert(Lods[i].Model != nullptr);
         Lods[i].Model->Scale(scalex, scaley, scalez);
     }
 }

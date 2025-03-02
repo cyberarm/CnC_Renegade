@@ -71,7 +71,7 @@ unsigned long __cdecl Uncompress_Data(void const* src, void* dst)
     unsigned long uncomp_size;
 
     if (!src || !dst) {
-        return (NULL);
+        return (nullptr);
     }
 
     /*

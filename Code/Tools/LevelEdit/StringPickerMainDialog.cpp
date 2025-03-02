@@ -34,7 +34,7 @@ static char THIS_FILE[] = __FILE__;
 // StringPickerMainDialogClass
 //
 /////////////////////////////////////////////////////////////////////////////
-StringPickerMainDialogClass::StringPickerMainDialogClass(CWnd* pParent /*=NULL*/)
+StringPickerMainDialogClass::StringPickerMainDialogClass(CWnd* pParent /*=nullptr*/)
     : TextID(0),
       CDialog(StringPickerMainDialogClass::IDD, pParent)
 {
@@ -84,7 +84,7 @@ BOOL StringPickerMainDialogClass::OnInitDialog(void)
     //
     StringPicker.Set_Selection(TextID);
     StringPicker.Create(this);
-    StringPicker.SetWindowPos(NULL, rect.left, rect.top, rect.Width(), rect.Height(), SWP_NOZORDER);
+    StringPicker.SetWindowPos(nullptr, rect.left, rect.top, rect.Width(), rect.Height(), SWP_NOZORDER);
     StringPicker.ShowWindow(SW_SHOW);
     return TRUE;
 }

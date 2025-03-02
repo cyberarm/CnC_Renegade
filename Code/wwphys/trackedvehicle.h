@@ -104,7 +104,7 @@ protected:
     struct TrackMapperStruct
     {
         TrackMapperStruct(void)
-            : Mapper(NULL),
+            : Mapper(nullptr),
               TrackType(LEFT_TRACK)
         {
         }

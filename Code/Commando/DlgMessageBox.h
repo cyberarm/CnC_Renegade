@@ -47,7 +47,7 @@ class DlgMsgBoxEvent : public TypedEventPtr<DlgMsgBoxEvent, DlgMsgBox>
 public:
     typedef enum
     {
-        None = 0, // NULL event
+        None = 0, // nullptr event
         Okay, // Okay button pressed
         Yes, // Yes button pressed
         No, // No button pressed
@@ -90,10 +90,10 @@ public:
 
     static bool DoDialog(const WCHAR* title, const WCHAR* text,
                          DlgMsgBox::Type type = DlgMsgBox::Okay,
-                         Observer<DlgMsgBoxEvent>* observer = NULL, unsigned long user_data = 0);
+                         Observer<DlgMsgBoxEvent>* observer = nullptr, unsigned long user_data = 0);
 
     static bool DoDialog(int titleID, int textID, DlgMsgBox::Type type = DlgMsgBox::Okay,
-                         Observer<DlgMsgBoxEvent>* observer = NULL, unsigned long user_data = 0);
+                         Observer<DlgMsgBoxEvent>* observer = nullptr, unsigned long user_data = 0);
 
     void Set_User_Data(unsigned long user_data) { mUserData = user_data; }
 

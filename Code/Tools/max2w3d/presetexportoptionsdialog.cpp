@@ -57,8 +57,8 @@ static const char* BROWSE_FILTER = "W3D Files (*.W3D)\0*.W3D\0WHT Files (*.WHT)\
 PresetExportOptionsDialogClass::PresetExportOptionsDialogClass(Interface* maxinterface,
                                                                HWND parent_wnd)
     : MaxInterface(maxinterface),
-      Options(NULL),
-      Wnd(NULL),
+      Options(nullptr),
+      Wnd(nullptr),
       ParentWnd(parent_wnd),
       CurrentPane(-1)
 {
@@ -96,7 +96,7 @@ int PresetExportOptionsDialogClass::Do_Modal(void)
 BOOL CALLBACK PresetExportOptionsDialogClass::Real_Message_Proc(HWND wnd, UINT message,
                                                                 WPARAM wparam, LPARAM lparam)
 {
-    PresetExportOptionsDialogClass* dialog_obj = NULL;
+    PresetExportOptionsDialogClass* dialog_obj = nullptr;
 
     //
     //	Setup the framework we need so that the instance
@@ -115,7 +115,7 @@ BOOL CALLBACK PresetExportOptionsDialogClass::Real_Message_Proc(HWND wnd, UINT m
     //	Allow the instance to handle the call
     //
     BOOL retval = FALSE;
-    if (dialog_obj != NULL) {
+    if (dialog_obj != nullptr) {
         retval = dialog_obj->Message_Proc(message, wparam, lparam);
     }
 
@@ -138,7 +138,7 @@ BOOL CALLBACK PresetExportOptionsDialogClass::Settings_Pane_Message_Proc(HWND wn
                                                                          WPARAM wparam,
                                                                          LPARAM lparam)
 {
-    PresetExportOptionsDialogClass* dialog_obj = NULL;
+    PresetExportOptionsDialogClass* dialog_obj = nullptr;
 
     //
     //	Setup the framework we need so that the instance
@@ -156,7 +156,7 @@ BOOL CALLBACK PresetExportOptionsDialogClass::Settings_Pane_Message_Proc(HWND wn
     //	Allow the instance to handle the call
     //
     BOOL retval = FALSE;
-    if (dialog_obj != NULL) {
+    if (dialog_obj != nullptr) {
         retval = dialog_obj->Pane_Message_Proc(message, wparam, lparam);
     }
 
@@ -188,7 +188,7 @@ BOOL PresetExportOptionsDialogClass::Pane_Message_Proc(UINT message, WPARAM wpar
             //	Update the start frame
             //
             ICustEdit* edit_ctrl = GetICustEdit((HWND)lparam);
-            if (edit_ctrl != NULL) {
+            if (edit_ctrl != nullptr) {
                 Options->StartFrame = edit_ctrl->GetInt();
 
                 //
@@ -207,7 +207,7 @@ BOOL PresetExportOptionsDialogClass::Pane_Message_Proc(UINT message, WPARAM wpar
             //	Update the end frame
             //
             ICustEdit* edit_ctrl = GetICustEdit((HWND)lparam);
-            if (edit_ctrl != NULL) {
+            if (edit_ctrl != nullptr) {
                 Options->EndFrame = edit_ctrl->GetInt();
 
                 //
@@ -226,7 +226,7 @@ BOOL PresetExportOptionsDialogClass::Pane_Message_Proc(UINT message, WPARAM wpar
 
     case CC_SPINNER_BUTTONUP: {
         ISpinnerControl* spin_ctrl = (ISpinnerControl*)lparam;
-        if (spin_ctrl != NULL) {
+        if (spin_ctrl != nullptr) {
 
             switch (LOWORD(wparam)) {
             //
@@ -354,7 +354,7 @@ BOOL PresetExportOptionsDialogClass::Message_Proc(UINT message, WPARAM wparam, L
         ::GetWindowRect(Wnd, &rect);
         int width = parent_rect.right - parent_rect.left;
         int height = parent_rect.bottom - parent_rect.top;
-        ::SetWindowPos(Wnd, NULL, parent_rect.left + (width / 2) - ((rect.right - rect.left) / 2),
+        ::SetWindowPos(Wnd, nullptr, parent_rect.left + (width / 2) - ((rect.right - rect.left) / 2),
                        parent_rect.top + (height / 2) - ((rect.bottom - rect.top) / 2), 0, 0,
                        SWP_NOZORDER | SWP_NOSIZE);
 
@@ -522,7 +522,7 @@ void PresetExportOptionsDialogClass::Destroy_Settings_Panes(void)
     //
     for (int index = 0; index < PANE_MAX; index++) {
         ::DestroyWindow(PaneWnds[index]);
-        PaneWnds[index] = NULL;
+        PaneWnds[index] = nullptr;
     }
 
     return;
@@ -633,10 +633,10 @@ void PresetExportOptionsDialogClass::Initialize_Controls(void)
         //
         //	Are there any animation controls on this pane to initialize?
         //
-        if (::GetDlgItem(pane_wnd, IDC_RANGE_LOW_SPIN) != NULL) {
+        if (::GetDlgItem(pane_wnd, IDC_RANGE_LOW_SPIN) != nullptr) {
 
-            ISpinnerControl* low_spin = NULL;
-            ISpinnerControl* high_spin = NULL;
+            ISpinnerControl* low_spin = nullptr;
+            ISpinnerControl* high_spin = nullptr;
 
             low_spin = ::SetupIntSpinner(pane_wnd, IDC_RANGE_LOW_SPIN, IDC_RANGE_LOW_EDIT,
                                          startframe, endframe, 0);
@@ -682,7 +682,7 @@ void PresetExportOptionsDialogClass::Update_Controls(void)
         //	Enable/disable the compression settings button
         //
         HWND compress_settings_btn = ::GetDlgItem(pane_wnd, IDC_COMPRESSION_SETTINGS);
-        if (compress_settings_btn != NULL) {
+        if (compress_settings_btn != nullptr) {
             ::EnableWindow(compress_settings_btn, Options->CompressAnimation);
         }
 
@@ -690,7 +690,7 @@ void PresetExportOptionsDialogClass::Update_Controls(void)
         //	Setup the skeleton browse button
         //
         HWND skeleten_browse_btn = ::GetDlgItem(pane_wnd, IDC_WHT_BROWSE_BUTTON);
-        if (skeleten_browse_btn != NULL) {
+        if (skeleten_browse_btn != nullptr) {
 
             //
             // Honor the relative path if it is present
@@ -718,13 +718,13 @@ void PresetExportOptionsDialogClass::Update_Controls(void)
         //
         HWND low_spin_wnd = ::GetDlgItem(pane_wnd, IDC_RANGE_LOW_SPIN);
         HWND high_spin_wnd = ::GetDlgItem(pane_wnd, IDC_RANGE_HIGH_SPIN);
-        if (low_spin_wnd != NULL && high_spin_wnd != NULL) {
+        if (low_spin_wnd != nullptr && high_spin_wnd != nullptr) {
 
             //
             //	Peek at the spinner control objects
             //
-            ISpinnerControl* low_spin = NULL;
-            ISpinnerControl* high_spin = NULL;
+            ISpinnerControl* low_spin = nullptr;
+            ISpinnerControl* high_spin = nullptr;
             low_spin = (ISpinnerControl*)::GetProp(low_spin_wnd, "ISpinnerControl");
             high_spin = (ISpinnerControl*)::GetProp(high_spin_wnd, "ISpinnerControl");
 

@@ -67,7 +67,7 @@ ControlSaveLoadMenuClass::ControlSaveLoadMenuClass(void)
 void ControlSaveLoadMenuClass::On_Init_Dialog(void)
 {
     ListCtrlClass* list_ctrl = (ListCtrlClass*)Get_Dlg_Item(IDC_LIST_CTRL);
-    if (list_ctrl != NULL) {
+    if (list_ctrl != nullptr) {
 
         //
         //	Configure the column
@@ -138,7 +138,7 @@ void ControlSaveLoadMenuClass::On_Command(int ctrl_id, int message_id, DWORD par
 void ControlSaveLoadMenuClass::Delete_Config(void)
 {
     ListCtrlClass* list_ctrl = (ListCtrlClass*)Get_Dlg_Item(IDC_LIST_CTRL);
-    if (list_ctrl == NULL) {
+    if (list_ctrl == nullptr) {
         return;
     }
 
@@ -152,7 +152,7 @@ void ControlSaveLoadMenuClass::Delete_Config(void)
         //	Get the configuration object associated with this entry
         //
         InputConfigClass* config = (InputConfigClass*)list_ctrl->Get_Entry_Data(curr_sel, 0);
-        if (config != NULL) {
+        if (config != nullptr) {
 
             //
             //	Delete the configuration (if possible)
@@ -193,7 +193,7 @@ void ControlSaveLoadMenuClass::HandleNotification(DlgMsgBoxEvent& event)
         if (event.Event() == DlgMsgBoxEvent::Yes) {
 
             ListCtrlClass* list_ctrl = (ListCtrlClass*)Get_Dlg_Item(IDC_LIST_CTRL);
-            if (list_ctrl != NULL) {
+            if (list_ctrl != nullptr) {
 
                 //
                 //	Get the current selection
@@ -206,7 +206,7 @@ void ControlSaveLoadMenuClass::HandleNotification(DlgMsgBoxEvent& event)
                     //
                     InputConfigClass* config
                         = (InputConfigClass*)list_ctrl->Get_Entry_Data(curr_sel, 0);
-                    if (config != NULL) {
+                    if (config != nullptr) {
                         InputConfigMgrClass::Delete_Configuration(config->Get_Filename());
                         list_ctrl->Delete_Entry(curr_sel);
                     }
@@ -235,7 +235,7 @@ void ControlSaveLoadMenuClass::HandleNotification(DlgMsgBoxEvent& event)
 void ControlSaveLoadMenuClass::Load_Config(void)
 {
     ListCtrlClass* list_ctrl = (ListCtrlClass*)Get_Dlg_Item(IDC_LIST_CTRL);
-    if (list_ctrl == NULL) {
+    if (list_ctrl == nullptr) {
         return;
     }
 
@@ -249,7 +249,7 @@ void ControlSaveLoadMenuClass::Load_Config(void)
         //	Get the configuration object associated with this entry
         //
         InputConfigClass* config = (InputConfigClass*)list_ctrl->Get_Entry_Data(curr_sel, 0);
-        if (config != NULL) {
+        if (config != nullptr) {
 
             //
             //	Load this configuration
@@ -270,7 +270,7 @@ void ControlSaveLoadMenuClass::Load_Config(void)
 void ControlSaveLoadMenuClass::Save_Config(bool prompt)
 {
     ListCtrlClass* list_ctrl = (ListCtrlClass*)Get_Dlg_Item(IDC_LIST_CTRL);
-    if (list_ctrl == NULL) {
+    if (list_ctrl == nullptr) {
         return;
     }
 
@@ -284,7 +284,7 @@ void ControlSaveLoadMenuClass::Save_Config(bool prompt)
         //	Get the configuration object associated with this entry
         //
         InputConfigClass* config = (InputConfigClass*)list_ctrl->Get_Entry_Data(curr_sel, 0);
-        if (config != NULL) {
+        if (config != nullptr) {
 
             //
             //	We can only save custom configurations...
@@ -330,7 +330,7 @@ void ControlSaveLoadMenuClass::Save_Config(bool prompt)
                     //	Let the user know they can't save a configuration without a name
                     //
                     DlgMsgBox::DoDialog(IDS_MENU_CANT_SAVE_CONFIG, IDS_MENU_CONFIG_NEEDS_NAME,
-                                        DlgMsgBox::Okay, NULL, 0);
+                                        DlgMsgBox::Okay, nullptr, 0);
                 }
             }
         }
@@ -354,7 +354,7 @@ void ControlSaveLoadMenuClass::Save_Config(bool prompt)
                 //	Let the user know they can't save a configuration without a name
                 //
                 DlgMsgBox::DoDialog(IDS_MENU_CANT_SAVE_CONFIG, IDS_MENU_CONFIG_NEEDS_NAME,
-                                    DlgMsgBox::Okay, NULL, 0);
+                                    DlgMsgBox::Okay, nullptr, 0);
             }
         }
     }
@@ -374,12 +374,12 @@ void ControlSaveLoadMenuClass::On_ListCtrl_Delete_Entry(ListCtrlClass* list_ctrl
     //	Remove the data we associated with this entry
     //
     InputConfigClass* config = (InputConfigClass*)list_ctrl->Get_Entry_Data(item_index, 0);
-    list_ctrl->Set_Entry_Data(item_index, 0, NULL);
+    list_ctrl->Set_Entry_Data(item_index, 0, nullptr);
 
     //
     //	Free the config object
     //
-    if (config != NULL) {
+    if (config != nullptr) {
         delete config;
     }
 
@@ -394,7 +394,7 @@ void ControlSaveLoadMenuClass::On_ListCtrl_Delete_Entry(ListCtrlClass* list_ctrl
 int ControlSaveLoadMenuClass::Insert_Configuration(const InputConfigClass& config)
 {
     ListCtrlClass* list_ctrl = (ListCtrlClass*)Get_Dlg_Item(IDC_LIST_CTRL);
-    if (list_ctrl == NULL) {
+    if (list_ctrl == nullptr) {
         return -1;
     }
 
@@ -435,7 +435,7 @@ void ControlSaveLoadMenuClass::On_ListCtrl_Sel_Change(ListCtrlClass* list_ctrl, 
     //	Remove the data we associated with this entry
     //
     InputConfigClass* config = (InputConfigClass*)list_ctrl->Get_Entry_Data(new_index, 0);
-    if (config != NULL) {
+    if (config != nullptr) {
 
         //
         //	We want to disable the edit control if the user can't edit this entry
@@ -474,10 +474,10 @@ int CALLBACK ControlSaveLoadMenuClass::ListSortCallback(ListCtrlClass* list_ctrl
 {
     int retval = 0;
 
-    if (list_ctrl->Get_Entry_Data(item_index1, 0) == NULL) {
+    if (list_ctrl->Get_Entry_Data(item_index1, 0) == nullptr) {
         retval = 1;
     }
-    else if (list_ctrl->Get_Entry_Data(item_index2, 0) == NULL) {
+    else if (list_ctrl->Get_Entry_Data(item_index2, 0) == nullptr) {
         retval = -1;
     }
     else {

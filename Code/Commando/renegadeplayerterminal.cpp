@@ -64,7 +64,7 @@ RenegadePlayerTerminalClass::RenegadePlayerTerminalClass(void)
 //////////////////////////////////////////////////////////////////////
 RenegadePlayerTerminalClass::~RenegadePlayerTerminalClass(void)
 {
-    _TheInstance = NULL;
+    _TheInstance = nullptr;
     return;
 }
 
@@ -96,8 +96,8 @@ void RenegadePlayerTerminalClass::Show_Terminal_Dialog(PurchaseSettingsDefClass:
 //////////////////////////////////////////////////////////////////////
 void RenegadePlayerTerminalClass::Display_Terminal(SoldierGameObj* player, TYPE type)
 {
-    // if (player == NULL) {
-    if (player == NULL || player->Get_Player_Data() == NULL) {
+    // if (player == nullptr) {
+    if (player == nullptr || player->Get_Player_Data() == nullptr) {
         return;
     }
 
@@ -140,8 +140,8 @@ void RenegadePlayerTerminalClass::Display_Terminal(SoldierGameObj* player, TYPE 
 //////////////////////////////////////////////////////////////////////
 void RenegadePlayerTerminalClass::Display_Default_Terminal_For_Player(SoldierGameObj* player)
 {
-    // if (player == NULL) {
-    if (player == NULL || player->Get_Player_Data() == NULL) {
+    // if (player == nullptr) {
+    if (player == nullptr || player->Get_Player_Data() == nullptr) {
         return;
     }
 

@@ -162,8 +162,8 @@ private:
  *=============================================================================================*/
 template <class T, int BLOCK_SIZE>
 ObjectPoolClass<T, BLOCK_SIZE>::ObjectPoolClass(void)
-    : FreeListHead(NULL),
-      BlockListHead(NULL),
+    : FreeListHead(nullptr),
+      BlockListHead(nullptr),
       FreeObjectCount(0),
       TotalObjectCount(0)
 {
@@ -189,7 +189,7 @@ template <class T, int BLOCK_SIZE> ObjectPoolClass<T, BLOCK_SIZE>::~ObjectPoolCl
 
     // delete all of the blocks we allocated
     int block_count = 0;
-    while (BlockListHead != NULL) {
+    while (BlockListHead != nullptr) {
         uint32* next_block = *(uint32**)BlockListHead;
         ::operator delete(BlockListHead);
         BlockListHead = next_block;
@@ -300,7 +300,7 @@ template <class T, int BLOCK_SIZE> void ObjectPoolClass<T, BLOCK_SIZE>::Free_Obj
 {
     FastCriticalSectionClass::LockClass lock(ObjectPoolCS);
 
-    WWASSERT(obj != NULL);
+    WWASSERT(obj != nullptr);
     *(T**)(obj) = FreeListHead; // Link to the Head
     FreeListHead = obj; // Set the Head
     FreeObjectCount++;

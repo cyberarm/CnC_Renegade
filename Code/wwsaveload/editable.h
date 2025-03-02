@@ -82,7 +82,7 @@ inline int EditableClass::Get_Parameter_Count(void) const
 inline ParameterClass* EditableClass::Lock_Parameter(int i)
 {
     WWASSERT(0);
-    return NULL;
+    return nullptr;
 }
 
 /////////////////////////////////////////////////////////////////////

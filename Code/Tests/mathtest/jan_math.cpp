@@ -590,7 +590,7 @@ int intFloor(const float& f)
 }
 
 const int CACHE_TRASH_BUFFER_SIZE = 4024000;
-int* CacheTrashBuffer = NULL;
+int* CacheTrashBuffer = nullptr;
 volatile int ReadVar;
 
 void trash_the_cache(void)

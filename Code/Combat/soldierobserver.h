@@ -108,7 +108,7 @@ public:
     } SoldierAIStates;
 
     bool Set_State(SoldierGameObj* soldier, int state, const Vector3& location = Vector3(0, 0, 0),
-                   GameObject* enemy = NULL);
+                   GameObject* enemy = nullptr);
 
 private:
     int State; // Current State

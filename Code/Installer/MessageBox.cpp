@@ -119,7 +119,7 @@ void MessageBoxClass::Do_Dialog(const WCHAR* title, const WCHAR* text, MessageBo
  *=============================================================================================*/
 void MessageBoxClass::On_Command(int ctrl_id, int message_id, DWORD param)
 {
-    if (CallbackObject != NULL) {
+    if (CallbackObject != nullptr) {
         CallbackObject->Callback(ctrl_id, this);
     }
 

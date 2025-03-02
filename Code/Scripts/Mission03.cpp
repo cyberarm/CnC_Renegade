@@ -79,16 +79,16 @@ DECLARE_SCRIPT(M03_Objective_Controller, "") // 1100004
         gunboat_triggered = gunboat1 = gunboat2 = gunboat3 = false;
         rain = true;
         //	Commands->Add_Objective(1006, OBJECTIVE_TYPE_TERTIARY, OBJECTIVE_STATUS_HIDDEN,
-        //1008, IDS_Enc_ObjTitle_Hidden_M03_02, NULL, IDS_Enc_Obj_Hidden_M03_02);
+        //1008, IDS_Enc_ObjTitle_Hidden_M03_02, nullptr, IDS_Enc_Obj_Hidden_M03_02);
         //	Commands->Add_Objective(1007, OBJECTIVE_TYPE_SECONDARY, OBJECTIVE_STATUS_HIDDEN,
         //1009); 	Commands->Add_Objective(1008, OBJECTIVE_TYPE_PRIMARY, OBJECTIVE_STATUS_HIDDEN,
         //1010); 	Commands->Add_Objective(1009, OBJECTIVE_TYPE_TERTIARY, OBJECTIVE_STATUS_HIDDEN,
-        //1011,IDS_Enc_ObjTitle_Hidden_M03_02, NULL, IDS_Enc_Obj_Hidden_M03_02);
+        //1011,IDS_Enc_ObjTitle_Hidden_M03_02, nullptr, IDS_Enc_Obj_Hidden_M03_02);
         //	Commands->Add_Objective(1010, OBJECTIVE_TYPE_PRIMARY, OBJECTIVE_STATUS_HIDDEN,
         //1019); 	Commands->Add_Objective(1011, OBJECTIVE_TYPE_TERTIARY, OBJECTIVE_STATUS_HIDDEN,
-        //1020, IDS_Enc_ObjTitle_Hidden_M03_02, NULL, IDS_Enc_Obj_Hidden_M03_02);
+        //1020, IDS_Enc_ObjTitle_Hidden_M03_02, nullptr, IDS_Enc_Obj_Hidden_M03_02);
         //	Commands->Add_Objective(1012, OBJECTIVE_TYPE_TERTIARY, OBJECTIVE_STATUS_HIDDEN,
-        //1021, IDS_Enc_ObjTitle_Hidden_M03_02, NULL, IDS_Enc_Obj_Hidden_M03_02);
+        //1021, IDS_Enc_ObjTitle_Hidden_M03_02, nullptr, IDS_Enc_Obj_Hidden_M03_02);
 
         // Commands->Create_Sound ( "03_AmmoClip", Vector3(0,0,0), obj );
     }
@@ -100,7 +100,7 @@ DECLARE_SCRIPT(M03_Objective_Controller, "") // 1100004
         if (reason == ACTION_COMPLETE_CONVERSATION_ENDED) {
             if (action_id == 1) {
                 Commands->Add_Objective(1002, OBJECTIVE_TYPE_SECONDARY, OBJECTIVE_STATUS_PENDING,
-                                        IDS_Enc_ObjTitle_Secondary_M03_02, NULL,
+                                        IDS_Enc_ObjTitle_Secondary_M03_02, nullptr,
                                         IDS_Enc_Obj_Secondary_M03_02);
                 object = Commands->Find_Object(300056);
                 if (object) {
@@ -113,7 +113,7 @@ DECLARE_SCRIPT(M03_Objective_Controller, "") // 1100004
 
             if (action_id == 2) {
                 Commands->Add_Objective(1004, OBJECTIVE_TYPE_SECONDARY, OBJECTIVE_STATUS_PENDING,
-                                        IDS_Enc_ObjTitle_Secondary_M03_03, NULL,
+                                        IDS_Enc_ObjTitle_Secondary_M03_03, nullptr,
                                         IDS_Enc_Obj_Secondary_M03_03);
                 object = Commands->Find_Object(1205777);
                 if (object) {
@@ -126,14 +126,14 @@ DECLARE_SCRIPT(M03_Objective_Controller, "") // 1100004
                 }
 
                 // int id = Commands->Create_Conversation("M03CON064", 99, 2000, false);
-                // Commands->Join_Conversation(NULL, id);
+                // Commands->Join_Conversation(nullptr, id);
                 // Commands->Start_Conversation(id, 100064);
                 // Commands->Monitor_Conversation(obj, id);
             }
 
             if (action_id == 100020) {
                 // int id = Commands->Create_Conversation("M03CON066", 99, 2000, false);
-                // Commands->Join_Conversation(NULL, id);
+                // Commands->Join_Conversation(nullptr, id);
                 // Commands->Start_Conversation(id, 100066);
                 // Commands->Monitor_Conversation(obj, id);
 
@@ -142,14 +142,14 @@ DECLARE_SCRIPT(M03_Objective_Controller, "") // 1100004
 
             if (action_id == 100028) {
                 // int id = Commands->Create_Conversation("M03CON066", 99, 2000, false);
-                // Commands->Join_Conversation(NULL, id);
+                // Commands->Join_Conversation(nullptr, id);
                 // Commands->Start_Conversation(id, 100066);
                 // Commands->Monitor_Conversation(obj, id);
             }
 
             if (action_id == 100033 || action_id == 100035 || action_id == 100037) {
                 // int id = Commands->Create_Conversation("M03CON067", 99, 2000, false);
-                // Commands->Join_Conversation(NULL, id);
+                // Commands->Join_Conversation(nullptr, id);
                 // Commands->Start_Conversation(id, 100067);
                 // Commands->Monitor_Conversation(obj, id);
             }
@@ -172,7 +172,7 @@ DECLARE_SCRIPT(M03_Objective_Controller, "") // 1100004
             }
         }
 
-        if ((type == 302 || type == 304) && Commands->Find_Object(1100003) == NULL) {
+        if ((type == 302 || type == 304) && Commands->Find_Object(1100003) == nullptr) {
             return;
         }
 
@@ -302,7 +302,7 @@ DECLARE_SCRIPT(M03_Objective_Controller, "") // 1100004
 
         if (timer_id == 911) {
             int id = Commands->Create_Conversation("M03CON024", 99, 2000, true);
-            Commands->Join_Conversation(NULL, id);
+            Commands->Join_Conversation(nullptr, id);
             Commands->Join_Conversation(STAR, id);
             Commands->Start_Conversation(id, 100024);
             Commands->Monitor_Conversation(obj, id);
@@ -311,7 +311,7 @@ DECLARE_SCRIPT(M03_Objective_Controller, "") // 1100004
         if (timer_id == 912) {
             if (Commands->Find_Object(1100003)) {
                 int id = Commands->Create_Conversation("M03CON032", 99, 2000, true);
-                Commands->Join_Conversation(NULL, id);
+                Commands->Join_Conversation(nullptr, id);
                 Commands->Join_Conversation(STAR, id);
                 Commands->Start_Conversation(id, 100032);
                 Commands->Monitor_Conversation(obj, id);
@@ -327,7 +327,7 @@ DECLARE_SCRIPT(M03_Objective_Controller, "") // 1100004
         switch (id) {
         case 1000: {
             Commands->Add_Objective(id, OBJECTIVE_TYPE_PRIMARY, OBJECTIVE_STATUS_PENDING,
-                                    IDS_Enc_ObjTitle_Primary_M03_01, NULL,
+                                    IDS_Enc_ObjTitle_Primary_M03_01, nullptr,
                                     IDS_Enc_Obj_Primary_M03_01);
             object = Commands->Find_Object(1100009);
             if (object) {
@@ -339,13 +339,13 @@ DECLARE_SCRIPT(M03_Objective_Controller, "") // 1100004
             Commands->Send_Custom_Event(controller, controller, 100063, 0, 0.0f);
 
             /*int id = Commands->Create_Conversation("M03CON063", 99, 2000, false);
-            Commands->Join_Conversation(NULL, id);
+            Commands->Join_Conversation(nullptr, id);
             Commands->Start_Conversation(id, 100063);
             Commands->Monitor_Conversation(controller, id);*/
         } break;
         case 1001: {
             Commands->Add_Objective(id, OBJECTIVE_TYPE_SECONDARY, OBJECTIVE_STATUS_PENDING,
-                                    IDS_Enc_ObjTitle_Secondary_M03_01, NULL,
+                                    IDS_Enc_ObjTitle_Secondary_M03_01, nullptr,
                                     IDS_Enc_Obj_Secondary_M03_01);
             object = Commands->Find_Object(1212283);
             if (object) {
@@ -358,13 +358,13 @@ DECLARE_SCRIPT(M03_Objective_Controller, "") // 1100004
             }
 
             // int id = Commands->Create_Conversation("M03CON064", 99, 2000, false);
-            // Commands->Join_Conversation(NULL, id);
+            // Commands->Join_Conversation(nullptr, id);
             // Commands->Start_Conversation(id, 100064);
             // Commands->Monitor_Conversation(controller, id);
         } break;
         case 1002: {
             Commands->Add_Objective(1002, OBJECTIVE_TYPE_SECONDARY, OBJECTIVE_STATUS_PENDING,
-                                    IDS_Enc_ObjTitle_Secondary_M03_02, NULL,
+                                    IDS_Enc_ObjTitle_Secondary_M03_02, nullptr,
                                     IDS_Enc_Obj_Secondary_M03_02);
             object = Commands->Find_Object(300056);
             if (object) {
@@ -376,7 +376,7 @@ DECLARE_SCRIPT(M03_Objective_Controller, "") // 1100004
             }
 
             // int id = Commands->Create_Conversation("M03CON064", 99, 2000, false);
-            // Commands->Join_Conversation(NULL, id);
+            // Commands->Join_Conversation(nullptr, id);
             // Commands->Start_Conversation(id, 100064);
             // Commands->Monitor_Conversation(controller, id);
 
@@ -387,13 +387,13 @@ DECLARE_SCRIPT(M03_Objective_Controller, "") // 1100004
             break;
         case 1006: {
             Commands->Add_Objective(id, OBJECTIVE_TYPE_TERTIARY, OBJECTIVE_STATUS_PENDING,
-                                    IDS_Enc_ObjTitle_Hidden_M03_01, NULL,
+                                    IDS_Enc_ObjTitle_Hidden_M03_01, nullptr,
                                     IDS_Enc_Obj_Hidden_M03_01);
             Commands->Start_Timer(controller, this, 4.0f, 912);
         } break;
         case 1007: {
             Commands->Add_Objective(id, OBJECTIVE_TYPE_PRIMARY, OBJECTIVE_STATUS_PENDING,
-                                    IDS_Enc_ObjTitle_Primary_M03_02, NULL,
+                                    IDS_Enc_ObjTitle_Primary_M03_02, nullptr,
                                     IDS_Enc_Obj_Primary_M03_02);
             object = Commands->Find_Object(1215546);
             if (object) {
@@ -403,13 +403,13 @@ DECLARE_SCRIPT(M03_Objective_Controller, "") // 1100004
             }
 
             /*int id = Commands->Create_Conversation("M03CON063", 99, 2000, false);
-            Commands->Join_Conversation(NULL, id);
+            Commands->Join_Conversation(nullptr, id);
             Commands->Start_Conversation(id, 100063);
             Commands->Monitor_Conversation(controller, id);*/
         } break;
         case 1008: {
             Commands->Add_Objective(id, OBJECTIVE_TYPE_PRIMARY, OBJECTIVE_STATUS_PENDING,
-                                    IDS_Enc_ObjTitle_Primary_M03_03, NULL,
+                                    IDS_Enc_ObjTitle_Primary_M03_03, nullptr,
                                     IDS_Enc_Obj_Primary_M03_03);
             object = Commands->Find_Object(1100009);
             if (object) {
@@ -419,18 +419,18 @@ DECLARE_SCRIPT(M03_Objective_Controller, "") // 1100004
             }
 
             // int id = Commands->Create_Conversation("M03CON063", 99, 2000, false);
-            // Commands->Join_Conversation(NULL, id);
+            // Commands->Join_Conversation(nullptr, id);
             // Commands->Start_Conversation(id, 100063);
             // Commands->Monitor_Conversation(controller, id);
         } break;
         case 1009:
             Commands->Add_Objective(id, OBJECTIVE_TYPE_PRIMARY, OBJECTIVE_STATUS_PENDING,
-                                    IDS_Enc_ObjTitle_Hidden_M03_02, NULL,
+                                    IDS_Enc_ObjTitle_Hidden_M03_02, nullptr,
                                     IDS_Enc_Obj_Hidden_M03_02);
             break;
         case 1010: {
             Commands->Add_Objective(id, OBJECTIVE_TYPE_PRIMARY, OBJECTIVE_STATUS_PENDING,
-                                    IDS_Enc_ObjTitle_Primary_M03_04, NULL,
+                                    IDS_Enc_ObjTitle_Primary_M03_04, nullptr,
                                     IDS_Enc_Obj_Primary_M03_04);
             object = Commands->Find_Object(1213908);
             if (object) {
@@ -440,18 +440,18 @@ DECLARE_SCRIPT(M03_Objective_Controller, "") // 1100004
             }
 
             // int id = Commands->Create_Conversation("M03CON063", 99, 2000, false);
-            // Commands->Join_Conversation(NULL, id);
+            // Commands->Join_Conversation(nullptr, id);
             // Commands->Start_Conversation(id, 100063);
             // Commands->Monitor_Conversation(controller, id);
         } break;
         case 1011:
             Commands->Add_Objective(id, OBJECTIVE_TYPE_TERTIARY, OBJECTIVE_STATUS_PENDING,
-                                    IDS_Enc_ObjTitle_Hidden_M03_03, NULL,
+                                    IDS_Enc_ObjTitle_Hidden_M03_03, nullptr,
                                     IDS_Enc_Obj_Hidden_M03_03);
             break;
         case 1012:
             Commands->Add_Objective(id, OBJECTIVE_TYPE_TERTIARY, OBJECTIVE_STATUS_PENDING,
-                                    IDS_Enc_ObjTitle_Hidden_M03_04, NULL,
+                                    IDS_Enc_ObjTitle_Hidden_M03_04, nullptr,
                                     IDS_Enc_Obj_Hidden_M03_04);
             break;
         }
@@ -461,7 +461,7 @@ DECLARE_SCRIPT(M03_Objective_Controller, "") // 1100004
     {
         /*GameObject * star = Commands->Get_A_Star(Commands->Get_Position(Owner()));
         int id = Commands->Create_Conversation("SAM_Objective_1", 0, 2000, false);
-        Commands->Join_Conversation(NULL, id);
+        Commands->Join_Conversation(nullptr, id);
         Commands->Join_Conversation(star, id);
         Commands->Start_Conversation(id, 1);
         Commands->Monitor_Conversation(Owner(), id);*/
@@ -471,7 +471,7 @@ DECLARE_SCRIPT(M03_Objective_Controller, "") // 1100004
     {
         if (Commands->Find_Object(1100003) && Commands->Find_Object(1100002)) {
             int id = Commands->Create_Conversation("M03CON026", 0, 2000, false);
-            Commands->Join_Conversation(NULL, id);
+            Commands->Join_Conversation(nullptr, id);
             Commands->Join_Conversation(STAR, id);
             Commands->Start_Conversation(id, 2);
             Commands->Monitor_Conversation(Owner(), id);
@@ -482,7 +482,7 @@ DECLARE_SCRIPT(M03_Objective_Controller, "") // 1100004
     {
         /*GameObject * star = Commands->Get_A_Star(Commands->Get_Position(Owner()));
         int id = Commands->Create_Conversation("SAM_Objective_1_Complete", 0, 2000, false);
-        Commands->Join_Conversation(NULL, id);
+        Commands->Join_Conversation(nullptr, id);
         Commands->Join_Conversation(star, id);
         Commands->Start_Conversation(id);*/
     }
@@ -491,7 +491,7 @@ DECLARE_SCRIPT(M03_Objective_Controller, "") // 1100004
     {
         /*GameObject * star = Commands->Get_A_Star(Commands->Get_Position(Owner()));
         int id = Commands->Create_Conversation("SAM_Objective_2_Complete", 0, 2000, false);
-        Commands->Join_Conversation(NULL, id);
+        Commands->Join_Conversation(nullptr, id);
         Commands->Join_Conversation(star, id);
         Commands->Start_Conversation(id);*/
     }
@@ -502,7 +502,7 @@ DECLARE_SCRIPT(M03_Objective_Controller, "") // 1100004
 
         if (id == 1000 || id == 1007 || id == 1008 || id == 1010) {
             // int id = Commands->Create_Conversation("M03CON065", 99, 2000, false);
-            // Commands->Join_Conversation(NULL, id);
+            // Commands->Join_Conversation(nullptr, id);
             // Commands->Start_Conversation(id, 100065);
             // Commands->Monitor_Conversation(controller, id);
         }
@@ -515,12 +515,12 @@ DECLARE_SCRIPT(M03_Objective_Controller, "") // 1100004
         if (id == 1006 || id == 1009 || id == 1011 || id == 1012) {
             if (id == 1009) {
                 Commands->Add_Objective(id, OBJECTIVE_TYPE_TERTIARY, OBJECTIVE_STATUS_PENDING,
-                                        IDS_Enc_ObjTitle_Hidden_M03_02, NULL,
+                                        IDS_Enc_ObjTitle_Hidden_M03_02, nullptr,
                                         IDS_Enc_Obj_Hidden_M03_02);
                 Commands->Set_Objective_Status(id, OBJECTIVE_STATUS_ACCOMPLISHED);
 
                 int id = Commands->Create_Conversation("M03CON033", 99, 2000, false);
-                Commands->Join_Conversation(NULL, id);
+                Commands->Join_Conversation(nullptr, id);
                 Commands->Join_Conversation(STAR, id);
                 Commands->Start_Conversation(id, 100033);
                 Commands->Monitor_Conversation(controller, id);
@@ -528,12 +528,12 @@ DECLARE_SCRIPT(M03_Objective_Controller, "") // 1100004
 
             if (id == 1011) {
                 Commands->Add_Objective(id, OBJECTIVE_TYPE_TERTIARY, OBJECTIVE_STATUS_PENDING,
-                                        IDS_Enc_ObjTitle_Hidden_M03_03, NULL,
+                                        IDS_Enc_ObjTitle_Hidden_M03_03, nullptr,
                                         IDS_Enc_Obj_Hidden_M03_03);
                 Commands->Set_Objective_Status(id, OBJECTIVE_STATUS_ACCOMPLISHED);
 
                 int id = Commands->Create_Conversation("M03CON035", 99, 2000, false);
-                Commands->Join_Conversation(NULL, id);
+                Commands->Join_Conversation(nullptr, id);
                 Commands->Join_Conversation(STAR, id);
                 Commands->Start_Conversation(id, 100035);
                 Commands->Monitor_Conversation(controller, id);
@@ -541,12 +541,12 @@ DECLARE_SCRIPT(M03_Objective_Controller, "") // 1100004
 
             if (id == 1012) {
                 Commands->Add_Objective(id, OBJECTIVE_TYPE_TERTIARY, OBJECTIVE_STATUS_PENDING,
-                                        IDS_Enc_ObjTitle_Hidden_M03_04, NULL,
+                                        IDS_Enc_ObjTitle_Hidden_M03_04, nullptr,
                                         IDS_Enc_Obj_Hidden_M03_04);
                 Commands->Set_Objective_Status(id, OBJECTIVE_STATUS_ACCOMPLISHED);
 
                 int id = Commands->Create_Conversation("M03CON037", 99, 2000, false);
-                Commands->Join_Conversation(NULL, id);
+                Commands->Join_Conversation(nullptr, id);
                 Commands->Join_Conversation(STAR, id);
                 Commands->Start_Conversation(id, 100037);
                 Commands->Monitor_Conversation(controller, id);
@@ -570,7 +570,7 @@ DECLARE_SCRIPT(M03_Objective_Controller, "") // 1100004
                 Sam_Sites_1_Complete_Dialog();*/
 
                 int id = Commands->Create_Conversation("M03CON020", 99, 2000, false);
-                Commands->Join_Conversation(NULL, id);
+                Commands->Join_Conversation(nullptr, id);
                 Commands->Join_Conversation(STAR, id);
                 Commands->Start_Conversation(id, 100020);
                 Commands->Monitor_Conversation(controller, id);
@@ -595,7 +595,7 @@ DECLARE_SCRIPT(M03_Objective_Controller, "") // 1100004
 
                 if (Commands->Find_Object(1100002) && Commands->Find_Object(1100003)) {
                     int id = Commands->Create_Conversation("M03CON027", 99, 2000, false);
-                    Commands->Join_Conversation(NULL, id);
+                    Commands->Join_Conversation(nullptr, id);
                     Commands->Start_Conversation(id, 100027);
                     Commands->Monitor_Conversation(controller, id);
 
@@ -604,7 +604,7 @@ DECLARE_SCRIPT(M03_Objective_Controller, "") // 1100004
 
                 if (!(Commands->Find_Object(1100002)) && Commands->Find_Object(1100003)) {
                     int id = Commands->Create_Conversation("M03CON028", 99, 2000, true);
-                    Commands->Join_Conversation(NULL, id);
+                    Commands->Join_Conversation(nullptr, id);
                     Commands->Start_Conversation(id, 100028);
                     Commands->Monitor_Conversation(controller, id);
                     // Commands->Set_Objective_Status(1004, OBJECTIVE_STATUS_ACCOMPLISHED);
@@ -687,7 +687,7 @@ DECLARE_SCRIPT(RMV_Test_Big_Gun_Turning, "")
         Commands->Send_Custom_Event(obj, Commands->Find_Object(1100003), CANNON_KILLED, 0, 0.0f);
 
         /*int id = Commands->Create_Conversation("IDS_M03_D01");
-        Commands->Join_Conversation(NULL, id);
+        Commands->Join_Conversation(nullptr, id);
         Commands->Join_Conversation(STAR, id);
         Commands->Start_Conversation(id);*/
     }
@@ -703,7 +703,7 @@ DECLARE_SCRIPT(RMV_Test_Big_Gun_Turning, "")
                 if (random < 2) {
                     gunboat_warned = true;
                     /*int id = Commands->Create_Conversation("Gunboat_Warn_Big_Gun");
-                    Commands->Join_Conversation(NULL, id);
+                    Commands->Join_Conversation(nullptr, id);
                     Commands->Join_Conversation(STAR, id);
                     Commands->Start_Conversation(id);*/
                 }
@@ -749,7 +749,7 @@ DECLARE_SCRIPT(RMV_Test_Big_Gun_Turning, "")
             target.Z = pos.Z + 1.0f;
             ActionParamsStruct params;
             params.Set_Basic(this, 90, 0);
-            if (Commands->Find_Object(1100003) == NULL)
+            if (Commands->Find_Object(1100003) == nullptr)
             {
                     params.Set_Attack(target, 0.0f, 3.0f, true);
             }
@@ -766,7 +766,7 @@ DECLARE_SCRIPT(RMV_Test_Big_Gun_Turning, "")
         }
         if ((type == 2000) && (param == 2000)) {
             count++;
-            if (count == 2 && Commands->Find_Object(1100003) != NULL) {
+            if (count == 2 && Commands->Find_Object(1100003) != nullptr) {
                 Commands->Start_Timer(obj, this, 2.0f, ORCA_TIMER);
             }
         }
@@ -924,7 +924,7 @@ DECLARE_SCRIPT(M03_Gunboat_Controller_RMV,
                         had_conv = true;
 
                         /*int id = Commands->Create_Conversation("Gunboat_To_Inlet");
-                        Commands->Join_Conversation(NULL, id);
+                        Commands->Join_Conversation(nullptr, id);
                         Commands->Join_Conversation(STAR, id);
                         Commands->Start_Conversation(id);*/
                     }
@@ -1031,7 +1031,7 @@ DECLARE_SCRIPT(M03_Gunboat_Controller_RMV,
         if (!warning_2_given && last_health <= 0.25f * Commands->Get_Max_Health(Owner())) {
             warning_2_given = true;
             /*int id = Commands->Create_Conversation("Gunboat_Near_Death");
-            Commands->Join_Conversation(NULL, id);
+            Commands->Join_Conversation(nullptr, id);
             Commands->Join_Conversation(STAR, id);
             Commands->Start_Conversation(id);*/
             return;
@@ -1040,7 +1040,7 @@ DECLARE_SCRIPT(M03_Gunboat_Controller_RMV,
         if (!warning_1_given && last_health <= 0.5f * Commands->Get_Max_Health(Owner())) {
             warning_1_given = true;
             /*int id = Commands->Create_Conversation("Gunboat_Damaged");
-            Commands->Join_Conversation(NULL, id);
+            Commands->Join_Conversation(nullptr, id);
             Commands->Join_Conversation(STAR, id);
             Commands->Start_Conversation(id);*/
         }
@@ -1067,7 +1067,7 @@ DECLARE_SCRIPT(M03_Gunboat_Controller_RMV,
                 if (Commands->Get_Health(Commands->Find_Object(300058)) > 0
                     || Commands->Get_Health(Commands->Find_Object(300058)) > 0) {
                     int id = Commands->Create_Conversation("M03CON029", 99, 2000, true);
-                    Commands->Join_Conversation(NULL, id);
+                    Commands->Join_Conversation(nullptr, id);
                     Commands->Start_Conversation(id, 100029);
                     Commands->Monitor_Conversation(obj, id);
 
@@ -1077,7 +1077,7 @@ DECLARE_SCRIPT(M03_Gunboat_Controller_RMV,
 
             if (++dam_count > 3 && dam_count <= 5) {
                 int id = Commands->Create_Conversation("M03CON030", 99, 2000, true);
-                Commands->Join_Conversation(NULL, id);
+                Commands->Join_Conversation(nullptr, id);
                 Commands->Start_Conversation(id, 100030);
                 Commands->Monitor_Conversation(obj, id);
             }
@@ -1090,7 +1090,7 @@ DECLARE_SCRIPT(M03_Gunboat_Controller_RMV,
 
         if (killer == Commands->Find_Object(1100002)) {
             int id = Commands->Create_Conversation("M03CON031");
-            Commands->Join_Conversation(NULL, id);
+            Commands->Join_Conversation(nullptr, id);
             Commands->Start_Conversation(id, 100031);
             Commands->Monitor_Conversation(obj, id);
 
@@ -1102,8 +1102,8 @@ DECLARE_SCRIPT(M03_Gunboat_Controller_RMV,
 
         if (killer != Commands->Find_Object(1100002)) {
             int id = Commands->Create_Conversation("M03CON018");
-            Commands->Join_Conversation(NULL, id);
-            Commands->Join_Conversation(NULL, id);
+            Commands->Join_Conversation(nullptr, id);
+            Commands->Join_Conversation(nullptr, id);
             Commands->Join_Conversation(STAR, id);
             Commands->Start_Conversation(id, 100018);
             Commands->Monitor_Conversation(obj, id);
@@ -1133,9 +1133,9 @@ DECLARE_SCRIPT(M03_Gunboat_Controller_RMV,
 
                 list[0] = "00-N184E";	//Locate Comm Center
                 list[1] = "00-N186E";	//Secure Beachhead
-                list[2] = NULL;//"00-N188E";	//Destroy SAM #1
+                list[2] = nullptr;//"00-N188E";	//Destroy SAM #1
                 list[3] = "00-N188E";	//Destroy SAM #2
-                list[4] = NULL;//"00-N188E";	//Destroy SAM #3
+                list[4] = nullptr;//"00-N188E";	//Destroy SAM #3
                 list[5] = "00-N188E";	//Destroy SAM #4
                 list[6] = "00-N154E";	//Destroy Big Gun
                 list[7] = "00-N200E";	//Acquire Keycard
@@ -1154,7 +1154,7 @@ DECLARE_SCRIPT(M03_Gunboat_Controller_RMV,
                         int num = type - 300;
                         if (num <= 10)
                         {
-                                if (list[num] != NULL)
+                                if (list[num] != nullptr)
                                 {
                                 //	Commands->Create_Sound(list[num], Vector3(0,0,0), obj);
                                 }
@@ -1285,8 +1285,8 @@ DECLARE_SCRIPT(RMV_M03_Comm_Center_Terminal, "")
             Commands->Send_Custom_Event(obj, Commands->Find_Object(1100004), 308, 1, 0);
 
             int id = Commands->Create_Conversation("M03CON008", 99, 2000, true);
-            Commands->Join_Conversation(NULL, id);
-            Commands->Join_Conversation(NULL, id);
+            Commands->Join_Conversation(nullptr, id);
+            Commands->Join_Conversation(nullptr, id);
             Commands->Start_Conversation(id, 100008);
             Commands->Monitor_Conversation(obj, id);
         }
@@ -1298,7 +1298,7 @@ DECLARE_SCRIPT(RMV_M03_Comm_Center_Terminal, "")
             Commands->Send_Custom_Event(obj, Commands->Find_Object(1100004), SAKURA_DOGFIGHT, 0);
 
             /*int id = Commands->Create_Conversation("M03CON010", 99, 2000, true);
-            Commands->Join_Conversation(NULL, id);
+            Commands->Join_Conversation(nullptr, id);
             Commands->Start_Conversation(id, 100010);
             Commands->Monitor_Conversation(obj, id);*/
 
@@ -1346,7 +1346,7 @@ DECLARE_SCRIPT(RMV_Volcano_And_Lava_Ball_Creator, "")
             Commands->Enable_Cinematic_Freeze(obj, false);
 
             int id = Commands->Create_Conversation("M03CON010", 99, 2000, true);
-            Commands->Join_Conversation(NULL, id);
+            Commands->Join_Conversation(nullptr, id);
             Commands->Start_Conversation(id, 100010);
             Commands->Monitor_Conversation(obj, id);
 
@@ -1356,7 +1356,7 @@ DECLARE_SCRIPT(RMV_Volcano_And_Lava_Ball_Creator, "")
             Commands->Set_Clouds(1.0f, 1.0f, 20);
 
             /*int id = Commands->Create_Conversation("M03CON010", 99, 2000, true);
-            Commands->Join_Conversation(NULL, id);
+            Commands->Join_Conversation(nullptr, id);
             Commands->Join_Conversation(STAR, id);
             Commands->Start_Conversation(id, 100010);
             Commands->Monitor_Conversation(obj, id);*/
@@ -1623,7 +1623,7 @@ DECLARE_SCRIPT(M03_Ambient_Birdcall_Controller_JDG, "")
             Vector3 soundPosition;
 
             GameObject* star = Commands->Get_A_Star(Vector3(0.0f, 0.0f, 0.0f));
-            if (star != NULL) {
+            if (star != nullptr) {
                 Vector3 playerPosition = Commands->Get_Position(star);
 
                 float x_factor = Commands->Get_Random(-15, 15);
@@ -2849,13 +2849,13 @@ DECLARE_SCRIPT(M03_Commando_Script, "Controller_ID:int")
     {
         if (type == 3000) {
             int* occupied = (int*)param;
-            if (occupied != NULL) {
+            if (occupied != nullptr) {
                 (*occupied) = has_escort ? 1 : 0;
             }
             if (has_escort && (Commands->Get_ID(sender) == follower_id)) {
                 has_escort = false;
                 follower_id = 0;
-                if (occupied != NULL) {
+                if (occupied != nullptr) {
                     (*occupied) = -1;
                 }
             }
@@ -3170,7 +3170,7 @@ DECLARE_SCRIPT(M03_Chinook_Reinforcements,
 DECLARE_SCRIPT(M03_Chinook_Spawned_Soldier_GDI,
                "Area:int, Send_Type_When_Killed:int, Target_ID:int")
 {
-    int area, send_type, target_id, null_count;
+    int area, send_type, target_id, nullptr_count;
     bool in_place, en_route, escorting, diverted;
 
     enum
@@ -3185,7 +3185,7 @@ DECLARE_SCRIPT(M03_Chinook_Spawned_Soldier_GDI,
         SAVE_VARIABLE(target_id, 3);
         SAVE_VARIABLE(in_place, 4);
         SAVE_VARIABLE(en_route, 5);
-        SAVE_VARIABLE(null_count, 6);
+        SAVE_VARIABLE(nullptr_count, 6);
         SAVE_VARIABLE(escorting, 7);
         SAVE_VARIABLE(diverted, 8);
     }
@@ -3198,7 +3198,7 @@ DECLARE_SCRIPT(M03_Chinook_Spawned_Soldier_GDI,
         target_id = Get_Int_Parameter("Target_ID");
         in_place = false;
         en_route = false;
-        null_count = 0;
+        nullptr_count = 0;
         Commands->Set_Innate_Aggressiveness(obj, 0.0f);
         Commands->Start_Timer(obj, this, 10.0f, 0);
         Commands->Start_Timer(obj, this, 3.0f, 9);
@@ -3235,18 +3235,18 @@ DECLARE_SCRIPT(M03_Chinook_Spawned_Soldier_GDI,
             return;
         }
 
-        GameObject* target = NULL;
-        if (null_count < 3) {
+        GameObject* target = nullptr;
+        if (nullptr_count < 3) {
             // target = Commands->Find_Closest_Soldier(Commands->Get_Position(obj), 0.0f, 50.0f,
             // true);
         }
-        if ((target == NULL) && (null_count < 3)) {
-            null_count++;
+        if ((target == nullptr) && (nullptr_count < 3)) {
+            nullptr_count++;
         }
         if (!in_place) {
             en_route = false;
         }
-        if ((null_count < 3) && (target) && (!in_place)) {
+        if ((nullptr_count < 3) && (target) && (!in_place)) {
             ActionParamsStruct params;
             params.Set_Basic(this, INNATE_PRIORITY_IDLE + 1, 0);
             params.Set_Attack(target, 100.0f, 2.0f, true);
@@ -3479,7 +3479,7 @@ void Action_Complete(GameObject* obj, int action_id, ActionCompleteReason comple
             Commands->Send_Custom_Event(obj, target, 300, 3, 0);
 
             int id = Commands->Create_Conversation("M03CON063", 99, 2000, false);
-            Commands->Join_Conversation(NULL, id);
+            Commands->Join_Conversation(nullptr, id);
             Commands->Start_Conversation(id, 100063);
             Commands->Monitor_Conversation(obj, id);
     }*/
@@ -3490,7 +3490,7 @@ void Action_Complete(GameObject* obj, int action_id, ActionCompleteReason comple
 
     if (action_id == 100001) {
         int id = Commands->Create_Conversation("M03CON012", 99, 2000, false);
-        Commands->Join_Conversation(NULL, id);
+        Commands->Join_Conversation(nullptr, id);
         Commands->Join_Conversation(STAR, id);
         Commands->Start_Conversation(id, 100012);
         Commands->Monitor_Conversation(obj, id);
@@ -3500,7 +3500,7 @@ void Action_Complete(GameObject* obj, int action_id, ActionCompleteReason comple
 
     if (action_id == 100039) {
         int id = Commands->Create_Conversation("M03CON001", 99, 2000, false);
-        Commands->Join_Conversation(NULL, id);
+        Commands->Join_Conversation(nullptr, id);
         Commands->Join_Conversation(STAR, id);
         Commands->Start_Conversation(id, 100001);
         Commands->Monitor_Conversation(obj, id);
@@ -3508,7 +3508,7 @@ void Action_Complete(GameObject* obj, int action_id, ActionCompleteReason comple
 
     if (action_id == 100012) {
         // int id = Commands->Create_Conversation("M03CON064", 99, 2000, false);
-        // Commands->Join_Conversation(NULL, id);
+        // Commands->Join_Conversation(nullptr, id);
         // Commands->Start_Conversation(id, 100064);
         // Commands->Monitor_Conversation(obj, id);
 
@@ -3520,7 +3520,7 @@ void Timer_Expired(GameObject* obj, int timer_id)
 {
     if (timer_id == 9997) {
         int id = Commands->Create_Conversation("M03CON039", 99, 2000, false);
-        Commands->Join_Conversation(NULL, id);
+        Commands->Join_Conversation(nullptr, id);
         Commands->Join_Conversation(STAR, id);
         Commands->Start_Conversation(id, 100039);
         Commands->Monitor_Conversation(obj, id);
@@ -3545,7 +3545,7 @@ DECLARE_SCRIPT(M03_Alternate_Sam_Site, "Chinook_Controller_ID:int")
 
     void Custom(GameObject * obj, int type, int param, GameObject* sender)
     {
-        if (Commands->Find_Object(1100003) == NULL) {
+        if (Commands->Find_Object(1100003) == nullptr) {
             return;
         }
         GameObject* chinook = Commands->Find_Object(param);
@@ -3580,7 +3580,7 @@ DECLARE_SCRIPT(M03_Alternate_Sam_Site, "Chinook_Controller_ID:int")
                 {
                         spoke = true;
                         int id = Commands->Create_Conversation("Chinook_Fodder_Dead");
-                        Commands->Join_Conversation(NULL, id);
+                        Commands->Join_Conversation(nullptr, id);
                         Commands->Join_Conversation(Commands->Get_A_Star(Vector3(0,0,0)), id);
                         Commands->Start_Conversation(id);
                 }*/
@@ -3647,7 +3647,7 @@ DECLARE_SCRIPT(M03_Flyover_Controller, "")
 DECLARE_SCRIPT(M03_Destroyed_Chinook, "Controller_ID:int, Simple_ID:int") {
     void Killed(GameObject * obj, GameObject* killer) {
         /*int id = Commands->Create_Conversation("Chinook_Fodder_Scream", 100);
-        Commands->Join_Conversation(NULL, id);
+        Commands->Join_Conversation(nullptr, id);
         Commands->Join_Conversation(STAR, id);
         Commands->Start_Conversation(id);*/
 
@@ -3671,7 +3671,7 @@ if (obj_con) {
 
 DECLARE_SCRIPT(M03_Chinook_Fodder_Creator,
                "") { void Custom(GameObject * obj, int type, int param, GameObject* sender) {
-    if (Commands->Find_Object(1100003) == NULL) { return;
+    if (Commands->Find_Object(1100003) == nullptr) { return;
 }
 if ((type == 3000) && (param == 3000)) {
     GameObject* obj_con = Commands->Find_Object(1100004);
@@ -3688,7 +3688,7 @@ void Timer_Expired(GameObject* obj, int timer_id)
     if (timer_id == 9998) {
         // Commands->Create_Sound("00-N180E", Vector3(0,0,0), obj);
         int id = Commands->Create_Conversation("M03CON043", 99, 2000, false);
-        Commands->Join_Conversation(NULL, id);
+        Commands->Join_Conversation(nullptr, id);
         Commands->Start_Conversation(id, 100043);
         Commands->Monitor_Conversation(obj, id);
 
@@ -3995,7 +3995,7 @@ DECLARE_SCRIPT(
     void Custom(GameObject * obj, int type, int param, GameObject* sender)
     {
         if (type == 622 && param == 622) {
-            Commands->Set_Animation(obj, NULL, false);
+            Commands->Set_Animation(obj, nullptr, false);
             ActionParamsStruct params;
             params.Set_Basic(this, 100, HARVESTER_BEAT_IT);
             params.Set_Movement(Vector3(0, 0, 0), 1.0f, 1.0f);
@@ -4154,7 +4154,7 @@ DECLARE_SCRIPT(M03_Reinforce_Area, "")
                 || (base_active && target_killed[2] != 1000)) {
                 forced = true;
                 /*int id = Commands->Create_Conversation("Nod_Reinforcements", 100);
-                Commands->Join_Conversation(NULL, id);
+                Commands->Join_Conversation(nullptr, id);
                 Commands->Join_Conversation(Commands->Get_A_Star(Vector3(0,0,0)), id);
                 Commands->Start_Conversation(id);*/
                 Commands->Start_Timer(obj, this, 3.0f, 0);
@@ -4195,7 +4195,7 @@ DECLARE_SCRIPT(M03_Reinforce_Area, "")
                 || (base_active && count >= target_killed[2])) {
                 forced = false;
                 /*int id = Commands->Create_Conversation("Nod_Reinforcements", 100);
-                Commands->Join_Conversation(NULL, id);
+                Commands->Join_Conversation(nullptr, id);
                 Commands->Join_Conversation(Commands->Get_A_Star(Vector3(0,0,0)), id);
                 Commands->Start_Conversation(id);*/
                 Commands->Start_Timer(obj, this, 3.0f, 0);
@@ -4240,7 +4240,7 @@ GameObject* key = Commands->Create_Object("Level_01_Keycard", pos);
 Commands->Attach_Script(key, "M03_Key_Card", "");
 
 int id = Commands->Create_Conversation("M03CON005", 99, 2000, true);
-Commands->Join_Conversation(NULL, id);
+Commands->Join_Conversation(nullptr, id);
 Commands->Join_Conversation(STAR, id);
 Commands->Start_Conversation(id, 100005);
 Commands->Monitor_Conversation(obj, id);
@@ -4689,7 +4689,7 @@ void Timer_Expired(GameObject* obj, int timer_id)
     }
     else if (timer_id == 1) {
         /*int id = Commands->Create_Conversation("Turret_Destroyed");
-        Commands->Join_Conversation(NULL, id);
+        Commands->Join_Conversation(nullptr, id);
         Commands->Join_Conversation(STAR, id);
         Commands->Start_Conversation(id);*/
     }
@@ -4738,7 +4738,7 @@ DECLARE_SCRIPT(M03_Beach_Scenario_Controller, "")
                 Commands->Send_Custom_Event(obj, obj_con, 301, 1);
 
                 int id = Commands->Create_Conversation("M03CON013", 99, 2000, true);
-                Commands->Join_Conversation(NULL, id);
+                Commands->Join_Conversation(nullptr, id);
                 Commands->Start_Conversation(id, 100013);
                 Commands->Monitor_Conversation(obj, id);
 
@@ -5030,7 +5030,7 @@ DECLARE_SCRIPT(
             Commands->Set_Clouds(1.0f, 1.0f, 20);
 
             /*int id = Commands->Create_Conversation("M03CON010", 99, 2000, true);
-            Commands->Join_Conversation(NULL, id);
+            Commands->Join_Conversation(nullptr, id);
             Commands->Join_Conversation(STAR, id);
             Commands->Start_Conversation(id, 100010);
             Commands->Monitor_Conversation(obj, id);*/
@@ -5041,7 +5041,7 @@ DECLARE_SCRIPT(
 
         if (timer_id == MESSAGE_DELAY) {
             int id = Commands->Create_Conversation("M03CON011", 99, 2000, true);
-            Commands->Join_Conversation(NULL, id);
+            Commands->Join_Conversation(nullptr, id);
             Commands->Join_Conversation(STAR, id);
             Commands->Start_Conversation(id, 100011);
             Commands->Monitor_Conversation(obj, id);
@@ -5049,7 +5049,7 @@ DECLARE_SCRIPT(
 
         if (timer_id == ANNOUNCEMENT_DELAY) {
             int id = Commands->Create_Conversation("M03CON048", 99, 2000, true);
-            Commands->Join_Conversation(NULL, id);
+            Commands->Join_Conversation(nullptr, id);
             Commands->Start_Conversation(id, 100048);
             Commands->Monitor_Conversation(obj, id);
 
@@ -5279,7 +5279,7 @@ DECLARE_SCRIPT(M03_Beach_Radio, "")
             conv[2] = "M03CON046";
 
             conv_id = Commands->Create_Conversation(conv[conv_count++]);
-            Commands->Join_Conversation(NULL, conv_id);
+            Commands->Join_Conversation(nullptr, conv_id);
             Commands->Join_Conversation(poker, conv_id);
             Commands->Start_Conversation(conv_id);
             Commands->Monitor_Conversation(obj, conv_id);
@@ -5728,7 +5728,7 @@ DECLARE_SCRIPT(M03_Conversation_Zone, "Conv_Num:int")
     {
         if (timer_id == 100000) {
             int id = Commands->Create_Conversation("M03CON002", 99, 2000, true);
-            Commands->Join_Conversation(NULL, id);
+            Commands->Join_Conversation(nullptr, id);
             Commands->Start_Conversation(id, 100002);
             Commands->Monitor_Conversation(obj, id);
         }
@@ -5742,7 +5742,7 @@ DECLARE_SCRIPT(M03_Conversation_Zone, "Conv_Num:int")
 
             int id = Commands->Create_Conversation("M03CON006", 99, 2000, true);
             Commands->Join_Conversation(STAR, id);
-            Commands->Join_Conversation(NULL, id);
+            Commands->Join_Conversation(nullptr, id);
             Commands->Start_Conversation(id, 100006);
             Commands->Monitor_Conversation(obj, id);
         }
@@ -5765,7 +5765,7 @@ DECLARE_SCRIPT(M03_Conversation_Zone, "Conv_Num:int")
                 Commands->Send_Custom_Event(obj, Commands->Find_Object(1100005), ENTERED, 0, 0);
 
                 int id = Commands->Create_Conversation("M03CON003", 99, 2000, true);
-                Commands->Join_Conversation(NULL, id);
+                Commands->Join_Conversation(nullptr, id);
                 Commands->Join_Conversation(STAR, id);
                 Commands->Start_Conversation(id, 100003);
                 Commands->Monitor_Conversation(obj, id);
@@ -5778,7 +5778,7 @@ DECLARE_SCRIPT(M03_Conversation_Zone, "Conv_Num:int")
                     Commands->Send_Custom_Event(obj, Commands->Find_Object(2013087), ENTERED, 0);
 
                     int id = Commands->Create_Conversation("M03CON004", 99, 2000, true);
-                    Commands->Join_Conversation(NULL, id);
+                    Commands->Join_Conversation(nullptr, id);
                     Commands->Join_Conversation(STAR, id);
                     Commands->Start_Conversation(id, 100004);
                     Commands->Monitor_Conversation(obj, id);
@@ -5793,7 +5793,7 @@ DECLARE_SCRIPT(M03_Conversation_Zone, "Conv_Num:int")
                     Commands->Send_Custom_Event(obj, Commands->Find_Object(2013899), ENTERED, 0);
 
                     int id = Commands->Create_Conversation("M03CON007", 99, 2000, true);
-                    Commands->Join_Conversation(NULL, id);
+                    Commands->Join_Conversation(nullptr, id);
                     Commands->Start_Conversation(id, 100007);
                     Commands->Monitor_Conversation(obj, id);
                 }
@@ -5803,7 +5803,7 @@ DECLARE_SCRIPT(M03_Conversation_Zone, "Conv_Num:int")
                     already_entered = true;
 
                     int id = Commands->Create_Conversation("M03CON009", 99, 2000, true);
-                    Commands->Join_Conversation(NULL, id);
+                    Commands->Join_Conversation(nullptr, id);
                     Commands->Start_Conversation(id, 100009);
                     Commands->Monitor_Conversation(obj, id);
                 }
@@ -5813,7 +5813,7 @@ DECLARE_SCRIPT(M03_Conversation_Zone, "Conv_Num:int")
                     already_entered = true;
 
                     int id = Commands->Create_Conversation("M03CON016", 99, 2000, true);
-                    Commands->Join_Conversation(NULL, id);
+                    Commands->Join_Conversation(nullptr, id);
                     Commands->Start_Conversation(id, 100016);
                     Commands->Monitor_Conversation(obj, id);
                 }
@@ -5822,7 +5822,7 @@ DECLARE_SCRIPT(M03_Conversation_Zone, "Conv_Num:int")
                 already_entered = true;
 
                 int id = Commands->Create_Conversation("M03CON022", 99, 2000, true);
-                Commands->Join_Conversation(NULL, id);
+                Commands->Join_Conversation(nullptr, id);
                 Commands->Join_Conversation(STAR, id);
                 Commands->Start_Conversation(id, 100022);
                 Commands->Monitor_Conversation(obj, id);
@@ -6267,7 +6267,7 @@ DECLARE_SCRIPT(M03_Radar_Scramble, "")
                 already_entered = true;
 
                 int id = Commands->Create_Conversation("M03CON068", 99, 2000, false);
-                Commands->Join_Conversation(NULL, id);
+                Commands->Join_Conversation(nullptr, id);
                 Commands->Start_Conversation(id, 100068);
                 Commands->Monitor_Conversation(obj, id);
             }
@@ -6452,7 +6452,7 @@ DECLARE_SCRIPT(M03_Paratrooper_Run, "")
 
     void Damaged(GameObject * obj, GameObject * damager, float amount)
     {
-        if (!initial_damage && damager == NULL) {
+        if (!initial_damage && damager == nullptr) {
             initial_damage = true;
             Commands->Set_Health(obj, initial_health);
 

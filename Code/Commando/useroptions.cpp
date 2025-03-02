@@ -98,7 +98,7 @@ cRegistryInt cUserOptions::ResultsLogNumber(APPLICATION_SUB_KEY_NAME_NETOPTIONS,
 //-----------------------------------------------------------------------------
 bool cUserOptions::Parse_Command_Line(LPCSTR command)
 {
-    WWASSERT(command != NULL);
+    WWASSERT(command != nullptr);
 
     bool retcode = true;
 
@@ -109,16 +109,16 @@ bool cUserOptions::Parse_Command_Line(LPCSTR command)
     //
     int argc = 1; // Set argument count to 1
     char* argv[20]; // Pointers to command line arguments
-    argv[0] = NULL; // Set 1st command line argument to point to full path
+    argv[0] = nullptr; // Set 1st command line argument to point to full path
 
     //
     // Get pointers to command line arguments just like if we were in DOS
     //
     char* command_line = strdup(command);
     char* token = strtok(command_line, " ");
-    while (argc < ARRAY_SIZE(argv) && token != NULL) {
+    while (argc < ARRAY_SIZE(argv) && token != nullptr) {
         argv[argc++] = strtrim(token);
-        token = strtok(NULL, " ");
+        token = strtok(nullptr, " ");
         if (argc >= 19) {
             break;
         }
@@ -216,7 +216,7 @@ bool cUserOptions::Parse_Command_Line(LPCSTR command)
     tmpstr = _strupr(tmpstr);
 
     char* ip_param = ::strstr(tmpstr, "+CONNECT");
-    if (ip_param != NULL) {
+    if (ip_param != nullptr) {
         ip_param += ::strlen("+connect");
 
         USHORT port = 4848;
@@ -241,7 +241,7 @@ bool cUserOptions::Parse_Command_Line(LPCSTR command)
     }
 
     char* nickname_param = ::strstr(tmpstr, "+NETPLAYERNAME");
-    if (nickname_param != NULL) {
+    if (nickname_param != nullptr) {
         nickname_param = (char*)(command + (nickname_param - tmpstr));
         nickname_param += ::strlen("+NetPlayerName");
 
@@ -285,7 +285,7 @@ bool cUserOptions::Parse_Command_Line(LPCSTR command)
     }
 
     char* password_param = ::strstr(tmpstr, "+PASS");
-    if (password_param != NULL) {
+    if (password_param != nullptr) {
         char* tmp_param = ::strstr(tmpstr, "+PASSWORD");
         if (tmp_param) {
             password_param = (char*)(command + (tmp_param - tmpstr));
@@ -447,12 +447,12 @@ cUserOptions::GameListFilterShowOnlyGamesIRankFor(	APPLICATION_SUB_KEY_NAME_NETO
 // All 3 must be specified.
 // Example: Renegade.exe GAMESPY_IPADDR=192.168.10.100 GAMESPY_PORT=3333 GAMESPY_NICKNAME="Bob 1234"
 //
-LPCSTR param = NULL;
-char * value = NULL;
+LPCSTR param = nullptr;
+char * value = nullptr;
 
 param = "GAMESPY_IPADDR=";
 value = ::strstr(cmd, param);
-if (value != NULL) {
+if (value != nullptr) {
         value += ::strlen(param);
         ULONG ip = ::inet_addr(value);
         cGameSpyAdmin::Set_Game_Host_Ip(ip);
@@ -462,7 +462,7 @@ if (value != NULL) {
 
 param = "GAMESPY_PORT=";
 value = ::strstr(cmd, param);
-if (value != NULL) {
+if (value != nullptr) {
         value += ::strlen(param);
         USHORT port = (USHORT)::atol(value);
         cGameSpyAdmin::Set_Game_Host_Port(port);
@@ -472,17 +472,17 @@ if (value != NULL) {
 
 param = "GAMESPY_NICKNAME=";
 value = ::strstr(cmd, param);
-if (value != NULL) {
+if (value != nullptr) {
         value += ::strlen(param);
         WideStringClass nickname;
         char temp[200] = "";
         char seps[]   = "\"";
         char * start_token = ::strtok(value, seps);
-        if (start_token != NULL) {
+        if (start_token != nullptr) {
                 start_token++;
         }
-        char * end_token = ::strtok(NULL, seps);
-        if (end_token != NULL && end_token > start_token) {
+        char * end_token = ::strtok(nullptr, seps);
+        if (end_token != nullptr && end_token > start_token) {
                 ::strncpy(temp, start_token, end_token - start_token);
                 temp[end_token - start_token] = 0;
         }
@@ -507,12 +507,12 @@ char nickname2[300] = "";
 /*
 char seps[]   = "\"";
 char * start_token = ::strtok(nickname_param, seps);
-if (start_token != NULL) {
+if (start_token != nullptr) {
         start_token++;
 }
-char * end_token = ::strtok(NULL, seps);
+char * end_token = ::strtok(nullptr, seps);
 char nickname2[300] = "";
-if (end_token != NULL && end_token > start_token) {
+if (end_token != nullptr && end_token > start_token) {
         char nickname2[300] = "";
         ::strncpy(nickname2, start_token, end_token - start_token);
         nickname2[end_token - start_token] = 0;

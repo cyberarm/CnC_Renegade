@@ -71,13 +71,13 @@ public:
     //
     //	Database methods
     //
-    bool Open_Database(LPCTSTR ini_filename, LPCTSTR username = NULL, LPCTSTR password = NULL);
+    bool Open_Database(LPCTSTR ini_filename, LPCTSTR username = nullptr, LPCTSTR password = nullptr);
 
     //
     //	File manipulation methods
     //
-    bool Add_File(LPCTSTR local_filename, LPCTSTR comment = NULL) { return true; }
-    bool Check_In(LPCTSTR local_filename, LPCTSTR comment = NULL) { return true; }
+    bool Add_File(LPCTSTR local_filename, LPCTSTR comment = nullptr) { return true; }
+    bool Check_In(LPCTSTR local_filename, LPCTSTR comment = nullptr) { return true; }
     bool Check_Out(LPCTSTR local_filename, bool get_locally = true);
     bool Undo_Check_Out(LPCTSTR local_filename) { return true; }
     bool Get(LPCTSTR local_filename);
@@ -103,7 +103,7 @@ public:
     //
     //	File information methods
     //
-    FILE_STATUS Get_File_Status(LPCTSTR local_filename, StringClass* checked_out_user_name = NULL)
+    FILE_STATUS Get_File_Status(LPCTSTR local_filename, StringClass* checked_out_user_name = nullptr)
     {
         return CHECKED_OUT_TO_ME;
     }

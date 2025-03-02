@@ -55,12 +55,12 @@
    \
                 machine.Add_State (
    \
-                        is_think ? On_##state##_Think : NULL,
+                        is_think ? On_##state##_Think : nullptr,
    \
-                        is_request_end ? On_##state##_Request_End : NULL,
+                        is_request_end ? On_##state##_Request_End : nullptr,
    \
-                        is_begin ? On_##state##_Begin : NULL,
-   \ is_end ? On_##state##_End : NULL);	*/
+                        is_begin ? On_##state##_Begin : nullptr,
+   \ is_end ? On_##state##_End : nullptr);	*/
 
 #define ADD_STATE_TO_MACHINE(machine, state)                                                       \
     machine.Add_State(On_##state##_Think, On_##state##_Request_End, On_##state##_Begin,            \
@@ -153,10 +153,10 @@ public:
     //	Public constructors/destructors
     ///////////////////////////////////////////////////////////////////
     StateClass<T>(void)
-        : Think(NULL),
-          RequestEnd(NULL),
-          Begin(NULL),
-          End(NULL)
+        : Think(nullptr),
+          RequestEnd(nullptr),
+          Begin(nullptr),
+          End(nullptr)
     {
     }
 
@@ -230,7 +230,7 @@ public:
         //	Call the think member function of the container
         //
         if (Is_Valid_State(CurrState)) {
-            if (StateTable[CurrState].Think != NULL) {
+            if (StateTable[CurrState].Think != nullptr) {
                 (Object->*(StateTable[CurrState].Think))();
             }
         }
@@ -277,7 +277,7 @@ public:
         //
         if (Is_Valid_State(CurrState)) {
 
-            if (StateTable[CurrState].End != NULL) {
+            if (StateTable[CurrState].End != nullptr) {
                 (Object->*(StateTable[CurrState].End))();
             }
         }
@@ -299,7 +299,7 @@ public:
         //	Notify the current state that it's starting again
         //
         if (Is_Valid_State(CurrState)) {
-            if (StateTable[CurrState].Begin != NULL) {
+            if (StateTable[CurrState].Begin != nullptr) {
                 (Object->*(StateTable[CurrState].Begin))();
             }
         }
@@ -326,7 +326,7 @@ public:
         //	First, check to see if we can switch states
         //
         if (IsHalted == false && Is_Valid_State(CurrState)) {
-            if (force == false && StateTable[CurrState].RequestEnd != NULL) {
+            if (force == false && StateTable[CurrState].RequestEnd != nullptr) {
                 if ((Object->*(StateTable[CurrState].RequestEnd))(state_index) == false) {
                     return;
                 }
@@ -335,7 +335,7 @@ public:
             //
             //	Now, notify the old state that it's ending
             //
-            if (StateTable[CurrState].End != NULL) {
+            if (StateTable[CurrState].End != nullptr) {
                 (Object->*(StateTable[CurrState].End))();
             }
         }
@@ -346,7 +346,7 @@ public:
             //	Switch to the new state
             //
             CurrState = state_index;
-            if (IsHalted == false && StateTable[CurrState].Begin != NULL) {
+            if (IsHalted == false && StateTable[CurrState].Begin != nullptr) {
                 (Object->*(StateTable[CurrState].Begin))();
             }
         }

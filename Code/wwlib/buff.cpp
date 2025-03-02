@@ -35,7 +35,7 @@
  *   Buffer::Buffer -- Constructor for buffer object.                                          *
  *   Buffer::Buffer -- Copy constructor for buffer object.                                     *
  *   Buffer::Buffer -- Self-allocating constructor for buffer object.                          *
- *   Buffer::Reset -- Clears the buffer object to null state.                                  *
+ *   Buffer::Reset -- Clears the buffer object to nullptr state.                                  *
  *   Buffer::operator = -- Assignment operator for the buffer object.                          *
  *   Buffer::~Buffer -- Destructor for buffer object.                                          *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
@@ -68,7 +68,7 @@ Buffer::Buffer(void* buffer, long size)
       Size(size),
       IsAllocated(false)
 {
-    if (buffer == NULL && size > 0) {
+    if (buffer == nullptr && size > 0) {
         BufferPtr = new char[size];
         IsAllocated = true;
     }
@@ -80,7 +80,7 @@ Buffer::Buffer(char* buffer, long size)
       Size(size),
       IsAllocated(false)
 {
-    if (buffer == NULL && size > 0) {
+    if (buffer == nullptr && size > 0) {
         BufferPtr = new char[size];
         IsAllocated = true;
     }
@@ -92,7 +92,7 @@ Buffer::Buffer(void const* buffer, long size)
       Size(size),
       IsAllocated(false)
 {
-    if (buffer == NULL && size > 0) {
+    if (buffer == nullptr && size > 0) {
         BufferPtr = new char[size];
         IsAllocated = true;
     }
@@ -110,13 +110,13 @@ Buffer::Buffer(void const* buffer, long size)
  * OUTPUT:  none                                                                               *
  *                                                                                             *
  * WARNINGS:   There is no way to tell if the allocation failed. To verify, call Get_Buffer    *
- *             and compare with NULL.                                                          *
+ *             and compare with nullptr.                                                          *
  *                                                                                             *
  * HISTORY:                                                                                    *
  *   07/29/1996 JLB : Created.                                                                 *
  *=============================================================================================*/
 Buffer::Buffer(long size)
-    : BufferPtr(NULL),
+    : BufferPtr(nullptr),
       Size(size),
       IsAllocated(false)
 {
@@ -196,9 +196,9 @@ Buffer::~Buffer(void)
 }
 
 /***********************************************************************************************
- * Buffer::Reset -- Clears the buffer object to null state.                                    *
+ * Buffer::Reset -- Clears the buffer object to nullptr state.                                    *
  *                                                                                             *
- *    This routine will bring the buffer object into a null (newly constructed) state. If      *
+ *    This routine will bring the buffer object into a nullptr (newly constructed) state. If      *
  *    there was any buffer allocated or referred to by this object, it will be freed or        *
  *    dereferenced as necessary.                                                               *
  *                                                                                             *
@@ -217,7 +217,7 @@ void Buffer::Reset(void)
     if (IsAllocated) {
         delete[] BufferPtr;
     }
-    BufferPtr = NULL;
+    BufferPtr = nullptr;
     Size = 0;
     IsAllocated = false;
 }

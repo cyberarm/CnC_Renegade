@@ -36,7 +36,7 @@ static char THIS_FILE[] = __FILE__;
 // CameraDistanceDialogClass
 //
 /////////////////////////////////////////////////////////////////////////////
-CameraDistanceDialogClass::CameraDistanceDialogClass(CWnd* pParent /*=NULL*/)
+CameraDistanceDialogClass::CameraDistanceDialogClass(CWnd* pParent /*=nullptr*/)
     : CDialog(CameraDistanceDialogClass::IDD, pParent)
 {
     //{{AFX_DATA_INIT(CameraDistanceDialogClass)
@@ -106,7 +106,7 @@ BOOL CameraDistanceDialogClass::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* 
     //	Update the spinner control if necessary
     //
     NMHDR* pheader = (NMHDR*)lParam;
-    if ((pheader != NULL) && (pheader->code == UDN_DELTAPOS)) {
+    if ((pheader != nullptr) && (pheader->code == UDN_DELTAPOS)) {
         LPNMUPDOWN pupdown = (LPNMUPDOWN)lParam;
         ::Update_Spinner_Buddy(pheader->hwndFrom, pupdown->iDelta);
     }

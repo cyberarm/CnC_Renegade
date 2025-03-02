@@ -151,8 +151,8 @@ protected:
     afx_msg void OnRenameAggregate();
     afx_msg void OnCrashApp();
     afx_msg void OnLODRecordScreenArea();
-    afx_msg void OnLODIncludeNull();
-    afx_msg void OnUpdateLODIncludeNull(CCmdUI* pCmdUI);
+    afx_msg void OnLODIncludenullptr();
+    afx_msg void OnUpdateLODIncludenullptr(CCmdUI* pCmdUI);
     afx_msg void OnLodPrevLevel();
     afx_msg void OnUpdateLodPrevLevel(CCmdUI* pCmdUI);
     afx_msg void OnLodNextLevel();

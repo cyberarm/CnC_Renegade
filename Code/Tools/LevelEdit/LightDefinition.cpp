@@ -109,7 +109,7 @@ LightDefinitionClass::LightDefinitionClass(void)
     FLOAT_EDITABLE_PARAM(LightDefinitionClass, m_Intensity, 0, 1.0F);
     ENUM_PARAM(LightDefinitionClass, m_LightType,
                ("Point", LightClass::POINT, "Directional", LightClass::DIRECTIONAL, "Spotlight",
-                LightClass::SPOT, NULL));
+                LightClass::SPOT, nullptr));
 
     NAMED_EDITABLE_PARAM(LightDefinitionClass, ParameterClass::TYPE_ANGLE, m_SpotAngle,
                          "Spot Angle");

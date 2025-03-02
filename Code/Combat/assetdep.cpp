@@ -73,7 +73,7 @@ void AssetDependencyManager::Save_Always_Dependencies(const char* path, ASSET_LI
     //
     StringClass filename(path + StringClass("\\") + StringClass(ALWAYS_FILENAME), true);
     FileClass* file = _TheWritingFileFactory->Get_File(filename);
-    if (file != NULL) {
+    if (file != nullptr) {
 
         //
         //	Open or create the file
@@ -107,7 +107,7 @@ void AssetDependencyManager::Save_Level_Dependencies(const char* full_path, ASSE
     //	Get a pointer to the file object
     //
     FileClass* file = _TheWritingFileFactory->Get_File(full_path);
-    if (file != NULL) {
+    if (file != nullptr) {
 
         //
         //	Open or create the file
@@ -163,7 +163,7 @@ void AssetDependencyManager::Load_Level_Assets(const char* level_name)
     //
     StringClass base_name(level_name, true);
     const char* extension = ::strrchr(base_name, '.');
-    if (extension != NULL && base_name.Get_Length() > 4) {
+    if (extension != nullptr && base_name.Get_Length() > 4) {
         base_name.Erase(base_name.Get_Length() - 4, 4);
     }
 
@@ -200,7 +200,7 @@ void AssetDependencyManager::Load_Assets(const char* filename)
     //	Get a pointer to the file object
     //
     FileClass* file = _TheFileFactory->Get_File(filename);
-    if (file != NULL) {
+    if (file != nullptr) {
 
         if (file->Is_Available()) {
             //
@@ -295,7 +295,7 @@ void Get_Filename_From_Path(StringClass& new_filename, const char* path)
 {
     // Find the last occurance of the directory deliminator
     const char* filename = ::strrchr(path, '\\');
-    if (filename != NULL) {
+    if (filename != nullptr) {
         // Increment past the directory deliminator
         filename++;
     }
@@ -318,7 +318,7 @@ void Asset_Name_From_Filename(StringClass& asset_name, const char* filename)
 
     // Find and strip off the extension (if it exists)
     char* extension = ::strrchr(asset_name, '.');
-    if (extension != NULL) {
+    if (extension != nullptr) {
         extension[0] = 0;
     }
 }

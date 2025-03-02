@@ -334,7 +334,7 @@ void DlgMPTeamSelect::On_Init_Dialog(void)
 
         // Hide and disable the back button for LAN games.
         DialogControlClass* ctrl = Get_Dlg_Item(IDCANCEL);
-        WWASSERT(ctrl != NULL);
+        WWASSERT(ctrl != nullptr);
         ctrl->Show(false);
         ctrl->Enable(false);
 
@@ -682,7 +682,7 @@ void DlgMPTeamSelect::HandleNotification(UserEvent& userEvent)
     switch (userEvent.GetEvent()) {
 #if (0) // Denzil 02/24/02 Day 1 patch - Removed clan until we fix formatting
     case UserEvent::SquadInfo: {
-        ListCtrlClass* list = NULL;
+        ListCtrlClass* list = nullptr;
         int itemIndex = -1;
         bool found = FindPlayerInListCtrl(user->GetName(), list, itemIndex);
 
@@ -706,7 +706,7 @@ void DlgMPTeamSelect::HandleNotification(UserEvent& userEvent)
 
     // Remove users that leave the game.
     case UserEvent::Leave: {
-        ListCtrlClass* list = NULL;
+        ListCtrlClass* list = nullptr;
         int itemIndex = -1;
         bool found = FindPlayerInListCtrl(user->GetName(), list, itemIndex);
 
@@ -757,7 +757,7 @@ void DlgMPTeamSelect::HandleNotification(GameOptionsMessage& message)
         } _dispatch[] = { { "GINFO:", ProcessWOLGameInfo },
                           { "TINFO:", ProcessWOLTeamInfo },
                           { "PINFO:", ProcessWOLPlayerInfo },
-                          { NULL, NULL } };
+                          { nullptr, nullptr } };
 
         int index = 0;
         const char* token = _dispatch[index].Token;
@@ -817,17 +817,17 @@ void DlgMPTeamSelect::ProcessWOLGameInfo(DlgMPTeamSelect& dialog, const char* da
         dialog.Set_Dlg_Item_Text(IDC_MAPNAME_TEXT, text);
 
         float timeRemaining = 0.0f;
-        PARSE_FLOAT(NULL, " ", timeRemaining);
+        PARSE_FLOAT(nullptr, " ", timeRemaining);
         dialog.mTimeRemaining = timeRemaining;
         dialog.ShowTimeRemaining(timeRemaining);
 
         int gdiScore = 0;
-        PARSE_INT(NULL, " ", gdiScore);
+        PARSE_INT(nullptr, " ", gdiScore);
         text.Format(TRANSLATE(IDS_MENU_SCORE_NAME_FORMAT), gdiScore);
         dialog.Set_Dlg_Item_Text(IDC_GDI_SCORE, text);
 
         int nodScore = 0;
-        PARSE_INT(NULL, " ", nodScore);
+        PARSE_INT(nullptr, " ", nodScore);
         text.Format(TRANSLATE(IDS_MENU_SCORE_NAME_FORMAT), nodScore);
         dialog.Set_Dlg_Item_Text(IDC_NOD_SCORE, text);
 
@@ -872,7 +872,7 @@ void DlgMPTeamSelect::ProcessWOLTeamInfo(DlgMPTeamSelect& dialog, const char* da
         PARSE_INT(info, " ", teamID);
 
         int score = 0;
-        PARSE_INT(NULL, " ", score);
+        PARSE_INT(nullptr, " ", score);
 
         // Output info
         WideStringClass text(0, true);
@@ -910,23 +910,23 @@ void DlgMPTeamSelect::ProcessWOLPlayerInfo(DlgMPTeamSelect& dialog, const char* 
 
         // Team type
         int type = -1;
-        PARSE_INT(NULL, " ", type);
+        PARSE_INT(nullptr, " ", type);
 
         // Rank
         int rung = 0;
-        PARSE_INT(NULL, " ", rung);
+        PARSE_INT(nullptr, " ", rung);
 
         // Kills
         int kills = 0;
-        PARSE_INT(NULL, " ", kills);
+        PARSE_INT(nullptr, " ", kills);
 
         // Deaths
         int deaths = 0;
-        PARSE_INT(NULL, " ", deaths);
+        PARSE_INT(nullptr, " ", deaths);
 
         // Score
         int score = 0;
-        PARSE_INT(NULL, " ", score);
+        PARSE_INT(nullptr, " ", score);
 
         int listID = ((type == PLAYERTYPE_GDI) ? IDC_GDI_LIST_CTRL : IDC_NOD_LIST_CTRL);
         ListCtrlClass* list = (ListCtrlClass*)dialog.Get_Dlg_Item(listID);
@@ -1044,14 +1044,14 @@ void DlgMPTeamSelect::PopulateWithLANPlayers(void)
 
 void DlgMPTeamSelect::AddLANPlayerInfo(cPlayer* player)
 {
-    WWASSERT(player != NULL);
+    WWASSERT(player != nullptr);
     RemoveLANPlayerInfo(player);
 
     int playerType = player->Get_Player_Type();
     int listID = ((playerType == PLAYERTYPE_GDI) ? IDC_GDI_LIST_CTRL : IDC_NOD_LIST_CTRL);
 
     ListCtrlClass* list = (ListCtrlClass*)Get_Dlg_Item(listID);
-    WWASSERT(list != NULL);
+    WWASSERT(list != nullptr);
 
     int itemIndex = list->Insert_Entry(list->Get_Entry_Count(), L"");
 
@@ -1096,9 +1096,9 @@ void DlgMPTeamSelect::AddLANPlayerInfo(cPlayer* player)
 
 void DlgMPTeamSelect::RemoveLANPlayerInfo(cPlayer* player)
 {
-    WWASSERT(player != NULL);
+    WWASSERT(player != nullptr);
 
-    ListCtrlClass* list = NULL;
+    ListCtrlClass* list = nullptr;
     int itemIndex = -1;
     bool found = FindPlayerInListCtrl(player->Get_Name(), list, itemIndex);
 

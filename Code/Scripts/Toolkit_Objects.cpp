@@ -119,7 +119,7 @@ DECLARE_SCRIPT(M00_Object_Destroy_RMV, "Receive_Type_Activate:int, Debug_Mode=0:
                 "M00_Destroy_Object_RMV received custom of type %d and param %d.\n", type, param);
         }
         if (type == r_type) {
-            if (Commands->Find_Object(param) != NULL) {
+            if (Commands->Find_Object(param) != nullptr) {
                 Commands->Destroy_Object(Commands->Find_Object(param));
                 if (debug_mode) {
                     Commands->Debug_Message("M00_Destroy_Object_RMV - Object %d destroyed.\n",
@@ -199,7 +199,7 @@ DECLARE_SCRIPT(M00_Object_Create_Attach_Script_RMV,
                 *output++ = *input++;
             }
         }
-        *output = 0; // null terminate
+        *output = 0; // nullptr terminate
     }
 };
 
@@ -386,7 +386,7 @@ DECLARE_SCRIPT(M00_No_Falling_Damage_DME, "")
 
     void Damaged(GameObject * obj, GameObject * damager, float amount)
     {
-        if (ignore_next_dmg && damager == NULL) {
+        if (ignore_next_dmg && damager == nullptr) {
             Commands->Set_Health(obj, initial_health);
         }
         ignore_next_dmg = false;
@@ -426,7 +426,7 @@ DECLARE_SCRIPT(M00_Permanent_No_Falling_Damage_IML, "")
 
     void Damaged(GameObject * obj, GameObject * damager, float amount)
     {
-        if (damager == NULL) {
+        if (damager == nullptr) {
             Commands->Set_Health(obj, initial_health);
         }
     }
@@ -538,7 +538,7 @@ void Custom(GameObject* obj, int type, int param, GameObject* sender)
     {
         // check to see if health needs to be regenerated.
         if (Commands->Get_Health(obj) < (Commands->Get_Max_Health(obj))) {
-            Commands->Apply_Damage(obj, -2, "RegenHealth", NULL);
+            Commands->Apply_Damage(obj, -2, "RegenHealth", nullptr);
         }
         // restart the timer
         Commands->Send_Custom_Event(obj, obj, 0, 0, 1);

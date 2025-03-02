@@ -37,7 +37,7 @@
 // Global variables
 //
 UINT g_DllRefCount = 0; // Reference count of this DLL.
-HINSTANCE g_DllInstance = NULL; // Handle to this DLL itself.
+HINSTANCE g_DllInstance = nullptr; // Handle to this DLL itself.
 
 //===============================================================
 extern "C" int APIENTRY DllMain(HINSTANCE hInstance, DWORD dwReason, LPVOID lpReserved)
@@ -62,7 +62,7 @@ STDAPI DllCanUnloadNow(void)
 
 STDAPI DllGetClassObject(REFCLSID rclsid, REFIID riid, LPVOID* ppvOut)
 {
-    *ppvOut = NULL;
+    *ppvOut = nullptr;
     if (IsEqualIID(rclsid, CLSID_ShellExtension)) {
         CShellExtClassFactory* pcf = new CShellExtClassFactory;
         return pcf->QueryInterface(riid, ppvOut);
@@ -86,7 +86,7 @@ CShellExtClassFactory::~CShellExtClassFactory()
 //======================================================================================
 STDMETHODIMP CShellExtClassFactory::QueryInterface(REFIID riid, LPVOID FAR* ppv)
 {
-    *ppv = NULL;
+    *ppv = nullptr;
     // Any interface on this object is the object pointer
 
     if (IsEqualIID(riid, IID_IUnknown) || IsEqualIID(riid, IID_IClassFactory)) {
@@ -113,7 +113,7 @@ STDMETHODIMP_(ULONG) CShellExtClassFactory::Release()
 
 STDMETHODIMP CShellExtClassFactory::CreateInstance(LPUNKNOWN pUnkOuter, REFIID riid, LPVOID* ppvObj)
 {
-    *ppvObj = NULL;
+    *ppvObj = nullptr;
     // Shell extensions typically don't support aggregation (inheritance)
     if (pUnkOuter) {
         return CLASS_E_NOAGGREGATION;
@@ -123,7 +123,7 @@ STDMETHODIMP CShellExtClassFactory::CreateInstance(LPUNKNOWN pUnkOuter, REFIID r
     // initialized.
 
     LPCSHELLEXT pShellExt = new CShellExt(); // Create the CShellExt object
-    if (NULL == pShellExt) {
+    if (nullptr == pShellExt) {
         return E_OUTOFMEMORY;
     }
     return pShellExt->QueryInterface(riid, ppvObj);
@@ -141,7 +141,7 @@ CShellExt::CShellExt()
       m_FoundMeshes(0)
 {
     m_cRef = 0L;
-    m_pDataObj = NULL;
+    m_pDataObj = nullptr;
     g_DllRefCount++;
 }
 
@@ -156,7 +156,7 @@ CShellExt::~CShellExt()
 
 STDMETHODIMP CShellExt::QueryInterface(REFIID riid, LPVOID FAR* ppv)
 {
-    *ppv = NULL;
+    *ppv = nullptr;
     if (IsEqualIID(riid, IID_IShellExtInit) || IsEqualIID(riid, IID_IUnknown)) {
         *ppv = (LPSHELLEXTINIT)this;
     }

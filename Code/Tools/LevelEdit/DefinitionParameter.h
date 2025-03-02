@@ -62,10 +62,10 @@ public:
     //	Public constructors/destructor
     ////////////////////////////////////////////////////////////
     DefinitionParameterClass(void)
-        : m_Definition(NULL),
-          m_Parameter(NULL),
+        : m_Definition(nullptr),
+          m_Parameter(nullptr),
           m_Index(0),
-          m_Parent(NULL)
+          m_Parent(nullptr)
     {
     }
 

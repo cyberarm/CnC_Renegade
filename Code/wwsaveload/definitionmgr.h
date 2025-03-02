@@ -168,7 +168,7 @@ inline bool DefinitionMgrClass::Contains_Data(void) const
 /////////////////////////////////////////////////////////////////////
 inline DefinitionClass* DefinitionMgrClass::Get_First(void)
 {
-    DefinitionClass* definition = NULL;
+    DefinitionClass* definition = nullptr;
     if (_DefinitionCount > 0) {
         definition = _SortedDefinitionArray[0];
     }

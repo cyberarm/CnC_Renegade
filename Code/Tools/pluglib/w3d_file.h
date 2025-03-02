@@ -214,7 +214,7 @@ enum
 
     W3D_CHUNK_MATERIALS3, // array of version 3 materials (all new surrender features supported)
     W3D_CHUNK_MATERIAL3, // Each version 3 material wrapped with this chunk ID
-    W3D_CHUNK_MATERIAL3_NAME, // Name of the material (array of chars, null terminated)
+    W3D_CHUNK_MATERIAL3_NAME, // Name of the material (array of chars, nullptr terminated)
     W3D_CHUNK_MATERIAL3_INFO, // contains a W3dMaterial3Struct, general material info
     W3D_CHUNK_MATERIAL3_DC_MAP, // wraps the following two chunks, diffuse color texture
     W3D_CHUNK_MAP3_FILENAME, // filename of the texture
@@ -309,7 +309,7 @@ struct W3dChunkHeader
         make the importer faster, the triangles will also be stored in this
         format.  The application can read whichever chunk it wants to.
 
-        The mesh user text chunk is a NULL-terminated text buffer.
+        The mesh user text chunk is a nullptr-terminated text buffer.
 
 ********************************************************************************/
 
@@ -358,9 +358,9 @@ struct W3dRGBStruct
 /////////////////////////////////////////////////////////////////////////////////////////////
 struct W3dMaterialStruct
 {
-    char MaterialName[W3D_NAME_LEN]; // name of the material (NULL terminated)
-    char PrimaryName[W3D_NAME_LEN]; // primary texture name (NULL terminated)
-    char SecondaryName[W3D_NAME_LEN]; // secondary texture name (NULL terminated)
+    char MaterialName[W3D_NAME_LEN]; // name of the material (nullptr terminated)
+    char PrimaryName[W3D_NAME_LEN]; // primary texture name (nullptr terminated)
+    char SecondaryName[W3D_NAME_LEN]; // secondary texture name (nullptr terminated)
     uint32 RenderFlags; // Rendering flags
     uint8 Red; // Rgb colors
     uint8 Green;
@@ -372,9 +372,9 @@ struct W3dMaterialStruct
 /////////////////////////////////////////////////////////////////////////////////////////////
 struct W3dMaterial2Struct
 {
-    char MaterialName[W3D_NAME_LEN]; // name of the material (NULL terminated)
-    char PrimaryName[W3D_NAME_LEN]; // primary texture name (NULL terminated)
-    char SecondaryName[W3D_NAME_LEN]; // secondary texture name (NULL terminated)
+    char MaterialName[W3D_NAME_LEN]; // name of the material (nullptr terminated)
+    char PrimaryName[W3D_NAME_LEN]; // primary texture name (nullptr terminated)
+    char SecondaryName[W3D_NAME_LEN]; // secondary texture name (nullptr terminated)
     uint32 RenderFlags; // Rendering flags
     uint8 Red; // Rgb colors
     uint8 Green;
@@ -514,7 +514,7 @@ struct W3dTriStruct
 struct W3dMeshHeaderStruct
 {
     uint32 Version; // Currently version 0x100
-    char MeshName[W3D_NAME_LEN]; // name of the mesh (Null terminated)
+    char MeshName[W3D_NAME_LEN]; // name of the mesh (nullptr terminated)
     uint32 Attributes;
 
     //
@@ -776,8 +776,8 @@ struct W3dBitChannelStruct
 struct W3dHModelHeaderStruct
 {
     uint32 Version;
-    char Name[W3D_NAME_LEN]; // Name of this connection set (NULL terminated)
-    char HierarchyName[W3D_NAME_LEN]; // Name of hierarchy associated with these connections (NULL
+    char Name[W3D_NAME_LEN]; // Name of this connection set (nullptr terminated)
+    char HierarchyName[W3D_NAME_LEN]; // Name of hierarchy associated with these connections (nullptr
                                       // terminated)
     uint16 NumConnections;
 };

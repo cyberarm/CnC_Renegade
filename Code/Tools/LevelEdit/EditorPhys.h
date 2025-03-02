@@ -76,11 +76,11 @@ public:
 inline bool EditorPhysClass::Cast_Ray(PhysRayCollisionTestClass& raytest)
 {
     // State OK?
-    WWASSERT(Model != NULL);
+    WWASSERT(Model != nullptr);
 
     // Cast the ray and return the result
     bool retval = false;
-    if ((Model != NULL) && (Model->Cast_Ray(raytest))) {
+    if ((Model != nullptr) && (Model->Cast_Ray(raytest))) {
 
         // Success!
         raytest.CollidedPhysObj = this;

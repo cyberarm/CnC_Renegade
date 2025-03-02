@@ -172,11 +172,11 @@ void HelpScreenDialogClass::On_Menu_Activate(bool onoff)
         //
         //	Restore the old backdrop
         //
-        if (OldBackdrop != NULL) {
+        if (OldBackdrop != nullptr) {
             OldBackdrop = Replace_BackDrop(OldBackdrop);
-            if (OldBackdrop != NULL) {
+            if (OldBackdrop != nullptr) {
                 delete OldBackdrop;
-                OldBackdrop = NULL;
+                OldBackdrop = nullptr;
             }
         }
     }
@@ -194,11 +194,11 @@ void HelpScreenDialogClass::On_Destroy(void)
     //
     //	Restore the old backdrop
     //
-    if (OldBackdrop != NULL) {
+    if (OldBackdrop != nullptr) {
         OldBackdrop = Replace_BackDrop(OldBackdrop);
-        if (OldBackdrop != NULL) {
+        if (OldBackdrop != nullptr) {
             delete OldBackdrop;
-            OldBackdrop = NULL;
+            OldBackdrop = nullptr;
         }
     }
 

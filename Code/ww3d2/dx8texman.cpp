@@ -72,7 +72,7 @@ void DX8TextureManagerClass::Shutdown()
     while (!Managed_Textures.Is_Empty()) {
         DX8TextureTrackerClass* track = Managed_Textures.Remove_Head();
         delete track;
-        track = NULL;
+        track = nullptr;
     }
 }
 
@@ -151,7 +151,7 @@ void DX8TextureManagerClass::Release_Textures()
         DX8TextureTrackerClass* track = it.Peek_Obj();
         WWASSERT(track->Texture->D3DTexture);
         track->Texture->D3DTexture->Release();
-        track->Texture->D3DTexture = NULL;
+        track->Texture->D3DTexture = nullptr;
         it.Next();
     }
 }
@@ -177,7 +177,7 @@ void DX8TextureManagerClass::Recreate_Textures()
 
     while (!it.Is_Done()) {
         DX8TextureTrackerClass* track = it.Peek_Obj();
-        WWASSERT(track->Texture->D3DTexture == NULL);
+        WWASSERT(track->Texture->D3DTexture == nullptr);
         track->Texture->D3DTexture = DX8Wrapper::_Create_DX8_Texture(
             track->Width, track->Height, track->Format, track->Mip_level_count, D3DPOOL_DEFAULT,
             track->RenderTarget);

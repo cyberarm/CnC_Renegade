@@ -35,10 +35,10 @@ static char THIS_FILE[] = __FILE__;
 // ScriptEditDialogClass
 //
 /////////////////////////////////////////////////////////////////////////////
-ScriptEditDialogClass::ScriptEditDialogClass(CWnd* pParent /*=NULL*/)
+ScriptEditDialogClass::ScriptEditDialogClass(CWnd* pParent /*=nullptr*/)
     : m_CurrentParamType(PARAM_TYPE_STRING),
       m_CurrentParamIndex(0),
-      m_ValueVector3Dlg(NULL),
+      m_ValueVector3Dlg(nullptr),
       CDialog(ScriptEditDialogClass::IDD, pParent)
 {
     //{{AFX_DATA_INIT(ScriptEditDialogClass)
@@ -97,7 +97,7 @@ BOOL ScriptEditDialogClass::OnInitDialog(void)
     //
     for (int index = 0; index < ScriptMgrClass::Get_Count(); index++) {
         EditScriptClass* script = ScriptMgrClass::Get_Script(index);
-        if (script != NULL) {
+        if (script != nullptr) {
 
             //
             // Add this script to the combobox
@@ -122,11 +122,11 @@ BOOL ScriptEditDialogClass::OnInitDialog(void)
     CRect rect;
     m_ValueStringEdit.GetWindowRect(&rect);
     ScreenToClient(&rect);
-    m_ValueNumberEdit.SetWindowPos(NULL, rect.left, rect.top, rect.Width(), rect.Height(),
+    m_ValueNumberEdit.SetWindowPos(nullptr, rect.left, rect.top, rect.Width(), rect.Height(),
                                    SWP_NOZORDER);
-    m_ValueListCombo.SetWindowPos(NULL, rect.left, rect.top, rect.Width(), rect.Height() * 10,
+    m_ValueListCombo.SetWindowPos(nullptr, rect.left, rect.top, rect.Width(), rect.Height() * 10,
                                   SWP_NOZORDER);
-    m_ValueBoolCheck.SetWindowPos(NULL, rect.left, rect.top, rect.Width(), rect.Height(),
+    m_ValueBoolCheck.SetWindowPos(nullptr, rect.left, rect.top, rect.Width(), rect.Height(),
                                   SWP_NOZORDER);
     m_ValueNumberSpin.SetRange(-1000000, 1000000);
     m_ValueNumberSpin.SetBuddy(&m_ValueNumberEdit);
@@ -391,7 +391,7 @@ void ScriptEditDialogClass::OnSelChangeScriptName(void)
     if (index != CB_ERR) {
         EditScriptClass* script
             = (EditScriptClass*)SendDlgItemMessage(IDC_SCRIPT_NAME, CB_GETITEMDATA, index);
-        if (script != NULL) {
+        if (script != nullptr) {
             m_Script = (*script);
 
             // Fill the parameter's combobox with param names

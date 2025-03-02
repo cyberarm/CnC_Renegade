@@ -230,7 +230,7 @@ void CPUDetectClass::Init_Processor_Manufacturer()
 void CPUDetectClass::Process_Cache_Info(unsigned value)
 {
     switch (value) {
-    case 0x00: // Null
+    case 0x00: // nullptr
         break;
     case 0x01: // Instruction TLB, 4K pages, 4-way set associative, 32 entries
         break;
@@ -1108,7 +1108,7 @@ void CPUDetectClass::Init_Processor_Log()
     }
 
     if (CPUDetectClass::Get_L1_Instruction_Trace_Cache_Size()) {
-        SYSLOG(("L1 Instruction Trace Cache: %d way set associative, %dk µOPs\r\n",
+        SYSLOG(("L1 Instruction Trace Cache: %d way set associative, %dk ï¿½OPs\r\n",
                 CPUDetectClass::Get_L1_Instruction_Cache_Set_Associative(),
                 CPUDetectClass::Get_L1_Instruction_Cache_Size() / 1024));
     }

@@ -121,15 +121,15 @@ public:
     //	Public constructors/destructors
     //////////////////////////////////////////////////////////////////////
     FloodfillBoxClass(void)
-        : m_Sector(NULL),
+        : m_Sector(nullptr),
           m_Flags(NeedsProcessing),
           m_DirectionInfo(0),
           m_CompressedSkipCount(0),
           m_MinZPos(0),
           m_MaxZPos(0),
-          m_GridLink(NULL),
-          m_Prev(NULL),
-          m_Next(NULL)
+          m_GridLink(nullptr),
+          m_Prev(nullptr),
+          m_Next(nullptr)
     {
         ::memset(m_Neighbors, 0, sizeof(m_Neighbors));
     }
@@ -201,7 +201,7 @@ public:
     PathfindSectorClass* Peek_Sector(void) { return m_Sector; }
     void Set_Sector(PathfindSectorClass* sector) { m_Sector = sector; }
 
-    bool Is_New_Portal(PATHFIND_DIR dir, PathfindSectorClass* dest_sector = NULL);
+    bool Is_New_Portal(PATHFIND_DIR dir, PathfindSectorClass* dest_sector = nullptr);
     PathfindPortalClass* Make_Portal(PATHFIND_DIR dir, const Vector3& box_size, float z_pos,
                                      float min_acceptable_size);
     void Reset_Portal_Info(void) { (m_DirectionInfo &= ~PortalMask); }
@@ -330,8 +330,8 @@ inline void FloodfillBoxClass::Remove(void)
         m_Last = m_Prev;
     }
 
-    m_Prev = NULL;
-    m_Next = NULL;
+    m_Prev = nullptr;
+    m_Next = nullptr;
     return;
 }
 
@@ -340,7 +340,7 @@ inline void FloodfillBoxClass::Remove(void)
 //////////////////////////////////////////////////////////////////////////
 inline void FloodfillBoxClass::Add(FloodfillBoxClass* new_obj)
 {
-    if (m_Last == NULL) {
+    if (m_Last == nullptr) {
         m_First = new_obj;
     }
     else {
@@ -358,20 +358,20 @@ inline void FloodfillBoxClass::Add(FloodfillBoxClass* new_obj)
 inline void FloodfillBoxClass::Unlink(void)
 {
     Remove();
-    if (m_Neighbors[DIR_FORWARD] != NULL) {
-        m_Neighbors[DIR_FORWARD]->Set_Neighbor(DIR_BACKWARD, NULL, false);
+    if (m_Neighbors[DIR_FORWARD] != nullptr) {
+        m_Neighbors[DIR_FORWARD]->Set_Neighbor(DIR_BACKWARD, nullptr, false);
     }
 
-    if (m_Neighbors[DIR_BACKWARD] != NULL) {
-        m_Neighbors[DIR_BACKWARD]->Set_Neighbor(DIR_FORWARD, NULL, false);
+    if (m_Neighbors[DIR_BACKWARD] != nullptr) {
+        m_Neighbors[DIR_BACKWARD]->Set_Neighbor(DIR_FORWARD, nullptr, false);
     }
 
-    if (m_Neighbors[DIR_LEFT] != NULL) {
-        m_Neighbors[DIR_LEFT]->Set_Neighbor(DIR_RIGHT, NULL, false);
+    if (m_Neighbors[DIR_LEFT] != nullptr) {
+        m_Neighbors[DIR_LEFT]->Set_Neighbor(DIR_RIGHT, nullptr, false);
     }
 
-    if (m_Neighbors[DIR_RIGHT] != NULL) {
-        m_Neighbors[DIR_RIGHT]->Set_Neighbor(DIR_LEFT, NULL, false);
+    if (m_Neighbors[DIR_RIGHT] != nullptr) {
+        m_Neighbors[DIR_RIGHT]->Set_Neighbor(DIR_LEFT, nullptr, false);
     }
 
     return;
@@ -384,8 +384,8 @@ inline bool FloodfillBoxClass::Is_Edge(void)
 {
     bool retval = false;
 
-    if (Peek_Neighbor(DIR_FORWARD) == NULL || Peek_Neighbor(DIR_BACKWARD) == NULL
-        || Peek_Neighbor(DIR_LEFT) == NULL || Peek_Neighbor(DIR_RIGHT) == NULL) {
+    if (Peek_Neighbor(DIR_FORWARD) == nullptr || Peek_Neighbor(DIR_BACKWARD) == nullptr
+        || Peek_Neighbor(DIR_LEFT) == nullptr || Peek_Neighbor(DIR_RIGHT) == nullptr) {
 
         retval = true;
     }
@@ -401,7 +401,7 @@ inline bool FloodfillBoxClass::Are_Neighbors_Processed(void)
     bool retval = true;
 
     for (int index = 0; (index < 4) && retval; index++) {
-        if ((m_Neighbors[0] != NULL) && m_Neighbors[0]->Needs_Processing()) {
+        if ((m_Neighbors[0] != nullptr) && m_Neighbors[0]->Needs_Processing()) {
             retval = false;
         }
     }
@@ -425,7 +425,7 @@ inline void FloodfillBoxClass::Set_Neighbor(PATHFIND_DIR dir, FloodfillBoxClass*
 //////////////////////////////////////////////////////////////////////////
 inline FloodfillBoxClass* FloodfillBoxClass::Peek_Neighbor(PATHFIND_DIR dir, bool only_traversible)
 {
-    FloodfillBoxClass* neighbor = NULL;
+    FloodfillBoxClass* neighbor = nullptr;
     if ((only_traversible == false) || Get_Traversible(dir)) {
         neighbor = m_Neighbors[dir];
     }

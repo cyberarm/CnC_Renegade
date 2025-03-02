@@ -186,7 +186,7 @@ void CCameraProfileClass::Init(void)
     }
 
     INIClass* camerasINI = Get_INI(CAMERAS_INI_FILENAME);
-    if (camerasINI != NULL) {
+    if (camerasINI != nullptr) {
         WWASSERT(camerasINI && camerasINI->Section_Count() > 0);
 
         int count, entry;
@@ -291,7 +291,7 @@ CCameraProfileClass* CCameraProfileClass::Find(const char* name)
     //			return node->Data();
     //		}
     //	}
-    //	return NULL;
+    //	return nullptr;
 }
 
 /*
@@ -299,7 +299,7 @@ CCameraProfileClass* CCameraProfileClass::Find(const char* name)
 */
 CCameraClass::CCameraClass()
     : CameraClass(),
-      HostModel(NULL),
+      HostModel(nullptr),
       AnchorPosition(0, 0, 0),
       IsValid(false),
       Tilt(0),
@@ -312,9 +312,9 @@ CCameraClass::CCameraClass()
       LerpTimeRemaining(0.0f),
       LastAnchorPosition(0, 0, 0),
       LastHeading(0),
-      CurrentProfile(NULL),
-      LastProfile(NULL),
-      DefaultProfile(NULL),
+      CurrentProfile(nullptr),
+      LastProfile(nullptr),
+      DefaultProfile(nullptr),
       NearClipPlane(CCAMERA_NEARZ),
       FarClipPlane(CCAMERA_FARZ),
       IsStarSniping(false),
@@ -323,7 +323,7 @@ CCameraClass::CCameraClass()
       CinematicSnipingDesiredZoom(0),
       SniperZoom(0),
       SniperDistance(0),
-      SniperListener(NULL),
+      SniperListener(nullptr),
       SnapShotMode(SNAPSHOT_OFF),
       WeaponHelpTimer(0),
       WeaponHelpTargetID(0),
@@ -342,15 +342,15 @@ CCameraClass::CCameraClass()
 
 CCameraClass::~CCameraClass(void)
 {
-    Set_Host_Model(NULL);
+    Set_Host_Model(nullptr);
 
     //
     //	Remove the sniper listener (if necessary) from the world
     //
-    if (SniperListener != NULL && WWAudioClass::Get_Instance() != NULL
-        && WWAudioClass::Get_Instance()->Get_Sound_Scene() != NULL) {
-        if (WWAudioClass::Get_Instance()->Get_Sound_Scene()->Peek_2nd_Listener() != NULL) {
-            WWAudioClass::Get_Instance()->Get_Sound_Scene()->Set_2nd_Listener(NULL);
+    if (SniperListener != nullptr && WWAudioClass::Get_Instance() != nullptr
+        && WWAudioClass::Get_Instance()->Get_Sound_Scene() != nullptr) {
+        if (WWAudioClass::Get_Instance()->Get_Sound_Scene()->Peek_2nd_Listener() != nullptr) {
+            WWAudioClass::Get_Instance()->Get_Sound_Scene()->Set_2nd_Listener(nullptr);
         }
     }
     REF_PTR_RELEASE(SniperListener);
@@ -430,15 +430,15 @@ bool CCameraClass::Save(ChunkSaveClass& csave)
     WRITE_MICRO_CHUNK(csave, MICROCHUNKID_LERP_TIME_REMAINING, LerpTimeRemaining);
     WRITE_MICRO_CHUNK(csave, MICROCHUNKID_LAST_ANCHOR_POSITION, LastAnchorPosition);
     WRITE_MICRO_CHUNK(csave, MICROCHUNKID_LAST_HEADING, LastHeading);
-    if (CurrentProfile != NULL) {
+    if (CurrentProfile != nullptr) {
         //			StringClass name = CurrentProfile->Name;
         WRITE_MICRO_CHUNK_WWSTRING(csave, MICROCHUNKID_CURRENT_PROFILE, CurrentProfileName);
     }
-    if (LastProfile != NULL) {
+    if (LastProfile != nullptr) {
         //			StringClass name = LastProfile->Name;
         WRITE_MICRO_CHUNK_WWSTRING(csave, MICROCHUNKID_LAST_PROFILE, LastProfileName);
     }
-    if (DefaultProfile != NULL) {
+    if (DefaultProfile != nullptr) {
         //			StringClass name = DefaultProfile->Name;
         WRITE_MICRO_CHUNK_WWSTRING(csave, MICROCHUNKID_DEFAULT_PROFILE, DefaultProfileName);
     }
@@ -543,7 +543,7 @@ bool CCameraClass::Load(ChunkLoadClass& cload)
         DefaultProfileName = default_name;
     }
 
-    if (HostModel != NULL) {
+    if (HostModel != nullptr) {
         REQUEST_REF_COUNTED_POINTER_REMAP((RefCountClass**)&HostModel);
     }
 
@@ -560,7 +560,7 @@ void CCameraClass::Set_Host_Model(RenderObjClass* host)
     static StringClass SavedProfileName;
 
     // If dropping host
-    if (HostModel != NULL && host == NULL) {
+    if (HostModel != nullptr && host == nullptr) {
         if (SavedProfileName.Is_Empty()) {
             Use_Default_Profile();
         }
@@ -570,7 +570,7 @@ void CCameraClass::Set_Host_Model(RenderObjClass* host)
     }
 
     // If getting host
-    if (HostModel == NULL && host != NULL) {
+    if (HostModel == nullptr && host != nullptr) {
         SavedProfileName = CurrentProfileName;
         Use_Profile("Cinematic");
         //		CurrentProfile->Set_Zoom( 0 );
@@ -589,12 +589,12 @@ void CCameraClass::Set_Host_Model(RenderObjClass* host)
     }
 
     // If clearing host, force facing to match the star
-    if (host == NULL && COMBAT_STAR != NULL) {
+    if (host == nullptr && COMBAT_STAR != nullptr) {
         Force_Heading(COMBAT_STAR->Get_Facing());
     }
 
     // When the camera is controlled, activeate cinematic freeze
-    GameObjManager::Activate_Cinematic_Freeze(host != NULL);
+    GameObjManager::Activate_Cinematic_Freeze(host != nullptr);
 }
 
 void Convert_World_To_Camera(Matrix3D* tm)
@@ -621,7 +621,7 @@ void CCameraClass::Use_Host_Model(void)
     ** Focus change key pressed:
     */
     if (Input::Get_State(INPUT_FUNCTION_PROFILE_RESET)) {
-        if (DemoFocusObject.Get_Ptr() == NULL) {
+        if (DemoFocusObject.Get_Ptr() == nullptr) {
 
             /*
             ** Count the soldiers in the level (ignoring the human controlled commando)
@@ -631,7 +631,7 @@ void CCameraClass::Use_Host_Model(void)
             for (smart_objnode = GameObjManager::Get_Smart_Game_Obj_List()->Head(); smart_objnode;
                  smart_objnode = smart_objnode->Next()) {
                 SmartGameObj* obj = smart_objnode->Data();
-                if ((obj->As_SoldierGameObj() != NULL) && (obj->Is_Human_Controlled() == false)) {
+                if ((obj->As_SoldierGameObj() != nullptr) && (obj->Is_Human_Controlled() == false)) {
                     soldier_count++;
                 }
             }
@@ -645,7 +645,7 @@ void CCameraClass::Use_Host_Model(void)
             for (smart_objnode = GameObjManager::Get_Smart_Game_Obj_List()->Head(); smart_objnode;
                  smart_objnode = smart_objnode->Next()) {
                 SmartGameObj* obj = smart_objnode->Data();
-                if ((obj->As_SoldierGameObj() != NULL) && (obj->Is_Human_Controlled() == false)) {
+                if ((obj->As_SoldierGameObj() != nullptr) && (obj->Is_Human_Controlled() == false)) {
                     if (soldier_count == random_soldier) {
                         DemoFocusObject = obj;
                         break;
@@ -659,14 +659,14 @@ void CCameraClass::Use_Host_Model(void)
             /*
             ** Toggle out of demo focus mode
             */
-            DemoFocusObject = NULL;
+            DemoFocusObject = nullptr;
         }
     }
 
     /*
     ** Position the camera on this soldier
     */
-    if (DemoFocusObject.Get_Ptr() != NULL) {
+    if (DemoFocusObject.Get_Ptr() != nullptr) {
         Vector3 position;
         DemoFocusObject.Get_Ptr()->Get_Position(&position);
         Matrix3D camera_tm;
@@ -696,7 +696,7 @@ void CCameraClass::Set_Anchor_Position(Vector3 pos)
 */
 void Ignore_Star_And_Vehicle(void)
 {
-    if (COMBAT_STAR != NULL) {
+    if (COMBAT_STAR != nullptr) {
 
         COMBAT_STAR->Peek_Physical_Object()->Inc_Ignore_Counter();
         VehicleGameObj* vehicle = COMBAT_STAR->Get_Profile_Vehicle();
@@ -708,7 +708,7 @@ void Ignore_Star_And_Vehicle(void)
 
 void Unignore_Star_And_Vehicle(void)
 {
-    if (COMBAT_STAR != NULL) {
+    if (COMBAT_STAR != nullptr) {
 
         COMBAT_STAR->Peek_Physical_Object()->Dec_Ignore_Counter();
         VehicleGameObj* vehicle = COMBAT_STAR->Get_Profile_Vehicle();
@@ -777,7 +777,7 @@ void CCameraClass::Update()
         if (profile.Lag.Length() > 0) {
             // This is an attempt to not lag when in an elevator
             bool lag_ok = false;
-            if (COMBAT_STAR == NULL || COMBAT_STAR->Is_Airborne()) {
+            if (COMBAT_STAR == nullptr || COMBAT_STAR->Is_Airborne()) {
                 lag_ok = true;
                 LagPersistTimer = 1; // Persist the lag for 1 second
             }
@@ -929,8 +929,8 @@ void CCameraClass::Update()
         Set_Clip_Planes(NearClipPlane, FarClipPlane);
         OBBoxClass box = Get_Near_Clip_Bounding_Box();
 
-        Vector3 null_vec(0.0f, 0.0f, 0.0f);
-        PhysOBBoxCollisionTestClass boxtest(box, null_vec, &res, DEFAULT_COLLISION_GROUP,
+        Vector3 nullptr_vec(0.0f, 0.0f, 0.0f);
+        PhysOBBoxCollisionTestClass boxtest(box, nullptr_vec, &res, DEFAULT_COLLISION_GROUP,
                                             COLLISION_TYPE_CAMERA);
         PhysicsSceneClass::Get_Instance()->Cast_OBBox(boxtest);
 
@@ -1041,7 +1041,7 @@ bool CCameraClass::Determine_Targeting_Position(void)
         CastResultStruct result;
         PhysRayCollisionTestClass raytest(ray, &result, BULLET_COLLISION_GROUP,
                                           COLLISION_TYPE_PROJECTILE);
-        WWASSERT(COMBAT_SCENE != NULL);
+        WWASSERT(COMBAT_SCENE != nullptr);
 
         Ignore_Star_And_Vehicle();
         {
@@ -1057,10 +1057,10 @@ bool CCameraClass::Determine_Targeting_Position(void)
         // (gth) "hack" to prevent the target point from ever ending up behind the player
         // this sometimes happens when looking up at an extreme angle in third person
         //
-        if (COMBAT_STAR != NULL) {
+        if (COMBAT_STAR != nullptr) {
             Vector3 player_pos(0, 0, 0);
 
-            if (COMBAT_STAR->Get_Profile_Vehicle() != NULL) {
+            if (COMBAT_STAR->Get_Profile_Vehicle() != nullptr) {
                 COMBAT_STAR->Get_Profile_Vehicle()->Get_Position(&player_pos);
             }
             else {
@@ -1088,7 +1088,7 @@ bool CCameraClass::Determine_Targeting_Position(void)
         // Debug_Say(( "Targeting %f %f %f\n", StarTargetingPosition.X, StarTargetingPosition.Y,
         // StarTargetingPosition.Z ));
 
-        if (raytest.CollidedPhysObj != NULL && raytest.CollidedPhysObj->Get_Observer() != NULL) {
+        if (raytest.CollidedPhysObj != nullptr && raytest.CollidedPhysObj->Get_Observer() != nullptr) {
             DamageableGameObj* obj
                 = ((CombatPhysObserverClass*)raytest.CollidedPhysObj->Get_Observer())
                       ->As_DamageableGameObj();
@@ -1106,16 +1106,16 @@ bool CCameraClass::Determine_Targeting_Position(void)
             }
 
             if (obj->Is_Targetable() == false) {
-                obj = NULL;
+                obj = nullptr;
             }
 
             // if stealthed and enemy, it's not targetable
             if (obj && obj->As_SmartGameObj() && obj->As_SmartGameObj()->Is_Stealthed()
                 && COMBAT_STAR && obj->Is_Enemy(COMBAT_STAR)) {
-                obj = NULL;
+                obj = nullptr;
             }
 
-            looking_at_object = (obj != NULL);
+            looking_at_object = (obj != nullptr);
             HUDInfo::Set_Info_Object(obj, MCT); // Update the HUDInfo Info Object
             HUDInfo::Set_Weapon_Target_Object(obj);
         }
@@ -1178,7 +1178,7 @@ void CCameraClass::Apply_Weapon_Help(void)
             Vector3 star_pos;
             star->Get_Position(&star_pos);
 
-            SmartGameObj* best_obj = NULL;
+            SmartGameObj* best_obj = nullptr;
 #if WEAPON_HELP_CHEAT
             float best_distance = 10;
 #else
@@ -1239,7 +1239,7 @@ void CCameraClass::Apply_Weapon_Help(void)
                         CastResultStruct result;
                         PhysRayCollisionTestClass raytest(ray, &result, BULLET_COLLISION_GROUP,
                                                           COLLISION_TYPE_PROJECTILE);
-                        WWASSERT(COMBAT_SCENE != NULL);
+                        WWASSERT(COMBAT_SCENE != nullptr);
 
                         Ignore_Star_And_Vehicle();
                         {
@@ -1251,8 +1251,8 @@ void CCameraClass::Apply_Weapon_Help(void)
                         // Debug_Say(( "Targeting %f %f %f\n", StarTargetingPosition.X,
                         // StarTargetingPosition.Y, StarTargetingPosition.Z ));
 
-                        if (raytest.CollidedPhysObj != NULL
-                            && raytest.CollidedPhysObj->Get_Observer() != NULL
+                        if (raytest.CollidedPhysObj != nullptr
+                            && raytest.CollidedPhysObj->Get_Observer() != nullptr
                             && ((CombatPhysObserverClass*)raytest.CollidedPhysObj->Get_Observer())
                                    ->As_PhysicalGameObj()) {
                             best_distance = distance;
@@ -1261,14 +1261,14 @@ void CCameraClass::Apply_Weapon_Help(void)
                         else {
                             // If this is the Info Target, forget him!
                             if (obj == HUDInfo::Get_Info_Object()) {
-                                HUDInfo::Set_Info_Object(NULL);
+                                HUDInfo::Set_Info_Object(nullptr);
                             }
                         }
                     }
                 }
             }
 
-            if (best_obj != NULL) {
+            if (best_obj != nullptr) {
                 // remember this guy
                 WeaponHelpTargetID = best_obj->Get_ID();
                 StarTargetingPosition = best_obj->Get_Bullseye_Position();
@@ -1282,7 +1282,7 @@ void CCameraClass::Apply_Weapon_Help(void)
         if (WeaponHelpTargetID != 0) {
             SmartGameObj* target = GameObjManager::Find_SmartGameObj(WeaponHelpTargetID);
             // and we still have him
-            if (target != NULL) {
+            if (target != nullptr) {
                 // update the targting pos
                 StarTargetingPosition = target->Get_Bullseye_Position();
             }
@@ -1309,7 +1309,7 @@ void CCameraClass::Use_Profile(const char* name)
         }
     }
     else {
-        CurrentProfile = NULL;
+        CurrentProfile = nullptr;
     }
 }
 
@@ -1359,7 +1359,7 @@ void CCameraClass::Handle_Input(void)
     float dt = TimeManager::Get_Frame_Real_Seconds();
 
     // Hold F9 to control the camera
-    assert(CurrentProfile != NULL);
+    assert(CurrentProfile != nullptr);
 
 #ifdef WWDEBUG
     if (CombatManager::Is_First_Person()) {
@@ -1379,7 +1379,7 @@ void CCameraClass::Handle_Input(void)
         if (tweak.Length()) {
             FirstPersonOffsetTweak += tweak;
             Vector3 offset(0, 0, 0);
-            if (COMBAT_STAR != NULL && COMBAT_STAR->Get_Weapon() != NULL) {
+            if (COMBAT_STAR != nullptr && COMBAT_STAR->Get_Weapon() != nullptr) {
                 offset = COMBAT_STAR->Get_Weapon()->Get_First_Person_Model_Offset();
             }
             offset += FirstPersonOffsetTweak;
@@ -1462,7 +1462,7 @@ void CCameraClass::Handle_Input(void)
     }
 #endif
 
-    if (COMBAT_STAR != NULL && COMBAT_STAR->Is_Control_Enabled() == false) {
+    if (COMBAT_STAR != nullptr && COMBAT_STAR->Is_Control_Enabled() == false) {
         // Don't move camera if control is disabled
         return;
     }
@@ -1556,7 +1556,7 @@ void CCameraClass::Handle_Input(void)
 
     // if soldier tries to turn, turn the camera
     float soldier_turn = 0;
-    if (COMBAT_STAR != NULL && COMBAT_STAR->Get_Vehicle() == NULL) {
+    if (COMBAT_STAR != nullptr && COMBAT_STAR->Get_Vehicle() == nullptr) {
         // only do this if the soldier is not in a vehicle
         soldier_turn = Input::Get_Amount(INPUT_FUNCTION_TURN_LEFT)
             - Input::Get_Amount(INPUT_FUNCTION_TURN_RIGHT);
@@ -1620,9 +1620,9 @@ void CCameraClass::Set_Is_Star_Sniping(bool onoff)
         //
         //	Add or remove the sniper listener from the world
         //
-        if (SniperListener != NULL && WWAudioClass::Get_Instance() != NULL) {
-            if (WWAudioClass::Get_Instance()->Get_Sound_Scene()->Peek_2nd_Listener() != NULL) {
-                WWAudioClass::Get_Instance()->Get_Sound_Scene()->Set_2nd_Listener(NULL);
+        if (SniperListener != nullptr && WWAudioClass::Get_Instance() != nullptr) {
+            if (WWAudioClass::Get_Instance()->Get_Sound_Scene()->Peek_2nd_Listener() != nullptr) {
+                WWAudioClass::Get_Instance()->Get_Sound_Scene()->Set_2nd_Listener(nullptr);
             }
             else {
                 WWAudioClass::Get_Instance()->Get_Sound_Scene()->Set_2nd_Listener(SniperListener);
@@ -1655,7 +1655,7 @@ void CCameraClass::Set_Is_Star_Sniping(bool onoff)
 
 void CCameraClass::Update_Sniper_Listener_Pos(void)
 {
-    if (SniperListener != NULL) {
+    if (SniperListener != nullptr) {
 
         //
         //	Get the camera's transform

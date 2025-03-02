@@ -83,8 +83,8 @@ void UndoMgrClass::Free_Buffer_List(void)
 void UndoMgrClass::Begin_Operation(OPERATION_TYPE type, const NODE_LIST& nodes_affected)
 {
     UndoBufferClass* pbuffer = new UndoBufferClass;
-    ASSERT(pbuffer != NULL);
-    if (pbuffer != NULL) {
+    ASSERT(pbuffer != nullptr);
+    if (pbuffer != nullptr) {
 
         // Pass the identifcation information onto the new buffer
         pbuffer->Set_Operation_Type(type);
@@ -124,8 +124,8 @@ void UndoMgrClass::Begin_Operation(OPERATION_TYPE type, const NODE_LIST& nodes_a
 void UndoMgrClass::Push_Buffer(UndoBufferClass* pbuffer)
 {
     // Param OK?
-    ASSERT(pbuffer != NULL);
-    if (pbuffer != NULL) {
+    ASSERT(pbuffer != nullptr);
+    if (pbuffer != nullptr) {
 
         // Can we just add the buffer onto the end of the array?
         if (m_iCurrentBuffer < UNDO_LEVELS) {
@@ -154,7 +154,7 @@ void UndoMgrClass::Push_Buffer(UndoBufferClass* pbuffer)
 LPCTSTR
 UndoMgrClass::Get_Next_Undo_Name(void) const
 {
-    LPCTSTR pundo_name = NULL;
+    LPCTSTR pundo_name = nullptr;
 
     // If we have an undo stack, then return the name of the topmost buffer
     if (m_iCurrentBuffer > 0) {
@@ -233,13 +233,13 @@ void UndoBufferClass::Capture_Dimensions(const NODE_LIST& node_list)
     for (int index = 0; index < node_list.Count(); index++) {
 
         NodeClass* node = node_list[index];
-        if (node != NULL) {
+        if (node != nullptr) {
 
             //
             // This operation only applies to zones.  Is this a zone?
             //
             if (node->Get_Type() == NODE_TYPE_ZONE || node->Get_Type() == NODE_TYPE_DAMAGE_ZONE) {
-                Box3DClass* box = NULL;
+                Box3DClass* box = nullptr;
 
                 if (node->Get_Type() == NODE_TYPE_ZONE) {
                     ZoneNodeClass* zone = (ZoneNodeClass*)node;
@@ -280,7 +280,7 @@ void UndoBufferClass::Capture_Existence(const NODE_LIST& node_list)
     for (int index = 0; index < node_list.Count(); index++) {
 
         NodeClass* node = node_list[index];
-        if (node != NULL && node->Get_Type() != NODE_TYPE_WAYPOINT) {
+        if (node != nullptr && node->Get_Type() != NODE_TYPE_WAYPOINT) {
 
             // Store this node in our state manager
             NodeStateClass state;
@@ -305,7 +305,7 @@ void UndoBufferClass::Capture_Position(const NODE_LIST& node_list)
     for (int index = 0; index < node_list.Count(); index++) {
 
         NodeClass* node = node_list[index];
-        if (node != NULL) {
+        if (node != nullptr) {
 
             // Copy the node's state information
             NodeStateClass state;
@@ -346,21 +346,21 @@ void UndoBufferClass::Restore_State(void)
             //
             // Reset this node's position and orientation
             //
-            if (state.node_ptr != NULL) {
+            if (state.node_ptr != nullptr) {
                 state.node_ptr->Set_Transform(state.transform);
             }
         } break;
 
         case OPERATION_RESIZE: {
             NodeClass* node = state.node_ptr;
-            ASSERT(node != NULL);
+            ASSERT(node != nullptr);
 
             //
             // This operation only applies to zones, so if
             // this node is a zone, then resize it.
             //
             if (node->Get_Type() == NODE_TYPE_ZONE || node->Get_Type() == NODE_TYPE_DAMAGE_ZONE) {
-                Box3DClass* box = NULL;
+                Box3DClass* box = nullptr;
 
                 if (node->Get_Type() == NODE_TYPE_ZONE) {
                     ZoneNodeClass* zone = (ZoneNodeClass*)node;
@@ -371,7 +371,7 @@ void UndoBufferClass::Restore_State(void)
                     box = zone->Get_Box();
                 }
 
-                ASSERT(box != NULL);
+                ASSERT(box != nullptr);
                 box->Set_Dimensions(state.dimensions);
                 node->Set_Transform(state.transform);
             }
@@ -379,8 +379,8 @@ void UndoBufferClass::Restore_State(void)
 
         case OPERATION_DELETE: {
             // Add the 'deleted' node back into the world
-            ASSERT(state.node_ptr != NULL);
-            if (state.node_ptr != NULL) {
+            ASSERT(state.node_ptr != nullptr);
+            if (state.node_ptr != nullptr) {
                 ::Get_Scene_Editor()->Add_Node(state.node_ptr);
                 state.node_ptr->On_Restore();
                 state.node_ptr->Hide(false);

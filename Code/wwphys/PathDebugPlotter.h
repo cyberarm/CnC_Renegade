@@ -61,7 +61,7 @@ public:
     /////////////////////////////////////////////////////////////////////////
     PathDebugPlotterClass(void)
         : m_ShouldDisplay(false),
-          m_PhysObj(NULL)
+          m_PhysObj(nullptr)
     {
         _ThePathDebugPlotter = this;
         WidgetSystem::Init_Debug_Widgets();
@@ -72,13 +72,13 @@ public:
     ~PathDebugPlotterClass(void)
     {
         Reset();
-        _ThePathDebugPlotter = NULL;
+        _ThePathDebugPlotter = nullptr;
     }
 
     /////////////////////////////////////////////////////////////////////////
     // RenderObjClass required methods
     /////////////////////////////////////////////////////////////////////////
-    RenderObjClass* Clone(void) const { return NULL; }
+    RenderObjClass* Clone(void) const { return nullptr; }
     int Class_ID(void) const { return CLASSID_LAST + 104L; }
     void Render(RenderInfoClass& rinfo);
     const AABoxClass& Get_Bounding_Box(void) const { return m_BoundingBox; }
@@ -182,11 +182,11 @@ inline void PathDebugPlotterClass::Display(bool display)
 {
     PhysicsSceneClass* scene = PhysicsSceneClass::Get_Instance();
 
-    if (scene != NULL) {
+    if (scene != nullptr) {
 
         if ((m_ShouldDisplay == false) && display) {
 
-            if (m_PhysObj == NULL) {
+            if (m_PhysObj == nullptr) {
                 m_PhysObj = new DecorationPhysClass;
                 m_PhysObj->Set_Model(this);
                 m_PhysObj->Set_Cull_Box(m_BoundingBox);

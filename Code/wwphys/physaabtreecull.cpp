@@ -201,7 +201,7 @@ bool PhysAABTreeCullClass::Intersection_Test(PhysAABoxIntersectionTestClass& box
     Collect_Objects(boxtest.Box);
 
     PhysClass* obj = Get_First_Collected_Object();
-    while (obj != NULL) {
+    while (obj != nullptr) {
 
         if (Scene->Do_Groups_Collide(obj->Get_Collision_Group(), boxtest.CollisionGroup)
             && !obj->Is_Ignore_Me()) {
@@ -222,7 +222,7 @@ bool PhysAABTreeCullClass::Intersection_Test(PhysOBBoxIntersectionTestClass& box
     Collect_Objects(boxtest.BoundingBox);
 
     PhysClass* obj = Get_First_Collected_Object();
-    while (obj != NULL) {
+    while (obj != nullptr) {
 
         if (Scene->Do_Groups_Collide(obj->Get_Collision_Group(), boxtest.CollisionGroup)
             && !obj->Is_Ignore_Me()) {
@@ -243,7 +243,7 @@ bool PhysAABTreeCullClass::Intersection_Test(PhysMeshIntersectionTestClass& mesh
     Collect_Objects(meshtest.BoundingBox);
 
     PhysClass* obj = Get_First_Collected_Object();
-    while (obj != NULL) {
+    while (obj != nullptr) {
 
         if (Scene->Do_Groups_Collide(obj->Get_Collision_Group(), meshtest.CollisionGroup)
             && !obj->Is_Ignore_Me()) {

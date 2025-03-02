@@ -93,13 +93,13 @@
 bool ScriptTrace = false;
 
 #define SCRIPT_PTR_CHECK(x)                                                                        \
-    if (x == NULL) {                                                                               \
-        Debug_Say(("NULL Script Ptr at %s line %d\n", __FILE__, __LINE__));                        \
+    if (x == nullptr) {                                                                               \
+        Debug_Say(("nullptr Script Ptr at %s line %d\n", __FILE__, __LINE__));                        \
         return;                                                                                    \
     }
 #define SCRIPT_PTR_CHECK_RET(x, ret)                                                               \
-    if (x == NULL) {                                                                               \
-        Debug_Say(("NULL Script Ptr at %s line %d\n", __FILE__, __LINE__));                        \
+    if (x == nullptr) {                                                                               \
+        Debug_Say(("nullptr Script Ptr at %s line %d\n", __FILE__, __LINE__));                        \
         return ret;                                                                                \
     }
 
@@ -131,7 +131,7 @@ void Modify_Action(GameObject* obj, int action_id, const ActionParamsStruct& par
     SCRIPT_TRACE(("ST>Modify_Action( %d, %d )\n", obj->Get_ID(), action_id));
 
     SmartGameObj* smart = obj->As_SmartGameObj();
-    if (smart != NULL && smart->Get_Action() != NULL
+    if (smart != nullptr && smart->Get_Action() != nullptr
         && smart->Get_Action()->Get_Parameters().ActionID == action_id) {
         smart->Get_Action()->Modify(params, modify_move, modify_attack);
     }
@@ -150,7 +150,7 @@ int Get_Action_ID(GameObject* obj)
     //	Simply return the ID of the current action
     //
     SmartGameObj* smart = obj->As_SmartGameObj();
-    if (smart != NULL && smart->Get_Action() != NULL) {
+    if (smart != nullptr && smart->Get_Action() != nullptr) {
         retval = smart->Get_Action()->Get_Parameters().ActionID;
     }
 
@@ -168,7 +168,7 @@ bool Get_Action_Params(GameObject* obj, ActionParamsStruct& params)
     //	Simply copy the parameters to the provided structure
     //
     SmartGameObj* smart = obj->As_SmartGameObj();
-    if (smart != NULL && smart->Get_Action() != NULL) {
+    if (smart != nullptr && smart->Get_Action() != nullptr) {
         params = smart->Get_Action()->Get_Parameters();
         params.MoveObject = smart->Get_Action()->Get_Parameters().MoveObjectRef;
         params.LookObject = smart->Get_Action()->Get_Parameters().LookObjectRef;
@@ -191,7 +191,7 @@ bool Is_Performing_Pathfind_Action(GameObject* obj)
     // can't be interrupted
     //
     SmartGameObj* smart = obj->As_SmartGameObj();
-    if (smart != NULL && smart->Get_Action() != NULL) {
+    if (smart != nullptr && smart->Get_Action() != nullptr) {
         smart->Get_Action()->Is_Busy();
     }
 
@@ -294,7 +294,7 @@ void Set_Position(GameObject* obj, const Vector3& position)
     SCRIPT_PTR_CHECK(obj);
 
     PhysicalGameObj* pgobj = obj->As_PhysicalGameObj();
-    if (pgobj == NULL) {
+    if (pgobj == nullptr) {
         Debug_Say(("Not a PhysicalGameObj at %s %d\n", __FILE__, __LINE__));
         return;
     }
@@ -318,7 +318,7 @@ Vector3 Get_Bone_Position(GameObject* obj, const char* bone_name)
     SCRIPT_PTR_CHECK_RET(obj, Vector3(0, 0, 0));
 
     PhysicalGameObj* pgobj = obj->As_PhysicalGameObj();
-    if (pgobj == NULL) {
+    if (pgobj == nullptr) {
         Debug_Say(("Not a PhysicalGameObj at %s %d\n", __FILE__, __LINE__));
         return Vector3(0, 0, 0);
     }
@@ -333,7 +333,7 @@ float Get_Facing(GameObject* obj)
     SCRIPT_PTR_CHECK_RET(obj, 0);
 
     PhysicalGameObj* pgobj = obj->As_PhysicalGameObj();
-    if (pgobj == NULL) {
+    if (pgobj == nullptr) {
         Debug_Say(("Not a PhysicalGameObj at %s %d\n", __FILE__, __LINE__));
         return 0;
     }
@@ -346,7 +346,7 @@ void Set_Facing(GameObject* obj, float degrees)
     SCRIPT_PTR_CHECK(obj);
 
     PhysicalGameObj* pgobj = obj->As_PhysicalGameObj();
-    if (pgobj == NULL) {
+    if (pgobj == nullptr) {
         Debug_Say(("Not a PhysicalGameObj at %s %d\n", __FILE__, __LINE__));
         return;
     }
@@ -370,7 +370,7 @@ void Disable_All_Collisions(GameObject* obj)
     SCRIPT_PTR_CHECK(obj);
 
     PhysicalGameObj* pgobj = obj->As_PhysicalGameObj();
-    if (pgobj == NULL) {
+    if (pgobj == nullptr) {
         Debug_Say(("Not a PhysicalGameObj at %s %d\n", __FILE__, __LINE__));
         return;
     }
@@ -384,7 +384,7 @@ void Disable_Physical_Collisions(GameObject* obj)
     SCRIPT_PTR_CHECK(obj);
 
     PhysicalGameObj* pgobj = obj->As_PhysicalGameObj();
-    if (pgobj == NULL) {
+    if (pgobj == nullptr) {
         Debug_Say(("Not a PhysicalGameObj at %s %d\n", __FILE__, __LINE__));
         return;
     }
@@ -398,13 +398,13 @@ void Enable_Collisions(GameObject* obj)
     SCRIPT_PTR_CHECK(obj);
 
     PhysicalGameObj* pgobj = obj->As_PhysicalGameObj();
-    if (pgobj == NULL) {
+    if (pgobj == nullptr) {
         Debug_Say(("Not a PhysicalGameObj at %s %d\n", __FILE__, __LINE__));
         return;
     }
 
     SCRIPT_TRACE(("ST>Enable_Collisions( %d )\n", pgobj->Get_ID()));
-    if (pgobj->As_SoldierGameObj() != NULL) {
+    if (pgobj->As_SoldierGameObj() != nullptr) {
         pgobj->Set_Collision_Group(SOLDIER_COLLISION_GROUP);
     }
     else {
@@ -464,10 +464,10 @@ const char* Get_Preset_Name(GameObject* obj)
 
 GameObject* Create_Object(const char* name, const Matrix3D& tm)
 {
-    assert(name != NULL);
+    assert(name != nullptr);
     GameObject* object = ObjectLibraryManager::Create_Object(name);
 
-    if (object != NULL) {
+    if (object != nullptr) {
         WWASSERT(object->As_PhysicalGameObj());
         object->As_PhysicalGameObj()->Set_Transform(tm);
         object->Start_Observers();
@@ -478,14 +478,14 @@ GameObject* Create_Object(const char* name, const Matrix3D& tm)
 
 GameObject* Create_Object(const char* type_name, const Vector3& position)
 {
-    SCRIPT_PTR_CHECK_RET(type_name, NULL);
+    SCRIPT_PTR_CHECK_RET(type_name, nullptr);
     SCRIPT_TRACE(
         ("ST>Create_Object( %s (%f,%f,%f) )\n", type_name, position[0], position[1], position[2]));
 
 #if (0) // Denzil
     GameObject* obj = ObjectLibraryManager::Create_Object(type_name);
 
-    if (obj != NULL) {
+    if (obj != nullptr) {
         Matrix3D tm(1);
         tm.Set_Translation(position);
         obj->Set_Transform(tm);
@@ -502,14 +502,14 @@ GameObject* Create_Object(const char* type_name, const Vector3& position)
 GameObject* Create_Object_At_Bone(GameObject* host_obj, const char* new_obj_type_name,
                                   const char* bone_name)
 {
-    SCRIPT_PTR_CHECK_RET(host_obj, NULL);
-    SCRIPT_PTR_CHECK_RET(new_obj_type_name, NULL);
-    SCRIPT_PTR_CHECK_RET(bone_name, NULL);
+    SCRIPT_PTR_CHECK_RET(host_obj, nullptr);
+    SCRIPT_PTR_CHECK_RET(new_obj_type_name, nullptr);
+    SCRIPT_PTR_CHECK_RET(bone_name, nullptr);
 
     PhysicalGameObj* pgobj = host_obj->As_PhysicalGameObj();
-    if (pgobj == NULL) {
+    if (pgobj == nullptr) {
         Debug_Say(("Not a PhysicalGameObj at %s %d\n", __FILE__, __LINE__));
-        return NULL;
+        return nullptr;
     }
 
     SCRIPT_TRACE(("ST>Create_Object_At_Bone( %d %s %s )\n", host_obj->Get_ID(), new_obj_type_name,
@@ -518,7 +518,7 @@ GameObject* Create_Object_At_Bone(GameObject* host_obj, const char* new_obj_type
 #if (0) // Denzil
     GameObject* obj = ObjectLibraryManager::Create_Object(new_obj_type_name);
 
-    if (obj != NULL) {
+    if (obj != nullptr) {
         obj->Set_Transform(host_obj->Peek_Model()->Get_Bone_Transform(bone_name));
     }
 
@@ -536,17 +536,17 @@ void Attach_Script(GameObject* object, const char* scriptName, const char* scrip
     SCRIPT_PTR_CHECK(object);
     SCRIPT_PTR_CHECK(scriptName);
     // Create a script instance
-    assert(scriptName != NULL);
+    assert(scriptName != nullptr);
     ScriptClass* script = ScriptManager::Create_Script(scriptName);
 
-    if (script != NULL) {
+    if (script != nullptr) {
 
         // Set the scripts parameters
-        assert(scriptParams != NULL);
+        assert(scriptParams != nullptr);
         script->Set_Parameters_String(scriptParams);
 
         // Add the script to the object
-        assert(object != NULL);
+        assert(object != nullptr);
         object->Add_Observer(script);
     }
     else {
@@ -559,7 +559,7 @@ void Add_To_Dirty_Cull_List(GameObject* obj)
 {
     SCRIPT_PTR_CHECK(obj);
     PhysicalGameObj* physobj = obj->As_PhysicalGameObj();
-    if (physobj != NULL) {
+    if (physobj != nullptr) {
         COMBAT_SCENE->Add_To_Dirty_Cull_List(physobj->Peek_Physical_Object());
     }
 }
@@ -585,12 +585,12 @@ void Trigger_Weapon(GameObject* obj, bool trigger, const Vector3& target, bool p
     SCRIPT_TRACE(("ST>Trigger_Weapon( %d, %d, (%f %f %f ) %d\n", obj->Get_ID(), trigger, target.X,
                   target.Y, target.Z, primary_fire));
     PhysicalGameObj* phyobj = obj->As_PhysicalGameObj();
-    if (phyobj != NULL) {
+    if (phyobj != nullptr) {
         ArmedGameObj* armed = phyobj->As_ArmedGameObj();
         if (armed) {
             WeaponClass* weapon = armed->Get_Weapon();
 
-            if (weapon != NULL) {
+            if (weapon != nullptr) {
                 armed->Set_Targeting(target);
                 if (primary_fire) {
                     weapon->Set_Primary_Triggered(trigger);
@@ -617,7 +617,7 @@ void Select_Weapon(GameObject* obj, const char* weapon_name)
     SCRIPT_PTR_CHECK(obj);
     SCRIPT_TRACE(("ST>Select_Weapon( %d, %s\n", obj->Get_ID(), weapon_name));
     PhysicalGameObj* phyobj = obj->As_PhysicalGameObj();
-    if (phyobj != NULL) {
+    if (phyobj != nullptr) {
         ArmedGameObj* armed = phyobj->As_ArmedGameObj();
         if (armed) {
             armed->Get_Weapon_Bag()->Select_Weapon_Name(weapon_name);
@@ -638,12 +638,12 @@ void Send_Custom_Event(GameObject* from, GameObject* to, int type, int param, fl
 {
 #if (0) // Denzil 4/4/00 - From not required for most messages
     SCRIPT_PTR_CHECK(from);
-    SCRIPT_PTR_CHECK(to); // ?? This may be okay to be null
+    SCRIPT_PTR_CHECK(to); // ?? This may be okay to be nullptr
     SCRIPT_TRACE(
         ("ST>Send_Custom_Event( %d, %d %d, %d )\n", from->Get_ID(), to->Get_ID(), type, param));
 #else
     SCRIPT_PTR_CHECK(to);
-    SCRIPT_TRACE(("ST>Send_Custom_Event( %d, %d %d, %d )\n", ((from != NULL) ? from->Get_ID() : 0),
+    SCRIPT_TRACE(("ST>Send_Custom_Event( %d, %d %d, %d )\n", ((from != nullptr) ? from->Get_ID() : 0),
                   to->Get_ID(), type, param));
 #endif
 
@@ -666,7 +666,7 @@ void Send_Damaged_Event(GameObject* object, GameObject* damager)
 {
     SCRIPT_PTR_CHECK(object);
     SCRIPT_TRACE(("ST>Send_Damaged_Event( %d, %d )\n", object->Get_ID(),
-                  ((damager != NULL) ? damager->Get_ID() : 0)));
+                  ((damager != nullptr) ? damager->Get_ID() : 0)));
 
     if (object) {
         const GameObjObserverList& observer_list = object->Get_Observers();
@@ -696,23 +696,23 @@ GameObject* Find_Random_Simple_Object(const char* preset_name)
 {
     SCRIPT_TRACE(("ST>Find_Random_Simple_Object( %s )\n", preset_name));
 
-    GameObject* retval = NULL;
+    GameObject* retval = nullptr;
     DynamicVectorClass<SimpleGameObj*> obj_list;
 
     //
     //	Build a list of all the simple game objects that match the criteria
     //
-    SLNode<BaseGameObj>* node = NULL;
+    SLNode<BaseGameObj>* node = nullptr;
     for (node = GameObjManager::Get_Game_Obj_List()->Head(); node; node = node->Next()) {
-        WWASSERT(node->Data() != NULL);
+        WWASSERT(node->Data() != nullptr);
 
         //
         //	Is this a simple game obj?
         //
         PhysicalGameObj* physical_obj = node->Data()->As_PhysicalGameObj();
-        if (physical_obj != NULL) {
+        if (physical_obj != nullptr) {
             SimpleGameObj* simple_obj = physical_obj->As_SimpleGameObj();
-            if (simple_obj != NULL) {
+            if (simple_obj != nullptr) {
 
                 //
                 //	Is this one of the objects we can choose from?
@@ -744,7 +744,7 @@ void Set_Model(GameObject* obj, const char* model_name)
     SCRIPT_PTR_CHECK(obj);
 
     PhysicalGameObj* pgobj = obj->As_PhysicalGameObj();
-    if (pgobj == NULL) {
+    if (pgobj == nullptr) {
         Debug_Say(("Not a PhysicalGameObj at %s %d\n", __FILE__, __LINE__));
         return;
     }
@@ -763,14 +763,14 @@ void Set_Model(GameObject* obj, const char* model_name)
 
     //	Matrix3D tm = pgobj->Get_Transform();
     SCRIPT_TRACE(
-        ("ST>Set_Model( %d, %s, %d )\n", obj->Get_ID(), model_name == NULL ? "NULL" : model_name));
+        ("ST>Set_Model( %d, %s, %d )\n", obj->Get_ID(), model_name == nullptr ? "nullptr" : model_name));
     if (pgobj->As_SoldierGameObj()) {
         // For soldiers, call Set_Model, so the anim control will be updated
         pgobj->As_SoldierGameObj()->Set_Model(model_name);
     }
     else {
         pgobj->Peek_Physical_Object()->Set_Model_By_Name(model_name);
-        if (pgobj->Get_Anim_Control() != NULL) {
+        if (pgobj->Get_Anim_Control() != nullptr) {
             pgobj->Get_Anim_Control()->Set_Model(pgobj->Peek_Model());
         }
     }
@@ -786,30 +786,30 @@ void Set_Animation(GameObject* obj, const char* anim_name, bool looping, const c
 {
     SCRIPT_PTR_CHECK(obj);
     SCRIPT_TRACE(("ST>Set_Animation( %d, %s, %d )\n", obj->Get_ID(),
-                  anim_name == NULL ? "NULL" : anim_name, looping));
+                  anim_name == nullptr ? "nullptr" : anim_name, looping));
 
     PhysicalGameObj* pgobj = obj->As_PhysicalGameObj();
-    if (pgobj == NULL) {
+    if (pgobj == nullptr) {
         Debug_Say(("Not a PhysicalGameObj at %s %d\n", __FILE__, __LINE__));
         return;
     }
 
     // check that this object is not in Action_Play_Animation
-    if (pgobj->As_SmartGameObj() != NULL) {
+    if (pgobj->As_SmartGameObj() != nullptr) {
         if (pgobj->As_SmartGameObj()->Get_Action()->Is_Animating()) {
             Debug_Say(("Can't Set_Animation when Action_Play_Animationing\n"));
             WWASSERT(0);
         }
     }
 
-    if ((sub_obj_name != NULL) && (*sub_obj_name != 0)) {
+    if ((sub_obj_name != nullptr) && (*sub_obj_name != 0)) {
 
         RenderObjClass* model = pgobj->Peek_Model();
         RenderObjClass* sub = model->Get_Sub_Object_By_Name(sub_obj_name);
 
-        if (sub != NULL) {
+        if (sub != nullptr) {
             HAnimClass* anim = WW3DAssetManager::Get_Instance()->Get_HAnim(anim_name);
-            if (anim != NULL) {
+            if (anim != nullptr) {
                 sub->Set_Animation(anim, start_frame,
                                    looping ? RenderObjClass::ANIM_MODE_LOOP
                                            : RenderObjClass::ANIM_MODE_ONCE);
@@ -820,16 +820,16 @@ void Set_Animation(GameObject* obj, const char* anim_name, bool looping, const c
     }
     else {
         CinematicGameObj* cinobj = pgobj->As_CinematicGameObj();
-        if (cinobj != NULL) {
+        if (cinobj != nullptr) {
 
             // CinematicGameObj's require you to use the physics animation interface
             DynamicAnimPhysClass* dynanim
                 = cinobj->Peek_Physical_Object()->As_DynamicAnimPhysClass();
-            if (dynanim != NULL) {
+            if (dynanim != nullptr) {
 
                 AnimCollisionManagerClass& anim_mgr = dynanim->Get_Animation_Manager();
 
-                if (anim_name != NULL) {
+                if (anim_name != nullptr) {
                     anim_mgr.Set_Animation(anim_name);
                 }
                 anim_mgr.Set_Current_Frame(start_frame);
@@ -865,7 +865,7 @@ void Set_Animation(GameObject* obj, const char* anim_name, bool looping, const c
             // a soldier and the blend flag is set, then blend the animation.
             //
             SoldierGameObj* soldier = pgobj->As_SoldierGameObj();
-            if (soldier != NULL && is_blended) {
+            if (soldier != nullptr && is_blended) {
                 soldier->Set_Blended_Animation(anim_name, looping, start_frame);
             }
             else {
@@ -878,7 +878,7 @@ void Set_Animation(GameObject* obj, const char* anim_name, bool looping, const c
             // force it.
             //
             AnimControlClass* anim_control = pgobj->Get_Anim_Control();
-            if (anim_control != NULL) {
+            if (anim_control != nullptr) {
                 anim_control->Set_Mode(looping ? ANIM_MODE_LOOP : ANIM_MODE_ONCE, start_frame);
 
                 //
@@ -897,16 +897,16 @@ void Set_Animation_Frame(GameObject* obj, const char* anim_name, int frame)
 {
     SCRIPT_PTR_CHECK(obj);
     SCRIPT_TRACE(("ST>Set_Animation_Frame( %d, %s, %d )\n", obj->Get_ID(),
-                  anim_name == NULL ? "NULL" : anim_name, frame));
+                  anim_name == nullptr ? "nullptr" : anim_name, frame));
 
     PhysicalGameObj* pgobj = obj->As_PhysicalGameObj();
-    if (pgobj == NULL) {
+    if (pgobj == nullptr) {
         Debug_Say(("Not a PhysicalGameObj at %s %d\n", __FILE__, __LINE__));
         return;
     }
 
     // check that this object is not in Action_Play_Animation
-    if (pgobj->As_SmartGameObj() != NULL) {
+    if (pgobj->As_SmartGameObj() != nullptr) {
         if (pgobj->As_SmartGameObj()->Get_Action()->Is_Animating()) {
             Debug_Say(("Can't Set_Animation when Action_Play_Animationing\n"));
             WWASSERT(0);
@@ -928,7 +928,7 @@ int Create_Sound(const char* sound_name, const Vector3& position, GameObject* cr
     matrix.Set_Translation(position);
 
     WWAudioClass* audio = WWAudioClass::Get_Instance();
-    assert(audio != NULL);
+    assert(audio != nullptr);
 
     RefCountedGameObjReference* owner_ref = new RefCountedGameObjReference;
     owner_ref->Set_Ptr(creator);
@@ -941,14 +941,14 @@ int Create_Sound(const char* sound_name, const Vector3& position, GameObject* cr
 int Create_2D_Sound(const char* sound_preset_name)
 {
     WWAudioClass* audio = WWAudioClass::Get_Instance();
-    assert(audio != NULL);
+    assert(audio != nullptr);
 
     //
     //	Create the sound object from its preset
     //
     int sound_id = 0;
     AudibleSoundClass* sound = audio->Create_Sound(sound_preset_name);
-    if (sound != NULL) {
+    if (sound != nullptr) {
 
         sound_id = sound->Get_ID();
         sound->Play();
@@ -961,12 +961,12 @@ int Create_2D_Sound(const char* sound_preset_name)
 int Create_2D_WAV_Sound(const char* wav_filename)
 {
     WWAudioClass* audio = WWAudioClass::Get_Instance();
-    assert(audio != NULL);
+    assert(audio != nullptr);
 
     AudibleSoundClass* sound = audio->Create_Sound_Effect(wav_filename);
 
     int sound_id = 0;
-    if (sound != NULL) {
+    if (sound != nullptr) {
         WWASSERT(sound->Get_Loop_Count() != 0);
         sound_id = sound->Get_ID();
         sound->Play();
@@ -979,10 +979,10 @@ int Create_2D_WAV_Sound(const char* wav_filename)
 int Create_3D_Sound_At_Bone(const char* sound_preset_name, GameObject* obj, const char* bone_name)
 {
     WWAudioClass* audio = WWAudioClass::Get_Instance();
-    assert(audio != NULL);
+    assert(audio != nullptr);
 
     PhysicalGameObj* pgobj = obj->As_PhysicalGameObj();
-    if (pgobj == NULL) {
+    if (pgobj == nullptr) {
         Debug_Say(("Not a PhysicalGameObj at %s %d\n", __FILE__, __LINE__));
         return 0;
     }
@@ -992,7 +992,7 @@ int Create_3D_Sound_At_Bone(const char* sound_preset_name, GameObject* obj, cons
     //
     int sound_id = 0;
     AudibleSoundClass* sound = audio->Create_Sound(sound_preset_name);
-    if (sound != NULL) {
+    if (sound != nullptr) {
 
         //
         //	Attach the sound to the bone
@@ -1015,10 +1015,10 @@ int Create_3D_Sound_At_Bone(const char* sound_preset_name, GameObject* obj, cons
 int Create_3D_WAV_Sound_At_Bone(const char* wav_filename, GameObject* obj, const char* bone_name)
 {
     WWAudioClass* audio = WWAudioClass::Get_Instance();
-    assert(audio != NULL);
+    assert(audio != nullptr);
 
     PhysicalGameObj* pgobj = obj->As_PhysicalGameObj();
-    if (pgobj == NULL) {
+    if (pgobj == nullptr) {
         Debug_Say(("Not a PhysicalGameObj at %s %d\n", __FILE__, __LINE__));
         return 0;
     }
@@ -1033,7 +1033,7 @@ int Create_3D_WAV_Sound_At_Bone(const char* wav_filename, GameObject* obj, const
         sound->Set_Volume(1);
         sound->Set_Loop_Count(1);
         sound->Set_DropOff_Radius(30);
-        sound->Set_Definition(NULL);
+        sound->Set_Definition(nullptr);
         sound->Set_Max_Vol_Radius(30);
         RenderObjClass* model = pgobj->Peek_Model();
         int bone_index = model->Get_Bone_Index(bone_name);
@@ -1053,9 +1053,9 @@ int Create_Logical_Sound(GameObject* creator, int type, const Vector3& position,
 
     int sound_id = 0;
     WWAudioClass* audio = WWAudioClass::Get_Instance();
-    if (audio != NULL) {
+    if (audio != nullptr) {
         LogicalSoundClass* sound = audio->Create_Logical_Sound();
-        if (sound != NULL) {
+        if (sound != nullptr) {
 
             RefCountedGameObjReference* owner_ref = new RefCountedGameObjReference;
             owner_ref->Set_Ptr(creator);
@@ -1081,13 +1081,13 @@ void Monitor_Sound(GameObject* game_obj, int sound_id)
     SCRIPT_TRACE(("ST>Monitor_Sound( %d, %d )\n", game_obj->Get_ID(), sound_id));
 
     WWAudioClass* audio = WWAudioClass::Get_Instance();
-    if (audio != NULL) {
+    if (audio != nullptr) {
 
         //
         //	Lookup the sound object by its ID
         //
         SoundSceneObjClass* sound_obj = audio->Find_Sound_Object(sound_id);
-        if (sound_obj != NULL) {
+        if (sound_obj != nullptr) {
 
             //
             //	Register the game object as a callback for the sound object
@@ -1105,7 +1105,7 @@ void Fade_Background_Music(const char* wav_filename, int fade_out_time, int fade
         ("ST>Fade_Background_Music( %s, %d, %d )\n", wav_filename, fade_out_time, fade_in_time));
 
     WWAudioClass* audio = WWAudioClass::Get_Instance();
-    if (audio != NULL) {
+    if (audio != nullptr) {
 
         //
         //	Pass the background music onto the sound library
@@ -1121,7 +1121,7 @@ void Set_Background_Music(const char* wav_filename)
     SCRIPT_TRACE(("ST>Set_Background_Music( %s )\n", wav_filename));
 
     WWAudioClass* audio = WWAudioClass::Get_Instance();
-    if (audio != NULL) {
+    if (audio != nullptr) {
 
         //
         //	Pass the background music onto the sound library
@@ -1137,12 +1137,12 @@ void Stop_Background_Music(void)
     SCRIPT_TRACE(("ST>Stop_Background_Music( )\n"));
 
     WWAudioClass* audio = WWAudioClass::Get_Instance();
-    if (audio != NULL) {
+    if (audio != nullptr) {
 
         //
         //	Simply stop the background music
         //
-        audio->Set_Background_Music(NULL);
+        audio->Set_Background_Music(nullptr);
     }
 
     return;
@@ -1153,13 +1153,13 @@ void Start_Sound(int sound_id)
     SCRIPT_TRACE(("ST>Stop_Sound( %d )\n", sound_id));
 
     WWAudioClass* audio = WWAudioClass::Get_Instance();
-    if (audio != NULL) {
+    if (audio != nullptr) {
 
         //
         //	Lookup the sound object by its ID
         //
         SoundSceneObjClass* sound_obj = audio->Find_Sound_Object(sound_id);
-        if (sound_obj != NULL) {
+        if (sound_obj != nullptr) {
 
             //
             //	Add the sound to the scene (if necessary)
@@ -1172,7 +1172,7 @@ void Start_Sound(int sound_id)
             //	Start playing the sound
             //
             AudibleSoundClass* audible_sound = sound_obj->As_AudibleSoundClass();
-            if (audible_sound != NULL) {
+            if (audible_sound != nullptr) {
                 audible_sound->Play();
             }
         }
@@ -1186,19 +1186,19 @@ void Stop_Sound(int sound_id, bool destroy_sound)
     SCRIPT_TRACE(("ST>Stop_Sound( %d )\n", sound_id));
 
     WWAudioClass* audio = WWAudioClass::Get_Instance();
-    if (audio != NULL) {
+    if (audio != nullptr) {
 
         //
         //	Lookup the sound object by its ID
         //
         SoundSceneObjClass* sound_obj = audio->Find_Sound_Object(sound_id);
-        if (sound_obj != NULL) {
+        if (sound_obj != nullptr) {
 
             //
             //	Stop playing the sound
             //
             AudibleSoundClass* audible_sound = sound_obj->As_AudibleSoundClass();
-            if (audible_sound != NULL) {
+            if (audible_sound != nullptr) {
                 audible_sound->Stop();
             }
 
@@ -1222,7 +1222,7 @@ float Get_Health(GameObject* obj)
     SCRIPT_PTR_CHECK_RET(obj, 0);
 
     DamageableGameObj* dgobj = obj->As_DamageableGameObj();
-    if (dgobj == NULL) {
+    if (dgobj == nullptr) {
         Debug_Say(("Not a DamageableGameObj at %s %d\n", __FILE__, __LINE__));
         return 0;
     }
@@ -1235,7 +1235,7 @@ float Get_Max_Health(GameObject* obj)
     SCRIPT_PTR_CHECK_RET(obj, 0);
 
     DamageableGameObj* dgobj = obj->As_DamageableGameObj();
-    if (dgobj == NULL) {
+    if (dgobj == nullptr) {
         Debug_Say(("Not a DamageableGameObj at %s %d\n", __FILE__, __LINE__));
         return 0;
     }
@@ -1248,7 +1248,7 @@ void Set_Health(GameObject* obj, float health)
     SCRIPT_PTR_CHECK(obj);
 
     DamageableGameObj* dgobj = obj->As_DamageableGameObj();
-    if (dgobj == NULL) {
+    if (dgobj == nullptr) {
         Debug_Say(("Not a DamageableGameObj at %s %d\n", __FILE__, __LINE__));
         return;
     }
@@ -1261,7 +1261,7 @@ float Get_Shield_Strength(GameObject* obj)
     SCRIPT_PTR_CHECK_RET(obj, 0);
 
     DamageableGameObj* dgobj = obj->As_DamageableGameObj();
-    if (dgobj == NULL) {
+    if (dgobj == nullptr) {
         Debug_Say(("Not a DamageableGameObj at %s %d\n", __FILE__, __LINE__));
         return 0;
     }
@@ -1274,7 +1274,7 @@ float Get_Max_Shield_Strength(GameObject* obj)
     SCRIPT_PTR_CHECK_RET(obj, 0);
 
     DamageableGameObj* dgobj = obj->As_DamageableGameObj();
-    if (dgobj == NULL) {
+    if (dgobj == nullptr) {
         Debug_Say(("Not a DamageableGameObj at %s %d\n", __FILE__, __LINE__));
         return 0;
     }
@@ -1287,7 +1287,7 @@ void Set_Shield_Strength(GameObject* obj, float strength)
     SCRIPT_PTR_CHECK(obj);
 
     DamageableGameObj* dgobj = obj->As_DamageableGameObj();
-    if (dgobj == NULL) {
+    if (dgobj == nullptr) {
         Debug_Say(("Not a DamageableGameObj at %s %d\n", __FILE__, __LINE__));
         return;
     }
@@ -1300,7 +1300,7 @@ void Set_Shield_Type(GameObject* obj, const char* name)
     SCRIPT_PTR_CHECK(obj);
 
     DamageableGameObj* dgobj = obj->As_DamageableGameObj();
-    if (dgobj == NULL) {
+    if (dgobj == nullptr) {
         Debug_Say(("Not a DamageableGameObj at %s %d\n", __FILE__, __LINE__));
         return;
     }
@@ -1313,7 +1313,7 @@ int Get_Player_Type(GameObject* obj)
     SCRIPT_PTR_CHECK_RET(obj, 0);
 
     PhysicalGameObj* pgobj = obj->As_PhysicalGameObj();
-    if (pgobj == NULL) {
+    if (pgobj == nullptr) {
         Debug_Say(("Not a PhysicalGameObj at %s %d\n", __FILE__, __LINE__));
         return 0;
     }
@@ -1326,7 +1326,7 @@ void Set_Player_Type(GameObject* obj, int type)
     SCRIPT_PTR_CHECK(obj);
 
     PhysicalGameObj* pgobj = obj->As_PhysicalGameObj();
-    if (pgobj == NULL) {
+    if (pgobj == nullptr) {
         Debug_Say(("Not a PhysicalGameObj at %s %d\n", __FILE__, __LINE__));
     }
     else {
@@ -1350,12 +1350,12 @@ void Set_Camera_Host(GameObject* obj)
 {
     // SCRIPT_PTR_CHECK( obj );
     SCRIPT_TRACE(("ST>Set_Camera_Host( %p )\n", obj));
-    if (obj == NULL) {
-        COMBAT_CAMERA->Set_Host_Model(NULL);
+    if (obj == nullptr) {
+        COMBAT_CAMERA->Set_Host_Model(nullptr);
     }
     else {
         PhysicalGameObj* pgobj = obj->As_PhysicalGameObj();
-        if (pgobj == NULL) {
+        if (pgobj == nullptr) {
             Debug_Say(("Not a PhysicalGameObj at %s %d\n", __FILE__, __LINE__));
             return;
         }
@@ -1390,7 +1390,7 @@ GameObject* Find_Closest_Soldier(const Vector3& pos, float min_dist, float max_d
     PhysicsSceneClass::Get_Instance()->Collect_Objects(box, false, true, &obj_list);
 
     float closest_dist = max_dist;
-    GameObject* closest_obj = NULL;
+    GameObject* closest_obj = nullptr;
 
     //
     //	Loop over all the collected objects
@@ -1398,13 +1398,13 @@ GameObject* Find_Closest_Soldier(const Vector3& pos, float min_dist, float max_d
     NonRefPhysListIterator it(&obj_list);
     for (it.First(); !it.Is_Done(); it.Next()) {
         PhysClass* phys_obj = it.Peek_Obj();
-        PhysicalGameObj* game_obj = NULL;
+        PhysicalGameObj* game_obj = nullptr;
 
-        if (phys_obj->Get_Observer() != NULL) {
+        if (phys_obj->Get_Observer() != nullptr) {
             game_obj = ((CombatPhysObserverClass*)phys_obj->Get_Observer())->As_PhysicalGameObj();
         }
 
-        if (game_obj != NULL && game_obj->As_PhysicalGameObj() != NULL) {
+        if (game_obj != nullptr && game_obj->As_PhysicalGameObj() != nullptr) {
 
             Vector3 obj_pos;
             game_obj->As_PhysicalGameObj()->Get_Position(&obj_pos);
@@ -1419,7 +1419,7 @@ GameObject* Find_Closest_Soldier(const Vector3& pos, float min_dist, float max_d
                 //	If only_human, see if this is a human. Duh.
                 //
                 if (!only_human
-                    || (game_obj->As_SmartGameObj() != NULL
+                    || (game_obj->As_SmartGameObj() != nullptr
                         && game_obj->As_SmartGameObj()->Is_Human_Controlled())) {
 
                     closest_dist = len;
@@ -1442,7 +1442,7 @@ GameObject* Get_The_Star(void)
 
 GameObject* Get_A_Star(const Vector3& pos)
 {
-    SoldierGameObj* nearest_human_player = NULL;
+    SoldierGameObj* nearest_human_player = nullptr;
     Vector3 n_c_pos = Vector3(1000000, 1000000, 1000000);
     n_c_pos += pos;
 
@@ -1513,7 +1513,7 @@ bool Is_Object_Visible(GameObject* looker, GameObject* obj)
     if (smart) {
 
         PhysicalGameObj* pgobj = obj->As_PhysicalGameObj();
-        if (pgobj == NULL) {
+        if (pgobj == nullptr) {
             Debug_Say(("Not a PhysicalGameObj at %s %d\n", __FILE__, __LINE__));
             return false;
         }
@@ -1561,7 +1561,7 @@ void Display_Text(int string_id)
         if (sound_def_id > 0) {
             //	Create the sound object
             AudibleSoundClass* sound = WWAudioClass::Get_Instance()->Create_Sound(sound_def_id);
-            if (sound != NULL) {
+            if (sound != nullptr) {
                 sound->Add_To_Scene();
                 sound->Release_Ref();
             }
@@ -1802,7 +1802,7 @@ void	Add_Obj_Radar_Marker( int id, GameObject * obj, Vector3 color, bool flash )
 	marker.ID = id;*/
 
 	PhysicalGameObj * pgobj = obj->As_PhysicalGameObj();
-	if ( pgobj == NULL ) {
+	if ( pgobj == nullptr ) {
 		Debug_Say(( "Not a PhysicalGameObj at %s %d\n", __FILE__, __LINE__ ));
 		return;
 	}
@@ -1820,7 +1820,7 @@ void Set_Obj_Radar_Blip_Shape(GameObject* obj, int shape_type)
     SCRIPT_TRACE(("ST>Set_Obj_Radar_Blip_Shape( %d, %d )\n", obj->Get_ID(), shape_type));
 
     PhysicalGameObj* pgobj = obj->As_PhysicalGameObj();
-    if (pgobj == NULL) {
+    if (pgobj == nullptr) {
         Debug_Say(("Not a PhysicalGameObj at %s %d\n", __FILE__, __LINE__));
         return;
     }
@@ -1838,7 +1838,7 @@ void Set_Obj_Radar_Blip_Color(GameObject* obj, int color_type)
     SCRIPT_TRACE(("ST>Set_Obj_Radar_Blip_Color( %d, %d )\n", obj->Get_ID(), color_type));
 
     PhysicalGameObj* pgobj = obj->As_PhysicalGameObj();
-    if (pgobj == NULL) {
+    if (pgobj == nullptr) {
         Debug_Say(("Not a PhysicalGameObj at %s %d\n", __FILE__, __LINE__));
         return;
     }
@@ -1863,14 +1863,14 @@ void Create_Explosion(const char* explosion_def_name, const Vector3& pos, GameOb
 {
     SCRIPT_PTR_CHECK(explosion_def_name);
     SCRIPT_TRACE(("ST>Create_Explosion( %s, (%f,%f,%f), %d )\n", explosion_def_name, pos.X, pos.Y,
-                  pos.Z, (creator != NULL) ? creator->Get_ID() : 0));
+                  pos.Z, (creator != nullptr) ? creator->Get_ID() : 0));
 
     ExplosionDefinitionClass* explosion_def
         = (ExplosionDefinitionClass*)DefinitionMgrClass::Find_Typed_Definition(
             explosion_def_name, CLASSID_DEF_EXPLOSION);
-    if (explosion_def != NULL) {
+    if (explosion_def != nullptr) {
         int explosion_id = explosion_def->Get_ID();
-        SmartGameObj* smart = NULL;
+        SmartGameObj* smart = nullptr;
         if (creator) {
             smart = creator->As_SmartGameObj();
         }
@@ -1885,21 +1885,21 @@ void Create_Explosion_At_Bone(const char* explosion_def_name, GameObject* object
     SCRIPT_PTR_CHECK(object);
     SCRIPT_PTR_CHECK(bone_name);
     SCRIPT_TRACE(("ST>Create_Explosion_At_Bone( %s, %d, %s, %d )\n", explosion_def_name,
-                  (object != NULL) ? object->Get_ID() : 0, bone_name,
-                  (creator != NULL) ? creator->Get_ID() : 0));
+                  (object != nullptr) ? object->Get_ID() : 0, bone_name,
+                  (creator != nullptr) ? creator->Get_ID() : 0));
 
     ExplosionDefinitionClass* explosion_def
         = (ExplosionDefinitionClass*)DefinitionMgrClass::Find_Typed_Definition(
             explosion_def_name, CLASSID_DEF_EXPLOSION);
-    if (explosion_def != NULL) {
+    if (explosion_def != nullptr) {
         int explosion_id = explosion_def->Get_ID();
-        SmartGameObj* smart = NULL;
+        SmartGameObj* smart = nullptr;
         if (creator) {
             smart = creator->As_SmartGameObj();
         }
 
         PhysicalGameObj* pgobj = object->As_PhysicalGameObj();
-        if (pgobj == NULL) {
+        if (pgobj == nullptr) {
             Debug_Say(("Not a PhysicalGameObj at %s %d\n", __FILE__, __LINE__));
             return;
         }
@@ -1935,8 +1935,8 @@ void Give_PowerUp(GameObject* obj, const char* preset_name, bool display_on_hud)
 
         PowerUpGameObjDef* def = (PowerUpGameObjDef*)DefinitionMgrClass::Find_Typed_Definition(
             preset_name, CLASSID_GAME_OBJECT_DEF_POWERUP);
-        if (def != NULL) {
-            def->Grant(smart, NULL, display_on_hud);
+        if (def != nullptr) {
+            def->Grant(smart, nullptr, display_on_hud);
         }
         else {
             Debug_Say(("Powerup Definition %s not found\n", preset_name));
@@ -1953,14 +1953,14 @@ bool Innate_Soldier_Enable(GameObject* obj, int bits, bool state)
     SCRIPT_TRACE(("ST>Innate_Soldier_Enable( %d, %d, %d )\n", obj->Get_ID(), bits, state));
 
     PhysicalGameObj* pgobj = obj->As_PhysicalGameObj();
-    if (pgobj == NULL) {
+    if (pgobj == nullptr) {
         //		Cinematics call this for non-soldiers
         //		Debug_Say(( "Not a PhysicalGameObj at %s %d\n", __FILE__, __LINE__ ));
         return false;
     }
 
     SoldierGameObj* soldier = pgobj->As_SoldierGameObj();
-    if (soldier == NULL) {
+    if (soldier == nullptr) {
         //		Cinematics call this for non-soldiers
         //		Debug_Say(( "Object is not a soldier!\n" ));
     }
@@ -2019,9 +2019,9 @@ void Set_Innate_Soldier_Home_Location(GameObject* obj, const Vector3& home_pos, 
                   home_pos.X, home_pos.Y, home_pos.Z, home_radius));
 
     SmartGameObj* smart = obj->As_SmartGameObj();
-    if (smart != NULL) {
+    if (smart != nullptr) {
         SoldierGameObj* soldier = smart->As_SoldierGameObj();
-        if (soldier != NULL) {
+        if (soldier != nullptr) {
             SoldierObserverClass* innate = soldier->Get_Innate_Controller();
             if (innate) {
                 innate->Set_Home_Location(home_pos, home_radius);
@@ -2037,9 +2037,9 @@ void Set_Innate_Aggressiveness(GameObject* obj, float aggressiveness)
 
     bool set = false;
     SmartGameObj* smart = obj->As_SmartGameObj();
-    if (smart != NULL) {
+    if (smart != nullptr) {
         SoldierGameObj* soldier = smart->As_SoldierGameObj();
-        if (soldier != NULL) {
+        if (soldier != nullptr) {
             SoldierObserverClass* innate = soldier->Get_Innate_Controller();
             if (innate) {
                 innate->Set_Aggressiveness(aggressiveness);
@@ -2059,9 +2059,9 @@ void Set_Innate_Take_Cover_Probability(GameObject* obj, float probability)
 
     bool set = false;
     SmartGameObj* smart = obj->As_SmartGameObj();
-    if (smart != NULL) {
+    if (smart != nullptr) {
         SoldierGameObj* soldier = smart->As_SoldierGameObj();
-        if (soldier != NULL) {
+        if (soldier != nullptr) {
             SoldierObserverClass* innate = soldier->Get_Innate_Controller();
             if (innate) {
                 innate->Set_Take_Cover_Probability(probability);
@@ -2081,9 +2081,9 @@ void Set_Innate_Is_Stationary(GameObject* obj, bool stationary)
 
     bool set = false;
     SmartGameObj* smart = obj->As_SmartGameObj();
-    if (smart != NULL) {
+    if (smart != nullptr) {
         SoldierGameObj* soldier = smart->As_SoldierGameObj();
-        if (soldier != NULL) {
+        if (soldier != nullptr) {
             SoldierObserverClass* innate = soldier->Get_Innate_Controller();
             if (innate) {
                 innate->Set_Is_Stationary(stationary);
@@ -2104,9 +2104,9 @@ void Innate_Force_State_Bullet_Heard(GameObject* obj, const Vector3& pos)
 
     bool set = false;
     SmartGameObj* smart = obj->As_SmartGameObj();
-    if (smart != NULL) {
+    if (smart != nullptr) {
         SoldierGameObj* soldier = smart->As_SoldierGameObj();
-        if (soldier != NULL) {
+        if (soldier != nullptr) {
             SoldierObserverClass* innate = soldier->Get_Innate_Controller();
             if (innate) {
                 innate->Set_State(soldier, SoldierObserverClass::SOLDIER_AI_BULLET_HEARD, pos);
@@ -2127,9 +2127,9 @@ void Innate_Force_State_Footsteps_Heard(GameObject* obj, const Vector3& pos)
 
     bool set = false;
     SmartGameObj* smart = obj->As_SmartGameObj();
-    if (smart != NULL) {
+    if (smart != nullptr) {
         SoldierGameObj* soldier = smart->As_SoldierGameObj();
-        if (soldier != NULL) {
+        if (soldier != nullptr) {
             SoldierObserverClass* innate = soldier->Get_Innate_Controller();
             if (innate) {
                 innate->Set_State(soldier, SoldierObserverClass::SOLDIER_AI_FOOTSTEPS_HEARD, pos);
@@ -2150,9 +2150,9 @@ void Innate_Force_State_Gunshots_Heard(GameObject* obj, const Vector3& pos)
 
     bool set = false;
     SmartGameObj* smart = obj->As_SmartGameObj();
-    if (smart != NULL) {
+    if (smart != nullptr) {
         SoldierGameObj* soldier = smart->As_SoldierGameObj();
-        if (soldier != NULL) {
+        if (soldier != nullptr) {
             SoldierObserverClass* innate = soldier->Get_Innate_Controller();
             if (innate) {
                 innate->Set_State(soldier, SoldierObserverClass::SOLDIER_AI_GUNSHOT_HEARD, pos);
@@ -2173,9 +2173,9 @@ void Innate_Force_State_Enemy_Seen(GameObject* obj, GameObject* enemy)
 
     bool set = false;
     SmartGameObj* smart = obj->As_SmartGameObj();
-    if (smart != NULL) {
+    if (smart != nullptr) {
         SoldierGameObj* soldier = smart->As_SoldierGameObj();
-        if (soldier != NULL) {
+        if (soldier != nullptr) {
             SoldierObserverClass* innate = soldier->Get_Innate_Controller();
             if (innate) {
                 innate->Set_State(soldier, SoldierObserverClass::SOLDIER_AI_ENEMY_SEEN,
@@ -2198,10 +2198,10 @@ void Static_Anim_Phys_Goto_Frame(int obj_id, float frame, const char* anim_name)
     SCRIPT_TRACE(("ST>Static_Anim_Phys_Goto_Frame( %d, %d )\n", obj_id, frame));
 
     StaticPhysClass* spc = COMBAT_SCENE->Find_Static_Object(obj_id);
-    if (spc != NULL) {
+    if (spc != nullptr) {
         StaticAnimPhysClass* sapc = spc->As_StaticAnimPhysClass();
         if (sapc) {
-            if (anim_name != NULL) {
+            if (anim_name != nullptr) {
                 sapc->Get_Animation_Manager().Set_Animation(anim_name);
             }
             sapc->Get_Animation_Manager().Set_Animation_Mode(
@@ -2216,10 +2216,10 @@ void Static_Anim_Phys_Goto_Last_Frame(int obj_id, const char* anim_name)
     SCRIPT_TRACE(("ST>Static_Anim_Phys_Goto_Last_Frame( %d )\n", obj_id));
 
     StaticPhysClass* spc = COMBAT_SCENE->Find_Static_Object(obj_id);
-    if (spc != NULL) {
+    if (spc != nullptr) {
         StaticAnimPhysClass* sapc = spc->As_StaticAnimPhysClass();
         if (sapc) {
-            if (anim_name != NULL) {
+            if (anim_name != nullptr) {
                 sapc->Get_Animation_Manager().Set_Animation(anim_name);
             }
             sapc->Get_Animation_Manager().Set_Animation_Mode(
@@ -2275,7 +2275,7 @@ void Set_Objective_Radar_Blip_Object(int id, ScriptableGameObj* unit)
 {
     SCRIPT_PTR_CHECK(unit);
     SCRIPT_TRACE(("ST>Set_Objective_Radar_Blip_Object( %d, %d )\n", id, unit->Get_ID()));
-    PhysicalGameObj* pobj = NULL;
+    PhysicalGameObj* pobj = nullptr;
     if (unit) {
         pobj = unit->As_PhysicalGameObj();
     }
@@ -2329,9 +2329,9 @@ void Enable_Engine(GameObject* object, bool onoff)
     SCRIPT_TRACE(("ST>Enable_Engine( %d, %d )\n", object, onoff));
 
     PhysicalGameObj* physical_obj = object->As_PhysicalGameObj();
-    if (physical_obj != NULL) {
+    if (physical_obj != nullptr) {
         VehicleGameObj* vehicle = physical_obj->As_VehicleGameObj();
-        if (vehicle != NULL) {
+        if (vehicle != nullptr) {
             vehicle->Enable_Engine(onoff);
         }
     }
@@ -2350,12 +2350,12 @@ void Grant_Key(GameObject* object, int key, bool grant = true)
     SCRIPT_PTR_CHECK(object);
     SCRIPT_TRACE(("ST>Grant_Key( %d, %d )\n", object->Get_ID(), key, grant));
 
-    SoldierGameObj* soldier = NULL;
-    if (object->As_SmartGameObj() != NULL) {
+    SoldierGameObj* soldier = nullptr;
+    if (object->As_SmartGameObj() != nullptr) {
         soldier = object->As_SmartGameObj()->As_SoldierGameObj();
     }
 
-    if (soldier == NULL) {
+    if (soldier == nullptr) {
         Debug_Say(("Object is not a soldier!\n"));
     }
     else {
@@ -2370,8 +2370,8 @@ void Grant_Key(GameObject* object, int key, bool grant = true)
 
 bool Has_Key(GameObject* object, int key)
 {
-    SoldierGameObj* soldier = NULL;
-    if (object->As_SmartGameObj() != NULL) {
+    SoldierGameObj* soldier = nullptr;
+    if (object->As_SmartGameObj() != nullptr) {
         soldier = object->As_SmartGameObj()->As_SoldierGameObj();
     }
 
@@ -2391,17 +2391,17 @@ void Enable_Hibernation(GameObject* object, bool enable)
 void Attach_To_Object_Bone(GameObject* object, GameObject* host_object, const char* bone_name)
 {
     SCRIPT_PTR_CHECK(object);
-    if (host_object == NULL) {
-        SCRIPT_TRACE(("ST>Attach_To_Object_Bone( %d, NULL )\n", object->Get_ID()));
+    if (host_object == nullptr) {
+        SCRIPT_TRACE(("ST>Attach_To_Object_Bone( %d, nullptr )\n", object->Get_ID()));
     }
     else {
         SCRIPT_TRACE(("ST>Attach_To_Object_Bone( %d, %d, %s )\n", object->Get_ID(),
-                      host_object->Get_ID(), bone_name ? "NULL" : bone_name));
+                      host_object->Get_ID(), bone_name ? "nullptr" : bone_name));
     }
 
     if (object->As_PhysicalGameObj()) {
-        if (host_object == NULL) {
-            object->As_PhysicalGameObj()->Attach_To_Object_Bone(NULL, NULL);
+        if (host_object == nullptr) {
+            object->As_PhysicalGameObj()->Attach_To_Object_Bone(nullptr, nullptr);
         }
         else {
             WWASSERT(host_object->As_PhysicalGameObj());
@@ -2424,14 +2424,14 @@ int Create_Conversation(const char* conversation_name, int priority, float max_d
     //	Try to find the requested conversation
     //
     ConversationClass* conversation = ConversationMgrClass::Find_Conversation(conversation_name);
-    if (conversation != NULL) {
+    if (conversation != nullptr) {
 
         //
         //	Create a new run-time conversation object
         //
         ActiveConversationClass* active_conversation
             = ConversationMgrClass::Create_New_Conversation(conversation);
-        if (active_conversation != NULL) {
+        if (active_conversation != nullptr) {
 
             if (priority > 0) {
                 active_conversation->Set_Priority(priority);
@@ -2465,17 +2465,17 @@ void Join_Conversation_Facing(GameObject* object, int active_conversation_id, in
     //
     //	Dig out the soldier pointer (if we have one)
     //
-    PhysicalGameObj* game_obj = NULL;
-    if (object != NULL) {
+    PhysicalGameObj* game_obj = nullptr;
+    if (object != nullptr) {
         game_obj = object->As_PhysicalGameObj();
     }
 
     //
     //	Lookup the run-time conversation object
     //
-    ActiveConversationClass* active_conversation = NULL;
+    ActiveConversationClass* active_conversation = nullptr;
     active_conversation = ConversationMgrClass::Find_Active_Conversation(active_conversation_id);
-    if (active_conversation != NULL) {
+    if (active_conversation != nullptr) {
 
         //
         //	Add this object to the conversation
@@ -2500,7 +2500,7 @@ void Join_Conversation(GameObject* object, int active_conversation_id, bool allo
                        bool allow_head_turn, bool allow_face)
 {
     int obj_id = 0;
-    if (object != NULL) {
+    if (object != nullptr) {
         obj_id = object->Get_ID();
     }
 
@@ -2510,17 +2510,17 @@ void Join_Conversation(GameObject* object, int active_conversation_id, bool allo
     //
     //	Dig out the soldier pointer (if we have one)
     //
-    PhysicalGameObj* game_obj = NULL;
-    if (object != NULL) {
+    PhysicalGameObj* game_obj = nullptr;
+    if (object != nullptr) {
         game_obj = object->As_PhysicalGameObj();
     }
 
     //
     //	Lookup the run-time conversation object
     //
-    ActiveConversationClass* active_conversation = NULL;
+    ActiveConversationClass* active_conversation = nullptr;
     active_conversation = ConversationMgrClass::Find_Active_Conversation(active_conversation_id);
-    if (active_conversation != NULL) {
+    if (active_conversation != nullptr) {
 
         //
         //	Add this object to the conversation
@@ -2558,9 +2558,9 @@ void Stop_Conversation(int active_conversation_id)
     //
     //	Lookup the run-time conversation object
     //
-    ActiveConversationClass* active_conversation = NULL;
+    ActiveConversationClass* active_conversation = nullptr;
     active_conversation = ConversationMgrClass::Find_Active_Conversation(active_conversation_id);
-    if (active_conversation != NULL) {
+    if (active_conversation != nullptr) {
 
         //
         //	Stop the conversation
@@ -2578,9 +2578,9 @@ void Start_Conversation(int active_conversation_id, int action_id)
     //
     //	Lookup the run-time conversation object
     //
-    ActiveConversationClass* active_conversation = NULL;
+    ActiveConversationClass* active_conversation = nullptr;
     active_conversation = ConversationMgrClass::Find_Active_Conversation(active_conversation_id);
-    if (active_conversation != NULL) {
+    if (active_conversation != nullptr) {
 
         //
         //	Start the conversation
@@ -2601,9 +2601,9 @@ void Monitor_Conversation(GameObject* object, int active_conversation_id)
     //
     //	Lookup the run-time conversation object
     //
-    ActiveConversationClass* active_conversation = NULL;
+    ActiveConversationClass* active_conversation = nullptr;
     active_conversation = ConversationMgrClass::Find_Active_Conversation(active_conversation_id);
-    if (active_conversation != NULL) {
+    if (active_conversation != nullptr) {
 
         //
         //	Start the conversation
@@ -2623,15 +2623,15 @@ void Start_Random_Conversation(GameObject* object)
     //
     //	Dig the physical game obj out of the game object pointer
     //
-    PhysicalGameObj* game_obj = NULL;
-    if (object != NULL) {
+    PhysicalGameObj* game_obj = nullptr;
+    if (object != nullptr) {
         game_obj = object->As_PhysicalGameObj();
     }
 
     //
     //	Start any conversation
     //
-    if (game_obj != NULL) {
+    if (game_obj != nullptr) {
         ConversationMgrClass::Start_Conversation(game_obj);
     }
 
@@ -2650,18 +2650,18 @@ void Lock_Soldier_Facing(GameObject* object, GameObject* object_to_face, bool tu
     //	Is this a physical game object?
     //
     PhysicalGameObj* phys_game_obj = object->As_PhysicalGameObj();
-    if (phys_game_obj != NULL) {
+    if (phys_game_obj != nullptr) {
 
         //
         //	Is this a soldier game object?
         //
         SoldierGameObj* soldier = phys_game_obj->As_SoldierGameObj();
-        if (soldier != NULL) {
-            if (object_to_face != NULL) {
+        if (soldier != nullptr) {
+            if (object_to_face != nullptr) {
                 soldier->Lock_Facing(object_to_face->As_PhysicalGameObj(), turn_body);
             }
             else {
-                soldier->Lock_Facing(NULL, false);
+                soldier->Lock_Facing(nullptr, false);
             }
         }
     }
@@ -2681,14 +2681,14 @@ void Unlock_Soldier_Facing(GameObject* object)
     //	Is this a physical game object?
     //
     PhysicalGameObj* phys_game_obj = object->As_PhysicalGameObj();
-    if (phys_game_obj != NULL) {
+    if (phys_game_obj != nullptr) {
 
         //
         //	Is this a soldier game object?
         //
         SoldierGameObj* soldier = phys_game_obj->As_SoldierGameObj();
-        if (soldier != NULL) {
-            soldier->Lock_Facing(NULL, false);
+        if (soldier != nullptr) {
+            soldier->Lock_Facing(nullptr, false);
         }
     }
 
@@ -2699,7 +2699,7 @@ void Unlock_Soldier_Facing(GameObject* object)
 **
 */
 void Apply_Damage(GameObject* object, float amount, const char* warhead_name,
-                  GameObject* damager = NULL)
+                  GameObject* damager = nullptr)
 {
     SCRIPT_PTR_CHECK(object);
     SCRIPT_TRACE(("ST>Apply_Damage( %d, %f, %s )\n", object->Get_ID(), amount, warhead_name));
@@ -2707,7 +2707,7 @@ void Apply_Damage(GameObject* object, float amount, const char* warhead_name,
     DamageableGameObj* damgo = object->As_DamageableGameObj();
     if (damgo) {
         int warhead = ArmorWarheadManager::Get_Warhead_Type(warhead_name);
-        SmartGameObj* smart = NULL;
+        SmartGameObj* smart = nullptr;
         if (damager) {
             smart = damager->As_SmartGameObj();
         }
@@ -2730,7 +2730,7 @@ void Set_Loiters_Allowed(GameObject* object, bool allowed)
     SCRIPT_TRACE(("ST>Set_Loiters_Allowed( %d, %d )\n", object->Get_ID(), allowed));
 
     PhysicalGameObj* physgo = object->As_PhysicalGameObj();
-    SoldierGameObj* soldier = NULL;
+    SoldierGameObj* soldier = nullptr;
     if (physgo) {
         soldier = physgo->As_SoldierGameObj();
     }
@@ -2748,7 +2748,7 @@ void Set_Is_Visible(GameObject* object, bool visible)
     SCRIPT_TRACE(("ST>Set_Is_Visible( %d, %d )\n", object->Get_ID(), visible));
 
     PhysicalGameObj* physgo = object->As_PhysicalGameObj();
-    SoldierGameObj* soldier = NULL;
+    SoldierGameObj* soldier = nullptr;
     if (physgo) {
         soldier = physgo->As_SoldierGameObj();
     }
@@ -2899,21 +2899,21 @@ void Play_Building_Announcement(GameObject* object, int text_id)
 
 GameObject* Find_Nearest_Building_To_Pos(const Vector3& position, const char* mesh_prefix)
 {
-    SCRIPT_PTR_CHECK_RET(mesh_prefix, NULL);
+    SCRIPT_PTR_CHECK_RET(mesh_prefix, nullptr);
     SCRIPT_TRACE(("ST>Find_Nearest_Building_To_Pos( (%f,%f,%f), %s )\n", position.X, position.Y,
                   position.Z, mesh_prefix));
 
     float best_dist2 = 99999.0F;
-    BuildingGameObj* best_building = NULL;
+    BuildingGameObj* best_building = nullptr;
 
     //
     //	Loop over all the buildings in the level
     //
-    SLNode<BuildingGameObj>* obj_node = NULL;
+    SLNode<BuildingGameObj>* obj_node = nullptr;
     for (obj_node = GameObjManager::Get_Building_Game_Obj_List()->Head(); obj_node;
          obj_node = obj_node->Next()) {
         BuildingGameObj* building = obj_node->Data()->As_BuildingGameObj();
-        if (building != NULL) {
+        if (building != nullptr) {
 
             //
             //	Is this the type of building we're looking for?
@@ -2940,8 +2940,8 @@ GameObject* Find_Nearest_Building_To_Pos(const Vector3& position, const char* me
 
 GameObject* Find_Nearest_Building(GameObject* object, const char* mesh_prefix)
 {
-    SCRIPT_PTR_CHECK_RET(object, NULL);
-    SCRIPT_PTR_CHECK_RET(mesh_prefix, NULL);
+    SCRIPT_PTR_CHECK_RET(object, nullptr);
+    SCRIPT_PTR_CHECK_RET(mesh_prefix, nullptr);
     SCRIPT_TRACE(("ST>Find_Nearest_Building( %d, %s )\n", object->Get_ID(), mesh_prefix));
 
     //
@@ -3045,7 +3045,7 @@ void Enable_Stealth(GameObject* object, bool onoff)
     SCRIPT_TRACE(("ST>Enable_Stealth( %d, %d )\n", object->Get_ID(), (onoff ? 1 : 0)));
 
     SmartGameObj* smartobj = object->As_SmartGameObj();
-    if (smartobj != NULL) {
+    if (smartobj != nullptr) {
         smartobj->Enable_Stealth(onoff);
     }
 }
@@ -3069,7 +3069,7 @@ int Text_File_Open(const char* filename)
         file->Open();
         if (!file->Is_Available()) {
             _TheFileFactory->Return_File(file);
-            file = NULL;
+            file = nullptr;
         }
     }
     return (int)(file);
@@ -3096,7 +3096,7 @@ bool Text_File_Get_String(int handle, char* buffer, int size)
 void Text_File_Close(int handle)
 {
     FileClass* file = (FileClass*)handle;
-    if (file != NULL) {
+    if (file != nullptr) {
         file->Close();
         _TheFileFactory->Return_File(file);
     }
@@ -3111,7 +3111,7 @@ void Enable_Vehicle_Transitions(GameObject* object, bool enable)
     SCRIPT_TRACE(("ST>Enable_Vehicle_Transitions( %d, %d )\n", object->Get_ID(), enable));
 
     PhysicalGameObj* physgo = object->As_PhysicalGameObj();
-    VehicleGameObj* vehicle = NULL;
+    VehicleGameObj* vehicle = nullptr;
     if (physgo) {
         vehicle = physgo->As_VehicleGameObj();
     }
@@ -3233,8 +3233,8 @@ void Expire_Powerup(GameObject* object)
     SCRIPT_PTR_CHECK(object);
     SCRIPT_TRACE(("ST>Expire_Powerup( %d )\n", object->Get_ID()));
 
-    PowerUpGameObj* powerup = NULL;
-    if (object->As_PhysicalGameObj() != NULL) {
+    PowerUpGameObj* powerup = nullptr;
+    if (object->As_PhysicalGameObj() != nullptr) {
         powerup = object->As_PhysicalGameObj()->As_PowerUpGameObj();
     }
     if (powerup) {
@@ -3270,7 +3270,7 @@ void Set_HUD_Help_Text(int string_id, const Vector3& color)
             //	Play the sound
             //
             WWAudioClass* audio = WWAudioClass::Get_Instance();
-            assert(audio != NULL);
+            assert(audio != nullptr);
             audio->Create_Instant_Sound(sound_id, Matrix3D(1));
         }
     }
@@ -3285,7 +3285,7 @@ void Enable_HUD_Pokable_Indicator(GameObject* object, bool enable)
 {
     SCRIPT_PTR_CHECK(object);
     SCRIPT_TRACE(("ST>Enable_HUD_Pokable_Indicator( %d, %d )\n", object->Get_ID(), enable));
-    if (object->As_PhysicalGameObj() != NULL) {
+    if (object->As_PhysicalGameObj() != nullptr) {
         object->As_PhysicalGameObj()->Enable_HUD_Pokable_Indicator(enable);
     }
     else {
@@ -3297,7 +3297,7 @@ void Enable_Innate_Conversations(GameObject* object, bool enable)
 {
     SCRIPT_PTR_CHECK(object);
     SCRIPT_TRACE(("ST>Enable_Innate_Conversations( %d, %d )\n", object->Get_ID(), enable));
-    if (object->As_PhysicalGameObj() != NULL) {
+    if (object->As_PhysicalGameObj() != nullptr) {
         object->As_PhysicalGameObj()->Enable_Innate_Conversations(enable);
     }
     else {
@@ -3309,7 +3309,7 @@ void Display_Health_Bar(GameObject* object, bool display)
 {
     SCRIPT_PTR_CHECK(object);
     SCRIPT_TRACE(("ST>Display_Health_Bar( %d, %d )\n", object->Get_ID(), display));
-    if (object->As_DamageableGameObj() != NULL) {
+    if (object->As_DamageableGameObj() != nullptr) {
         object->As_DamageableGameObj()->Set_Is_Health_Bar_Displayed(display);
     }
     else {
@@ -3321,7 +3321,7 @@ void Enable_Shadow(GameObject* object, bool enable)
 {
     SCRIPT_PTR_CHECK(object);
     SCRIPT_TRACE(("ST>Enable_Shadow( %d, %d )\n", object->Get_ID(), enable));
-    if (object->As_PhysicalGameObj() != NULL) {
+    if (object->As_PhysicalGameObj() != nullptr) {
         object->As_PhysicalGameObj()->Peek_Physical_Object()->Enable_Shadow_Generation(enable);
     }
     else {
@@ -3333,7 +3333,7 @@ void Clear_Weapons(GameObject* object)
 {
     SCRIPT_PTR_CHECK(object);
     SCRIPT_TRACE(("ST>Clear_Weapons( %d )\n", object->Get_ID()));
-    if (object->As_SmartGameObj() != NULL) {
+    if (object->As_SmartGameObj() != nullptr) {
         object->As_SmartGameObj()->Get_Weapon_Bag()->Clear_Weapons();
     }
     else {

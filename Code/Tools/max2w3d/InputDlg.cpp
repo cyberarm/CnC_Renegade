@@ -47,12 +47,12 @@ static BOOL CALLBACK _thunk_dialog_proc(HWND hWnd, UINT uMsg, WPARAM wParam, LPA
 
 InputDlg::InputDlg(HWND hWndParent)
     : m_hWndParent(hWndParent),
-      m_hWnd(NULL)
+      m_hWnd(nullptr)
 {
     // Set the strings to default values.
     SetCaption("Input Value...");
     SetLabel("Please enter a value:");
-    SetValue(NULL);
+    SetValue(nullptr);
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -106,7 +106,7 @@ void InputDlg::SetValue(const char* value)
 
 BOOL CALLBACK _thunk_dialog_proc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-    static InputDlg* dialog = NULL;
+    static InputDlg* dialog = nullptr;
 
     if (uMsg == WM_INITDIALOG) {
         dialog = (InputDlg*)lParam;
@@ -150,7 +150,7 @@ BOOL CALLBACK InputDlg::DialogProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM l
                 return TRUE;
             }
 
-            SetCursor(LoadCursor(NULL, IDC_WAIT));
+            SetCursor(LoadCursor(nullptr, IDC_WAIT));
             EndDialog(m_hWnd, 1);
             break;
 
@@ -170,19 +170,19 @@ BOOL CALLBACK InputDlg::DialogProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM l
 LRESULT InputDlg::OnInitDialog(WPARAM wParam, LPARAM lParam)
 {
     // Set the cursor to the normal arrow.
-    SetCursor(LoadCursor(NULL, IDC_ARROW));
+    SetCursor(LoadCursor(nullptr, IDC_ARROW));
 
     // Set the dialog box caption.
     SetWindowText(m_hWnd, m_Caption);
 
     // Set the label text.
     HWND hLabel = GetDlgItem(m_hWnd, IDC_LABEL);
-    assert(hLabel != NULL);
+    assert(hLabel != nullptr);
     SetWindowText(hLabel, m_Label);
 
     // Set the default value.
     HWND hEdit = GetDlgItem(m_hWnd, IDC_VALUE);
-    assert(hEdit != NULL);
+    assert(hEdit != nullptr);
     SetWindowText(hEdit, m_Value);
 
     // Select all of the text in the edit box.
@@ -195,7 +195,7 @@ BOOL InputDlg::OnOK(void)
 {
     // Update our copy of what the user typed.
     HWND hEdit = GetDlgItem(m_hWnd, IDC_VALUE);
-    assert(hEdit != NULL);
+    assert(hEdit != nullptr);
     GetWindowText(hEdit, m_Value, sizeof(m_Value));
 
     // The dialog can be dismissed.

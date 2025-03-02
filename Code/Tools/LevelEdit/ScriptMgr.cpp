@@ -104,7 +104,7 @@ void ScriptMgrClass::Initialize(void)
     CString dll_name = ::Make_Path(scripts_path, filename);
     if (::GetFileAttributes(dll_name) != 0xFFFFFFFF) {
         HMODULE module_handle = ::LoadLibrary(dll_name);
-        if (module_handle != NULL) {
+        if (module_handle != nullptr) {
 
             // Lookup the function pointer we need to call to determine
             // a filename list
@@ -115,11 +115,11 @@ void ScriptMgrClass::Initialize(void)
             LPFN_GET_SCRIPT_PARAM_DESCRIPTION pfn_get_param_desc
                 = (LPFN_GET_SCRIPT_PARAM_DESCRIPTION)::GetProcAddress(
                     module_handle, LPSTR_GET_SCRIPT_PARAM_DESCRIPTION);
-            ASSERT(pfn_get_script_count != NULL);
-            ASSERT(pfn_get_script_name != NULL);
-            ASSERT(pfn_get_param_desc != NULL);
-            if ((pfn_get_script_count != NULL) && (pfn_get_script_name != NULL)
-                && (pfn_get_param_desc != NULL)) {
+            ASSERT(pfn_get_script_count != nullptr);
+            ASSERT(pfn_get_script_name != nullptr);
+            ASSERT(pfn_get_param_desc != nullptr);
+            if ((pfn_get_script_count != nullptr) && (pfn_get_script_name != nullptr)
+                && (pfn_get_param_desc != nullptr)) {
                 int count = (*pfn_get_script_count)();
 
                 //
@@ -142,7 +142,7 @@ void ScriptMgrClass::Initialize(void)
 
             // Unload the DLL from memory
             ::FreeLibrary(module_handle);
-            module_handle = NULL;
+            module_handle = nullptr;
         }
     }
     /*}
@@ -177,9 +177,9 @@ void ScriptMgrClass::Shutdown(void)
 //////////////////////////////////////////////////////////////////////////
 EditScriptClass* ScriptMgrClass::Find_Script(LPCTSTR name)
 {
-    EditScriptClass* script = NULL;
+    EditScriptClass* script = nullptr;
 
-    for (int index = 0; (index < _ScriptList.Count()) && (script == NULL); index++) {
+    for (int index = 0; (index < _ScriptList.Count()) && (script == nullptr); index++) {
         EditScriptClass* curr_script = _ScriptList[index];
 
         //

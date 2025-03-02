@@ -64,29 +64,29 @@ SubTitleManagerClass* SubTitleManagerClass::Create(const char* filename,
                                                    const char* subtitlefilename,
                                                    FontCharsClass* font)
 {
-    if ((filename == NULL) || (strlen(filename) == 0)) {
-        return NULL;
+    if ((filename == nullptr) || (strlen(filename) == 0)) {
+        return nullptr;
     }
 
     if (subtitlefilename && !font) {
-        return NULL;
+        return nullptr;
     }
 
     // Create subtitle manager for the vqa
     SubTitleManagerClass* instance = new SubTitleManagerClass();
-    WWASSERT(instance != NULL);
+    WWASSERT(instance != nullptr);
 
-    if (instance != NULL) {
+    if (instance != nullptr) {
         instance->Set_Font(font);
 
         // Retrieve moviename
         char fname[_MAX_FNAME];
-        _splitpath(filename, NULL, NULL, fname, NULL);
+        _splitpath(filename, nullptr, nullptr, fname, nullptr);
         bool loaded = instance->Load_Sub_Titles(fname, subtitlefilename);
 
         if (loaded == false) {
             delete instance;
-            return NULL;
+            return nullptr;
         }
     }
 
@@ -108,9 +108,9 @@ SubTitleManagerClass* SubTitleManagerClass::Create(const char* filename,
  ******************************************************************************/
 
 SubTitleManagerClass::SubTitleManagerClass()
-    : mSubTitles(NULL),
+    : mSubTitles(nullptr),
       mSubTitleIndex(0),
-      mActiveSubTitle(NULL)
+      mActiveSubTitle(nullptr)
 {
 }
 
@@ -132,7 +132,7 @@ SubTitleManagerClass::SubTitleManagerClass()
 SubTitleManagerClass::~SubTitleManagerClass()
 {
     // Release subtitle entries
-    if (mSubTitles != NULL) {
+    if (mSubTitles != nullptr) {
         for (int index = 0; index < mSubTitles->Count(); index++) {
             delete (*mSubTitles)[index];
         }
@@ -165,11 +165,11 @@ void SubTitleManagerClass::Set_Font(FontCharsClass* font)
 
 bool SubTitleManagerClass::Load_Sub_Titles(const char* moviename, const char* subtitlefilename)
 {
-    if ((moviename == NULL) || (strlen(moviename) == 0)) {
+    if ((moviename == nullptr) || (strlen(moviename) == 0)) {
         return false;
     }
 
-    if ((subtitlefilename == NULL) || (strlen(subtitlefilename) == 0)) {
+    if ((subtitlefilename == nullptr) || (strlen(subtitlefilename) == 0)) {
         return false;
     }
 
@@ -184,7 +184,7 @@ bool SubTitleManagerClass::Load_Sub_Titles(const char* moviename, const char* su
 
     mSubTitles = parser.Get_Sub_Titles(moviename);
 
-    if (mSubTitles == NULL) {
+    if (mSubTitles == nullptr) {
         return false;
     }
 
@@ -211,7 +211,7 @@ bool SubTitleManagerClass::Load_Sub_Titles(const char* moviename, const char* su
 
 bool SubTitleManagerClass::Process(unsigned long movieTime)
 {
-    if (mSubTitles == NULL) {
+    if (mSubTitles == nullptr) {
         return false;
     }
 
@@ -225,7 +225,7 @@ bool SubTitleManagerClass::Process(unsigned long movieTime)
 
         // Get the next subtitle
         SubTitleClass* subtitle = (*mSubTitles)[mSubTitleIndex];
-        WWASSERT(subtitle != NULL);
+        WWASSERT(subtitle != nullptr);
 
         // Check the display time against the current movie time. If it is time
         // to display the subtitle then send a subtitle event to the client.
@@ -250,12 +250,12 @@ bool SubTitleManagerClass::Process(unsigned long movieTime)
     }
 
     // If the active subtitles duration has expired then remove it as being active.
-    if (mActiveSubTitle != NULL) {
+    if (mActiveSubTitle != nullptr) {
         SubTitleClass* subtitle = mActiveSubTitle;
         unsigned long expireTime = subtitle->Get_Display_Time() + subtitle->Get_Display_Duration();
 
         if (movieTime >= expireTime) {
-            mActiveSubTitle = NULL;
+            mActiveSubTitle = nullptr;
 
             // Erase subtitle
             Renderer.Reset();
@@ -284,7 +284,7 @@ bool SubTitleManagerClass::Process(unsigned long movieTime)
 void SubTitleManagerClass::Reset(void)
 {
     mSubTitleIndex = 0;
-    mActiveSubTitle = NULL;
+    mActiveSubTitle = nullptr;
 }
 
 /******************************************************************************
@@ -304,7 +304,7 @@ void SubTitleManagerClass::Reset(void)
 
 void SubTitleManagerClass::Draw_Sub_Title(const SubTitleClass* subtitle)
 {
-    WWASSERT(subtitle != NULL);
+    WWASSERT(subtitle != nullptr);
 
     Renderer.Reset();
 

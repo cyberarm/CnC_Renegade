@@ -48,11 +48,11 @@ static PaletteClass _VoxelPalette;
 
 VoxelDebugWindowClass::VoxelDebugWindowClass(VoxelClass* vxl)
     : CurLayer(0),
-      Bitmap(NULL),
+      Bitmap(nullptr),
       Voxel(vxl),
       WindowHWND(0),
       ViewportHWND(0),
-      LayerSpin(NULL)
+      LayerSpin(nullptr)
 {
     _VoxelPalette[0] = RGBClass(0, 0, 0);
     _VoxelPalette[1] = RGBClass(128, 255, 128);
@@ -65,7 +65,7 @@ VoxelDebugWindowClass::~VoxelDebugWindowClass(void)
 
 void VoxelDebugWindowClass::Display_Window(void)
 {
-    DialogBoxParam(AppInstance, MAKEINTRESOURCE(IDD_VOXEL_DEBUG_DIALOG), NULL,
+    DialogBoxParam(AppInstance, MAKEINTRESOURCE(IDD_VOXEL_DEBUG_DIALOG), nullptr,
                    (DLGPROC)_dialog_proc, (LPARAM)this);
 }
 
@@ -100,7 +100,7 @@ bool VoxelDebugWindowClass::Dialog_Proc(HWND hWnd, UINT message, WPARAM wParam, 
 
         update_display();
 
-        SetCursor(LoadCursor(NULL, IDC_ARROW));
+        SetCursor(LoadCursor(nullptr, IDC_ARROW));
 
         return 1;
 
@@ -115,7 +115,7 @@ bool VoxelDebugWindowClass::Dialog_Proc(HWND hWnd, UINT message, WPARAM wParam, 
         case IDOK:
 
             // done!
-            SetCursor(LoadCursor(NULL, IDC_WAIT));
+            SetCursor(LoadCursor(nullptr, IDC_WAIT));
             EndDialog(hWnd, 1);
             break;
         }
@@ -161,7 +161,7 @@ void VoxelDebugWindowClass::update_display(void)
     /*
     ** Bail out if everything isn't right
     */
-    if ((Bitmap == NULL) || (Voxel == NULL)) {
+    if ((Bitmap == nullptr) || (Voxel == nullptr)) {
         return;
     }
 
@@ -208,7 +208,7 @@ void VoxelDebugWindowClass::update_display(void)
 
 BOOL CALLBACK _dialog_proc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-    static VoxelDebugWindowClass* window = NULL;
+    static VoxelDebugWindowClass* window = nullptr;
 
     if (message == WM_INITDIALOG) {
         window = (VoxelDebugWindowClass*)lParam;

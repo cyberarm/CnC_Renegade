@@ -148,7 +148,7 @@ template <class T> struct AUDIO_CALLBACK_STRUCT
     uint32 user_data;
 
     AUDIO_CALLBACK_STRUCT(void)
-        : callback_ptr(NULL),
+        : callback_ptr(nullptr),
           user_data(0)
     {
     }
@@ -194,7 +194,7 @@ template <class T> void AudioCallbackListClass<T>::Add_Callback(T pointer, uint3
 /////////////////////////////////////////////////////////////////////////////////
 template <class T> T AudioCallbackListClass<T>::Get_Callback(int index, uint32* user_data)
 {
-    if (user_data != NULL) {
+    if (user_data != nullptr) {
         (*user_data) = Vector[index].user_data;
     }
 

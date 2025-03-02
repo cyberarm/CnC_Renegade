@@ -80,7 +80,7 @@ const float RES_SCREEN_HEIGHT = 300;
 ////////////////////////////////////////////////////////////////
 //	Static member initialization
 ////////////////////////////////////////////////////////////////
-DEFAULT_DLG_CMD_HANDLER DialogBaseClass::DefaultCmdHandler = NULL;
+DEFAULT_DLG_CMD_HANDLER DialogBaseClass::DefaultCmdHandler = nullptr;
 
 ////////////////////////////////////////////////////////////////
 //
@@ -90,7 +90,7 @@ DEFAULT_DLG_CMD_HANDLER DialogBaseClass::DefaultCmdHandler = NULL;
 DialogBaseClass::DialogBaseClass(int res_id)
     : DialogResID(res_id),
       AreControlsHidden(false),
-      LastFocusControl(NULL),
+      LastFocusControl(nullptr),
       LastMouseClickTime(0),
       IsVisible(true),
       IsRunning(false)
@@ -148,7 +148,7 @@ void DialogBaseClass::Start_Dialog(void)
 
         ControlDefinitionStruct& info = control_list[index];
 
-        DialogControlClass* control = NULL;
+        DialogControlClass* control = nullptr;
         switch (info.type) {
         case BUTTON:
             if ((info.style & 0xF) == BS_CHECKBOX || (info.style & 0xF) == BS_AUTOCHECKBOX) {
@@ -244,7 +244,7 @@ void DialogBaseClass::Start_Dialog(void)
         //
         //	Add the control to the list (if necessary)
         //
-        if (control != NULL) {
+        if (control != nullptr) {
 
             //
             //	Set the generic control information
@@ -321,7 +321,7 @@ void DialogBaseClass::End_Dialog(void)
     //
     for (index = 0; index < ChildDialogList.Count(); index++) {
         ChildDialogList[index]->End_Dialog();
-        ChildDialogList[index]->Set_Parent_Dialog(NULL);
+        ChildDialogList[index]->Set_Parent_Dialog(nullptr);
         ChildDialogList[index]->Release_Ref();
     }
 
@@ -417,7 +417,7 @@ void DialogBaseClass::Enable_Dlg_Item(int id, bool onoff)
     //	Find the control
     //
     DialogControlClass* control = Get_Dlg_Item(id);
-    if (control != NULL) {
+    if (control != nullptr) {
 
         //
         //	Change the enable state of hte control
@@ -441,7 +441,7 @@ bool DialogBaseClass::Is_Dlg_Item_Enabled(int id)
     //	Find the control
     //
     DialogControlClass* control = Get_Dlg_Item(id);
-    if (control != NULL) {
+    if (control != nullptr) {
 
         //
         //	Return the state of the control to the caller
@@ -459,7 +459,7 @@ bool DialogBaseClass::Is_Dlg_Item_Enabled(int id)
 ////////////////////////////////////////////////////////////////
 DialogControlClass* DialogBaseClass::Get_Dlg_Item(int id) const
 {
-    DialogControlClass* retval = NULL;
+    DialogControlClass* retval = nullptr;
 
     //
     //	Simply loop over all the controls in our list until we
@@ -482,13 +482,13 @@ DialogControlClass* DialogBaseClass::Get_Dlg_Item(int id) const
 ////////////////////////////////////////////////////////////////
 const WCHAR* DialogBaseClass::Get_Dlg_Item_Text(int id) const
 {
-    const WCHAR* retval = NULL;
+    const WCHAR* retval = nullptr;
 
     //
     //	Find the control
     //
     DialogControlClass* control = Get_Dlg_Item(id);
-    if (control != NULL) {
+    if (control != nullptr) {
 
         //
         //	Return the control's text to the caller
@@ -510,7 +510,7 @@ void DialogBaseClass::Set_Dlg_Item_Text(int id, const WCHAR* text)
     //	Find the control
     //
     DialogControlClass* control = Get_Dlg_Item(id);
-    if (control != NULL) {
+    if (control != nullptr) {
 
         //
         //	Set the text of this control
@@ -534,7 +534,7 @@ int DialogBaseClass::Get_Dlg_Item_Int(int id) const
     //	Find the control
     //
     DialogControlClass* control = Get_Dlg_Item(id);
-    if (control != NULL) {
+    if (control != nullptr) {
 
         //
         //	Get the text from the control
@@ -561,7 +561,7 @@ void DialogBaseClass::Set_Dlg_Item_Int(int id, int value)
     //	Find the control
     //
     DialogControlClass* control = Get_Dlg_Item(id);
-    if (control != NULL) {
+    if (control != nullptr) {
 
         //
         //	Convert the value to a string
@@ -591,7 +591,7 @@ float DialogBaseClass::Get_Dlg_Item_Float(int id) const
     //	Find the control
     //
     DialogControlClass* control = Get_Dlg_Item(id);
-    if (control != NULL) {
+    if (control != nullptr) {
 
         //
         //	Get the text from the control
@@ -618,7 +618,7 @@ void DialogBaseClass::Set_Dlg_Item_Float(int id, float value)
     //	Find the control
     //
     DialogControlClass* control = Get_Dlg_Item(id);
-    if (control != NULL) {
+    if (control != nullptr) {
 
         //
         //	Convert the value to a string
@@ -646,7 +646,7 @@ void DialogBaseClass::Check_Dlg_Button(int id, bool onoff)
     //	Find the control
     //
     DialogControlClass* control = Get_Dlg_Item(id);
-    if (control != NULL && control->As_CheckBoxCtrlClass() != NULL) {
+    if (control != nullptr && control->As_CheckBoxCtrlClass() != nullptr) {
 
         //
         //	Set the check state of this control
@@ -670,7 +670,7 @@ bool DialogBaseClass::Is_Dlg_Button_Checked(int id) const
     //	Find the control
     //
     DialogControlClass* control = Get_Dlg_Item(id);
-    if (control != NULL && control->As_CheckBoxCtrlClass() != NULL) {
+    if (control != nullptr && control->As_CheckBoxCtrlClass() != nullptr) {
 
         //
         //	Return the check state of this control to the caller
@@ -699,8 +699,8 @@ void DialogBaseClass::Free_Controls(void)
     //
     //	Reset our pointers
     //
-    // FocusControl = NULL;
-    LastFocusControl = NULL;
+    // FocusControl = nullptr;
+    LastFocusControl = nullptr;
     return;
 }
 
@@ -793,7 +793,7 @@ void DialogBaseClass::Update_Mouse_State(void)
     Vector3 cursor_pos = DialogMgrClass::Get_Mouse_Pos();
     Vector2 screen_pos(cursor_pos.X, cursor_pos.Y);
 
-    DialogControlClass* current_control = NULL;
+    DialogControlClass* current_control = nullptr;
 
     //
     //	Build a complete list of controls
@@ -837,7 +837,7 @@ void DialogBaseClass::Update_Mouse_State(void)
 
     DialogControlClass* input_capture = DialogMgrClass::Get_Capture();
     DialogControlClass* control = input_capture ? input_capture : current_control;
-    if (control != NULL && control->Is_Enabled() && control->Is_Visible()) {
+    if (control != nullptr && control->Is_Enabled() && control->Is_Visible()) {
 
         //
         //	Send mouse input to the control
@@ -852,11 +852,11 @@ void DialogBaseClass::Update_Mouse_State(void)
         MouseMgrClass::Set_Cursor(MouseMgrClass::CURSOR_ARROW);
 
         //
-        //	If the user clicked in empty space, then NULL out the focus'd control
+        //	If the user clicked in empty space, then nullptr out the focus'd control
         //
         if (DialogMgrClass::Is_Button_Down(VK_LBUTTON)
             && DialogMgrClass::Was_Button_Down(VK_LBUTTON)) {
-            DialogMgrClass::Set_Focus(NULL);
+            DialogMgrClass::Set_Focus(nullptr);
         }
     }
 
@@ -864,7 +864,7 @@ void DialogBaseClass::Update_Mouse_State(void)
     //	Check for mouse wheel activity
     //
     const Vector3& last_mouse_pos = DialogMgrClass::Get_Last_Mouse_Pos();
-    if (last_mouse_pos.Z != cursor_pos.Z && DialogMgrClass::Get_Focus() != NULL) {
+    if (last_mouse_pos.Z != cursor_pos.Z && DialogMgrClass::Get_Focus() != nullptr) {
         DialogMgrClass::Get_Focus()->On_Mouse_Wheel((int)(last_mouse_pos.Z - cursor_pos.Z));
     }
 
@@ -885,7 +885,7 @@ void DialogBaseClass::On_Command(int ctrl_id, int message_id, DWORD param)
     //
     //	Allow the default handler to process this command
     //
-    if (DefaultCmdHandler != NULL) {
+    if (DefaultCmdHandler != nullptr) {
         (*DefaultCmdHandler)(this, ctrl_id, message_id, param);
     }
 
@@ -914,14 +914,14 @@ void DialogBaseClass::On_Activate(bool onoff)
         //
         //	Let go of the currently focus'd control
         //
-        DialogMgrClass::Set_Focus(NULL);
+        DialogMgrClass::Set_Focus(nullptr);
 
         DialogEvent dlgEvent(DialogEvent::DEACTIVATED, this);
         NotifyObservers(dlgEvent);
     }
     else {
 
-        if (LastFocusControl != NULL) {
+        if (LastFocusControl != nullptr) {
             DialogMgrClass::Set_Focus(LastFocusControl);
         }
         else {
@@ -987,18 +987,18 @@ bool DialogBaseClass::On_Key_Down(uint32 key_id, uint32 key_data)
         //
         //	Set the new focus control
         //
-        if (control != NULL) {
+        if (control != nullptr) {
             DialogMgrClass::Set_Focus(control);
             handled = true;
         }
     }
-    else if (input != NULL) {
+    else if (input != nullptr) {
 
         //
         //	Send out the standard On_OK notification if the user
         // pressed enter
         //
-        if (input->As_ButtonCtrlClass() == NULL && input->As_MenuEntryCtrlClass() == NULL
+        if (input->As_ButtonCtrlClass() == nullptr && input->As_MenuEntryCtrlClass() == nullptr
             && key_id == VK_RETURN) {
             On_Command(IDOK, 0, 0);
             handled = true;
@@ -1031,7 +1031,7 @@ bool DialogBaseClass::On_Key_Up(uint32 key_id)
     //
     //	Pass keyboard input onto the control
     //
-    if (input != NULL) {
+    if (input != nullptr) {
         handled = input->On_Key_Up(key_id);
     }
 
@@ -1054,7 +1054,7 @@ void DialogBaseClass::On_Unicode_Char(uint16 unicode)
     DialogControlClass* input_capture = DialogMgrClass::Get_Capture();
     DialogControlClass* input = input_capture ? input_capture : DialogMgrClass::Get_Focus();
 
-    if (input != NULL) {
+    if (input != nullptr) {
 
         //
         //	Pass keyboard input onto the control
@@ -1073,7 +1073,7 @@ void DialogBaseClass::On_Unicode_Char(uint16 unicode)
 ////////////////////////////////////////////////////////////////
 DialogControlClass* DialogBaseClass::Find_Next_Control(DialogControlClass* control, int direction)
 {
-    DialogControlClass* retval = NULL;
+    DialogControlClass* retval = nullptr;
 
     //
     //	Build a complete list of controls
@@ -1206,7 +1206,7 @@ DialogControlClass* DialogBaseClass::Find_Next_Group_Control(DialogControlClass*
     //
     //	Index into the list and return the pointer to the caller
     //
-    DialogControlClass* retval = NULL;
+    DialogControlClass* retval = nullptr;
     if (new_index >= 0) {
         retval = control_list[new_index];
     }
@@ -1256,7 +1256,7 @@ void DialogBaseClass::Remove_Control(DialogControlClass* control)
     int index = ControlList.ID(control);
     if (index != -1) {
         control->On_Remove_From_Dialog();
-        control->Set_Parent(NULL);
+        control->Set_Parent(nullptr);
 
         //
         //	Remove the control from the list (note: its possible
@@ -1285,7 +1285,7 @@ void DialogBaseClass::Remove_Control(DialogControlClass* control)
 ////////////////////////////////////////////////////////////////
 DialogControlClass* DialogBaseClass::Find_Control(const Vector2& mouse_pos)
 {
-    DialogControlClass* retval = NULL;
+    DialogControlClass* retval = nullptr;
 
     //
     //	Build a complete list of controls
@@ -1375,16 +1375,16 @@ void DialogBaseClass::Remove_Child_Dialog(ChildDialogClass* child)
         //	Check to see if the current focus control belongs to this
         // dialog
         //
-        if (DialogMgrClass::Get_Focus() != NULL
+        if (DialogMgrClass::Get_Focus() != nullptr
             && DialogMgrClass::Get_Focus()->Peek_Parent() == child) {
-            DialogMgrClass::Set_Focus(NULL);
+            DialogMgrClass::Set_Focus(nullptr);
             reset_focus = true;
         }
 
         //
         //	Remove the control from the list
         //
-        child->Set_Parent_Dialog(NULL);
+        child->Set_Parent_Dialog(nullptr);
         child->Release_Ref();
         ControlList.Delete(index);
     }
@@ -1393,7 +1393,7 @@ void DialogBaseClass::Remove_Child_Dialog(ChildDialogClass* child)
     //	Reset the focus to the first control we find that wants it
     //
     if (reset_focus) {
-        DialogMgrClass::Set_Focus(Find_Next_Control(NULL));
+        DialogMgrClass::Set_Focus(Find_Next_Control(nullptr));
     }
 
     return;
@@ -1481,7 +1481,7 @@ void DialogBaseClass::Set_Rect(const RectClass& rect)
 ////////////////////////////////////////////////////////////////
 void DialogBaseClass::On_Init_Dialog(void)
 {
-    if (DialogMgrClass::Get_Focus() == NULL) {
+    if (DialogMgrClass::Get_Focus() == nullptr) {
         Set_Default_Focus();
     }
     else {
@@ -1529,7 +1529,7 @@ void DialogBaseClass::Set_Default_Focus(void)
 ////////////////////////////////////////////////////////////////
 void DialogBaseClass::On_Mouse_Wheel(int direction)
 {
-    if (DialogMgrClass::Get_Focus() != NULL) {
+    if (DialogMgrClass::Get_Focus() != nullptr) {
         DialogMgrClass::Get_Focus()->On_Mouse_Wheel(direction);
     }
 

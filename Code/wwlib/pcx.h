@@ -69,9 +69,9 @@ struct PCX_HEADER
     char filler[58];
 };
 
-Surface* Read_PCX_File(FileClass& file_handle, PaletteClass* palette = NULL, void* buff = NULL,
+Surface* Read_PCX_File(FileClass& file_handle, PaletteClass* palette = nullptr, void* buff = nullptr,
                        long size = 0);
-// Surface * Read_PCX_File (char * name, Buffer & Buff, PaletteClass * palette= NULL) ;
+// Surface * Read_PCX_File (char * name, Buffer & Buff, PaletteClass * palette= nullptr) ;
 bool Write_PCX_File(FileClass& file, Surface& pic, PaletteClass* palette);
 
 #endif

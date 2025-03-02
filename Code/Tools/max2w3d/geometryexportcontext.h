@@ -69,7 +69,7 @@ public:
           OriginList(origin_list),
           Origin(origin),
           OriginTransform(1),
-          ProgressMeter(NULL)
+          ProgressMeter(nullptr)
     {
         ModelName = strdup(model_name);
         OriginTransform = Origin->GetNodeTM(CurTime);

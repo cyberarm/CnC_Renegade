@@ -49,7 +49,7 @@
 //////////////////////////////////////////////////////////////////////////////
 //	Local prototypes
 //////////////////////////////////////////////////////////////////////////////
-WORD* Skip_Dlg_Field(WORD* src, WCHAR* buffer = NULL, int buffer_len = 0, WORD* ctrl_type = NULL);
+WORD* Skip_Dlg_Field(WORD* src, WCHAR* buffer = nullptr, int buffer_len = 0, WORD* ctrl_type = nullptr);
 
 //////////////////////////////////////////////////////////////////////////////
 //
@@ -69,7 +69,7 @@ WORD* Skip_Dlg_Field(WORD* src, WCHAR* buffer, int buffer_len, WORD* ctrl_type)
     //
     //		0xFFFF		- The following WORD is an ordinal value of a system class.
     //		0x0000		- Empty field
-    //		Otherwise	- The remaining data is a NULL terminated WCHAR string.
+    //		Otherwise	- The remaining data is a nullptr terminated WCHAR string.
     //
     if (*retval == 0xFFFF) {
 
@@ -81,7 +81,7 @@ WORD* Skip_Dlg_Field(WORD* src, WCHAR* buffer, int buffer_len, WORD* ctrl_type)
         //
         //	Does the user want information about the ctrl type?
         //
-        if (ctrl_type != NULL) {
+        if (ctrl_type != nullptr) {
             *ctrl_type = *retval;
         }
 
@@ -93,9 +93,9 @@ WORD* Skip_Dlg_Field(WORD* src, WCHAR* buffer, int buffer_len, WORD* ctrl_type)
     else if (*retval == 0x0000) {
 
         //
-        //	Null terminate the string if the user is expecting data
+        //	nullptr terminate the string if the user is expecting data
         //
-        if (buffer != NULL) {
+        if (buffer != nullptr) {
             *buffer = 0;
         }
 
@@ -107,12 +107,12 @@ WORD* Skip_Dlg_Field(WORD* src, WCHAR* buffer, int buffer_len, WORD* ctrl_type)
     else {
 
         //
-        //	The following data is a null-terminated string.  Scan
+        //	The following data is a nullptr-terminated string.  Scan
         // as much data into our desination buffer as possible.
         //	Note:  The data is stored in wide character format.
         //
         while (*retval != 0x0000) {
-            if (buffer != NULL && buffer_len > 1) {
+            if (buffer != nullptr && buffer_len > 1) {
 
                 //
                 //	Store this character in the supplied buffer
@@ -125,9 +125,9 @@ WORD* Skip_Dlg_Field(WORD* src, WCHAR* buffer, int buffer_len, WORD* ctrl_type)
         }
 
         //
-        //	Ensure the supplied buffer is NULL terminated
+        //	Ensure the supplied buffer is nullptr terminated
         //
-        if (buffer != NULL) {
+        if (buffer != nullptr) {
             *buffer = 0;
         }
 
@@ -158,7 +158,7 @@ void DialogParserClass::Parse_Template(int res_id, int* dlg_width, int* dlg_heig
     HRSRC resource = ::FindResource(ProgramInstance, MAKEINTRESOURCE(res_id), RT_DIALOG);
     HGLOBAL hglobal = ::LoadResource(ProgramInstance, resource);
     LPVOID res_buffer = ::LockResource(hglobal);
-    if (res_buffer != NULL) {
+    if (res_buffer != nullptr) {
 
         //
         //	The first few bytes of the resource buffer are the DLGTEMPLATE structure
@@ -184,7 +184,7 @@ void DialogParserClass::Parse_Template(int res_id, int* dlg_width, int* dlg_heig
         buffer = Skip_Dlg_Field(buffer, dlg_title->Get_Buffer(96), 96);
 
         WCHAR* string_id = ::wcsstr(dlg_title->Peek_Buffer(), L"IDS_");
-        if (string_id != NULL) {
+        if (string_id != nullptr) {
             WideStringClass wide_string_id = string_id;
             StringClass ascii_string_id;
             wide_string_id.Convert_To(ascii_string_id);
@@ -263,7 +263,7 @@ void DialogParserClass::Parse_Template(int res_id, int* dlg_width, int* dlg_heig
             buffer = Skip_Dlg_Field(buffer, text_buffer, 256);
 
             WCHAR* string_id = ::wcsstr(text_buffer, L"IDS_");
-            if (string_id != NULL) {
+            if (string_id != nullptr) {
                 WideStringClass wide_string_id = string_id;
                 StringClass ascii_string_id;
                 wide_string_id.Convert_To(ascii_string_id);

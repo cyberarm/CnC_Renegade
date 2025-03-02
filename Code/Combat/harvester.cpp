@@ -56,12 +56,12 @@ enum
 //
 ////////////////////////////////////////////////////////////////
 HarvesterClass::HarvesterClass(void)
-    : Refinery(NULL),
+    : Refinery(nullptr),
       DockLocation(0, 0, 0),
       DockEntrance(0, 0, 0),
       StateTimer(0),
       State(STATE_UNINITIALIZED),
-      Vehicle(NULL),
+      Vehicle(nullptr),
       IsHarvesting(false)
 {
     Set_ID(GameObjObserverManager::Get_Next_Observer_ID());
@@ -100,7 +100,7 @@ void HarvesterClass::Go_Harvest(void)
     //	Bail if the vehicle pointer is invalid, or if the vehicle
     // isn't on the ground...
     //
-    if (Vehicle == NULL || Vehicle->Peek_Vehicle_Phys()->Is_In_Contact() == false) {
+    if (Vehicle == nullptr || Vehicle->Peek_Vehicle_Phys()->Is_In_Contact() == false) {
         return;
     }
 
@@ -251,14 +251,14 @@ void HarvesterClass::Animation_Complete(GameObject* game_obj, const char* animat
 ////////////////////////////////////////////////////////////////
 void HarvesterClass::Attach(GameObject* game_obj)
 {
-    WWASSERT(game_obj != NULL);
-    if (game_obj != NULL) {
+    WWASSERT(game_obj != nullptr);
+    if (game_obj != nullptr) {
 
         //
         //	See if this game object is a vehicle (it better be)
         //
         PhysicalGameObj* physical_obj = game_obj->As_PhysicalGameObj();
-        if (physical_obj != NULL) {
+        if (physical_obj != nullptr) {
             Vehicle = physical_obj->As_VehicleGameObj();
         }
     }
@@ -276,11 +276,11 @@ void HarvesterClass::Detach(GameObject* /*game_obj*/)
     //
     //	Remove ourselves from the refinery
     //
-    if (Refinery != NULL) {
-        Refinery->Set_Harvester(NULL);
+    if (Refinery != nullptr) {
+        Refinery->Set_Harvester(nullptr);
     }
 
-    Vehicle = NULL;
+    Vehicle = nullptr;
     return;
 }
 
@@ -317,7 +317,7 @@ void HarvesterClass::Think(void)
         break;
 
     case STATE_UNINITIALIZED:
-        if (Vehicle != NULL) {
+        if (Vehicle != nullptr) {
             Go_Harvest();
         }
         break;
@@ -342,7 +342,7 @@ void HarvesterClass::Stop(void)
     //
     //	Stopt the harvester from moving
     //
-    if (Vehicle != NULL) {
+    if (Vehicle != nullptr) {
         Vehicle->Get_Action()->Reset(100);
         Vehicle->Enable_Engine(false);
     }
@@ -370,8 +370,8 @@ void HarvesterClass::Play_Harvest_Animation(bool onoff)
         //	Stop the animation
         //
         AnimControlClass* anim_control = Vehicle->Get_Anim_Control();
-        if (anim_control != NULL) {
-            anim_control->Set_Animation((const char*)NULL);
+        if (anim_control != nullptr) {
+            anim_control->Set_Animation((const char*)nullptr);
         }
     }
 
@@ -411,7 +411,7 @@ void HarvesterClass::Damaged(GameObject* damaged, GameObject* killer, float amou
             return;
         }
 
-        DamageableGameObj* damager = NULL;
+        DamageableGameObj* damager = nullptr;
 
         if (killer) {
             damager = killer->As_DamageableGameObj();
@@ -421,7 +421,7 @@ void HarvesterClass::Damaged(GameObject* damaged, GameObject* killer, float amou
 
         //	Notify the building
         if (!friendlyFire) {
-            assert(Refinery != NULL);
+            assert(Refinery != nullptr);
             Refinery->On_Harvester_Damaged(vehicle);
         }
     }

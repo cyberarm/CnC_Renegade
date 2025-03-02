@@ -51,17 +51,17 @@ PhysicalGameObj* ObjectLibraryManager::Create_Object(int def_id)
     WWMEMLOG(MEM_GAMEDATA);
     DefinitionClass* def = DefinitionMgrClass::Find_Definition(def_id);
     StringClass error_message;
-    if ((def != NULL) && (CLASSID_GAME_OBJECTS == SuperClassID_From_ClassID(def->Get_Class_ID()))) {
+    if ((def != nullptr) && (CLASSID_GAME_OBJECTS == SuperClassID_From_ClassID(def->Get_Class_ID()))) {
         if (def->Is_Valid_Config(error_message)) {
             return (PhysicalGameObj*)def->Create();
         }
         else {
             WWDEBUG_SAY(("Could not create object %s!\n%s\n", def->Get_Name(), error_message));
-            return NULL;
+            return nullptr;
         }
     }
     WWDEBUG_SAY(("Didn't find Definition of (%d)\n", def_id));
-    return NULL;
+    return nullptr;
 }
 
 PhysicalGameObj* ObjectLibraryManager::Create_Object(const char* name)
@@ -76,7 +76,7 @@ PhysicalGameObj* ObjectLibraryManager::Create_Object(const char* name)
         }
         else {
             WWDEBUG_SAY(("Could not create object %s!\n%s\n", def->Get_Name(), error_message));
-            return NULL;
+            return nullptr;
         }
     }
     else if (def) {
@@ -84,7 +84,7 @@ PhysicalGameObj* ObjectLibraryManager::Create_Object(const char* name)
     }
 
     WWDEBUG_SAY(("Didn't find Definition of \"%s\"\n", name));
-    return NULL;
+    return nullptr;
 }
 
 /*

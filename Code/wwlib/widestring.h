@@ -187,7 +187,7 @@ private:
     static int m_UsedTempStringCount;
     static FastCriticalSectionClass m_TempMutex;
 
-    static WCHAR m_NullChar;
+    static WCHAR m_nullptrChar;
     static WCHAR* m_EmptyString;
 };
 
@@ -198,7 +198,7 @@ inline WideStringClass::WideStringClass(int initial_len, bool hint_temporary)
     : m_Buffer(m_EmptyString)
 {
     Get_String(initial_len, hint_temporary);
-    m_Buffer[0] = m_NullChar;
+    m_Buffer[0] = m_nullptrChar;
 
     return;
 }
@@ -271,7 +271,7 @@ inline WideStringClass::~WideStringClass(void)
 ///////////////////////////////////////////////////////////////////
 inline bool WideStringClass::Is_Empty(void) const
 {
-    return (m_Buffer[0] == m_NullChar);
+    return (m_Buffer[0] == m_nullptrChar);
 }
 
 ///////////////////////////////////////////////////////////////////
@@ -458,7 +458,7 @@ inline const WideStringClass& WideStringClass::operator=(WCHAR ch)
     Uninitialised_Grow(2);
 
     m_Buffer[0] = ch;
-    m_Buffer[1] = m_NullChar;
+    m_Buffer[1] = m_nullptrChar;
     Store_Length(1);
 
     return (*this);
@@ -498,9 +498,9 @@ inline const WideStringClass& WideStringClass::operator+=(WCHAR ch)
     Resize(cur_len + 2);
 
     m_Buffer[cur_len] = ch;
-    m_Buffer[cur_len + 1] = m_NullChar;
+    m_Buffer[cur_len + 1] = m_nullptrChar;
 
-    if (ch != m_NullChar) {
+    if (ch != m_nullptrChar) {
         Store_Length(cur_len + 1);
     }
 

@@ -130,7 +130,7 @@ protected:
  *                                                                                             *
  *    This constructor for the vector class is passed the initial size of the vector and an    *
  *    optional pointer to a preallocated block of memory that the vector will be placed in.    *
- *    If this optional pointer is NULL (or not provided), then the vector is allocated out     *
+ *    If this optional pointer is nullptr (or not provided), then the vector is allocated out     *
  *    of free store (with the "new" operator).                                                 *
  *                                                                                             *
  * INPUT:   size  -- The number of elements to initialize this vector to.                      *
@@ -412,7 +412,7 @@ template <class T> bool VectorClass<T>::Resize(int newsize, T const* array)
         **	If there is an old vector, then it must be copied (as much as is feasible)
         **	to the new vector.
         */
-        if (Vector != NULL) {
+        if (Vector != nullptr) {
 
             /*
             **	Copy as much of the old vector into the new vector as possible. This
@@ -512,7 +512,7 @@ public:
 
     // Uninitialized Add - does everything an Add does, except copying an
     // object into the 'new' spot in the array. It returns a pointer to
-    // the 'new' spot. (NULL if the Add failed). NOTE - you must then fill
+    // the 'new' spot. (nullptr if the Add failed). NOTE - you must then fill
     // this memory area with a valid object (e.g. by using placement new),
     // or chaos will result!
     T* Uninitialized_Add(void);
@@ -790,7 +790,7 @@ template <class T> bool DynamicVectorClass<T>::Delete(int index)
  * INPUT:   none.                                                                              *
  *                                                                                             *
  * OUTPUT:  T *; Points to the empty space where the new object is to be created. (If the      *
- *               space was not added succesfully, returns NULL).                              *
+ *               space was not added succesfully, returns nullptr).                              *
  *                                                                                             *
  * WARNINGS:   If memory area is left uninitialized, Very Bad Things will happen.              *
  *                                                                                             *
@@ -807,7 +807,7 @@ template <class T> T* DynamicVectorClass<T>::Uninitialized_Add(void)
                 **	Failure to increase the size of the vector is an error condition.
                 **	Return with the error value.
                 */
-                return (NULL);
+                return (nullptr);
             }
         }
         else {
@@ -816,7 +816,7 @@ template <class T> T* DynamicVectorClass<T>::Uninitialized_Add(void)
             **	Increasing the size of this vector is not allowed! Bail this
             **	routine with the error value.
             */
-            return (NULL);
+            return (nullptr);
         }
     }
 
@@ -968,7 +968,7 @@ template <class T> int Pointer_Vector_Add(T* ptr, VectorClass<T*>& vec)
     int id = 0;
     bool foundspot = false;
     for (int index = 0; index < vec.Length(); index++) {
-        if (vec[index] == NULL) {
+        if (vec[index] == nullptr) {
             id = index;
             foundspot = true;
             break;
@@ -978,7 +978,7 @@ template <class T> int Pointer_Vector_Add(T* ptr, VectorClass<T*>& vec)
         id = vec.Length();
         vec.Resize((vec.Length() + 1) * 2);
         for (int index = id; index < vec.Length(); index++) {
-            vec[index] = NULL;
+            vec[index] = nullptr;
         }
     }
     vec[id] = ptr;
@@ -989,7 +989,7 @@ template <class T> bool Pointer_Vector_Remove(T const* ptr, VectorClass<T*>& vec
 {
     int id = vec.ID((T*)ptr);
     if (id != -1) {
-        vec[id] = NULL;
+        vec[id] = nullptr;
         return (true);
     }
     return (false);

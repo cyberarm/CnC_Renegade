@@ -174,7 +174,7 @@
 #define IDI_PARAM 266
 #define IDD_PRESET_SELECT 267
 #define IDI_PRESET_TINY 267
-#define IDI_NULL 268
+#define IDI_nullptr 268
 #define IDD_VECTOR3 268
 #define IDD_ZONE_EDIT 269
 #define IDI_RAND 270

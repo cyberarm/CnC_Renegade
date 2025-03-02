@@ -68,11 +68,11 @@ public:
 
     virtual void ReceiveSignal(T&) { }
 
-    virtual void SignalDropped(Signaler<T>& signaler) { mConnection = NULL; }
+    virtual void SignalDropped(Signaler<T>& signaler) { mConnection = nullptr; }
 
 protected:
     Signaler()
-        : mConnection(NULL)
+        : mConnection(nullptr)
     {
     }
 
@@ -85,7 +85,7 @@ protected:
         if (mConnection) {
             mConnection->SignalDropped(*this);
         }
-        mConnection = NULL;
+        mConnection = nullptr;
     }
 
     // Prevent copy and assignment

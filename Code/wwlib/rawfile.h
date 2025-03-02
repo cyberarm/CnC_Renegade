@@ -51,10 +51,10 @@
 #ifdef _UNIX
 #include "osdep.h"
 #include <stdio.h>
-#define NULL_HANDLE NULL
+#define nullptr_HANDLE nullptr
 #define HANDLE_TYPE FILE*
 #else
-#define NULL_HANDLE INVALID_HANDLE_VALUE
+#define nullptr_HANDLE INVALID_HANDLE_VALUE
 #define HANDLE_TYPE HANDLE
 #endif
 
@@ -108,7 +108,7 @@ public:
     virtual void Close(void);
     virtual unsigned long Get_Date_Time(void);
     virtual bool Set_Date_Time(unsigned long datetime);
-    virtual void Error(int error, int canretry = false, char const* filename = NULL);
+    virtual void Error(int error, int canretry = false, char const* filename = nullptr);
     virtual void Bias(int start, int length = -1);
     virtual void* Get_File_Handle(void) { return Handle; }
 
@@ -164,11 +164,11 @@ private:
  * RawFileClass::File_Name -- Returns with the filename associate with the file object.        *
  *                                                                                             *
  *    Use this routine to determine what filename is associated with this file object. If no   *
- *    filename has yet been assigned, then this routing will return NULL.                      *
+ *    filename has yet been assigned, then this routing will return nullptr.                      *
  *                                                                                             *
  * INPUT:   none                                                                               *
  *                                                                                             *
- * OUTPUT:  Returns with a pointer to the file name associated with this file object or NULL   *
+ * OUTPUT:  Returns with a pointer to the file name associated with this file object or nullptr   *
  *          if one doesn't exist.                                                              *
  *                                                                                             *
  * WARNINGS:   none                                                                            *

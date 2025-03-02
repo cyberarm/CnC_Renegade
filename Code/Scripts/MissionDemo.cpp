@@ -63,7 +63,7 @@ DECLARE_SCRIPT(MDD_Objective_Controller, "")
             Commands->Attach_Script(camera, "Test_Cinematic", "XG_DemoCam.txt");
         }
         int id = Commands->Create_Conversation("Demo_Intro");
-        Commands->Join_Conversation(NULL, id);
+        Commands->Join_Conversation(nullptr, id);
         Commands->Join_Conversation(STAR, id);
         Commands->Start_Conversation(id);
 
@@ -1060,7 +1060,7 @@ DECLARE_SCRIPT(MDD_Nod_Soldier, "Area_Number:int,Area_Officer:int,Pre_Placed:int
 
     void Damaged(GameObject * obj, GameObject * damager, float amount)
     {
-        if (!initial_damage && damager == NULL) {
+        if (!initial_damage && damager == nullptr) {
             initial_damage = true;
             Commands->Set_Health(obj, initial_health);
         }

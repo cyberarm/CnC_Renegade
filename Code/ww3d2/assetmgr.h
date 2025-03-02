@@ -201,7 +201,7 @@ public:
         if (TheInstance) {
             delete TheInstance;
         }
-        TheInstance = NULL;
+        TheInstance = nullptr;
     }
 
     /*
@@ -379,7 +379,7 @@ protected:
 
     /*
     ** When enabled, this handles all the caching for the texture class.
-    ** If NULL then textures are not being cached.
+    ** If nullptr then textures are not being cached.
     */
     TextureFileCache* TextureCache;
 

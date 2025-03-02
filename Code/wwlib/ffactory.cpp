@@ -45,7 +45,7 @@
 /*
 ** Statics
 ** NOTE: If _TheFileFactory is ever changed to point to an object of a different class which does
-** not derive from SimpleFileFactoryClass, _TheSimpleFileFactory should be set to NULL.
+** not derive from SimpleFileFactoryClass, _TheSimpleFileFactory should be set to nullptr.
 */
 SimpleFileFactoryClass _DefaultFileFactory;
 FileFactoryClass* _TheFileFactory = &_DefaultFileFactory;
@@ -58,12 +58,12 @@ FileFactoryClass* _TheWritingFileFactory = &_DefaultWritingFileFactory;
 **
 */
 file_auto_ptr::file_auto_ptr(FileFactoryClass* fac, const char* filename)
-    : _Ptr(NULL),
+    : _Ptr(nullptr),
       _Fac(fac)
 {
     assert(_Fac);
     _Ptr = _Fac->Get_File(filename);
-    if (_Ptr == NULL) {
+    if (_Ptr == nullptr) {
         _Ptr = new BufferedFileClass();
     }
 }
@@ -210,7 +210,7 @@ static bool Is_Full_Path(const char* path)
 {
     bool retval = false;
 
-    if (path != NULL && path[0] != 0) {
+    if (path != nullptr && path[0] != 0) {
 
         // Check for drive designation
         retval = bool(path[1] == ':');
@@ -277,8 +277,8 @@ FileClass* SimpleFileFactoryClass::Get_File(char const* filename)
             if (strchr(subdir, ';')) {
                 char* tokstart = subdir.Peek_Buffer();
                 const char* tok;
-                while ((tok = strtok(tokstart, ";")) != NULL) {
-                    tokstart = NULL;
+                while ((tok = strtok(tokstart, ";")) != nullptr) {
+                    tokstart = nullptr;
                     new_name.Format("%s%s", tok, stripped_name.Peek_Buffer());
                     file->Set_Name(new_name); // Call Set_Name to force an allocated name
                     if (file->Open()) {

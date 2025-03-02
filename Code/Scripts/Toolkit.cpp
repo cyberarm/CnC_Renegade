@@ -95,7 +95,7 @@ DECLARE_SCRIPT(M00_Debug_Text_File_RMV, "Description=Object:string, Filename=Deb
 
     void Created(GameObject * obj)
     {
-        current_time = time(NULL);
+        current_time = time(nullptr);
         desc = Get_Parameter("Description");
         filename = Get_Parameter("Filename");
         file = fopen(filename, "wt");
@@ -105,7 +105,7 @@ DECLARE_SCRIPT(M00_Debug_Text_File_RMV, "Description=Object:string, Filename=Deb
 
     void Custom(GameObject * obj, int type, int param, GameObject* sender)
     {
-        current_time = time(NULL);
+        current_time = time(nullptr);
         fprintf(file,
                 "%s [ID %d] received custom event of type %d and param %d.  Sender was object %d.  "
                 " %3.1f sec.\n",
@@ -115,7 +115,7 @@ DECLARE_SCRIPT(M00_Debug_Text_File_RMV, "Description=Object:string, Filename=Deb
 
     void Damaged(GameObject * obj, GameObject * damager, float amount)
     {
-        current_time = time(NULL);
+        current_time = time(nullptr);
         fprintf(file, "%s [ID %d] damaged by object %d.   %3.1f sec.\n", desc,
                 Commands->Get_ID(obj), Commands->Get_ID(damager),
                 difftime(current_time, start_time));
@@ -129,14 +129,14 @@ DECLARE_SCRIPT(M00_Debug_Text_File_RMV, "Description=Object:string, Filename=Deb
 
     void Enemy_Seen(GameObject * obj, GameObject * enemy)
     {
-        current_time = time(NULL);
+        current_time = time(nullptr);
         fprintf(file, "%s [ID %d] saw enemy: object %d.   %3.1f sec.\n", desc,
                 Commands->Get_ID(obj), Commands->Get_ID(enemy), difftime(current_time, start_time));
     }
 
     void Action_Complete(GameObject * obj, int action_id, ActionCompleteReason reason)
     {
-        current_time = time(NULL);
+        current_time = time(nullptr);
         fprintf(file, "Action %d complete on %s [ID %d] -- Reason: %s.   %3.1f sec.\n", action_id,
                 desc, Commands->Get_ID(obj), Reason_Lookup(reason),
                 difftime(current_time, start_time));
@@ -144,7 +144,7 @@ DECLARE_SCRIPT(M00_Debug_Text_File_RMV, "Description=Object:string, Filename=Deb
 
     void Killed(GameObject * obj, GameObject * killer)
     {
-        current_time = time(NULL);
+        current_time = time(nullptr);
         fprintf(file, "%s [ID %d] killed by object %d.   %3.1f sec.\n", desc, Commands->Get_ID(obj),
                 Commands->Get_ID(killer), difftime(current_time, start_time));
     }
@@ -532,7 +532,7 @@ DECLARE_SCRIPT(M00_5MetalBarrels_ChainRxn_Controller_JDG,
                     Commands->Send_Custom_Event(obj, barrel_01, barrel_01_type,
                                                 M01_MODIFY_YOUR_ACTION_JDG, 0);
 
-                    if (barrel_02 != NULL) {
+                    if (barrel_02 != nullptr) {
                         float delayTimer = Commands->Get_Random(0.25f, 0.5f);
                         Commands->Send_Custom_Event(obj, barrel_02, barrel_02_type,
                                                     M01_MODIFY_YOUR_ACTION_JDG, delayTimer);
@@ -545,13 +545,13 @@ DECLARE_SCRIPT(M00_5MetalBarrels_ChainRxn_Controller_JDG,
                     Commands->Send_Custom_Event(obj, barrel_02, barrel_02_type,
                                                 M01_MODIFY_YOUR_ACTION_JDG, 0);
 
-                    if (barrel_01 != NULL) {
+                    if (barrel_01 != nullptr) {
                         float delayTimer = Commands->Get_Random(0.25f, 0.5f);
                         Commands->Send_Custom_Event(obj, barrel_01, barrel_01_type,
                                                     M01_MODIFY_YOUR_ACTION_JDG, delayTimer);
                     }
 
-                    if (barrel_03 != NULL) {
+                    if (barrel_03 != nullptr) {
                         float delayTimer = Commands->Get_Random(0.25f, 0.5f);
                         Commands->Send_Custom_Event(obj, barrel_03, barrel_03_type,
                                                     M01_MODIFY_YOUR_ACTION_JDG, delayTimer);
@@ -564,13 +564,13 @@ DECLARE_SCRIPT(M00_5MetalBarrels_ChainRxn_Controller_JDG,
                     Commands->Send_Custom_Event(obj, barrel_03, barrel_03_type,
                                                 M01_MODIFY_YOUR_ACTION_JDG, 0);
 
-                    if (barrel_02 != NULL) {
+                    if (barrel_02 != nullptr) {
                         float delayTimer = Commands->Get_Random(0.25f, 0.5f);
                         Commands->Send_Custom_Event(obj, barrel_02, barrel_02_type,
                                                     M01_MODIFY_YOUR_ACTION_JDG, delayTimer);
                     }
 
-                    if (barrel_04 != NULL) {
+                    if (barrel_04 != nullptr) {
                         float delayTimer = Commands->Get_Random(0.25f, 0.5f);
                         Commands->Send_Custom_Event(obj, barrel_04, barrel_04_type,
                                                     M01_MODIFY_YOUR_ACTION_JDG, delayTimer);
@@ -583,13 +583,13 @@ DECLARE_SCRIPT(M00_5MetalBarrels_ChainRxn_Controller_JDG,
                     Commands->Send_Custom_Event(obj, barrel_04, barrel_04_type,
                                                 M01_MODIFY_YOUR_ACTION_JDG, 0);
 
-                    if (barrel_03 != NULL) {
+                    if (barrel_03 != nullptr) {
                         float delayTimer = Commands->Get_Random(0.25f, 0.5f);
                         Commands->Send_Custom_Event(obj, barrel_03, barrel_03_type,
                                                     M01_MODIFY_YOUR_ACTION_JDG, delayTimer);
                     }
 
-                    if (barrel_05 != NULL) {
+                    if (barrel_05 != nullptr) {
                         float delayTimer = Commands->Get_Random(0.25f, 0.5f);
                         Commands->Send_Custom_Event(obj, barrel_05, barrel_05_type,
                                                     M01_MODIFY_YOUR_ACTION_JDG, delayTimer);
@@ -602,7 +602,7 @@ DECLARE_SCRIPT(M00_5MetalBarrels_ChainRxn_Controller_JDG,
                     Commands->Send_Custom_Event(obj, barrel_05, barrel_05_type,
                                                 M01_MODIFY_YOUR_ACTION_JDG, 0);
 
-                    if (barrel_04 != NULL) {
+                    if (barrel_04 != nullptr) {
                         float delayTimer = Commands->Get_Random(0.25f, 0.5f);
                         Commands->Send_Custom_Event(obj, barrel_04, barrel_04_type,
                                                     M01_MODIFY_YOUR_ACTION_JDG, delayTimer);
@@ -636,7 +636,7 @@ DECLARE_SCRIPT(M00_ChainRxn_Barrel_JDG, "Controller_ID :int")
             Commands->Set_Health(obj, 0.25f);
 
             GameObject* controller = Commands->Find_Object(controller_id);
-            if (controller != NULL) {
+            if (controller != nullptr) {
                 Commands->Send_Custom_Event(obj, controller, 0, M01_IVE_BEEN_KILLED_JDG, 0);
             }
         }
@@ -654,7 +654,7 @@ DECLARE_SCRIPT(M00_ChainRxn_Barrel_JDG, "Controller_ID :int")
             deadYet = true;
             int number = type;
             Vector3 myPosition = Commands->Get_Position(obj);
-            Commands->Create_Explosion("Explosion_Mine_Remote_01", myPosition, NULL);
+            Commands->Create_Explosion("Explosion_Mine_Remote_01", myPosition, nullptr);
 
             char* barrels_animations[8] = {
                 "DSP_METDRUM01.DSP_METDRUM01", // there's no #1 yet
@@ -675,12 +675,12 @@ DECLARE_SCRIPT(M00_ChainRxn_Barrel_JDG, "Controller_ID :int")
                 8, // 8
             };
 
-            Commands->Set_Animation(obj, barrels_animations[number], false, NULL, 0,
+            Commands->Set_Animation(obj, barrels_animations[number], false, nullptr, 0,
                                     barrels_endframe[number]);
             Commands->Set_Health(obj, 0.25f);
 
             GameObject* controller = Commands->Find_Object(controller_id);
-            if (controller != NULL) {
+            if (controller != nullptr) {
                 Commands->Send_Custom_Event(obj, controller, 0, M01_IVE_BEEN_KILLED_JDG, 0);
             }
         }
@@ -797,25 +797,25 @@ DECLARE_SCRIPT(M00_Advanced_Guard_Tower, "")
         GameObject* gun_03 = Commands->Find_Object(gun_03_id);
         GameObject* gun_04 = Commands->Find_Object(gun_04_id);
 
-        if (gun_01 != NULL) {
+        if (gun_01 != nullptr) {
             Commands->Send_Custom_Event(
                 obj, gun_01, 3, 0,
                 0); // tells gun 01 to reset action and lets him know AGT is dead -- JDG 2/12/02
         }
 
-        if (gun_02 != NULL) {
+        if (gun_02 != nullptr) {
             Commands->Send_Custom_Event(
                 obj, gun_02, 3, 0,
                 0); // tells gun 02 to reset action and lets him know AGT is dead -- JDG 2/12/02
         }
 
-        if (gun_03 != NULL) {
+        if (gun_03 != nullptr) {
             Commands->Send_Custom_Event(
                 obj, gun_03, 3, 0,
                 0); // tells gun 03 to reset action and lets him know AGT is dead -- JDG 2/12/02
         }
 
-        if (gun_04 != NULL) {
+        if (gun_04 != nullptr) {
             Commands->Send_Custom_Event(
                 obj, gun_04, 3, 0,
                 0); // tells gun 04 to reset action and lets him know AGT is dead -- JDG 2/12/02
@@ -1203,7 +1203,7 @@ DECLARE_SCRIPT(M00_Nod_Obelisk_CNC, "Controller_ID=0:int")
     void Killed(GameObject * obj, GameObject * killer)
     {
         GameObject* obelisk = Commands->Find_Object(obelisk_id);
-        if (obelisk != NULL) {
+        if (obelisk != nullptr) {
             Commands->Send_Custom_Event(obj, obelisk, 3, 0,
                                         0); // this custom tells the obelisk weapon that the obelisk
                                             // has been destroyed -- 02/12/2002 JDG
@@ -1599,14 +1599,14 @@ DECLARE_SCRIPT(M00_Select_Empty_Hands, "On_Created=1:int") {
     void Created(GameObject * obj) { bool on_created
                                      = (Get_Int_Parameter("On_Created") == 1) ? true : false;
 if (on_created) {
-    Commands->Select_Weapon(obj, NULL);
+    Commands->Select_Weapon(obj, nullptr);
 }
 }
 
 void Custom(GameObject* obj, int type, int param, GameObject* sender)
 {
     if (type == M00_SELECT_EMPTY_HANDS) {
-        Commands->Select_Weapon(obj, NULL);
+        Commands->Select_Weapon(obj, nullptr);
     }
 }
 }

@@ -158,7 +158,7 @@ GenericDataSafeClass::GenericDataSafeClass(void)
     if (TypeListCount == 0) {
 
 #ifdef THREAD_SAFE_DATA_SAFE
-        SafeMutex = CreateMutex(NULL, false, NULL);
+        SafeMutex = CreateMutex(nullptr, false, nullptr);
 #else
         PreferredThread = GetCurrentThreadId();
 #endif // THREAD_SAFE_DATA_SAFE
@@ -269,9 +269,9 @@ void GenericDataSafeClass::Shutdown(void)
     */
     bool found = false;
     for (int i = 0; i < NumLists; i++) {
-        ds_assert(Safe[i] != NULL);
+        ds_assert(Safe[i] != nullptr);
 
-        if (Safe[i] != NULL && Safe[i]->EntryCount != 0) {
+        if (Safe[i] != nullptr && Safe[i]->EntryCount != 0) {
             found = true;
             break;
         }
@@ -296,7 +296,7 @@ void GenericDataSafeClass::Shutdown(void)
  *                                                                                             *
  * INPUT:    Handle                                                                            *
  *                                                                                             *
- * OUTPUT:   Pointer to raw entry (including header) or NULL if not found                      *
+ * OUTPUT:   Pointer to raw entry (including header) or nullptr if not found                      *
  *                                                                                             *
  * WARNINGS: None                                                                              *
  *                                                                                             *
@@ -330,7 +330,7 @@ DataSafeEntryClass* GenericDataSafeClass::Get_Entry(DataSafeHandleClass handle)
 
     ds_assert(list >= 0);
     ds_assert(list < NumLists);
-    ds_assert(Safe[list] != NULL);
+    ds_assert(Safe[list] != nullptr);
 
     /*
     ** Get the head of the list.
@@ -350,17 +350,17 @@ DataSafeEntryClass* GenericDataSafeClass::Get_Entry(DataSafeHandleClass handle)
         times++;
         ds_assert(times <= MAX_ENTRIES_PER_LIST);
         if (times > MAX_ENTRIES_PER_LIST) {
-            entry_ptr = NULL;
+            entry_ptr = nullptr;
             break;
         }
     }
 
     /*
-    ** Falling through to here means no match found and we return NULL as an error.
+    ** Falling through to here means no match found and we return nullptr as an error.
     */
     WWDEBUG_SAY(("WARNING: Data Safe: No item found for handle %08x\n", (int)handle));
-    ds_assert(entry_ptr != NULL);
-    return (NULL);
+    ds_assert(entry_ptr != nullptr);
+    return (nullptr);
 }
 
 /***********************************************************************************************
@@ -395,7 +395,7 @@ int GenericDataSafeClass::Get_Entry_Type(DataSafeHandleClass handle)
 
     ds_assert(list >= 0);
     ds_assert(list < NumLists);
-    ds_assert(Safe[list] != NULL);
+    ds_assert(Safe[list] != nullptr);
 
     /*
     ** Return the type of data stored in this list.
@@ -411,7 +411,7 @@ int GenericDataSafeClass::Get_Entry_Type(DataSafeHandleClass handle)
  * INPUT:    List number                                                                       *
  *           Entry number                                                                      *
  *                                                                                             *
- * OUTPUT:   Pointer to entry or NULL if not found                                             *
+ * OUTPUT:   Pointer to entry or nullptr if not found                                             *
  *                                                                                             *
  * WARNINGS: None                                                                              *
  *                                                                                             *
@@ -434,7 +434,7 @@ DataSafeEntryClass* GenericDataSafeClass::Get_Entry_By_Index(int list, int index
     */
     ds_assert(list >= 0);
     ds_assert(list < NumLists);
-    ds_assert(Safe[list] != NULL);
+    ds_assert(Safe[list] != nullptr);
 
     /*
     ** Get the head of the list.
@@ -454,11 +454,11 @@ DataSafeEntryClass* GenericDataSafeClass::Get_Entry_By_Index(int list, int index
     }
 
     /*
-    ** Falling through to here means no match found and we return NULL as an error.
+    ** Falling through to here means no match found and we return nullptr as an error.
     */
     WWDEBUG_SAY(("WARNING: Data Safe: No item found for list %d, index %d\n", list, index));
-    ds_assert(entry_ptr != NULL);
-    return (NULL);
+    ds_assert(entry_ptr != nullptr);
+    return (nullptr);
 }
 
 /***********************************************************************************************
@@ -633,8 +633,8 @@ int GenericDataSafeClass::Get_Random_List_For_Insertion(int type)
     ** Build a list of lists that contain the appropriate size data and have room for extra entries.
     */
     for (int i = 0; i < NumLists; i++) {
-        ds_assert(Safe[i] != NULL);
-        if (Safe[i] != NULL && (Safe[i]->EntryType == type || Safe[i]->EntryType == -1)
+        ds_assert(Safe[i] != nullptr);
+        if (Safe[i] != nullptr && (Safe[i]->EntryType == type || Safe[i]->EntryType == -1)
             && Safe[i]->EntryCount < MAX_ENTRIES_PER_LIST) {
             random_list_contenders.Add(i);
         }
@@ -646,7 +646,7 @@ int GenericDataSafeClass::Get_Random_List_For_Insertion(int type)
     if (random_list_contenders.Count() == 0) {
         int safe_index = Create_Safe_List(type);
         ds_assert(safe_index != -1);
-        ds_assert(Safe[safe_index] != NULL);
+        ds_assert(Safe[safe_index] != nullptr);
         return (safe_index);
     }
 
@@ -664,8 +664,8 @@ int GenericDataSafeClass::Get_Random_List_For_Insertion(int type)
     *use it.
     */
     int list_index = random_list_contenders[pick];
-    ds_assert(Safe[list_index] != NULL);
-    if (Safe[list_index]->EntryType == -1 || Safe[list_index]->SafeList == NULL) {
+    ds_assert(Safe[list_index] != nullptr);
+    if (Safe[list_index]->EntryType == -1 || Safe[list_index]->SafeList == nullptr) {
         Safe[list_index]->EntryType = type;
         Safe[list_index]->SlopCount = 0;
     }
@@ -694,7 +694,7 @@ int GenericDataSafeClass::Create_Safe_List(int type)
     */
     DataSafeEntryListClass* safe_list = new DataSafeEntryListClass;
     ds_assert(safe_list->EntryCount == 0);
-    ds_assert(safe_list->SafeList == NULL);
+    ds_assert(safe_list->SafeList == nullptr);
     safe_list->EntryType = type;
     safe_list->SlopCount = 0;
 
@@ -729,7 +729,7 @@ int GenericDataSafeClass::Create_Safe_List(int type)
 void GenericDataSafeClass::Random_Insertion(DataSafeEntryClass* entry_ptr, int list, int type,
                                             bool is_slop)
 {
-    ds_assert(Safe[list] != NULL);
+    ds_assert(Safe[list] != nullptr);
     ds_assert(Safe[list]->EntryCount < MAX_ENTRIES_PER_LIST);
     ds_assert(Safe[list]->EntryType == type);
 
@@ -802,8 +802,8 @@ void GenericDataSafeClass::Random_Insertion(DataSafeEntryClass* entry_ptr, int l
 void GenericDataSafeClass::Swap_Entries(DataSafeEntryClass* first, DataSafeEntryClass* second,
                                         int type)
 {
-    ds_assert(first != NULL);
-    ds_assert(second != NULL);
+    ds_assert(first != nullptr);
+    ds_assert(second != nullptr);
     ds_assert(type >= 0);
 
 #ifdef WWDEBUG
@@ -883,7 +883,7 @@ void GenericDataSafeClass::Remove_From_List(int list, DataSafeEntryClass* entry_
 {
     ds_assert(list >= 0);
     ds_assert(list < NumLists);
-    ds_assert(Safe[list] != NULL);
+    ds_assert(Safe[list] != nullptr);
 
     /*
     ** We found the entry for this handle. We need to fix up the list pointers and delete the
@@ -905,7 +905,7 @@ void GenericDataSafeClass::Remove_From_List(int list, DataSafeEntryClass* entry_
             }
         }
         else {
-            Safe[list]->SafeList = NULL;
+            Safe[list]->SafeList = nullptr;
             Safe[list]->EntryType = -1;
         }
 
@@ -1020,8 +1020,8 @@ void GenericDataSafeClass::Shuffle(bool forced)
         *have swapped some stuff around.
         */
         for (i = 0; i < NumLists; i++) {
-            ds_assert(Safe[i] != NULL);
-            if (Safe[i] != NULL && Safe[i]->EntryCount > 1) {
+            ds_assert(Safe[i] != nullptr);
+            if (Safe[i] != nullptr && Safe[i]->EntryCount > 1) {
                 for (j = 0; j < max(Safe[i]->EntryCount / 3, 1); j++) {
 
                     /*
@@ -1057,8 +1057,8 @@ void GenericDataSafeClass::Shuffle(bool forced)
         ** Loop through all safe lists.
         */
         for (i = 0; i < NumLists; i++) {
-            ds_assert(Safe[i] != NULL);
-            if (Safe[i] != NULL && Safe[i]->EntryCount > 0) {
+            ds_assert(Safe[i] != nullptr);
+            if (Safe[i] != nullptr && Safe[i]->EntryCount > 0) {
 
                 /*
                 ** Get the pointer to the first entry in the list.
@@ -1124,12 +1124,12 @@ int GenericDataSafeClass::Get_Handle_ID(int list)
     /*
     ** Asserts.
     */
-    ds_assert(Safe[list] != NULL);
+    ds_assert(Safe[list] != nullptr);
 
     /*
     ** If the list isn't allocated then we are out of luck.
     */
-    if (Safe[list] != NULL) {
+    if (Safe[list] != nullptr) {
 
         /*
         ** Go through the handle id usage table looking for a free spot.
@@ -1168,13 +1168,13 @@ void GenericDataSafeClass::Free_Handle_ID(int list, int id)
     /*
     ** Asserts.
     */
-    ds_assert(Safe[list] != NULL);
+    ds_assert(Safe[list] != nullptr);
     ds_assert(id >= 0 && id < MAX_ENTRIES_PER_LIST);
 
     /*
     ** If the list isn't allocated then we are out of luck.
     */
-    if (Safe[list] != NULL) {
+    if (Safe[list] != nullptr) {
 
         /*
         ** It's easy, we just zero out the array element of the ID we no longer need.
@@ -1316,7 +1316,7 @@ void GenericDataSafeClass::Dump_Safe_Stats(char* dump_buffer, int buffer_size)
     /*
     ** Asserts.
     */
-    ds_assert(dump_buffer != NULL);
+    ds_assert(dump_buffer != nullptr);
     ds_assert(buffer_size >= 1024);
     ds_assert(!IsBadWritePtr(dump_buffer, buffer_size));
 
@@ -1376,8 +1376,8 @@ void GenericDataSafeClass::Dump_Safe_Stats(char* dump_buffer, int buffer_size)
     int count = 0;
     unsigned long bytes = 0;
     for (int i = 0; i < NumLists; i++) {
-        ds_assert(Safe[i] != NULL);
-        if (Safe[i] != NULL) {
+        ds_assert(Safe[i] != nullptr);
+        if (Safe[i] != nullptr) {
             if (Safe[i]->EntryCount) {
                 count += Safe[i]->EntryCount;
                 bytes += (sizeof(DataSafeEntryClass) + Get_Type_Size(Safe[i]->EntryType))

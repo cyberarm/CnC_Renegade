@@ -38,12 +38,12 @@ static char THIS_FILE[] = __FILE__;
 // VisWindowDialogClass
 //
 /////////////////////////////////////////////////////////////////////////////
-VisWindowDialogClass::VisWindowDialogClass(CWnd* pParent /*=NULL*/)
-    : BitmapBits(NULL),
-      Bitmap(NULL),
+VisWindowDialogClass::VisWindowDialogClass(CWnd* pParent /*=nullptr*/)
+    : BitmapBits(nullptr),
+      Bitmap(nullptr),
       Width(0),
       Height(0),
-      MemDC(NULL),
+      MemDC(nullptr),
       CurToolTipVisId(-1),
       CDialog(VisWindowDialogClass::IDD, pParent)
 {
@@ -54,7 +54,7 @@ VisWindowDialogClass::VisWindowDialogClass(CWnd* pParent /*=NULL*/)
     //
     //	Create a screen compatible DC
     //
-    MemDC = ::CreateCompatibleDC(NULL);
+    MemDC = ::CreateCompatibleDC(nullptr);
     return;
 }
 
@@ -68,7 +68,7 @@ VisWindowDialogClass::~VisWindowDialogClass(void)
     Free_DIB_Section();
 
     ::DeleteDC(MemDC);
-    MemDC = NULL;
+    MemDC = nullptr;
     return;
 }
 
@@ -100,7 +100,7 @@ END_MESSAGE_MAP()
 /////////////////////////////////////////////////////////////////////////////
 void VisWindowDialogClass::Create(void)
 {
-    CDialog::Create(VisWindowDialogClass::IDD, NULL);
+    CDialog::Create(VisWindowDialogClass::IDD, nullptr);
     return;
 }
 
@@ -138,7 +138,7 @@ void VisWindowDialogClass::Update_Display(VisRasterizerClass& rasterizer)
     //
     // Don't do anything if the user has not enabled the vis window
     //
-    if (m_hWnd == NULL || IsWindowVisible() == false) {
+    if (m_hWnd == nullptr || IsWindowVisible() == false) {
         return;
     }
 
@@ -216,9 +216,9 @@ void VisWindowDialogClass::Free_DIB_Section(void)
     //
     //	Free the bitmap
     //
-    if (Bitmap != NULL) {
+    if (Bitmap != nullptr) {
         ::DeleteObject(Bitmap);
-        Bitmap = NULL;
+        Bitmap = nullptr;
     }
 
     return;
@@ -245,7 +245,7 @@ void VisWindowDialogClass::Create_DIB_Section(int width, int height)
     //
     //	Resize the window
     //
-    SetWindowPos(NULL, 0, 0, rect.right - rect.left, rect.bottom - rect.top,
+    SetWindowPos(nullptr, 0, 0, rect.right - rect.left, rect.bottom - rect.top,
                  SWP_NOZORDER | SWP_NOMOVE);
 
     //
@@ -279,14 +279,14 @@ void VisWindowDialogClass::Create_DIB_Section(int width, int height)
     //
     // Create a bitmap that we can access the bits directly of
     //
-    HDC screen_dc = ::GetDC(NULL);
+    HDC screen_dc = ::GetDC(nullptr);
     Bitmap = ::CreateDIBSection(screen_dc, (const BITMAPINFO*)&bitmap_info, DIB_RGB_COLORS,
-                                (void**)&BitmapBits, NULL, 0L);
+                                (void**)&BitmapBits, nullptr, 0L);
 
     //
     // Release our temporary screen DC
     //
-    ::ReleaseDC(NULL, screen_dc);
+    ::ReleaseDC(nullptr, screen_dc);
     return;
 }
 
@@ -297,7 +297,7 @@ void VisWindowDialogClass::Create_DIB_Section(int width, int height)
 /////////////////////////////////////////////////////////////////////////////
 void VisWindowDialogClass::Paint_Display(void)
 {
-    if (m_hWnd == NULL || Bitmap == NULL) {
+    if (m_hWnd == nullptr || Bitmap == nullptr) {
         return;
     }
 
@@ -342,7 +342,7 @@ int VisWindowDialogClass::Hit_Test(CPoint point) const
     //
     // If we don't have a bitmap, just return
     //
-    if (BitmapBits == NULL) {
+    if (BitmapBits == nullptr) {
         return -1;
     }
 
@@ -458,17 +458,17 @@ void VisWindowDialogClass::OnMouseMove(UINT nFlags, CPoint point)
             }
             else {
 
-                PhysClass* obj = NULL;
+                PhysClass* obj = nullptr;
                 RefPhysListIterator it
                     = PhysicsSceneClass::Get_Instance()->Get_Static_Object_Iterator();
-                while ((!it.Is_Done()) && (obj == NULL)) {
+                while ((!it.Is_Done()) && (obj == nullptr)) {
                     if (it.Peek_Obj()->Get_Vis_Object_ID() == (int)vis_id) {
                         obj = it.Peek_Obj();
                     }
                     it.Next();
                 }
 
-                if (obj != NULL) {
+                if (obj != nullptr) {
                     CString tooltip_string;
                     tooltip_string.Format("Vis Id: %d, Model Name: %s", vis_id,
                                           obj->Peek_Model()->Get_Name());

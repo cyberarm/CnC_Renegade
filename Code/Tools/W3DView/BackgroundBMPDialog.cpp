@@ -38,7 +38,7 @@ static char THIS_FILE[] = __FILE__;
 //
 //  CBackgroundBMPDialog
 //
-CBackgroundBMPDialog::CBackgroundBMPDialog(CWnd* pParent /*=NULL*/)
+CBackgroundBMPDialog::CBackgroundBMPDialog(CWnd* pParent /*=nullptr*/)
     : CDialog(CBackgroundBMPDialog::IDD, pParent)
 {
     //{{AFX_DATA_INIT(CBackgroundBMPDialog)
@@ -112,7 +112,7 @@ void CBackgroundBMPDialog::OnOK(void)
         }
         else {
             // Ask the doc to clear any existing background BMP
-            pCDoc->SetBackgroundBMP(NULL);
+            pCDoc->SetBackgroundBMP(nullptr);
         }
     }
 

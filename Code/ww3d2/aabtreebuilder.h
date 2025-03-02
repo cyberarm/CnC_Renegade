@@ -92,10 +92,10 @@ private:
             : Index(0),
               Min(0, 0, 0),
               Max(0, 0, 0),
-              Front(NULL),
-              Back(NULL),
+              Front(nullptr),
+              Back(nullptr),
               PolyCount(0),
-              PolyIndices(NULL)
+              PolyIndices(nullptr)
         {
         }
         ~CullNodeStruct(void)
@@ -152,8 +152,8 @@ private:
         SplitArraysStruct(void)
             : FrontCount(0),
               BackCount(0),
-              FrontPolys(NULL),
-              BackPolys(NULL)
+              FrontPolys(nullptr),
+              BackPolys(nullptr)
         {
         }
 

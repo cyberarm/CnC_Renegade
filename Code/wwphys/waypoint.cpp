@@ -190,7 +190,7 @@ bool WaypointClass::Load_Variables(ChunkLoadClass& cload)
             //	Read the old pointer from the chunk and submit it
             // to the remapping system.
             //
-            WaypointClass* old_ptr = NULL;
+            WaypointClass* old_ptr = nullptr;
             cload.Read(&old_ptr, sizeof(old_ptr));
             SaveLoadSystemClass::Register_Pointer(old_ptr, this);
         } break;
@@ -233,9 +233,9 @@ PathfindActionPortalClass* WaypointClass::Get_Action_Portal(void)
     //
     //	Lookup the action portal
     //
-    PathfindActionPortalClass* retval = NULL;
+    PathfindActionPortalClass* retval = nullptr;
     PathfindPortalClass* portal = PathfindClass::Get_Instance()->Peek_Portal(m_ActionPortalID);
-    if (portal != NULL) {
+    if (portal != nullptr) {
 
         //
         //	Check to ensure this portal is an action portal
@@ -253,7 +253,7 @@ PathfindActionPortalClass* WaypointClass::Get_Action_Portal(void)
 ///////////////////////////////////////////////////////////////////////
 void WaypointClass::Set_Action_Portal(PathfindActionPortalClass* portal)
 {
-    if (portal != NULL) {
+    if (portal != nullptr) {
         m_ActionPortalID = portal->Get_ID();
         Set_Flag(FLAG_REQUIRES_ACTION, true);
     }

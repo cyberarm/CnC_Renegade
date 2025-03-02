@@ -187,7 +187,7 @@ private:
 
     static FastCriticalSectionClass m_Mutex;
 
-    static TCHAR m_NullChar;
+    static TCHAR m_nullptrChar;
     static TCHAR* m_EmptyString;
 };
 
@@ -241,7 +241,7 @@ inline const StringClass& StringClass::operator=(TCHAR ch)
     Uninitialised_Grow(2);
 
     m_Buffer[0] = ch;
-    m_Buffer[1] = m_NullChar;
+    m_Buffer[1] = m_nullptrChar;
     Store_Length(1);
 
     return (*this);
@@ -254,7 +254,7 @@ inline StringClass::StringClass(bool hint_temporary)
     : m_Buffer(m_EmptyString)
 {
     Get_String(MAX_TEMP_LEN, hint_temporary);
-    m_Buffer[0] = m_NullChar;
+    m_Buffer[0] = m_nullptrChar;
 
     return;
 }
@@ -266,7 +266,7 @@ inline StringClass::StringClass(int initial_len, bool hint_temporary)
     : m_Buffer(m_EmptyString)
 {
     Get_String(initial_len, hint_temporary);
-    m_Buffer[0] = m_NullChar;
+    m_Buffer[0] = m_nullptrChar;
 
     return;
 }
@@ -340,7 +340,7 @@ inline StringClass::~StringClass(void)
 ///////////////////////////////////////////////////////////////////
 inline bool StringClass::Is_Empty(void) const
 {
-    return (m_Buffer[0] == m_NullChar);
+    return (m_Buffer[0] == m_nullptrChar);
 }
 
 ///////////////////////////////////////////////////////////////////
@@ -468,7 +468,7 @@ inline void StringClass::Trim(void)
 ///////////////////////////////////////////////////////////////////
 inline const StringClass& StringClass::operator+=(const TCHAR* string)
 {
-    WWASSERT(string != NULL);
+    WWASSERT(string != nullptr);
 
     int cur_len = Get_Length();
     int src_len = _tcslen(string);
@@ -496,9 +496,9 @@ inline const StringClass& StringClass::operator+=(TCHAR ch)
     Resize(cur_len + 2);
 
     m_Buffer[cur_len] = ch;
-    m_Buffer[cur_len + 1] = m_NullChar;
+    m_Buffer[cur_len + 1] = m_nullptrChar;
 
-    if (ch != m_NullChar) {
+    if (ch != m_nullptrChar) {
         Store_Length(cur_len + 1);
     }
 

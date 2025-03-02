@@ -60,12 +60,12 @@
  *=============================================================================================*/
 void* Load_Alloc_Data(FileClass& file)
 {
-    void* ptr = NULL;
+    void* ptr = nullptr;
     if (file.Is_Available()) {
         long size = file.Size();
 
         ptr = new char[size];
-        if (ptr != NULL) {
+        if (ptr != nullptr) {
             file.Read(ptr, size);
         }
     }
@@ -266,7 +266,7 @@ char const* Fetch_String(int id)
 void const* Fetch_Resource(LPCSTR resname, LPCSTR restype)
 {
 #ifdef _UNIX
-    return (NULL);
+    return (nullptr);
 #else
     /*
     **	Fetch the program instance if it hasn't already been recorded.
@@ -276,13 +276,13 @@ void const* Fetch_Resource(LPCSTR resname, LPCSTR restype)
     //	}
 
     HRSRC handle = FindResource(ProgramInstance, resname, restype);
-    if (handle == NULL) {
-        return (NULL);
+    if (handle == nullptr) {
+        return (nullptr);
     }
 
     HGLOBAL rhandle = LoadResource(ProgramInstance, handle);
-    if (rhandle == NULL) {
-        return (NULL);
+    if (rhandle == nullptr) {
+        return (nullptr);
     }
 
     return (LockResource(rhandle));
@@ -323,6 +323,6 @@ void* Hires_Load(FileClass& file)
         return (return_ptr);
     }
     else {
-        return (NULL);
+        return (nullptr);
     }
 }

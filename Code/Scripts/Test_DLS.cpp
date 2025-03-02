@@ -293,7 +293,7 @@ DECLARE_SCRIPT(DLS_Gun_Test, "Debug_Mode=0:int")
     }
 };
 
-DECLARE_SCRIPT(DLS_Test_NULL, "Debug_Mode=0:int")
+DECLARE_SCRIPT(DLS_Test_nullptr, "Debug_Mode=0:int")
 {
 
     bool debug_mode;
@@ -314,7 +314,7 @@ DECLARE_SCRIPT(DLS_Test_NULL, "Debug_Mode=0:int")
     {
         const char* conv_name = ("IDS_M06_D05");
         int conv_id = Commands->Create_Conversation(conv_name);
-        Commands->Join_Conversation(NULL, conv_id, false, true);
+        Commands->Join_Conversation(nullptr, conv_id, false, true);
         Commands->Start_Conversation(conv_id, 1);
         Commands->Monitor_Conversation(obj, conv_id);
     }
@@ -415,7 +415,7 @@ DECLARE_SCRIPT(DLS_Vehicle_Follow, "Debug_Mode=0:int")
         ActionParamsStruct params;
 
         if (timer_id == STAR_VISIBLE) {
-            Commands->Apply_Damage(obj, 100000, "STEEL", NULL);
+            Commands->Apply_Damage(obj, 100000, "STEEL", nullptr);
         }
     }
 };
@@ -1588,7 +1588,7 @@ enum
 
 #define WRONG_WAY_CONV_TABLE_SIZE (sizeof(Wrong_Way_Conv_Table) / sizeof(Wrong_Way_Conv_Table[0]))
 const char* Wrong_Way_Conv_Table[] = {
-    "MX0_A04_CON015", // You’re going the wrong way, Havoc!
+    "MX0_A04_CON015", // Youï¿½re going the wrong way, Havoc!
     "MX0_A04_CON016", // Stay with the Mission, Havoc!
     "MX0_A04_CON017", // This area is already secure.
     "MX0_A04_CON018", // Havoc, Did I say retreat? Now Turn Around!
@@ -2042,12 +2042,12 @@ DECLARE_SCRIPT(MX0_Area4_Controller_DLS, "")
         }
         // Commando, take out those SAMs
         if (timer_id == CONVERSATION_HAVOC_TAKE_OUT_SAMS) {
-            // Havoc, you’ve got  to clear out those SAM sites!
+            // Havoc, youï¿½ve got  to clear out those SAM sites!
             const char* conv_name = ("MX0_A04_CON005");
             int conv_id = Commands->Create_Conversation(conv_name, 100.0f, 200.0f, false);
-            Commands->Join_Conversation(NULL, conv_id, false, true);
+            Commands->Join_Conversation(nullptr, conv_id, false, true);
             Commands->Start_Conversation(conv_id, 1);
-            // RocketTrooper - It’s down! The Obelisk is down!
+            // RocketTrooper - Itï¿½s down! The Obelisk is down!
             Commands->Send_Custom_Event(obj, Commands->Find_Object(gdi_trooper2_id),
                                         MX0_SPECIFIC_ACTION, MX0_ROCKETTROOPER_OBELISK_DOWN, 3.0f);
         }
@@ -2138,12 +2138,12 @@ DECLARE_SCRIPT(MX0_Area4_Controller_DLS, "")
             case 3: {
                 // Start A10 - Outro muzak
                 Commands->Fade_Background_Music("Renegade_A10_Outro.mp3", 1, 1);
-                // A10 - This is Eagle Claw 1 –Starting  attack run
+                // A10 - This is Eagle Claw 1 ï¿½Starting  attack run
                 const char* conv_name = ("MX0_A04_CON010");
                 int conv_id = Commands->Create_Conversation(conv_name, 100.0f, 200.0f, false);
-                Commands->Join_Conversation(NULL, conv_id, false, true);
+                Commands->Join_Conversation(nullptr, conv_id, false, true);
                 Commands->Start_Conversation(conv_id, 1);
-                // A10 - I’m hit! I’m hit!
+                // A10 - Iï¿½m hit! Iï¿½m hit!
                 Commands->Start_Timer(obj, this, 5.0f, A10_HIT);
                 // A10 cinematic
                 GameObject* controller
@@ -2159,19 +2159,19 @@ DECLARE_SCRIPT(MX0_Area4_Controller_DLS, "")
             } break;
             }
         }
-        // A10 - I’m hit! I’m hit!
+        // A10 - Iï¿½m hit! Iï¿½m hit!
         if (timer_id == A10_HIT) {
             const char* conv_name = ("MX0_A04_CON011");
             int conv_id = Commands->Create_Conversation(conv_name, 100.0f, 200.0f, false);
-            Commands->Join_Conversation(NULL, conv_id, false, true);
+            Commands->Join_Conversation(nullptr, conv_id, false, true);
             Commands->Start_Conversation(conv_id, 1);
         }
         if (timer_id == ION_CANNON_STRIKE) {
             // We have a lock on that base
-            // This is Eagle Base.  I’m not risking any more pilots.
+            // This is Eagle Base.  Iï¿½m not risking any more pilots.
             const char* conv_name = ("MX0_A04_CON012");
             int conv_id = Commands->Create_Conversation(conv_name, 100.0f, 200.0f, false);
-            Commands->Join_Conversation(NULL, conv_id, false, true);
+            Commands->Join_Conversation(nullptr, conv_id, false, true);
             Commands->Start_Conversation(conv_id, 1);
             // Ion Cannon strike
             GameObject* ion_cannon_strike = Commands->Create_Object(
@@ -2314,7 +2314,7 @@ DECLARE_SCRIPT(
         if (type == MX0_SPECIFIC_ACTION) {
             // Humvee announces discovery of Nod Base
             if (param == MX0_DISCOVERS_NOD_BASE) {
-                // Eagle Base– We found it!
+                // Eagle Baseï¿½ We found it!
                 const char* conv_name = ("MX0_A04_CON001");
                 int conv_id = Commands->Create_Conversation(conv_name, 100.0f, 200.0f, false);
                 Commands->Join_Conversation(obj, conv_id, false, true);
@@ -2338,7 +2338,7 @@ DECLARE_SCRIPT(
             // Confirmed.  Excellent work!
             const char* conv_name = ("MX0_A04_CON002");
             int conv_id = Commands->Create_Conversation(conv_name, 100.0f, 200.0f, false);
-            Commands->Join_Conversation(NULL, conv_id, false, true);
+            Commands->Join_Conversation(nullptr, conv_id, false, true);
             Commands->Start_Conversation(conv_id, CON002);
             //	Commands->Monitor_Conversation (obj, conv_id);
         }
@@ -2694,9 +2694,9 @@ DECLARE_SCRIPT(
                 Commands->Join_Conversation(obj, conv_id, false, true);
                 Commands->Start_Conversation(conv_id, MX0_ROCKETTROOPER_HOT_OBELISK);
             }
-            // Rocket Trooper - It’s down! The Obelisk is down!
+            // Rocket Trooper - Itï¿½s down! The Obelisk is down!
             if (param == MX0_ROCKETTROOPER_OBELISK_DOWN) {
-                // It’s down! The Obelisk is down!
+                // Itï¿½s down! The Obelisk is down!
                 const char* conv_name = ("MX0_A04_CON006");
                 int conv_id = Commands->Create_Conversation(conv_name, 100.0f, 200.0f, false);
                 Commands->Join_Conversation(obj, conv_id, false, true);

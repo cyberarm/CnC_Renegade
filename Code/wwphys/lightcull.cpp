@@ -84,7 +84,7 @@ StaticLightCullClass::~StaticLightCullClass(void)
 
 void StaticLightCullClass::Add_Object(LightPhysClass* obj)
 {
-    WWASSERT(PhysicsSceneClass::Get_Instance() != NULL);
+    WWASSERT(PhysicsSceneClass::Get_Instance() != nullptr);
     TypedAABTreeCullSystemClass<LightPhysClass>::Add_Object(obj);
     // (gth) not resetting vis when adding a new static light
     //	PhysicsSceneClass::Get_Instance()->Reset_Vis();
@@ -92,7 +92,7 @@ void StaticLightCullClass::Add_Object(LightPhysClass* obj)
 
 void StaticLightCullClass::Remove_Object(LightPhysClass* obj)
 {
-    WWASSERT(PhysicsSceneClass::Get_Instance() != NULL);
+    WWASSERT(PhysicsSceneClass::Get_Instance() != nullptr);
     TypedAABTreeCullSystemClass<LightPhysClass>::Remove_Object(obj);
     // (gth) not resetting vis when removing a static light
     //	PhysicsSceneClass::Get_Instance()->Reset_Vis();
@@ -100,7 +100,7 @@ void StaticLightCullClass::Remove_Object(LightPhysClass* obj)
 
 void StaticLightCullClass::Update_Culling(CullableClass* obj)
 {
-    WWASSERT(PhysicsSceneClass::Get_Instance() != NULL);
+    WWASSERT(PhysicsSceneClass::Get_Instance() != nullptr);
     TypedAABTreeCullSystemClass<LightPhysClass>::Update_Culling(obj);
     // (gth) not resetting vis when moving a static light
     //	PhysicsSceneClass::Get_Instance()->Reset_Vis();

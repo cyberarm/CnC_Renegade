@@ -33,7 +33,7 @@
  *---------------------------------------------------------------------------------------------*
  * Functions:                                                                                  *
  *   CRC_Memory -- calculates a CRC for a block of memory                                      *
- *   CRC_String -- Calculates a CRC for a NULL-terminated string                               *
+ *   CRC_String -- Calculates a CRC for a nullptr-terminated string                               *
  *   CRC_Stringi -- Calculates a CRC for a string, case-insensitive                            *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
@@ -104,7 +104,7 @@ unsigned long CRC_Memory(const unsigned char* data, unsigned long length, unsign
 }
 
 /***********************************************************************************************
- * CRC_String -- Calculates a CRC for a NULL-terminated string                                 *
+ * CRC_String -- Calculates a CRC for a nullptr-terminated string                                 *
  *                                                                                             *
  * INPUT:                                                                                      *
  *                                                                                             *

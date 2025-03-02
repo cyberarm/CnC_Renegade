@@ -53,8 +53,8 @@ protected:
     // Set next node
     inline void SetNext(ScriptNode* link)
     {
-        if (mNext != NULL) {
-            assert(link != NULL);
+        if (mNext != nullptr) {
+            assert(link != nullptr);
             link->SetNext(mNext);
         }
 
@@ -63,7 +63,7 @@ protected:
 
     // Can only be derived
     ScriptNode()
-        : mNext(NULL)
+        : mNext(nullptr)
     {
     }
 
@@ -75,7 +75,7 @@ class ScriptList
 {
 public:
     ScriptList()
-        : mHead(NULL)
+        : mHead(nullptr)
     {
         DebugPrint("ScriptList\n");
     }
@@ -85,7 +85,7 @@ public:
     // Add a node to this list
     void AddNode(ScriptNode* node)
     {
-        if ((node != NULL) && !HasNode(node)) {
+        if ((node != nullptr) && !HasNode(node)) {
             node->SetNext(mHead);
             mHead = node;
         }
@@ -94,15 +94,15 @@ public:
     // Remove a node from the list
     bool RemoveNode(ScriptNode* node)
     {
-        ScriptNode* previous = NULL;
+        ScriptNode* previous = nullptr;
         ScriptNode* current = mHead;
 
-        while (current != NULL) {
+        while (current != nullptr) {
             ScriptNode* next = current->GetNext();
 
             if (current == node) {
                 // Handle head of list condition
-                if (previous == NULL) {
+                if (previous == nullptr) {
                     mHead = next;
                 }
                 else {
@@ -126,7 +126,7 @@ public:
         ScriptNode* node = mHead;
         int count = 0;
 
-        while (node != NULL) {
+        while (node != nullptr) {
             count++;
             node = node->GetNext();
         }
@@ -139,7 +139,7 @@ public:
     {
         ScriptNode* current = mHead;
 
-        while (current != NULL) {
+        while (current != nullptr) {
             if (current == node) {
                 return true;
             }
@@ -151,7 +151,7 @@ public:
     }
 
     // Clear the list
-    void Clear(void) { mHead = NULL; }
+    void Clear(void) { mHead = nullptr; }
 
 private:
     friend class ScriptListIter;
@@ -182,7 +182,7 @@ public:
     inline void Next(void) { mCurrent = mCurrent->GetNext(); }
 
     // Test if at end of list
-    inline bool AtEnd(void) { return (mCurrent->GetNext() == NULL); }
+    inline bool AtEnd(void) { return (mCurrent->GetNext() == nullptr); }
 
 private:
     const ScriptList* mList;

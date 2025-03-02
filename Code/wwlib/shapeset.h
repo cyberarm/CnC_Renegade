@@ -53,7 +53,7 @@ class ShapeSet
 {
 public:
     /*
-    **	Fetch pointer to raw shape data (NULL if not present or empty).
+    **	Fetch pointer to raw shape data (nullptr if not present or empty).
     */
     void* Get_Data(int shape) const;
 
@@ -167,7 +167,7 @@ protected:
             return ((ShapeRecord const*)(((char*)this) + sizeof(ShapeSet)
                                          + sizeof(ShapeRecord) * shape));
         }
-        return (NULL);
+        return (nullptr);
     }
 
     /*
@@ -189,8 +189,8 @@ protected:
  * INPUT:   shape -- The shape number to extract the pointer for.                              *
  *                                                                                             *
  * OUTPUT:  Returns with a pointer to the raw shape data. If the shape does not exist in the   *
- *          data file, the returned value will be NULL. If the shape contains no pixels, then  *
- *          NULL is also returned.                                                             *
+ *          data file, the returned value will be nullptr. If the shape contains no pixels, then  *
+ *          nullptr is also returned.                                                             *
  *                                                                                             *
  * WARNINGS:   none                                                                            *
  *                                                                                             *
@@ -200,10 +200,10 @@ protected:
 inline void* ShapeSet::Get_Data(int shape) const
 {
     ShapeRecord const* record = Fetch_Record_Pointer(shape);
-    if (record != NULL && record->Data != 0) {
+    if (record != nullptr && record->Data != 0) {
         return (((char*)this) + record->Data);
     }
-    return (NULL);
+    return (nullptr);
 }
 
 /***********************************************************************************************
@@ -225,7 +225,7 @@ inline void* ShapeSet::Get_Data(int shape) const
 inline Rect ShapeSet::Get_Rect(int shape) const
 {
     ShapeRecord const* record = Fetch_Record_Pointer(shape);
-    if (record != NULL) {
+    if (record != nullptr) {
         return (Rect(record->X, record->Y, record->Width, record->Height));
     }
     return (Rect(0, 0, 0, 0));
@@ -250,7 +250,7 @@ inline Rect ShapeSet::Get_Rect(int shape) const
 inline bool ShapeSet::Is_Transparent(int shape) const
 {
     ShapeRecord const* record = Fetch_Record_Pointer(shape);
-    if (record != NULL) {
+    if (record != nullptr) {
         return (record->Is_Transparent());
     }
     return (false);
@@ -259,7 +259,7 @@ inline bool ShapeSet::Is_Transparent(int shape) const
 inline bool ShapeSet::Is_RLE_Compressed(int shape) const
 {
     ShapeRecord const* record = Fetch_Record_Pointer(shape);
-    if (record != NULL) {
+    if (record != nullptr) {
         return (record->Is_RLE_Compressed());
     }
     return (false);

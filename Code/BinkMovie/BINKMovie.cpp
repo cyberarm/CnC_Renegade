@@ -65,7 +65,7 @@ void BINKMovie::Play(const char* filename, const char* subtitlename, FontCharsCl
 {
     if (CurrentMovie) {
         delete CurrentMovie;
-        CurrentMovie = NULL;
+        CurrentMovie = nullptr;
     }
 
     CurrentMovie = new BINKMovieClass(filename, subtitlename, font);
@@ -75,7 +75,7 @@ void BINKMovie::Stop()
 {
     if (CurrentMovie) {
         delete CurrentMovie;
-        CurrentMovie = NULL;
+        CurrentMovie = nullptr;
     }
 }
 
@@ -119,11 +119,11 @@ BINKMovieClass::BINKMovieClass(const char* filename, const char* subtitlename, F
       Bink(0),
       FrameChanged(true),
       TicksPerFrame(0),
-      SubTitleManager(nullptr)
+      SubTitleManager(nullptrptr)
 {
     Bink = BinkOpen(Filename, 0);
 
-    if (Bink == nullptr) {
+    if (Bink == nullptrptr) {
         return;
     }
 
@@ -220,7 +220,7 @@ BINKMovieClass::BINKMovieClass(const char* filename, const char* subtitlename, F
 
 BINKMovieClass::~BINKMovieClass()
 {
-    if (Bink == nullptr) {
+    if (Bink == nullptrptr) {
         return;
     }
 

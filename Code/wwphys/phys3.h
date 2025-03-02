@@ -99,7 +99,7 @@ public:
     ** Teleport support
     */
     virtual bool Can_Teleport(const Matrix3D& new_tm, bool check_dyn_only = false,
-                              NonRefPhysListClass* result_list = NULL);
+                              NonRefPhysListClass* result_list = nullptr);
     virtual bool Can_Teleport_And_Stand(const Matrix3D& new_tm, Matrix3D* out);
     virtual bool Find_Teleport_Location(const Vector3& start, float radius, Vector3* out);
     virtual bool Can_Move_To(const Matrix3D& new_tm);

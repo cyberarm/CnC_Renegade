@@ -49,7 +49,7 @@
 //////////////////////////////////////////////////////////////////////
 GrabHandlesClass::GrabHandlesClass(void)
     : m_bIsAddedToScene(false),
-      m_pNode(NULL)
+      m_pNode(nullptr)
 {
     Initialize();
     return;
@@ -62,7 +62,7 @@ GrabHandlesClass::GrabHandlesClass(void)
 //////////////////////////////////////////////////////////////////////
 GrabHandlesClass::GrabHandlesClass(const GrabHandlesClass& ref)
     : m_bIsAddedToScene(false),
-      m_pNode(NULL)
+      m_pNode(nullptr)
 {
     *this = ref;
     Initialize();
@@ -141,12 +141,12 @@ void GrabHandlesClass::Remove_From_Scene(void)
         SceneEditorClass* pscene = ::Get_Scene_Editor();
 
         // Were we successful in getting the scene pointer?
-        ASSERT(pscene != NULL);
-        if (pscene != NULL) {
+        ASSERT(pscene != nullptr);
+        if (pscene != nullptr) {
 
             // Loop through and remove all the handles from the scene
             for (int handle = 0; handle < 8; handle++) {
-                if (m_pHandles[handle] != NULL) {
+                if (m_pHandles[handle] != nullptr) {
                     pscene->Remove_Object(m_pHandles[handle]);
                 }
             }
@@ -168,7 +168,7 @@ void GrabHandlesClass::Hide(bool bhide)
 {
     // Loop through and hide all the handles
     for (int handle = 0; handle < 8; handle++) {
-        if (m_pHandles[handle] != NULL) {
+        if (m_pHandles[handle] != nullptr) {
             m_pHandles[handle]->Peek_Model()->Set_Hidden(bhide);
 
             if (bhide == true) {
@@ -191,7 +191,7 @@ void GrabHandlesClass::Hide(bool bhide)
 void GrabHandlesClass::Position_Around_Node(NodeClass* node)
 {
     RenderObjClass* render_obj = node->Peek_Render_Obj();
-    if (render_obj != NULL) {
+    if (render_obj != nullptr) {
 
         //
         // Get the object's bounding box so we know where to
@@ -249,8 +249,8 @@ void GrabHandlesClass::Position_Around_Node(NodeClass* node)
             SceneEditorClass* pscene = ::Get_Scene_Editor();
 
             // Were we successful in getting the scene pointer?
-            ASSERT(pscene != NULL);
-            if (pscene != NULL) {
+            ASSERT(pscene != nullptr);
+            if (pscene != nullptr) {
 
                 // Loop through all the handles and add them to the scene
                 for (int handle = 0; handle < 8; handle++) {
@@ -286,7 +286,7 @@ void GrabHandlesClass::Position_Around_Node(NodeClass* node)
 //////////////////////////////////////////////////////////////////////
 void GrabHandlePhysClass::On_Click(void)
 {
-    if (m_pParent != NULL) {
+    if (m_pParent != nullptr) {
 
         // Switch to the 'grabhandle drag' mode
         MouseMgrClass* mousemgr = ::Get_Mouse_Mgr();
@@ -294,7 +294,7 @@ void GrabHandlePhysClass::On_Click(void)
 
         // Pass on the node/vertex information onto the mode mgr
         MMGrabHandleDragClass* mode = (MMGrabHandleDragClass*)mousemgr->Get_Mode_Mgr();
-        if (mode != NULL) {
+        if (mode != nullptr) {
             mode->Set_Node_Info(m_pParent->Get_Node(), m_iVertex);
         }
     }

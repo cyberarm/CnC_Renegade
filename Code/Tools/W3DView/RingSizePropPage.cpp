@@ -48,10 +48,10 @@ static bool Is_LERP(float last_value, float last_time, float curr_value, float c
 RingSizePropPageClass::RingSizePropPageClass(RingRenderObjClass* ring)
     : m_RenderObj(ring),
       m_bValid(true),
-      m_InnerScaleXBar(NULL),
-      m_InnerScaleYBar(NULL),
-      m_OuterScaleXBar(NULL),
-      m_OuterScaleYBar(NULL),
+      m_InnerScaleXBar(nullptr),
+      m_InnerScaleYBar(nullptr),
+      m_OuterScaleXBar(nullptr),
+      m_OuterScaleYBar(nullptr),
       m_InnerSize(0.5F, 0.5F),
       m_OuterSize(1.0F, 1.0F),
       CPropertyPage(RingSizePropPageClass::IDD)
@@ -109,7 +109,7 @@ void RingSizePropPageClass::Initialize(void)
     m_OuterScaleChannel.Reset();
     m_OrigOuterScaleChannel.Reset();
 
-    if (m_RenderObj != NULL) {
+    if (m_RenderObj != nullptr) {
         m_InnerSize = m_RenderObj->Get_Inner_Extent();
         m_OuterSize = m_RenderObj->Get_Outer_Extent();
 
@@ -347,7 +347,7 @@ BOOL RingSizePropPageClass::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pRes
         //
         //	Determine the timeline bar which sent the notification
         //
-        ColorBarClass* timeline = NULL;
+        ColorBarClass* timeline = nullptr;
         if (color_bar_hdr->hdr.idFrom == IDC_INNER_SCALE_BAR_X) {
             timeline = m_InnerScaleXBar;
         }

@@ -92,7 +92,7 @@ static const float MIN_AUDIENCE_DIST = 4.0F;
 ////////////////////////////////////////////////////////////////
 ActiveConversationClass::ActiveConversationClass(void)
     : ID(0),
-      Conversation(NULL),
+      Conversation(nullptr),
       CurrentRemark(-1),
       NextRemarkTimer(0),
       State(STATE_INITIALIZING),
@@ -103,7 +103,7 @@ ActiveConversationClass::ActiveConversationClass(void)
       Priority(30),
       MaxDist(0),
       IsInterruptable(true),
-      CurrentSound(NULL)
+      CurrentSound(nullptr)
 {
     return;
 }
@@ -133,16 +133,16 @@ void ActiveConversationClass::Free_Orator_List(void)
     //
     for (int index = 0; index < OratorList.Count(); index++) {
         OratorClass* orator = OratorList[index];
-        if (orator != NULL) {
+        if (orator != nullptr) {
 
             PhysicalGameObj* game_obj = orator->Get_Game_Obj();
-            if (game_obj != NULL) {
+            if (game_obj != nullptr) {
 
                 //
                 //	Was this a soldier we were talking to?
                 //
                 SoldierGameObj* soldier = game_obj->As_SoldierGameObj();
-                if (soldier != NULL) {
+                if (soldier != nullptr) {
 
                     //
                     //	Turn idle animations back on for soldiers
@@ -159,7 +159,7 @@ void ActiveConversationClass::Free_Orator_List(void)
                     //	Reset the possibility that this soldier will have a conversation
                     //
                     SoldierObserverClass* innate_ai = soldier->Get_Innate_Controller();
-                    if (innate_ai != NULL) {
+                    if (innate_ai != nullptr) {
                         innate_ai->Reset_Conversation_Timer();
                     }
 
@@ -175,11 +175,11 @@ void ActiveConversationClass::Free_Orator_List(void)
                 //
                 //	Let the game obj know its no longer in a conversation
                 //
-                game_obj->Set_Conversation(NULL);
+                game_obj->Set_Conversation(nullptr);
             }
 
             delete orator;
-            orator = NULL;
+            orator = nullptr;
         }
     }
 
@@ -215,7 +215,7 @@ OratorClass* ActiveConversationClass::Add_Orator(PhysicalGameObj* game_obj)
     //
     //	Let the game obj know he's part of a conversation
     //
-    if (game_obj != NULL) {
+    if (game_obj != nullptr) {
         game_obj->Set_Conversation(this);
     }
 
@@ -252,8 +252,8 @@ void ActiveConversationClass::Start_Conversation(void)
     //
     //	Find the first "visible" orator in our list
     //
-    PhysicalGameObj* main_speaker = NULL;
-    for (int orator_index = 0; main_speaker == NULL && orator_index < OratorList.Count();
+    PhysicalGameObj* main_speaker = nullptr;
+    for (int orator_index = 0; main_speaker == nullptr && orator_index < OratorList.Count();
          orator_index++) {
         main_speaker = OratorList[orator_index]->Get_Game_Obj();
     }
@@ -261,7 +261,7 @@ void ActiveConversationClass::Start_Conversation(void)
     //
     //	Get the location of the first orator
     //
-    if (main_speaker != NULL) {
+    if (main_speaker != nullptr) {
 
         //
         //	Pick a center position somewhere around the first speaker
@@ -308,20 +308,20 @@ void ActiveConversationClass::Start_Conversation(void)
         //
         for (int index = 0; index < OratorList.Count(); index++) {
             PhysicalGameObj* game_obj = OratorList[index]->Get_Game_Obj();
-            if (game_obj != NULL) {
+            if (game_obj != nullptr) {
 
                 //
                 //	Turn off idle animations for soldiers when they are
                 // having a conversation
                 //
-                if (game_obj->As_SoldierGameObj() != NULL) {
+                if (game_obj->As_SoldierGameObj() != nullptr) {
                     game_obj->As_SoldierGameObj()->Set_Loiters_Allowed(false);
                 }
 
                 //
                 //	Make sure we don't take control of a human player
                 //
-                if (game_obj->As_SmartGameObj() == NULL
+                if (game_obj->As_SmartGameObj() == nullptr
                     || game_obj->As_SmartGameObj()->Is_Human_Controlled()
                     || OratorList.Count() <= 2) {
                     OratorList[index]->Set_Flag(OratorClass::FLAG_DONT_MOVE, true);
@@ -330,7 +330,7 @@ void ActiveConversationClass::Start_Conversation(void)
                     //
                     //	Don't force facing if its a human player or inanimate object
                     //
-                    if (game_obj->As_SmartGameObj() == NULL
+                    if (game_obj->As_SmartGameObj() == nullptr
                         || game_obj->As_SmartGameObj()->Is_Human_Controlled()) {
                         OratorList[index]->Set_Flag(OratorClass::FLAG_DONT_FACE, true);
                     }
@@ -362,7 +362,7 @@ void ActiveConversationClass::Start_Conversation(void)
     //
     //	Don't allow a key conversation to be interrupted
     //
-    if (Conversation != NULL && Conversation->Is_Key()) {
+    if (Conversation != nullptr && Conversation->Is_Key()) {
         Set_Is_Interruptable(false);
 
         //
@@ -396,7 +396,7 @@ void ActiveConversationClass::Think(void)
     //
     for (int index = 0; index < OratorList.Count(); index++) {
         PhysicalGameObj* game_obj = OratorList[index]->Get_Game_Obj();
-        if (game_obj != NULL && game_obj->As_SoldierGameObj() != NULL) {
+        if (game_obj != nullptr && game_obj->As_SoldierGameObj() != nullptr) {
             SoldierGameObj* soldier = game_obj->As_SoldierGameObj();
 
             //
@@ -494,25 +494,25 @@ void ActiveConversationClass::Say_Next_Remark(void)
             //
             //	Have the orator start his remark
             //
-            SoldierGameObj* soldier = NULL;
-            if (orator != NULL) {
+            SoldierGameObj* soldier = nullptr;
+            if (orator != nullptr) {
                 soldier = orator->As_SoldierGameObj();
             }
 
             float duration = 0;
 
-            if (soldier != NULL) {
+            if (soldier != nullptr) {
                 duration = SoldierGameObj::Say_Dynamic_Dialogue(text_id, soldier);
             }
             else {
                 REF_PTR_RELEASE(CurrentSound);
-                duration = SoldierGameObj::Say_Dynamic_Dialogue(text_id, NULL, &CurrentSound);
+                duration = SoldierGameObj::Say_Dynamic_Dialogue(text_id, nullptr, &CurrentSound);
             }
 
             //
             //	Play an animation on the orator
             //
-            if (orator != NULL && remark.Get_Animation_Name().Get_Length() > 0) {
+            if (orator != nullptr && remark.Get_Animation_Name().Get_Length() > 0) {
                 orator->Set_Animation(remark.Get_Animation_Name(), false);
             }
 
@@ -562,7 +562,7 @@ bool ActiveConversationClass::Is_Audience_In_Place(void)
     //
     for (int index = 0; index < OratorList.Count(); index++) {
         PhysicalGameObj* game_obj = OratorList[index]->Get_Game_Obj();
-        if (game_obj != NULL) {
+        if (game_obj != nullptr) {
 
             //
             //	Get this soldier's position
@@ -625,7 +625,7 @@ bool ActiveConversationClass::Save(ChunkSaveClass& csave)
     //
     //	Save the ID of the conversation (if necessary)
     //
-    if (Conversation != NULL) {
+    if (Conversation != nullptr) {
         int conversation_id = Conversation->Get_ID();
         WRITE_MICRO_CHUNK(csave, VARID_CONVERSATION_ID, conversation_id);
     }
@@ -654,7 +654,7 @@ bool ActiveConversationClass::Save(ChunkSaveClass& csave)
     //	Save each of the monitors
     //
     for (int index = 0; index < MAX_MONITORS; index++) {
-        if (MonitorArray[index].Get_Ptr() != NULL) {
+        if (MonitorArray[index].Get_Ptr() != nullptr) {
             csave.Begin_Chunk(CHUNKID_MONITOR);
             MonitorArray[index].Save(csave);
             csave.End_Chunk();
@@ -724,7 +724,7 @@ bool ActiveConversationClass::Load(ChunkLoadClass& cload)
 ///////////////////////////////////////////////////////////////////////
 void ActiveConversationClass::Load_Variables(ChunkLoadClass& cload)
 {
-    ActiveConversationClass* old_ptr = NULL;
+    ActiveConversationClass* old_ptr = nullptr;
     int conversation_id = 0;
 
     //
@@ -761,7 +761,7 @@ void ActiveConversationClass::Load_Variables(ChunkLoadClass& cload)
     //
     //	Register our old pointer so other objects can safely remap to it
     //
-    WWASSERT(old_ptr != NULL);
+    WWASSERT(old_ptr != nullptr);
     SaveLoadSystemClass::Register_Pointer(old_ptr, this);
     return;
 }
@@ -773,7 +773,7 @@ void ActiveConversationClass::Load_Variables(ChunkLoadClass& cload)
 ///////////////////////////////////////////////////////////////////////
 void ActiveConversationClass::Set_Orator_Arrived(PhysicalGameObj* orator, bool has_arrived)
 {
-    WWASSERT(orator != NULL);
+    WWASSERT(orator != nullptr);
 
     for (int index = 0; index < OratorList.Count(); index++) {
         PhysicalGameObj* curr_orator = OratorList[index]->Get_Game_Obj();
@@ -782,7 +782,7 @@ void ActiveConversationClass::Set_Orator_Arrived(PhysicalGameObj* orator, bool h
         //	If this is the orator we were looking for, then set
         // its arrived state
         //
-        if (curr_orator != NULL && curr_orator == orator) {
+        if (curr_orator != nullptr && curr_orator == orator) {
             OratorList[index]->Set_Has_Arrived(has_arrived);
             break;
         }
@@ -798,8 +798,8 @@ void ActiveConversationClass::Set_Orator_Arrived(PhysicalGameObj* orator, bool h
 ///////////////////////////////////////////////////////////////////////
 bool ActiveConversationClass::Get_Orator_Location(PhysicalGameObj* orator, Vector3* position)
 {
-    WWASSERT(orator != NULL);
-    WWASSERT(position != NULL);
+    WWASSERT(orator != nullptr);
+    WWASSERT(position != nullptr);
     bool retval = false;
 
     for (int index = 0; index < OratorList.Count(); index++) {
@@ -809,7 +809,7 @@ bool ActiveConversationClass::Get_Orator_Location(PhysicalGameObj* orator, Vecto
         //	If this is the orator we were looking for, then pass the
         // expected position back to the caller
         //
-        if (curr_orator != NULL && curr_orator == orator) {
+        if (curr_orator != nullptr && curr_orator == orator) {
             (*position) = OratorList[index]->Get_Position();
             break;
         }
@@ -825,8 +825,8 @@ bool ActiveConversationClass::Get_Orator_Location(PhysicalGameObj* orator, Vecto
 ///////////////////////////////////////////////////////////////////////
 bool ActiveConversationClass::Get_Current_Orator_Location(Vector3* position)
 {
-    WWASSERT(position != NULL);
-    WWASSERT(Conversation != NULL);
+    WWASSERT(position != nullptr);
+    WWASSERT(Conversation != nullptr);
     bool retval = false;
 
     //
@@ -849,7 +849,7 @@ bool ActiveConversationClass::Get_Current_Orator_Location(Vector3* position)
         //	Now, return this orator's current position
         //
         PhysicalGameObj* orator = OratorList[orator_id]->Get_Game_Obj();
-        if (orator != NULL) {
+        if (orator != nullptr) {
             orator->Get_Position(position);
         }
         retval = true;
@@ -865,7 +865,7 @@ bool ActiveConversationClass::Get_Current_Orator_Location(Vector3* position)
 ///////////////////////////////////////////////////////////////////////
 PhysicalGameObj* ActiveConversationClass::Get_Current_Orator(void)
 {
-    PhysicalGameObj* current_orator = NULL;
+    PhysicalGameObj* current_orator = nullptr;
 
     //
     //	Lookup who is saying the current line
@@ -891,7 +891,7 @@ PhysicalGameObj* ActiveConversationClass::Get_Current_Orator(void)
 ///////////////////////////////////////////////////////////////////////
 void ActiveConversationClass::Get_Conversation_Center(Vector3* position)
 {
-    WWASSERT(position != NULL);
+    WWASSERT(position != nullptr);
     (*position) = CentralPos;
     return;
 }
@@ -903,8 +903,8 @@ void ActiveConversationClass::Get_Conversation_Center(Vector3* position)
 ///////////////////////////////////////////////////////////////////////
 OratorClass* ActiveConversationClass::Get_Orator_Information(PhysicalGameObj* soldier)
 {
-    WWASSERT(soldier != NULL);
-    OratorClass* orator = NULL;
+    WWASSERT(soldier != nullptr);
+    OratorClass* orator = nullptr;
 
     for (int index = 0; index < OratorList.Count(); index++) {
         PhysicalGameObj* curr_soldier = OratorList[index]->Get_Game_Obj();
@@ -913,7 +913,7 @@ OratorClass* ActiveConversationClass::Get_Orator_Information(PhysicalGameObj* so
         //	If this is the orator we were looking for, then pass the
         // expected information back to the caller
         //
-        if (curr_soldier != NULL && curr_soldier == soldier) {
+        if (curr_soldier != nullptr && curr_soldier == soldier) {
             orator = OratorList[index];
             break;
         }
@@ -941,7 +941,7 @@ void ActiveConversationClass::Register_Monitor(ScriptableGameObj* game_obj)
             found = true;
             break;
         }
-        else if (curr_game_obj == NULL) {
+        else if (curr_game_obj == nullptr) {
             empty_index = index;
         }
     }
@@ -975,7 +975,7 @@ void ActiveConversationClass::Unregister_Monitor(ScriptableGameObj* game_obj)
     for (int index = 0; index < MAX_MONITORS; index++) {
         ScriptableGameObj* curr_game_obj = MonitorArray[index];
         if (curr_game_obj == game_obj) {
-            MonitorArray[index] = NULL;
+            MonitorArray[index] = nullptr;
             break;
         }
     }
@@ -999,7 +999,7 @@ void ActiveConversationClass::Notify_Monitors_On_End(ActionCompleteReason reason
         //
         //	Notify all the observers of this game object
         //
-        if (game_obj != NULL) {
+        if (game_obj != nullptr) {
             const GameObjObserverList& observer_list = game_obj->Get_Observers();
             for (int observer_index = 0; observer_index < observer_list.Count(); observer_index++) {
                 observer_list[observer_index]->Action_Complete(game_obj, ActionID, reason);
@@ -1026,10 +1026,10 @@ void ActiveConversationClass::Notify_Monitors(int custom_event_id, int param)
         //
         //	Notify all the observers of this game object
         //
-        if (game_obj != NULL) {
+        if (game_obj != nullptr) {
             const GameObjObserverList& observer_list = game_obj->Get_Observers();
             for (int observer_index = 0; observer_index < observer_list.Count(); observer_index++) {
-                observer_list[observer_index]->Custom(game_obj, custom_event_id, param, NULL);
+                observer_list[observer_index]->Custom(game_obj, custom_event_id, param, nullptr);
             }
         }
     }
@@ -1045,7 +1045,7 @@ void ActiveConversationClass::Notify_Monitors(int custom_event_id, int param)
 void ActiveConversationClass::Control_Orator(SoldierGameObj* soldier)
 {
     OratorClass* orator_info = Get_Orator_Information(soldier);
-    if (orator_info == NULL || CurrentRemark < 0) {
+    if (orator_info == nullptr || CurrentRemark < 0) {
         return;
     }
 
@@ -1063,7 +1063,7 @@ void ActiveConversationClass::Control_Orator(SoldierGameObj* soldier)
         //	Now determine where this participant should be looking
         //
         PhysicalGameObj* orator = Get_Current_Orator();
-        if (orator != NULL) {
+        if (orator != nullptr) {
 
             Vector3 look_pos(0, 0, 0);
             bool is_something_to_look_at = false;
@@ -1073,7 +1073,7 @@ void ActiveConversationClass::Control_Orator(SoldierGameObj* soldier)
             //	Lookup the object we are trying to look at...
             //
             int look_at_id = orator_info->Get_Look_At_Obj();
-            PhysicalGameObj* look_at_obj = NULL;
+            PhysicalGameObj* look_at_obj = nullptr;
             if (look_at_id > 0) {
                 look_at_obj = GameObjManager::Find_PhysicalGameObj(look_at_id);
             }
@@ -1085,7 +1085,7 @@ void ActiveConversationClass::Control_Orator(SoldierGameObj* soldier)
             //	Now, either look at a specific object, look at the speaker, or
             // find a random person to look at...
             //
-            if (look_at_obj != NULL) {
+            if (look_at_obj != nullptr) {
 
                 look_at_obj->Get_Position(&look_pos);
                 look_pos.Z += HEAD_HEIGHT;
@@ -1114,7 +1114,7 @@ void ActiveConversationClass::Control_Orator(SoldierGameObj* soldier)
                 //	Look at someone else
                 //
                 PhysicalGameObj* someone_to_lookat = OratorList[index]->Get_Game_Obj();
-                if (someone_to_lookat != NULL) {
+                if (someone_to_lookat != nullptr) {
                     someone_to_lookat->Get_Position(&look_pos);
                     look_pos.Z += HEAD_HEIGHT;
                     soldier->Look_At(look_pos, 100.0F);
@@ -1186,7 +1186,7 @@ void ActiveConversationClass::Stop_Conversation(ActionCompleteReason reason)
             //
             //	Have the current speaker stop speaking
             //
-            if (orator != NULL && orator->As_SoldierGameObj() != NULL) {
+            if (orator != nullptr && orator->As_SoldierGameObj() != nullptr) {
                 orator->As_SoldierGameObj()->Stop_Current_Speech();
             }
         }
@@ -1221,7 +1221,7 @@ float ActiveConversationClass::Get_Conversation_Time(void)
         //	Lookup the translation object from the strings database
         //
         TDBObjClass* translate_obj = TranslateDBClass::Find_Object(text_id);
-        if (translate_obj != NULL) {
+        if (translate_obj != nullptr) {
 
             //
             //	Create the sound object
@@ -1234,7 +1234,7 @@ float ActiveConversationClass::Get_Conversation_Time(void)
                 //
                 AudibleSoundClass* speech
                     = WWAudioClass::Get_Instance()->Create_Sound(sound_def_id);
-                if (speech != NULL) {
+                if (speech != nullptr) {
                     retval += (speech->Get_Duration() / 1000.0F);
                     REF_PTR_RELEASE(speech);
                 }
@@ -1255,10 +1255,10 @@ void ActiveConversationClass::Stop_Current_Sound(void)
     //
     //	Kill the current sound we are making (speech, scream, grunt, etc)
     //
-    if (CurrentSound != NULL) {
+    if (CurrentSound != nullptr) {
         CurrentSound->Stop();
         CurrentSound->Release_Ref();
-        CurrentSound = NULL;
+        CurrentSound = nullptr;
     }
 
     return;

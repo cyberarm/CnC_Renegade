@@ -62,7 +62,7 @@ public:
     //////////////////////////////////////////////////////////////////
     //	Public constructors/destructors
     //////////////////////////////////////////////////////////////////
-    ObjectNodeClass(PresetClass* preset = NULL);
+    ObjectNodeClass(PresetClass* preset = nullptr);
     ObjectNodeClass(const ObjectNodeClass& src);
     ~ObjectNodeClass(void);
 
@@ -133,9 +133,9 @@ protected:
 //////////////////////////////////////////////////////////////////
 inline PhysicalGameObj* ObjectNodeClass::Peek_Game_Obj(void) const
 {
-    PhysicalGameObj* game_obj = NULL;
+    PhysicalGameObj* game_obj = nullptr;
 
-    if (m_GameObj != NULL) {
+    if (m_GameObj != nullptr) {
         game_obj = m_GameObj->As_PhysicalGameObj();
     }
 
@@ -147,13 +147,13 @@ inline PhysicalGameObj* ObjectNodeClass::Peek_Game_Obj(void) const
 //////////////////////////////////////////////////////////////////
 inline PhysClass* ObjectNodeClass::Peek_Physics_Obj(void) const
 {
-    PhysClass* phys_obj = NULL;
+    PhysClass* phys_obj = nullptr;
 
     //
     //	If our game object has a phys object, then return it to the caller.
     //
     PhysicalGameObj* phys_game_obj = Peek_Game_Obj();
-    if (phys_game_obj != NULL) {
+    if (phys_game_obj != nullptr) {
         phys_obj = phys_game_obj->Peek_Physical_Object();
     }
 

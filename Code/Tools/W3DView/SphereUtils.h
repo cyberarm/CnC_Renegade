@@ -55,7 +55,7 @@ public:
     //	Public constructors/destructors
     /////////////////////////////////////////////////////////////
     SphereKeysClass(void)
-        : m_Keys(NULL),
+        : m_Keys(nullptr),
           m_KeyCount(0),
           m_MaxKeys(0)
     {

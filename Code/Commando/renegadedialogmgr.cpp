@@ -78,20 +78,20 @@
 ////////////////////////////////////////////////////////////////
 //	Globals
 ////////////////////////////////////////////////////////////////
-WWUIInputClass* _TheWWUIInput = NULL;
+WWUIInputClass* _TheWWUIInput = nullptr;
 
 ////////////////////////////////////////////////////////////////
 //	Static data
 ////////////////////////////////////////////////////////////////
 DialogFactoryBaseClass* FactoryArray[FACTORY_COUNT] = {
-    new DialogFactoryClass<StartSPGameDialogClass>, NULL, NULL,
+    new DialogFactoryClass<StartSPGameDialogClass>, nullptr, nullptr,
     new DialogFactoryClass<OptionsMenuClass>, new DialogFactoryClass<DifficultyMenuClass>,
-    NULL, // IDC_MENU_START_TUTORIAL_BUTTON
+    nullptr, // IDC_MENU_START_TUTORIAL_BUTTON
     new DialogFactoryClass<LoadSPGameMenuClass>,
-    NULL, // IDC_MENU_DIFFCULTY01_BUTTON
-    NULL, // IDC_MENU_DIFFCULTY02_BUTTON
-    NULL, // IDC_MENU_DIFFCULTY04_BUTTON
-    NULL, // IDC_MENU_DIFFCULTY04_BUTTON
+    nullptr, // IDC_MENU_DIFFCULTY01_BUTTON
+    nullptr, // IDC_MENU_DIFFCULTY02_BUTTON
+    nullptr, // IDC_MENU_DIFFCULTY04_BUTTON
+    nullptr, // IDC_MENU_DIFFCULTY04_BUTTON
     new DialogFactoryClass<ControlsMenuClass>, new DialogFactoryClass<CharacterOptionsMenuClass>,
     new DialogFactoryClass<CheatOptionsMenuClass>, new DialogFactoryClass<TechOptionsMenuClass>,
     new DialogFactoryClass<MovieOptionsMenuClass>, new DialogFactoryClass<PreviewOptionsMenuClass>,
@@ -99,14 +99,14 @@ DialogFactoryBaseClass* FactoryArray[FACTORY_COUNT] = {
     new DialogFactoryClass<EVAEncyclopediaMenuClass>, new DialogFactoryClass<MainMenuDialogClass>,
     new DialogFactoryClass<SaveGameMenuClass>, new DialogFactoryClass<MPLanMenuClass>,
     // new DialogFactoryClass<MPInternetMenuClass>,
-    NULL,
-    NULL, // new DialogFactoryClass<MPGameMenuClass>,
+    nullptr,
+    nullptr, // new DialogFactoryClass<MPGameMenuClass>,
     new DialogFactoryClass<MPJoinMenuClass>,
-    NULL, // new DialogFactoryClass<MPServerStartMenuClass>,
-    new DialogFactoryClass<MultiplayOptionsMenuClass>, NULL,
+    nullptr, // new DialogFactoryClass<MPServerStartMenuClass>,
+    new DialogFactoryClass<MultiplayOptionsMenuClass>, nullptr,
     new DialogFactoryClass<MPWolMainMenuClass>, new DialogFactoryClass<MPLanGameListMenuClass>,
-    NULL, // IDC_MENU_MP_LAN_JOIN_BUTTON
-    NULL, // IDC_MENU_MP_LAN_START_BUTTON
+    nullptr, // IDC_MENU_MP_LAN_JOIN_BUTTON
+    nullptr, // IDC_MENU_MP_LAN_START_BUTTON
 };
 
 ////////////////////////////////////////////////////////////////
@@ -278,7 +278,7 @@ void RenegadeDialogMgrClass::Goto_Location(LOCATION location)
     //	Activate the menu game mode (if necessary)
     //
     GameModeClass* menu_game_mode = GameModeManager::Find("Menu");
-    if (menu_game_mode != NULL && menu_game_mode->Is_Active() == false) {
+    if (menu_game_mode != nullptr && menu_game_mode->Is_Active() == false) {
         menu_game_mode->Activate();
     }
 
@@ -308,7 +308,7 @@ void RenegadeDialogMgrClass::Shutdown(void)
     for (int i = 0; i < FACTORY_COUNT; i++) {
         if (FactoryArray[i]) {
             delete FactoryArray[i];
-            FactoryArray[i] = NULL;
+            FactoryArray[i] = nullptr;
         }
     }
 
@@ -328,7 +328,7 @@ bool CALLBACK Default_On_Command(DialogBaseClass* dialog, int ctrl_id, int mesag
     //	Is this one of our "auto-link" buttons?
     //
     if (ctrl_id >= DIALOG_LINK_FIRST && ctrl_id < DIALOG_LINK_LAST) {
-        if (FactoryArray[ctrl_id - DIALOG_LINK_FIRST] != NULL) {
+        if (FactoryArray[ctrl_id - DIALOG_LINK_FIRST] != nullptr) {
 
             //
             //	Do the dialog associated with this command
@@ -399,7 +399,7 @@ bool CALLBACK Default_On_Command(DialogBaseClass* dialog, int ctrl_id, int mesag
         /*dialog->End_Dialog ();
         {
                 MainMenuDialogClass *main_menu = MainMenuDialogClass::Get_Instance ();
-                if (main_menu != NULL) {
+                if (main_menu != nullptr) {
                         main_menu->End_Dialog ();
                 }
         }*/
@@ -421,7 +421,7 @@ bool CALLBACK Default_On_Command(DialogBaseClass* dialog, int ctrl_id, int mesag
 // WCHAR Buffer[128] is your buffer, the call would be
 // MyLoadStringW(IDS_TEST,Buffer,128);
 // If it succeeds, the function returns the number of characters copied
-// into the buffer, not including the NULL terminating character, or
+// into the buffer, not including the nullptr terminating character, or
 // zero if the string resource does not exist.
 //
 int MyLoadStringW(UINT str_id, LPWSTR buffer, int buffer_len)
@@ -435,17 +435,17 @@ int MyLoadStringW(UINT str_id, LPWSTR buffer, int buffer_len)
     //
     //	Find the resource
     //
-    HRSRC resource = ::FindResourceEx(NULL, RT_STRING, MAKEINTRESOURCE(block),
+    HRSRC resource = ::FindResourceEx(nullptr, RT_STRING, MAKEINTRESOURCE(block),
                                       MAKELANGID(LANG_NEUTRAL, SUBLANG_NEUTRAL));
 
     //
     //	Load the resource into memory
     //
-    HGLOBAL hglobal = ::LoadResource(NULL, resource);
+    HGLOBAL hglobal = ::LoadResource(nullptr, resource);
     LPWSTR res_string = (LPWSTR)::LockResource(hglobal);
 
     int length = 0;
-    if (res_string != NULL) {
+    if (res_string != nullptr) {
 
         for (int index = 0; index < num; index++) {
             res_string += *res_string + 1;
@@ -459,7 +459,7 @@ int MyLoadStringW(UINT str_id, LPWSTR buffer, int buffer_len)
     }
 
     //
-    //	Null terminate the buffer
+    //	nullptr terminate the buffer
     //
     buffer[length] = '\0';
 

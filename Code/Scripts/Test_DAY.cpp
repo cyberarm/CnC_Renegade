@@ -278,7 +278,7 @@ void Custom(GameObject* obj, int type, int param, GameObject* sender)
 
 DECLARE_SCRIPT(M00_Cinematic_Kill_Object_DAY, "") {
 
-    void Created(GameObject * obj) { Commands->Apply_Damage(obj, 10000.0f, "BlamoKiller", NULL);
+    void Created(GameObject * obj) { Commands->Apply_Damage(obj, 10000.0f, "BlamoKiller", nullptr);
 }
 }
 ;

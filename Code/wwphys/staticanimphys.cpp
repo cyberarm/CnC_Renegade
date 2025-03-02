@@ -82,17 +82,17 @@ enum
 
 StaticAnimPhysClass::StaticAnimPhysClass(void)
     : AnimManager(*this),
-      ShadowProjector(NULL)
+      ShadowProjector(nullptr)
 {
     Set_Collision_Group(0xF); // Hardcoding this???
 }
 
 StaticAnimPhysClass::~StaticAnimPhysClass(void)
 {
-    if (ShadowProjector != NULL) {
+    if (ShadowProjector != nullptr) {
         PhysicsSceneClass::Get_Instance()->Remove_Static_Texture_Projector(ShadowProjector);
         ShadowProjector->Release_Ref();
-        ShadowProjector = NULL;
+        ShadowProjector = nullptr;
     }
 }
 
@@ -112,18 +112,18 @@ void StaticAnimPhysClass::Set_Model(RenderObjClass* model)
 
 void StaticAnimPhysClass::Vis_Render(SpecialRenderInfoClass& rinfo)
 {
-    if (Model != NULL) {
+    if (Model != nullptr) {
         // static anim objects need to render their bounding box so temporarily make it visible:
         int was_hidden = 0;
         RenderObjClass* bbox = Model->Get_Sub_Object_By_Name("BoundingBox");
-        if (bbox != NULL) {
+        if (bbox != nullptr) {
             was_hidden = bbox->Is_Hidden();
             bbox->Set_Hidden(false);
         }
 
         StaticPhysClass::Vis_Render(rinfo);
 
-        if (bbox != NULL) {
+        if (bbox != nullptr) {
             bbox->Set_Hidden(was_hidden);
             bbox->Release_Ref();
         }
@@ -156,15 +156,15 @@ void StaticAnimPhysClass::Update_Sun_Status(void)
 
 void StaticAnimPhysClass::Set_Shadow(TexProjectClass* shadow)
 {
-    if (ShadowProjector != NULL) {
+    if (ShadowProjector != nullptr) {
         PhysicsSceneClass::Get_Instance()->Remove_Static_Texture_Projector(ShadowProjector);
         ShadowProjector->Release_Ref();
-        ShadowProjector = NULL;
+        ShadowProjector = nullptr;
     }
 
     ShadowProjector = shadow;
 
-    if (ShadowProjector != NULL) {
+    if (ShadowProjector != nullptr) {
         ShadowProjector->Add_Ref();
         ShadowProjector->Enable_Affect_Static_Objects(false);
         PhysicsSceneClass::Get_Instance()->Add_Static_Texture_Projector(ShadowProjector);
@@ -174,9 +174,9 @@ void StaticAnimPhysClass::Set_Shadow(TexProjectClass* shadow)
 void StaticAnimPhysClass::Debug_Display_Shadow(const Vector2& v0, const Vector2& v1)
 {
 
-    if (ShadowProjector != NULL) {
+    if (ShadowProjector != nullptr) {
         TextureClass* tex = ShadowProjector->Peek_Texture();
-        if (tex != NULL) {
+        if (tex != nullptr) {
 
             ShaderClass shader = ShaderClass::_PresetOpaqueShader;
             VertexMaterialClass* vmtl
@@ -390,7 +390,7 @@ void StaticAnimPhysClass::On_Post_Load(void)
     ** Re-Initialize our projector.
     */
     StaticAnimPhysDefClass* definition = Get_StaticAnimPhysDef();
-    if (definition != NULL) {
+    if (definition != nullptr) {
         ProjectorManager.Init(definition->ProjectorManagerDef, Model);
     }
 }

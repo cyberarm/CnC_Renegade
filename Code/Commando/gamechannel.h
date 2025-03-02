@@ -56,7 +56,7 @@ class cGameChannel : public RefCountClass
 public:
     cGameData* Get_Game_Data(void)
     {
-        WWASSERT(PGameData != NULL);
+        WWASSERT(PGameData != nullptr);
         return PGameData;
     }
     RefPtr<WWOnline::ChannelData>& Get_Channel(void) { return WolChannel; }

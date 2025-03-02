@@ -73,8 +73,8 @@ EditorAssetMgrClass::EditorAssetMgrClass(void)
 void EditorAssetMgrClass::Reload_File(const char* filename)
 {
     // Param OK?
-    ASSERT(filename != NULL);
-    if (filename != NULL) {
+    ASSERT(filename != nullptr);
+    if (filename != nullptr) {
         CString extension = ::strrchr(filename, '.');
 
         // Is this a W3D file?
@@ -239,16 +239,16 @@ RenderObjClass* EditorAssetMgrClass::Create_Render_Obj(const char* name)
     ::Pump_Messages();
 
     // Assume failure
-    RenderObjClass* prenderobj = NULL;
+    RenderObjClass* prenderobj = nullptr;
 
     // Try to find a prototype
     PrototypeClass* proto = Find_Prototype(name);
 
-    if (WW3D_Load_On_Demand && proto == NULL) { // If we didn't find one, try to load on demand
+    if (WW3D_Load_On_Demand && proto == nullptr) { // If we didn't find one, try to load on demand
         char filename[MAX_PATH];
         sprintf(filename, "%s.W3D", name);
         char* mesh_name = ::strchr(name, '.');
-        if (mesh_name != NULL) {
+        if (mesh_name != nullptr) {
             ::lstrcpyn(filename, name, ((int)mesh_name) - ((int)name) + 1);
             ::lstrcat(filename, ".W3D");
         }
@@ -274,7 +274,7 @@ RenderObjClass* EditorAssetMgrClass::Create_Render_Obj(const char* name)
 
     // If we found a prototype for this object, then
     // use it to create a new instance of the requested asset.
-    if (proto != NULL) {
+    if (proto != nullptr) {
         prenderobj = proto->Create();
     }
 
@@ -294,16 +294,16 @@ HAnimClass* EditorAssetMgrClass::Get_HAnim(const char* name)
     // Try to find the animation
     HAnimClass* panim = HAnimManager.Get_Anim(name);
 
-    if (WW3D_Load_On_Demand && panim == NULL) { // If we didn't find it, try to load on demand
+    if (WW3D_Load_On_Demand && panim == nullptr) { // If we didn't find it, try to load on demand
 
         char filename[MAX_PATH];
         char* animname = strchr(name, '.');
-        if (animname != NULL) {
+        if (animname != nullptr) {
             sprintf(filename, "%s.W3D", animname + 1);
         }
         else {
             TRACE("Animation has no . in the name\n");
-            return NULL;
+            return nullptr;
         }
 
         // See if we can determine where this file exists
@@ -338,7 +338,7 @@ HTreeClass* EditorAssetMgrClass::Get_HTree(const char* name)
     // Try to find the htree
     HTreeClass* phtree = HTreeManager.Get_Tree(name);
 
-    if (WW3D_Load_On_Demand && phtree == NULL) { // If we didn't find it, try to load on demand
+    if (WW3D_Load_On_Demand && phtree == nullptr) { // If we didn't find it, try to load on demand
 
         char filename[MAX_PATH];
         sprintf(filename, "%s.W3D", name);
@@ -369,7 +369,7 @@ HTreeClass* EditorAssetMgrClass::Get_HTree(const char* name)
 //
 EditorINIClass* EditorAssetMgrClass::Get_INI(const char* filename)
 {
-    EditorINIClass* pini = NULL;
+    EditorINIClass* pini = nullptr;
 
     FileClass* pini_file = _TheFileFactory->Get_File(filename);
     if (pini_file) {
@@ -398,15 +398,15 @@ TextureClass* EditorAssetMgrClass::Get_Texture(const char* tga_filename,
     /*
     ** Bail if the user isn't really asking for anything
     */
-    if ((tga_filename == NULL) || (strlen(tga_filename) == 0)) {
-        return NULL;
+    if ((tga_filename == nullptr) || (strlen(tga_filename) == 0)) {
+        return nullptr;
     }
 
     //
     //	Determine what the texture's "name" should be
     //
     CString texture_name;
-    if (::strstr(tga_filename, "+\\") != NULL) {
+    if (::strstr(tga_filename, "+\\") != nullptr) {
         texture_name = ::Get_Subdir_And_Filename_From_Path(tga_filename);
     }
     else {
@@ -467,7 +467,7 @@ void EditorAssetMgrClass::Load_Resource_Texture(const char* filename)
     //	Open the resource texture and create the
     // real file.
     //
-    ResourceFileClass res_texture(NULL, filename);
+    ResourceFileClass res_texture(nullptr, filename);
     RawFileClass texture_file(texture_filename);
     if (texture_file.Create() == 1) {
         texture_file.Open(FileClass::WRITE);
@@ -518,7 +518,7 @@ bool EditorAssetMgrClass::Load_3D_Assets(const char* path)
     //
     //	Load the asset fresh if necessary
     //
-    if (prototype == NULL) {
+    if (prototype == nullptr) {
         CString full_path = ::Get_File_Mgr()->Make_Full_Path(path);
         retval = false;
 
@@ -606,7 +606,7 @@ FileClass* EditorFileFactoryClass::Get_File(char const* filename)
 ////////////////////////////////////////////////////////////////////////
 void EditorFileFactoryClass::Return_File(FileClass* file)
 {
-    if (file != NULL) {
+    if (file != nullptr) {
         delete file;
     }
 

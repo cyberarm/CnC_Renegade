@@ -108,7 +108,7 @@ void GameSideServerControlClass::Init(void)
                 /*
                 ** Start listening.
                 */
-                ServerControl.Start_Listening(port, password, &App_Request_Callback, NULL,
+                ServerControl.Start_Listening(port, password, &App_Request_Callback, nullptr,
                                               loopback ? true : false, ip);
                 Listening = true;
 

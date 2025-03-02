@@ -49,7 +49,7 @@
 //////////////////////////////////////////////////////////////
 DuplicateRemoverClass::DuplicateRemoverClass(void)
     : TempFilenameStart(0),
-      Dialog(NULL)
+      Dialog(nullptr)
 {
     return;
 }
@@ -96,7 +96,7 @@ UINT DuplicateRemoverClass::fnThreadProc(LPVOID pParam)
     //	Simply ask the combiner to start processing
     //
     DuplicateRemoverClass* remover = (DuplicateRemoverClass*)pParam;
-    if (remover != NULL) {
+    if (remover != nullptr) {
         remover->Internal_Process();
     }
 
@@ -303,7 +303,7 @@ void DuplicateRemoverClass::Open_Mix_Files(DynamicVectorClass<MixFileFactoryClas
         }
         else {
             delete mix_factory;
-            mix_factory = NULL;
+            mix_factory = nullptr;
         }
 
         //
@@ -359,7 +359,7 @@ void DuplicateRemoverClass::Make_Temp_Directory(void)
     //
     //	Create the directory
     //
-    ::CreateDirectory(TempDirectory, NULL);
+    ::CreateDirectory(TempDirectory, nullptr);
     ::SetCurrentDirectory(TempDirectory);
     return;
 }
@@ -436,7 +436,7 @@ bool DuplicateRemoverClass::Clean_Directory(LPCTSTR local_dir)
     //
     // Close the search handle
     //
-    if (hfind != NULL) {
+    if (hfind != nullptr) {
         ::FindClose(hfind);
     }
 
@@ -504,8 +504,8 @@ bool DuplicateRemoverClass::Delete_File(LPCTSTR filename)
 {
     bool retval = false;
 
-    ASSERT(filename != NULL);
-    if (filename != NULL) {
+    ASSERT(filename != nullptr);
+    if (filename != nullptr) {
 
         //
         // Strip the readonly bit off if necessary
@@ -544,7 +544,7 @@ bool DuplicateRemoverClass::Is_File_In_Factory(const StringClass& filename,
     //
     //	Get the list of filenames inside this mix file
     //
-    DynamicVectorClass<StringClass>* test_filename_list = NULL;
+    DynamicVectorClass<StringClass>* test_filename_list = nullptr;
     factory->Get_Filename_List(&test_filename_list);
 
     //

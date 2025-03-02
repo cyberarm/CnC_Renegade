@@ -136,7 +136,7 @@ bool PhysicsSceneClass::Cast_Ray(PhysRayCollisionTestClass& raytest, bool use_co
     */
     assert(raytest.Result->Fraction == 1.0f);
     assert(raytest.Result->StartBad == false);
-    raytest.CollidedPhysObj = NULL;
+    raytest.CollidedPhysObj = nullptr;
 
     /*
     ** Check against physical objects in our vicinity
@@ -191,7 +191,7 @@ bool PhysicsSceneClass::Cast_AABox(PhysAABoxCollisionTestClass& boxtest, bool us
     */
     WWASSERT(boxtest.Result->Fraction == 1.0f);
     WWASSERT(boxtest.Result->StartBad == false);
-    boxtest.CollidedPhysObj = NULL;
+    boxtest.CollidedPhysObj = nullptr;
 
     /*
     ** Check against physical objects in our vicinity
@@ -246,7 +246,7 @@ bool PhysicsSceneClass::Cast_OBBox(PhysOBBoxCollisionTestClass& boxtest, bool us
     */
     assert(boxtest.Result->Fraction == 1.0f);
     assert(boxtest.Result->StartBad == false);
-    boxtest.CollidedPhysObj = NULL;
+    boxtest.CollidedPhysObj = nullptr;
 
     /*
     ** Check against physical objects in our vicinity
@@ -424,7 +424,7 @@ void PhysicsSceneClass::Add_Collected_Objects_To_List(bool static_objs, bool dyn
     // link the static objects
     if (static_objs) {
         StaticPhysClass* obj;
-        for (obj = (StaticPhysClass*)StaticCullingSystem->Get_First_Collected_Object(); obj != NULL;
+        for (obj = (StaticPhysClass*)StaticCullingSystem->Get_First_Collected_Object(); obj != nullptr;
              obj = (StaticPhysClass*)StaticCullingSystem->Get_Next_Collected_Object(obj)) {
             list->Add(obj);
         }
@@ -433,7 +433,7 @@ void PhysicsSceneClass::Add_Collected_Objects_To_List(bool static_objs, bool dyn
     // link the dynamic objects
     if (dynamic_objs) {
         PhysClass* obj;
-        for (obj = (PhysClass*)DynamicCullingSystem->Get_First_Collected_Object(); obj != NULL;
+        for (obj = (PhysClass*)DynamicCullingSystem->Get_First_Collected_Object(); obj != nullptr;
              obj = (PhysClass*)DynamicCullingSystem->Get_Next_Collected_Object(obj)) {
             list->Add(obj);
         }
@@ -447,7 +447,7 @@ void PhysicsSceneClass::Add_Collected_Collideable_Objects_To_List(int colgroup, 
     // link the static objects
     if (static_objs) {
         StaticPhysClass* obj;
-        for (obj = (StaticPhysClass*)StaticCullingSystem->Get_First_Collected_Object(); obj != NULL;
+        for (obj = (StaticPhysClass*)StaticCullingSystem->Get_First_Collected_Object(); obj != nullptr;
              obj = (StaticPhysClass*)StaticCullingSystem->Get_Next_Collected_Object(obj)) {
             if (Do_Groups_Collide(obj->Get_Collision_Group(), colgroup) && !obj->Is_Ignore_Me()) {
                 list->Add(obj);
@@ -458,7 +458,7 @@ void PhysicsSceneClass::Add_Collected_Collideable_Objects_To_List(int colgroup, 
     // link the dynamic objects
     if (dynamic_objs) {
         PhysClass* obj;
-        for (obj = (PhysClass*)DynamicCullingSystem->Get_First_Collected_Object(); obj != NULL;
+        for (obj = (PhysClass*)DynamicCullingSystem->Get_First_Collected_Object(); obj != nullptr;
              obj = (PhysClass*)DynamicCullingSystem->Get_Next_Collected_Object(obj)) {
             if (Do_Groups_Collide(obj->Get_Collision_Group(), colgroup) && !obj->Is_Ignore_Me()) {
                 list->Add(obj);
@@ -470,7 +470,7 @@ void PhysicsSceneClass::Add_Collected_Collideable_Objects_To_List(int colgroup, 
 void PhysicsSceneClass::Collect_Objects(const Vector3& point, bool static_objs, bool dynamic_objs,
                                         NonRefPhysListClass* list)
 {
-    WWASSERT(list != NULL);
+    WWASSERT(list != nullptr);
 
     if (static_objs) {
         StaticCullingSystem->Reset_Collection();
@@ -488,7 +488,7 @@ void PhysicsSceneClass::Collect_Objects(const Vector3& point, bool static_objs, 
 void PhysicsSceneClass::Collect_Objects(const AABoxClass& box, bool static_objs, bool dynamic_objs,
                                         NonRefPhysListClass* list)
 {
-    WWASSERT(list != NULL);
+    WWASSERT(list != nullptr);
 
     if (static_objs) {
         StaticCullingSystem->Reset_Collection();
@@ -506,7 +506,7 @@ void PhysicsSceneClass::Collect_Objects(const AABoxClass& box, bool static_objs,
 void PhysicsSceneClass::Collect_Objects(const OBBoxClass& box, bool static_objs, bool dynamic_objs,
                                         NonRefPhysListClass* list)
 {
-    WWASSERT(list != NULL);
+    WWASSERT(list != nullptr);
     if (static_objs) {
         StaticCullingSystem->Reset_Collection();
         StaticCullingSystem->Collect_Objects(box);
@@ -523,7 +523,7 @@ void PhysicsSceneClass::Collect_Objects(const OBBoxClass& box, bool static_objs,
 void PhysicsSceneClass::Collect_Objects(const FrustumClass& frustum, bool static_objs,
                                         bool dynamic_objs, NonRefPhysListClass* list)
 {
-    WWASSERT(list != NULL);
+    WWASSERT(list != nullptr);
     if (static_objs) {
         StaticCullingSystem->Reset_Collection();
         StaticCullingSystem->Collect_Objects(frustum);
@@ -541,7 +541,7 @@ void PhysicsSceneClass::Collect_Collideable_Objects(const AABoxClass& box, int c
                                                     bool static_objs, bool dynamic_objs,
                                                     NonRefPhysListClass* list)
 {
-    WWASSERT(list != NULL);
+    WWASSERT(list != nullptr);
     if (static_objs) {
         StaticCullingSystem->Reset_Collection();
         StaticCullingSystem->Collect_Objects(box);
@@ -559,7 +559,7 @@ void PhysicsSceneClass::Collect_Collideable_Objects(const OBBoxClass& box, int c
                                                     bool static_objs, bool dynamic_objs,
                                                     NonRefPhysListClass* list)
 {
-    WWASSERT(list != NULL);
+    WWASSERT(list != nullptr);
     if (static_objs) {
         StaticCullingSystem->Reset_Collection();
         StaticCullingSystem->Collect_Objects(box);
@@ -579,7 +579,7 @@ void PhysicsSceneClass::Add_Collected_Lights_To_List(bool static_lights, bool dy
     // link the static lights
     if (static_lights) {
         LightPhysClass* obj;
-        for (obj = StaticLightingSystem->Get_First_Collected_Object(); obj != NULL;
+        for (obj = StaticLightingSystem->Get_First_Collected_Object(); obj != nullptr;
              obj = StaticLightingSystem->Get_Next_Collected_Object(obj)) {
             list->Add(obj);
         }
@@ -592,7 +592,7 @@ void PhysicsSceneClass::Add_Collected_Lights_To_List(bool static_lights, bool dy
 void PhysicsSceneClass::Collect_Lights(const Vector3& point, bool static_lights,
                                        bool dynamic_lights, NonRefPhysListClass* list)
 {
-    WWASSERT(list != NULL);
+    WWASSERT(list != nullptr);
 
     if (static_lights) {
         StaticLightingSystem->Reset_Collection();
@@ -607,7 +607,7 @@ void PhysicsSceneClass::Collect_Lights(const Vector3& point, bool static_lights,
 void PhysicsSceneClass::Collect_Lights(const AABoxClass& bounds, bool static_lights,
                                        bool dynamic_lights, NonRefPhysListClass* list)
 {
-    WWASSERT(list != NULL);
+    WWASSERT(list != nullptr);
 
     if (static_lights) {
         StaticLightingSystem->Reset_Collection();

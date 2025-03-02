@@ -133,7 +133,7 @@ RegistryManagerClass::RegistryManagerClass()
  *=============================================================================================*/
 bool RegistryManagerClass::Get_Folder_Path(WideStringClass& path)
 {
-    return (Get_String(HKEY_CURRENT_USER, &path, SHELL_FOLDERS_KEY, PROGRAMS_PATH_KEY, NULL));
+    return (Get_String(HKEY_CURRENT_USER, &path, SHELL_FOLDERS_KEY, PROGRAMS_PATH_KEY, nullptr));
 }
 
 /***********************************************************************************************
@@ -151,7 +151,7 @@ bool RegistryManagerClass::Get_Folder_Path(WideStringClass& path)
  *=============================================================================================*/
 bool RegistryManagerClass::Get_Desktop_Path(WideStringClass& path)
 {
-    return (Get_String(HKEY_CURRENT_USER, &path, SHELL_FOLDERS_KEY, DESKTOP_PATH_KEY, NULL));
+    return (Get_String(HKEY_CURRENT_USER, &path, SHELL_FOLDERS_KEY, DESKTOP_PATH_KEY, nullptr));
 }
 
 /***********************************************************************************************
@@ -170,7 +170,7 @@ bool RegistryManagerClass::Get_Desktop_Path(WideStringClass& path)
 bool RegistryManagerClass::Get_Target_Game_Pathname(WideStringClass& pathname)
 {
     return (Get_String(HKEY_LOCAL_MACHINE, &pathname, SOFTWARE_KEY, WESTWOOD_KEY,
-                       RxStringClass(IDS_GAME_PRODUCT_KEY), INSTALL_PATHNAME_KEY, NULL));
+                       RxStringClass(IDS_GAME_PRODUCT_KEY), INSTALL_PATHNAME_KEY, nullptr));
 }
 
 /***********************************************************************************************
@@ -222,10 +222,10 @@ bool RegistryManagerClass::Get_Target_Game_Folder(WideStringClass& folder)
     WCHAR* suffixroot;
 
     if (Get_String(HKEY_LOCAL_MACHINE, &path, SOFTWARE_KEY, WESTWOOD_KEY,
-                   RxStringClass(IDS_GAME_PRODUCT_KEY), FOLDER_PATH_KEY, NULL)) {
+                   RxStringClass(IDS_GAME_PRODUCT_KEY), FOLDER_PATH_KEY, nullptr)) {
         Get_Folder_Path(folderpath);
         suffixroot = Extract_Suffix_Root(path, folderpath);
-        if (suffixroot != NULL) {
+        if (suffixroot != nullptr) {
             folder = path;
             success = true;
         }
@@ -251,7 +251,7 @@ bool RegistryManagerClass::Get_Target_WOL_Pathname(WOLComponentEnum wolcomponent
                                                    WideStringClass& pathname)
 {
     return (Get_String(HKEY_LOCAL_MACHINE, &pathname, SOFTWARE_KEY, WESTWOOD_KEY,
-                       WOLKeys[wolcomponent], INSTALL_PATHNAME_KEY, NULL));
+                       WOLKeys[wolcomponent], INSTALL_PATHNAME_KEY, nullptr));
 }
 
 /***********************************************************************************************
@@ -304,10 +304,10 @@ bool RegistryManagerClass::Get_Target_WOL_Folder(WOLComponentEnum wolcomponent,
     WCHAR* suffixroot;
 
     if (Get_String(HKEY_LOCAL_MACHINE, &path, SOFTWARE_KEY, WESTWOOD_KEY, WOLKeys[wolcomponent],
-                   FOLDER_PATH_KEY, NULL)) {
+                   FOLDER_PATH_KEY, nullptr)) {
         Get_Folder_Path(folderpath);
         suffixroot = Extract_Suffix_Root(path, folderpath);
-        if (suffixroot != NULL) {
+        if (suffixroot != nullptr) {
             folder = path;
             success = true;
         }
@@ -332,7 +332,7 @@ bool RegistryManagerClass::Get_Target_WOL_Folder(WOLComponentEnum wolcomponent,
 bool RegistryManagerClass::Get_Target_WOL_Version(WOLComponentEnum wolcomponent, DWORD& version)
 {
     return (Get_Value(HKEY_LOCAL_MACHINE, &version, SOFTWARE_KEY, WESTWOOD_KEY,
-                      WOLKeys[wolcomponent], VERSION_KEY, NULL));
+                      WOLKeys[wolcomponent], VERSION_KEY, nullptr));
 }
 
 /***********************************************************************************************
@@ -354,7 +354,7 @@ bool RegistryManagerClass::Use_IGR_Settings(bool& useigrsettings)
     DWORD igrsettings;
 
     success = Get_Value(HKEY_LOCAL_MACHINE, &igrsettings, SOFTWARE_KEY, WESTWOOD_KEY, WOLAPI_KEY,
-                        OPTIONS_KEY, NULL);
+                        OPTIONS_KEY, nullptr);
     if (success) {
         useigrsettings = (igrsettings == IGR_ALL);
     }
@@ -390,100 +390,100 @@ void RegistryManagerClass::Register_Game(const WideStringClass& name,
     maskedsku = sku & 0xffffff00;
 
     Set_String(HKEY_LOCAL_MACHINE, name, SOFTWARE_KEY, WESTWOOD_KEY, gameproductkey, NAME_KEY,
-               NULL);
+               nullptr);
     Set_String(HKEY_LOCAL_MACHINE, installpathname, SOFTWARE_KEY, WESTWOOD_KEY, gameproductkey,
-               INSTALL_PATHNAME_KEY, NULL);
+               INSTALL_PATHNAME_KEY, nullptr);
     Set_String(HKEY_LOCAL_MACHINE, folderpath, SOFTWARE_KEY, WESTWOOD_KEY, gameproductkey,
-               FOLDER_PATH_KEY, NULL);
+               FOLDER_PATH_KEY, nullptr);
     Set_String(HKEY_LOCAL_MACHINE, desktopshortcutpathname, SOFTWARE_KEY, WESTWOOD_KEY,
-               gameproductkey, DESKTOP_SHORTCUT_PATHNAME_KEY, NULL);
+               gameproductkey, DESKTOP_SHORTCUT_PATHNAME_KEY, nullptr);
     Set_Value(HKEY_LOCAL_MACHINE, languageid, SOFTWARE_KEY, WESTWOOD_KEY, gameproductkey,
-              LANGUAGE_KEY, NULL);
+              LANGUAGE_KEY, nullptr);
     Set_String(HKEY_LOCAL_MACHINE, wideserialnumber, SOFTWARE_KEY, WESTWOOD_KEY, gameproductkey,
-               SERIAL_KEY, NULL);
-    Set_Value(HKEY_LOCAL_MACHINE, sku, SOFTWARE_KEY, WESTWOOD_KEY, gameproductkey, SKU_KEY, NULL);
+               SERIAL_KEY, nullptr);
+    Set_Value(HKEY_LOCAL_MACHINE, sku, SOFTWARE_KEY, WESTWOOD_KEY, gameproductkey, SKU_KEY, nullptr);
     Set_Value(HKEY_LOCAL_MACHINE, version, SOFTWARE_KEY, WESTWOOD_KEY, gameproductkey, VERSION_KEY,
-              NULL);
+              nullptr);
 
     s = L"http://renchat2.westwood.com/cgi-bin/"
         L"cgiclient?ren_clan_manager&request=expand_template&Template=index.html&SKU=%d&LANGCODE=%"
         L"d&embedded=1";
     url.Format(s, maskedsku, languageid);
     Set_String(HKEY_LOCAL_MACHINE, url, SOFTWARE_KEY, WESTWOOD_KEY, gameproductkey, WOLSETTINGS_KEY,
-               URL_KEY, "BattleClans", NULL);
+               URL_KEY, "BattleClans", nullptr);
 
     s = L"http://renchat2.westwood.com/cgi-bin/"
         L"cgiclient?ren_clan_manager&request=expand_template&Template=index.html&SKU=%d&LANGCODE=%"
         L"d";
     url.Format(s, maskedsku, languageid);
     Set_String(HKEY_LOCAL_MACHINE, url, SOFTWARE_KEY, WESTWOOD_KEY, gameproductkey, WOLSETTINGS_KEY,
-               URL_KEY, "BattleClansX", NULL);
+               URL_KEY, "BattleClansX", nullptr);
 
     s = L"http://renchat2.westwood.com/renegade_embedded/index.html";
     url.Format(s);
     Set_String(HKEY_LOCAL_MACHINE, url, SOFTWARE_KEY, WESTWOOD_KEY, gameproductkey, WOLSETTINGS_KEY,
-               URL_KEY, "Ladder", NULL);
+               URL_KEY, "Ladder", nullptr);
 
     s = L"http://renchat2.westwood.com/renegade/index.html";
     url.Format(s);
     Set_String(HKEY_LOCAL_MACHINE, url, SOFTWARE_KEY, WESTWOOD_KEY, gameproductkey, WOLSETTINGS_KEY,
-               URL_KEY, "LadderX", NULL);
+               URL_KEY, "LadderX", nullptr);
 
     s = L"http://battleclans.westwood.com/cgi-bin/"
         L"cgiclient?rosetta&request=do_netstatus&LANGCODE=%d&SKU=%d&embedded=1";
     url.Format(s, languageid, maskedsku);
     Set_String(HKEY_LOCAL_MACHINE, url, SOFTWARE_KEY, WESTWOOD_KEY, gameproductkey, WOLSETTINGS_KEY,
-               URL_KEY, "NetStatus", NULL);
+               URL_KEY, "NetStatus", nullptr);
 
     s = L"http://battleclans.westwood.com/cgi-bin/"
         L"cgiclient?rosetta&request=do_netstatus&LANGCODE=%d&SKU=%d";
     url.Format(s, languageid, maskedsku);
     Set_String(HKEY_LOCAL_MACHINE, url, SOFTWARE_KEY, WESTWOOD_KEY, gameproductkey, WOLSETTINGS_KEY,
-               URL_KEY, "NetStatusX", NULL);
+               URL_KEY, "NetStatusX", nullptr);
 
     s = L"http://battleclans.westwood.com/cgi-bin/"
         L"cgiclient?rosetta&request=do_news&LANGCODE=%d&SKU=%d&embedded=1";
     url.Format(s, languageid, maskedsku);
     Set_String(HKEY_LOCAL_MACHINE, url, SOFTWARE_KEY, WESTWOOD_KEY, gameproductkey, WOLSETTINGS_KEY,
-               URL_KEY, "News", NULL);
+               URL_KEY, "News", nullptr);
 
     s = L"http://battleclans.westwood.com/cgi-bin/"
         L"cgiclient?rosetta&request=do_news&LANGCODE=%d&SKU=%d";
     url.Format(s, languageid, maskedsku);
     Set_String(HKEY_LOCAL_MACHINE, url, SOFTWARE_KEY, WESTWOOD_KEY, gameproductkey, WOLSETTINGS_KEY,
-               URL_KEY, "NewsX", NULL);
+               URL_KEY, "NewsX", nullptr);
 
     s = L"http://renchat2.westwood.com/cgi-bin/"
         L"cgiclient?live_ren_register&request=expand_template&Template=newreg_menu.html&LANGCODE=%"
         L"d&embedded=1&SKU=%d";
     url.Format(s, languageid, maskedsku);
     Set_String(HKEY_LOCAL_MACHINE, url, SOFTWARE_KEY, WESTWOOD_KEY, gameproductkey, WOLSETTINGS_KEY,
-               URL_KEY, "Signup", NULL);
+               URL_KEY, "Signup", nullptr);
 
     s = L"http://renchat2.westwood.com/cgi-bin/"
         L"cgiclient?live_ren_register&request=expand_template&Template=newreg_menu.html&LANGCODE=%"
         L"d&SKU=%d";
     url.Format(s, languageid, maskedsku);
     Set_String(HKEY_LOCAL_MACHINE, url, SOFTWARE_KEY, WESTWOOD_KEY, gameproductkey, WOLSETTINGS_KEY,
-               URL_KEY, "SignupX", NULL);
+               URL_KEY, "SignupX", nullptr);
 
     // Register the executable with the OS.
     s = installpathname;
     Remove_Trailing_Name(s);
     Set_String(HKEY_LOCAL_MACHINE, s, SOFTWARE_KEY, MICROSOFT_KEY, WINDOWS_KEY, CURRENT_VERSION_KEY,
-               APP_PATHS_KEY, RxStringClass(IDS_GAME_EXECUTABLE_FILENAME), PATH_KEY, NULL);
+               APP_PATHS_KEY, RxStringClass(IDS_GAME_EXECUTABLE_FILENAME), PATH_KEY, nullptr);
     Set_String(HKEY_LOCAL_MACHINE, installpathname, SOFTWARE_KEY, MICROSOFT_KEY, WINDOWS_KEY,
                CURRENT_VERSION_KEY, APP_PATHS_KEY, RxStringClass(IDS_GAME_EXECUTABLE_FILENAME), "",
-               NULL);
+               nullptr);
 
     // Register the uninstall program with the OS.
     Set_String(HKEY_LOCAL_MACHINE, TxWideStringClass(IDS_VERBOSE_GAME_PRODUCT_NAME), SOFTWARE_KEY,
                MICROSOFT_KEY, WINDOWS_KEY, CURRENT_VERSION_KEY, UNINSTALL_KEY,
-               RxStringClass(IDS_GAME_PRODUCT_KEY), DISPLAY_NAME_KEY, NULL);
+               RxStringClass(IDS_GAME_PRODUCT_KEY), DISPLAY_NAME_KEY, nullptr);
     s += L"\\";
     s += RxWideStringClass(IDS_GAME_UNINSTALL_FILENAME);
     Set_String(HKEY_LOCAL_MACHINE, s, SOFTWARE_KEY, MICROSOFT_KEY, WINDOWS_KEY, CURRENT_VERSION_KEY,
-               UNINSTALL_KEY, RxStringClass(IDS_GAME_PRODUCT_KEY), UNINSTALLER_FILENAME_KEY, NULL);
+               UNINSTALL_KEY, RxStringClass(IDS_GAME_PRODUCT_KEY), UNINSTALLER_FILENAME_KEY, nullptr);
 }
 
 /***********************************************************************************************
@@ -509,28 +509,28 @@ void RegistryManagerClass::Register_WOLAPI(const WideStringClass& folderpath,
     WideStringClass s;
 
     Set_String(HKEY_LOCAL_MACHINE, folderpath, SOFTWARE_KEY, WESTWOOD_KEY, WOLAPI_KEY,
-               FOLDER_PATH_KEY, NULL);
+               FOLDER_PATH_KEY, nullptr);
     Set_String(HKEY_LOCAL_MACHINE, installpathname, SOFTWARE_KEY, WESTWOOD_KEY, WOLAPI_KEY,
-               INSTALL_PATHNAME_KEY, NULL);
-    Set_String(HKEY_LOCAL_MACHINE, name, SOFTWARE_KEY, WESTWOOD_KEY, WOLAPI_KEY, NAME_KEY, NULL);
-    Set_Value(HKEY_LOCAL_MACHINE, sku, SOFTWARE_KEY, WESTWOOD_KEY, WOLAPI_KEY, SKU_KEY, NULL);
+               INSTALL_PATHNAME_KEY, nullptr);
+    Set_String(HKEY_LOCAL_MACHINE, name, SOFTWARE_KEY, WESTWOOD_KEY, WOLAPI_KEY, NAME_KEY, nullptr);
+    Set_Value(HKEY_LOCAL_MACHINE, sku, SOFTWARE_KEY, WESTWOOD_KEY, WOLAPI_KEY, SKU_KEY, nullptr);
     Set_Value(HKEY_LOCAL_MACHINE, version, SOFTWARE_KEY, WESTWOOD_KEY, WOLAPI_KEY, VERSION_KEY,
-              NULL);
+              nullptr);
 
     // Register the uninstall program with the OS.
     Set_String(HKEY_LOCAL_MACHINE, TxWideStringClass(IDS_VERBOSE_WOL_PRODUCT_NAME), SOFTWARE_KEY,
                MICROSOFT_KEY, WINDOWS_KEY, CURRENT_VERSION_KEY, UNINSTALL_KEY, WOLAPI_KEY,
-               DISPLAY_NAME_KEY, NULL);
+               DISPLAY_NAME_KEY, nullptr);
     s = installpathname;
     Remove_Trailing_Name(s);
     s += L"\\";
     s += RxWideStringClass(IDS_WOL_UNINSTALL_FILENAME);
     Set_String(HKEY_LOCAL_MACHINE, s, SOFTWARE_KEY, MICROSOFT_KEY, WINDOWS_KEY, CURRENT_VERSION_KEY,
-               UNINSTALL_KEY, WOLAPI_KEY, UNINSTALLER_FILENAME_KEY, NULL);
+               UNINSTALL_KEY, WOLAPI_KEY, UNINSTALLER_FILENAME_KEY, nullptr);
 
     // Write the game room settings.
     Set_Value(HKEY_LOCAL_MACHINE, igrsettings[useigrsettings], SOFTWARE_KEY, WESTWOOD_KEY,
-              WOLAPI_KEY, OPTIONS_KEY, NULL);
+              WOLAPI_KEY, OPTIONS_KEY, nullptr);
 }
 
 /***********************************************************************************************
@@ -552,14 +552,14 @@ void RegistryManagerClass::Register_WOLRegister(const WideStringClass& folderpat
                                                 DWORD version)
 {
     Set_String(HKEY_LOCAL_MACHINE, folderpath, SOFTWARE_KEY, WESTWOOD_KEY, WOLREGISTER_KEY,
-               FOLDER_PATH_KEY, NULL);
+               FOLDER_PATH_KEY, nullptr);
     Set_String(HKEY_LOCAL_MACHINE, installpathname, SOFTWARE_KEY, WESTWOOD_KEY, WOLREGISTER_KEY,
-               INSTALL_PATHNAME_KEY, NULL);
+               INSTALL_PATHNAME_KEY, nullptr);
     Set_String(HKEY_LOCAL_MACHINE, name, SOFTWARE_KEY, WESTWOOD_KEY, WOLREGISTER_KEY, NAME_KEY,
-               NULL);
-    Set_Value(HKEY_LOCAL_MACHINE, sku, SOFTWARE_KEY, WESTWOOD_KEY, WOLREGISTER_KEY, SKU_KEY, NULL);
+               nullptr);
+    Set_Value(HKEY_LOCAL_MACHINE, sku, SOFTWARE_KEY, WESTWOOD_KEY, WOLREGISTER_KEY, SKU_KEY, nullptr);
     Set_Value(HKEY_LOCAL_MACHINE, version, SOFTWARE_KEY, WESTWOOD_KEY, WOLREGISTER_KEY, VERSION_KEY,
-              NULL);
+              nullptr);
 }
 
 /***********************************************************************************************
@@ -579,11 +579,11 @@ void RegistryManagerClass::Register_WOLBrowser(const WideStringClass& installpat
                                                const WideStringClass& name, DWORD version)
 {
     Set_String(HKEY_LOCAL_MACHINE, installpathname, SOFTWARE_KEY, WESTWOOD_KEY, WOLBROWSER_KEY,
-               INSTALL_PATHNAME_KEY, NULL);
+               INSTALL_PATHNAME_KEY, nullptr);
     Set_String(HKEY_LOCAL_MACHINE, name, SOFTWARE_KEY, WESTWOOD_KEY, WOLBROWSER_KEY, NAME_KEY,
-               NULL);
+               nullptr);
     Set_Value(HKEY_LOCAL_MACHINE, version, SOFTWARE_KEY, WESTWOOD_KEY, WOLBROWSER_KEY, VERSION_KEY,
-              NULL);
+              nullptr);
 }
 
 /***********************************************************************************************
@@ -606,16 +606,16 @@ void RegistryManagerClass::Update_WOLAPI()
 
     keyindex = 0;
     usagecount = 0;
-    while (Get_Key(HKEY_LOCAL_MACHINE, keyindex, &keyname, SOFTWARE_KEY, WESTWOOD_KEY, NULL)) {
+    while (Get_Key(HKEY_LOCAL_MACHINE, keyindex, &keyname, SOFTWARE_KEY, WESTWOOD_KEY, nullptr)) {
 
         DWORD sku;
         WideStringClass serialnumber;
 
         // If a SKU and a serial number exist...
         if (Get_Value(HKEY_LOCAL_MACHINE, &sku, SOFTWARE_KEY, WESTWOOD_KEY, keyname, SKU_KEY,
-                      NULL)) {
+                      nullptr)) {
             if (Get_String(HKEY_LOCAL_MACHINE, &serialnumber, SOFTWARE_KEY, WESTWOOD_KEY, keyname,
-                           SERIAL_KEY, NULL)) {
+                           SERIAL_KEY, nullptr)) {
 
                 WideStringClass widekeyname;
                 char skuname[MAX_NUMBER_STRING_LENGTH];
@@ -624,7 +624,7 @@ void RegistryManagerClass::Update_WOLAPI()
                 ltoa(sku, skuname, 10);
                 widekeyname = keyname;
                 Set_String(HKEY_LOCAL_MACHINE, widekeyname, SOFTWARE_KEY, WESTWOOD_KEY, WOLAPI_KEY,
-                           skuname, NAME_KEY, NULL);
+                           skuname, NAME_KEY, nullptr);
                 usagecount++;
             }
         }
@@ -633,7 +633,7 @@ void RegistryManagerClass::Update_WOLAPI()
 
     // Update the WOLAPI usage count.
     Set_Value(HKEY_LOCAL_MACHINE, usagecount, SOFTWARE_KEY, WESTWOOD_KEY, WOLAPI_KEY, USAGE_KEY,
-              NULL);
+              nullptr);
 }
 
 /***********************************************************************************************
@@ -663,11 +663,11 @@ bool RegistryManagerClass::Get_WOL_Account(unsigned index, WideStringClass& name
         StringClass key;
 
         key.Format(NICKNAME_INDEX_KEY, i);
-        if (Get_String(HKEY_CLASSES_ROOT, &name, WESTWOOD_CHAT_KEY, key, NICKNAME_KEY, "", NULL)) {
+        if (Get_String(HKEY_CLASSES_ROOT, &name, WESTWOOD_CHAT_KEY, key, NICKNAME_KEY, "", nullptr)) {
             if (name != L"") {
                 if (index == nonemptyindex) {
                     return (Get_String(HKEY_CLASSES_ROOT, &password, WESTWOOD_CHAT_KEY, key,
-                                       PASSWORD_KEY, "", NULL));
+                                       PASSWORD_KEY, "", nullptr));
                 }
                 nonemptyindex++;
             }
@@ -698,7 +698,7 @@ bool RegistryManagerClass::Get_WOL_Account(unsigned index, WideStringClass& name
 void RegistryManagerClass::Set_Preferred_WOL_Account(const WideStringClass& accountname)
 {
     Set_String(HKEY_LOCAL_MACHINE, accountname, SOFTWARE_KEY, WESTWOOD_KEY,
-               RxStringClass(IDS_GAME_PRODUCT_KEY), WOLSETTINGS_KEY, PREFERRED_LOGIN_KEY, NULL);
+               RxStringClass(IDS_GAME_PRODUCT_KEY), WOLSETTINGS_KEY, PREFERRED_LOGIN_KEY, nullptr);
 }
 
 /***********************************************************************************************
@@ -717,7 +717,7 @@ void RegistryManagerClass::Set_Preferred_WOL_Account(const WideStringClass& acco
 bool RegistryManagerClass::Get_Document_Application_Pathname(WideStringClass& pathname)
 {
     return (Get_String(HKEY_CURRENT_USER, &pathname, SOFTWARE_KEY, MICROSOFT_KEY, WINDOWS_KEY,
-                       CURRENT_VERSION_KEY, EXTENSIONS_KEY, DOCUMENT_KEY, NULL));
+                       CURRENT_VERSION_KEY, EXTENSIONS_KEY, DOCUMENT_KEY, nullptr));
 }
 
 /***********************************************************************************************
@@ -744,11 +744,11 @@ bool RegistryManagerClass::Get_String(HKEY rootkey, WideStringClass* string, ...
     va_start(marker, string);
 
     keyname = va_arg(marker, char*);
-    if (keyname != NULL) {
+    if (keyname != nullptr) {
 
         // Concatenate all but the last key name.
         nextkeyname = va_arg(marker, char*);
-        while (nextkeyname != NULL) {
+        while (nextkeyname != nullptr) {
 
             if (keystring.Get_Length() > 0) {
                 keystring += "\\";
@@ -763,12 +763,12 @@ bool RegistryManagerClass::Get_String(HKEY rootkey, WideStringClass* string, ...
             DWORD type;
             DWORD size;
 
-            if (RegQueryValueEx(key, keyname, NULL, &type, NULL, &size) == ERROR_SUCCESS) {
+            if (RegQueryValueEx(key, keyname, nullptr, &type, nullptr, &size) == ERROR_SUCCESS) {
                 if (type == REG_SZ) {
 
                     StringClass multibytestring;
 
-                    if (RegQueryValueEx(key, keyname, NULL, &type,
+                    if (RegQueryValueEx(key, keyname, nullptr, &type,
                                         (BYTE*)multibytestring.Get_Buffer(size), &size)
                         == ERROR_SUCCESS) {
                         *string = multibytestring;
@@ -809,11 +809,11 @@ bool RegistryManagerClass::Get_Value(HKEY rootkey, DWORD* value, ...)
     va_start(marker, value);
 
     keyname = va_arg(marker, char*);
-    if (keyname != NULL) {
+    if (keyname != nullptr) {
 
         // Concatenate all but the last key name.
         nextkeyname = va_arg(marker, char*);
-        while (nextkeyname != NULL) {
+        while (nextkeyname != nullptr) {
 
             if (keystring.Get_Length() > 0) {
                 keystring += "\\";
@@ -828,9 +828,9 @@ bool RegistryManagerClass::Get_Value(HKEY rootkey, DWORD* value, ...)
             DWORD type;
             DWORD size;
 
-            if (RegQueryValueEx(key, keyname, NULL, &type, NULL, &size) == ERROR_SUCCESS) {
+            if (RegQueryValueEx(key, keyname, nullptr, &type, nullptr, &size) == ERROR_SUCCESS) {
                 if (type == REG_DWORD) {
-                    if (RegQueryValueEx(key, keyname, NULL, &type, (BYTE*)value, &size)
+                    if (RegQueryValueEx(key, keyname, nullptr, &type, (BYTE*)value, &size)
                         == ERROR_SUCCESS) {
                         success = true;
                     }
@@ -871,12 +871,12 @@ bool _cdecl RegistryManagerClass::Set_String(HKEY rootkey, const WCHAR* string, 
     // Create subkeys (if necessary).
     key = rootkey;
     keyname = va_arg(marker, char*);
-    if (keyname != NULL) {
+    if (keyname != nullptr) {
 
         nextkeyname = va_arg(marker, char*);
         while (true) {
 
-            if (nextkeyname == NULL) {
+            if (nextkeyname == nullptr) {
 
                 StringClass multibytestring(string);
 
@@ -888,7 +888,7 @@ bool _cdecl RegistryManagerClass::Set_String(HKEY rootkey, const WCHAR* string, 
                 break;
             }
 
-            if (RegCreateKeyEx(key, keyname, 0, "", REG_OPTION_NON_VOLATILE, KEY_ALL_ACCESS, NULL,
+            if (RegCreateKeyEx(key, keyname, 0, "", REG_OPTION_NON_VOLATILE, KEY_ALL_ACCESS, nullptr,
                                &key, &disposition)
                 != ERROR_SUCCESS) {
                 break;
@@ -929,12 +929,12 @@ bool _cdecl RegistryManagerClass::Set_Value(HKEY rootkey, DWORD value, ...)
     // Create subkeys (if necessary).
     key = rootkey;
     keyname = va_arg(marker, char*);
-    if (keyname != NULL) {
+    if (keyname != nullptr) {
 
         nextkeyname = va_arg(marker, char*);
         while (true) {
 
-            if (nextkeyname == NULL) {
+            if (nextkeyname == nullptr) {
                 if (RegSetValueEx(key, keyname, 0, REG_DWORD, (BYTE*)&value, sizeof(value))
                     == ERROR_SUCCESS) {
                     success = true;
@@ -942,7 +942,7 @@ bool _cdecl RegistryManagerClass::Set_Value(HKEY rootkey, DWORD value, ...)
                 break;
             }
 
-            if (RegCreateKeyEx(key, keyname, 0, "", REG_OPTION_NON_VOLATILE, KEY_ALL_ACCESS, NULL,
+            if (RegCreateKeyEx(key, keyname, 0, "", REG_OPTION_NON_VOLATILE, KEY_ALL_ACCESS, nullptr,
                                &key, &disposition)
                 != ERROR_SUCCESS) {
                 break;
@@ -980,7 +980,7 @@ bool _cdecl RegistryManagerClass::Get_Key(HKEY rootkey, DWORD keyindex, StringCl
 
     va_start(marker, keyname);
 
-    while ((ckeyname = va_arg(marker, char*)) != NULL) {
+    while ((ckeyname = va_arg(marker, char*)) != nullptr) {
         if (keystring.Get_Length() > 0) {
             keystring += "\\";
         }
@@ -992,7 +992,7 @@ bool _cdecl RegistryManagerClass::Get_Key(HKEY rootkey, DWORD keyindex, StringCl
         FILETIME lastwritetime;
         DWORD size;
 
-        if (RegEnumKeyEx(key, keyindex, keyname->Get_Buffer(256), &size, 0, NULL, NULL,
+        if (RegEnumKeyEx(key, keyindex, keyname->Get_Buffer(256), &size, 0, nullptr, nullptr,
                          &lastwritetime)
             == ERROR_SUCCESS) {
             success = true;

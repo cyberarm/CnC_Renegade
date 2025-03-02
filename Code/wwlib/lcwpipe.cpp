@@ -64,8 +64,8 @@
 LCWPipe::LCWPipe(CompControl control, int blocksize)
     : Control(control),
       Counter(0),
-      Buffer(NULL),
-      Buffer2(NULL),
+      Buffer(nullptr),
+      Buffer2(nullptr),
       BlockSize(blocksize)
 {
     SafetyMargin = BlockSize / 128 + 1;
@@ -91,10 +91,10 @@ LCWPipe::LCWPipe(CompControl control, int blocksize)
 LCWPipe::~LCWPipe(void)
 {
     delete[] Buffer;
-    Buffer = NULL;
+    Buffer = nullptr;
 
     delete[] Buffer2;
-    Buffer2 = NULL;
+    Buffer2 = nullptr;
 }
 
 /***********************************************************************************************
@@ -118,11 +118,11 @@ LCWPipe::~LCWPipe(void)
  *=============================================================================================*/
 int LCWPipe::Put(void const* source, int slen)
 {
-    if (source == NULL || slen < 1) {
+    if (source == nullptr || slen < 1) {
         return (Pipe::Put(source, slen));
     }
 
-    assert(Buffer != NULL);
+    assert(Buffer != nullptr);
 
     int total = 0;
 
@@ -257,7 +257,7 @@ int LCWPipe::Put(void const* source, int slen)
  *=============================================================================================*/
 int LCWPipe::Flush(void)
 {
-    assert(Buffer != NULL);
+    assert(Buffer != nullptr);
 
     int total = 0;
 

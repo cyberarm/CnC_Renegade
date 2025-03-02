@@ -54,7 +54,7 @@
 #include <typeinfo.h>
 
 // Static data.
-LightscapeSolve* LightscapeSolve::_ActiveImporter = NULL;
+LightscapeSolve* LightscapeSolve::_ActiveImporter = nullptr;
 
 /***********************************************************************************************
  * LightscapeSolve::LightscapeSolve --
@@ -87,7 +87,7 @@ LightscapeSolve::LightscapeSolve(const char* solvedirectoryname, const char* sol
     BOOL success;
     StringBuilder errormessage(_messagebuffer, sizeof(_messagebuffer));
     const char* solvefilename;
-    LtTBuilderFactory* factory = NULL;
+    LtTBuilderFactory* factory = nullptr;
     OptionsDialog options;
 
     // Initialize.
@@ -100,17 +100,17 @@ LightscapeSolve::LightscapeSolve(const char* solvedirectoryname, const char* sol
     // If noise has been requested create a Perlin Noise generator.
     if (blendnoise) {
         ProceduralTexture = new PerlinNoise;
-        ASSERT(ProceduralTexture != NULL);
+        ASSERT(ProceduralTexture != nullptr);
     }
     else {
-        ProceduralTexture = NULL;
+        ProceduralTexture = nullptr;
     }
 
     if (options.Get_Light_Export_Selective()) {
         LightExclusionString = options.Get_Light_Exclusion_String();
     }
     else {
-        LightExclusionString = NULL;
+        LightExclusionString = nullptr;
     }
 
     statusptr->GetItemRect(0, &srect);
@@ -121,7 +121,7 @@ LightscapeSolve::LightscapeSolve(const char* solvedirectoryname, const char* sol
                 srect.BottomRight().y);
 
     ProgressBar = new CProgressCtrl;
-    ASSERT(ProgressBar != NULL);
+    ASSERT(ProgressBar != nullptr);
     success = ProgressBar->Create(WS_CHILD | WS_VISIBLE | PBS_SMOOTH, prect, statusptr, 0);
     ASSERT(success);
 
@@ -146,7 +146,7 @@ LightscapeSolve::LightscapeSolve(const char* solvedirectoryname, const char* sol
             strcpy(solvepathname, solvedirectoryname);
             strcat(solvepathname, solvefilename);
             factory = new LsInformationFactory;
-            ASSERT(factory != NULL);
+            ASSERT(factory != nullptr);
             ::LtSolutionImport(solvepathname, *factory);
             if (!IsSolution) {
                 throw(notsolutiontext);
@@ -154,7 +154,7 @@ LightscapeSolve::LightscapeSolve(const char* solvedirectoryname, const char* sol
             totalpatchclustercount += PatchClusterCount;
             errormessage.Copy(factory->GetErrorMsg());
             delete factory;
-            factory = NULL;
+            factory = nullptr;
             if (strlen(errormessage.String()) > 0) {
                 throw(errormessage.String());
             }
@@ -181,12 +181,12 @@ LightscapeSolve::LightscapeSolve(const char* solvedirectoryname, const char* sol
             //that there is no 			implicit reliance on the material data preceeding the mesh data in
             //the file.
             factory = new LsPreparationFactory;
-            ASSERT(factory != NULL);
+            ASSERT(factory != nullptr);
 
             ::LtSolutionImport(solvepathname, *factory);
             errormessage.Copy(factory->GetErrorMsg());
             delete factory;
-            factory = NULL;
+            factory = nullptr;
             if (strlen(errormessage.String()) > 0) {
                 throw(errormessage.String());
             }
@@ -201,12 +201,12 @@ LightscapeSolve::LightscapeSolve(const char* solvedirectoryname, const char* sol
             // Parse the Lightscape solve file and add all vertices and faces that have been
             // processed by Mesh to Texture.
             factory = new LsMainFactory;
-            ASSERT(factory != NULL);
+            ASSERT(factory != nullptr);
 
             ::LtSolutionImport(solvepathname, *factory);
             errormessage.Copy(factory->GetErrorMsg());
             delete factory;
-            factory = NULL;
+            factory = nullptr;
             if (strlen(errormessage.String()) > 0) {
                 throw(errormessage.String());
             }
@@ -242,21 +242,21 @@ LightscapeSolve::LightscapeSolve(const char* solvedirectoryname, const char* sol
     } catch (const char* errormessage) {
 
         // Clean-up.
-        if (factory != NULL) {
+        if (factory != nullptr) {
             delete factory;
         }
-        if (ProgressBar != NULL) {
+        if (ProgressBar != nullptr) {
             delete ProgressBar;
-            ProgressBar = NULL;
+            ProgressBar = nullptr;
         }
 
         // Re-throw the message to the caller.
         throw(errormessage);
     }
 
-    _ActiveImporter = NULL;
+    _ActiveImporter = nullptr;
     delete ProgressBar;
-    ProgressBar = NULL;
+    ProgressBar = nullptr;
 }
 
 /***********************************************************************************************
@@ -299,7 +299,7 @@ LightscapeSolve::~LightscapeSolve()
     for (i = 0; i < MaterialTextureNames.Count(); i++) {
         delete[] MaterialTextureNames[i];
     }
-    _ActiveImporter = NULL;
+    _ActiveImporter = nullptr;
 
     // Clean-up the texture names.
     for (i = 0; i < TextureNames.Length(); i++) {
@@ -307,7 +307,7 @@ LightscapeSolve::~LightscapeSolve()
         TextureNameNode *texturenamenode, *removalnode;
 
         texturenamenode = TextureNames[i];
-        while (texturenamenode != NULL) {
+        while (texturenamenode != nullptr) {
             removalnode = texturenamenode;
             texturenamenode = texturenamenode->Next;
             delete removalnode;
@@ -319,7 +319,7 @@ LightscapeSolve::~LightscapeSolve()
         Lights[l]->Release_Ref();
     }
 
-    if (ProceduralTexture != NULL) {
+    if (ProceduralTexture != nullptr) {
         delete ProceduralTexture;
     }
 }
@@ -346,10 +346,10 @@ void LightscapeSolve::Add_Material_Texture_Name(const char* materialname,
     char* name;
 
     // The material name must exist.
-    ASSERT(materialname != NULL);
+    ASSERT(materialname != nullptr);
 
     // If the material has no associated texture use the invalid texture pathname.
-    if (texturepathname == NULL) {
+    if (texturepathname == nullptr) {
         texturepathname = invalidtexturepathname;
     }
 
@@ -358,7 +358,7 @@ void LightscapeSolve::Add_Material_Texture_Name(const char* materialname,
     texturepathnamelength = strlen(texturepathname) + 1;
 
     name = new char[materialnamelength + texturepathnamelength];
-    ASSERT(name != NULL);
+    ASSERT(name != nullptr);
 
     strcpy(name, materialname);
 
@@ -401,9 +401,9 @@ void LightscapeSolve::Add_Texture_Name(unsigned patchindex, const char* material
         bool success = TextureNames.Resize(patchindex + growthstep);
         ASSERT(success);
 
-        // Null out the new elements.
+        // nullptr out the new elements.
         for (int i = length; i < TextureNames.Length(); i++) {
-            TextureNames[i] = NULL;
+            TextureNames[i] = nullptr;
         }
     }
 
@@ -421,12 +421,12 @@ void LightscapeSolve::Add_Texture_Name(unsigned patchindex, const char* material
                               sizeof(char*), Compare_Material_Texture_Names);
     }
     else {
-        materialnameptr = NULL;
+        materialnameptr = nullptr;
     }
 
     // If the material cannot be found then either the database has malfunctioned or the solve
     // file is corrupt.
-    if (materialnameptr == NULL) {
+    if (materialnameptr == nullptr) {
         ASSERT(FALSE);
         throw(materialnotfoundtext);
     }
@@ -441,7 +441,7 @@ void LightscapeSolve::Add_Texture_Name(unsigned patchindex, const char* material
         TextureNameNode* node;
 
         node = new TextureNameNode(texturepathname);
-        ASSERT(node != NULL);
+        ASSERT(node != nullptr);
 
         // Add the texture name to the database.
         node->Next = TextureNames[patchindex];
@@ -661,7 +661,7 @@ void LightscapeSolve::Find_Vertex(const Vector3& point, const Vector3* smoothing
 
         color.Set(0.0f, 0.0f, 0.0f);
         count = 0;
-        if (smoothingnormalptr != NULL) {
+        if (smoothingnormalptr != nullptr) {
 
             // Sum the colors of all vertices that lie within the smoothing normal.
             for (int v = 0; v < vertexset.Count(); v++) {
@@ -741,7 +741,7 @@ void LightscapeSolve::Find_Triangle(const Vector3* points, const Vector3& normal
     bool notexture;
     unsigned v;
 
-    ASSERT(points != NULL);
+    ASSERT(points != nullptr);
 
     // First, attempt a match with the face itself.
     switch (Face_Size(points, Triangle::VERTICES_COUNT)) {
@@ -770,7 +770,7 @@ void LightscapeSolve::Find_Triangle(const Vector3* points, const Vector3& normal
 
         // Check that texture exists and that all UV's are valid.
         texturenamenodeptr = (TextureNameNode*)Texture_Name(trianglevertices[0].PatchIndex);
-        if (texturenamenodeptr != NULL) {
+        if (texturenamenodeptr != nullptr) {
             validuvs = true;
             for (v = 0; v < Triangle::VERTICES_COUNT; v++) {
                 validuvs &= trianglevertices[v].ValidUV;
@@ -804,7 +804,7 @@ void LightscapeSolve::Find_Triangle(const Vector3* points, const Vector3& normal
         for (v = 0; v < Triangle::VERTICES_COUNT; v++) {
             triangle.Vertices[v].Point = points[v];
         }
-        triangle.TextureNameNodePtr = NULL;
+        triangle.TextureNameNodePtr = nullptr;
         triangle.TextureID = notextureid;
     }
 }
@@ -873,7 +873,7 @@ void LightscapeSolve::Find_Adjacent_Triangles(const PackingTriangle& principaltr
                 texturenamenodeptr
                     = (TextureNameNode*)Texture_Name(spatialvertexset[s]->PatchIndex);
                 textureid = spatialvertexset[s]->PatchIndex;
-                if (texturenamenodeptr != NULL) {
+                if (texturenamenodeptr != nullptr) {
 
                     PatchFaceStruct p, *patchfaceptr;
 
@@ -885,7 +885,7 @@ void LightscapeSolve::Find_Adjacent_Triangles(const PackingTriangle& principaltr
                                                     sizeof(PatchFaceStruct), Compare_Patch_Faces);
 
                     // Does a patch exist?
-                    if (patchfaceptr != NULL) {
+                    if (patchfaceptr != nullptr) {
 
                         // Step backwards in the database to the first patch that matches.
                         // NOTE: bsearch() does not necessarily return the first key in the array
@@ -988,7 +988,7 @@ void LightscapeSolve::Find_Triangle(const Vector3* points, const Vector3& faceno
 {
     const unsigned attemptcount = 14; // No. of binary search attempts (see note below).
 
-    ASSERT(points != NULL);
+    ASSERT(points != nullptr);
 
     // Attempt to find the face with zero tolerance.
     Find_Triangle(points, 0.0f, true, &facenormal, vertices, faceresult);
@@ -1012,7 +1012,7 @@ void LightscapeSolve::Find_Triangle(const Vector3* points, const Vector3& faceno
         // accuracy.
         faceambiguous = false;
         for (unsigned attempt = 0; attempt < attemptcount; attempt++) {
-            Find_Triangle(points, tolerance, false, NULL, vertices, faceresult);
+            Find_Triangle(points, tolerance, false, nullptr, vertices, faceresult);
             if (faceresult == FACE_AMBIGUOUS) {
 
                 // Flag that an ambiguous result occured.
@@ -1072,7 +1072,7 @@ void LightscapeSolve::Find_Triangle(const Vector3* points, float tolerance, bool
     int n, c, v;
     bool success;
 
-    ASSERT(points != NULL);
+    ASSERT(points != nullptr);
 
     // Create a set of vertex indices that correspond to the zeroth point.
     candidatevertexset->Set_Growth_Step(growthstep);
@@ -1160,7 +1160,7 @@ void LightscapeSolve::Find_Triangle(const Vector3* points, float tolerance, bool
                     = (PatchFaceStruct*)bsearch(&p, &PatchFaces[0], PatchFaces.Count(),
                                                 sizeof(PatchFaceStruct), Compare_Patch_Faces);
 
-                if (patchfaceptr != NULL) {
+                if (patchfaceptr != nullptr) {
 
                     // Step backwards in the array to the first patch that matches.
                     // NOTE: bsearch() does not necessarily return the first key in the array that
@@ -1231,7 +1231,7 @@ void LightscapeSolve::Find_Triangle(const Vector3* points, float tolerance, bool
     }
 
     // If there is still more than one candidate and the normal exists then apply the normal test.
-    if ((candidatevertexset->Count() > 1) && (facenormal != NULL)) {
+    if ((candidatevertexset->Count() > 1) && (facenormal != nullptr)) {
 
         float largestdp;
 
@@ -1269,7 +1269,7 @@ void LightscapeSolve::Find_Triangle(const Vector3* points, float tolerance, bool
         // NOTE: If there is >1 candidate at this point the result is still ambiguous.
         // If the face normal has been supplied, select the candidate with closest
         // face normal - otherwise select the zeroth candidate.
-        if (facenormal != NULL) {
+        if (facenormal != nullptr) {
 
             float mindistance = FLT_MAX;
 
@@ -1335,7 +1335,7 @@ void LightscapeSolve::Find_Vertices(const Vector3& point, float tolerance,
 {
     if (VertexIndices.Count() > 0) {
 
-        unsigned* vertexindexptr = NULL;
+        unsigned* vertexindexptr = nullptr;
         int b0, b1, b;
         float x;
 
@@ -1367,7 +1367,7 @@ void LightscapeSolve::Find_Vertices(const Vector3& point, float tolerance,
         // Step backwards in the array to the first vertex that meets the match criteria defined by
         // Compare_Vertices(). NOTE: Above search did not necessarily return the first key in the
         // array that matches when there are duplicate keys.
-        if (vertexindexptr != NULL) {
+        if (vertexindexptr != nullptr) {
             while (vertexindexptr > &VertexIndices[0]) {
                 x = Vertices[*(vertexindexptr - 1)].Point.X;
                 if (point.X - x > tolerance) {
@@ -1488,7 +1488,7 @@ const TextureNameNode* LightscapeSolve::Texture_Name(unsigned patchindex)
 {
     // If the array element does not exist yet then the name has not been set.
     if ((int)patchindex >= TextureNames.Length()) {
-        return (NULL);
+        return (nullptr);
     }
     return TextureNames[patchindex];
 }
@@ -1529,7 +1529,7 @@ int LightscapeSolve::Compare_Vertices(const void* vertexindexptr0, const void* v
 {
     float x0, x1;
 
-    ASSERT(_ActiveImporter != NULL);
+    ASSERT(_ActiveImporter != nullptr);
 
     x0 = _ActiveImporter->Vertices[*((unsigned*)vertexindexptr0)].Point.X;
     x1 = _ActiveImporter->Vertices[*((unsigned*)vertexindexptr1)].Point.X;
@@ -1826,7 +1826,7 @@ LsMaterialBuilder::LsMaterialBuilder(LtTBuilderFactory* factory)
  *=============================================================================================*/
 LtTBool LsMaterialBuilder::Finish()
 {
-    ASSERT(LightscapeSolve::Importer() != NULL);
+    ASSERT(LightscapeSolve::Importer() != nullptr);
     LightscapeSolve::Importer()->Add_Material_Texture_Name(GetName(), GetTextureName());
 
     // Return success.
@@ -1880,10 +1880,10 @@ LtTBool LsLampBuilder::Finish()
     ColorVector color;
     Matrix3D transform;
 
-    ASSERT(LightscapeSolve::Importer() != NULL);
+    ASSERT(LightscapeSolve::Importer() != nullptr);
 
     // If the light name begins with a '@' skip it - it is not intended for export.
-    if (LightscapeSolve::Importer()->Light_Exclusion_String() != NULL) {
+    if (LightscapeSolve::Importer()->Light_Exclusion_String() != nullptr) {
         if (strstr(GetName(), LightscapeSolve::Importer()->Light_Exclusion_String())) {
             return (TRUE);
         }
@@ -1916,7 +1916,7 @@ LtTBool LsLampBuilder::Finish()
         case LT_LAMP_ISOTROPIC: // Spherical equal intensity distribution.
 
             light = new LightClass(LightClass::POINT);
-            ASSERT(light != NULL);
+            ASSERT(light != nullptr);
             break;
 
         case LT_LAMP_DIFFUSE: // Hemispherical distribution with intensity proportional to the
@@ -1924,7 +1924,7 @@ LtTBool LsLampBuilder::Finish()
 
             // Interpret this light as a spotlight with a 180 degree spot angle.
             light = new LightClass(LightClass::SPOT);
-            ASSERT(light != NULL);
+            ASSERT(light != nullptr);
             light->Set_Spot_Angle(WWMATH_PI);
             light->Set_Spot_Direction(zaxis);
 
@@ -1936,7 +1936,7 @@ LtTBool LsLampBuilder::Finish()
                                 // maximum intensity. Intensity is truncated to 0 at field angle.
 
             light = new LightClass(LightClass::SPOT);
-            ASSERT(light != NULL);
+            ASSERT(light != nullptr);
 
             // NOTE: Field angle is defined as angle swept from center of beam to outside.
             light->Set_Spot_Angle(GetFieldAngle() * 2.0f);
@@ -1958,13 +1958,13 @@ LtTBool LsLampBuilder::Finish()
 
                 // Interpret light as an isometric light.
                 light = new LightClass(LightClass::POINT);
-                ASSERT(light != NULL);
+                ASSERT(light != nullptr);
             }
             else {
 
                 // Interpret light as a spotlight.
                 light = new LightClass(LightClass::SPOT);
-                ASSERT(light != NULL);
+                ASSERT(light != nullptr);
 
                 light->Set_Spot_Angle(angle * 2.0f);
                 light->Set_Spot_Direction(zaxis);
@@ -1977,7 +1977,7 @@ LtTBool LsLampBuilder::Finish()
         case LT_LAMP_DAYLIGHT: // Special value used to flag daylight when import an LS file.
 
             light = new LightClass(LightClass::DIRECTIONAL);
-            ASSERT(light != NULL);
+            ASSERT(light != nullptr);
             break;
 
         default:
@@ -2110,7 +2110,7 @@ LsMeshBuilder::LsMeshBuilder(LtTBuilderFactory* factory)
 {
     ASSERT(strcmp(typeid(*factory).name(), "class LsMainFactory") == 0);
     FactoryPtr = (LsMainFactory*)factory;
-    Faces = NULL;
+    Faces = nullptr;
     FaceCount = 0;
     AllocatedCount = 0;
 }
@@ -2130,7 +2130,7 @@ LsMeshBuilder::LsMeshBuilder(LtTBuilderFactory* factory)
  *=============================================================================================*/
 LsMeshBuilder::~LsMeshBuilder()
 {
-    if (Faces != NULL) {
+    if (Faces != nullptr) {
         delete[] Faces;
     }
 }
@@ -2161,11 +2161,11 @@ void LsMeshBuilder::SetFaces(const int facecount, const LtTFace* faces)
 
     // If the block allocated for faces is not big enough delete it and allocate a new one.
     if (topcount > AllocatedCount) {
-        if (Faces != NULL) {
+        if (Faces != nullptr) {
             delete[] Faces;
         }
         Faces = new LtTFace[topcount];
-        ASSERT(Faces != NULL);
+        ASSERT(Faces != nullptr);
         AllocatedCount = topcount;
     }
 
@@ -2255,7 +2255,7 @@ LtTBool LsMeshBuilder::Finish()
     VertexUser usedvertices(*this);
     bool success;
 
-    ASSERT(LightscapeSolve::Importer() != NULL);
+    ASSERT(LightscapeSolve::Importer() != nullptr);
 
     // Add the vertices to the Lightscape solve database.
     // If this mesh is an M2T patch...
@@ -2371,7 +2371,7 @@ LtTBool LsMeshBuilder::Finish()
                 facevertex.Color.Set(irradiance, radiancemap);
 
                 // Should the vertex color be blended with a sample from a procedural texture?
-                if (blendtexture != NULL) {
+                if (blendtexture != nullptr) {
                     facevertex.Color *= blendtexture->Value(facevertex.Point);
                 }
 
@@ -2385,7 +2385,7 @@ LtTBool LsMeshBuilder::Finish()
 
         // For every non-face vertex calculate its color contribution to each face vertex.
         distanceratios = new double[facevertices.Count()];
-        ASSERT(distanceratios != NULL);
+        ASSERT(distanceratios != nullptr);
 
         for (vertexindex = 0; vertexindex < GetVertexCount(); vertexindex++) {
             if (!usedvertices.Is_Used(vertexindex)) {
@@ -2400,7 +2400,7 @@ LtTBool LsMeshBuilder::Finish()
                 color.Set(irradiance, radiancemap);
 
                 // Should the vertex color be blended with a sample from a procedural texture?
-                if (blendtexture != NULL) {
+                if (blendtexture != nullptr) {
                     color *= blendtexture->Value(point);
                 }
 
@@ -2523,7 +2523,7 @@ VertexUser::VertexUser(const LsMeshBuilder& meshbuilder)
 
     Count = meshbuilder.GetVertexCount();
     UsedVertexIndices = new int[Count];
-    ASSERT(UsedVertexIndices != NULL);
+    ASSERT(UsedVertexIndices != nullptr);
 
     // Initialize.	All vertices unused.
     for (v = 0; v < Count; v++) {
@@ -2580,21 +2580,21 @@ LightscapeMeshSolve::LightscapeMeshSolve(LightscapeSolve& solve, ChunkClass& tri
 
     // Allocate data tables for this mesh.
     VertexColors = new W3dRGBStruct[VertexCount];
-    ASSERT(VertexColors != NULL);
+    ASSERT(VertexColors != nullptr);
     FaceVertexUVs = new Vector2[FaceVertexCount];
-    ASSERT(FaceVertexUVs != NULL);
+    ASSERT(FaceVertexUVs != nullptr);
     FaceRemapLightmapIndices = new unsigned[FaceCount];
-    ASSERT(FaceRemapLightmapIndices != NULL);
+    ASSERT(FaceRemapLightmapIndices != nullptr);
     LightmapIndices = new unsigned[FaceCount];
-    ASSERT(LightmapIndices != NULL);
+    ASSERT(LightmapIndices != nullptr);
 
     triangles = new PackingTriangle[FaceCount];
-    ASSERT(triangles != NULL);
+    ASSERT(triangles != nullptr);
 
     w3dfaces = (W3dTriStruct*)trianglechunk.Get_Data();
-    ASSERT(w3dfaces != NULL);
+    ASSERT(w3dfaces != nullptr);
     w3dvertices = (W3dVectorStruct*)vertexchunk.Get_Data();
-    ASSERT(w3dvertices != NULL);
+    ASSERT(w3dvertices != nullptr);
 
     // For each vertex in the vertex chunk...
     for (unsigned vertexindex = 0; vertexindex < VertexCount; vertexindex++) {
@@ -2608,7 +2608,7 @@ LightscapeMeshSolve::LightscapeMeshSolve(LightscapeSolve& solve, ChunkClass& tri
 
         // Iterate over the faces and calculate a smoothing normal for this vertex based on
         // the faces that reference this vertex.
-        smoothingnormalptr = NULL;
+        smoothingnormalptr = nullptr;
         for (f = 0; f < FaceCount; f++) {
             for (v = 0; v < verticesperface; v++) {
                 if (w3dfaces[f].Vindex[v] == vertexindex) {
@@ -2624,7 +2624,7 @@ LightscapeMeshSolve::LightscapeMeshSolve(LightscapeSolve& solve, ChunkClass& tri
                     break;
                 }
             }
-            if (smoothingnormalptr != NULL) {
+            if (smoothingnormalptr != nullptr) {
                 break;
             }
         }

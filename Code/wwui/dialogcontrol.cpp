@@ -52,11 +52,11 @@ DialogControlClass::DialogControlClass(void)
       ClientRect(0, 0, 0, 0),
       Style(0),
       ID(0),
-      Parent(NULL),
+      Parent(nullptr),
       HasFocus(false),
       IsDirty(true),
       WantsFocus(true),
-      AdviseSink(NULL),
+      AdviseSink(nullptr),
       IsEnabled(true),
       IsVisible(true),
       IsEmbedded(false),
@@ -79,7 +79,7 @@ DialogControlClass::~DialogControlClass(void)
     //	Remove the input focus if this control has it
     //
     if (DialogMgrClass::Get_Focus() == this) {
-        DialogMgrClass::Set_Focus(NULL);
+        DialogMgrClass::Set_Focus(nullptr);
     }
 
     return;
@@ -186,7 +186,7 @@ void DialogControlClass::Enable(bool onoff)
         //	Remove the focus (if necessary)
         //
         if (IsEnabled == false && DialogMgrClass::Get_Focus() == this) {
-            DialogMgrClass::Set_Focus(NULL);
+            DialogMgrClass::Set_Focus(nullptr);
         }
     }
 

@@ -62,7 +62,7 @@
  *                                                                                             *
  * INPUT:   buffer   -- Pointer to the buffer to use for this file. The buffer will already    *
  *                      contain data if the file is opened for READ. It will be considered     *
- *                      a scratch buffer if opened for WRITE. If the buffer pointer is NULL    *
+ *                      a scratch buffer if opened for WRITE. If the buffer pointer is nullptr    *
  *                      but the length parameter is not, then a buffer will be allocated       *
  *                      of the specified length. This case is only useful for opening the      *
  *                      file for WRITE.                                                        *
@@ -85,7 +85,7 @@ RAMFileClass::RAMFileClass(void* buffer, int len)
       IsOpen(false),
       IsAllocated(false)
 {
-    if (buffer == NULL && len > 0) {
+    if (buffer == nullptr && len > 0) {
         Buffer = new char[len];
         IsAllocated = true;
     }
@@ -110,7 +110,7 @@ RAMFileClass::~RAMFileClass(void)
     Close();
     if (IsAllocated) {
         delete[] Buffer;
-        Buffer = NULL;
+        Buffer = nullptr;
         IsAllocated = false;
     }
 }
@@ -243,7 +243,7 @@ int RAMFileClass::Open(char const*, int access)
  *=============================================================================================*/
 int RAMFileClass::Open(int access)
 {
-    if (Buffer == NULL || Is_Open()) {
+    if (Buffer == nullptr || Is_Open()) {
         return (false);
     }
 
@@ -289,7 +289,7 @@ int RAMFileClass::Open(int access)
  *=============================================================================================*/
 int RAMFileClass::Read(void* buffer, int size)
 {
-    if (Buffer == NULL || buffer == NULL || size == 0) {
+    if (Buffer == nullptr || buffer == nullptr || size == 0) {
         return (0);
     }
 
@@ -338,7 +338,7 @@ int RAMFileClass::Read(void* buffer, int size)
  *=============================================================================================*/
 int RAMFileClass::Seek(int pos, int dir)
 {
-    if (Buffer == NULL || !Is_Open()) {
+    if (Buffer == nullptr || !Is_Open()) {
         return (Offset);
     }
 
@@ -416,7 +416,7 @@ int RAMFileClass::Size(void)
  *=============================================================================================*/
 int RAMFileClass::Write(void const* buffer, int size)
 {
-    if (Buffer == NULL || buffer == NULL || size == 0) {
+    if (Buffer == nullptr || buffer == nullptr || size == 0) {
         return (0);
     }
 

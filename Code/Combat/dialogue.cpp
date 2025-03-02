@@ -239,7 +239,7 @@ const DialogueClass& DialogueClass::operator=(const DialogueClass& src)
     //
     for (int index = 0; index < src.OptionList.Count(); index++) {
         DialogueOptionClass* option = src.OptionList[index];
-        if (option != NULL) {
+        if (option != nullptr) {
             OptionList.Add(new DialogueOptionClass(*option));
         }
     }
@@ -333,7 +333,7 @@ void DialogueClass::Free_Options(void)
 {
     for (int index = 0; index < OptionList.Count(); index++) {
         DialogueOptionClass* option = OptionList[index];
-        if (option != NULL) {
+        if (option != nullptr) {
             delete option;
         }
     }

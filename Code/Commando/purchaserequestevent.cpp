@@ -93,7 +93,7 @@ void cPurchaseRequestEvent::Act(void)
 
     VendorClass::PURCHASE_ERROR result = VendorClass::PERR_UNKNOWN;
 
-    WWASSERT(The_Game() != NULL);
+    WWASSERT(The_Game() != nullptr);
     if (The_Game()->Is_Gameplay_Permitted()) {
         //
         //	Attempt to make the purchase

@@ -154,7 +154,7 @@ bool PathfindSectorClass::Load(ChunkLoadClass& cload)
 bool PathfindSectorClass::Load_Variables(ChunkLoadClass& cload)
 {
     AABoxClass bounding_box;
-    PathfindSectorClass* old_ptr = NULL;
+    PathfindSectorClass* old_ptr = nullptr;
 
     //
     //	Read all the micro chunks...
@@ -183,7 +183,7 @@ bool PathfindSectorClass::Load_Variables(ChunkLoadClass& cload)
     //
     //	Register our old ptr so other objects can remap to us
     //
-    if (old_ptr != NULL) {
+    if (old_ptr != nullptr) {
         SaveLoadSystemClass::Register_Pointer(old_ptr, this);
     }
 
@@ -319,7 +319,7 @@ bool PathfindWaypathSectorClass::Can_Access_Portal(PathfindPortalClass* last_por
         // the portal we are testing is "ahead" of the portal
         //
         WaypathClass* waypath = PathfindClass::Get_Instance()->Find_Waypath(WaypathID);
-        if (waypath != NULL && waypath->Get_Flag(WaypathClass::FLAG_TWO_WAY) == false) {
+        if (waypath != nullptr && waypath->Get_Flag(WaypathClass::FLAG_TWO_WAY) == false) {
 
             //
             //	Check to see if the portal we entered is "ahead" of the portal
