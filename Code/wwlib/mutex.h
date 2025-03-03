@@ -136,7 +136,7 @@ class FastCriticalSectionClass
     The_Bit_Was_Previously_Set_So_Try_Again:
         ThreadClass::Switch_Thread();
         __asm mov ebx, [nFlag] __asm ts_lock __asm bts dword ptr[ebx],
-            0 __asm jc The_Bit_Was_Previously_Set_So_Try_Again
+        0 __asm jc The_Bit_Was_Previously_Set_So_Try_Again
     }
 
     WWINLINE void Thread_Safe_Clear_Flag() { Flag = 0; }

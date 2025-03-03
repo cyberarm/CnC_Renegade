@@ -34,9 +34,7 @@
  * Functions:                                                                                  *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
-#if _MSC_VER >= 1000
 #pragma once
-#endif // _MSC_VER >= 1000
 
 // #define ENABLE_TIME_AND_MEMORY_LOG
 
@@ -44,11 +42,7 @@
 #define WWPROFILE_H
 
 #include "wwstring.h"
-
-#ifdef _UNIX
-typedef signed long long __int64;
-typedef signed long long _int64;
-#endif
+#include <cstdint>
 
 // enable profiling by default in debug mode.
 #ifdef WWDEBUG
@@ -94,7 +88,7 @@ protected:
     const char* Name;
     int TotalCalls;
     float TotalTime;
-    __int64 StartTime;
+    int64_t StartTime;
     int RecursionCounter;
 
     WWProfileHierachyNodeClass* Parent;
@@ -189,7 +183,7 @@ private:
     static WWProfileHierachyNodeClass* CurrentNode;
     static WWProfileHierachyNodeClass* CurrentRootNode;
     static int FrameCounter;
-    static __int64 ResetTime;
+    static int64_t ResetTime;
 
     friend class WWProfileInOrderIterator;
 };
@@ -245,7 +239,7 @@ public:
 
 private:
     const char* Name;
-    __int64 Time;
+    int64_t Time;
 };
 
 #ifdef ENABLE_WWPROFILE
@@ -266,7 +260,7 @@ public:
     ~WWMeasureItClass(void);
 
 private:
-    __int64 Time;
+    int64_t Time;
     float* PResult;
 };
 

@@ -211,9 +211,9 @@ inline const StringClass& StringClass::operator=(const StringClass& string)
 ///////////////////////////////////////////////////////////////////
 inline const StringClass& StringClass::operator=(const TCHAR* string)
 {
-    if (string != 0) {
+    if (string != nullptr) {
 
-        int len = wcslen(string);
+        const int len = strlen(string);
         Uninitialised_Grow(len + 1);
         Store_Length(len);
 
@@ -304,7 +304,7 @@ inline StringClass::StringClass(const StringClass& string, bool hint_temporary)
 inline StringClass::StringClass(const TCHAR* string, bool hint_temporary)
     : m_Buffer(m_EmptyString)
 {
-    int len = string ? _tcsclen(string) : 0;
+    int len = string ? strlen(string) : 0;
     if (hint_temporary || len > 0) {
         Get_String(len + 1, hint_temporary);
     }
@@ -350,7 +350,7 @@ inline bool StringClass::Is_Empty(void) const
 ///////////////////////////////////////////////////////////////////
 inline int StringClass::Compare(const TCHAR* string) const
 {
-    return _tcscmp(m_Buffer, string);
+    return strcmp(m_Buffer, string);
 }
 
 ///////////////////////////////////////////////////////////////////
@@ -358,7 +358,7 @@ inline int StringClass::Compare(const TCHAR* string) const
 ///////////////////////////////////////////////////////////////////
 inline int StringClass::Compare_No_Case(const TCHAR* string) const
 {
-    return _tcsicmp(m_Buffer, string);
+    return strcmp(m_Buffer, string);
 }
 
 ///////////////////////////////////////////////////////////////////
@@ -408,7 +408,7 @@ inline bool StringClass::operator!=(const TCHAR* rvalue) const
 ///////////////////////////////////////////////////////////////////
 inline bool StringClass::operator<(const TCHAR* string) const
 {
-    return (_tcscmp(m_Buffer, string) < 0);
+    return (strcmp(m_Buffer, string) < 0);
 }
 
 ///////////////////////////////////////////////////////////////////
@@ -416,7 +416,7 @@ inline bool StringClass::operator<(const TCHAR* string) const
 ///////////////////////////////////////////////////////////////////
 inline bool StringClass::operator<=(const TCHAR* string) const
 {
-    return (_tcscmp(m_Buffer, string) <= 0);
+    return (strcmp(m_Buffer, string) <= 0);
 }
 
 ///////////////////////////////////////////////////////////////////
@@ -424,7 +424,7 @@ inline bool StringClass::operator<=(const TCHAR* string) const
 ///////////////////////////////////////////////////////////////////
 inline bool StringClass::operator>(const TCHAR* string) const
 {
-    return (_tcscmp(m_Buffer, string) > 0);
+    return (strcmp(m_Buffer, string) > 0);
 }
 
 ///////////////////////////////////////////////////////////////////
@@ -432,7 +432,7 @@ inline bool StringClass::operator>(const TCHAR* string) const
 ///////////////////////////////////////////////////////////////////
 inline bool StringClass::operator>=(const TCHAR* string) const
 {
-    return (_tcscmp(m_Buffer, string) >= 0);
+    return (strcmp(m_Buffer, string) >= 0);
 }
 
 ///////////////////////////////////////////////////////////////////
@@ -473,7 +473,7 @@ inline const StringClass& StringClass::operator+=(const TCHAR* string)
     WWASSERT(string != nullptr);
 
     int cur_len = Get_Length();
-    int src_len = _tcslen(string);
+    int src_len = strlen(string);
     int new_len = cur_len + src_len;
 
     //
@@ -634,7 +634,7 @@ inline int StringClass::Get_Length(void) const
         // we better manually get the string length.
         //
         if (length == 0) {
-            length = _tcslen(m_Buffer);
+            length = strlen(m_Buffer);
             ((StringClass*)this)->Store_Length(length);
         }
     }

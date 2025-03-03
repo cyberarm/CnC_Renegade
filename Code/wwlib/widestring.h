@@ -111,8 +111,8 @@ public:
     bool Is_Empty(void) const;
 
     void Erase(int start_index, int char_count);
-    int _cdecl Format(const WCHAR* format, ...);
-    int _cdecl Format_Args(const WCHAR* format, const va_list& arg_list);
+    int __cdecl Format(const WCHAR* format, ...);
+    int __cdecl Format_Args(const WCHAR* format, const va_list& arg_list);
     bool Convert_From(const char* text);
     bool Convert_To(StringClass& string);
     bool Convert_To(StringClass& string) const;
@@ -290,7 +290,7 @@ inline int WideStringClass::Compare(const WCHAR* string) const
 inline int WideStringClass::Compare_No_Case(const WCHAR* string) const
 {
     if (string) {
-        return _wcsicmp(m_Buffer, string);
+        return wcscmp(m_Buffer, string);
     }
 
     return -1;

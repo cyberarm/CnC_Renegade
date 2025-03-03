@@ -157,7 +157,7 @@ public:
                                   char const* defvalue = "") const;
     const WideStringClass& Get_Wide_String(WideStringClass& new_string, char const* section,
                                            char const* entry,
-                                           unsigned short const* defvalue = L"") const;
+                                           wchar_t const* defvalue = L"") const;
     int Get_List_Index(char const* section, char const* entry, int const defvalue, char* list[]);
     int* Get_Alloc_Int_Array(char const* section, char const* entry, int listend);
     int Get_Int_Bitfield(char const* section, char const* entry, int defvalue, char* list[]);

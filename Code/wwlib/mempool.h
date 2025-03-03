@@ -49,7 +49,7 @@
 
 #include "bittype.h"
 #include "mutex.h"
-// #include "wwdebug.h"
+#include "wwdebug.h"
 #include <new>
 #include <cstddef>
 #include <cstdlib>

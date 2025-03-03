@@ -24,15 +24,14 @@
 // Description:
 //
 //-----------------------------------------------------------------------------
-#if defined(_MSV_VER)
+
 #pragma once
-#endif
 
 #ifndef FROMADDRESS_H
 #define FROMADDRESS_H
 
 #include "win.h"
-#include <winsock.h>
+// #include <winsock.h>
 
 //
 // This trivial class exists solely to speed compile times.
@@ -47,7 +46,9 @@ public:
         return *this;
     }
 
-    SOCKADDR_IN FromAddress;
+    // FIXME: Use SDL3_net
+    int FromAddress;
+    // SOCKADDR_IN FromAddress;
 };
 
 #endif // FROMADDRESS_H

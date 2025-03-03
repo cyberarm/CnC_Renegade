@@ -317,7 +317,7 @@ void Asset_Name_From_Filename(StringClass& asset_name, const char* filename)
     ::Get_Filename_From_Path(asset_name, filename);
 
     // Find and strip off the extension (if it exists)
-    char* extension = ::strrchr(asset_name, '.');
+    char* extension = strrchr(asset_name, '.');
     if (extension != nullptr) {
         extension[0] = 0;
     }

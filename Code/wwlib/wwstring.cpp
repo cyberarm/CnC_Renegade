@@ -145,7 +145,7 @@ void StringClass::Resize(int new_len)
         // string.
         //
         TCHAR* new_buffer = Allocate_Buffer(new_len);
-        _tcscpy(new_buffer, m_Buffer);
+        strcpy(new_buffer, m_Buffer);
 
         //
         //	Switch to the new buffer
@@ -261,7 +261,7 @@ int _cdecl StringClass::Format_Args(const TCHAR* format, const va_list& arg_list
 //	Format
 //
 ///////////////////////////////////////////////////////////////////
-int _cdecl StringClass::Format(const TCHAR* format, ...)
+int __cdecl StringClass::Format(const TCHAR* format, ...)
 {
     va_list arg_list;
     va_start(arg_list, format);
@@ -278,7 +278,7 @@ int _cdecl StringClass::Format(const TCHAR* format, ...)
 #ifdef _UNICODE
     retval = _vsnwprintf(temp_buffer, 512, format, arg_list);
 #else
-    retval = _vsnprintf(temp_buffer, 512, format, arg_list);
+    retval = vsnprintf(temp_buffer, 512, format, arg_list);
 #endif
 
     //
@@ -308,7 +308,7 @@ bool StringClass::Copy_Wide(const WCHAR* source)
     if (source != nullptr) {
 
         int length;
-        BOOL unmapped;
+        bool unmapped;
 
         length = WideCharToMultiByte(CP_ACP, 0, source, -1, nullptr, 0, nullptr, &unmapped);
         if (length > 0) {

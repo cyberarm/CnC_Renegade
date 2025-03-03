@@ -514,7 +514,7 @@ void AirStripGameObj::Start_Cinematic(void)
             const GameObjObserverList& script_list = CinematicObject->Get_Observers();
             for (int index = 0; index < script_list.Count(); index++) {
                 GameObjObserverClass* script = script_list[index];
-                if (::lstrcmpi(script->Get_Name(), "Test_Cinematic") == 0) {
+                if (strcasecmp(script->Get_Name(), "Test_Cinematic") == 0) {
 
                     //
                     //	Attach the vehicle to the given slot in the cinematic

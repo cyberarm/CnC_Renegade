@@ -53,8 +53,8 @@
 #define SIMPLEVEC_H
 
 #include "always.h"
-#include <assert.h>
-#include <string.h> // for memmove
+#include <cassert>
+#include <cstring> // for memmove
 
 #if (_MSC_VER >= 1200)
 #pragma warning(push)
@@ -266,12 +266,12 @@ public:
     T& operator[](int index)
     {
         assert(index < ActiveCount);
-        return (Vector[index]);
+        return (this->Vector[index]);
     }
     T const& operator[](int index) const
     {
         assert(index < ActiveCount);
-        return (Vector[index]);
+        return (this->Vector[index]);
     }
 
     // Change maximum size of vector
@@ -332,9 +332,9 @@ inline SimpleDynVecClass<T>::SimpleDynVecClass(int size)
  *=============================================================================================*/
 template <class T> inline SimpleDynVecClass<T>::~SimpleDynVecClass(void)
 {
-    if (Vector != nullptr) {
-        delete[] Vector;
-        Vector = nullptr;
+    if (this->Vector != nullptr) {
+        delete[] this->Vector;
+        this->Vector = nullptr;
     }
 }
 
@@ -354,8 +354,8 @@ template <class T> inline SimpleDynVecClass<T>::~SimpleDynVecClass(void)
 template <class T> inline bool SimpleDynVecClass<T>::Resize(int newsize)
 {
     if (SimpleVecClass<T>::Resize(newsize)) {
-        if (Length() < ActiveCount) {
-            ActiveCount = Length();
+        if (this->Length() < ActiveCount) {
+            ActiveCount = this->Length();
         }
         return (true);
     }
@@ -377,7 +377,7 @@ template <class T> inline bool SimpleDynVecClass<T>::Resize(int newsize)
  *=============================================================================================*/
 template <class T> inline bool SimpleDynVecClass<T>::Add(T const& object, int new_size_hint)
 {
-    if (ActiveCount >= VectorMax) {
+    if (ActiveCount >= this->VectorMax) {
 
         /*
         ** We are out of space so tell the vector to grow
@@ -413,7 +413,7 @@ template <class T> inline T* SimpleDynVecClass<T>::Add_Multiple(int number_to_ad
     int index = ActiveCount;
     ActiveCount += number_to_add;
 
-    if (ActiveCount >= VectorMax) {
+    if (ActiveCount >= this->VectorMax) {
 
         /*
         ** We are out of space so tell the vector to grow
@@ -421,7 +421,7 @@ template <class T> inline T* SimpleDynVecClass<T>::Add_Multiple(int number_to_ad
         Grow(ActiveCount);
     }
 
-    return &Vector[index];
+    return &this->Vector[index];
 }
 
 /***********************************************************************************************
@@ -450,7 +450,7 @@ template <class T> inline bool SimpleDynVecClass<T>::Delete(int index, bool allo
     ** cannot be used for classes that cannot be memcopied!!
     */
     if (index < ActiveCount - 1) {
-        memmove(&(Vector[index]), &(Vector[index + 1]), (ActiveCount - index - 1) * sizeof(T));
+        memmove(&(this->Vector[index]), &(this->Vector[index + 1]), (ActiveCount - index - 1) * sizeof(T));
     }
     ActiveCount--;
 
@@ -518,7 +518,7 @@ inline bool SimpleDynVecClass<T>::Delete_Range(int start, int count, bool allow_
     ** cannot be used for classes that cannot be memcopied!!
     */
     if (start < ActiveCount - count) {
-        memmove(&(Vector[start]), &(Vector[start + count]),
+        memmove(&(this->Vector[start]), &(this->Vector[start + count]),
                 (ActiveCount - start - count) * sizeof(T));
     }
 
@@ -580,7 +580,7 @@ template <class T> inline bool SimpleDynVecClass<T>::Grow(int new_size_hint)
     ** Vector should grow to 25% bigger, grow at least 4 elements,
     ** and grow at least up to the user's new_size_hint
     */
-    int new_size = MAX(Length() + Length() / 4, Length() + 4);
+    int new_size = MAX(this->Length() + this->Length() / 4, this->Length() + 4);
     new_size = MAX(new_size, new_size_hint);
 
     return Resize(new_size);
@@ -605,7 +605,7 @@ template <class T> inline bool SimpleDynVecClass<T>::Shrink(void)
     /*
     ** Shrink the array if it is wasting more than 25%
     */
-    if (ActiveCount < VectorMax / 4) {
+    if (ActiveCount < this->VectorMax / 4) {
         return Resize(ActiveCount);
     }
     return true;
