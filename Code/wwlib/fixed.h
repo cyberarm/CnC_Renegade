@@ -35,10 +35,11 @@
  * Functions:                                                                                  *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
+#pragma once
+
 #ifndef FIXED_H
 #define FIXED_H
 
-#include "bool.h"
 // #pragma warning 604 9
 // #pragma warning 595 9
 

@@ -41,6 +41,8 @@ These notices must be retained in any copies of any part of this
 documentation and/or software.
  */
 
+#pragma once
+
 #define MD 5
 
 #ifndef MD

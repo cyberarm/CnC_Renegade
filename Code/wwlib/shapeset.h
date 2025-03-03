@@ -37,6 +37,8 @@
  *   ShapeSet::Is_Transparent -- Is the specified shape containing transparent pixels?         *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
+#pragma once
+
 #ifndef SHAPESET_H
 #define SHAPESET_H
 

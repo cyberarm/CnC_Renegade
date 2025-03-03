@@ -53,6 +53,8 @@
  *   CDTimerClass<T>::Value -- Fetches the current value of the countdown timer.               *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
+#pragma once
+
 #ifndef TIMER_H
 #define TIMER_H
 

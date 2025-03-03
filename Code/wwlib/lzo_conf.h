@@ -64,6 +64,8 @@
    to change.
  */
 
+#pragma once
+
 #ifndef __LZO_CONF_H
 #define __LZO_CONF_H
 

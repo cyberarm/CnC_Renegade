@@ -33,19 +33,11 @@
  *---------------------------------------------------------------------------------------------*
  * Functions:                                                                                  *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
-#if _MSC_VER >= 1000
+
 #pragma once
-#endif // _MSC_VER >= 1000
 
 #if !defined(WATCOM_H) && defined(__WATCOMC__)
 #define WATCOM_H
-
-/**********************************************************************
-**	The "bool" integral type was defined by the C++ comittee in
-**	November of '94. Until the compiler supports this, use the following
-**	definition.
-*/
-#include "bool.h"
 
 // Turn all warnings into errors.
 #pragma warning * 0

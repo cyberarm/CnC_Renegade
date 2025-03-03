@@ -38,9 +38,8 @@
  **
  *	- - -	- - -	- - -	- - -	- - -	- - -	- - -	- - -	- - -	- - -	- - -	- -
  *-	*/
-#if _MSC_VER >= 1000
+
 #pragma once
-#endif // _MSC_VER >= 1000
 
 #ifndef __SLNODE_H__
 #define __SLNODE_H__

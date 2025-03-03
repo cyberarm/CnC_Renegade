@@ -59,6 +59,8 @@
    markus.oberhumer@jk.uni-linz.ac.at
  */
 
+#pragma once
+
 #ifndef __LZOCONF_H
 #define __LZOCONF_H
 

@@ -34,9 +34,8 @@
  *---------------------------------------------------------------------------------------------*
  * Functions:                                                                                  *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
-#if _MSC_VER >= 1000
+
 #pragma once
-#endif // _MSC_VER >= 1000
 
 #ifndef CHUNKIO_H
 #define CHUNKIO_H
@@ -425,4 +424,4 @@ private:
     case (id):                                                                                     \
         break;
 
-#endif CHUNKIO_H
+#endif // CHUNKIO_H

@@ -60,8 +60,8 @@
 #include "aabtreebuilder.h"
 #include "chunkio.h"
 #include "w3d_file.h"
-#include <assert.h>
-#include <stdlib.h>
+#include <cassert>
+#include <cstdlib>
 #include <string.h>
 
 #undef WWASSERT

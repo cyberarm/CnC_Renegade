@@ -42,19 +42,17 @@
  *   AutoPoolClass::operator delete -- overriden delete which calls the internal ObjectPool    *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
-#if defined(_MSC_VER)
 #pragma once
-#endif
 
 #ifndef MEMPOOL_H
 #define MEMPOOL_H
 
 #include "bittype.h"
 #include "mutex.h"
-#include "wwdebug.h"
-#include <new.h>
-#include <stddef.h>
-#include <stdlib.h>
+// #include "wwdebug.h"
+#include <new>
+#include <cstddef>
+#include <cstdlib>
 
 /**********************************************************************************************
 ** ObjectPoolClass

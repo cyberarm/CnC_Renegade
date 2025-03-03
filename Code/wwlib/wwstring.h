@@ -34,9 +34,7 @@
  * Functions:                                                                                  *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
-#if defined(_MSC_VER)
 #pragma once
-#endif
 
 #ifndef __WWSTRING_H
 #define __WWSTRING_H
@@ -48,10 +46,14 @@
 #include "wwdebug.h"
 #include <stdarg.h>
 #include <string.h>
-#include <tchar.h>
+#include <cwchar>
 #ifdef _UNIX
 #include "osdep.h"
 #endif
+
+// NOTE: This will probably break windoze
+#define TCHAR char
+#define WCHAR wchar_t
 
 //////////////////////////////////////////////////////////////////////
 //
@@ -118,8 +120,8 @@ public:
     bool Is_Empty(void) const;
 
     void Erase(int start_index, int char_count);
-    int _cdecl Format(const TCHAR* format, ...);
-    int _cdecl Format_Args(const TCHAR* format, const va_list& arg_list);
+    int __cdecl Format(const TCHAR* format, ...);
+    int __cdecl Format_Args(const TCHAR* format, const va_list& arg_list);
 
     // Trim leading and trailing whitespace characters (values <= 32)
     void Trim(void);
@@ -211,7 +213,7 @@ inline const StringClass& StringClass::operator=(const TCHAR* string)
 {
     if (string != 0) {
 
-        int len = _tcslen(string);
+        int len = wcslen(string);
         Uninitialised_Grow(len + 1);
         Store_Length(len);
 

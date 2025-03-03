@@ -25,6 +25,9 @@ The following makes PROTOTYPES default to 0 if it has not already
 
   been defined with C compiler flags.
  */
+
+#pragma once
+
 #ifndef PROTOTYPES
 #define PROTOTYPES 1
 #endif

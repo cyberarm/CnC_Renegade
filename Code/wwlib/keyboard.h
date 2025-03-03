@@ -34,6 +34,8 @@
  * Functions:                                                                                  *
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
+#pragma once
+
 #ifndef KEY_H
 #define KEY_H
 
@@ -45,7 +47,6 @@
 **	November of '94. Until the compiler supports this, use the following
 **	definition.
 */
-#include "bool.h"
 
 typedef enum
 {
