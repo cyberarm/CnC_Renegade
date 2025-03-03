@@ -355,7 +355,7 @@ int PacketManagerClass::Build_Delta_Packet_Patch(unsigned char* base_packet,
         */
         read_bit_pos = 0;
         num_diff_bytes = 0;
-        for (i = 0; i < base_packet_size; i += 8) {
+        for (int i = 0; i < base_packet_size; i += 8) {
 
             /*
             ** If we have chunk info, then use it to skip matching chunks.
@@ -943,7 +943,7 @@ void PacketManagerClass::Flush(bool forced)
                 ;
 #endif //(0)
                 char* crc_and_buffer
-                    = (char*)_alloca(SendBuffers[i].PacketSendLength + sizeof(crc));
+                    = (char*)alloca(SendBuffers[i].PacketSendLength + sizeof(crc));
                 *((unsigned long*)crc_and_buffer) = crc;
                 memcpy(crc_and_buffer + sizeof(crc), (const char*)SendBuffers[i].PacketBuffer,
                        SendBuffers[i].PacketSendLength);
